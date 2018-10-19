@@ -154,3 +154,16 @@ INT8U Verif_Error(INT8U error_code) {
 INT8U toInt(INT8U ascii) {
 	return (int) ascii - 48;
 }
+
+/*
+ * Structure to identify the Sub-Unit configuration parameters
+ * receive_data: 0->ethernet, 1->SSD
+ * RMAP_handling: 0->none, 1->echoing, 2->logging
+ * forward_data to ethernet link
+ */
+typedef struct _sub_config;
+struct _sub_config {
+	int receive_data;
+	int forward_data;
+	int RMAP_handling;
+};

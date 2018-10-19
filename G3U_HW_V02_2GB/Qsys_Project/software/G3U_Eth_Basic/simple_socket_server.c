@@ -346,14 +346,15 @@ void sss_exec_command(SSSConn* conn) {
 			conn->close = 1;
 		}
 
-		//Verify and ignore entries that aren't alphanumeric[yb]
+		/*
+		 * Verify and ignore entries that aren't alphanumeric[yb]
+		 */
 		if ( isdigit(command) || isalpha(command)) {
 			cmd_pos[i] = command;
 			i++;
 		}
 	}
 
-//	printf("Enviado para a Queue: %s\n", cmd_pos);
 	data_addr = cmd_pos;
 
 	error_code = OSQPost(SimucamCommandQ, cmd_pos[0]);

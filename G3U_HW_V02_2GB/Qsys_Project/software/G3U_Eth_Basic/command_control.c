@@ -15,7 +15,9 @@
 #include "alt_error_handler.h"
 #include "utils/util.h"
 
-//Include configurations for the communication modules
+/*
+ * Include configurations for the communication modules [yb]
+ */
 #include "logic/comm/comm.h"
 
 extern OS_EVENT *SimucamCommandQ;
@@ -27,13 +29,11 @@ extern OS_EVENT *SimucamDataQ;
 
 void CommandManagementTask() {
 
-	INT8U error_code;		//uCOS error code
-	INT8U exec_error;	//Internal error code for the command module
+	INT8U error_code;		/*uCOS error code*/
+	INT8U exec_error;	/*Internal error code for the command module*/
 
 	INT8U* cmd_pos;
 	INT8U cmd_char;
-
-	//INT8U timecode;
 
 	static INT8U data[SSS_TX_BUF_SIZE];
 	INT8U* data_pos = data;
@@ -56,7 +56,7 @@ void CommandManagementTask() {
 		/*
 		 * Switch case to select from different command options.[yb]
 		 */
-		switch (cmd_pos[0]) {  //Selector for commands and actions
+		switch (cmd_pos[0]) {  /*Selector for commands and actions*/
 
 		case '0':
 			printf("Comando selecionado: %c\n\r", (char) cmd_pos[0]);
@@ -74,7 +74,7 @@ void CommandManagementTask() {
 		case '1':
 			printf("Comando selecionado: %c\n\r", (char) cmd_pos[0]);
 
-			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') { //Verify if the channel is valid
+			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') { /*Verify if the channel is valid*/
 
 				printf("Acessando canal %c do SpW\n\r", (char) cmd_pos[1]);
 				INT8U div;
@@ -92,7 +92,10 @@ void CommandManagementTask() {
 
 			break;
 
-		case '2': //send timecode
+			/*
+			 * send timecode via specific SpW link
+			 */
+		case '2':
 			t =  aatoh(&cmd_pos[2]);
 			p = 4;
 			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
@@ -109,7 +112,10 @@ void CommandManagementTask() {
 						(char) cmd_pos[1]);
 			break;
 
-		case '3': 	//read timecode
+			/*
+			 * read timecode
+			 */
+		case '3':
 			size = 1;
 			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 				data[0] = uc_SpaceWire_Interface_Get_TimeCode(cmd_pos[1]);
@@ -129,7 +135,10 @@ void CommandManagementTask() {
 						(char) cmd_pos[1]);
 			break;
 
-		case '4': //send data
+			/*
+			 * send data
+			 */
+		case '4':
 			p = 4;
 			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 				for (i = 0; i < aatoh(&cmd_pos[2]); i++) {
@@ -146,7 +155,10 @@ void CommandManagementTask() {
 			exec_error = Verif_Error(error_code);
 			break;
 
-		case '5': 	//read data
+			/*
+			 * read data
+			 */
+		case '5':
 			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 
 				size = ui_SpaceWire_Interface_Get_SpaceWire_Data(
@@ -167,7 +179,10 @@ void CommandManagementTask() {
 						(char) cmd_pos[1]);
 			break;
 
-		case '6': 	//spw autostart
+			/*
+			 * spw autostart
+			 */
+		case '6':
 			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 				error_code = v_SpaceWire_Interface_Link_Control(
 						(char) cmd_pos[1], toInt(cmd_pos[2]),
@@ -178,7 +193,10 @@ void CommandManagementTask() {
 						(char) cmd_pos[1]);
 			break;
 
-		case '7': 	//spw link start
+			/*
+			 * spw link start
+			 */
+		case '7':
 			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 				error_code = v_SpaceWire_Interface_Link_Control(
 						(char) cmd_pos[1], toInt(cmd_pos[2]),
@@ -189,7 +207,10 @@ void CommandManagementTask() {
 						(char) cmd_pos[1]);
 			break;
 
-		case '8': 	//spw linkdisable
+			/*
+			 * spw link disable
+			 */
+		case '8':
 			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 				error_code = v_SpaceWire_Interface_Link_Control(
 						(char) cmd_pos[1], toInt(cmd_pos[2]),
@@ -206,6 +227,6 @@ void CommandManagementTask() {
 		}
 		error_code = OSQPost(SimucamCommandQ, (void *) exec_error);
 		alt_SSSErrorHandler(error_code, 0);
-		exec_error = 0;		//restart error value
+		exec_error = 0;		/*restart error value*/
 	}
 }
