@@ -210,10 +210,6 @@ void SSSCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
-	/*
-	 * Creating the sub_unit 1 management task [yb]
-	 */
-
 }
 
 /*
