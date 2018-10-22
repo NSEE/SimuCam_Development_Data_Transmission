@@ -164,6 +164,7 @@ C_SRCS += rtos/default_configs.c
 C_SRCS += rtos/rtos_tasks.c
 C_SRCS += utils/util.c
 C_SRCS += command_control.c
+C_SRCS += sub_unit_control.c
 CXX_SRCS :=
 ASM_SRCS :=
 
