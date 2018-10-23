@@ -9164,6 +9164,40 @@
 						<entry kind="macro" name="__hal__" value=""/>
 						<entry kind="macro" name="__ucosii__" value=""/>
 					</resource>
+					<resource project-relative-path="sub_unit_control.c">
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/drivers/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/drivers/inc/iniche">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/iniche/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/iniche/src/h">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/iniche/src/h/nios2">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/iniche/src/nios2">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/UCOSII/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/HAL/inc">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="includePath" name="/G3U_Eth_Basic_bsp">
+							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>
+						</entry>
+						<entry kind="macro" name="ALTERA_TRIPLE_SPEED_MAC" value=""/>
+						<entry kind="macro" name="ALT_INICHE" value=""/>
+						<entry kind="macro" name="ALT_NO_INSTRUCTION_EMULATION" value=""/>
+						<entry kind="macro" name="__hal__" value=""/>
+						<entry kind="macro" name="__ucosii__" value=""/>
+					</resource>
 					<resource project-relative-path="iniche/src/misclib/rawiptst.c">
 						<entry kind="includePath" name="/G3U_Eth_Basic_bsp/drivers/inc">
 							<flag value="VALUE_WORKSPACE_PATH|RESOLVED"/>

@@ -38,7 +38,6 @@ INT8U aatoh(INT8U *buffer);
 INT8U toint(INT8U ascii);
 INT8U Verif_Error(INT8U error_code);
 
-
 /**
  * @brief Set the High level log file
  */

@@ -40,6 +40,9 @@
 
 #include "driver/leds/leds.h"
 
+/*sub-unit definitions*/
+#include "sub_unit_control.h"
+
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 
  * beginning with "SSS" are declared and created in this file.
@@ -63,8 +66,14 @@ void *SSSLEDCommandQTbl[SSS_LED_COMMAND_Q_SIZE]; /*Storage for SSSLEDCommandQ*/
  */
 
 OS_EVENT *SimucamCommandQ;
-//#define SIMUCAM_COMMAND_Q_SIZE SSS_TX_BUF_SIZE /* Queue size of simucam command */
 void *SimucamCommandQTbl[SSS_TX_BUF_SIZE]; /*Storage for SimucamCommandQ */
+
+/*
+ * Configuration of the sub-unit management task
+ */
+#define SUB_UNIT_TASK_PRIORITY 10
+OS_STK sub_unit_task_stack[TASK_STACKSIZE];
+
 
 /*
  * Configuration of the simucam command management task[yb]
@@ -78,7 +87,6 @@ OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
  */
 
 OS_EVENT *SimucamDataQ;
-//#define SIMUCAM_COMMAND_Q_SIZE SSS_TX_BUF_SIZE /* Queue size of simucam command */
 void *SimucamDataQTbl[SSS_TX_BUF_SIZE]; /*Storage for SimucamCommandQ */
 
 INT8U *data_addr;
@@ -107,6 +115,9 @@ void DataCreateOSQ(void) {
 				"Failed to create SimucamDataQ.\n");
 	}
 }
+
+
+
 /*
  * Handle to our MicroC/OS-II LED Event Flag.  Each flag corresponds to one of
  * the LEDs on the Nios Development board, D0 - D7. 
@@ -199,7 +210,7 @@ void SSSCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the command management task
+	 * Creating the command management task [yb]
 	 */
 	error_code = OSTaskCreateExt(CommandManagementTask,
 	NULL, (void *) &CommandManagementTaskStk[TASK_STACKSIZE - 1],
@@ -213,7 +224,12 @@ void SSSCreateTasks(void) {
 	/*
 	 * Creating the sub_unit 1 management task [yb]
 	 */
-
+	error_code = OSTaskCreateExt(sub_unit_control_task,
+		NULL, (void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
+		SUB_UNIT_TASK_PRIORITY,
+		SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
+		TASK_STACKSIZE,
+		NULL, 0);
 }
 
 /*

@@ -1,0 +1,51 @@
+/*
+ * sub_unit_control.c
+ *
+ *  Created on: Oct 22, 2018
+ *      Author: Yuri Bunduki
+ */
+
+#include "sub_unit_control.h"
+
+
+struct _sub_config {
+	INT8U receive_data;
+	INT8U forward_data;
+	INT8U RMAP_handling;
+};
+
+/*
+ * Creation of the sub-unit communication queue [yb]
+ */
+
+OS_EVENT *p_sub_unit_queue;
+void *p_sub_unit_queue_tbl[SUBUNIT_BUFFER];/*Storage for sub_unit queue*/
+
+
+void sub_unit_control_task (){
+	INT8U error_code;		/*uCOS error code*/
+	INT8U exec_error;	/*Internal error code for the command module*/
+
+	_sub_config config;
+}
+
+/*
+ * Create the sub-unit defined data structures and queues
+ */
+
+void sub_unit_create_os_data_structs(void){
+	INT8U error_code;
+
+	/*
+	 * Create the sub-unit data queue
+	 */
+	p_sub_unit_queue = OSQCreate(&p_sub_unit_queue_tbl[0], SUBUNIT_BUFFER);
+
+		if (!p_sub_unit_queue) {
+			alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+					"Failed to create p_sub_unit_queue.\n");
+		}
+
+
+}
+

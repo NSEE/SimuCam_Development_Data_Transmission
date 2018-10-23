@@ -98,6 +98,9 @@ void SSSInitialTask(void *task_data)
   SimucamCreateOSQ();
   DataCreateOSQ();
 
+  /*create the sub-units data structures*/
+  sub_unit_create_os_data_structs();
+
   /* create the other tasks */
   SSSCreateTasks();
 
