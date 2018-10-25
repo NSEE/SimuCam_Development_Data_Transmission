@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<item value="0" key="org.eclipse.egit.ui.internal.clone.GitSelectWizardPageWizardSel"/>
-	<item value="C:\Users\yuribunduki\Documents\git\IWF_SimuCam_Development\.git" key="GitSelectRepositoryPage.lastRepository"/>
+	<item value="E:\git\IWF_SimuCam_Development\.git" key="GitSelectRepositoryPage.lastRepository"/>
 	<section name="GitImportWizard">
 		<item value="true" key="GitProjectsImportPage.STORE_NESTED_PROJECTS"/>
-	</section>
-	<section name="org.eclipse.egit.ui.internal.fetch.FetchResultDialog.dialogBounds">
-		<item value="616" key="DIALOG_WIDTH"/>
-		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
-		<item value="458" key="DIALOG_HEIGHT"/>
-		<item value="660" key="DIALOG_X_ORIGIN"/>
-		<item value="223" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

@@ -11,14 +11,14 @@
 /*
  * Structure to identify the Sub-Unit configuration parameters
  * mode: 0-> config, 1-> running
- * receive_data: 0->ethernet, 1->SSD
+ * [receive_data: 0->ethernet, 1->SSD] Not needed anymore
  * RMAP_handling: 0->none, 1->echoing, 2->logging
  * forward_data to ethernet link
  */
 
 struct _sub_config {
 	INT8U mode;
-	INT8U receive_data;
+	//INT8U receive_data;
 	INT8U forward_data;
 	INT8U RMAP_handling;
 	//struct imagette* imagette[];
