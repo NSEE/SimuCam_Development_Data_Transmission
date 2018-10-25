@@ -15,6 +15,10 @@
 #include "utils/util.h"
 #include "alt_error_handler.h"
 #include "includes.h"
+/*
+ * Include configurations for the SpW communication modules [yb]
+ */
+#include "logic/comm/comm.h"
 
 #define SUBUNIT_BUFFER 10
 

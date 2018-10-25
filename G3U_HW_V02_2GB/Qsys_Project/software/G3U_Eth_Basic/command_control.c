@@ -14,14 +14,19 @@
 #include "simple_socket_server.h"
 #include "alt_error_handler.h"
 #include "utils/util.h"
+#include "sub_unit_control.h"
 
 /*
  * Include configurations for the communication modules [yb]
  */
 #include "logic/comm/comm.h"
 
+/*
+ * External OSQueues must be declared
+ */
 extern OS_EVENT *SimucamCommandQ;
 extern OS_EVENT *SimucamDataQ;
+extern OS_EVENT *p_sub_unit_command_queue;
 
 /*
  * Task used to parse and execute the commands received via ethernet. [yb]
@@ -51,26 +56,34 @@ void CommandManagementTask() {
 		cmd_char = (INT8U) OSQPend(SimucamCommandQ, 0, &error_code);
 		alt_uCOSIIErrorHandler(error_code, 0);
 		cmd_pos = data_addr;
+		static INT8U teste_byte = 1;
 		int i = 0;
 
 		/*
 		 * Switch case to select from different command options.[yb]
+		 * Will be modified to suit IWF's needs
 		 */
 		switch (cmd_pos[0]) {  /*Selector for commands and actions*/
 
+		/*Loopback SpW config*/
 		case '0':
 			printf("Comando selecionado: %c\n\r", (char) cmd_pos[0]);
-			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') { //Verify if the channel is valid
-				printf("Acessando canal %c do SpW\n\r", (char) cmd_pos[1]);
-				error_code = b_SpaceWire_Interface_Mode_Control(
-						(char) cmd_pos[1], toInt(cmd_pos[2]));
-				exec_error = Verif_Error(error_code);
-			} else
-				printf("%c Nao e um canal valido do SpW\n\r",
-						(char) cmd_pos[1]);
+			error_code = OSQPost(p_sub_unit_command_queue, teste_byte);
+				alt_SSSErrorHandler(error_code, 0);
+//			if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') { /*Verify if the channel is valid*/
+//				printf("Acessando canal %c do SpW\n\r", (char) cmd_pos[1]);
+//				error_code = b_SpaceWire_Interface_Mode_Control(
+//						(char) cmd_pos[1], toInt(cmd_pos[2]));
+//				exec_error = Verif_Error(error_code);
+//			} else
+//				printf("%c Nao e um canal valido do SpW\n\r",
+//						(char) cmd_pos[1]);
 
 			break;
 
+			/*
+			 * Force specific transmission rate
+			 */
 		case '1':
 			printf("Comando selecionado: %c\n\r", (char) cmd_pos[0]);
 

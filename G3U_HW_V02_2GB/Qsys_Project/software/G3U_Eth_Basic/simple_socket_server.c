@@ -268,7 +268,7 @@ void sss_send_menu(SSSConn* conn) {
 							"On/Off deve ser enviado como um 1 ou um 0 respectivamente \n\r");
 	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
 	tx_wr_pos += sprintf(tx_wr_pos,
-			"0: Loopback mode(SpW Channel, ON/OFF)\n\r");
+			"0: Teste da Sub-unidade");
 	tx_wr_pos += sprintf(tx_wr_pos,
 			"1: For�ar taxa de transmiss�o baixa(SpW Channel, Divisor)\n\r");
 	tx_wr_pos += sprintf(tx_wr_pos,
