@@ -144,7 +144,6 @@ ELF := G3U_Eth_Basic.elf
 # Paths to C, C++, and assembly source files.
 C_SRCS += alt_error_handler.c
 C_SRCS += iniche_init.c
-C_SRCS += led.c
 C_SRCS += network_utilities.c
 C_SRCS += simple_socket_server.c
 C_SRCS += tse_my_system.c

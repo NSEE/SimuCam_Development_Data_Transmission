@@ -94,7 +94,6 @@ void SSSInitialTask(void *task_data)
   TK_NEWTASK(&ssstask);
   
   /*create os data structures [yb] */
-  SSSCreateOSDataStructs();
   SimucamCreateOSQ();
   DataCreateOSQ();
 

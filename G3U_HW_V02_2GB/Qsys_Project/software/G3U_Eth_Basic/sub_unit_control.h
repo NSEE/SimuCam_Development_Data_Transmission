@@ -27,4 +27,12 @@
 void sub_unit_create_queue(void);
 void sub_unit_control_task ();
 
+struct _sub_config {
+	INT8U mode;
+	//INT8U receive_data;
+	INT8U forward_data;
+	INT8U RMAP_handling;
+//struct imagette* imagette[];
+}_sub_config;
+
 #endif /* SUB_UNIT_CONTROL_H_ */

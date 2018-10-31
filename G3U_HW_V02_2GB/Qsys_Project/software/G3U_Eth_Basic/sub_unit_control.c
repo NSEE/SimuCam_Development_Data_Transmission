@@ -15,13 +15,7 @@
  * forward_data to ethernet link
  */
 
-struct _sub_config {
-	INT8U mode;
-	//INT8U receive_data;
-	INT8U forward_data;
-	INT8U RMAP_handling;
-//struct imagette* imagette[];
-};
+
 
 /*
  * Creation of the sub-unit communication queue [yb]
@@ -72,14 +66,19 @@ void sub_unit_control_task() {
 	INT8U error_code; /*uCOS error code*/
 
 	struct _sub_config *config;
+	config->mode = 0;
+	config->RMAP_handling = 0;
+	config->forward_data = 0;
 
 	while (config->mode == 0) {
+
 		config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
+		printf("Sub-unit mode change to: %i\n\r", (INT8U) config->mode);
 
 	}
 
 	while (config->mode == 1) {
-		INT8U cmd;
+		INT8U cmd = 0;
 		INT8U error_code; /*uCOS error code*/
 		INT8U exec_error; /*Internal error code for the command module*/
 
@@ -87,7 +86,7 @@ void sub_unit_control_task() {
 		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 				SPWC_REG_SET,
 				SPWC_LINK_START_CONTROL_BIT_MASK);
-		//exec_error = Verif_Error(error_code);
+		exec_error = Verif_Error(error_code);
 
 		/*Load data array from memory*/
 
@@ -99,7 +98,8 @@ void sub_unit_control_task() {
 		 * if last change mode
 		 */
 
-		//config = OSQAccept(p_sub_unit_config_queue);
+		config = OSQAccept(p_sub_unit_config_queue, &error_code);
+		alt_SSSErrorHandler(error_code, 0);
 	}
 }
 
