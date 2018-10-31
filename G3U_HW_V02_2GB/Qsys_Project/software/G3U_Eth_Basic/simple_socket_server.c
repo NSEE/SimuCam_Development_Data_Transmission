@@ -289,7 +289,7 @@ void sss_exec_command(SSSConn* conn) {
 	data_addr = cmd_pos;
 
 
-	error_code = OSQPost(SimucamCommandQ, cmd_pos[0]);
+	error_code = OSQPost(SimucamCommandQ, cmd_pos);
 	alt_SSSErrorHandler(error_code, 0);
 
 	/*

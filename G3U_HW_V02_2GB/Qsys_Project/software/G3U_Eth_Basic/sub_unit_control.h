@@ -22,10 +22,23 @@
 
 #define SUBUNIT_BUFFER 10
 
-
-
+/*
+ * Sub-Unit queues prototypes
+ */
+void sub_unit_create_os_data_structs();
 void sub_unit_create_queue(void);
+
+/*
+ * Sub-Unit tasks prototypes
+ */
 void sub_unit_control_task ();
+
+/*
+ * SubUnit control queues handles
+ */
+
+extern OS_EVENT *p_sub_unit_config_queue;
+extern OS_EVENT *p_sub_unit_command_queue;
 
 struct _sub_config {
 	INT8U mode;

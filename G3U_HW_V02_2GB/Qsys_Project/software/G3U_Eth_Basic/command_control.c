@@ -22,14 +22,6 @@
 #include "logic/comm/comm.h"
 
 /*
- * External OSQueues must be declared
- */
-extern OS_EVENT *SimucamCommandQ;
-extern OS_EVENT *SimucamDataQ;
-extern OS_EVENT *p_sub_unit_command_queue;
-extern OS_EVENT *p_sub_unit_config_queue;
-
-/*
  * Task used to parse and execute the commands received via ethernet. [yb]
  */
 
@@ -39,7 +31,9 @@ void CommandManagementTask() {
 	INT8U exec_error; /*Internal error code for the command module*/
 
 	INT8U* cmd_pos;
-	INT8U cmd_char[SSS_TX_BUF_SIZE];
+	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
+	INT8U* cmd_char = cmd_char_buffer;
+
 
 	static INT8U teste_byte = 1;
 
@@ -49,8 +43,6 @@ void CommandManagementTask() {
 	static int size;
 
 	int p;
-	//teste
-	int t;
 	int i = 0;
 
 	//INT32U cmd_addr = 0;
@@ -64,14 +56,12 @@ void CommandManagementTask() {
 
 	while (1) {
 
-
-
 		/*
 		 * Forcing all sub-units to config mode
 		 * Repeat to all 8 sub-units will be implemented once
 		 * all subs will be functionnal
 		 */
-		error_code = OSQPost(p_sub_unit_config_queue, config_send);
+		error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
 		alt_SSSErrorHandler(error_code, 0);
 
 		/*
@@ -89,22 +79,24 @@ void CommandManagementTask() {
 			alt_uCOSIIErrorHandler(error_code, 0);
 			cmd_pos = data_addr;
 
+			printf("teste do novo cmd_char %c%c\n\r", (char) cmd_char[0], (char) cmd_char[1]);
 
 			/*
 			 * Switch case to select from different command options.[yb]
 			 * Will be modified to suit IWF's needs
 			 */
 			switch (cmd_char[0]) { /*Selector for commands and actions*/
+
 			/*Sub_unit test routine*/
 			case '0':
 				printf("Selected command: %c\n\r", (char) cmd_pos[0]);
 
 				//Change sub-unit to running mode
-				error_code = OSQPost(p_sub_unit_config_queue, config_send);
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
 				alt_SSSErrorHandler(error_code, 0);
 
 				//Send a test byte through the cue
-				error_code = OSQPost(p_sub_unit_command_queue, teste_byte);
+				error_code = (INT8U) OSQPost(p_sub_unit_command_queue, teste_byte);
 				alt_SSSErrorHandler(error_code, 0);
 
 				break;
@@ -120,7 +112,7 @@ void CommandManagementTask() {
 				config_send->forward_data = cmd_pos[2];
 				config_send->RMAP_handling = cmd_pos[3];
 
-				error_code = OSQPost(p_sub_unit_config_queue, config_send);
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
 				alt_SSSErrorHandler(error_code, 0);
 				printf("Configurations sent: %c, %c, %c\r\n", (char) cmd_pos[1],
 						(char) cmd_pos[2], (char) cmd_pos[3]);

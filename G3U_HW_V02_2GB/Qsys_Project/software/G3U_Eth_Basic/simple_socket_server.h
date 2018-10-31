@@ -79,8 +79,6 @@
  *    SSSInitialTask() instantiates all of the MicroC/OS-II resources.
  * 
  */
-void LEDManagementTask();
-void LED7SegLightshowTask();
 void SSSSimpleSocketServerTask();
 
 /*
@@ -89,7 +87,6 @@ void SSSSimpleSocketServerTask();
 
 void CommandManagementTask();
 
-void SSSCreateOSDataStructs();
 void SSSCreateTasks();
 
 /*
@@ -97,8 +94,6 @@ void SSSCreateTasks();
  * 
  *  MicroC/OS-II only allows one task (thread) per priority number.   
  */
-#define LED_MANAGEMENT_TASK_PRIORITY            7
-#define LED_7SEG_LIGHTSHOW_TASK_PRIORITY        18
 #define SSS_SIMPLE_SOCKET_SERVER_TASK_PRIORITY  10
 #define SSS_INITIAL_TASK_PRIORITY               5
 
@@ -190,29 +185,33 @@ typedef struct SSS_SOCKET
  */
 
 /*
- * Handle to our MicroC/OS-II Command Queue for sending commands received 
- * on the TCP-IP socket from the SSSSimpleSocketServerTask to the LEDTask.
+ * data address that will be removed
  */
-extern OS_EVENT *SSSLEDCommandQ;
-
-/*
- * Handle to our MicroC/OS-II LED Event Flag.  Each flag corresponds to one of
- * the LEDs on the Nios Development board, D0 - D7. 
- */
-extern OS_FLAG_GRP *SSSLEDEventFlag;
-
-/*
- * Handle to our MicroC/OS-II LED Lightshow Semaphore. The semaphore is checked 
- * by the SSSLEDLightshowTask each time it updates 7 segment LED displays, 
- * U8 and U9.  The LEDTask grabs the semaphore away from the lightshow task to
- * toggle the lightshow off, and gives up the semaphore to turn the lightshow
- * back on.  The LEDTask does this in response to the CMD_LEDS_LIGHTSHOW
- * command sent from the SSSSimpleSocketServerTask when user sends the toggle 
- * lightshow command over the TCPIP socket.
- */
-extern OS_EVENT *SSSLEDLightshowSem;
-
 extern INT8U *data_addr;
+
+/*
+ * Command + payload struct for the simucam ethernet control
+ */
+
+struct _ethernet_payload {
+	INT8U command;
+	INT8U size;
+}_ethernet_payload;
+
+/*
+ * SimuCam tasks prototypes
+ */
+
+void DataCreateOSQ();
+void SimucamCreateOSQ();
+
+/*
+ * Handles to the SimuCam control data queues
+ */
+
+extern OS_EVENT *SimucamDataQ;
+extern OS_EVENT *SimucamCommandQ;
+
 
 #endif /* __SIMPLE_SOCKET_SERVER_H__ */
 
