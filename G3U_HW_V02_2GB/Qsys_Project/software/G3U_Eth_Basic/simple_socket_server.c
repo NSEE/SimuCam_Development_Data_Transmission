@@ -48,20 +48,18 @@
  * beginning with "SSS" are declared and created in this file.
  */
 
-
 /*
  * Creation of the queue for receive/command communication [yb]
  */
 
 OS_EVENT *SimucamCommandQ;
-INT8U *SimucamCommandQTbl[SSS_TX_BUF_SIZE]; /*Storage for SimucamCommandQ */
+struct _ethernet_payload *SimucamCommandQTbl[3]; /*Storage for SimucamCommandQ */
 
 /*
  * Configuration of the sub-unit management task
  */
 #define SUB_UNIT_TASK_PRIORITY 8
 OS_STK sub_unit_task_stack[TASK_STACKSIZE];
-
 
 /*
  * Configuration of the simucam command management task[yb]
@@ -75,10 +73,9 @@ OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
  */
 
 OS_EVENT *SimucamDataQ;
-void *SimucamDataQTbl[SSS_TX_BUF_SIZE]; /*Storage for SimucamCommandQ */
+INT8U *SimucamDataQTbl[SSS_TX_BUF_SIZE]; /*Storage for SimucamCommandQ */
 
-INT8U data_buffer[1024];
-INT8U *data_addr = data_buffer;
+INT8U *data_addr;
 
 /*
  * Create the Simucam command queue
@@ -90,7 +87,7 @@ void SimucamCreateOSQ(void) {
 	if (!SimucamCommandQ) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create SimucamCommandQ.\n");
-	} else{
+	} else {
 		printf("SimucamCommandQ created successfully.\r\n");
 	}
 }
@@ -104,7 +101,7 @@ void DataCreateOSQ(void) {
 	if (!SimucamDataQ) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create SimucamDataQ.\n");
-	}else{
+	} else {
 		printf("SimucamDataQ created successfully.\r\n");
 	}
 }
@@ -132,11 +129,11 @@ void SSSCreateTasks(void) {
 	 * Creating the sub_unit 1 management task [yb]
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task,
-		NULL, (void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
-		SUB_UNIT_TASK_PRIORITY,
-		SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
-		TASK_STACKSIZE,
-		NULL, 0);
+	NULL, (void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY,
+	SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
@@ -178,12 +175,10 @@ void sss_send_menu(SSSConn* conn) {
 					"Todos os numeros devem ser enviados em HEX, menos o numero do comando. "
 							"On/Off deve ser enviado como um 1 ou um 0 respectivamente \n\r");
 	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos,
-			"0: Teste da Sub-unidade\n\r");
+	tx_wr_pos += sprintf(tx_wr_pos, "0: Teste da Sub-unidade\n\r");
 	tx_wr_pos += sprintf(tx_wr_pos,
 			"1: Sub-unit configuration(mode,forward data,handling)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos,
-			"2: Write Timecodes(CH, N, TIMECODE)\n\r");
+	tx_wr_pos += sprintf(tx_wr_pos, "2: Write Timecodes(CH, N, TIMECODE)\n\r");
 	tx_wr_pos += sprintf(tx_wr_pos, "3: Read Timecode(CH)\n\r");
 	tx_wr_pos += sprintf(tx_wr_pos, "4: Write Data (CH, N, DATA)\n\r");
 	tx_wr_pos += sprintf(tx_wr_pos, "5: Read Data (CH)\n\r");
@@ -261,10 +256,17 @@ void sss_exec_command(SSSConn* conn) {
 	 */
 	INT8U error_code;
 	INT8U q_error;
+
+	static struct _ethernet_payload *p_payload;
+
 	INT32U command;
 	static INT8U intCommand[SSS_TX_BUF_SIZE];
 	INT8U* cmd_pos = intCommand;
 	int i = 0;
+	p_payload->command = 0;
+	p_payload->data[0] = 0;
+	p_payload->data[1] = 0;
+	p_payload->size = 0;
 
 	/*
 	 * Isolate the command from garbage. And terminate the process if need be.[yb]
@@ -286,10 +288,21 @@ void sss_exec_command(SSSConn* conn) {
 		}
 	}
 
+	p_payload->size = i;
+	p_payload->command = cmd_pos[0];
+
+	for(i=1; i < p_payload->size; i++){
+
+		p_payload->data[i-1] = cmd_pos[i];
+		printf("ping %i\r\n", (INT8U) i);
+	}
+
 	data_addr = cmd_pos;
 
+	printf("Socket side teste do payload:size %i,%c,%c\r\n",
+			(INT8U) p_payload->size, (char) p_payload->command, (char) p_payload->data[0]);
 
-	error_code = OSQPost(SimucamCommandQ, cmd_pos);
+	error_code = OSQPost(SimucamCommandQ, p_payload);
 	alt_SSSErrorHandler(error_code, 0);
 
 	/*
@@ -316,8 +329,8 @@ void sss_exec_command(SSSConn* conn) {
 	if (q_error) {
 		tx_wr_pos += sprintf(tx_wr_pos, "\n\rCommand properly executed.\n\n\r");
 	} else
-		tx_wr_pos += sprintf(tx_wr_pos, "\n\rError in command execution.\n\n\r");
-
+		tx_wr_pos += sprintf(tx_wr_pos,
+				"\n\rError in command execution.\n\n\r");
 
 	send(conn->fd, tx_buf, tx_wr_pos - tx_buf, 0);
 

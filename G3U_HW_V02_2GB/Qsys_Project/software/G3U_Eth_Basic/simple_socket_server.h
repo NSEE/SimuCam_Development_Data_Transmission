@@ -195,6 +195,7 @@ extern INT8U *data_addr;
 
 struct _ethernet_payload {
 	INT8U command;
+	INT8U data[5];
 	INT8U size;
 }_ethernet_payload;
 

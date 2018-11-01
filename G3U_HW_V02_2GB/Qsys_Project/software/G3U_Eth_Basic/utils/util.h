@@ -35,7 +35,7 @@ void _print_codec_status(int codec_status);
 //void _print_link_config(LinkConfig *link);
 
 INT8U aatoh(INT8U *buffer);
-INT8U toint(INT8U ascii);
+INT8U toInt(INT8U ascii);
 INT8U Verif_Error(INT8U error_code);
 
 /**
