@@ -211,7 +211,7 @@ void SimucamCreateOSQ();
  */
 
 extern OS_EVENT *SimucamDataQ;
-extern OS_EVENT *SimucamCommandQ;
+extern OS_EVENT *p_simucam_command_q;
 
 
 #endif /* __SIMPLE_SOCKET_SERVER_H__ */

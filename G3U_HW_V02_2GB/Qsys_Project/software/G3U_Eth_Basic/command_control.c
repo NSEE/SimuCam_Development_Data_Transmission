@@ -32,7 +32,7 @@ void CommandManagementTask() {
 
 	INT8U* cmd_pos;
 	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
-	INT8U* cmd_char = cmd_char_buffer;
+	//INT8U* cmd_char = cmd_char_buffer;
 
 	static INT8U teste_byte = 1;
 	static struct _ethernet_payload *p_payload;
@@ -47,6 +47,10 @@ void CommandManagementTask() {
 
 	//INT32U cmd_addr = 0;
 	//INT8U canal;
+
+	/*
+	 * Declaring the sub-units initial status
+	 */
 	static struct _sub_config *config_send;
 
 	INT8U b_meb_status = 0; //default starting mode is config
@@ -75,7 +79,7 @@ void CommandManagementTask() {
 			 * Enter the receive command mode
 			 */
 
-			p_payload = OSQPend(SimucamCommandQ, 0, &error_code);
+			p_payload = (_ethernet_payload) OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
 			cmd_pos = data_addr;
 
@@ -246,8 +250,13 @@ void CommandManagementTask() {
 				printf("Nenhum comando identificado\n");
 				break;
 			}
-			error_code = OSQPost(SimucamCommandQ, (void *) exec_error);
-			alt_SSSErrorHandler(error_code, 0);
+
+			/*
+			 * Create a error management task and queue
+			 */
+
+			//error_code = OSQPost(p_simucam_command_q, (void *) exec_error);
+			//alt_SSSErrorHandler(error_code, 0);
 			exec_error = 0; /*restart error value*/
 
 		}
@@ -257,9 +266,9 @@ void CommandManagementTask() {
 		 */
 		while (b_meb_status == 1) {
 
-			//cmd_char = (INT8U) OSQAccept(SimucamCommandQ, &error_code);
+			//cmd_char = (_ethernet_payload) OSQAccept(p_simucam_command_q, &error_code);
 			//alt_SSSErrorHandler(error_code, 0);
-			//printf("cmd_char dump %i\n\r", (INT8U) cmd_char);
+			printf("cmd_char dump %i\n\r", (INT8U) cmd_char);
 		}
 
 	}

@@ -52,8 +52,8 @@
  * Creation of the queue for receive/command communication [yb]
  */
 
-OS_EVENT *SimucamCommandQ;
-struct _ethernet_payload *SimucamCommandQTbl[3]; /*Storage for SimucamCommandQ */
+OS_EVENT *p_simucam_command_q;
+struct _ethernet_payload *p_simucam_command_q_table[3]; /*Storage for SimucamCommandQ */
 
 /*
  * Configuration of the sub-unit management task
@@ -82,13 +82,13 @@ INT8U *data_addr;
  */
 
 void SimucamCreateOSQ(void) {
-	SimucamCommandQ = OSQCreate(&SimucamCommandQTbl[0], SSS_TX_BUF_SIZE);
+	p_simucam_command_q = OSQCreate(&p_simucam_command_q_table[0], SSS_TX_BUF_SIZE);
 
-	if (!SimucamCommandQ) {
+	if (!p_simucam_command_q) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create SimucamCommandQ.\n");
+				"Failed to create Simucam Command Queue.\n");
 	} else {
-		printf("SimucamCommandQ created successfully.\r\n");
+		printf("Simucam Command Queue created successfully.\r\n");
 	}
 }
 
@@ -302,7 +302,7 @@ void sss_exec_command(SSSConn* conn) {
 	printf("Socket side teste do payload:size %i,%c,%c\r\n",
 			(INT8U) p_payload->size, (char) p_payload->command, (char) p_payload->data[0]);
 
-	error_code = OSQPost(SimucamCommandQ, p_payload);
+	error_code = OSQPost(p_simucam_command_q, p_payload);
 	alt_SSSErrorHandler(error_code, 0);
 
 	/*
@@ -324,7 +324,7 @@ void sss_exec_command(SSSConn* conn) {
 	 * Error code verification for the commands[yb]
 	 */
 
-	q_error = (INT8U) OSQPend(SimucamCommandQ, 0, &error_code);
+	q_error = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
 	alt_SSSErrorHandler(error_code, 0);
 	if (q_error) {
 		tx_wr_pos += sprintf(tx_wr_pos, "\n\rCommand properly executed.\n\n\r");
