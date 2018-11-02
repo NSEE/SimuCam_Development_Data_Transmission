@@ -293,7 +293,7 @@ void sss_exec_command(SSSConn* conn) {
 
 	for(i=1; i < p_payload->size; i++){
 
-		p_payload->data[i-1] = cmd_pos[i];
+		p_payload->data[i-1] = toInt(cmd_pos[i]);
 		printf("ping %i\r\n", (INT8U) i);
 	}
 
