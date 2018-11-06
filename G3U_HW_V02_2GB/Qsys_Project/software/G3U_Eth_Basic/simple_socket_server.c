@@ -82,7 +82,8 @@ INT8U *data_addr;
  */
 
 void SimucamCreateOSQ(void) {
-	p_simucam_command_q = OSQCreate(&p_simucam_command_q_table[0], SSS_TX_BUF_SIZE);
+	p_simucam_command_q = OSQCreate(&p_simucam_command_q_table[0],
+	SSS_TX_BUF_SIZE);
 
 	if (!p_simucam_command_q) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
@@ -279,9 +280,7 @@ void sss_exec_command(SSSConn* conn) {
 			conn->close = 1;
 		}
 
-		/*
-		 * Verify and ignore entries that aren't alphanumeric[yb]
-		 */
+		//Verify and ignore entries that aren't alphanumeric[yb]
 		if ( isdigit(command) || isalpha(command)) {
 			cmd_pos[i] = command;
 			i++;
@@ -289,48 +288,39 @@ void sss_exec_command(SSSConn* conn) {
 	}
 
 	p_payload->size = i;
+	printf("Payload size: %i\r\n", (INT8U) p_payload->size);
 	p_payload->command = cmd_pos[0];
 
-	for(i=1; i < p_payload->size; i++){
-
-		p_payload->data[i-1] = toInt(cmd_pos[i]);
-		printf("ping %i\r\n", (INT8U) i);
+	if (p_payload->size > 1) {
+		for (i = 1; i < p_payload->size; i++) {
+			p_payload->data[i - 1] = cmd_pos[i];
+			printf("ping %i\r\n", (INT8U) i);
+		}
 	}
 
 	data_addr = cmd_pos;
 
-	printf("Socket side teste do payload:size %i,%c,%c\r\n",
-			(INT8U) p_payload->size, (char) p_payload->command, (char) p_payload->data[0]);
+	printf("teste saindo do loop\n\r");
+
+	printf("Socket side teste do payload:size %i,%c,%i\r\n",
+			(INT8U) p_payload->size, (char) p_payload->command,
+			(INT8U) p_payload->data[0]);
 
 	error_code = OSQPost(p_simucam_command_q, p_payload);
 	alt_SSSErrorHandler(error_code, 0);
 
-	/*
-	 * Read data received via command control [yb]
-	 */
-
-	if (toInt(cmd_pos[0]) == 3 || toInt(cmd_pos[0]) == 5) {
-		int size = 0;
-		INT8U buff;
-		size = (int) OSQPend(SimucamDataQ, 0, &error_code);
-		printf("buff size: %i", size);
-		for (i = 0; i < size; i++) {
-			buff = (INT8U) OSQPend(SimucamDataQ, 0, &error_code);
-			tx_wr_pos += sprintf(tx_wr_pos, "%02X\n\r", buff);
-		}
-	}
 
 	/*
 	 * Error code verification for the commands[yb]
 	 */
 
-	q_error = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
-	alt_SSSErrorHandler(error_code, 0);
-	if (q_error) {
-		tx_wr_pos += sprintf(tx_wr_pos, "\n\rCommand properly executed.\n\n\r");
-	} else
-		tx_wr_pos += sprintf(tx_wr_pos,
-				"\n\rError in command execution.\n\n\r");
+//	q_error = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
+//	alt_SSSErrorHandler(error_code, 0);
+//	if (q_error) {
+//		tx_wr_pos += sprintf(tx_wr_pos, "\n\rCommand properly executed.\n\n\r");
+//	} else
+//		tx_wr_pos += sprintf(tx_wr_pos,
+//				"\n\rError in command execution.\n\n\r");
 
 	send(conn->fd, tx_buf, tx_wr_pos - tx_buf, 0);
 

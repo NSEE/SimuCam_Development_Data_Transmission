@@ -2,11 +2,11 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Nov 1, 2018 3:07:06 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1541092026515</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>/run/media/BndkY/Data/git/IWF_SimuCam_Development/G3U_HW_V02_2GB/Qsys_Project/software/G3U_Eth_Basic_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>Nov 5, 2018 5:39:25 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1541446765893</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>C:\Users\yuribunduki\Documents\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
-        <SopcDesignFile>../../MebX_Qsys_Project.sopcinfo</SopcDesignFile>
+        <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
         <SchemaVersion>1.9</SchemaVersion>

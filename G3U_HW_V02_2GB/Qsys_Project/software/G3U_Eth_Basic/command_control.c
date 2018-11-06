@@ -58,15 +58,15 @@ void CommandManagementTask() {
 	config_send->forward_data = 0;
 	config_send->RMAP_handling = 0;
 
-	while (1) {
+	/*
+	 * Forcing all sub-units to config mode
+	 * Repeat to all 8 sub-units will be implemented once
+	 * all subs will be functionnal
+	 */
+	error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
+	alt_SSSErrorHandler(error_code, 0);
 
-		/*
-		 * Forcing all sub-units to config mode
-		 * Repeat to all 8 sub-units will be implemented once
-		 * all subs will be functionnal
-		 */
-		error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
-		alt_SSSErrorHandler(error_code, 0);
+	while (1) {
 
 		/*
 		 * MEB in configuration mode.
@@ -86,8 +86,6 @@ void CommandManagementTask() {
 			printf("teste do payload: %c,%i,%i,%i\n\r",
 					(char) p_payload->command, (INT8U) p_payload->data[0],
 					(INT8U) p_payload->data[1], (INT8U) p_payload->data[2]);
-
-			//printf("teste do novo cmd_char %c%c\n\r", (char) cmd_char[0], (char) cmd_char[1]);
 
 			/*
 			 * Switch case to select from different command options.[yb]
@@ -118,9 +116,9 @@ void CommandManagementTask() {
 
 				printf("Selected command: %c\n\r", (char) p_payload->command);
 
-				config_send->mode = p_payload->data[0];
-				config_send->forward_data = p_payload->data[1];
-				config_send->RMAP_handling = p_payload->data[2];
+				config_send->mode = toInt(p_payload->data[0]);
+				config_send->forward_data = toInt(p_payload->data[1]);
+				config_send->RMAP_handling = toInt(p_payload->data[2]);
 
 				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 						config_send);
@@ -255,8 +253,8 @@ void CommandManagementTask() {
 			 * Create a error management task and queue
 			 */
 
-			//error_code = OSQPost(p_simucam_command_q, (void *) exec_error);
-			//alt_SSSErrorHandler(error_code, 0);
+//			error_code = OSQPost(p_simucam_command_q, (void *) exec_error);
+//			alt_SSSErrorHandler(error_code, 0);
 			exec_error = 0; /*restart error value*/
 
 		}
@@ -266,6 +264,8 @@ void CommandManagementTask() {
 		 */
 		while (b_meb_status == 1) {
 
+			printf("MEB in running mode\n\r");
+			b_meb_status = 0;
 			//cmd_char = (_ethernet_payload) OSQAccept(p_simucam_command_q, &error_code);
 			//alt_SSSErrorHandler(error_code, 0);
 			//printf("cmd_char dump %i\n\r", (INT8U) cmd_char);
