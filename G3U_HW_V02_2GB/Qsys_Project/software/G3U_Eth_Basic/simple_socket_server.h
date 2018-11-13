@@ -198,12 +198,10 @@ struct _ethernet_payload {
 	INT8U type;			/* Will be the command id */
 	INT8U sub_type;		/* Could carry the sub-unit id */
 	INT8U lenght[3];	/* MSB length[0], LSB length[3] */
+	INT8U data[1500];	/* Data array */
 	INT16U crc;			/* We will use the CCITT-CRC, that is also used in the PUS protocol */
 
 
-	INT8U command;
-	INT8U data[5];
-	INT8U size;
 }_ethernet_payload;
 
 /*

@@ -264,10 +264,6 @@ void sss_exec_command(SSSConn* conn) {
 	static INT8U intCommand[SSS_TX_BUF_SIZE];
 	INT8U* cmd_pos = intCommand;
 	int i = 0;
-	p_payload->command = 0;
-	p_payload->data[0] = 0;
-	p_payload->data[1] = 0;
-	p_payload->size = 0;
 
 	/*
 	 * Isolate the command from garbage. And terminate the process if need be.[yb]
@@ -287,28 +283,42 @@ void sss_exec_command(SSSConn* conn) {
 		}
 	}
 
-	p_payload->size = i;
-	printf("Payload size: %i\r\n", (INT8U) p_payload->size);
-	p_payload->command = cmd_pos[0];
+	/* Populating the payload struct */
 
-	if (p_payload->size > 1) {
-		for (i = 1; i < p_payload->size; i++) {
-			p_payload->data[i - 1] = cmd_pos[i];
-			printf("ping %i\r\n", (INT8U) i);
+	p_payload->packet_id = cmd_pos[0];
+	p_payload->type = cmd_pos[1];
+	p_payload->sub_type = cmd_pos[2];
+	p_payload->lenght[0] = toInt(cmd_pos[3]);
+	p_payload->lenght[1] = toInt(cmd_pos[4]);
+	p_payload->lenght[2] = toInt(cmd_pos[5]);
+	p_payload->lenght[3] = toInt(cmd_pos[6]);
+
+	printf("Payload size: %i\r\n", (INT8U) p_payload->lenght[3]);
+
+	if (p_payload->lenght[3] > 1) {
+
+		INT32U size = p_payload->lenght[3] + 256 * p_payload->lenght[2]
+				+ 65536 * p_payload->lenght[1]
+				+ 4294967296 * p_payload->lenght[0];
+		printf(
+				"Teste de carregamento:\r\ntype: %c, size: %i\r\n, LSB lenght: %i",
+				(char) p_payload->type, (int) size, (INT8U) p_payload->lenght[3]);
+
+		for (i = 1; i <= size; i++) {
+			p_payload->data[i - 1] = cmd_pos[i + 6];
+			printf("data: %c\r\nPing %i\r\n",(char) cmd_pos[i + 6],  (INT8U) i);
 		}
+		p_payload->crc = cmd_pos[size + 7];
 	}
 
-	data_addr = cmd_pos;
+	//data_addr = cmd_pos;
 
-	printf("teste saindo do loop\n\r");
-
-	printf("Socket side teste do payload:size %i,%c,%i\r\n",
-			(INT8U) p_payload->size, (char) p_payload->command,
-			(INT8U) p_payload->data[0]);
+	printf("Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
+			(INT8U) p_payload->lenght[3], (char) p_payload->type,
+			(char) p_payload->data[0]);
 
 	error_code = OSQPost(p_simucam_command_q, p_payload);
 	alt_SSSErrorHandler(error_code, 0);
-
 
 	/*
 	 * Error code verification for the commands[yb]
@@ -321,7 +331,6 @@ void sss_exec_command(SSSConn* conn) {
 //	} else
 //		tx_wr_pos += sprintf(tx_wr_pos,
 //				"\n\rError in command execution.\n\n\r");
-
 	send(conn->fd, tx_buf, tx_wr_pos - tx_buf, 0);
 
 	return;

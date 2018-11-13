@@ -15,8 +15,6 @@
  * forward_data to ethernet link
  */
 
-
-
 /*
  * Creation of the sub-unit communication queue [yb]
  */
@@ -28,7 +26,7 @@ struct _sub_config *p_sub_unit_config_queue_tbl[SUBUNIT_BUFFER]; /*Storage for s
  * Creation of the sub-unit command queue [yb]
  */
 OS_EVENT *p_sub_unit_command_queue;
-INT8U *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
+struct _ethernet_payload *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
 
 /*
  * Create the sub-unit defined data structures and queues
@@ -40,7 +38,7 @@ void sub_unit_create_os_data_structs(void) {
 	 * Create the sub-unit config queue [yb]
 	 */
 	p_sub_unit_config_queue = OSQCreate(&p_sub_unit_config_queue_tbl[0],
-			SUBUNIT_BUFFER);
+	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
@@ -51,7 +49,7 @@ void sub_unit_create_os_data_structs(void) {
 	 * Create the sub-unit command queue [yb]
 	 */
 	p_sub_unit_command_queue = OSQCreate(&p_sub_unit_command_queue_tbl[0],
-			SUBUNIT_BUFFER);
+	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_command_queue) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
@@ -65,28 +63,45 @@ void sub_unit_create_os_data_structs(void) {
 void sub_unit_control_task() {
 	INT8U error_code; /*uCOS error code*/
 
-	struct _sub_config *config;
-	config->mode = 0;
-	config->RMAP_handling = 0;
-	config->forward_data = 0;
+	struct _sub_config *p_config;
+	p_config->mode = 0;
+	p_config->RMAP_handling = 0;
+	p_config->forward_data = 0;
 
-	while (config->mode == 0) {
+	struct _ethernet_payload *p_sub_data;
 
-		config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
-		printf("Sub-unit mode change to: %i\n\r", (INT8U) config->mode);
+
+	while (p_config->mode == 0) {
+
+		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
+		printf("Sub-unit mode change to: %i\n\r", (INT8U) p_config->mode);
 
 	}
 
-	while (config->mode == 1) {
+	while (p_config->mode == 1) {
 		INT8U cmd = 0;
 		INT8U error_code; /*uCOS error code*/
 		INT8U exec_error; /*Internal error code for the command module*/
+		//INT32U size = 0;
 
 		/*Start SpW link*/
 		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-				SPWC_REG_SET,
-				SPWC_LINK_START_CONTROL_BIT_MASK);
+		SPWC_REG_SET,
+		SPWC_LINK_START_CONTROL_BIT_MASK);
 		exec_error = Verif_Error(error_code);
+
+		p_sub_data = OSQPend(p_sub_unit_command_queue, 0, &error_code);
+
+		printf(
+				"data received via subcommandQ %c,%c,%c,%c\r\nCalculated size: %i",
+				(char) p_sub_data->data[0],
+				(char) p_sub_data->data[1],
+				(char) p_sub_data->data[2],
+				(char) p_sub_data->data[3],
+				(int) p_sub_data->lenght[3]);
+
+		error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
+				p_sub_data->data, 4);
 
 		/*Load data array from memory*/
 
@@ -98,7 +113,7 @@ void sub_unit_control_task() {
 		 * if last change mode
 		 */
 
-		config = OSQAccept(p_sub_unit_config_queue, &error_code);
+		p_config = OSQAccept(p_sub_unit_config_queue, &error_code);
 		alt_SSSErrorHandler(error_code, 0);
 	}
 }
