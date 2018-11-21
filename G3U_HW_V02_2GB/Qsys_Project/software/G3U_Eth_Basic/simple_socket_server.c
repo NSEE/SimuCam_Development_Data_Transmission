@@ -43,6 +43,9 @@
 /*sub-unit definitions*/
 #include "sub_unit_control.h"
 
+/* Command control definitions*/
+#include "command_control.h"
+
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 
  * beginning with "SSS" are declared and created in this file.
@@ -282,40 +285,30 @@ void sss_exec_command(SSSConn* conn) {
 			i++;
 		}
 	}
-	printf("crc %î\r\n", (INT16U) crc16(cmd_pos[0],i));
+	printf("crc %î\r\n", (INT16U) crc16(cmd_pos[0], i+1));
 
 	/* Populating the payload struct */
 
 	p_payload->packet_id = cmd_pos[0];
 	p_payload->type = cmd_pos[1];
 	p_payload->sub_type = cmd_pos[2];
-	p_payload->lenght[0] = toInt(cmd_pos[3]);
-	p_payload->lenght[1] = toInt(cmd_pos[4]);
-	p_payload->lenght[2] = toInt(cmd_pos[5]);
-	p_payload->lenght[3] = toInt(cmd_pos[6]);
+	p_payload->size = i_compute_size(cmd_pos);
 
-	printf("Payload size: %i\r\n", (INT8U) p_payload->lenght[3]);
+	printf("Payload size: %i\r\n", (INT8U) p_payload->size);
 
-	if (p_payload->lenght[3] > 1) {
+	if (p_payload->size > 0) {
 
-		INT32U size = p_payload->lenght[3] + 256 * p_payload->lenght[2]
-				+ 65536 * p_payload->lenght[1]
-				+ 4294967296 * p_payload->lenght[0];
-		printf(
-				"Teste de carregamento:\r\ntype: %c, size: %i\r\n, LSB lenght: %i",
-				(char) p_payload->type, (int) size, (INT8U) p_payload->lenght[3]);
-
-		for (i = 1; i <= size; i++) {
+		for (i = 1; i <= p_payload->size; i++) {
 			p_payload->data[i - 1] = cmd_pos[i + 6];
-			printf("data: %c\r\nPing %i\r\n",(char) cmd_pos[i + 6],  (INT8U) i);
+			printf("data: %c\r\nPing %i\r\n", (char) cmd_pos[i + 6], (INT8U) i);
 		}
-		p_payload->crc = cmd_pos[size + 7];
+		p_payload->crc = cmd_pos[p_payload->size + 7];
 	}
 
 	//data_addr = cmd_pos;
 
 	printf("Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
-			(INT8U) p_payload->lenght[3], (char) p_payload->type,
+			(INT8U) p_payload->size, (char) p_payload->type,
 			(char) p_payload->data[0]);
 
 	error_code = OSQPost(p_simucam_command_q, p_payload);

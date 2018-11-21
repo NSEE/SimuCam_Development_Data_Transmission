@@ -98,7 +98,7 @@ void sub_unit_control_task() {
 				(char) p_sub_data->data[1],
 				(char) p_sub_data->data[2],
 				(char) p_sub_data->data[3],
-				(int) p_sub_data->lenght[3]);
+				(int) p_sub_data->size);
 
 		error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
 				p_sub_data->data, 4);

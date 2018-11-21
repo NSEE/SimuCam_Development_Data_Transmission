@@ -22,6 +22,34 @@
  */
 #include "logic/comm/comm.h"
 
+
+/**
+ * @name i_compute_size
+ * @brief Computes the size of the payload
+ * @ingroup UTIL
+ *
+ * This routine computes the size of the payload based in the received
+ * string via ethernet telnet. Depending on the command protocol, there is an
+ * offset to read the good values. It can be changed in the header file. All the
+ * byte as supposed to be in ASCII form.
+ *
+ * @param 	[in] 	*INT8U Data array
+ * @retval INT32U size
+ **/
+INT32U i_compute_size(INT8U *p_length) {
+	INT32U size = 0;
+	size = toInt(p_length[3+LENGTH_OFFSET]) + 256 * toInt(p_length[2+LENGTH_OFFSET])
+			+ 65536 * toInt(p_length[1+LENGTH_OFFSET]) + 4294967296 * toInt(p_length[LENGTH_OFFSET]);
+	return size;
+}
+
+//void v_parse_data(_ethernet_payload _payload, _imagette_control _img_ctrl) {
+//	int i = 0;
+//	while (i < _payload->size) {
+//
+//	}
+//}
+
 /*
  * Task used to parse and execute the commands received via ethernet. [yb]
  */
