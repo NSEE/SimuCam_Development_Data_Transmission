@@ -282,6 +282,7 @@ void sss_exec_command(SSSConn* conn) {
 			i++;
 		}
 	}
+	printf("crc %î\r\n", (INT16U) crc16(cmd_pos[0],i));
 
 	/* Populating the payload struct */
 

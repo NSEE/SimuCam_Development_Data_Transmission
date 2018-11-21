@@ -21,6 +21,9 @@
 
 /* Defines */
 #define CPU_FREQ_MH 50000000
+#define POLY 0x8408
+INT16U crc16(INT8U*, INT8U);
+
 
 /* TRUE/FALSE */
 

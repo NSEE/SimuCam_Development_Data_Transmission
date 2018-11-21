@@ -12,6 +12,7 @@
 #include "ucos_ii.h"
 #include "os_cpu.h"
 #include "simple_socket_server.h"
+#include "command_control.h"
 #include "alt_error_handler.h"
 #include "utils/util.h"
 #include "sub_unit_control.h"
@@ -85,9 +86,10 @@ void CommandManagementTask() {
 			alt_uCOSIIErrorHandler(error_code, 0);
 			cmd_pos = data_addr;
 
-			printf("teste do payload: %c,%c,%c,%c,%c,%c\n\r", (char) p_payload->type,
-					(char) p_payload->data[0], (char) p_payload->data[1],
-					(char) p_payload->data[2], (char) p_payload->data[3],(char) p_payload->data[4]);
+			printf("teste do payload: %c,%c,%c,%c,%c,%c\n\r",
+					(char) p_payload->type, (char) p_payload->data[0],
+					(char) p_payload->data[1], (char) p_payload->data[2],
+					(char) p_payload->data[3], (char) p_payload->data[4]);
 
 			/*
 			 * Switch case to select from different command options.[yb]
@@ -134,12 +136,12 @@ void CommandManagementTask() {
 				break;
 
 				/*
-				 * MEB to running mode
+				 * Preliminary data send
 				 */
 			case '2':
 				printf("Selected command: %c\n\r", (char) p_payload->type);
-				//b_meb_status = 1;
-
+				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
+						p_payload);
 //				p_sub_data->p_data_addr = &p_payload->data[0];
 //				p_sub_data->i_data_size = p_payload->lenght[3]
 //						+ 256 * p_payload->lenght[2]
@@ -153,11 +155,15 @@ void CommandManagementTask() {
 //						(char) p_sub_data->p_data_addr[3],
 //						(int) p_sub_data->i_data_size);
 
-				error_code = (INT8U) OSQPost(p_sub_unit_command_queue, p_payload);
-
 				break;
 
-//			case '3':
+				/*
+				 * MEB to running mode
+				 */
+			case '3':
+				printf("Selected command: %c\n\r", (char) p_payload->type);
+				b_meb_status = 1;
+				break;
 //				size = 1;
 //				if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 //					data[0] = uc_SpaceWire_Interface_Get_TimeCode(cmd_pos[1]);

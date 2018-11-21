@@ -155,5 +155,48 @@ INT8U toInt(INT8U ascii) {
 	return (int) ascii - 48;
 }
 
+/**
+ * @name crc16
+ * @brief Computes the CRC16 of the data array
+ * @ingroup UTIL
+ *
+ * This routine generates the 16 bit remainder of a block of
+ * data using the ccitt polynomial generator.
+ *
+ * note: when the crc is included in the message(our case),
+ * the valid crc is 0x470F.
+ *
+ * @param 	[in] 	*INT8U Data array
+ * 			[in]	INT8U Array lenght
+ *
+ * @retval INT16U crc
+ **/
 
+INT16U crc16(INT8U *p_data, INT8U i_length) {
+
+	unsigned char i;
+	unsigned int data;
+	unsigned int crc;
+
+	crc = 0xffff;
+
+	if (i_length == 0)
+		return (~crc);
+
+	do {
+		for (i = 0, data = (unsigned int)0xff & *p_data++; i < 8; i++, data >>= 1) {
+				if ((crc & 0x0001) ^ (data & 0x0001))
+				crc = (crc >> 1) ^ POLY;
+				else
+				crc >>= 1;
+			}
+		} while (--i_length);
+
+		crc = ~crc;
+
+		data = crc;
+		crc = (crc << 8) | (data >> 8 & 0xFF);
+
+		return (crc);
+	}
 
