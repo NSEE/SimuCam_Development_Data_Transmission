@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>21/11/2018 11:55:48</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1542808548367</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>21/11/2018 17:10:53</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1542827453685</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>E:\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
@@ -1634,7 +1634,7 @@
                 <SettingName>ucosii.os_tmr_en</SettingName>
                 <Identifier>OS_TMR_EN</Identifier>
                 <Type>Boolean</Type>
-                <Value>0</Value>
+                <Value>1</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Enable code for timers</Description>

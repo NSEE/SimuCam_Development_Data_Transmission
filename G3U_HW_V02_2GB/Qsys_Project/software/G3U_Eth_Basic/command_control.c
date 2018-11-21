@@ -5,22 +5,8 @@
  *      Author: yuribunduki
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-
-#include "ucos_ii.h"
-#include "os_cpu.h"
-#include "simple_socket_server.h"
 #include "command_control.h"
-#include "alt_error_handler.h"
-#include "utils/util.h"
-#include "sub_unit_control.h"
 
-/*
- * Include configurations for the communication modules [yb]
- */
-#include "logic/comm/comm.h"
 
 
 /**
@@ -43,12 +29,29 @@ INT32U i_compute_size(INT8U *p_length) {
 	return size;
 }
 
-//void v_parse_data(_ethernet_payload _payload, _imagette_control _img_ctrl) {
-//	int i = 0;
-//	while (i < _payload->size) {
-//
-//	}
-//}
+
+/**
+ * @name v_parse_data
+ * @brief Parses the payload to a struct useable to command
+ * @ingroup UTIL
+ *
+ * This routine parses the payload to get the delay times and imagettes. It's used by the
+ * command control and sub-units to prepare the SpW links. The imagette and delay sizes in
+ * bytes can be changed accordingly in the header file.
+ *
+ * @param 	[in] 	*_ethernet_payload Payload Struct
+ * 			[in]	*_imagette_control Control struct to receive the data
+ *
+ * @retval void
+ **/
+void v_parse_data(struct _ethernet_payload *_payload, struct _imagette_control *_img_ctrl) {
+	int i = 0;
+	while (i < _payload->size/DELAY_SIZE+IMAGETTE_SIZE) {
+		_img_ctrl->offset = _payload->data[i];
+		*_img_ctrl->imagette_start = &_payload->data[i+DELAY_SIZE];
+		i += DELAY_SIZE+IMAGETTE_SIZE;
+	}
+}
 
 /*
  * Task used to parse and execute the commands received via ethernet. [yb]

@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Mon Nov 12 22:47:50 BRST 2018
+ * Generated: Wed Nov 21 17:00:40 BRST 2018
  */
 
 /*
@@ -1636,6 +1636,6 @@
 #define OS_TMR_CFG_NAME_SIZE 16
 #define OS_TMR_CFG_TICKS_PER_SEC 10
 #define OS_TMR_CFG_WHEEL_SIZE 2
-#define OS_TMR_EN 0
+#define OS_TMR_EN 1
 
 #endif /* __SYSTEM_H_ */
