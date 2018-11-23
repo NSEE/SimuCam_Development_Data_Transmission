@@ -55,6 +55,11 @@ void sub_unit_create_os_data_structs(void) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create p_sub_unit_queue.\n");
 	}
+
+	/*
+	 * Create Sub-Unit command semaphore
+	 */
+	sub_unit_command_semaphore = OSSemCreate(1);
 }
 
 /*
@@ -92,6 +97,8 @@ void sub_unit_control_task() {
 
 		p_sub_data = OSQPend(p_sub_unit_command_queue, 0, &error_code);
 
+		OSSemPend(&sub_unit_command_semaphore,0,&exec_error);
+
 		printf(
 				"data received via subcommandQ %c,%c,%c,%c\r\nCalculated size: %i",
 				(char) p_sub_data->data[0],
@@ -105,9 +112,9 @@ void sub_unit_control_task() {
 
 		/*Load data array from memory*/
 
-		cmd = (INT8U) OSQPend(p_sub_unit_command_queue, 0, &error_code);
+		//cmd = (INT8U) OSQPend(p_sub_unit_command_queue, 0, &error_code);
 
-		printf("Recebido da queue: %i\n\r", (INT8U) cmd);
+		//printf("Recebido da queue: %i\n\r", (INT8U) cmd);
 		/*
 		 * advance imagette position to next frame
 		 * if last change mode

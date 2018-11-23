@@ -11,7 +11,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <ucos_ii.h>
 
+#include "os_cfg.h"
 #include "utils/util.h"
 #include "alt_error_handler.h"
 #include "includes.h"
@@ -41,6 +43,13 @@ void sub_unit_control_task ();
 
 extern OS_EVENT *p_sub_unit_config_queue;
 extern OS_EVENT *p_sub_unit_command_queue;
+
+/*
+ * Sub-Unit semaphores declaration
+ */
+
+OS_EVENT *sub_unit_command_semaphore;
+
 
 struct _sub_config {
 	INT8U mode;

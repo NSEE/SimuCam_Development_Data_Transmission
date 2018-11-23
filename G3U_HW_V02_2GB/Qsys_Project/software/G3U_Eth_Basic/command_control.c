@@ -7,8 +7,6 @@
 
 #include "command_control.h"
 
-
-
 /**
  * @name i_compute_size
  * @brief Computes the size of the payload
@@ -24,11 +22,12 @@
  **/
 INT32U i_compute_size(INT8U *p_length) {
 	INT32U size = 0;
-	size = toInt(p_length[3+LENGTH_OFFSET]) + 256 * toInt(p_length[2+LENGTH_OFFSET])
-			+ 65536 * toInt(p_length[1+LENGTH_OFFSET]) + 4294967296 * toInt(p_length[LENGTH_OFFSET]);
+	size = toInt(p_length[3 + LENGTH_OFFSET])
+			+ 256 * toInt(p_length[2 + LENGTH_OFFSET])
+			+ 65536 * toInt(p_length[1 + LENGTH_OFFSET])
+			+ 4294967296 * toInt(p_length[LENGTH_OFFSET]);
 	return size;
 }
-
 
 /**
  * @name v_parse_data
@@ -44,13 +43,31 @@ INT32U i_compute_size(INT8U *p_length) {
  *
  * @retval void
  **/
-void v_parse_data(struct _ethernet_payload *_payload, struct _imagette_control *_img_ctrl) {
+void v_parse_data(struct _ethernet_payload *p_payload,
+		struct _imagette_control *p_img_ctrl) {
 	int i = 0;
-	while (i < _payload->size/DELAY_SIZE+IMAGETTE_SIZE) {
-		_img_ctrl->offset = _payload->data[i];
-		*_img_ctrl->imagette_start = &_payload->data[i+DELAY_SIZE];
-		i += DELAY_SIZE+IMAGETTE_SIZE;
+	while (i < p_payload->size / DELAY_SIZE + IMAGETTE_SIZE) {
+		p_img_ctrl->offset[i] = p_payload->data[i];
+		p_img_ctrl->imagette_start[i] = &p_payload->data[i + DELAY_SIZE];
+		i += DELAY_SIZE + IMAGETTE_SIZE;
 	}
+}
+
+void central_timer_callback_function(struct _imagette_control *p_img_ctrl) {
+	static INT32U i_central_timer_counter = 0;
+	static INT32U i_imagette_counter = 0;
+	INT8U error_code = 0;
+
+	if( p_img_ctrl->offset[i_imagette_counter] == i_central_timer_counter){
+
+		/*
+		 * Enviar comando de envio para o sub-unit
+		 */
+		error_code = OSSemPost(sub_unit_command_semaphore);
+		i_imagette_counter++;
+	}
+
+	i_central_timer_counter++;
 }
 
 /*
@@ -67,8 +84,9 @@ void CommandManagementTask() {
 	//INT8U* cmd_char = cmd_char_buffer;
 
 	static INT8U teste_byte = 1;
-	static struct _ethernet_payload *p_payload;
 
+	static struct _ethernet_payload *p_payload;
+	static struct _imagette_control *p_img_control;
 	static struct _sub_data *p_sub_data;
 
 	static INT8U data[SSS_TX_BUF_SIZE];
@@ -79,8 +97,17 @@ void CommandManagementTask() {
 	int p;
 	int i = 0;
 
-	//INT32U cmd_addr = 0;
-	//INT8U canal;
+	/*
+	 * Initializing central control timer
+	 */
+	central_timer = OSTmrCreate(0, 10,
+				OS_TMR_OPT_PERIODIC, central_timer_callback_function, p_img_control,
+						(INT8U*) "Central Timer", (INT8U*) &exec_error);
+
+				if (exec_error == OS_ERR_NONE) {
+				  /* Timer was created but NOT started */
+				  printf("SWTimer1 was created but NOT started \n");
+				  }
 
 	/*
 	 * Declaring the sub-units initial status
@@ -194,6 +221,14 @@ void CommandManagementTask() {
 			case '3':
 				printf("Selected command: %c\n\r", (char) p_payload->type);
 				b_meb_status = 1;
+				break;
+
+			case '4':
+				printf("Selected command: %c\n\r", (char) p_payload->type);
+
+				v_parse_data(p_payload, p_img_control);
+				printf("Data parsed correctly");
+
 				break;
 //				size = 1;
 //				if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
@@ -319,11 +354,31 @@ void CommandManagementTask() {
 		 * MEB in running mode
 		 */
 		while (b_meb_status == 1) {
+			INT8U i_internal_error;
+			//printf("MEB in running mode\n\r");
 
-			printf("MEB in running mode\n\r");
-			b_meb_status = 0;
-			//cmd_char = (_ethernet_payload) OSQAccept(p_simucam_command_q, &error_code);
-			//alt_SSSErrorHandler(error_code, 0);
+			OSTmrStart((OS_TMR *) central_timer, (INT8U *) &i_internal_error);
+
+			//Encontrar um jeito melhor de manipular esse erro
+//			if (i_internal_error == OS_ERR_NONE) {
+//			  printf("SWTimer1 was started!\r\n");
+//			  }
+
+			//p_payload = OSQAccept(p_simucam_command_q, &i_internal_error);
+			//alt_SSSErrorHandler(i_internal_error, 0);
+//			if (p_payload->type == 0) {
+//				b_meb_status = 0;
+//			}
+//
+//			if (b_meb_status == 0) {
+//				OSTmrStop(central_timer,
+//				OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+//				if (i_internal_error == OS_ERR_NONE
+//						|| i_internal_error == OS_ERR_TMR_STOPPED) {
+//					printf("Timer stopped");
+//				}
+//			}
+
 			//printf("cmd_char dump %i\n\r", (INT8U) cmd_char);
 		}
 

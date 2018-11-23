@@ -34,7 +34,7 @@
 
 struct _imagette_control{
 
-	INT16U offset; //define the unit later
+	INT16U* offset; //define the unit later
 	INT8U* imagette_start;
 }_imagette_control;
 
@@ -43,6 +43,6 @@ void v_parse_data(struct _ethernet_payload*,struct _imagette_control*);
 
 INT32U i_compute_size(INT8U*);
 
-OS_TMR central_timer;
+OS_TMR *central_timer;
 
 #endif /* COMMAND_CONTROL_H_ */
