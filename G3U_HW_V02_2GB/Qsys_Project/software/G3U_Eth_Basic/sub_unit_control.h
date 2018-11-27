@@ -18,6 +18,7 @@
 #include "alt_error_handler.h"
 #include "includes.h"
 #include "simple_socket_server.h"
+#include "command_control.h"
 
 /*
  * Include configurations for the SpW communication modules [yb]
@@ -56,7 +57,7 @@ struct _sub_config {
 	//INT8U receive_data;
 	INT8U forward_data;
 	INT8U RMAP_handling;
-//struct imagette* imagette[];
+	struct _imagette_control* imagette;
 }_sub_config;
 
 struct _sub_data {

@@ -53,18 +53,42 @@ void v_parse_data(struct _ethernet_payload *p_payload,
 	}
 }
 
+/**
+ * COMPLETAR
+ * @name central_timer_callback_function
+ * @brief Parses the payload to a struct useable to command
+ * @ingroup UTIL
+ *
+ * This routine parses the payload to get the delay times and imagettes. It's used by the
+ * command control and sub-units to prepare the SpW links. The imagette and delay sizes in
+ * bytes can be changed accordingly in the header file.
+ *
+ * @param 	[in] 	*_ethernet_payload Payload Struct
+ * 			[in]	*_imagette_control Control struct to receive the data
+ *
+ * @retval void
+ **/
 void central_timer_callback_function(struct _imagette_control *p_img_ctrl) {
 	static INT32U i_central_timer_counter = 0;
 	static INT32U i_imagette_counter = 0;
 	INT8U error_code = 0;
 
-	if( p_img_ctrl->offset[i_imagette_counter] == i_central_timer_counter){
+	printf("[CALLBACK]Entered callback\r\n next offset %i\r\n",
+			(INT8U) p_img_ctrl->offset[i_imagette_counter]);
+
+	if (p_img_ctrl->offset[i_imagette_counter]
+			== i_central_timer_counter / CENTRAL_TIMER_RESOLUTION) {
 
 		/*
 		 * Enviar comando de envio para o sub-unit
 		 */
 		error_code = OSSemPost(sub_unit_command_semaphore);
-		i_imagette_counter++;
+		if (error_code == OS_ERR_NONE) {
+			printf("[CALLBACK]Semaphore triggered\r\n");
+			i_imagette_counter++;
+		}
+		printf("[CALLBACK]Entered function imagette count: %i\r\n",
+				(INT8U) i_imagette_counter);
 	}
 
 	i_central_timer_counter++;
@@ -100,14 +124,14 @@ void CommandManagementTask() {
 	/*
 	 * Initializing central control timer
 	 */
-	central_timer = OSTmrCreate(0, 10,
-				OS_TMR_OPT_PERIODIC, central_timer_callback_function, p_img_control,
-						(INT8U*) "Central Timer", (INT8U*) &exec_error);
+	central_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
+	OS_TMR_OPT_PERIODIC, central_timer_callback_function, p_img_control,
+			(INT8U*) "Central Timer", (INT8U*) &exec_error);
 
-				if (exec_error == OS_ERR_NONE) {
-				  /* Timer was created but NOT started */
-				  printf("SWTimer1 was created but NOT started \n");
-				  }
+	if (exec_error == OS_ERR_NONE) {
+		/* Timer was created but NOT started */
+		printf("SWTimer1 was created but NOT started \n");
+	}
 
 	/*
 	 * Declaring the sub-units initial status
@@ -230,6 +254,48 @@ void CommandManagementTask() {
 				printf("Data parsed correctly");
 
 				break;
+
+				/*
+				 * Test case for the interrupts and imagette timers
+				 */
+			case '5':
+
+				printf("teste de imagens\r\n");
+				p_img_control->offset[0] = 2;
+				p_img_control->offset[1] = 5;
+				data_pos[0] = 1;
+				data_pos[1] = 2;
+				data_pos[2] = 3;
+				data_pos[3] = 4;
+				data_pos[4] = 5;
+				data_pos[5] = 1;
+				data_pos[6] = 2;
+				data_pos[7] = 3;
+				data_pos[8] = 4;
+				data_pos[9] = 5;
+
+				p_img_control->imagette_start[0] = &data_pos[0];
+				p_img_control->imagette_start[1] = &data_pos[5];
+
+				printf(
+						"[CommandManagementTask]imagette 1 %i\n\r offset 1 %i \n\r",
+						(INT8U)p_img_control->imagette_start[0],
+						(INT8U)p_img_control->offset[0]);
+
+				config_send->mode = 1;
+				config_send->forward_data = 0;
+				config_send->RMAP_handling = 0;
+				config_send->imagette = p_img_control;
+
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+						config_send);
+				alt_SSSErrorHandler(error_code, 0);
+				printf("[CommandManagementTask]Sent config for test case\n\r");
+
+//				b_meb_status = 1;
+//				printf("[CommandManagementTask]MEB sent to running\n\r");
+
+				break;
 //				size = 1;
 //				if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 //					data[0] = uc_SpaceWire_Interface_Get_TimeCode(cmd_pos[1]);
@@ -336,7 +402,7 @@ void CommandManagementTask() {
 //				break;
 
 			default:
-				printf("Nenhum comando identificado\n");
+				printf("Nenhum comando identificado\n\r");
 				break;
 			}
 
@@ -355,10 +421,17 @@ void CommandManagementTask() {
 		 */
 		while (b_meb_status == 1) {
 			INT8U i_internal_error;
+			static INT8U b_timer_starter = 0;
 			//printf("MEB in running mode\n\r");
 
-			OSTmrStart((OS_TMR *) central_timer, (INT8U *) &i_internal_error);
-
+			if (b_timer_starter == 0) {
+				OSTmrStart((OS_TMR *) central_timer,
+						(INT8U *) &i_internal_error);
+				if (i_internal_error == OS_ERR_NONE) {
+					b_timer_starter = 1;
+					printf("[CommandManagementTask]timer started\r\n");
+				}
+			}
 			//Encontrar um jeito melhor de manipular esse erro
 //			if (i_internal_error == OS_ERR_NONE) {
 //			  printf("SWTimer1 was started!\r\n");
@@ -370,14 +443,15 @@ void CommandManagementTask() {
 //				b_meb_status = 0;
 //			}
 //
-//			if (b_meb_status == 0) {
-//				OSTmrStop(central_timer,
-//				OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
-//				if (i_internal_error == OS_ERR_NONE
-//						|| i_internal_error == OS_ERR_TMR_STOPPED) {
-//					printf("Timer stopped");
-//				}
-//			}
+			if (b_meb_status == 0) {
+				OSTmrStop(central_timer,
+				OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+				if (i_internal_error == OS_ERR_NONE
+						|| i_internal_error == OS_ERR_TMR_STOPPED) {
+					printf("[CommandManagementTask]Timer stopped\r\n");
+				}
+			}
+			//osqaccept
 
 			//printf("cmd_char dump %i\n\r", (INT8U) cmd_char);
 		}

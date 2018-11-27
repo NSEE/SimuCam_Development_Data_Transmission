@@ -75,11 +75,10 @@ void sub_unit_control_task() {
 
 	struct _ethernet_payload *p_sub_data;
 
-
 	while (p_config->mode == 0) {
 
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
-		printf("Sub-unit mode change to: %i\n\r", (INT8U) p_config->mode);
+		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r", (INT8U) p_config->mode);
 
 	}
 
@@ -87,6 +86,7 @@ void sub_unit_control_task() {
 		INT8U cmd = 0;
 		INT8U error_code; /*uCOS error code*/
 		INT8U exec_error; /*Internal error code for the command module*/
+		static INT8U i_imagette_counter = 0;
 		//INT32U size = 0;
 
 		/*Start SpW link*/
@@ -95,25 +95,31 @@ void sub_unit_control_task() {
 		SPWC_LINK_START_CONTROL_BIT_MASK);
 		exec_error = Verif_Error(error_code);
 
-		p_sub_data = OSQPend(p_sub_unit_command_queue, 0, &error_code);
+		//p_sub_data = OSQPend(p_sub_unit_command_queue, 0, &error_code);
 
-		OSSemPend(&sub_unit_command_semaphore,0,&exec_error);
+		printf("[SUBUNIT]data verif: item 1: %i\r\n",
+				(INT8U)p_config->imagette->imagette_start[i_imagette_counter]);
 
-		printf(
-				"data received via subcommandQ %c,%c,%c,%c\r\nCalculated size: %i",
-				(char) p_sub_data->data[0],
-				(char) p_sub_data->data[1],
-				(char) p_sub_data->data[2],
-				(char) p_sub_data->data[3],
-				(int) p_sub_data->size);
+		OSSemPend(&sub_unit_command_semaphore, 0, &exec_error);
+		printf("[SUBUNIT]entered semaphore\r\n");
+//		printf(
+//				"data received via subcommandQ %c,%c,%c,%c\r\nCalculated size: %i",
+//				(char) p_sub_data->data[0],
+//				(char) p_sub_data->data[1],
+//				(char) p_sub_data->data[2],
+//				(char) p_sub_data->data[3],
+//				(int) p_sub_data->size);
 
 		error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
-				p_sub_data->data, 4);
+				p_config->imagette->imagette_start[i_imagette_counter],
+				IMAGETTE_SIZE);
 
+		printf("[SUBUNIT]imagette sent\r\n");
+
+		i_imagette_counter++;
 		/*Load data array from memory*/
 
 		//cmd = (INT8U) OSQPend(p_sub_unit_command_queue, 0, &error_code);
-
 		//printf("Recebido da queue: %i\n\r", (INT8U) cmd);
 		/*
 		 * advance imagette position to next frame
