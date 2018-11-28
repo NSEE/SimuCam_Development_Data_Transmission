@@ -272,7 +272,7 @@ void sss_exec_command(SSSConn* conn) {
 	 * Isolate the command from garbage. And terminate the process if need be.[yb]
 	 */
 	while (bytes_to_process--) {
-		command = toupper(*(conn->rx_rd_pos++));
+		command = *(conn->rx_rd_pos++);
 
 		if (command == CMD_QUIT) {
 			tx_wr_pos += sprintf(tx_wr_pos, "Terminating connection.\n\n\r");
@@ -284,17 +284,19 @@ void sss_exec_command(SSSConn* conn) {
 			cmd_pos[i] = command;
 			i++;
 		}
+
 	}
-	printf("crc %i\r\n", (INT16U) crc16(cmd_pos[0], i+1));
+	printf("crc %i\r\n", (INT16U) crc16(cmd_pos[0], i + 1));
 
 	/* Populating the payload struct */
 
 	p_payload->packet_id = cmd_pos[0];
 	p_payload->type = cmd_pos[1];
 	p_payload->sub_type = cmd_pos[2];
-	p_payload->size = i_compute_size(cmd_pos);
+	p_payload->size = toInt(cmd_pos[6]) + 256 * toInt(cmd_pos[5])
+			+ 65536 * toInt(cmd_pos[4]) + 4294967296 * toInt(cmd_pos[3]);
 
-	printf("Payload size: %i\r\n", (INT8U) p_payload->size);
+	printf("Payload size: %i\r\n", (INT32U) p_payload->size);
 
 	if (p_payload->size > 0) {
 

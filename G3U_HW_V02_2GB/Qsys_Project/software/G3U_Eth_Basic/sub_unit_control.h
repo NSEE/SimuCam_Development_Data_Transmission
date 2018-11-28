@@ -95,11 +95,11 @@ struct _sub_config {
 	//INT8U receive_data;
 	INT8U forward_data;
 	INT8U RMAP_handling;
-	struct _imagette_control* imagette;
+	struct _imagette_control *imagette;
 }_sub_config;
 
 struct _sub_data {
-	INT8U *p_data_addr;
+	INT8U p_data_addr[100];
 	INT32U i_data_size;
 }_sub_data;
 

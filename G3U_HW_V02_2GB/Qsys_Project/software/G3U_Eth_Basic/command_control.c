@@ -31,6 +31,9 @@ INT32U i_compute_size(INT8U *p_length) {
 
 struct _imagette_control img_struct;
 
+INT8U data[MAX_IMAGETTES];
+INT8U *p_data_pos = &data[0];
+
 /**
  * @name v_parse_data
  * @brief Parses the payload to a struct useable to command
@@ -47,12 +50,23 @@ struct _imagette_control img_struct;
  **/
 void v_parse_data(struct _ethernet_payload *p_payload,
 		struct _imagette_control *p_img_ctrl) {
-	int i = 0;
-	while (i < p_payload->size / DELAY_SIZE + IMAGETTE_SIZE) {
-		p_img_ctrl->offset[i] = p_payload->data[i];
-		p_img_ctrl->imagette_start[i] = &p_payload->data[i + DELAY_SIZE];
-		i += DELAY_SIZE + IMAGETTE_SIZE;
-	}
+//	int i = 0;
+//	int p = 0;
+//	int s = 0;
+//
+//	while (i < p_payload->size / DELAY_SIZE + IMAGETTE_SIZE) {
+//		p_img_ctrl->offset[s] = p_payload->data[i];
+//
+//		for (p = 0; p < IMAGETTE_SIZE; p++) {
+//			p_img_ctrl->imagette_addr[s] = &p_payload->data[i + DELAY_SIZE + p];
+//		}
+//
+//		printf("[PARSER] offset %i: %i, dataStart: %i", (int) s,
+//				p_img_ctrl->offset[s], p_img_ctrl->imagette_addr[s]);
+//		i += DELAY_SIZE + IMAGETTE_SIZE;
+//		s++;
+//	}
+//	p_img_ctrl->size = s;
 }
 
 /**
@@ -71,7 +85,7 @@ void v_parse_data(struct _ethernet_payload *p_payload,
  * @retval void
  **/
 void central_timer_callback_function(void *p_arg) {
-	static INT32U i_central_timer_counter = 0;
+	static INT32U i_central_timer_counter = 1;
 	static INT32U i_imagette_counter = 0;
 	INT8U error_code = 0;
 
@@ -110,28 +124,45 @@ void CommandManagementTask() {
 	//INT8U* cmd_char = cmd_char_buffer;
 
 	static INT8U teste_byte = 1;
-
+	struct _ethernet_payload payload;
 	static struct _ethernet_payload *p_payload;
+	p_payload = &payload;
 
+//	struct _ethernet_payload test_payload;
+//		static struct _ethernet_payload *p_test_payload;
+//		p_payload  = &test_payload;
 
 	struct _imagette_control *p_img_control;
+	p_img_control = &img_struct;
+
+
+	struct _sub_data sub_data;
 
 	static struct _sub_data *p_sub_data;
+	p_sub_data = &sub_data;
 
-	static INT8U data[SSS_TX_BUF_SIZE];
-	INT8U* data_pos = data;
+	//INT8U data[SSS_TX_BUF_SIZE];
 
 	static int size;
 
 	int p;
 	int i = 0;
 
+//	printf("%x \n", &img_struct.imagette_addr[0]);
+//	printf("%x \n", &img_struct.imagette_addr[1]);
+//	printf("%x \n", &img_struct.imagette_addr[2]);
+//	printf("%x \n", &img_struct.imagette_addr[3]);
+//
+//	printf("SEPARADOR");
+//
+//	printf("%x \n", img_struct.imagette_addr[0]);
+//	printf("%x \n", img_struct.imagette_addr[1]);
+//	printf("%x \n", img_struct.imagette_addr[2]);
+//	printf("%x \n", img_struct.imagette_addr[3]);
 	/*
 	 * Declaring the sub-units initial status
 	 */
 	static struct _sub_config *config_send;
-
-	p_img_control = &img_struct;
 
 	INT8U b_meb_status = 0; //default starting mode is config
 	config_send->mode = 0; //default starting mode is config
@@ -149,10 +180,57 @@ void CommandManagementTask() {
 	/*
 	 * Test case for timers
 	 */
-	p_img_control->offset[0] = 20;
-	p_img_control->offset[1] = 50;
-	p_img_control->imagette_start[0] = &data_pos[0];
-	p_img_control->imagette_start[1] = &data_pos[5];
+	p_img_control->offset[0] = 2;
+	p_img_control->offset[1] = 5;
+
+	data[0] = 18;
+	data[1] = 22;
+	data[2] = 15;
+	data[3] = 4;
+	data[4] = 5;
+	data[5] = 6;
+	data[6] = 7;
+	data[7] = 8;
+	data[8] = 9;
+	data[9] = 10;
+
+	p_img_control->imagette[0] = data[0];
+	p_img_control->imagette[1] = data[1];
+	p_img_control->imagette[2] = data[2];
+	p_img_control->imagette[3] = data[3];
+	p_img_control->imagette[4] = data[4];
+	p_img_control->imagette[5] = data[5];
+	p_img_control->imagette[6] = data[6];
+	p_img_control->imagette[7] = data[7];
+	p_img_control->imagette[8] = data[8];
+	p_img_control->imagette[9] = data[9];
+	p_img_control->imagette[10] = data[10];
+
+	printf("Imagette data 1: %i",(INT8U) p_img_control->imagette[0]);
+
+
+//	printf("%x \n", &p_data_pos[0]);
+//	printf("%x \n", &p_data_pos[1]);
+//	printf("%x \n", &p_data_pos[2]);
+//	printf("%x \n", &p_data_pos[3]);
+//	printf("%x \n", &p_data_pos[4]);
+//	printf("%x \n", &p_data_pos[5]);
+
+	p_img_control->size = 2;
+
+	//p_img_control->imagette_start[1] = &data_pos[5];
+
+//	printf("%x \n", &img_struct.imagette_addr[0]);
+//	printf("%x \n", &img_struct.imagette_addr[1]);
+//	printf("%x \n", &img_struct.imagette_addr[2]);
+//	printf("%x \n", &img_struct.imagette_addr[3]);
+//
+//	printf("SEPARADOR\n");
+//
+//	printf("%x \n", img_struct.imagette_addr[0]);
+//	printf("%x \n", img_struct.imagette_addr[1]);
+//	printf("%x \n", img_struct.imagette_addr[2]);
+//	printf("%x \n", img_struct.imagette_addr[3]);
 
 	while (1) {
 
@@ -252,8 +330,8 @@ void CommandManagementTask() {
 			case '4':
 				printf("Selected command: %c\n\r", (char) p_payload->type);
 
-				v_parse_data(p_payload, p_img_control);
-				printf("Data parsed correctly");
+				v_parse_data(&p_payload, &p_img_control);
+				printf("Data parsed correctly\r\n");
 
 				break;
 
@@ -264,22 +342,16 @@ void CommandManagementTask() {
 
 				printf("teste de imagens\r\n");
 
-				data_pos[0] = 1;
-				data_pos[1] = 2;
-				data_pos[2] = 3;
-				data_pos[3] = 4;
-				data_pos[4] = 5;
-				data_pos[5] = 6;
-				data_pos[6] = 7;
-				data_pos[7] = 8;
-				data_pos[8] = 9;
-				data_pos[9] = 10;
-				data_pos[10] = 11;
-
 				printf(
-						"[CommandManagementTask]imagette 1 %i\n\r offset 1 %i \n\r",
-						(INT8U) p_img_control->imagette_start[0],
+						"[CommandManagementTask]imagette 0 byte: %i @ %x\n\r offset %i \n\r",
+						(INT8U) p_img_control->imagette[0],
+						&p_img_control->imagette[0],
 						(INT32U) p_img_control->offset[0]);
+				printf(
+						"[CommandManagementTask]imagette 1 byte: %i @ %x\n\r offset %i \n\r",
+						(INT8U) p_img_control->imagette[1],
+						&p_img_control->imagette[1],
+						(INT32U) p_img_control->offset[1]);
 
 				config_send->mode = 1;
 				config_send->forward_data = 0;
@@ -433,7 +505,7 @@ void CommandManagementTask() {
 				 */
 				central_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
 				OS_TMR_OPT_PERIODIC, central_timer_callback_function,
-				(void *)0, (INT8U*) "Central Timer",
+						(void *) 0, (INT8U*) "Central Timer",
 						(INT8U*) &exec_error);
 
 				if (exec_error == OS_ERR_NONE) {

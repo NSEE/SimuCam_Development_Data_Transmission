@@ -152,7 +152,7 @@ INT8U Verif_Error(INT8U error_code) {
  */
 
 INT8U toInt(INT8U ascii) {
-	return (int) ascii - 48;
+	return (INT8U) ascii - 48;
 }
 
 /**
