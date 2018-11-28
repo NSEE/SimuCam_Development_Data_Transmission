@@ -50,23 +50,36 @@ INT8U *p_data_pos = &data[0];
  **/
 void v_parse_data(struct _ethernet_payload *p_payload,
 		struct _imagette_control *p_img_ctrl) {
-//	int i = 0;
-//	int p = 0;
-//	int s = 0;
-//
-//	while (i < p_payload->size / DELAY_SIZE + IMAGETTE_SIZE) {
-//		p_img_ctrl->offset[s] = p_payload->data[i];
-//
-//		for (p = 0; p < IMAGETTE_SIZE; p++) {
-//			p_img_ctrl->imagette_addr[s] = &p_payload->data[i + DELAY_SIZE + p];
-//		}
-//
-//		printf("[PARSER] offset %i: %i, dataStart: %i", (int) s,
-//				p_img_ctrl->offset[s], p_img_ctrl->imagette_addr[s]);
-//		i += DELAY_SIZE + IMAGETTE_SIZE;
-//		s++;
-//	}
-//	p_img_ctrl->size = s;
+	INT32U i = 0;
+	int p = 0;
+	INT32U o = 0;
+	INT32U d = 0;
+
+	printf(
+			"[PARSER]testando valores que chegaram\r\nsize: %i\r\ndata: %i,%i,%i,%i,%i,%i\r\n",
+			p_payload->size, (char) p_payload->data[0],
+			(char) p_payload->data[1], (char) p_payload->data[2],
+			(char) p_payload->data[3], (char) p_payload->data[4],
+			(char) p_payload->data[5]);
+
+//	*p_img_ctrl->offset = toInt(p_payload->data[0]);
+//	p_img_ctrl->imagette[0] = toInt(p_payload->data[1]);
+
+	while (i < p_payload->size / (DELAY_SIZE + IMAGETTE_SIZE)) {
+		p_img_ctrl->offset[i] = toInt(p_payload->data[o]);
+
+		for (p = 0; p < IMAGETTE_SIZE; p++, d++) {
+			p_img_ctrl->imagette[d] = toInt(p_payload->data[i + DELAY_SIZE + p]);
+		}
+
+		printf("[PARSER] offset %i: %i, data: %i\r\n", (int) o,
+				(INT32U)p_img_ctrl->offset[0], (INT8U) p_img_ctrl->imagette[4]);
+		o+=DELAY_SIZE + IMAGETTE_SIZE;
+		i++;
+		printf("[PARSER] offset counter %i\r\n", (int) o,
+						(INT32U) i);
+	}
+	p_img_ctrl->size = d;
 }
 
 /**
@@ -134,7 +147,6 @@ void CommandManagementTask() {
 
 	struct _imagette_control *p_img_control;
 	p_img_control = &img_struct;
-
 
 	struct _sub_data sub_data;
 
@@ -206,8 +218,7 @@ void CommandManagementTask() {
 	p_img_control->imagette[9] = data[9];
 	p_img_control->imagette[10] = data[10];
 
-	printf("Imagette data 1: %i",(INT8U) p_img_control->imagette[0]);
-
+	printf("Imagette data 1: %i", (INT8U) p_img_control->imagette[0]);
 
 //	printf("%x \n", &p_data_pos[0]);
 //	printf("%x \n", &p_data_pos[1]);
@@ -248,7 +259,8 @@ void CommandManagementTask() {
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
 			cmd_pos = data_addr;
-			printf("teste do payload: %c,%c,%c,%c,%c,%c\n\r",
+			printf(
+					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
 					(char) p_payload->type, (char) p_payload->data[0],
 					(char) p_payload->data[1], (char) p_payload->data[2],
 					(char) p_payload->data[3], (char) p_payload->data[4]);
@@ -261,7 +273,8 @@ void CommandManagementTask() {
 
 			/*Sub_unit test routine*/
 			case '0':
-				printf("Selected command: %c\n\r", (char) p_payload->type);
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(char) p_payload->type);
 
 				//Change sub-unit to running mode
 				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
@@ -281,7 +294,8 @@ void CommandManagementTask() {
 				 */
 			case '1':
 
-				printf("Selected command: %c\n\r", (char) p_payload->type);
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(char) p_payload->type);
 
 				config_send->mode = toInt(p_payload->data[0]);
 				config_send->forward_data = toInt(p_payload->data[1]);
@@ -290,7 +304,8 @@ void CommandManagementTask() {
 				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 						config_send);
 				alt_SSSErrorHandler(error_code, 0);
-				printf("Configurations sent: %i, %i, %i\r\n",
+				printf(
+						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
 						(INT8U) config_send->mode,
 						(INT8U) config_send->forward_data,
 						(INT8U) config_send->RMAP_handling);
@@ -301,7 +316,8 @@ void CommandManagementTask() {
 				 * Preliminary data send
 				 */
 			case '2':
-				printf("Selected command: %c\n\r", (char) p_payload->type);
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(char) p_payload->type);
 				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
 						p_payload);
 //				p_sub_data->p_data_addr = &p_payload->data[0];
@@ -323,15 +339,26 @@ void CommandManagementTask() {
 				 * MEB to running mode
 				 */
 			case '3':
-				printf("Selected command: %c\n\r", (char) p_payload->type);
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(char) p_payload->type);
 				b_meb_status = 1;
 				break;
 
+				/*
+				 * Parse data
+				 */
 			case '4':
-				printf("Selected command: %c\n\r", (char) p_payload->type);
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(char) p_payload->type);
 
-				v_parse_data(&p_payload, &p_img_control);
-				printf("Data parsed correctly\r\n");
+				v_parse_data(p_payload, p_img_control);
+				printf(
+						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
+						(INT8U) p_img_control->imagette[4],
+						(INT32U) p_img_control->offset[0],
+						(INT32U) p_img_control->size);
+
+				printf("[CommandManagementTask]Data parsed correctly\r\n");
 
 				break;
 

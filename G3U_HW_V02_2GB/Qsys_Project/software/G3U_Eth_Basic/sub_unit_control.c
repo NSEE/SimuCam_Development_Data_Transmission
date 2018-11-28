@@ -81,17 +81,13 @@ void sub_unit_control_task() {
 	}
 
 	while (p_config->mode == 1) {
-		INT8U cmd = 0;
 		INT8U error_code; /*uCOS error code*/
 		INT8U exec_error; /*Internal error code for the command module*/
 		int i_imagette_counter = 0;
-		static int b_transfer = 1;
 		//INT32U size = 0;
 		int p;
 
 		int teste = IMAGETTE_SIZE * p_config->imagette->size;
-
-		printf("teste %i\r\n", (int)teste);
 
 		/*Start SpW link*/
 		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
