@@ -1,12 +1,27 @@
 /*
- * sub_unit_control.h
- *
- *  Created on: Oct 22, 2018
- *      Author: Yuri Bunduki
- */
+************************************************************************************************
+*                                              NSEE
+*                                             Address
+*
+*                                       All Rights Reserved
+*
+*
+* Filename     : sub_unit_control.h
+* Programmer(s): Yuri Bunduki
+* Description  : Header file for the Sub-Unit management task
+************************************************************************************************
+*/
+/*$PAGE*/
 
 #ifndef SUB_UNIT_CONTROL_H_
 #define SUB_UNIT_CONTROL_H_
+
+
+/*
+************************************************************************************************
+*                                        INCLUDE FILES
+************************************************************************************************
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -25,7 +40,17 @@
  */
 #include "logic/comm/comm.h"
 
+/*$PAGE*/
+
+/*
+************************************************************************************************
+*                                        CONSTANTS & MACROS
+************************************************************************************************
+*/
+
 #define SUBUNIT_BUFFER 10
+
+/*$PAGE*/
 
 /*
  * Sub-Unit queues prototypes
@@ -52,6 +77,19 @@ extern OS_EVENT *p_sub_unit_command_queue;
 OS_EVENT *sub_unit_command_semaphore;
 
 
+/*
+************************************************************************************************
+*                                            DATA TYPES
+************************************************************************************************
+*/
+
+/*
+ * Structure to identify the Sub-Unit configuration parameters
+ * mode: 0-> config, 1-> running
+ * [receive_data: 0->ethernet, 1->SSD] Not needed anymore
+ * RMAP_handling: 0->none, 1->echoing, 2->logging
+ * forward_data to ethernet link
+ */
 struct _sub_config {
 	INT8U mode;
 	//INT8U receive_data;
@@ -64,5 +102,7 @@ struct _sub_data {
 	INT8U *p_data_addr;
 	INT32U i_data_size;
 }_sub_data;
+
+/*$PAGE*/
 
 #endif /* SUB_UNIT_CONTROL_H_ */

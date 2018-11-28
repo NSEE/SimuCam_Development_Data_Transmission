@@ -61,7 +61,7 @@ struct _ethernet_payload *p_simucam_command_q_table[3]; /*Storage for SimucamCom
 /*
  * Configuration of the sub-unit management task
  */
-#define SUB_UNIT_TASK_PRIORITY 8
+#define SUB_UNIT_TASK_PRIORITY 7
 OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 
 /*

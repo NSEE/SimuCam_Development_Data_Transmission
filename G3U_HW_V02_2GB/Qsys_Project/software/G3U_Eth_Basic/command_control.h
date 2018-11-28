@@ -35,8 +35,9 @@
 
 struct _imagette_control{
 
-	INT16U offset[MAX_IMAGETTES]; 			/*define the unit later*/
+	INT32U offset[MAX_IMAGETTES]; 			/*define unit later*/
 	INT8U *imagette_start[MAX_IMAGETTES];	/*Pointer to de DDR2 address*/
+	INT32U size;							/*Imagette array size*/
 
 }_imagette_control;
 
