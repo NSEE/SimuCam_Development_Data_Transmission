@@ -34,6 +34,9 @@ struct _imagette_control img_struct;
 INT8U data[MAX_IMAGETTES];
 INT8U *p_data_pos = &data[0];
 
+INT32U i_central_timer_counter = 1;
+INT8U exec_error;
+
 /**
  * @name v_parse_data
  * @brief Parses the payload to a struct useable to command
@@ -56,11 +59,11 @@ void v_parse_data(struct _ethernet_payload *p_payload,
 	INT32U d = 0;
 
 	printf(
-			"[PARSER]testando valores que chegaram\r\nsize: %i\r\ndata: %i,%i,%i,%i,%i,%i\r\n",
-			p_payload->size, (char) p_payload->data[0],
-			(char) p_payload->data[1], (char) p_payload->data[2],
-			(char) p_payload->data[3], (char) p_payload->data[4],
-			(char) p_payload->data[5]);
+			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
+			p_payload->size, (char) p_payload->data[7],
+			(char) p_payload->data[8], (char) p_payload->data[9],
+			(char) p_payload->data[10], (char) p_payload->data[11],
+			(char) p_payload->data[12]);
 
 //	*p_img_ctrl->offset = toInt(p_payload->data[0]);
 //	p_img_ctrl->imagette[0] = toInt(p_payload->data[1]);
@@ -69,15 +72,18 @@ void v_parse_data(struct _ethernet_payload *p_payload,
 		p_img_ctrl->offset[i] = toInt(p_payload->data[o]);
 
 		for (p = 0; p < IMAGETTE_SIZE; p++, d++) {
-			p_img_ctrl->imagette[d] = toInt(p_payload->data[i + DELAY_SIZE + p]);
+			p_img_ctrl->imagette[d] = toInt(
+					p_payload->data[o + DELAY_SIZE + p]);
+			printf("[PARSER]Teste de recepcao: %i,%i\r\n", (INT32U) i,
+					(INT8U) p_img_ctrl->imagette[d]);
 		}
 
 		printf("[PARSER] offset %i: %i, data: %i\r\n", (int) o,
-				(INT32U)p_img_ctrl->offset[0], (INT8U) p_img_ctrl->imagette[4]);
-		o+=DELAY_SIZE + IMAGETTE_SIZE;
+				(INT32U) p_img_ctrl->offset[i],
+				(INT8U) p_img_ctrl->imagette[i + p + DELAY_SIZE]);
+		o += DELAY_SIZE + IMAGETTE_SIZE;
 		i++;
-		printf("[PARSER] offset counter %i\r\n", (int) o,
-						(INT32U) i);
+		printf("[PARSER] offset counter %i\r\n", (INT32U) i, (INT32U) i);
 	}
 	p_img_ctrl->size = d;
 }
@@ -98,7 +104,6 @@ void v_parse_data(struct _ethernet_payload *p_payload,
  * @retval void
  **/
 void central_timer_callback_function(void *p_arg) {
-	static INT32U i_central_timer_counter = 1;
 	static INT32U i_imagette_counter = 0;
 	INT8U error_code = 0;
 
@@ -148,12 +153,12 @@ void CommandManagementTask() {
 	struct _imagette_control *p_img_control;
 	p_img_control = &img_struct;
 
-	struct _sub_data sub_data;
+//	struct _sub_data sub_data;
+//
+//	static struct _sub_data *p_sub_data;
+//	p_sub_data = &sub_data;
 
-	static struct _sub_data *p_sub_data;
-	p_sub_data = &sub_data;
-
-	//INT8U data[SSS_TX_BUF_SIZE];
+//INT8U data[SSS_TX_BUF_SIZE];
 
 	static int size;
 
@@ -189,36 +194,33 @@ void CommandManagementTask() {
 	error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
 	alt_SSSErrorHandler(error_code, 0);
 
-	/*
-	 * Test case for timers
-	 */
-	p_img_control->offset[0] = 2;
-	p_img_control->offset[1] = 5;
+//	p_img_control->offset[0] = 2;
+//	p_img_control->offset[1] = 5;
 
-	data[0] = 18;
-	data[1] = 22;
-	data[2] = 15;
-	data[3] = 4;
-	data[4] = 5;
-	data[5] = 6;
-	data[6] = 7;
-	data[7] = 8;
-	data[8] = 9;
-	data[9] = 10;
-
-	p_img_control->imagette[0] = data[0];
-	p_img_control->imagette[1] = data[1];
-	p_img_control->imagette[2] = data[2];
-	p_img_control->imagette[3] = data[3];
-	p_img_control->imagette[4] = data[4];
-	p_img_control->imagette[5] = data[5];
-	p_img_control->imagette[6] = data[6];
-	p_img_control->imagette[7] = data[7];
-	p_img_control->imagette[8] = data[8];
-	p_img_control->imagette[9] = data[9];
-	p_img_control->imagette[10] = data[10];
-
-	printf("Imagette data 1: %i", (INT8U) p_img_control->imagette[0]);
+//	data[0] = 18;
+//	data[1] = 22;
+//	data[2] = 15;
+//	data[3] = 4;
+//	data[4] = 5;
+//	data[5] = 6;
+//	data[6] = 7;
+//	data[7] = 8;
+//	data[8] = 9;
+//	data[9] = 10;
+//
+//	p_img_control->imagette[0] = data[0];
+//	p_img_control->imagette[1] = data[1];
+//	p_img_control->imagette[2] = data[2];
+//	p_img_control->imagette[3] = data[3];
+//	p_img_control->imagette[4] = data[4];
+//	p_img_control->imagette[5] = data[5];
+//	p_img_control->imagette[6] = data[6];
+//	p_img_control->imagette[7] = data[7];
+//	p_img_control->imagette[8] = data[8];
+//	p_img_control->imagette[9] = data[9];
+//	p_img_control->imagette[10] = data[10];
+//
+//	printf("Imagette data 1: %i", (INT8U) p_img_control->imagette[0]);
 
 //	printf("%x \n", &p_data_pos[0]);
 //	printf("%x \n", &p_data_pos[1]);
@@ -226,22 +228,6 @@ void CommandManagementTask() {
 //	printf("%x \n", &p_data_pos[3]);
 //	printf("%x \n", &p_data_pos[4]);
 //	printf("%x \n", &p_data_pos[5]);
-
-	p_img_control->size = 2;
-
-	//p_img_control->imagette_start[1] = &data_pos[5];
-
-//	printf("%x \n", &img_struct.imagette_addr[0]);
-//	printf("%x \n", &img_struct.imagette_addr[1]);
-//	printf("%x \n", &img_struct.imagette_addr[2]);
-//	printf("%x \n", &img_struct.imagette_addr[3]);
-//
-//	printf("SEPARADOR\n");
-//
-//	printf("%x \n", img_struct.imagette_addr[0]);
-//	printf("%x \n", img_struct.imagette_addr[1]);
-//	printf("%x \n", img_struct.imagette_addr[2]);
-//	printf("%x \n", img_struct.imagette_addr[3]);
 
 	while (1) {
 
@@ -251,7 +237,7 @@ void CommandManagementTask() {
 		 */
 		while (b_meb_status == 0) {
 
-			printf("MEB in config mode\n\r");
+			printf("[CommandManagementTask]MEB in config mode\n\r");
 			/*
 			 * Enter the receive command mode
 			 */
@@ -320,18 +306,6 @@ void CommandManagementTask() {
 						(char) p_payload->type);
 				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
 						p_payload);
-//				p_sub_data->p_data_addr = &p_payload->data[0];
-//				p_sub_data->i_data_size = p_payload->lenght[3]
-//						+ 256 * p_payload->lenght[2]
-//						+ 65536 * p_payload->lenght[1]
-//						+ 4294967296 * p_payload->lenght[0]; /* Create function to calculate this */
-
-//				printf("commd side data dump %c, %c, %c, %c\r\nSize: %i",
-//						(char) p_sub_data->p_data_addr[0],
-//						(char) p_sub_data->p_data_addr[1],
-//						(char) p_sub_data->p_data_addr[2],
-//						(char) p_sub_data->p_data_addr[3],
-//						(int) p_sub_data->i_data_size);
 
 				break;
 
@@ -520,6 +494,7 @@ void CommandManagementTask() {
 		while (b_meb_status == 1) {
 			INT8U i_internal_error;
 			static INT8U b_timer_starter = 0;
+			INT32U timer_zero = 0;
 			//printf("MEB in running mode\n\r");
 
 			printf("[CommandManagementTask]print offset: %i\r\n",
@@ -539,17 +514,17 @@ void CommandManagementTask() {
 					/* Timer was created but NOT started */
 					printf("SWTimer1 was created but NOT started \n");
 				}
-
-				p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
-				alt_uCOSIIErrorHandler(i_internal_error, 0);
-
-				OSTmrStart((OS_TMR *) central_timer,
-						(INT8U *) &i_internal_error);
-				if (i_internal_error == OS_ERR_NONE) {
-					b_timer_starter = 1;
-					printf("[CommandManagementTask]timer started\r\n");
-				}
 			}
+
+			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
+			alt_uCOSIIErrorHandler(i_internal_error, 0);
+
+			OSTmrStart((OS_TMR *) central_timer, (INT8U *) &i_internal_error);
+			if (i_internal_error == OS_ERR_NONE) {
+				b_timer_starter = 1;
+				printf("[CommandManagementTask]timer started\r\n");
+			}
+
 			//Encontrar um jeito melhor de manipular esse erro
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
@@ -558,26 +533,18 @@ void CommandManagementTask() {
 					(INT8U) p_payload->type);
 
 			//if (p_payload->type == 0) {
-			OSTmrStop(central_timer,
-			OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+				OSTmrStop(central_timer,
+				OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
-			if (i_internal_error == OS_ERR_NONE
-					|| i_internal_error == OS_ERR_TMR_STOPPED) {
-				printf("[CommandManagementTask]Timer stopped\r\n");
-			}
+				if (i_internal_error == OS_ERR_NONE
+						|| i_internal_error == OS_ERR_TMR_STOPPED) {
+					printf("[CommandManagementTask]Timer stopped\r\n");
+					i_central_timer_counter = 1;
+					printf("[CommandManagementTask]Timer restarted\r\n");
+				}
 
-			/*
-			 * Timer must be deleted for the values to be reseted
-			 */
-			OSTmrDel(central_timer, &i_internal_error);
-			if (i_internal_error == OS_ERR_NONE
-					|| i_internal_error == OS_ERR_TMR_STOPPED) {
-				b_timer_starter = 0;
-				printf("[CommandManagementTask]Timer deleted\r\n");
-			}
-
-			b_meb_status = 0;
-			printf("[CommandManagementTask]Returning to MEB config\r\n");
+				b_meb_status = 0;
+				printf("[CommandManagementTask]Returning to MEB config\r\n");
 
 			//}
 			//osqaccept

@@ -184,6 +184,8 @@ typedef struct SSS_SOCKET
  * "SSS" are declared in file "simple_socket_server.c".
  */
 
+#define EMPIRICAL_BUFFER_MIN 21
+
 /*
  * data address that will be removed
  */

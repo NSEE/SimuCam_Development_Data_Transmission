@@ -267,6 +267,7 @@ void sss_exec_command(SSSConn* conn) {
 	static INT8U intCommand[SSS_TX_BUF_SIZE];
 	INT8U* cmd_pos = intCommand;
 	int i = 0;
+	static int puta = 0;
 
 	/*
 	 * Isolate the command from garbage. And terminate the process if need be.[yb]
@@ -277,39 +278,75 @@ void sss_exec_command(SSSConn* conn) {
 		if (command == CMD_QUIT) {
 			tx_wr_pos += sprintf(tx_wr_pos, "Terminating connection.\n\n\r");
 			conn->close = 1;
+			puta = 0;
+			return;
 		}
 
 		//Verify and ignore entries that aren't alphanumeric[yb]
-		if ( isdigit(command) || isalpha(command)) {
-			cmd_pos[i] = command;
-			i++;
-		}
+//		if ( isdigit(command) || isalpha(command)) {
+		cmd_pos[i] = command;
+		printf("[SSS]Data in buffer: %i\r\n", (INT8U) cmd_pos[i]);
+		i++;
+//		}
 
 	}
-	printf("crc %i\r\n", (INT16U) crc16(cmd_pos[0], i + 1));
+	printf("[SSS]crc %i\r\n", (INT16U) crc16(cmd_pos[0], i + 1));
 
-	/* Populating the payload struct */
+	if (puta == 0) {
 
-	p_payload->packet_id = cmd_pos[0];
-	p_payload->type = cmd_pos[1];
-	p_payload->sub_type = cmd_pos[2];
-	p_payload->size = toInt(cmd_pos[6]) + 256 * toInt(cmd_pos[5])
-			+ 65536 * toInt(cmd_pos[4]) + 4294967296 * toInt(cmd_pos[3]);
+		printf("[SSS]First run\r\n");
 
-	printf("Payload size: %i\r\n", (INT32U) p_payload->size);
+		/* Populating the payload struct */
 
-	if (p_payload->size > 0) {
+		p_payload->packet_id = cmd_pos[0 + EMPIRICAL_BUFFER_MIN];
+		p_payload->type = cmd_pos[1 + EMPIRICAL_BUFFER_MIN];
+		p_payload->sub_type = cmd_pos[2 + EMPIRICAL_BUFFER_MIN];
+		p_payload->size = toInt(cmd_pos[6 + EMPIRICAL_BUFFER_MIN])
+				+ 256 * toInt(cmd_pos[5 + EMPIRICAL_BUFFER_MIN])
+				+ 65536 * toInt(cmd_pos[4 + EMPIRICAL_BUFFER_MIN])
+				+ 4294967296 * toInt(cmd_pos[3 + EMPIRICAL_BUFFER_MIN]);
 
-		for (i = 1; i <= p_payload->size; i++) {
-			p_payload->data[i - 1] = cmd_pos[i + 6];
-			printf("data: %c\r\nPing %i\r\n", (char) cmd_pos[i + 6], (INT8U) i);
+		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
+
+		if (p_payload->size > 0) {
+
+			for (i = 1; i <= p_payload->size; i++) {
+				p_payload->data[i - 1] = cmd_pos[i + 6 + EMPIRICAL_BUFFER_MIN];
+				printf("[SSS]data: %c\r\nPing %i\r\n",
+						(char) cmd_pos[i + 6 + EMPIRICAL_BUFFER_MIN],
+						(INT8U) i);
+			}
+			p_payload->crc = cmd_pos[p_payload->size + 7];
 		}
-		p_payload->crc = cmd_pos[p_payload->size + 7];
-	}
+		puta++;
+	} else {
+		printf("[SSS]Second run\r\n");
+		/* Populating the payload struct */
 
+		p_payload->packet_id = cmd_pos[0];
+		p_payload->type = cmd_pos[1];
+		p_payload->sub_type = cmd_pos[2];
+		p_payload->size = toInt(cmd_pos[6])
+				+ 256 * toInt(cmd_pos[5])
+				+ 65536 * toInt(cmd_pos[4])
+				+ 4294967296 * toInt(cmd_pos[3]);
+
+		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
+
+		if (p_payload->size > 0) {
+
+			for (i = 1; i <= p_payload->size; i++) {
+				p_payload->data[i - 1] = cmd_pos[i + 6];
+				printf("[SSS]data: %c\r\nPing %i\r\n",
+						(char) cmd_pos[i + 6],
+						(INT8U) i);
+			}
+			p_payload->crc = cmd_pos[p_payload->size + 7];
+		}
+	}
 	//data_addr = cmd_pos;
 
-	printf("Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
+	printf("[SSS]Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
 			(INT8U) p_payload->size, (char) p_payload->type,
 			(char) p_payload->data[0]);
 
@@ -472,7 +509,8 @@ void SSSSimpleSocketServerTask() {
 	 * on SSS_PORT for connection requests from any remote address.
 	 */
 	sss_reset_connection(&conn);
-	printf("[sss_task] Simple Socket Server listening on port %d\n", SSS_PORT);
+	printf("[sss_task] Simple Socket Server listening on port %d\n",
+	SSS_PORT);
 
 	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_ST_1_MASK);
 

@@ -73,7 +73,7 @@ void sub_unit_control_task() {
 
 	while (p_config->mode == 0) {
 
-		printf("[SUBUNIT]Sub-unit in config mode");
+		printf("[SUBUNIT]Sub-unit in config mode\r\n");
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
 				(INT8U) p_config->mode);
@@ -87,7 +87,7 @@ void sub_unit_control_task() {
 		//INT32U size = 0;
 		int p;
 
-		int teste = IMAGETTE_SIZE * p_config->imagette->size;
+		int teste = p_config->imagette->size;
 
 		/*Start SpW link*/
 		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
@@ -97,9 +97,9 @@ void sub_unit_control_task() {
 
 		INT8U buffer_burro[MAX_IMAGETTES*IMAGETTE_SIZE];
 
-		printf("[SUBUNIT]Sub-unit in running mode");
+		printf("[SUBUNIT]Sub-unit in running mode\r\n");
 
-		for (p = 0; p < IMAGETTE_SIZE * p_config->imagette->size; p++) {
+		for (p = 0; p < p_config->imagette->size; p++) {
 			buffer_burro[p] = p_config->imagette->imagette[p];
 			printf("[SUBUNIT]Buffer burro %i: %i @ %x\r\n", (int) p,
 					(INT8U) buffer_burro[p], &buffer_burro[p]);

@@ -27,11 +27,11 @@
 #define COMMAND_CONTROL_H_
 
 /* Macro definitions */
-#define LENGTH_OFFSET	3 				/*Byte number offset for the 4 length bytes*/
-#define IMAGETTE_SIZE 	5 				/*Imagette size in bytes*/
-#define DELAY_SIZE		1 				/*Number of bytes used for delay value*/
+#define LENGTH_OFFSET				3	/*Byte number offset for the 4 length bytes*/
+#define IMAGETTE_SIZE 				5 	/*Imagette size in bytes*/
+#define DELAY_SIZE					1 	/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	10	/*Timer resolution, counter uses 10Hz, so 10 = 1s*/
-#define MAX_IMAGETTES	50
+#define MAX_IMAGETTES				50	/*Maximum number of imagettes */
 
 struct _imagette_control{
 
