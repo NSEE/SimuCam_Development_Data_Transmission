@@ -149,11 +149,13 @@ port(
     FLASH_RYBY_n    : in std_logic;
     FLASH_WE_n      : out std_logic_vector(0 downto 0);
 
+	-- Sinais de controle - placa isoladora - habilitacao dos transmissores SpW e Sinc_out
+	EN_ISO_DRIVERS			: out std_logic;
 	-- Sinais externos LVDS HSMC-B
-	-- Sinais de controle
-	HSMB_BUFFER_PWDN_N     : out std_logic;
-	HSMB_BUFFER_PEM0       : out std_logic;
-	HSMB_BUFFER_PEM1       : out std_logic;
+	-- Sinais de controle - placa drivers_lvds
+	HSMB_BUFFER_PWDN_N		: out std_logic;
+	HSMB_BUFFER_PEM1       	: out std_logic;
+	HSMB_BUFFER_PEM0       	: out std_logic;
 	-- SpaceWire A
 	HSMB_LVDS_RX_SPWA_DI_P : in  std_logic_vector(0 downto 0);
 --	HSMB_LVDS_RX_SPWA_DI_N : in  std_logic_vector(0 downto 0);
@@ -287,6 +289,11 @@ signal leds_b : std_logic_vector(7  downto 0);
 signal leds_p : std_logic_vector(20 downto 0);
 
 -----------------------------------------
+-- Ctrl io lvds
+-----------------------------------------
+signal ctrl_io_lvds : std_logic_vector(3 downto 0);
+
+-----------------------------------------
 -- RST CPU
 -----------------------------------------
 signal rst : std_logic;
@@ -409,6 +416,7 @@ signal spw_h_do : std_logic_vector (0 downto 0);
             sd_clk_export      : out   std_logic;                                       
             sd_dat_export      : inout std_logic_vector(3 downto 0);
 				
+				ctrl_io_lvds_export   : out   std_logic_vector(3 downto 0);
 				
             m1_ddr2_i2c_scl_export  : out   std_logic;                                 
             m1_ddr2_i2c_sda_export  : inout std_logic;      
@@ -513,7 +521,8 @@ SOPC_INST : MebX_Qsys_Project
     sd_cmd_export    => sd_cmd,
     sd_clk_export    => sd_clk,
     sd_dat_export    => sd_dat,
-
+	 
+	 ctrl_io_lvds_export	=> ctrl_io_lvds,
     
     ETH_rst_export                         => rst_eth,
     tse_led_an                             => open, 
@@ -722,9 +731,16 @@ FLASH_ADV_n   <= '0';
 -- LVDS Drivers control
 --==========--
 
-	HSMB_BUFFER_PWDN_N <= '1';
-	HSMB_BUFFER_PEM0   <= '0';
-	HSMB_BUFFER_PEM1   <= '0';
+-- Comando foi passado para modulo ctrl_io_lvds, via Qsys/Nios
+--	HSMB_BUFFER_PWDN_N	<= '1';
+--	HSMB_BUFFER_PEM0	<= '0';
+--	HSMB_BUFFER_PEM1	<= '0';
+--	EN_ISO_DRIVERS		<= '0';
+
+	EN_ISO_DRIVERS		<= ctrl_io_lvds(3);
+	HSMB_BUFFER_PWDN_N	<= ctrl_io_lvds(2);
+	HSMB_BUFFER_PEM1	<= ctrl_io_lvds(1);
+	HSMB_BUFFER_PEM0	<= ctrl_io_lvds(0);
 
 --==========--
 -- LVDS
