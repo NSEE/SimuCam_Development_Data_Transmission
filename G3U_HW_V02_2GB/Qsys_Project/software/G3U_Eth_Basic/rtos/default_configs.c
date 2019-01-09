@@ -11,6 +11,9 @@
 #include "../driver/leds/leds.h"
 #include "../driver/seven_seg/seven_seg.h"
 
+/* Isolation and LDVS drivers definitions*/
+#include "../driver/ctrl_io_lvds/ctrl_io_lvds.h"
+
 void Init_Simucam_Config(void){
 
 	/* Turn Off all LEDs */
@@ -26,5 +29,9 @@ void Init_Simucam_Config(void){
 	/* Configure Seven Segments Display */
 	SSDP_CONFIG(SSDP_NORMAL_MODE);
 	SSDP_UPDATE(0);
+
+	/* Set the Isolation and LVDS driver boards*/
+	enable_iso_drivers();
+	enable_lvds_board();
 
 }

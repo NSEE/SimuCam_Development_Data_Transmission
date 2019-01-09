@@ -38,9 +38,6 @@
 #include "rtos/default_configs.h"
 #include "rtos/rtos_tasks.h"
 
-/* Isolation and LDVS drivers definitions*/
-#include "driver/ctrl_io_lvds/ctrl_io_lvds.h"
-
 /* Definition of task stack for the initial task which will initialize the NicheStack
  * TCP/IP Stack and then initialize the rest of the Simple Socket Server example tasks. 
  */
