@@ -34,4 +34,6 @@ void Init_Simucam_Config(void){
 	enable_iso_drivers();
 	enable_lvds_board();
 
+	printf("[TEST] ISO and LVDS started\r\n");
+
 }
