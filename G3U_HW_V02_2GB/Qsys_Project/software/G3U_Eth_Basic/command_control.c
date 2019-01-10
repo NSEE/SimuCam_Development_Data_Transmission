@@ -372,10 +372,10 @@ void CommandManagementTask() {
 
 				printf("[CommandManagementTask]IWF Coupling Test\r\n");
 
-				p_img_control->imagette[0] = 28;
-				p_img_control->imagette[1] = 2;
-				p_img_control->imagette[2] = 0;
-				p_img_control->imagette[3] = 0;
+				p_img_control->imagette[0] = 0x28;
+				p_img_control->imagette[1] = 0x2;
+				p_img_control->imagette[2] = 0x0;
+				p_img_control->imagette[3] = 0x0;
 				p_img_control->imagette[4] = 1;
 				p_img_control->imagette[5] = 2;
 				p_img_control->imagette[6] = 3;
@@ -408,10 +408,10 @@ void CommandManagementTask() {
 
 				printf("[CommandManagementTask]IWF Coupling Test 5s\r\n");
 
-				p_img_control->imagette[0] = 28;
-				p_img_control->imagette[1] = 2;
-				p_img_control->imagette[2] = 0;
-				p_img_control->imagette[3] = 0;
+				p_img_control->imagette[0] = 0x28;
+				p_img_control->imagette[1] = 0x2;
+				p_img_control->imagette[2] = 0x0;
+				p_img_control->imagette[3] = 0x0;
 				p_img_control->imagette[4] = 1;
 				p_img_control->imagette[5] = 2;
 				p_img_control->imagette[6] = 3;
@@ -422,10 +422,10 @@ void CommandManagementTask() {
 				p_img_control->imagette[11] = 224; //CRC
 				p_img_control->imagette[12] = 250; //CRC
 
-				p_img_control->imagette[13] = 28;
-				p_img_control->imagette[14] = 2;
-				p_img_control->imagette[15] = 0;
-				p_img_control->imagette[16] = 0;
+				p_img_control->imagette[13] = 0x28;
+				p_img_control->imagette[14] = 0x2;
+				p_img_control->imagette[15] = 0x0;
+				p_img_control->imagette[16] = 0x0;
 				p_img_control->imagette[17] = 1;
 				p_img_control->imagette[18] = 2;
 				p_img_control->imagette[19] = 3;
@@ -436,10 +436,10 @@ void CommandManagementTask() {
 				p_img_control->imagette[24] = 224; //CRC
 				p_img_control->imagette[25] = 250; //CRC
 
-				p_img_control->imagette[26] = 28;
-				p_img_control->imagette[27] = 2;
-				p_img_control->imagette[28] = 0;
-				p_img_control->imagette[29] = 0;
+				p_img_control->imagette[26] = 0x28;
+				p_img_control->imagette[27] = 0x2;
+				p_img_control->imagette[28] = 0x0;
+				p_img_control->imagette[29] = 0x0;
 				p_img_control->imagette[30] = 1;
 				p_img_control->imagette[31] = 2;
 				p_img_control->imagette[32] = 3;
@@ -450,10 +450,10 @@ void CommandManagementTask() {
 				p_img_control->imagette[37] = 224; //CRC
 				p_img_control->imagette[38] = 250; //CRC
 
-				p_img_control->imagette[39] = 28;
-				p_img_control->imagette[40] = 2;
-				p_img_control->imagette[41] = 0;
-				p_img_control->imagette[42] = 0;
+				p_img_control->imagette[39] = 0x28;
+				p_img_control->imagette[40] = 0x2;
+				p_img_control->imagette[41] = 0x0;
+				p_img_control->imagette[42] = 0x0;
 				p_img_control->imagette[43] = 1;
 				p_img_control->imagette[44] = 2;
 				p_img_control->imagette[45] = 3;
@@ -464,10 +464,10 @@ void CommandManagementTask() {
 				p_img_control->imagette[50] = 224; //CRC
 				p_img_control->imagette[51] = 250; //CRC
 
-				p_img_control->imagette[52] = 28;
-				p_img_control->imagette[53] = 2;
-				p_img_control->imagette[54] = 0;
-				p_img_control->imagette[55] = 0;
+				p_img_control->imagette[52] = 0x28;
+				p_img_control->imagette[53] = 0x2;
+				p_img_control->imagette[54] = 0x0;
+				p_img_control->imagette[55] = 0x0;
 				p_img_control->imagette[56] = 1;
 				p_img_control->imagette[57] = 2;
 				p_img_control->imagette[58] = 3;

@@ -92,7 +92,7 @@ void sub_unit_control_task() {
 		/*Start SpW link*/
 		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 		SPWC_REG_SET,
-		SPWC_LINK_START_CONTROL_BIT_MASK);
+		SPWC_AUTOSTART_CONTROL_BIT_MASK);
 		exec_error = Verif_Error(error_code);
 
 		INT8U buffer_burro[MAX_IMAGETTES*IMAGETTE_SIZE];
