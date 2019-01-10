@@ -368,6 +368,139 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]MEB sent to running\n\r");
 
 				break;
+			case '6':
+
+				printf("[CommandManagementTask]IWF Coupling Test\r\n");
+
+				p_img_control->imagette[0] = 28;
+				p_img_control->imagette[1] = 2;
+				p_img_control->imagette[2] = 0;
+				p_img_control->imagette[3] = 0;
+				p_img_control->imagette[4] = 1;
+				p_img_control->imagette[5] = 2;
+				p_img_control->imagette[6] = 3;
+				p_img_control->imagette[7] = 5;
+				p_img_control->imagette[8] = 8;
+				p_img_control->imagette[9] = 13;
+				p_img_control->imagette[10] = 21;
+				p_img_control->imagette[11] = 224; //CRC
+				p_img_control->imagette[12] = 250; //CRC
+
+				p_img_control->offset[0] = 1;
+				p_img_control->size = 13;
+
+				config_send->mode = 1;
+				config_send->forward_data = 0;
+				config_send->RMAP_handling = 0;
+				config_send->imagette = p_img_control;
+
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+						config_send);
+				alt_SSSErrorHandler(error_code, 0);
+				printf("[CommandManagementTask]Sent config for test case\n\r");
+
+				b_meb_status = 1;
+				printf("[CommandManagementTask]MEB sent to running\n\r");
+
+				break;
+
+			case '7':
+
+				printf("[CommandManagementTask]IWF Coupling Test 5s\r\n");
+
+				p_img_control->imagette[0] = 28;
+				p_img_control->imagette[1] = 2;
+				p_img_control->imagette[2] = 0;
+				p_img_control->imagette[3] = 0;
+				p_img_control->imagette[4] = 1;
+				p_img_control->imagette[5] = 2;
+				p_img_control->imagette[6] = 3;
+				p_img_control->imagette[7] = 5;
+				p_img_control->imagette[8] = 8;
+				p_img_control->imagette[9] = 13;
+				p_img_control->imagette[10] = 21;
+				p_img_control->imagette[11] = 224; //CRC
+				p_img_control->imagette[12] = 250; //CRC
+
+				p_img_control->imagette[13] = 28;
+				p_img_control->imagette[14] = 2;
+				p_img_control->imagette[15] = 0;
+				p_img_control->imagette[16] = 0;
+				p_img_control->imagette[17] = 1;
+				p_img_control->imagette[18] = 2;
+				p_img_control->imagette[19] = 3;
+				p_img_control->imagette[20] = 5;
+				p_img_control->imagette[21] = 8;
+				p_img_control->imagette[22] = 13;
+				p_img_control->imagette[23] = 21;
+				p_img_control->imagette[24] = 224; //CRC
+				p_img_control->imagette[25] = 250; //CRC
+
+				p_img_control->imagette[26] = 28;
+				p_img_control->imagette[27] = 2;
+				p_img_control->imagette[28] = 0;
+				p_img_control->imagette[29] = 0;
+				p_img_control->imagette[30] = 1;
+				p_img_control->imagette[31] = 2;
+				p_img_control->imagette[32] = 3;
+				p_img_control->imagette[33] = 5;
+				p_img_control->imagette[34] = 8;
+				p_img_control->imagette[35] = 13;
+				p_img_control->imagette[36] = 21;
+				p_img_control->imagette[37] = 224; //CRC
+				p_img_control->imagette[38] = 250; //CRC
+
+				p_img_control->imagette[39] = 28;
+				p_img_control->imagette[40] = 2;
+				p_img_control->imagette[41] = 0;
+				p_img_control->imagette[42] = 0;
+				p_img_control->imagette[43] = 1;
+				p_img_control->imagette[44] = 2;
+				p_img_control->imagette[45] = 3;
+				p_img_control->imagette[46] = 5;
+				p_img_control->imagette[47] = 8;
+				p_img_control->imagette[48] = 13;
+				p_img_control->imagette[49] = 21;
+				p_img_control->imagette[50] = 224; //CRC
+				p_img_control->imagette[51] = 250; //CRC
+
+				p_img_control->imagette[52] = 28;
+				p_img_control->imagette[53] = 2;
+				p_img_control->imagette[54] = 0;
+				p_img_control->imagette[55] = 0;
+				p_img_control->imagette[56] = 1;
+				p_img_control->imagette[57] = 2;
+				p_img_control->imagette[58] = 3;
+				p_img_control->imagette[59] = 5;
+				p_img_control->imagette[60] = 8;
+				p_img_control->imagette[61] = 13;
+				p_img_control->imagette[62] = 21;
+				p_img_control->imagette[63] = 224; //CRC
+				p_img_control->imagette[64] = 250; //CRC
+
+				p_img_control->offset[0] = 1;
+				p_img_control->offset[1] = 2;
+				p_img_control->offset[2] = 3;
+				p_img_control->offset[3] = 4;
+				p_img_control->offset[4] = 5;
+
+				p_img_control->size = 65;
+
+				config_send->mode = 1;
+				config_send->forward_data = 0;
+				config_send->RMAP_handling = 0;
+				config_send->imagette = p_img_control;
+
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+						config_send);
+				alt_SSSErrorHandler(error_code, 0);
+				printf("[CommandManagementTask]Sent config for test case\n\r");
+
+				b_meb_status = 1;
+				printf("[CommandManagementTask]MEB sent to running\n\r");
+
+				break;
+
 //				size = 1;
 //				if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
 //					data[0] = uc_SpaceWire_Interface_Get_TimeCode(cmd_pos[1]);
@@ -512,7 +645,8 @@ void CommandManagementTask() {
 
 				if (exec_error == OS_ERR_NONE) {
 					/* Timer was created but NOT started */
-					printf("SWTimer1 was created but NOT started \n");
+					printf(
+							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
 				}
 			}
 
@@ -533,18 +667,18 @@ void CommandManagementTask() {
 					(INT8U) p_payload->type);
 
 			//if (p_payload->type == 0) {
-				OSTmrStop(central_timer,
-				OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+			OSTmrStop(central_timer,
+			OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
-				if (i_internal_error == OS_ERR_NONE
-						|| i_internal_error == OS_ERR_TMR_STOPPED) {
-					printf("[CommandManagementTask]Timer stopped\r\n");
-					i_central_timer_counter = 1;
-					printf("[CommandManagementTask]Timer restarted\r\n");
-				}
+			if (i_internal_error == OS_ERR_NONE
+					|| i_internal_error == OS_ERR_TMR_STOPPED) {
+				printf("[CommandManagementTask]Timer stopped\r\n");
+				i_central_timer_counter = 1;
+				printf("[CommandManagementTask]Timer restarted\r\n");
+			}
 
-				b_meb_status = 0;
-				printf("[CommandManagementTask]Returning to MEB config\r\n");
+			b_meb_status = 0;
+			printf("[CommandManagementTask]Returning to MEB config\r\n");
 
 			//}
 			//osqaccept

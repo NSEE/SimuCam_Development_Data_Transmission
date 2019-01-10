@@ -28,7 +28,7 @@
 
 /* Macro definitions */
 #define LENGTH_OFFSET				3	/*Byte number offset for the 4 length bytes*/
-#define IMAGETTE_SIZE 				5 	/*Imagette size in bytes*/
+#define IMAGETTE_SIZE 				12 	/*Imagette size in bytes*/
 #define DELAY_SIZE					1 	/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	10	/*Timer resolution, counter uses 10Hz, so 10 = 1s*/
 #define MAX_IMAGETTES				50	/*Maximum number of imagettes */

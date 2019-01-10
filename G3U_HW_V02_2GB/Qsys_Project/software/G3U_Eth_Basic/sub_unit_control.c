@@ -107,7 +107,7 @@ void sub_unit_control_task() {
 
 //p_sub_data = OSQPend(p_sub_unit_command_queue, 0, &error_code);
 
-		while (i_imagette_counter < teste) {
+		while (i_imagette_counter < teste-1) {
 
 			printf("[SUBUNIT]Entered while\r\n");
 
@@ -136,7 +136,7 @@ void sub_unit_control_task() {
 		}
 		printf("[SUBUNIT]Waiting config instructions\r\n");
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
-
+		printf("[SUBUNIT]Configuration instructions received\r\n");
 	}
 }
 
