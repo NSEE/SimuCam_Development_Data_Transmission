@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>14/01/2019 10:25:55</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1547457955212</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>14/01/2019 10:31:37</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1547458297262</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
@@ -1694,7 +1694,7 @@
                 <SettingName>ucosii.timer.os_tmr_cfg_ticks_per_sec</SettingName>
                 <Identifier>OS_TMR_CFG_TICKS_PER_SEC</Identifier>
                 <Type>DecimalNumber</Type>
-                <Value>10</Value>
+                <Value>100</Value>
                 <DefaultValue>10</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Rate at which timer management task runs (Hz)</Description>
