@@ -91,11 +91,17 @@ OS_EVENT *sub_unit_command_semaphore;
  * forward_data to ethernet link
  */
 struct _sub_config {
+
 	INT8U mode;
 	//INT8U receive_data;
 	INT8U forward_data;
 	INT8U RMAP_handling;
+	INT8U link_config;
+	INT8U linkspeed;
+	INT8U linkstatus_running;
+	INT8U echo_sent;
 	struct _imagette_control *imagette;
+
 }_sub_config;
 
 struct _sub_data {

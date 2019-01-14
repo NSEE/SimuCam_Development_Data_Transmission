@@ -187,7 +187,8 @@ typedef struct SSS_SOCKET
  * "SSS" are declared in file "simple_socket_server.c".
  */
 
-#define EMPIRICAL_BUFFER_MIN 21
+#define EMPIRICAL_BUFFER_MIN 	21
+#define PROTOCOL_OVERHEAD		6
 
 /*
  * data address that will be removed
@@ -199,7 +200,8 @@ extern INT8U *data_addr;
  */
 
 struct _ethernet_payload {
-	INT8U packet_id;	/* Unique identifier */
+	INT8U header;		/* Command Header */
+	INT16U packet_id;	/* Unique identifier */
 	INT8U type;			/* Will be the command id */
 	INT8U sub_type;		/* Could carry the sub-unit id */
 	INT32U size;	/* Size pre-computed in function */

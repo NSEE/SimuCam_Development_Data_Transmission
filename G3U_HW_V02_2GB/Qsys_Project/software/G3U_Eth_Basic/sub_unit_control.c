@@ -63,7 +63,7 @@ void sub_unit_control_task() {
 
 	struct _sub_config sub_config;
 	struct _sub_config *p_config;
-	//p_config = &sub_config;
+	p_config = &sub_config;
 
 	p_config->mode = 0;
 	p_config->RMAP_handling = 0;
@@ -77,7 +77,6 @@ void sub_unit_control_task() {
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
 				(INT8U) p_config->mode);
-
 	}
 
 	while (p_config->mode == 1) {
@@ -125,7 +124,7 @@ void sub_unit_control_task() {
 
 			error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
 					&buffer_burro[i_imagette_counter],
-					IMAGETTE_SIZE);
+					p_config->imagette->size[i_imagette_counter]);
 
 			printf("[SUBUNIT]imagette sent\r\n");
 

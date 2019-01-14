@@ -298,22 +298,22 @@ void sss_exec_command(SSSConn* conn) {
 
 		/* Populating the payload struct */
 
-		p_payload->packet_id = cmd_pos[0 + EMPIRICAL_BUFFER_MIN];
-		p_payload->type = cmd_pos[1 + EMPIRICAL_BUFFER_MIN];
-		p_payload->sub_type = cmd_pos[2 + EMPIRICAL_BUFFER_MIN];
-		p_payload->size = toInt(cmd_pos[6 + EMPIRICAL_BUFFER_MIN])
-				+ 256 * toInt(cmd_pos[5 + EMPIRICAL_BUFFER_MIN])
-				+ 65536 * toInt(cmd_pos[4 + EMPIRICAL_BUFFER_MIN])
-				+ 4294967296 * toInt(cmd_pos[3 + EMPIRICAL_BUFFER_MIN]);
+		p_payload->header = cmd_pos[0 + EMPIRICAL_BUFFER_MIN];
+		p_payload->packet_id = cmd_pos[1 + EMPIRICAL_BUFFER_MIN] + 256 * cmd_pos[2+EMPIRICAL_BUFFER_MIN];
+		p_payload->type = cmd_pos[3 + EMPIRICAL_BUFFER_MIN];
+		p_payload->size = toInt(cmd_pos[7 + EMPIRICAL_BUFFER_MIN])
+				+ 256 * toInt(cmd_pos[6 + EMPIRICAL_BUFFER_MIN])
+				+ 65536 * toInt(cmd_pos[5 + EMPIRICAL_BUFFER_MIN])
+				+ 4294967296 * toInt(cmd_pos[4 + EMPIRICAL_BUFFER_MIN]);
 
 		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
 
 		if (p_payload->size > 0) {
 
-			for (i = 1; i <= p_payload->size; i++) {
-				p_payload->data[i - 1] = cmd_pos[i + 6 + EMPIRICAL_BUFFER_MIN];
+			for (i = 1; i <= p_payload->size - PROTOCOL_OVERHEAD; i++) {
+				p_payload->data[i - 1] = cmd_pos[i + 7 + EMPIRICAL_BUFFER_MIN];
 				printf("[SSS]data: %c\r\nPing %i\r\n",
-						(char) cmd_pos[i + 6 + EMPIRICAL_BUFFER_MIN],
+						(char) cmd_pos[i + 7 + EMPIRICAL_BUFFER_MIN],
 						(INT8U) i);
 			}
 			p_payload->crc = toInt(
@@ -328,19 +328,19 @@ void sss_exec_command(SSSConn* conn) {
 		printf("[SSS]Second run\r\n");
 		/* Populating the payload struct */
 
-		p_payload->packet_id = cmd_pos[0];
-		p_payload->type = cmd_pos[1];
-		p_payload->sub_type = cmd_pos[2];
-		p_payload->size = toInt(cmd_pos[6]) + 256 * toInt(cmd_pos[5])
-				+ 65536 * toInt(cmd_pos[4]) + 4294967296 * toInt(cmd_pos[3]);
+		p_payload->header = cmd_pos[0];
+		p_payload->packet_id = cmd_pos[1] + 256 * cmd_pos[2];
+		p_payload->type = cmd_pos[3];
+		p_payload->size = toInt(cmd_pos[7]) + 256 * toInt(cmd_pos[6])
+				+ 65536 * toInt(cmd_pos[5]) + 4294967296 * toInt(cmd_pos[4]);
 
 		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
 
 		if (p_payload->size > 0) {
 
-			for (i = 1; i <= p_payload->size; i++) {
-				p_payload->data[i - 1] = cmd_pos[i + 6];
-				printf("[SSS]data: %c\r\nPing %i\r\n", (char) cmd_pos[i + 6],
+			for (i = 1; i <= p_payload->size - PROTOCOL_OVERHEAD; i++) {
+				p_payload->data[i - 1] = cmd_pos[i + 8];
+				printf("[SSS]data: %c\r\nPing %i\r\n", (char) cmd_pos[i + 7],
 						(INT8U) i);
 			}
 			p_payload->crc = toInt(cmd_pos[p_payload->size + 8])

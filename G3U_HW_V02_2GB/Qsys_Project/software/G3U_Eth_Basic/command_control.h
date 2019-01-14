@@ -29,13 +29,15 @@
 /* Macro definitions */
 #define LENGTH_OFFSET				3	/*Byte number offset for the 4 length bytes*/
 #define IMAGETTE_SIZE 				13 	/*Imagette size in bytes*/
-#define DELAY_SIZE					1 	/*Number of bytes used for delay value*/
-#define CENTRAL_TIMER_RESOLUTION	10	/*Timer resolution, counter uses 10Hz, so 10 = 1s*/
+#define DELAY_SIZE					6 	/*Number of bytes used for delay value*/
+#define CENTRAL_TIMER_RESOLUTION	100	/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
 #define MAX_IMAGETTES				50	/*Maximum number of imagettes */
+#define DATA_SHIFT					4	/*Data header shift*/
 
 struct _imagette_control{
 
-	INT32U offset[MAX_IMAGETTES]; 					/*define unit later*/
+	INT32U offset[MAX_IMAGETTES]; 					/* In miliseconds*/
+	INT16U imagette_length[MAX_IMAGETTES];			/* length of N imagette */
 	INT8U  imagette[MAX_IMAGETTES*IMAGETTE_SIZE];	/*Pointer to de DDR2 address*/
 	INT32U size;									/*Imagette array size*/
 }_imagette_control;
