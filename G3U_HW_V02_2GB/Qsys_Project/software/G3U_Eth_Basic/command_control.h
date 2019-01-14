@@ -39,6 +39,7 @@ struct _imagette_control{
 	INT32U offset[MAX_IMAGETTES]; 					/* In miliseconds*/
 	INT16U imagette_length[MAX_IMAGETTES];			/* length of N imagette */
 	INT8U  imagette[MAX_IMAGETTES*IMAGETTE_SIZE];	/*Pointer to de DDR2 address*/
+	INT16U nb_of_imagettes;							/*Number of imagettes in dataset*/
 	INT32U size;									/*Imagette array size*/
 }_imagette_control;
 
@@ -49,7 +50,7 @@ struct _imagette_control{
 //}imagette;
 
 /* Control functions*/
-void v_parse_data(struct _ethernet_payload*,struct _imagette_control*);
+int v_parse_data(struct _ethernet_payload*,struct _imagette_control*);
 
 INT32U i_compute_size(INT8U*);
 

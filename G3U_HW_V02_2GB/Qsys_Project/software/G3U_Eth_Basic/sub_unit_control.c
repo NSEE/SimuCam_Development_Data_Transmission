@@ -86,13 +86,13 @@ void sub_unit_control_task() {
 		//INT32U size = 0;
 		int p;
 
-		int teste = p_config->imagette->size;
+		int teste = p_config->imagette;
 
 		/*Start SpW link*/
-		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-		SPWC_REG_SET,
-		SPWC_AUTOSTART_CONTROL_BIT_MASK);
-		exec_error = Verif_Error(error_code);
+//		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+//		SPWC_REG_SET,
+//		SPWC_AUTOSTART_CONTROL_BIT_MASK);
+//		exec_error = Verif_Error(error_code);
 
 		INT8U buffer_burro[MAX_IMAGETTES*IMAGETTE_SIZE];
 
@@ -106,7 +106,7 @@ void sub_unit_control_task() {
 
 //p_sub_data = OSQPend(p_sub_unit_command_queue, 0, &error_code);
 
-		while (i_imagette_counter < teste-1) {
+		while (i_imagette_counter < p_config->imagette->nb_of_imagettes) {
 
 			printf("[SUBUNIT]Entered while\r\n");
 
@@ -124,11 +124,11 @@ void sub_unit_control_task() {
 
 			error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
 					&buffer_burro[i_imagette_counter],
-					p_config->imagette->size[i_imagette_counter]);
+					p_config->imagette->imagette_length[i_imagette_counter]);
 
 			printf("[SUBUNIT]imagette sent\r\n");
 
-			i_imagette_counter += IMAGETTE_SIZE;
+			i_imagette_counter ++;
 			printf("[SUBUNIT]imagette counter %i\r\n",
 					(int) i_imagette_counter);
 

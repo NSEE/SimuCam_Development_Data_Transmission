@@ -49,15 +49,15 @@ INT8U exec_error;
  * @param 	[in] 	*_ethernet_payload Payload Struct
  * 			[in]	*_imagette_control Control struct to receive the data
  *
- * @retval void
+ * @retval int	0 if error, 1 if no error
  **/
-void v_parse_data(struct _ethernet_payload *p_payload,
+int v_parse_data(struct _ethernet_payload *p_payload,
 		struct _imagette_control *p_img_ctrl) {
 	INT32U i = 0;
 	int p = 0;
 	INT32U o = DATA_SHIFT;
 	INT32U d = 0;
-	INT16U nb_of_imagettes = 0;
+	INT32U error_verif = 0;
 
 	printf(
 			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
@@ -69,19 +69,25 @@ void v_parse_data(struct _ethernet_payload *p_payload,
 //	*p_img_ctrl->offset = toInt(p_payload->data[0]);
 //	p_img_ctrl->imagette[0] = toInt(p_payload->data[1]);
 
-	nb_of_imagettes = toInt(p_payload->data[3]) + 256 * toInt(p_payload->data[2]);
+	p_img_ctrl->nb_of_imagettes = toInt(p_payload->data[3])
+			+ 256 * toInt(p_payload->data[2]);
 
-	printf("[PARSER] Number of imagettes: %i\r\n", nb_of_imagettes);
+	printf("[PARSER] Number of imagettes: %i\r\n", p_img_ctrl->nb_of_imagettes);
 
-	while (i < nb_of_imagettes) {
+	while (i < p_img_ctrl->nb_of_imagettes) {
 
-		p_img_ctrl->offset[i] = toInt(p_payload->data[o+3]) + 256 * toInt(p_payload->data[o+2])
-		+ 65536 * toInt(p_payload->data[o+1]) + 4294967296 * toInt(p_payload->data[o]);;
+		p_img_ctrl->offset[i] = toInt(p_payload->data[o + 3])
+				+ 256 * toInt(p_payload->data[o + 2])
+				+ 65536 * toInt(p_payload->data[o + 1])
+				+ 4294967296 * toInt(p_payload->data[o]);
+
 		p_img_ctrl->imagette_length[i] = toInt(
 				p_payload->data[o + 5] + 256 * toInt(p_payload->data[o + 4]));
 
-		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n", p_img_ctrl->offset[i],
-				p_img_ctrl->imagette_length[i]);
+		error_verif += p_img_ctrl->imagette_length[i];
+
+		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
+				p_img_ctrl->offset[i], p_img_ctrl->imagette_length[i]);
 
 		for (p = 0; p < p_img_ctrl->imagette_length[i]; p++, d++) {
 			p_img_ctrl->imagette[d] = toInt(
@@ -95,9 +101,15 @@ void v_parse_data(struct _ethernet_payload *p_payload,
 				(INT8U) p_img_ctrl->imagette[i + p + DELAY_SIZE]);
 		o += DELAY_SIZE + p_img_ctrl->imagette_length[i];
 		i++;
-		printf("[PARSER] offset counter %i\r\n", (INT32U) i);
+		printf("[PARSER] offset counter: %i\r\n", (INT32U) i);
+		printf("[PARSER] error verif: %i\r\n", (INT32U) error_verif);
 	}
 	p_img_ctrl->size = d;
+	if(p_img_ctrl->size == error_verif){
+		return 1;
+	}
+	else
+		return 0;
 }
 
 /**
@@ -330,6 +342,10 @@ void CommandManagementTask() {
 				b_meb_status = 1;
 				break;
 
+				/*
+				 * Parser and send test
+				 */
+
 			case '4':
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(char) p_payload->type);
@@ -342,6 +358,19 @@ void CommandManagementTask() {
 						(INT32U) p_img_control->size);
 
 				printf("[CommandManagementTask]Data parsed correctly\r\n");
+
+				config_send->mode = 1;
+				config_send->forward_data = 0;
+				config_send->RMAP_handling = 0;
+				config_send->imagette = p_img_control;
+
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+						config_send);
+				alt_SSSErrorHandler(error_code, 0);
+				printf("[CommandManagementTask]Sent config for test case\n\r");
+
+				b_meb_status = 1;
+				printf("[CommandManagementTask]MEB sent to running\n\r");
 
 				break;
 
