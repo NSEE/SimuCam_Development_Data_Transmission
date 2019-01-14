@@ -137,6 +137,8 @@ void sub_unit_control_task() {
 		printf("[SUBUNIT]Waiting config instructions\r\n");
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 		printf("[SUBUNIT]Configuration instructions received\r\n");
+
+		/* Modificar para assegurar um funcionamento como desejado */
 	}
 }
 
