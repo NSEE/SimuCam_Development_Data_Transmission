@@ -296,6 +296,11 @@ void sss_exec_command(SSSConn* conn) {
 
 		printf("[SSS]First run\r\n");
 
+		/*
+		 * Criar ponteiro ligado aos endereços da RAM para poder manipular
+		 * os dados. Estocar tudo direto na RAM? Ou só os dados das imagettes?
+		 */
+
 		/* Populating the payload struct */
 
 		p_payload->header = cmd_pos[0 + EMPIRICAL_BUFFER_MIN];
@@ -396,6 +401,7 @@ void sss_exec_command(SSSConn* conn) {
 void sss_handle_receive(SSSConn* conn) {
 	int data_used = 0, rx_code = 0;
 	char *lf_addr;
+	int i = 0;
 
 	conn->rx_rd_pos = conn->rx_buffer;
 	conn->rx_wr_pos = conn->rx_buffer;
@@ -422,6 +428,7 @@ void sss_handle_receive(SSSConn* conn) {
 				/* Zero terminate so we can use string functions */
 				*(conn->rx_wr_pos + 1) = 0;
 			}
+			i++;
 		}
 
 		/*

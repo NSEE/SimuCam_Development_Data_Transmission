@@ -105,10 +105,9 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 		printf("[PARSER] error verif: %i\r\n", (INT32U) error_verif);
 	}
 	p_img_ctrl->size = d;
-	if(p_img_ctrl->size == error_verif){
+	if (p_img_ctrl->size == error_verif) {
 		return 1;
-	}
-	else
+	} else
 		return 0;
 }
 
@@ -364,6 +363,9 @@ void CommandManagementTask() {
 				config_send->RMAP_handling = 0;
 				config_send->imagette = p_img_control;
 
+				printf("[CommandManagementTask]Imagete 1 length: %i\r\n",
+						config_send->imagette->imagette_length[0]);
+
 				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 						config_send);
 				alt_SSSErrorHandler(error_code, 0);
@@ -522,12 +524,95 @@ void CommandManagementTask() {
 				p_img_control->offset[3] = 4;
 				p_img_control->offset[4] = 5;
 
+				p_img_control->imagette_length[0] = 13;
+				p_img_control->imagette_length[1] = 13;
+				p_img_control->imagette_length[2] = 13;
+				p_img_control->imagette_length[3] = 13;
+				p_img_control->imagette_length[4] = 13;
+
 				p_img_control->size = 65;
+				p_img_control->nb_of_imagettes = 5;
 
 				config_send->mode = 1;
 				config_send->forward_data = 0;
 				config_send->RMAP_handling = 0;
 				config_send->imagette = p_img_control;
+
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+						config_send);
+				alt_SSSErrorHandler(error_code, 0);
+				printf("[CommandManagementTask]Sent config for test case\n\r");
+
+				b_meb_status = 1;
+				printf("[CommandManagementTask]MEB sent to running\n\r");
+
+				break;
+
+				/*
+				 * Test cases for RAM
+				 */
+			case '8':
+				printf("[CommandManagementTask] DDR2 Memory Test\r\n");
+
+				struct _imagette_control *pRAMData;
+				alt_u32 Ddr2Base;
+				alt_u32 ByteLen;
+
+				DDR2_SWITCH_MEMORY(DDR2_M1_ID);
+				Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
+				ByteLen = DDR2_M1_MEMORY_SIZE;
+				pRAMData = (struct _imagette_control *)Ddr2Base;
+
+//				pRAMData[0] = 0x28;
+//				pRAMData[1] = 0x2;
+//				pRAMData[2] = 0x0;
+//				pRAMData[3] = 0x0;
+//				pRAMData[4] = 1;
+//				pRAMData[5] = 2;
+//				pRAMData[6] = 3;
+//				pRAMData[7] = 5;
+//				pRAMData[8] = 8;
+//				pRAMData[9] = 13;
+//				pRAMData[10] = 21;
+//				pRAMData[11] = 224; //CRC
+//				pRAMData[12] = 250; //CRC
+
+
+				/*
+				 * Falta mudar o local do ponteiro do img_control, podemos fazer isso
+				 * direto para um espaço de memória da RAM. Mais pra frente, podemos associar
+				 * um espaço delimitado para cada canal SpW
+				 */
+				pRAMData->imagette[0] = 0x28;
+				pRAMData->imagette[1] = 0x2;
+				pRAMData->imagette[2] = 0x0;
+				pRAMData->imagette[3] = 0x0;
+				pRAMData->imagette[4] = 1;
+				pRAMData->imagette[5] = 2;
+				pRAMData->imagette[6] = 3;
+				pRAMData->imagette[7] = 5;
+				pRAMData->imagette[8] = 8;
+				pRAMData->imagette[9] = 13;
+				pRAMData->imagette[10] = 21;
+				pRAMData->imagette[11] = 224; //CRC
+				pRAMData->imagette[12] = 250; //CRC
+
+//				p_img_control->imagette = pRAMData;
+
+				printf("[CommandManagementTask] DDR2 Memory Test: %i, %i\r\n",
+						(INT8U) pRAMData->imagette[0],
+						(INT8U) pRAMData->imagette[8]);
+				//DDR2_MEMORY_WRITE_TEST(DDR2_M1_ID);
+
+				pRAMData->offset[0] = 1;
+				pRAMData->size = 13;
+				pRAMData->nb_of_imagettes = 1;
+				pRAMData->imagette_length[0] = 13;
+
+				config_send->mode = 1;
+				config_send->forward_data = 0;
+				config_send->RMAP_handling = 0;
+				config_send->imagette = pRAMData;
 
 				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 						config_send);
@@ -579,6 +664,27 @@ void CommandManagementTask() {
 						(INT32U) p_img_control->size);
 
 				printf("[CommandManagementTask]Data parsed correctly\r\n");
+
+				break;
+
+				/*
+				 * Delete Data
+				 */
+			case 103:
+
+				break;
+
+				/*
+				 * Select data to send
+				 */
+			case 104:
+
+				break;
+
+				/*
+				 * Change Simucam Modes
+				 */
+			case 105:
 
 				break;
 
