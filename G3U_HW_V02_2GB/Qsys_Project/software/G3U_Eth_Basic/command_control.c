@@ -428,6 +428,9 @@ void CommandManagementTask() {
 
 				p_img_control->offset[0] = 1;
 				p_img_control->size = 13;
+				p_img_control->imagette_length[0] = 13;
+				p_img_control->nb_of_imagettes = 1;
+
 
 				config_send->mode = 1;
 				config_send->forward_data = 0;
