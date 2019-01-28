@@ -286,7 +286,6 @@ void CommandManagementTask() {
 //				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
 //						(INT8U) p_payload->sub_type);
 
-
 				/*
 				 * Ack packet model
 				 */
@@ -304,6 +303,7 @@ void CommandManagementTask() {
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
+				i_id_accum++;
 
 				break;
 
@@ -655,6 +655,13 @@ void CommandManagementTask() {
 				 */
 
 			case 109:
+				/*
+				 * Verificar se realmente funciona,
+				 * mas não tem porque não funcionar...
+				 */
+				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data((char)toupper(p_payload->data[0]),
+						&(p_payload->data[1]),
+						(p_payload->size)-11);
 
 				break;
 
