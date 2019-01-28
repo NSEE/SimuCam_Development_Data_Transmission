@@ -35,7 +35,10 @@
 #define MAX_IMAGETTES				50	/*Maximum number of imagettes */
 #define DATA_SHIFT					4	/*Data header shift*/
 
-struct _imagette_control{
+#define COMMAND_NOT_FOUND			5 /*command not found code*/
+#define ACK_OK						1
+
+struct imagette_control{
 
 	INT32U offset[MAX_IMAGETTES]; 					/* In miliseconds*/
 	INT16U imagette_length[MAX_IMAGETTES];			/* length of N imagette */
@@ -44,7 +47,7 @@ struct _imagette_control{
 	INT8U* img_test;								/* Teste de imagette referenciada*/
 	INT16U nb_of_imagettes;							/*Number of imagettes in dataset*/
 	INT32U size;									/*Imagette array size*/
-}_imagette_control;
+}imagette_control;
 
 //struct imagette{
 //
@@ -53,7 +56,7 @@ struct _imagette_control{
 //}imagette;
 
 /* Control functions*/
-int v_parse_data(struct _ethernet_payload*,struct _imagette_control*);
+int v_parse_data(struct _ethernet_payload*,struct imagette_control*);
 
 INT32U i_compute_size(INT8U*);
 

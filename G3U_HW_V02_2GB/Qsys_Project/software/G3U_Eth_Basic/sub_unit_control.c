@@ -11,7 +11,7 @@
  * Creation of the sub-unit communication queue [yb]
  */
 OS_EVENT *p_sub_unit_config_queue;
-struct _sub_config *p_sub_unit_config_queue_tbl[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+struct sub_config *p_sub_unit_config_queue_tbl[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
 //struct _sub_config
 
 /*
@@ -59,15 +59,19 @@ void sub_unit_create_os_data_structs(void) {
  */
 void sub_unit_control_task() {
 	INT8U error_code; /*uCOS error code*/
-	int j = 0;
 
-	struct _sub_config sub_config;
-	struct _sub_config *p_config;
+	INT16U i_imagette_length = 0;
+
+	struct sub_config sub_config;
+	struct sub_config *p_config;
 	p_config = &sub_config;
+	struct imagette_control *p_imagette_buffer;
 
 	p_config->mode = 0;
 	p_config->RMAP_handling = 0;
 	p_config->forward_data = 0;
+	p_config->link_config = 0;
+	p_config->echo_sent = 0;
 
 	struct _ethernet_payload *p_sub_data;
 
@@ -77,43 +81,63 @@ void sub_unit_control_task() {
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
 				(INT8U) p_config->mode);
+
+		p_imagette_buffer = p_config->imagette;
 	}
 
+
+	/*
+	 * Sub-Unit in running mode
+	 */
 	while (p_config->mode == 1) {
 		INT8U error_code; /*uCOS error code*/
 		INT8U exec_error; /*Internal error code for the command module*/
 		INT16U i_imagette_counter = 0;
-		//INT32U size = 0;
+
 		int p;
 		INT16U imagette_number = 0;
-		INT16U nb_of_imagettes = p_config->imagette->nb_of_imagettes;
+		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
 		p++;
 
-		int teste = p_config->imagette;
 
-		/*Start SpW link*/
-//		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-//		SPWC_REG_SET,
-//		SPWC_AUTOSTART_CONTROL_BIT_MASK);
-//		exec_error = Verif_Error(error_code);
-		INT8U buffer_burro[MAX_IMAGETTES * IMAGETTE_SIZE];
-		INT16U buffer_length[MAX_IMAGETTES];
 
 		printf("[SUBUNIT]Sub-unit in running mode\r\n");
 
-//		for (p = 0; p < p_config->imagette->imagette_length; p++) {
-//			buffer_burro[p] = p_config->imagette->imagette[p];
-//			printf("[SUBUNIT]Buffer burro %i: %i @ %x\r\n", (int) p,
-//					(INT8U) buffer_burro[p], &buffer_burro[p]);
-//		}
+		/*
+		 * Set link interface status according to
+		 * link_config
+		 */
+		if (p_config->link_config == 0) {
+			error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+			SPWC_REG_SET,
+			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
+			exec_error = Verif_Error(error_code);
+		} else {
 
-		for (p = 0; p < p_config->imagette->nb_of_imagettes; p++) {
-			buffer_length[p] = p_config->imagette->imagette_length[p];
-			printf("[SUBUNIT]Buffer length %i: %i @ %x\r\n", (int) p,
-					(INT16U) buffer_burro[p], &buffer_burro[p]);
+			switch (p_config->link_config) {
+
+			/*
+			 * Set link to autostart
+			 */
+			case 0:
+				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+				SPWC_REG_SET,
+				SPWC_AUTOSTART_CONTROL_BIT_MASK);
+				exec_error = Verif_Error(error_code);
+				break;
+
+				/*
+				 * Set link to start
+				 */
+			case 1:
+
+				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+				SPWC_REG_SET,
+				SPWC_LINK_START_CONTROL_BIT_MASK);
+				exec_error = Verif_Error(error_code);
+				break;
+			}
 		}
-
-//p_sub_data = OSQPend(p_sub_unit_command_queue, 0, &error_code);
 
 		while (imagette_number < nb_of_imagettes) {
 
@@ -122,40 +146,36 @@ void sub_unit_control_task() {
 			printf("[SUBUNIT]imagette counter antes %i\r\n",
 					(int) i_imagette_counter);
 
-			for (p = 0; p < buffer_length[imagette_number]; p++) {
-				buffer_burro[p + i_imagette_counter] =
-						p_config->imagette->imagette[p + i_imagette_counter];
-				printf("[SUBUNIT]Buffer burro %i: %i @ %x\r\n", (int) p,
-						(INT8U) buffer_burro[p + i_imagette_counter],
-						&buffer_burro[p + i_imagette_counter]);
-			}
+			printf("[SUBUNIT]Received imagette %i start byte: %i @ %x\r\n",
+					imagette_number,
+					p_imagette_buffer->imagette[i_imagette_counter],
+					&(p_imagette_buffer->imagette[i_imagette_counter]));
 
-//			printf("[SUBUNIT]Received imagette %i start byte: %i @ %x\r\n",
-//					i_imagette_counter,
-//					p_config->imagette->imagette[i_imagette_counter],
-//					&p_config->imagette->imagette[i_imagette_counter]);
+			i_imagette_length = p_imagette_buffer->imagette_length[imagette_number];
 
-			printf("[SUBUNIT]imagette length: %i\r\n",
-					(INT16U) buffer_length[imagette_number]);
+			printf("[SUBUNIT]imagette length var: %i, imagette length p_config %i\r\n",
+					(INT16U) i_imagette_length,
+					(INT16U) p_imagette_buffer->imagette_length[imagette_number]);
 
 			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
 
-			/*
-			 * Verificar como passar esse end
-			 *
-			 * Quando RAM implementada, em teoria, poderia passar somente o end
-			 * do primeiro byte da info + o tamanho, diminuir os buffers
-			 */
 			error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
-					&buffer_burro[0],
-					//p_config->imagette->imagette[i_imagette_counter],
-					buffer_length[imagette_number]);
+					&(p_imagette_buffer->imagette[i_imagette_counter]),
+					p_imagette_buffer->imagette_length[imagette_number]);
+
+			/*
+			 * Implement echo command, Next version
+			 */
+
+//			if(p_config->echo_sent == 1){
+//
+//			}
 
 			printf("[SUBUNIT]imagette sent\r\n");
 
-			i_imagette_counter += buffer_length[imagette_number];
+			i_imagette_counter += i_imagette_length;
 
 			imagette_number++;
 
@@ -165,11 +185,11 @@ void sub_unit_control_task() {
 			printf("[SUBUNIT]imagette nb %i\r\n", (INT16U) imagette_number);
 
 		}
+
+		/* Modificar para assegurar um funcionamento como desejado */
 		printf("[SUBUNIT]Waiting config instructions\r\n");
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 		printf("[SUBUNIT]Configuration instructions received\r\n");
 
-		/* Modificar para assegurar um funcionamento como desejado */
 	}
 }
-

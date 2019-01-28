@@ -29,13 +29,15 @@ INT32U i_compute_size(INT8U *p_length) {
 	return size;
 }
 
-struct _imagette_control img_struct;
+struct imagette_control img_struct;
 
 INT8U data[MAX_IMAGETTES];
 INT8U *p_data_pos = &data[0];
 
 INT32U i_central_timer_counter = 1;
 INT8U exec_error;
+
+INT16U i_id_accum = 0;
 
 /**
  * @name v_parse_data
@@ -52,7 +54,7 @@ INT8U exec_error;
  * @retval int	0 if error, 1 if no error
  **/
 int v_parse_data(struct _ethernet_payload *p_payload,
-		struct _imagette_control *p_img_ctrl) {
+		struct imagette_control *p_img_ctrl) {
 	INT32U i = 0;
 	int p = 0;
 	INT32U o = DATA_SHIFT;
@@ -149,6 +151,20 @@ void central_timer_callback_function(void *p_arg) {
 	}
 
 	i_central_timer_counter++;
+
+	if (i_imagette_counter == 5) {
+		printf("[CALLBACK]Timer stopped\r\n");
+		printf("[CALLBACK]Timer restarted\r\n");
+		i_central_timer_counter = 1;
+		i_imagette_counter = 0;
+		error_code = OSTmrStop(central_timer,
+		OS_TMR_OPT_NONE, (void *) 0, &error_code);
+
+		if (error_code == OS_ERR_NONE || error_code == OS_ERR_TMR_STOPPED) {
+			printf("[CommandManagementTask]Timer stopped\r\n");
+			printf("[CommandManagementTask]Timer restarted\r\n");
+		}
+	}
 }
 
 /*
@@ -160,20 +176,31 @@ void CommandManagementTask() {
 	INT8U error_code; /*uCOS error code*/
 	INT8U exec_error; /*Internal error code for the command module*/
 
+	INT8U i_forward_data = 0;
+	INT8U i_echo_sent_data = 0;
+
 	INT8U* cmd_pos;
 	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
 	//INT8U* cmd_char = cmd_char_buffer;
 
-	static INT8U teste_byte = 1;
 	struct _ethernet_payload payload;
 	static struct _ethernet_payload *p_payload;
 	p_payload = &payload;
+
+	struct imagette_control *pRAMData;
+	alt_u32 Ddr2Base;
+	alt_u32 ByteLen;
+
+	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
+	Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
+	ByteLen = DDR2_M1_MEMORY_SIZE;
+	pRAMData = (struct imagette_control *) Ddr2Base;
 
 //	struct _ethernet_payload test_payload;
 //		static struct _ethernet_payload *p_test_payload;
 //		p_payload  = &test_payload;
 
-	struct _imagette_control *p_img_control;
+	struct imagette_control *p_img_control;
 	p_img_control = &img_struct;
 
 //	struct _sub_data sub_data;
@@ -202,7 +229,7 @@ void CommandManagementTask() {
 	/*
 	 * Declaring the sub-units initial status
 	 */
-	static struct _sub_config *config_send;
+	static struct sub_config *config_send;
 
 	INT8U b_meb_status = 0; //default starting mode is config
 	config_send->mode = 0; //default starting mode is config
@@ -216,41 +243,6 @@ void CommandManagementTask() {
 	 */
 	error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
 	alt_SSSErrorHandler(error_code, 0);
-
-//	p_img_control->offset[0] = 2;
-//	p_img_control->offset[1] = 5;
-
-//	data[0] = 18;
-//	data[1] = 22;
-//	data[2] = 15;
-//	data[3] = 4;
-//	data[4] = 5;
-//	data[5] = 6;
-//	data[6] = 7;
-//	data[7] = 8;
-//	data[8] = 9;
-//	data[9] = 10;
-//
-//	p_img_control->imagette[0] = data[0];
-//	p_img_control->imagette[1] = data[1];
-//	p_img_control->imagette[2] = data[2];
-//	p_img_control->imagette[3] = data[3];
-//	p_img_control->imagette[4] = data[4];
-//	p_img_control->imagette[5] = data[5];
-//	p_img_control->imagette[6] = data[6];
-//	p_img_control->imagette[7] = data[7];
-//	p_img_control->imagette[8] = data[8];
-//	p_img_control->imagette[9] = data[9];
-//	p_img_control->imagette[10] = data[10];
-//
-//	printf("Imagette data 1: %i", (INT8U) p_img_control->imagette[0]);
-
-//	printf("%x \n", &p_data_pos[0]);
-//	printf("%x \n", &p_data_pos[1]);
-//	printf("%x \n", &p_data_pos[2]);
-//	printf("%x \n", &p_data_pos[3]);
-//	printf("%x \n", &p_data_pos[4]);
-//	printf("%x \n", &p_data_pos[5]);
 
 	while (1) {
 
@@ -286,14 +278,31 @@ void CommandManagementTask() {
 						(char) p_payload->type);
 
 				//Change sub-unit to running mode
-				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-						config_send);
-				alt_SSSErrorHandler(error_code, 0);
+//				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+//						config_send);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				//Send a test byte through the cue
+//				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
+//						(INT8U) p_payload->sub_type);
 
-				//Send a test byte through the cue
-				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
-						(INT8U) p_payload->sub_type);
 
+				/*
+				 * Ack packet model
+				 */
+				p_payload->data[0] = 2;
+				p_payload->data[1] = i_id_accum;
+				p_payload->data[2] = 201;
+				p_payload->data[3] = 0;
+				p_payload->data[4] = 0;
+				p_payload->data[5] = 0;
+				p_payload->data[6] = 10;
+				p_payload->data[7] = p_payload->packet_id;
+				p_payload->data[8] = p_payload->type;
+				p_payload->data[9] = ACK_OK;
+				p_payload->size = 10;
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
 
 				break;
@@ -540,9 +549,9 @@ void CommandManagementTask() {
 				config_send->RMAP_handling = 0;
 				config_send->imagette = p_img_control;
 
-				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-						config_send);
-				alt_SSSErrorHandler(error_code, 0);
+//				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+//						config_send);
+//				alt_SSSErrorHandler(error_code, 0);
 				printf("[CommandManagementTask]Sent config for test case\n\r");
 
 //				b_meb_status = 1;
@@ -556,77 +565,11 @@ void CommandManagementTask() {
 			case '8':
 				printf("[CommandManagementTask] DDR2 Memory Test\r\n");
 
-				struct _imagette_control *pRAMData;
-				alt_u32 Ddr2Base;
-				alt_u32 ByteLen;
-
-				DDR2_SWITCH_MEMORY(DDR2_M1_ID);
-				Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
-				ByteLen = DDR2_M1_MEMORY_SIZE;
-				pRAMData = (struct _imagette_control *) Ddr2Base;
-
-//				pRAMData[0] = 0x28;
-//				pRAMData[1] = 0x2;
-//				pRAMData[2] = 0x0;
-//				pRAMData[3] = 0x0;
-//				pRAMData[4] = 1;
-//				pRAMData[5] = 2;
-//				pRAMData[6] = 3;
-//				pRAMData[7] = 5;
-//				pRAMData[8] = 8;
-//				pRAMData[9] = 13;
-//				pRAMData[10] = 21;
-//				pRAMData[11] = 224; //CRC
-//				pRAMData[12] = 250; //CRC
-
-				/*
-				 * Falta mudar o local do ponteiro do img_control, podemos fazer isso
-				 * direto para um espaço de memória da RAM. Mais pra frente, podemos associar
-				 * um espaço delimitado para cada canal SpW
-				 */
-				pRAMData->imagette[0] = 0x28;
-				pRAMData->imagette[1] = 0x2;
-				pRAMData->imagette[2] = 0x0;
-				pRAMData->imagette[3] = 0x0;
-				pRAMData->imagette[4] = 1;
-				pRAMData->imagette[5] = 2;
-				pRAMData->imagette[6] = 3;
-				pRAMData->imagette[7] = 5;
-				pRAMData->imagette[8] = 8;
-				pRAMData->imagette[9] = 13;
-				pRAMData->imagette[10] = 21;
-				pRAMData->imagette[11] = 224; //CRC
-				pRAMData->imagette[12] = 250; //CRC
-
-//				p_img_control->imagette = pRAMData;
-
-				printf("[CommandManagementTask] DDR2 Memory Test: %i, %i\r\n",
-						(INT8U) pRAMData->imagette[0],
-						(INT8U) pRAMData->imagette[8]);
-				//DDR2_MEMORY_WRITE_TEST(DDR2_M1_ID);
-
-				pRAMData->offset[0] = 1;
-				pRAMData->size = 13;
-				pRAMData->nb_of_imagettes = 1;
-				pRAMData->imagette_length[0] = 13;
-
-				config_send->mode = 1;
-				config_send->forward_data = 0;
-				config_send->RMAP_handling = 0;
-				config_send->imagette = pRAMData;
-
-				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-						config_send);
-				alt_SSSErrorHandler(error_code, 0);
-				printf("[CommandManagementTask]Sent config for test case\n\r");
-
-				b_meb_status = 1;
-				printf("[CommandManagementTask]MEB sent to running\n\r");
-
 				break;
 
 				/*
 				 * Sub-Unit config command
+				 * char: e
 				 */
 			case 101:
 				printf("[CommandManagementTask]Selected command: %c\n\r",
@@ -638,9 +581,9 @@ void CommandManagementTask() {
 				config_send->forward_data = toInt(p_payload->data[1]);
 				config_send->RMAP_handling = toInt(p_payload->data[2]);
 
-				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-						config_send);
-				alt_SSSErrorHandler(error_code, 0);
+//				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+//						config_send);
+//				alt_SSSErrorHandler(error_code, 0);
 				printf(
 						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
 						(INT8U) config_send->mode,
@@ -651,6 +594,7 @@ void CommandManagementTask() {
 
 				/*
 				 * Receive and Parse data
+				 * char: f
 				 */
 			case 102:
 				printf("[CommandManagementTask]Selected command: %c\n\r",
@@ -669,6 +613,7 @@ void CommandManagementTask() {
 
 				/*
 				 * Delete Data
+				 * char: g
 				 */
 			case 103:
 
@@ -676,6 +621,7 @@ void CommandManagementTask() {
 
 				/*
 				 * Select data to send
+				 * char: h
 				 */
 			case 104:
 
@@ -683,14 +629,70 @@ void CommandManagementTask() {
 
 				/*
 				 * Change Simucam Modes
+				 * char: i
 				 */
 			case 105:
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(char) p_payload->type);
-				b_meb_status = 1;
+
+				b_meb_status = toInt(p_payload->data[0]);
+				//b_meb_status = toInt(p_payload->data[0]);
 				printf("[CommandManagementTask]MEB sent to running\n\r");
 
 				break;
+
+				/*
+				 * Clear RAM
+				 */
+			case 108:
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(int) p_payload->type);
+
+				break;
+
+				/*
+				 * Direct send
+				 */
+
+			case 109:
+
+				break;
+
+				/*
+				 * Get HK
+				 */
+			case 110:
+
+				/*
+				 * Next version
+				 */
+
+				break;
+
+				/*
+				 * Config MEB
+				 */
+			case 111:
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(int) p_payload->type);
+				i_forward_data = p_payload->data[0];
+				i_echo_sent_data = p_payload->data[1];
+
+				break;
+
+			default:
+				printf(
+						"[CommandManagementTask]Nenhum comando identificado\n\r");
+				INT8U i_type_buffer = p_payload->type;
+				INT16U i_id_buffer = p_payload->packet_id;
+
+				p_payload->header = 2;
+//			p_payload->data[0] = i_id_buffer; //converter em 2 bytes
+				p_payload->data[1] = i_type_buffer;
+				p_payload->data[2] = COMMAND_NOT_FOUND;	//insert error for no command found
+
+				break;
+			} //Switch fim
 
 //				size = 1;
 //				if (cmd_pos[1] >= 'A' && cmd_pos[1] <= 'H') {
@@ -797,11 +799,6 @@ void CommandManagementTask() {
 //							(char) cmd_pos[1]);
 //				break;
 
-			default:
-				printf("Nenhum comando identificado\n\r");
-				break;
-			}
-
 			/*
 			 * Create a error management task and queue
 			 */
@@ -818,11 +815,11 @@ void CommandManagementTask() {
 		while (b_meb_status == 1) {
 			INT8U i_internal_error;
 			static INT8U b_timer_starter = 0;
-			INT32U timer_zero = 0;
-			//printf("MEB in running mode\n\r");
 
-			printf("[CommandManagementTask]print offset: %i\r\n",
-					(INT32U) p_img_control->offset[0]);
+			printf("MEB in running mode\n\r");
+
+			error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
+			alt_SSSErrorHandler(error_code, 0);
 
 			if (b_timer_starter == 0) {
 
@@ -844,7 +841,7 @@ void CommandManagementTask() {
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 			alt_uCOSIIErrorHandler(i_internal_error, 0);
 
-			if (p_payload->type == 'j') {
+			if (p_payload->type == 106) {
 				OSTmrStart((OS_TMR *) central_timer,
 						(INT8U *) &i_internal_error);
 				if (i_internal_error == OS_ERR_NONE) {
@@ -867,36 +864,29 @@ void CommandManagementTask() {
 						printf("[CommandManagementTask]Timer stopped\r\n");
 						i_central_timer_counter = 1;
 						printf("[CommandManagementTask]Timer restarted\r\n");
-						b_meb_status = 0;
 					}
 				}
 			}
-			//Encontrar um jeito melhor de manipular esse erro
 
-//			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
-//			alt_uCOSIIErrorHandler(i_internal_error, 0);
-//			printf("[CommandManagementTask]Payload received %i\r\n",
-//					(INT8U) p_payload->type);
-//
-//			//if (p_payload->type == 0) {
-//			OSTmrStop(central_timer,
-//			OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
-//
-//			if (i_internal_error == OS_ERR_NONE
-//					|| i_internal_error == OS_ERR_TMR_STOPPED) {
-//				printf("[CommandManagementTask]Timer stopped\r\n");
-//				i_central_timer_counter = 1;
-//				printf("[CommandManagementTask]Timer restarted\r\n");
-//			}
+			switch (p_payload->type) {
+			case 105:
+				printf("[CommandManagementTask]Return to config\r\n");
+				b_meb_status = 0;
+				break;
 
-			b_meb_status = 0;
-			printf("[CommandManagementTask]Returning to MEB config\r\n");
+			case 107:
+				OSTmrStop(central_timer,
+				OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
-			//}
-			//osqaccept
+				if (i_internal_error == OS_ERR_NONE
+						|| i_internal_error == OS_ERR_TMR_STOPPED) {
+					printf("[CommandManagementTask]Timer stopped\r\n");
+					i_central_timer_counter = 1;
+					printf("[CommandManagementTask]Timer restarted\r\n");
+				}
+				break;
+			}
 
-			//printf("cmd_char dump %i\n\r", (INT8U) cmd_char);
 		}
-//
 	}
 }

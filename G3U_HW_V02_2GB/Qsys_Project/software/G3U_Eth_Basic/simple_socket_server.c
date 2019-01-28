@@ -304,7 +304,8 @@ void sss_exec_command(SSSConn* conn) {
 		/* Populating the payload struct */
 
 		p_payload->header = cmd_pos[0 + EMPIRICAL_BUFFER_MIN];
-		p_payload->packet_id = cmd_pos[1 + EMPIRICAL_BUFFER_MIN] + 256 * cmd_pos[2+EMPIRICAL_BUFFER_MIN];
+		p_payload->packet_id = cmd_pos[1 + EMPIRICAL_BUFFER_MIN]
+				+ 256 * cmd_pos[2 + EMPIRICAL_BUFFER_MIN];
 		p_payload->type = cmd_pos[3 + EMPIRICAL_BUFFER_MIN];
 		p_payload->size = toInt(cmd_pos[7 + EMPIRICAL_BUFFER_MIN])
 				+ 256 * toInt(cmd_pos[6 + EMPIRICAL_BUFFER_MIN])
@@ -313,19 +314,21 @@ void sss_exec_command(SSSConn* conn) {
 
 		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
 
-		if (p_payload->size > 0) {
+		if (p_payload->size > 10) {
 
-			for (i = 1; i <= p_payload->size - PROTOCOL_OVERHEAD; i++) {
-				p_payload->data[i - 1] = cmd_pos[i + 7 + EMPIRICAL_BUFFER_MIN];
+			for (i = 1; i <= p_payload->size - (PROTOCOL_OVERHEAD + 3); i++) {
+				p_payload->data[i - 1] = cmd_pos[i + PROTOCOL_OVERHEAD
+						+ EMPIRICAL_BUFFER_MIN];
 				printf("[SSS]data: %c\r\nPing %i\r\n",
-						(char) cmd_pos[i + 7 + EMPIRICAL_BUFFER_MIN],
-						(INT8U) i);
+						(char) cmd_pos[i + PROTOCOL_OVERHEAD
+								+ EMPIRICAL_BUFFER_MIN], (INT8U) i);
 			}
 			p_payload->crc = toInt(
-					cmd_pos[p_payload->size + 8 + EMPIRICAL_BUFFER_MIN])
+					cmd_pos[p_payload->size + PROTOCOL_OVERHEAD + 1
+							+ EMPIRICAL_BUFFER_MIN])
 					+ 256
 							* toInt(
-									cmd_pos[p_payload->size + 7
+									cmd_pos[p_payload->size + PROTOCOL_OVERHEAD
 											+ EMPIRICAL_BUFFER_MIN]);
 		}
 		puta++;
@@ -341,15 +344,15 @@ void sss_exec_command(SSSConn* conn) {
 
 		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
 
-		if (p_payload->size > 0) {
+		if (p_payload->size > 10) {
 
-			for (i = 1; i <= p_payload->size - PROTOCOL_OVERHEAD; i++) {
-				p_payload->data[i - 1] = cmd_pos[i + 8];
-				printf("[SSS]data: %c\r\nPing %i\r\n", (char) cmd_pos[i + 7],
-						(INT8U) i);
+			for (i = 1; i <= p_payload->size - (PROTOCOL_OVERHEAD + 3); i++) {
+				p_payload->data[i - 1] = cmd_pos[i + PROTOCOL_OVERHEAD];
+				printf("[SSS]data: %c\r\nPing %i\r\n",
+						(char) p_payload->data[i - 1], (INT8U) i);
 			}
-			p_payload->crc = toInt(cmd_pos[p_payload->size + 8])
-					+ 256 * toInt(cmd_pos[p_payload->size + 7]);
+			p_payload->crc = toInt(cmd_pos[p_payload->size])
+					+ 256 * toInt(cmd_pos[p_payload->size - 1]);
 		}
 	}
 	//data_addr = cmd_pos;
@@ -365,14 +368,14 @@ void sss_exec_command(SSSConn* conn) {
 	 * Error code verification for the commands[yb]
 	 */
 
-//	q_error = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
-//	alt_SSSErrorHandler(error_code, 0);
+	p_payload = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
+	alt_SSSErrorHandler(error_code, 0);
 //	if (q_error) {
 //		tx_wr_pos += sprintf(tx_wr_pos, "\n\rCommand properly executed.\n\n\r");
 //	} else
 //		tx_wr_pos += sprintf(tx_wr_pos,
 //				"\n\rError in command execution.\n\n\r");
-	send(conn->fd, tx_buf, tx_wr_pos - tx_buf, 0);
+	send(conn->fd, p_payload->data, p_payload->size, 0);
 
 	return;
 }

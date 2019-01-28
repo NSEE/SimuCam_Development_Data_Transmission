@@ -90,7 +90,7 @@ OS_EVENT *sub_unit_command_semaphore;
  * RMAP_handling: 0->none, 1->echoing, 2->logging
  * forward_data to ethernet link
  */
-struct _sub_config {
+struct sub_config {
 
 	INT8U mode;
 	//INT8U receive_data;
@@ -100,9 +100,9 @@ struct _sub_config {
 	INT8U linkspeed;
 	INT8U linkstatus_running;
 	INT8U echo_sent;
-	struct _imagette_control *imagette;
+	struct imagette_control *imagette;
 
-}_sub_config;
+}sub_config;
 
 struct _sub_data {
 	INT8U p_data_addr[100];

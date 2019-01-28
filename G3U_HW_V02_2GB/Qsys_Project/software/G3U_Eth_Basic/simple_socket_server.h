@@ -188,7 +188,7 @@ typedef struct SSS_SOCKET
  */
 
 #define EMPIRICAL_BUFFER_MIN 	21
-#define PROTOCOL_OVERHEAD		6
+#define PROTOCOL_OVERHEAD		7
 
 /*
  * data address that will be removed
