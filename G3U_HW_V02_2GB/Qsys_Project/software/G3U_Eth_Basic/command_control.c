@@ -431,7 +431,6 @@ void CommandManagementTask() {
 				p_img_control->imagette_length[0] = 13;
 				p_img_control->nb_of_imagettes = 1;
 
-
 				config_send->mode = 1;
 				config_send->forward_data = 0;
 				config_send->RMAP_handling = 0;
@@ -546,8 +545,8 @@ void CommandManagementTask() {
 				alt_SSSErrorHandler(error_code, 0);
 				printf("[CommandManagementTask]Sent config for test case\n\r");
 
-				b_meb_status = 1;
-				printf("[CommandManagementTask]MEB sent to running\n\r");
+//				b_meb_status = 1;
+//				printf("[CommandManagementTask]MEB sent to running\n\r");
 
 				break;
 
@@ -564,7 +563,7 @@ void CommandManagementTask() {
 				DDR2_SWITCH_MEMORY(DDR2_M1_ID);
 				Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
 				ByteLen = DDR2_M1_MEMORY_SIZE;
-				pRAMData = (struct _imagette_control *)Ddr2Base;
+				pRAMData = (struct _imagette_control *) Ddr2Base;
 
 //				pRAMData[0] = 0x28;
 //				pRAMData[1] = 0x2;
@@ -579,7 +578,6 @@ void CommandManagementTask() {
 //				pRAMData[10] = 21;
 //				pRAMData[11] = 224; //CRC
 //				pRAMData[12] = 250; //CRC
-
 
 				/*
 				 * Falta mudar o local do ponteiro do img_control, podemos fazer isso
@@ -630,7 +628,6 @@ void CommandManagementTask() {
 				/*
 				 * Sub-Unit config command
 				 */
-
 			case 101:
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(char) p_payload->type);
@@ -688,6 +685,10 @@ void CommandManagementTask() {
 				 * Change Simucam Modes
 				 */
 			case 105:
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(char) p_payload->type);
+				b_meb_status = 1;
+				printf("[CommandManagementTask]MEB sent to running\n\r");
 
 				break;
 
@@ -843,29 +844,50 @@ void CommandManagementTask() {
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 			alt_uCOSIIErrorHandler(i_internal_error, 0);
 
-			OSTmrStart((OS_TMR *) central_timer, (INT8U *) &i_internal_error);
-			if (i_internal_error == OS_ERR_NONE) {
-				b_timer_starter = 1;
-				printf("[CommandManagementTask]timer started\r\n");
-			}
+			if (p_payload->type == 'j') {
+				OSTmrStart((OS_TMR *) central_timer,
+						(INT8U *) &i_internal_error);
+				if (i_internal_error == OS_ERR_NONE) {
+					b_timer_starter = 1;
+					printf("[CommandManagementTask]timer started\r\n");
+				}
 
+				p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
+				alt_uCOSIIErrorHandler(i_internal_error, 0);
+
+				printf("[CommandManagementTask]Payload received %i\r\n",
+						(INT8U) p_payload->type);
+
+				if (p_payload->type == 'k') {
+					OSTmrStop(central_timer,
+					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+
+					if (i_internal_error == OS_ERR_NONE
+							|| i_internal_error == OS_ERR_TMR_STOPPED) {
+						printf("[CommandManagementTask]Timer stopped\r\n");
+						i_central_timer_counter = 1;
+						printf("[CommandManagementTask]Timer restarted\r\n");
+						b_meb_status = 0;
+					}
+				}
+			}
 			//Encontrar um jeito melhor de manipular esse erro
 
-			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
-			alt_uCOSIIErrorHandler(i_internal_error, 0);
-			printf("[CommandManagementTask]Payload received %i\r\n",
-					(INT8U) p_payload->type);
-
-			//if (p_payload->type == 0) {
-			OSTmrStop(central_timer,
-			OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
-
-			if (i_internal_error == OS_ERR_NONE
-					|| i_internal_error == OS_ERR_TMR_STOPPED) {
-				printf("[CommandManagementTask]Timer stopped\r\n");
-				i_central_timer_counter = 1;
-				printf("[CommandManagementTask]Timer restarted\r\n");
-			}
+//			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
+//			alt_uCOSIIErrorHandler(i_internal_error, 0);
+//			printf("[CommandManagementTask]Payload received %i\r\n",
+//					(INT8U) p_payload->type);
+//
+//			//if (p_payload->type == 0) {
+//			OSTmrStop(central_timer,
+//			OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+//
+//			if (i_internal_error == OS_ERR_NONE
+//					|| i_internal_error == OS_ERR_TMR_STOPPED) {
+//				printf("[CommandManagementTask]Timer stopped\r\n");
+//				i_central_timer_counter = 1;
+//				printf("[CommandManagementTask]Timer restarted\r\n");
+//			}
 
 			b_meb_status = 0;
 			printf("[CommandManagementTask]Returning to MEB config\r\n");
@@ -875,6 +897,6 @@ void CommandManagementTask() {
 
 			//printf("cmd_char dump %i\n\r", (INT8U) cmd_char);
 		}
-
+//
 	}
 }
