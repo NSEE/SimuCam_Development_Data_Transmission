@@ -537,7 +537,6 @@ void sss_handle_receive(SSSConn* conn) {
 //				/* Zero terminate so we can use string functions */
 //				*(conn->rx_wr_pos + 1) = 0;
 //			}
-//			i++;
 //		}
 
 		/*
@@ -549,9 +548,9 @@ void sss_handle_receive(SSSConn* conn) {
 		printf("[sss_handle_receive DEBUG]connection state checked\n");
 
 		/* Manage buffer */
-//		data_used = p_ethernet_buffer->rx_rd_pos - p_ethernet_buffer->rx_buffer;
-//		memmove(p_ethernet_buffer->rx_buffer, p_ethernet_buffer->rx_rd_pos,
-//				p_ethernet_buffer->rx_wr_pos - p_ethernet_buffer->rx_rd_pos);
+		data_used = p_ethernet_buffer->rx_rd_pos - p_ethernet_buffer->rx_buffer;
+		memmove(p_ethernet_buffer->rx_buffer, p_ethernet_buffer->rx_rd_pos,
+				p_ethernet_buffer->rx_wr_pos - p_ethernet_buffer->rx_rd_pos);
 		p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
 		p_ethernet_buffer->rx_wr_pos -= p_payload->size;
 		memset(p_ethernet_buffer->rx_wr_pos, 0, p_payload->size);

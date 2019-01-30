@@ -22,8 +22,6 @@
 /* Defines */
 #define CPU_FREQ_MH 50000000
 #define POLY 0x8408
-INT16U crc16(INT8U*, INT8U);
-
 
 /* TRUE/FALSE */
 
@@ -41,6 +39,7 @@ INT8U aatoh(INT8U *buffer);
 INT8U toInt(INT8U ascii);
 INT8U toChar(INT8U i_int);
 INT8U Verif_Error(INT8U error_code);
+INT16U crc16(INT8U *p_data, INT32U i_length);
 
 /**
  * @brief Set the High level log file
