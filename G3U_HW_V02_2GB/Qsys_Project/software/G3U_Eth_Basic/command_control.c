@@ -23,7 +23,7 @@ INT8U *p_data_pos = &data[0];
 INT32U i_central_timer_counter = 1;
 INT8U exec_error;
 
-static INT16U i_id_accum = 0;
+static INT16U i_id_accum = 1;
 
 /**
  * @name v_ack_creator
@@ -40,19 +40,21 @@ static INT16U i_id_accum = 0;
  **/
 void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code) {
 
-	p_error_response->data[0] = toChar(2);
-	p_error_response->data[1] = toChar(0);
-	p_error_response->data[2] = toChar(i_id_accum);
+	p_error_response->data[0] = 2;
+	p_error_response->data[1] = 0;
+	p_error_response->data[2] = i_id_accum;
 	p_error_response->data[3] = 201;
-	p_error_response->data[4] = toChar(0);
-	p_error_response->data[5] = toChar(0);
-	p_error_response->data[6] = toChar(0);
-	p_error_response->data[7] = toChar(2);                       //10;
-	p_error_response->data[8] = toChar(p_error_response->packet_id);
-	p_error_response->data[9] = toChar(p_error_response->type);
-	p_error_response->data[10] = toChar(error_code);
-	p_error_response->data[11] = 13;				//just for display purposes
-	p_error_response->size = 12;
+	p_error_response->data[4] = 0;
+	p_error_response->data[5] = 0;
+	p_error_response->data[6] = 0;
+	p_error_response->data[7] = 14;
+	p_error_response->data[8] = 0;
+	p_error_response->data[9] = p_error_response->packet_id;
+	p_error_response->data[10] = p_error_response->type;
+	p_error_response->data[11] = error_code;
+	p_error_response->data[12] = 0;
+	p_error_response->data[13] = 89;
+	p_error_response->size = 14;
 
 	i_id_accum++;
 }
@@ -61,26 +63,37 @@ void v_HK_creator(struct _ethernet_payload* p_HK, INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
 
-	p_HK->data[0] = toChar(2);
-	p_HK->data[1] = toChar(0);
-	p_HK->data[2] = toChar(i_id_accum);
+	p_HK->data[0] = 2;
+	p_HK->data[1] = 0;
+	p_HK->data[2] = i_id_accum;
 	p_HK->data[3] = 204;
-	p_HK->data[4] = toChar(0);
-	p_HK->data[5] = toChar(0);
-	p_HK->data[6] = toChar(0);
-	p_HK->data[7] = toChar(15);
-	p_HK->data[8] = toChar(chann_buff);
-	p_HK->data[9] = toChar(b_meb_status);
-	p_HK->data[10] = sub_config.linkstatus_running;
-	p_HK->data[11] = sub_config.link_config;
-	p_HK->data[12] = sub_config.linkspeed;
-	p_HK->data[13] = sub_config.sub_status_sending;
-	p_HK->data[14] = ul_SpaceWire_Interface_Link_Status_Read('A');
-	p_HK->data[15] = toChar(i_total_imagette_counter);
-	p_HK->data[16] = toChar(i_imagette_counter);
-	p_HK->data[17] = toChar(img_struct.nb_of_imagettes);
-	p_HK->data[18] = 13;				//just for display purposes
-	p_HK->size = 19;
+	p_HK->data[4] = 0;
+	p_HK->data[5] = 0;
+	p_HK->data[6] = 0;
+	p_HK->data[7] = 30;
+	p_HK->data[8] = chann_buff;	//channel
+	p_HK->data[9] = b_meb_status; //meb mode
+	p_HK->data[10] = sub_config.linkstatus_running;	//Sub_config_enabled
+	p_HK->data[11] = sub_config.link_config; //sub_config_linkstatus
+	p_HK->data[12] = sub_config.linkspeed; //sub_config_linkspeed
+	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); //sub_status_linkrunning
+	p_HK->data[14] = 1; //link enabled
+	p_HK->data[15] = sub_config.sub_status_sending;
+	p_HK->data[16] = 0;	//link errors
+	p_HK->data[17] = 0;
+	p_HK->data[18] = 0;
+	p_HK->data[19] = 0;
+	p_HK->data[20] = 0; //sent packets byte 1
+	p_HK->data[21] = i_total_imagette_counter; //sent packets byte 0
+	p_HK->data[22] = 0; //Received packets 1
+	p_HK->data[23] = 0; //Received packets 0
+	p_HK->data[24] = 0; //current index
+	p_HK->data[25] = i_imagette_counter; //current index
+	p_HK->data[26] = 0; //packets to send
+	p_HK->data[27] = img_struct.nb_of_imagettes - i_imagette_counter; //packets to send
+	p_HK->data[28] = 25;			//crc
+	p_HK->data[29] = 86;			//crc
+	p_HK->size = 30;
 
 }
 /**
@@ -117,7 +130,7 @@ INT32U i_compute_size(INT8U *p_length) {
  * @param 	[in] 	*_ethernet_payload Payload Struct
  * 			[in]	*_imagette_control Control struct to receive the data
  *
- * @retval int	0 if error, 1 if no error
+ * @retval int	9 if error, 1 if no error
  **/
 int v_parse_data(struct _ethernet_payload *p_payload,
 		struct imagette_control *p_img_ctrl) {
@@ -137,20 +150,32 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 //	*p_img_ctrl->offset = toInt(p_payload->data[0]);
 //	p_img_ctrl->imagette[0] = toInt(p_payload->data[1]);
 
-	p_img_ctrl->nb_of_imagettes = toInt(p_payload->data[3])
-			+ 256 * toInt(p_payload->data[2]);
+	p_img_ctrl->nb_of_imagettes = p_payload->data[3] + 256 * p_payload->data[2];
 
 	printf("[PARSER] Number of imagettes: %i\r\n", p_img_ctrl->nb_of_imagettes);
 
+	p_img_ctrl->tag[7] = p_payload->data[4];
+	p_img_ctrl->tag[6] = p_payload->data[5];
+	p_img_ctrl->tag[5] = p_payload->data[6];
+	p_img_ctrl->tag[4] = p_payload->data[7];
+	p_img_ctrl->tag[3] = p_payload->data[8];
+	p_img_ctrl->tag[2] = p_payload->data[9];
+	p_img_ctrl->tag[1] = p_payload->data[10];
+	p_img_ctrl->tag[0] = p_payload->data[11];
+
+	printf("[PARSER] Number of imagettes: %i %i %i %i %i %i %i %i\r\n",
+			p_img_ctrl->tag[7], p_img_ctrl->tag[6], p_img_ctrl->tag[5],
+			p_img_ctrl->tag[4], p_img_ctrl->tag[3], p_img_ctrl->tag[2],
+			p_img_ctrl->tag[1], p_img_ctrl->tag[0]);
+
 	while (i < p_img_ctrl->nb_of_imagettes) {
 
-		p_img_ctrl->offset[i] = toInt(p_payload->data[o + 3])
-				+ 256 * toInt(p_payload->data[o + 2])
-				+ 65536 * toInt(p_payload->data[o + 1])
-				+ 4294967296 * toInt(p_payload->data[o]);
+		p_img_ctrl->offset[i] = (p_payload->data[o + 3]
+				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
+				+ 4294967296 * p_payload->data[o]) / 10;
 
-		p_img_ctrl->imagette_length[i] = toInt(
-				p_payload->data[o + 5] + 256 * toInt(p_payload->data[o + 4]));
+		p_img_ctrl->imagette_length[i] = p_payload->data[o + 5]
+				+ 256 * p_payload->data[o + 4];
 
 		error_verif += p_img_ctrl->imagette_length[i];
 
@@ -158,10 +183,10 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 				p_img_ctrl->offset[i], p_img_ctrl->imagette_length[i]);
 
 		for (p = 0; p < p_img_ctrl->imagette_length[i]; p++, d++) {
-			p_img_ctrl->imagette[d] = toInt(
-					p_payload->data[o + DELAY_SIZE + p]);
-			printf("[PARSER]Teste de recepcao: %i,%i\r\n", (INT32U) i,
-					(INT8U) p_img_ctrl->imagette[d]);
+			p_img_ctrl->imagette[d] = p_payload->data[o + DELAY_SIZE + p];
+			printf(
+					"[PARSER]Teste de recepcao:imagette_nb %i, imagette_data %i\r\n",
+					(INT32U) i, (INT8U) p_img_ctrl->imagette[d]);
 		}
 
 		printf("[PARSER] offset %i: %i, data: %i\r\n", (int) o,
@@ -172,11 +197,12 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 		printf("[PARSER] offset counter: %i\r\n", (INT32U) i);
 		printf("[PARSER] error verif: %i\r\n", (INT32U) error_verif);
 	}
+
 	p_img_ctrl->size = d;
 	if (p_img_ctrl->size == error_verif) {
-		return 1;
+		return ACK_OK;
 	} else
-		return 0;
+		return PARSER_ERROR;
 }
 
 /**
@@ -284,6 +310,102 @@ void CommandManagementTask() {
 
 	while (1) {
 
+		/*
+		 * Testing data
+		 */
+//		p_img_control->imagette[0] = 0x28;
+//		p_img_control->imagette[1] = 0x2;
+//		p_img_control->imagette[2] = 0x0;
+//		p_img_control->imagette[3] = 0x0;
+//		p_img_control->imagette[4] = 0x21;
+//		p_img_control->imagette[5] = 0xF8;
+//		p_img_control->imagette[6] = 0x1F;
+//		p_img_control->imagette[7] = 0x73;
+//		p_img_control->imagette[8] = 0x93;
+//		p_img_control->imagette[9] = 0x86;
+//		p_img_control->imagette[10] = 0xE1;
+//		p_img_control->imagette[11] = 0x7E; //CRC
+//		p_img_control->imagette[12] = 0xF5; //CRC
+//
+//		p_img_control->imagette[13] = 0x28;
+//		p_img_control->imagette[14] = 0x2;
+//		p_img_control->imagette[15] = 0x0;
+//		p_img_control->imagette[16] = 0x0;
+//		p_img_control->imagette[17] = 0x21;
+//		p_img_control->imagette[18] = 0xF8;
+//		p_img_control->imagette[19] = 0x1F;
+//		p_img_control->imagette[20] = 0x73;
+//		p_img_control->imagette[21] = 0x93;
+//		p_img_control->imagette[22] = 0x86;
+//		p_img_control->imagette[23] = 0xE1;
+//		p_img_control->imagette[24] = 0x7E; //CRC
+//		p_img_control->imagette[25] = 0xF5; //CRC
+//
+//		p_img_control->imagette[26] = 0x28;
+//		p_img_control->imagette[27] = 0x2;
+//		p_img_control->imagette[28] = 0x0;
+//		p_img_control->imagette[29] = 0x0;
+//		p_img_control->imagette[30] = 0x21;
+//		p_img_control->imagette[31] = 0xF8;
+//		p_img_control->imagette[32] = 0x1F;
+//		p_img_control->imagette[33] = 0x73;
+//		p_img_control->imagette[34] = 0x93;
+//		p_img_control->imagette[35] = 0x86;
+//		p_img_control->imagette[36] = 0xE1;
+//		p_img_control->imagette[37] = 0x7E; //CRC
+//		p_img_control->imagette[38] = 0xF5; //CRC
+//
+//		p_img_control->imagette[39] = 0x28;
+//		p_img_control->imagette[40] = 0x2;
+//		p_img_control->imagette[41] = 0x0;
+//		p_img_control->imagette[42] = 0x0;
+//		p_img_control->imagette[43] = 0x21;
+//		p_img_control->imagette[44] = 0xF8;
+//		p_img_control->imagette[45] = 0x1F;
+//		p_img_control->imagette[46] = 0x73;
+//		p_img_control->imagette[47] = 0x93;
+//		p_img_control->imagette[48] = 0x86;
+//		p_img_control->imagette[49] = 0xE1;
+//		p_img_control->imagette[50] = 0x7E; //CRC
+//		p_img_control->imagette[51] = 0xF5; //CRC
+//
+//		p_img_control->imagette[52] = 0x28;
+//		p_img_control->imagette[53] = 0x2;
+//		p_img_control->imagette[54] = 0x0;
+//		p_img_control->imagette[55] = 0x0;
+//		p_img_control->imagette[56] = 0x21;
+//		p_img_control->imagette[57] = 0xF8;
+//		p_img_control->imagette[58] = 0x1F;
+//		p_img_control->imagette[59] = 0x73;
+//		p_img_control->imagette[60] = 0x93;
+//		p_img_control->imagette[61] = 0x86;
+//		p_img_control->imagette[62] = 0xE1;
+//		p_img_control->imagette[63] = 0x7E; //CRC
+//		p_img_control->imagette[64] = 0xF5; //CRC
+//
+//		p_img_control->offset[0] = 6;
+//		p_img_control->offset[1] = 8;
+//		p_img_control->offset[2] = 11;
+//		p_img_control->offset[3] = 16;
+//		p_img_control->offset[4] = 21;
+//
+//		p_img_control->imagette_length[0] = 13;
+//		p_img_control->imagette_length[1] = 13;
+//		p_img_control->imagette_length[2] = 13;
+//		p_img_control->imagette_length[3] = 13;
+//		p_img_control->imagette_length[4] = 13;
+//
+//		p_img_control->size = 65;
+//		p_img_control->nb_of_imagettes = 5;
+//
+//		config_send->mode = 1;
+//		config_send->forward_data = 0;
+//		config_send->RMAP_handling = 0;
+//		config_send->link_config = 0;
+//		config_send->linkstatus_running = 1;
+//		config_send->imagette = p_img_control;
+//
+//		b_meb_status = 1;
 		/*
 		 * MEB in configuration mode.
 		 * It's the default state
@@ -611,9 +733,9 @@ void CommandManagementTask() {
 
 				/* Add a case for channel selection */
 
-				config_send->link_config = toInt(p_payload->data[1]);
-				config_send->linkspeed = toInt(p_payload->data[2]);
-				config_send->linkstatus_running = toInt(p_payload->data[3]);
+				config_send->link_config = p_payload->data[1];
+				config_send->linkspeed = p_payload->data[2];
+				config_send->linkstatus_running = p_payload->data[3];
 
 //				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 //						config_send);
@@ -639,7 +761,7 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(char) p_payload->type);
 
-				v_parse_data(p_payload, p_img_control);
+				exec_error = v_parse_data(p_payload, p_img_control);
 				printf(
 						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
 						(INT8U) p_img_control->imagette[4],
@@ -648,7 +770,7 @@ void CommandManagementTask() {
 
 				printf("[CommandManagementTask]Data parsed correctly\r\n");
 
-				v_ack_creator(p_payload, ACK_OK);
+				v_ack_creator(p_payload, exec_error);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
@@ -689,7 +811,7 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(char) p_payload->type);
 
-				b_meb_status = toInt(p_payload->data[0]);
+				b_meb_status = p_payload->data[0];
 				if (b_meb_status == 1) {
 					config_send->mode = 1;
 				}
@@ -724,9 +846,14 @@ void CommandManagementTask() {
 			case 109:
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(int) p_payload->type);
+				char channel;
+				switch (p_payload->data[0]) {
+				case 0:
+					channel = 'A';
+					break;
+				}
 
-				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
-						(char) toupper(p_payload->data[0]),
+				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(channel,
 						&(p_payload->data[1]), (p_payload->size) - 11);
 
 				v_ack_creator(p_payload, ACK_OK);
@@ -754,6 +881,7 @@ void CommandManagementTask() {
 			case 111:
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(int) p_payload->type);
+
 				i_forward_data = p_payload->data[0];
 				i_echo_sent_data = p_payload->data[1];
 
@@ -931,23 +1059,20 @@ void CommandManagementTask() {
 				}
 			}
 
-			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
-			alt_uCOSIIErrorHandler(i_internal_error, 0);
+			/*
+			 * Test variables
+			 */
 
-			if (p_payload->type == 106) {
-				OSTmrStart((OS_TMR *) central_timer,
-						(INT8U *) &i_internal_error);
-				if (i_internal_error == OS_ERR_NONE) {
-					b_timer_starter = 1;
-					printf("[CommandManagementTask]timer started\r\n");
-
-					v_ack_creator(p_payload, ACK_OK);
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
-				}
-
+//			if (y == 1) {
+//				OSTmrStart((OS_TMR *) central_timer,
+//						(INT8U *) &i_internal_error);
+//				if (i_internal_error == OS_ERR_NONE) {
+//					b_timer_starter = 1;
+//					printf("[CommandManagementTask]timer started\r\n");
+//					y = 0;
+//
+//				}
+//			}
 //				p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 //				alt_uCOSIIErrorHandler(i_internal_error, 0);
 //
@@ -965,6 +1090,23 @@ void CommandManagementTask() {
 //						printf("[CommandManagementTask]Timer restarted\r\n");
 //					}
 //				}
+//			} else {
+			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
+			alt_uCOSIIErrorHandler(i_internal_error, 0);
+
+			if (p_payload->type == 106) {
+				OSTmrStart((OS_TMR *) central_timer,
+						(INT8U *) &i_internal_error);
+				if (i_internal_error == OS_ERR_NONE) {
+					b_timer_starter = 1;
+					printf("[CommandManagementTask]timer started\r\n");
+
+					v_ack_creator(p_payload, ACK_OK);
+
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_payload);
+					alt_SSSErrorHandler(error_code, 0);
+				}
 			} else {
 
 				switch (p_payload->type) {
@@ -990,6 +1132,9 @@ void CommandManagementTask() {
 					break;
 
 				case 107:
+					printf("[CommandManagementTask]Selected command: %i\n\r",
+							(int) p_payload->type);
+
 					OSTmrStop(central_timer,
 					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
@@ -1012,7 +1157,7 @@ void CommandManagementTask() {
 					 * char: m
 					 */
 				case 109:
-					printf("[CommandManagementTask]Selected command: %c\n\r",
+					printf("[CommandManagementTask]Selected command: %i\n\r",
 							(int) p_payload->type);
 
 					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(

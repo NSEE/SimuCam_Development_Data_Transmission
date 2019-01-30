@@ -51,6 +51,8 @@
  * beginning with "SSS" are declared and created in this file.
  */
 
+static struct _ethernet_payload *p_payload;
+
 /*
  * Creation of the queue for receive/command communication [yb]
  */
@@ -170,30 +172,30 @@ void sss_reset_connection(SSSConn* conn) {
 void sss_send_menu(SSSConn* conn) {
 	char tx_buf[SSS_TX_BUF_SIZE];
 	char *tx_wr_pos = tx_buf;
-
-	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "Simucam Ethernet Commands Menu\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
-	tx_wr_pos +=
-			sprintf(tx_wr_pos,
-					"Todos os numeros devem ser enviados em HEX, menos o numero do comando. "
-							"On/Off deve ser enviado como um 1 ou um 0 respectivamente \n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "0: Teste da Sub-unidade\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos,
-			"1: Sub-unit configuration(mode,forward data,handling)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "2: Write Timecodes(CH, N, TIMECODE)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "3: Read Timecode(CH)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "4: Write Data (CH, N, DATA)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "5: Read Data (CH)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "6: Set SpW Autostart (CH, On/Off)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "7: Set SpW Linkstart (CH, On/Off)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "8: Set SpW LinkDisable (CH, On/Off)\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "Q: Sair\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
-	tx_wr_pos += sprintf(tx_wr_pos, "Enter your choice & press return:\n\r");
-
-	send(conn->fd, tx_buf, tx_wr_pos - tx_buf, 0);
+//
+//	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "Simucam Ethernet Commands Menu\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
+//	tx_wr_pos +=
+//			sprintf(tx_wr_pos,
+//					"Todos os numeros devem ser enviados em HEX, menos o numero do comando. "
+//							"On/Off deve ser enviado como um 1 ou um 0 respectivamente \n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "0: Teste da Sub-unidade\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos,
+//			"1: Sub-unit configuration(mode,forward data,handling)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "2: Write Timecodes(CH, N, TIMECODE)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "3: Read Timecode(CH)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "4: Write Data (CH, N, DATA)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "5: Read Data (CH)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "6: Set SpW Autostart (CH, On/Off)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "7: Set SpW Linkstart (CH, On/Off)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "8: Set SpW LinkDisable (CH, On/Off)\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "Q: Sair\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "=================================\n\r");
+//	tx_wr_pos += sprintf(tx_wr_pos, "Enter your choice & press return:\n\r");
+//
+//	send(conn->fd, tx_buf, tx_wr_pos - tx_buf, 0);
 
 	return;
 }
@@ -261,8 +263,6 @@ void sss_exec_command(SSSConn* conn) {
 	INT8U error_code;
 	INT8U q_error;
 
-	static struct _ethernet_payload *p_payload;
-
 	INT32U command;
 	static INT8U intCommand[SSS_TX_BUF_SIZE];
 	INT8U* cmd_pos = intCommand;
@@ -271,27 +271,26 @@ void sss_exec_command(SSSConn* conn) {
 
 	/*
 	 * Isolate the command from garbage. And terminate the process if need be.[yb]
-	 */
-	while (bytes_to_process--) {
-		command = *(conn->rx_rd_pos++);
-
-		if (command == CMD_QUIT) {
-			tx_wr_pos += sprintf(tx_wr_pos, "Terminating connection.\n\n\r");
-			conn->close = 1;
-			puta = 0;
-			return;
-		}
-
-		//Verify and ignore entries that aren't alphanumeric[yb]
-//		if ( isdigit(command) || isalpha(command)) {
-		cmd_pos[i] = command;
-		printf("[SSS]Data in buffer: %i\r\n", (INT8U) cmd_pos[i]);
-		i++;
+	 //	 */
+//	while (bytes_to_process--) {
+//		command = *(conn->rx_rd_pos++);
+//
+//		if (command == CMD_QUIT) {
+//			tx_wr_pos += sprintf(tx_wr_pos, "Terminating connection.\n\n\r");
+//			conn->close = 1;
+//			puta = 0;
+//			return;
 //		}
-
-	}
-	printf("[SSS]crc %i\r\n", (INT16U) crc16(cmd_pos[0], i + 1));
-
+//
+//		//Verify and ignore entries that aren't alphanumeric[yb]
+////		if ( isdigit(command) || isalpha(command)) {
+//		cmd_pos[i] = command;
+//		printf("[SSS]Data in buffer: %i\r\n", (INT8U) cmd_pos[i]);
+//		i++;
+////		}
+//
+//	}
+//	printf("[SSS]crc %i\r\n", (INT16U) crc16(cmd_pos[0], i + 1));
 //	if (puta == 0) {
 //
 //		printf("[SSS]First run\r\n");
@@ -333,34 +332,36 @@ void sss_exec_command(SSSConn* conn) {
 //		}
 //		puta++;
 //	} else {
-		printf("[SSS]Second run\r\n");
-		/* Populating the payload struct */
-
-		p_payload->header = cmd_pos[0];
-		p_payload->packet_id = cmd_pos[1] + 256 * cmd_pos[2];
-		p_payload->type = cmd_pos[3];
-		p_payload->size = toInt(cmd_pos[7]) + 256 * toInt(cmd_pos[6])
-				+ 65536 * toInt(cmd_pos[5]) + 4294967296 * toInt(cmd_pos[4]);
-
-		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
-
-		if (p_payload->size > 10) {
-
-			for (i = 1; i <= p_payload->size - (PROTOCOL_OVERHEAD + 3); i++) {
-				p_payload->data[i - 1] = cmd_pos[i + PROTOCOL_OVERHEAD];
-				printf("[SSS]data: %c\r\nPing %i\r\n",
-						(char) p_payload->data[i - 1], (INT8U) i);
-			}
-			p_payload->crc = toInt(cmd_pos[p_payload->size])
-					+ 256 * toInt(cmd_pos[p_payload->size - 1]);
-		}
+//	printf("[SSS]Second run\r\n");
+//	/* Populating the payload struct */
+//
+//	p_payload->header = cmd_pos[0];
+//	p_payload->packet_id = cmd_pos[1] + 256 * cmd_pos[2];
+//	p_payload->type = cmd_pos[3];
+//	p_payload->size = cmd_pos[7] + 256 * cmd_pos[6] + 65536 * cmd_pos[5]
+//			+ 4294967296 * cmd_pos[4];
+//
+//	printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
+//
+//	if (p_payload->size > 10) {
+//
+//		for (i = 1; i <= p_payload->size - (PROTOCOL_OVERHEAD + 3); i++) {
+//			p_payload->data[i - 1] = cmd_pos[i + PROTOCOL_OVERHEAD];
+//			printf("[SSS]data: %c\r\nPing %i\r\n",
+//					(char) p_payload->data[i - 1], (INT8U) i);
+//		}
+//		p_payload->crc = cmd_pos[p_payload->size]
+//				+ 256 * cmd_pos[p_payload->size - 1];
 //	}
-	//data_addr = cmd_pos;
-
-	printf("[SSS]Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
-			(INT32U) p_payload->size, (char) p_payload->type,
-			(char) p_payload->data[0]);
-
+////	}
+//	//data_addr = cmd_pos;
+//
+//	printf("[SSS]Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
+//			(INT32U) p_payload->size, (int) p_payload->type,
+//			(int) p_payload->data[0]);
+//
+//	error_code = OSQPost(p_simucam_command_q, p_payload);
+//	alt_SSSErrorHandler(error_code, 0);
 	error_code = OSQPost(p_simucam_command_q, p_payload);
 	alt_SSSErrorHandler(error_code, 0);
 
@@ -405,8 +406,17 @@ void sss_handle_receive(SSSConn* conn) {
 	int data_used = 0, rx_code = 0;
 	char *lf_addr;
 	int i = 0;
+	INT8U error_code = 0;
+	INT16U calculated_crc = 0;
 
-	INT32U packet_size = 0;
+	struct ethernet_buffer buffer;
+	struct ethernet_buffer *p_ethernet_buffer;
+	p_ethernet_buffer = &buffer;
+
+	p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
+	p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
+
+//	static struct _ethernet_payload *p_payload;
 
 	conn->rx_rd_pos = conn->rx_buffer;
 	conn->rx_wr_pos = conn->rx_buffer;
@@ -417,51 +427,96 @@ void sss_handle_receive(SSSConn* conn) {
 
 		printf("[sss_handle_receive DEBUG] receiving first bytes\n");
 
-		rx_code = recv(conn->fd, (char* )conn->rx_wr_pos,
-				8, 0);
+		rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_rd_pos, 8, 0);
 
 		if (rx_code > 0) {
-			conn->rx_wr_pos += rx_code;
+			p_ethernet_buffer->rx_rd_pos += rx_code;
 
 			/* Zero terminate so we can use string functions */
-			*(conn->rx_wr_pos + 1) = 0;
+			*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 		}
 
 		printf("Printing all bytes: ");
 
-		for(int j = 0; j < 8; j++){
-			printf("%c ", (char) conn->rx_buffer[j]);
+		for (int j = 0; j < 8; j++) {
+			printf("%i ", (int) p_ethernet_buffer->rx_buffer[j]);
 		}
 
 		printf("\n");
 
-		printf("[sss_handle_receive DEBUG]Print size bytes: %c %c %c %c\n",
-				(char) conn->rx_buffer[7],
-				(char) conn->rx_buffer[6],
-				(char) conn->rx_buffer[5],
-				(char) conn->rx_buffer[4]);
+		printf("[sss_handle_receive DEBUG]Print size bytes: %i %i %i %i\n",
+				(int) p_ethernet_buffer->rx_buffer[7],
+				(int) p_ethernet_buffer->rx_buffer[6],
+				(int) p_ethernet_buffer->rx_buffer[5],
+				(int) p_ethernet_buffer->rx_buffer[4]);
 
-		packet_size = toInt(conn->rx_buffer[7])
-				+ 256 * toInt(conn->rx_buffer[6])
-				+ 65536 * toInt(conn->rx_buffer[5])
-				+ 4294967296 * toInt(conn->rx_buffer[4]);
+		p_payload->header = p_ethernet_buffer->rx_buffer[0];
+		p_payload->packet_id = p_ethernet_buffer->rx_buffer[2]
+				+ 256 * p_ethernet_buffer->rx_buffer[1];
+		p_payload->type = p_ethernet_buffer->rx_buffer[3];
+
+		p_payload->size = p_ethernet_buffer->rx_buffer[7]
+				+ 256 * p_ethernet_buffer->rx_buffer[6]
+				+ 65536 * p_ethernet_buffer->rx_buffer[5]
+				+ 4294967296 * p_ethernet_buffer->rx_buffer[4];
 
 		printf("[sss_handle_receive DEBUG] calculating size = %i\n",
-				(INT32U) packet_size);
+				(INT32U) p_payload->size);
 
-		rx_code = recv(conn->fd, (char* )conn->rx_wr_pos,
-				packet_size - 8, 0);
-
+		rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
+				p_payload->size - 8, 0);
 		if (rx_code > 0) {
-			conn->rx_wr_pos += rx_code;
+			p_ethernet_buffer->rx_wr_pos += rx_code;
 
 			/* Zero terminate so we can use string functions */
-			*(conn->rx_wr_pos + 1) = 0;
+			*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 		}
+
+		/*
+		 * Assign data in the payload struct to data in the buffer
+		 * change to 0
+		 */
+		if (p_payload->size > 10) {
+			for (i = 1; i <= p_payload->size - 10; i++) {
+				p_payload->data[i - 1] = p_ethernet_buffer->rx_buffer[i - 1];
+				printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
+						(INT8U) p_payload->data[i - 1], (INT8U) i);
+			}
+		}
+
+		printf("[sss_handle_receive DEBUG]Printing buffer = ");
+		for (int k = 0; k < p_payload->size - 8; k++) {
+			printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+		}
+		printf("\r\n");
+
+		printf(
+				"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
+						"Type: %i\r\n", (int) p_payload->header,
+				(int) p_payload->packet_id, (int) p_payload->type);
+
+		p_payload->crc = p_ethernet_buffer->rx_buffer[p_payload->size]
+				+ 256 * p_ethernet_buffer->rx_buffer[p_payload->size - 1];
+
+		printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
+				(INT16U) p_payload->crc);
+
+		calculated_crc = crc16(p_ethernet_buffer->rx_buffer, p_payload->size);
+
+		printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
+				(INT16U) calculated_crc);
+
+//		printf("[sss_handle_receive DEBUG]Print received data bytes 0: %i\n",
+//				(INT8U) p_payload->data[0]);
 
 		printf("[sss_handle_receive DEBUG]finished receiving\n");
 
+//		error_code = OSQPost(p_simucam_command_q, p_payload);
+//		alt_SSSErrorHandler(error_code, 0);
+
 		sss_exec_command(conn);
+
+		printf("[sss_handle_receive DEBUG]Returned from function\n");
 
 //		/* Find the Carriage return which marks the end of the header */
 //		lf_addr = strchr((const char*) conn->rx_buffer, '\n');
@@ -491,13 +546,24 @@ void sss_handle_receive(SSSConn* conn) {
 		 */
 		conn->state = conn->close ? CLOSE : READY;
 
+		printf("[sss_handle_receive DEBUG]connection state checked\n");
+
 		/* Manage buffer */
-		data_used = conn->rx_rd_pos - conn->rx_buffer;
-		memmove(conn->rx_buffer, conn->rx_rd_pos,
-				conn->rx_wr_pos - conn->rx_rd_pos);
-		conn->rx_rd_pos = conn->rx_buffer;
-		conn->rx_wr_pos -= data_used;
-		memset(conn->rx_wr_pos, 0, data_used);
+//		data_used = p_ethernet_buffer->rx_rd_pos - p_ethernet_buffer->rx_buffer;
+//		memmove(p_ethernet_buffer->rx_buffer, p_ethernet_buffer->rx_rd_pos,
+//				p_ethernet_buffer->rx_wr_pos - p_ethernet_buffer->rx_rd_pos);
+		p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
+		p_ethernet_buffer->rx_wr_pos -= p_payload->size;
+		memset(p_ethernet_buffer->rx_wr_pos, 0, p_payload->size);
+
+//		data_used = conn->rx_rd_pos - conn->rx_buffer;
+//		memmove(conn->rx_buffer, conn->rx_rd_pos,
+//				conn->rx_wr_pos - conn->rx_rd_pos);
+//		conn->rx_rd_pos = conn->rx_buffer;
+//		conn->rx_wr_pos -= data_used;
+//		memset(conn->rx_wr_pos, 0, data_used);
+
+		printf("[sss_handle_receive DEBUG]Buffer managed\n");
 	}
 
 	printf("[sss_handle_receive] closing connection\n");

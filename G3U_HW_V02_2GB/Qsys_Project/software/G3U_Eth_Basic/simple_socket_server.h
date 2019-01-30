@@ -187,6 +187,7 @@ typedef struct SSS_SOCKET
  * "SSS" are declared in file "simple_socket_server.c".
  */
 
+#define BUFFER_SIZE				1500
 #define EMPIRICAL_BUFFER_MIN 	21
 #define PROTOCOL_OVERHEAD		7
 
@@ -194,6 +195,12 @@ typedef struct SSS_SOCKET
  * data address that will be removed
  */
 extern INT8U *data_addr;
+
+struct ethernet_buffer{
+	INT8U rx_buffer[BUFFER_SIZE];
+	INT8U *rx_rd_pos;
+	INT8U *rx_wr_pos;
+};
 
 /*
  * Command + payload struct for the simucam ethernet control

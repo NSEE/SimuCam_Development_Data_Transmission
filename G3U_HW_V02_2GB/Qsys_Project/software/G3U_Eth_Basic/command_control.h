@@ -33,17 +33,18 @@
 #define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	100		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
-#define DATA_SHIFT					4		/*Data header shift*/
+#define DATA_SHIFT					12		/*Data header shift*/
 
 
 /*
  * Error codes definitions
  */
-#define ACK_OK						1
+#define ACK_OK						0
 #define COMMAND_NOT_ACCEPTED		4
 #define COMMAND_NOT_FOUND			5 	/*Command not found code*/
 #define NOT_IMPLEMENTED				7	/*Command not implemented*/
 #define	TIMER_ERROR					8
+#define PARSER_ERROR				9
 
 
 struct ram_teste{
@@ -58,6 +59,7 @@ struct imagette_control{
 	INT8U* img_test;								/* Teste de imagette referenciada*/
 	INT16U nb_of_imagettes;							/*Number of imagettes in dataset*/
 	INT32U size;									/*Imagette array size*/
+	INT8U tag[8];
 }imagette_control;
 
 //struct imagette{

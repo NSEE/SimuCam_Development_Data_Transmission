@@ -189,7 +189,7 @@ INT8U toChar(INT8U i_int) {
  * @retval INT16U crc
  **/
 
-INT16U crc16(INT8U *p_data, INT8U i_length) {
+INT16U crc16(INT8U *p_data, INT32U i_length) {
 
 	unsigned char i;
 	unsigned int data;

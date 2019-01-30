@@ -75,6 +75,8 @@ void sub_unit_control_task() {
 	p_config->link_config = 0;
 	p_config->echo_sent = 0;
 	p_config->sub_status_sending = 0;
+	p_config->linkstatus_running = 1;
+	p_config->linkspeed = 3;
 
 	struct _ethernet_payload *p_sub_data;
 
@@ -111,6 +113,8 @@ void sub_unit_control_task() {
 		 * link_config
 		 */
 		if (p_config->linkstatus_running == 0) {
+
+			printf("[SUBUNIT]Channel disabled\r\n");
 			error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 			SPWC_REG_SET,
 			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
@@ -123,6 +127,8 @@ void sub_unit_control_task() {
 			 * Set link to autostart
 			 */
 			case 0:
+
+				printf("[SUBUNIT]Channel autostart\r\n");
 				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 				SPWC_REG_SET,
 				SPWC_AUTOSTART_CONTROL_BIT_MASK);
@@ -133,7 +139,7 @@ void sub_unit_control_task() {
 				 * Set link to start
 				 */
 			case 1:
-
+				printf("[SUBUNIT]Channel start\r\n");
 				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 				SPWC_REG_SET,
 				SPWC_LINK_START_CONTROL_BIT_MASK);
