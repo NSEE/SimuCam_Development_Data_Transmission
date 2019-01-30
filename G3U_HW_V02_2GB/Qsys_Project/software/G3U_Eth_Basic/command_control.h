@@ -60,6 +60,7 @@ struct imagette_control{
 	INT16U nb_of_imagettes;							/*Number of imagettes in dataset*/
 	INT32U size;									/*Imagette array size*/
 	INT8U tag[8];
+	INT8U sto_locale;
 }imagette_control;
 
 //struct imagette{

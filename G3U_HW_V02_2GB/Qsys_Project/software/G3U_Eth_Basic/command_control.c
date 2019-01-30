@@ -135,7 +135,7 @@ INT32U i_compute_size(INT8U *p_length) {
 int v_parse_data(struct _ethernet_payload *p_payload,
 		struct imagette_control *p_img_ctrl) {
 	INT32U i = 0;
-	int p = 0;
+	INT32U p = 0;
 	INT32U o = DATA_SHIFT;
 	INT32U d = 0;
 	INT32U error_verif = 0;
@@ -147,8 +147,9 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 			(char) p_payload->data[11], (char) p_payload->data[12],
 			(char) p_payload->data[13]);
 
-//	*p_img_ctrl->offset = toInt(p_payload->data[0]);
-//	p_img_ctrl->imagette[0] = toInt(p_payload->data[1]);
+	/*
+	 * Do not use first 2 bytes
+	 */
 
 	p_img_ctrl->nb_of_imagettes = p_payload->data[3] + 256 * p_payload->data[2];
 
@@ -163,7 +164,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	p_img_ctrl->tag[1] = p_payload->data[10];
 	p_img_ctrl->tag[0] = p_payload->data[11];
 
-	printf("[PARSER] Number of imagettes: %i %i %i %i %i %i %i %i\r\n",
+	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n",
 			p_img_ctrl->tag[7], p_img_ctrl->tag[6], p_img_ctrl->tag[5],
 			p_img_ctrl->tag[4], p_img_ctrl->tag[3], p_img_ctrl->tag[2],
 			p_img_ctrl->tag[1], p_img_ctrl->tag[0]);
