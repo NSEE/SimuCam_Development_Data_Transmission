@@ -8,6 +8,7 @@
 #include "command_control.h"
 
 struct imagette_control img_struct;
+struct sub_config config_send_A;
 
 INT8U b_meb_status = 0; //default starting mode is config
 INT8U i_forward_data = 0;
@@ -252,13 +253,14 @@ void CommandManagementTask() {
 	p_payload = &payload;
 
 	struct imagette_control *pRAMData;
+	struct ram_teste *p_ram_teste;
 	alt_u32 Ddr2Base;
 	alt_u32 ByteLen;
 
 	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
 	Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
 	ByteLen = DDR2_M1_MEMORY_SIZE;
-	pRAMData = (struct imagette_control *) Ddr2Base;
+	p_ram_teste = (struct ram_teste *) Ddr2Base;
 
 //	struct _ethernet_payload test_payload;
 //		static struct _ethernet_payload *p_test_payload;
@@ -283,6 +285,7 @@ void CommandManagementTask() {
 	 * Declaring the sub-units initial status
 	 */
 	static struct sub_config *config_send;
+	config_send = &config_send_A;
 
 	config_send->mode = 0; //default starting mode is config
 	config_send->forward_data = 0;
@@ -309,12 +312,19 @@ void CommandManagementTask() {
 			 * Enter the receive command mode
 			 */
 
+			printf("DEBUG before pend: %i\r\n",
+					(INT8U) config_send->imagette->imagette[0]);
+
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
+
+			printf("DEBUG after pend: %i\r\n",
+					(INT8U) config_send->imagette->imagette[0]);
+
 			cmd_pos = data_addr;
 			printf(
 					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
-					(char) p_payload->type, (char) p_payload->data[0],
+					(INT8U) p_payload->type, (char) p_payload->data[0],
 					(char) p_payload->data[1], (char) p_payload->data[2],
 					(char) p_payload->data[3], (char) p_payload->data[4]);
 
@@ -607,6 +617,9 @@ void CommandManagementTask() {
 				config_send->RMAP_handling = 0;
 				config_send->imagette = p_img_control;
 
+				printf("DEBUG after config: %i\r\n",
+						(INT8U) config_send->imagette->imagette[0]);
+
 //				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 //						config_send);
 //				alt_SSSErrorHandler(error_code, 0);
@@ -720,7 +733,18 @@ void CommandManagementTask() {
 
 				b_meb_status = toInt(p_payload->data[0]);
 				//b_meb_status = toInt(p_payload->data[0]);
-				printf("[CommandManagementTask]MEB sent to running\n\r");
+				printf("DEBUG antes: %i\r\n",
+						(INT8U) config_send->imagette->imagette[0]);
+				config_send->mode = 1;
+
+				printf("DEBUG depois: %i\r\n",
+						(INT8U) config_send->imagette->imagette[0]);
+
+				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+						config_send);
+				alt_SSSErrorHandler(error_code, 0);
+
+				printf("[CommandManagementTask]Config sent to sub\n\r");
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -936,10 +960,6 @@ void CommandManagementTask() {
 			static INT8U b_timer_starter = 0;
 
 			printf("MEB in running mode\n\r");
-
-			config_send->mode = 1;
-			error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
-			alt_SSSErrorHandler(error_code, 0);
 
 			if (b_timer_starter == 0) {
 

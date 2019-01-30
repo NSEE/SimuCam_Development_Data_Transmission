@@ -46,6 +46,10 @@
 #define	TIMER_ERROR					8
 
 
+struct ram_teste{
+	INT8U teste[300000];
+};
+
 struct imagette_control{
 
 	INT32U offset[MAX_IMAGETTES]; 					/* In miliseconds*/
