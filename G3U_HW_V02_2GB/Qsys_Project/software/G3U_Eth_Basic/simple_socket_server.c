@@ -51,7 +51,6 @@
  * beginning with "SSS" are declared and created in this file.
  */
 
-
 /*
  * Creation of the queue for receive/command communication [yb]
  */
@@ -293,47 +292,47 @@ void sss_exec_command(SSSConn* conn) {
 	}
 	printf("[SSS]crc %i\r\n", (INT16U) crc16(cmd_pos[0], i + 1));
 
-	if (puta == 0) {
-
-		printf("[SSS]First run\r\n");
-
-		/*
-		 * Criar ponteiro ligado aos endereços da RAM para poder manipular
-		 * os dados. Estocar tudo direto na RAM? Ou só os dados das imagettes?
-		 */
-
-		/* Populating the payload struct */
-
-		p_payload->header = cmd_pos[0 + EMPIRICAL_BUFFER_MIN];
-		p_payload->packet_id = cmd_pos[1 + EMPIRICAL_BUFFER_MIN]
-				+ 256 * cmd_pos[2 + EMPIRICAL_BUFFER_MIN];
-		p_payload->type = cmd_pos[3 + EMPIRICAL_BUFFER_MIN];
-		p_payload->size = toInt(cmd_pos[7 + EMPIRICAL_BUFFER_MIN])
-				+ 256 * toInt(cmd_pos[6 + EMPIRICAL_BUFFER_MIN])
-				+ 65536 * toInt(cmd_pos[5 + EMPIRICAL_BUFFER_MIN])
-				+ 4294967296 * toInt(cmd_pos[4 + EMPIRICAL_BUFFER_MIN]);
-
-		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
-
-		if (p_payload->size > 10) {
-
-			for (i = 1; i <= p_payload->size - (PROTOCOL_OVERHEAD + 3); i++) {
-				p_payload->data[i - 1] = cmd_pos[i + PROTOCOL_OVERHEAD
-						+ EMPIRICAL_BUFFER_MIN];
-				printf("[SSS]data: %c\r\nPing %i\r\n",
-						(char) cmd_pos[i + PROTOCOL_OVERHEAD
-								+ EMPIRICAL_BUFFER_MIN], (INT8U) i);
-			}
-			p_payload->crc = toInt(
-					cmd_pos[p_payload->size + PROTOCOL_OVERHEAD + 1
-							+ EMPIRICAL_BUFFER_MIN])
-					+ 256
-							* toInt(
-									cmd_pos[p_payload->size + PROTOCOL_OVERHEAD
-											+ EMPIRICAL_BUFFER_MIN]);
-		}
-		puta++;
-	} else {
+//	if (puta == 0) {
+//
+//		printf("[SSS]First run\r\n");
+//
+//		/*
+//		 * Criar ponteiro ligado aos endereços da RAM para poder manipular
+//		 * os dados. Estocar tudo direto na RAM? Ou só os dados das imagettes?
+//		 */
+//
+//		/* Populating the payload struct */
+//
+//		p_payload->header = cmd_pos[0 + EMPIRICAL_BUFFER_MIN];
+//		p_payload->packet_id = cmd_pos[1 + EMPIRICAL_BUFFER_MIN]
+//				+ 256 * cmd_pos[2 + EMPIRICAL_BUFFER_MIN];
+//		p_payload->type = cmd_pos[3 + EMPIRICAL_BUFFER_MIN];
+//		p_payload->size = toInt(cmd_pos[7 + EMPIRICAL_BUFFER_MIN])
+//				+ 256 * toInt(cmd_pos[6 + EMPIRICAL_BUFFER_MIN])
+//				+ 65536 * toInt(cmd_pos[5 + EMPIRICAL_BUFFER_MIN])
+//				+ 4294967296 * toInt(cmd_pos[4 + EMPIRICAL_BUFFER_MIN]);
+//
+//		printf("[SSS]Payload size: %i\r\n", (INT32U) p_payload->size);
+//
+//		if (p_payload->size > 10) {
+//
+//			for (i = 1; i <= p_payload->size - (PROTOCOL_OVERHEAD + 3); i++) {
+//				p_payload->data[i - 1] = cmd_pos[i + PROTOCOL_OVERHEAD
+//						+ EMPIRICAL_BUFFER_MIN];
+//				printf("[SSS]data: %c\r\nPing %i\r\n",
+//						(char) cmd_pos[i + PROTOCOL_OVERHEAD
+//								+ EMPIRICAL_BUFFER_MIN], (INT8U) i);
+//			}
+//			p_payload->crc = toInt(
+//					cmd_pos[p_payload->size + PROTOCOL_OVERHEAD + 1
+//							+ EMPIRICAL_BUFFER_MIN])
+//					+ 256
+//							* toInt(
+//									cmd_pos[p_payload->size + PROTOCOL_OVERHEAD
+//											+ EMPIRICAL_BUFFER_MIN]);
+//		}
+//		puta++;
+//	} else {
 		printf("[SSS]Second run\r\n");
 		/* Populating the payload struct */
 
@@ -355,7 +354,7 @@ void sss_exec_command(SSSConn* conn) {
 			p_payload->crc = toInt(cmd_pos[p_payload->size])
 					+ 256 * toInt(cmd_pos[p_payload->size - 1]);
 		}
-	}
+//	}
 	//data_addr = cmd_pos;
 
 	printf("[SSS]Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
@@ -407,33 +406,84 @@ void sss_handle_receive(SSSConn* conn) {
 	char *lf_addr;
 	int i = 0;
 
+	INT32U packet_size = 0;
+
 	conn->rx_rd_pos = conn->rx_buffer;
 	conn->rx_wr_pos = conn->rx_buffer;
 
 	printf("[sss_handle_receive] processing RX data\n");
 
 	while (conn->state != CLOSE) {
-		/* Find the Carriage return which marks the end of the header */
-		lf_addr = strchr((const char*) conn->rx_buffer, '\n');
 
-		if (lf_addr) {
-			/* go off and do whatever the user wanted us to do */
-			sss_exec_command(conn);
+		printf("[sss_handle_receive DEBUG] receiving first bytes\n");
+
+		rx_code = recv(conn->fd, (char* )conn->rx_wr_pos,
+				8, 0);
+
+		if (rx_code > 0) {
+			conn->rx_wr_pos += rx_code;
+
+			/* Zero terminate so we can use string functions */
+			*(conn->rx_wr_pos + 1) = 0;
 		}
-		/* No newline received? Then ask the socket for data */
-		else {
-			rx_code = recv(conn->fd, (char* )conn->rx_wr_pos,
-					SSS_RX_BUF_SIZE - (conn->rx_wr_pos - conn->rx_buffer) -1,
-					0);
 
-			if (rx_code > 0) {
-				conn->rx_wr_pos += rx_code;
+		printf("Printing all bytes: ");
 
-				/* Zero terminate so we can use string functions */
-				*(conn->rx_wr_pos + 1) = 0;
-			}
-			i++;
+		for(int j = 0; j < 8; j++){
+			printf("%c ", (char) conn->rx_buffer[j]);
 		}
+
+		printf("\n");
+
+		printf("[sss_handle_receive DEBUG]Print size bytes: %c %c %c %c\n",
+				(char) conn->rx_buffer[7],
+				(char) conn->rx_buffer[6],
+				(char) conn->rx_buffer[5],
+				(char) conn->rx_buffer[4]);
+
+		packet_size = toInt(conn->rx_buffer[7])
+				+ 256 * toInt(conn->rx_buffer[6])
+				+ 65536 * toInt(conn->rx_buffer[5])
+				+ 4294967296 * toInt(conn->rx_buffer[4]);
+
+		printf("[sss_handle_receive DEBUG] calculating size = %i\n",
+				(INT32U) packet_size);
+
+		rx_code = recv(conn->fd, (char* )conn->rx_wr_pos,
+				packet_size - 8, 0);
+
+		if (rx_code > 0) {
+			conn->rx_wr_pos += rx_code;
+
+			/* Zero terminate so we can use string functions */
+			*(conn->rx_wr_pos + 1) = 0;
+		}
+
+		printf("[sss_handle_receive DEBUG]finished receiving\n");
+
+		sss_exec_command(conn);
+
+//		/* Find the Carriage return which marks the end of the header */
+//		lf_addr = strchr((const char*) conn->rx_buffer, '\n');
+//
+//		if (lf_addr) {
+//			/* go off and do whatever the user wanted us to do */
+//			sss_exec_command(conn);
+//		}
+//		/* No newline received? Then ask the socket for data */
+//		else {
+//			rx_code = recv(conn->fd, (char* )conn->rx_wr_pos,
+//					SSS_RX_BUF_SIZE - (conn->rx_wr_pos - conn->rx_buffer) -1,
+//					0);
+//
+//			if (rx_code > 0) {
+//				conn->rx_wr_pos += rx_code;
+//
+//				/* Zero terminate so we can use string functions */
+//				*(conn->rx_wr_pos + 1) = 0;
+//			}
+//			i++;
+//		}
 
 		/*
 		 * When the quit command is received, update our connection state so that
