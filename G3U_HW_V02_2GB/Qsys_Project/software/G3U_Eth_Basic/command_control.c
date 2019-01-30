@@ -244,15 +244,14 @@ void CommandManagementTask() {
 	INT8U error_code; /*uCOS error code*/
 	INT8U exec_error; /*Internal error code for the command module*/
 
-	INT8U* cmd_pos;
-	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
+//	INT8U* cmd_pos;
+//	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
 	//INT8U* cmd_char = cmd_char_buffer;
 
 	struct _ethernet_payload payload;
 	static struct _ethernet_payload *p_payload;
 	p_payload = &payload;
 
-	struct imagette_control *pRAMData;
 	struct ram_teste *p_ram_teste;
 	alt_u32 Ddr2Base;
 	alt_u32 ByteLen;
@@ -262,24 +261,8 @@ void CommandManagementTask() {
 	ByteLen = DDR2_M1_MEMORY_SIZE;
 	p_ram_teste = (struct ram_teste *) Ddr2Base;
 
-//	struct _ethernet_payload test_payload;
-//		static struct _ethernet_payload *p_test_payload;
-//		p_payload  = &test_payload;
-
 	struct imagette_control *p_img_control;
 	p_img_control = &img_struct;
-
-//	struct _sub_data sub_data;
-//
-//	static struct _sub_data *p_sub_data;
-//	p_sub_data = &sub_data;
-
-//INT8U data[SSS_TX_BUF_SIZE];
-
-	static int size;
-
-	int p;
-	int i = 0;
 
 	/*
 	 * Declaring the sub-units initial status
@@ -312,16 +295,9 @@ void CommandManagementTask() {
 			 * Enter the receive command mode
 			 */
 
-			printf("DEBUG before pend: %i\r\n",
-					(INT8U) config_send->imagette->imagette[0]);
-
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
 
-			printf("DEBUG after pend: %i\r\n",
-					(INT8U) config_send->imagette->imagette[0]);
-
-			cmd_pos = data_addr;
 			printf(
 					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
 					(INT8U) p_payload->type, (char) p_payload->data[0],
@@ -347,21 +323,6 @@ void CommandManagementTask() {
 //				//Send a test byte through the cue
 //				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
 //						(INT8U) p_payload->sub_type);
-
-//				/*
-//				 * Ack packet model
-//				 */
-//				p_payload->data[0] = 2;
-//				p_payload->data[1] = i_id_accum;
-//				p_payload->data[2] = 201;
-//				p_payload->data[3] = 0;
-//				p_payload->data[4] = 0;
-//				p_payload->data[5] = 0;
-//				p_payload->data[6] = 10;
-//				p_payload->data[7] = p_payload->packet_id;
-//				p_payload->data[8] = p_payload->type;
-//				p_payload->data[9] = ACK_OK;
-//				p_payload->size = 10;
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -617,13 +578,10 @@ void CommandManagementTask() {
 				config_send->RMAP_handling = 0;
 				config_send->imagette = p_img_control;
 
-				printf("DEBUG after config: %i\r\n",
-						(INT8U) config_send->imagette->imagette[0]);
-
 //				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 //						config_send);
 //				alt_SSSErrorHandler(error_code, 0);
-				printf("[CommandManagementTask]Sent config for test case\n\r");
+//				printf("[CommandManagementTask]Sent config for test case\n\r");
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -732,17 +690,9 @@ void CommandManagementTask() {
 						(char) p_payload->type);
 
 				b_meb_status = toInt(p_payload->data[0]);
-				//b_meb_status = toInt(p_payload->data[0]);
-				printf("DEBUG antes: %i\r\n",
-						(INT8U) config_send->imagette->imagette[0]);
-				config_send->mode = 1;
-
-				printf("DEBUG depois: %i\r\n",
-						(INT8U) config_send->imagette->imagette[0]);
-
-				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-						config_send);
-				alt_SSSErrorHandler(error_code, 0);
+				if (b_meb_status == 1) {
+					config_send->mode = 1;
+				}
 
 				printf("[CommandManagementTask]Config sent to sub\n\r");
 
@@ -961,6 +911,9 @@ void CommandManagementTask() {
 
 			printf("MEB in running mode\n\r");
 
+			error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
+			alt_SSSErrorHandler(error_code, 0);
+
 			if (b_timer_starter == 0) {
 
 				/*
@@ -1017,7 +970,17 @@ void CommandManagementTask() {
 				switch (p_payload->type) {
 				case 105:
 					printf("[CommandManagementTask]Return to config\r\n");
-					b_meb_status = 0;
+
+					b_meb_status = p_payload->data[0];
+					if (b_meb_status == 0) {
+						/*
+						 * Send sub_units to config.
+						 */
+						config_send->mode = 0;
+						error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+								config_send);
+						alt_SSSErrorHandler(error_code, 0);
+					}
 
 					v_ack_creator(p_payload, ACK_OK);
 
