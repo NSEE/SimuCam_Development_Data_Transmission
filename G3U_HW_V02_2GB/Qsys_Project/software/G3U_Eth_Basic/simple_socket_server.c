@@ -51,6 +51,7 @@
  * beginning with "SSS" are declared and created in this file.
  */
 
+
 /*
  * Creation of the queue for receive/command communication [yb]
  */
@@ -358,7 +359,7 @@ void sss_exec_command(SSSConn* conn) {
 	//data_addr = cmd_pos;
 
 	printf("[SSS]Socket side teste do payload:\r\nsize %i,%c,%c\r\n",
-			(INT8U) p_payload->size, (char) p_payload->type,
+			(INT32U) p_payload->size, (char) p_payload->type,
 			(char) p_payload->data[0]);
 
 	error_code = OSQPost(p_simucam_command_q, p_payload);

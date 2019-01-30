@@ -7,6 +7,9 @@
 
 #include "sub_unit_control.h"
 
+
+extern struct sub_config sub_config;
+
 /*
  * Creation of the sub-unit communication queue [yb]
  */
@@ -62,7 +65,6 @@ void sub_unit_control_task() {
 
 	INT16U i_imagette_length = 0;
 
-	struct sub_config sub_config;
 	struct sub_config *p_config;
 	p_config = &sub_config;
 	struct imagette_control *p_imagette_buffer;
@@ -72,6 +74,7 @@ void sub_unit_control_task() {
 	p_config->forward_data = 0;
 	p_config->link_config = 0;
 	p_config->echo_sent = 0;
+	p_config->sub_status_sending = 0;
 
 	struct _ethernet_payload *p_sub_data;
 
@@ -107,7 +110,7 @@ void sub_unit_control_task() {
 		 * Set link interface status according to
 		 * link_config
 		 */
-		if (p_config->link_config == 0) {
+		if (p_config->linkstatus_running == 0) {
 			error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 			SPWC_REG_SET,
 			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
@@ -158,13 +161,13 @@ void sub_unit_control_task() {
 					(INT16U) p_imagette_buffer->imagette_length[imagette_number]);
 
 			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
-
+			p_config->sub_status_sending = 0;
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
 
 			error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
 					&(p_imagette_buffer->imagette[i_imagette_counter]),
 					p_imagette_buffer->imagette_length[imagette_number]);
-
+			p_config->sub_status_sending = 0;
 			/*
 			 * Implement echo command, Next version
 			 */

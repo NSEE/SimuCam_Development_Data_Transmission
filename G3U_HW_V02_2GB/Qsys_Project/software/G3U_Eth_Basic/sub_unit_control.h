@@ -100,6 +100,8 @@ struct sub_config {
 	INT8U linkspeed;
 	INT8U linkstatus_running;
 	INT8U echo_sent;
+	INT8U sub_status_sending;
+	INT8U link_status;
 	struct imagette_control *imagette;
 
 }sub_config;

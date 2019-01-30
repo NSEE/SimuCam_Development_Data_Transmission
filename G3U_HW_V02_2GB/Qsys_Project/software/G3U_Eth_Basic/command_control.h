@@ -28,22 +28,29 @@
 #define COMMAND_CONTROL_H_
 
 /* Macro definitions */
-#define LENGTH_OFFSET				3	/*Byte number offset for the 4 length bytes*/
-#define IMAGETTE_SIZE 				13 	/*Imagette size in bytes*/
-#define DELAY_SIZE					6 	/*Number of bytes used for delay value*/
-#define CENTRAL_TIMER_RESOLUTION	100	/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
-#define MAX_IMAGETTES				50	/*Maximum number of imagettes */
-#define DATA_SHIFT					4	/*Data header shift*/
+#define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
+#define MAX_IMAGETTE_SIZE 			100000 	/*Imagette size in bytes*/
+#define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
+#define CENTRAL_TIMER_RESOLUTION	100		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
+#define MAX_IMAGETTES				500		/*Maximum number of imagettes */
+#define DATA_SHIFT					4		/*Data header shift*/
 
-#define COMMAND_NOT_FOUND			5 /*command not found code*/
+
+/*
+ * Error codes definitions
+ */
 #define ACK_OK						1
+#define COMMAND_NOT_ACCEPTED		4
+#define COMMAND_NOT_FOUND			5 	/*Command not found code*/
+#define NOT_IMPLEMENTED				7	/*Command not implemented*/
+#define	TIMER_ERROR					8
+
 
 struct imagette_control{
 
 	INT32U offset[MAX_IMAGETTES]; 					/* In miliseconds*/
 	INT16U imagette_length[MAX_IMAGETTES];			/* length of N imagette */
-	//INT8U*  imagette;
-	INT8U  imagette[MAX_IMAGETTES*IMAGETTE_SIZE];	/*Pointer to de DDR2 address*/
+	INT8U  imagette[MAX_IMAGETTE_SIZE];	/*Pointer to de DDR2 address*/
 	INT8U* img_test;								/* Teste de imagette referenciada*/
 	INT16U nb_of_imagettes;							/*Number of imagettes in dataset*/
 	INT32U size;									/*Imagette array size*/
@@ -57,7 +64,7 @@ struct imagette_control{
 
 /* Control functions*/
 int v_parse_data(struct _ethernet_payload*,struct imagette_control*);
-
+void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code);
 INT32U i_compute_size(INT8U*);
 
 OS_TMR *central_timer;

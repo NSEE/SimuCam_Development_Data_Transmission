@@ -145,14 +145,31 @@ INT8U Verif_Error(INT8U error_code) {
  *
  * Converts 1 digit ASCII numbers to int
  *
- * @param [in] INT8U
+ * @param [in] char
  * *
- * @retval int
+ * @retval INT8U
  *
  */
 
 INT8U toInt(INT8U ascii) {
 	return (INT8U) ascii - 48;
+}
+
+/**
+ * @name    toChar
+ * @brief   Converts int number to ASCII
+ * @ingroup UTIL
+ *
+ * Converts 1 digit int numbers to ASCII
+ *
+ * @param [in] INT8U
+ * *
+ * @retval char
+ *
+ */
+
+INT8U toChar(INT8U i_int) {
+	return (INT8U) i_int + 48;
 }
 
 /**

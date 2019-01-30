@@ -39,6 +39,7 @@ void _print_codec_status(int codec_status);
 
 INT8U aatoh(INT8U *buffer);
 INT8U toInt(INT8U ascii);
+INT8U toChar(INT8U i_int);
 INT8U Verif_Error(INT8U error_code);
 
 /**

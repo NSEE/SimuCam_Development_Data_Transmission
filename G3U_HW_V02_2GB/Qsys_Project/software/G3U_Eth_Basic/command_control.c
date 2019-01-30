@@ -7,6 +7,81 @@
 
 #include "command_control.h"
 
+struct imagette_control img_struct;
+
+INT8U b_meb_status = 0; //default starting mode is config
+INT8U i_forward_data = 0;
+INT8U i_echo_sent_data = 0;
+
+INT32U i_imagette_counter = 0;
+INT32U i_total_imagette_counter = 0;
+
+INT8U data[MAX_IMAGETTES];
+INT8U *p_data_pos = &data[0];
+
+INT32U i_central_timer_counter = 1;
+INT8U exec_error;
+
+static INT16U i_id_accum = 0;
+
+/**
+ * @name v_ack_creator
+ * @brief Computes the size of the payload
+ * @ingroup UTIL
+ *
+ * This routine computes the size of the payload based in the received
+ * string via ethernet telnet. Depending on the command protocol, there is an
+ * offset to read the good values. It can be changed in the header file. All the
+ * byte as supposed to be in ASCII form.
+ *
+ * @param 	[in] 	*INT8U Data array
+ * @retval INT32U size
+ **/
+void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code) {
+
+	p_error_response->data[0] = toChar(2);
+	p_error_response->data[1] = toChar(0);
+	p_error_response->data[2] = toChar(i_id_accum);
+	p_error_response->data[3] = 201;
+	p_error_response->data[4] = toChar(0);
+	p_error_response->data[5] = toChar(0);
+	p_error_response->data[6] = toChar(0);
+	p_error_response->data[7] = toChar(2);                       //10;
+	p_error_response->data[8] = toChar(p_error_response->packet_id);
+	p_error_response->data[9] = toChar(p_error_response->type);
+	p_error_response->data[10] = toChar(error_code);
+	p_error_response->data[11] = 13;				//just for display purposes
+	p_error_response->size = 12;
+
+	i_id_accum++;
+}
+
+void v_HK_creator(struct _ethernet_payload* p_HK, INT8U i_channel) {
+
+	INT8U chann_buff = i_channel;
+
+	p_HK->data[0] = toChar(2);
+	p_HK->data[1] = toChar(0);
+	p_HK->data[2] = toChar(i_id_accum);
+	p_HK->data[3] = 204;
+	p_HK->data[4] = toChar(0);
+	p_HK->data[5] = toChar(0);
+	p_HK->data[6] = toChar(0);
+	p_HK->data[7] = toChar(15);
+	p_HK->data[8] = toChar(chann_buff);
+	p_HK->data[9] = toChar(b_meb_status);
+	p_HK->data[10] = sub_config.linkstatus_running;
+	p_HK->data[11] = sub_config.link_config;
+	p_HK->data[12] = sub_config.linkspeed;
+	p_HK->data[13] = sub_config.sub_status_sending;
+	p_HK->data[14] = ul_SpaceWire_Interface_Link_Status_Read('A');
+	p_HK->data[15] = toChar(i_total_imagette_counter);
+	p_HK->data[16] = toChar(i_imagette_counter);
+	p_HK->data[17] = toChar(img_struct.nb_of_imagettes);
+	p_HK->data[18] = 13;				//just for display purposes
+	p_HK->size = 19;
+
+}
 /**
  * @name i_compute_size
  * @brief Computes the size of the payload
@@ -28,16 +103,6 @@ INT32U i_compute_size(INT8U *p_length) {
 			+ 4294967296 * toInt(p_length[LENGTH_OFFSET]);
 	return size;
 }
-
-struct imagette_control img_struct;
-
-INT8U data[MAX_IMAGETTES];
-INT8U *p_data_pos = &data[0];
-
-INT32U i_central_timer_counter = 1;
-INT8U exec_error;
-
-INT16U i_id_accum = 0;
 
 /**
  * @name v_parse_data
@@ -129,7 +194,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
  * @retval void
  **/
 void central_timer_callback_function(void *p_arg) {
-	static INT32U i_imagette_counter = 0;
+
 	INT8U error_code = 0;
 
 	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
@@ -145,9 +210,11 @@ void central_timer_callback_function(void *p_arg) {
 		if (error_code == OS_ERR_NONE) {
 			printf("[CALLBACK]Semaphore triggered\r\n");
 			i_imagette_counter++;
+			i_total_imagette_counter++;
+			printf("[CALLBACK]Entered function imagette count: %i\r\n",
+					(INT32U) i_imagette_counter);
 		}
-		printf("[CALLBACK]Entered function imagette count: %i\r\n",
-				(INT32U) i_imagette_counter);
+
 	}
 
 	i_central_timer_counter++;
@@ -175,9 +242,6 @@ void CommandManagementTask() {
 
 	INT8U error_code; /*uCOS error code*/
 	INT8U exec_error; /*Internal error code for the command module*/
-
-	INT8U i_forward_data = 0;
-	INT8U i_echo_sent_data = 0;
 
 	INT8U* cmd_pos;
 	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
@@ -215,23 +279,11 @@ void CommandManagementTask() {
 	int p;
 	int i = 0;
 
-//	printf("%x \n", &img_struct.imagette_addr[0]);
-//	printf("%x \n", &img_struct.imagette_addr[1]);
-//	printf("%x \n", &img_struct.imagette_addr[2]);
-//	printf("%x \n", &img_struct.imagette_addr[3]);
-//
-//	printf("SEPARADOR");
-//
-//	printf("%x \n", img_struct.imagette_addr[0]);
-//	printf("%x \n", img_struct.imagette_addr[1]);
-//	printf("%x \n", img_struct.imagette_addr[2]);
-//	printf("%x \n", img_struct.imagette_addr[3]);
 	/*
 	 * Declaring the sub-units initial status
 	 */
 	static struct sub_config *config_send;
 
-	INT8U b_meb_status = 0; //default starting mode is config
 	config_send->mode = 0; //default starting mode is config
 	config_send->forward_data = 0;
 	config_send->RMAP_handling = 0;
@@ -286,24 +338,25 @@ void CommandManagementTask() {
 //				error_code = (INT8U) OSQPost(p_sub_unit_command_queue,
 //						(INT8U) p_payload->sub_type);
 
-				/*
-				 * Ack packet model
-				 */
-				p_payload->data[0] = 2;
-				p_payload->data[1] = i_id_accum;
-				p_payload->data[2] = 201;
-				p_payload->data[3] = 0;
-				p_payload->data[4] = 0;
-				p_payload->data[5] = 0;
-				p_payload->data[6] = 10;
-				p_payload->data[7] = p_payload->packet_id;
-				p_payload->data[8] = p_payload->type;
-				p_payload->data[9] = ACK_OK;
-				p_payload->size = 10;
+//				/*
+//				 * Ack packet model
+//				 */
+//				p_payload->data[0] = 2;
+//				p_payload->data[1] = i_id_accum;
+//				p_payload->data[2] = 201;
+//				p_payload->data[3] = 0;
+//				p_payload->data[4] = 0;
+//				p_payload->data[5] = 0;
+//				p_payload->data[6] = 10;
+//				p_payload->data[7] = p_payload->packet_id;
+//				p_payload->data[8] = p_payload->type;
+//				p_payload->data[9] = ACK_OK;
+//				p_payload->size = 10;
+
+				v_ack_creator(p_payload, ACK_OK);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
-				i_id_accum++;
 
 				break;
 
@@ -450,8 +503,13 @@ void CommandManagementTask() {
 				alt_SSSErrorHandler(error_code, 0);
 				printf("[CommandManagementTask]Sent config for test case\n\r");
 
-				b_meb_status = 1;
-				printf("[CommandManagementTask]MEB sent to running\n\r");
+//				b_meb_status = 1;
+//				printf("[CommandManagementTask]MEB sent to running\n\r");
+
+				v_ack_creator(p_payload, ACK_OK);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -554,6 +612,11 @@ void CommandManagementTask() {
 //				alt_SSSErrorHandler(error_code, 0);
 				printf("[CommandManagementTask]Sent config for test case\n\r");
 
+				v_ack_creator(p_payload, ACK_OK);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+
 //				b_meb_status = 1;
 //				printf("[CommandManagementTask]MEB sent to running\n\r");
 
@@ -577,9 +640,9 @@ void CommandManagementTask() {
 
 				/* Add a case for channel selection */
 
-				config_send->mode = toInt(p_payload->data[0]);
-				config_send->forward_data = toInt(p_payload->data[1]);
-				config_send->RMAP_handling = toInt(p_payload->data[2]);
+				config_send->link_config = toInt(p_payload->data[1]);
+				config_send->linkspeed = toInt(p_payload->data[2]);
+				config_send->linkstatus_running = toInt(p_payload->data[3]);
 
 //				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
 //						config_send);
@@ -589,6 +652,11 @@ void CommandManagementTask() {
 						(INT8U) config_send->mode,
 						(INT8U) config_send->forward_data,
 						(INT8U) config_send->RMAP_handling);
+
+				v_ack_creator(p_payload, ACK_OK);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -609,6 +677,11 @@ void CommandManagementTask() {
 
 				printf("[CommandManagementTask]Data parsed correctly\r\n");
 
+				v_ack_creator(p_payload, ACK_OK);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+
 				break;
 
 				/*
@@ -617,6 +690,11 @@ void CommandManagementTask() {
 				 */
 			case 103:
 
+				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+
 				break;
 
 				/*
@@ -624,6 +702,11 @@ void CommandManagementTask() {
 				 * char: h
 				 */
 			case 104:
+
+				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -639,6 +722,11 @@ void CommandManagementTask() {
 				//b_meb_status = toInt(p_payload->data[0]);
 				printf("[CommandManagementTask]MEB sent to running\n\r");
 
+				v_ack_creator(p_payload, ACK_OK);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+
 				break;
 
 				/*
@@ -648,20 +736,29 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(int) p_payload->type);
 
+				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+
 				break;
 
 				/*
 				 * Direct send
+				 * char: m
 				 */
-
 			case 109:
-				/*
-				 * Verificar se realmente funciona,
-				 * mas não tem porque não funcionar...
-				 */
-				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data((char)toupper(p_payload->data[0]),
-						&(p_payload->data[1]),
-						(p_payload->size)-11);
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(int) p_payload->type);
+
+				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
+						(char) toupper(p_payload->data[0]),
+						&(p_payload->data[1]), (p_payload->size) - 11);
+
+				v_ack_creator(p_payload, ACK_OK);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -670,10 +767,11 @@ void CommandManagementTask() {
 				 */
 			case 110:
 
-				/*
-				 * Next version
-				 */
+				v_HK_creator(p_payload, p_payload->data[0]);
+				//v_ack_creator(p_payload, NOT_IMPLEMENTED);
 
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 				break;
 
 				/*
@@ -685,18 +783,32 @@ void CommandManagementTask() {
 				i_forward_data = p_payload->data[0];
 				i_echo_sent_data = p_payload->data[1];
 
+				v_ack_creator(p_payload, ACK_OK);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+
+				break;
+
+			case 112:
+				printf("[CommandManagementTask]Selected command: %c\n\r",
+						(int) p_payload->type);
+
+				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+
 				break;
 
 			default:
 				printf(
 						"[CommandManagementTask]Nenhum comando identificado\n\r");
-				INT8U i_type_buffer = p_payload->type;
-				INT16U i_id_buffer = p_payload->packet_id;
 
-				p_payload->header = 2;
-//			p_payload->data[0] = i_id_buffer; //converter em 2 bytes
-				p_payload->data[1] = i_type_buffer;
-				p_payload->data[2] = COMMAND_NOT_FOUND;	//insert error for no command found
+				v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 			} //Switch fim
@@ -825,6 +937,7 @@ void CommandManagementTask() {
 
 			printf("MEB in running mode\n\r");
 
+			config_send->mode = 1;
 			error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
 			alt_SSSErrorHandler(error_code, 0);
 
@@ -854,15 +967,46 @@ void CommandManagementTask() {
 				if (i_internal_error == OS_ERR_NONE) {
 					b_timer_starter = 1;
 					printf("[CommandManagementTask]timer started\r\n");
+
+					v_ack_creator(p_payload, ACK_OK);
+
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_payload);
+					alt_SSSErrorHandler(error_code, 0);
 				}
 
-				p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
-				alt_uCOSIIErrorHandler(i_internal_error, 0);
+//				p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
+//				alt_uCOSIIErrorHandler(i_internal_error, 0);
+//
+//				printf("[CommandManagementTask]Payload received %i\r\n",
+//						(INT8U) p_payload->type);
+//
+//				if (p_payload->type == 'k') {
+//					OSTmrStop(central_timer,
+//					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+//
+//					if (i_internal_error == OS_ERR_NONE
+//							|| i_internal_error == OS_ERR_TMR_STOPPED) {
+//						printf("[CommandManagementTask]Timer stopped\r\n");
+//						i_central_timer_counter = 1;
+//						printf("[CommandManagementTask]Timer restarted\r\n");
+//					}
+//				}
+			} else {
 
-				printf("[CommandManagementTask]Payload received %i\r\n",
-						(INT8U) p_payload->type);
+				switch (p_payload->type) {
+				case 105:
+					printf("[CommandManagementTask]Return to config\r\n");
+					b_meb_status = 0;
 
-				if (p_payload->type == 'k') {
+					v_ack_creator(p_payload, ACK_OK);
+
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_payload);
+					alt_SSSErrorHandler(error_code, 0);
+					break;
+
+				case 107:
 					OSTmrStop(central_timer,
 					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
@@ -871,29 +1015,62 @@ void CommandManagementTask() {
 						printf("[CommandManagementTask]Timer stopped\r\n");
 						i_central_timer_counter = 1;
 						printf("[CommandManagementTask]Timer restarted\r\n");
+
+						v_ack_creator(p_payload, ACK_OK);
+
+						error_code = (INT8U) OSQPost(p_simucam_command_q,
+								p_payload);
+						alt_SSSErrorHandler(error_code, 0);
 					}
+					break;
+
+					/*
+					 * Direct send
+					 * char: m
+					 */
+				case 109:
+					printf("[CommandManagementTask]Selected command: %c\n\r",
+							(int) p_payload->type);
+
+					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
+							(char) toupper(p_payload->data[0]),
+							&(p_payload->data[1]), (p_payload->size) - 11);
+
+					v_ack_creator(p_payload, ACK_OK);
+
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_payload);
+					alt_SSSErrorHandler(error_code, 0);
+
+					break;
+
+					/*
+					 * Get HK
+					 */
+				case 110:
+
+					v_HK_creator(p_payload, p_payload->data[0]);
+
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_payload);
+					alt_SSSErrorHandler(error_code, 0);
+					break;
+
+				default:
+					printf(
+							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
+
+					v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_payload);
+					alt_SSSErrorHandler(error_code, 0);
+
+					break;
+
 				}
+
 			}
-
-			switch (p_payload->type) {
-			case 105:
-				printf("[CommandManagementTask]Return to config\r\n");
-				b_meb_status = 0;
-				break;
-
-			case 107:
-				OSTmrStop(central_timer,
-				OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
-
-				if (i_internal_error == OS_ERR_NONE
-						|| i_internal_error == OS_ERR_TMR_STOPPED) {
-					printf("[CommandManagementTask]Timer stopped\r\n");
-					i_central_timer_counter = 1;
-					printf("[CommandManagementTask]Timer restarted\r\n");
-				}
-				break;
-			}
-
 		}
 	}
 }
