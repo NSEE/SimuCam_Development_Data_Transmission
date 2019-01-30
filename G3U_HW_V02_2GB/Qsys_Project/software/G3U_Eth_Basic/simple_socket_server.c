@@ -444,79 +444,86 @@ void sss_handle_receive(SSSConn* conn) {
 
 		printf("\n");
 
-		printf("[sss_handle_receive DEBUG]Print size bytes: %i %i %i %i\n",
-				(int) p_ethernet_buffer->rx_buffer[7],
-				(int) p_ethernet_buffer->rx_buffer[6],
-				(int) p_ethernet_buffer->rx_buffer[5],
-				(int) p_ethernet_buffer->rx_buffer[4]);
+		if (p_ethernet_buffer->rx_buffer[0] == EXIT_CODE) {
+			conn->close = 1;
+		} else {
 
-		p_payload->header = p_ethernet_buffer->rx_buffer[0];
-		p_payload->packet_id = p_ethernet_buffer->rx_buffer[2]
-				+ 256 * p_ethernet_buffer->rx_buffer[1];
-		p_payload->type = p_ethernet_buffer->rx_buffer[3];
+			printf("[sss_handle_receive DEBUG]Print size bytes: %i %i %i %i\n",
+					(int) p_ethernet_buffer->rx_buffer[7],
+					(int) p_ethernet_buffer->rx_buffer[6],
+					(int) p_ethernet_buffer->rx_buffer[5],
+					(int) p_ethernet_buffer->rx_buffer[4]);
 
-		p_payload->size = p_ethernet_buffer->rx_buffer[7]
-				+ 256 * p_ethernet_buffer->rx_buffer[6]
-				+ 65536 * p_ethernet_buffer->rx_buffer[5]
-				+ 4294967296 * p_ethernet_buffer->rx_buffer[4];
+			p_payload->header = p_ethernet_buffer->rx_buffer[0];
+			p_payload->packet_id = p_ethernet_buffer->rx_buffer[2]
+					+ 256 * p_ethernet_buffer->rx_buffer[1];
+			p_payload->type = p_ethernet_buffer->rx_buffer[3];
 
-		printf("[sss_handle_receive DEBUG] calculating size = %i\n",
-				(INT32U) p_payload->size);
+			p_payload->size = p_ethernet_buffer->rx_buffer[7]
+					+ 256 * p_ethernet_buffer->rx_buffer[6]
+					+ 65536 * p_ethernet_buffer->rx_buffer[5]
+					+ 4294967296 * p_ethernet_buffer->rx_buffer[4];
 
-		rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
-				p_payload->size - 8, 0);
-		if (rx_code > 0) {
-			p_ethernet_buffer->rx_wr_pos += rx_code;
+			printf("[sss_handle_receive DEBUG] calculating size = %i\n",
+					(INT32U) p_payload->size);
 
-			/* Zero terminate so we can use string functions */
-			*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
-		}
+			rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
+					p_payload->size - 8, 0);
+			if (rx_code > 0) {
+				p_ethernet_buffer->rx_wr_pos += rx_code;
 
-		/*
-		 * Assign data in the payload struct to data in the buffer
-		 * change to 0
-		 */
-		if (p_payload->size > 10) {
-			for (i = 1; i <= p_payload->size - 10; i++) {
-				p_payload->data[i - 1] = p_ethernet_buffer->rx_buffer[i - 1];
-				printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
-						(INT8U) p_payload->data[i - 1], (INT8U) i);
+				/* Zero terminate so we can use string functions */
+				*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 			}
-		}
 
-		printf("[sss_handle_receive DEBUG]Printing buffer = ");
-		for (int k = 0; k < p_payload->size - 8; k++) {
-			printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
-		}
-		printf("\r\n");
+			/*
+			 * Assign data in the payload struct to data in the buffer
+			 * change to 0
+			 */
+			if (p_payload->size > 10) {
+				for (i = 1; i <= p_payload->size - 10; i++) {
+					p_payload->data[i - 1] = p_ethernet_buffer->rx_buffer[i - 1];
+					printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
+							(INT8U) p_payload->data[i - 1], (INT8U) i);
+				}
+			}
 
-		printf(
-				"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
-						"Type: %i\r\n", (int) p_payload->header,
-				(int) p_payload->packet_id, (int) p_payload->type);
+			printf("[sss_handle_receive DEBUG]Printing buffer = ");
+			for (int k = 0; k < p_payload->size - 8; k++) {
+				printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+			}
+			printf("\r\n");
 
-		p_payload->crc = p_ethernet_buffer->rx_buffer[p_payload->size]
-				+ 256 * p_ethernet_buffer->rx_buffer[p_payload->size - 1];
+			printf(
+					"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
+							"Type: %i\r\n", (int) p_payload->header,
+					(int) p_payload->packet_id, (int) p_payload->type);
 
-		printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
-				(INT16U) p_payload->crc);
+			p_payload->crc = p_ethernet_buffer->rx_buffer[p_payload->size]
+					+ 256 * p_ethernet_buffer->rx_buffer[p_payload->size - 1];
 
-		calculated_crc = crc16(p_ethernet_buffer->rx_buffer, p_payload->size);
+			printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
+					(INT16U) p_payload->crc);
 
-		printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
-				(INT16U) calculated_crc);
+			calculated_crc = crc16(p_ethernet_buffer->rx_buffer,
+					p_payload->size);
+
+			printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
+					(INT16U) calculated_crc);
 
 //		printf("[sss_handle_receive DEBUG]Print received data bytes 0: %i\n",
 //				(INT8U) p_payload->data[0]);
 
-		printf("[sss_handle_receive DEBUG]finished receiving\n");
+			printf("[sss_handle_receive DEBUG]finished receiving\n");
 
 //		error_code = OSQPost(p_simucam_command_q, p_payload);
 //		alt_SSSErrorHandler(error_code, 0);
 
-		sss_exec_command(conn);
+			sss_exec_command(conn);
 
-		printf("[sss_handle_receive DEBUG]Returned from function\n");
+			printf("[sss_handle_receive DEBUG]Returned from function\n");
+		}
+
 
 //		/* Find the Carriage return which marks the end of the header */
 //		lf_addr = strchr((const char*) conn->rx_buffer, '\n');
@@ -548,13 +555,11 @@ void sss_handle_receive(SSSConn* conn) {
 		printf("[sss_handle_receive DEBUG]connection state checked\n");
 
 		/* Manage buffer */
-		data_used = p_ethernet_buffer->rx_rd_pos - p_ethernet_buffer->rx_buffer;
-		memmove(p_ethernet_buffer->rx_buffer, p_ethernet_buffer->rx_rd_pos,
-				p_ethernet_buffer->rx_wr_pos - p_ethernet_buffer->rx_rd_pos);
+
 		p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
 		p_ethernet_buffer->rx_wr_pos -= p_payload->size;
 		memset(p_ethernet_buffer->rx_wr_pos, 0, p_payload->size);
-
+//
 //		data_used = conn->rx_rd_pos - conn->rx_buffer;
 //		memmove(conn->rx_buffer, conn->rx_rd_pos,
 //				conn->rx_wr_pos - conn->rx_rd_pos);
