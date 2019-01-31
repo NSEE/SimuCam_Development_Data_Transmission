@@ -69,6 +69,8 @@ void sub_unit_control_task ();
 
 extern OS_EVENT *p_sub_unit_config_queue;
 extern OS_EVENT *p_sub_unit_command_queue;
+extern INT32U i_central_timer_counter;
+INT16U i_imagette_number;
 
 /*
  * Sub-Unit semaphores declaration

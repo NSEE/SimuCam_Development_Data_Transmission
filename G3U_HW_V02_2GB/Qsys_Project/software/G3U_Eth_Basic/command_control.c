@@ -7,7 +7,6 @@
 
 #include "command_control.h"
 
-
 struct sub_config config_send_A;
 
 struct imagette_control img_struct;
@@ -181,9 +180,9 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
 				(INT32U) &(p_img_ctrl->imagette[d]));
 
-		p_img_ctrl->offset[i] = p_payload->data[o + 3]
+		p_img_ctrl->offset[i] = div( (p_payload->data[o + 3]
 				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
-				+ 4294967296 * p_payload->data[o];
+				+ 4294967296 * p_payload->data[o]), 10).quot;
 
 		p_img_ctrl->imagette_length[i] = p_payload->data[o + 5]
 				+ 256 * p_payload->data[o + 4];
@@ -229,6 +228,9 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 void central_timer_callback_function(void *p_arg) {
 
 	INT8U error_code = 0;
+	INT8U buffer_nb;
+
+	buffer_nb = i_imagette_number;
 
 	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
 			(INT32U) p_img_control->offset[i_imagette_counter],
@@ -245,22 +247,18 @@ void central_timer_callback_function(void *p_arg) {
 			i_imagette_counter++;
 			i_total_imagette_counter++;
 			printf("[CALLBACK]Entered function imagette count: %i\r\n",
-					(INT32U) i_imagette_counter);
+					(INT32U) buffer_nb);
 		}
-
 	}
 
 	i_central_timer_counter++;
 
-	if (i_imagette_counter == 5) {
-		printf("[CALLBACK]Timer stopped\r\n");
-		printf("[CALLBACK]Timer restarted\r\n");
-		i_central_timer_counter = 1;
-		i_imagette_counter = 0;
+	if (i_imagette_counter == p_img_control->nb_of_imagettes) {
 		error_code = OSTmrStop(central_timer,
 		OS_TMR_OPT_NONE, (void *) 0, &error_code);
-
 		if (error_code == OS_ERR_NONE || error_code == OS_ERR_TMR_STOPPED) {
+			i_central_timer_counter = 1;
+			i_imagette_counter = 0;
 			printf("[CommandManagementTask]Timer stopped\r\n");
 			printf("[CommandManagementTask]Timer restarted\r\n");
 		}
@@ -302,8 +300,13 @@ void CommandManagementTask() {
 	config_send = &config_send_A;
 
 	config_send->mode = 0; //default starting mode is config
-	config_send->forward_data = 0;
 	config_send->RMAP_handling = 0;
+	config_send->forward_data = 0;
+	config_send->link_config = 0;
+	config_send->echo_sent = 0;
+	config_send->sub_status_sending = 0;
+	config_send->linkstatus_running = 1;
+	config_send->linkspeed = 3;
 
 	/*
 	 * Forcing all sub-units to config mode
@@ -679,6 +682,8 @@ void CommandManagementTask() {
 
 				printf("[CommandManagementTask]Data parsed correctly\r\n");
 
+				config_send->imagette = p_img_control;
+
 				v_ack_creator(p_payload, exec_error);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
@@ -1020,9 +1025,11 @@ void CommandManagementTask() {
 
 				switch (p_payload->type) {
 				case 105:
-					printf("[CommandManagementTask]Return to config\r\n");
+					printf("[CommandManagementTask]MEB status: %i\r\n",
+							(INT8U) p_payload->data[0]);
 
-					b_meb_status = p_payload->data[0];
+					b_meb_status = 0;	//change this
+
 					if (b_meb_status == 0) {
 						/*
 						 * Send sub_units to config.
@@ -1052,9 +1059,13 @@ void CommandManagementTask() {
 						printf("[CommandManagementTask]Timer stopped\r\n");
 						i_central_timer_counter = 1;
 						printf("[CommandManagementTask]Timer restarted\r\n");
-
+						i_central_timer_counter = 1;
 						v_ack_creator(p_payload, ACK_OK);
-
+						error_code = (INT8U) OSQPost(p_simucam_command_q,
+								p_payload);
+						alt_SSSErrorHandler(error_code, 0);
+					} else {
+						v_ack_creator(p_payload, TIMER_ERROR);
 						error_code = (INT8U) OSQPost(p_simucam_command_q,
 								p_payload);
 						alt_SSSErrorHandler(error_code, 0);

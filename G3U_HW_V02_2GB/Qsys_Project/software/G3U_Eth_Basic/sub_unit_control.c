@@ -7,8 +7,8 @@
 
 #include "sub_unit_control.h"
 
-
 extern struct sub_config sub_config;
+INT16U i_imagette_number;
 
 /*
  * Creation of the sub-unit communication queue [yb]
@@ -58,6 +58,38 @@ void sub_unit_create_os_data_structs(void) {
 }
 
 /*
+ * Echo data creation function
+ */
+
+//INT8U* i_echo_dataset(struct imagette_control* p_imagette) {
+//	INT8U tx_buffer[SSS_TX_BUF_SIZE];
+//	INT8U i = 0;
+//
+//	tx_buffer[0] = 2;
+//	tx_buffer[1] = 203;
+//	tx_buffer[2] = 0;
+//	tx_buffer[3] = 0;
+//	tx_buffer[4] = 0;
+//	tx_buffer[5] = p_imagette->imagette_length[i_imagette_number] + 13;
+//	tx_buffer[6] = 0;
+//	tx_buffer[7] = 0;
+//	tx_buffer[8] = 0;
+//	tx_buffer[9] = i_central_timer_counter;
+//	tx_buffer[10] = 0;
+//
+//	while (i < p_imagette->imagette_length[i_imagette_number]) {
+//		tx_buffer[i + 11] = p_imagette->imagette[i_imagette_number];
+//		i++;
+//	}
+//
+//	tx_buffer[i + 11] = 0;	//crc
+//	tx_buffer[i + 12] = 7;	//crc
+//
+//	return *tx_buffer;
+//
+//}
+
+/*
  * Control task for sub-unit operation[yb]
  */
 void sub_unit_control_task() {
@@ -90,7 +122,6 @@ void sub_unit_control_task() {
 		p_imagette_buffer = p_config->imagette;
 	}
 
-
 	/*
 	 * Sub-Unit in running mode
 	 */
@@ -100,11 +131,8 @@ void sub_unit_control_task() {
 		INT16U i_imagette_counter = 0;
 
 		int p;
-		INT16U imagette_number = 0;
 		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
 		p++;
-
-
 
 		printf("[SUBUNIT]Sub-unit in running mode\r\n");
 
@@ -148,7 +176,7 @@ void sub_unit_control_task() {
 			}
 		}
 
-		while (imagette_number < nb_of_imagettes) {
+		while (i_imagette_number < nb_of_imagettes) {
 
 			printf("[SUBUNIT]Entered while\r\n");
 
@@ -156,15 +184,17 @@ void sub_unit_control_task() {
 					(int) i_imagette_counter);
 
 			printf("[SUBUNIT]Received imagette %i start byte: %i @ %x\r\n",
-					imagette_number,
+					i_imagette_number,
 					p_imagette_buffer->imagette[i_imagette_counter],
 					&(p_imagette_buffer->imagette[i_imagette_counter]));
 
-			i_imagette_length = p_imagette_buffer->imagette_length[imagette_number];
+			i_imagette_length =
+					p_imagette_buffer->imagette_length[i_imagette_number];
 
-			printf("[SUBUNIT]imagette length var: %i, imagette length p_config %i\r\n",
+			printf(
+					"[SUBUNIT]imagette length var: %i, imagette length p_config %i\r\n",
 					(INT16U) i_imagette_length,
-					(INT16U) p_imagette_buffer->imagette_length[imagette_number]);
+					(INT16U) p_imagette_buffer->imagette_length[i_imagette_number]);
 
 			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 			p_config->sub_status_sending = 0;
@@ -172,26 +202,28 @@ void sub_unit_control_task() {
 
 			error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
 					&(p_imagette_buffer->imagette[i_imagette_counter]),
-					p_imagette_buffer->imagette_length[imagette_number]);
+					p_imagette_buffer->imagette_length[i_imagette_number]);
 			p_config->sub_status_sending = 0;
 			/*
 			 * Implement echo command, Next version
 			 */
 
-//			if(p_config->echo_sent == 1){
-//
+//			if (p_config->echo_sent == 1) {
+//				send(conn.fd, i_echo_dataset(p_imagette_buffer),
+//						p_imagette_buffer->imagette_length[i_imagette_number]
+//								+ 10, 0);
 //			}
 
 			printf("[SUBUNIT]imagette sent\r\n");
 
 			i_imagette_counter += i_imagette_length;
 
-			imagette_number++;
+			i_imagette_number++;
 
 			printf("[SUBUNIT]imagette counter %i\r\n",
 					(INT16U) i_imagette_counter);
 
-			printf("[SUBUNIT]imagette nb %i\r\n", (INT16U) imagette_number);
+			printf("[SUBUNIT]imagette nb %i\r\n", (INT16U) i_imagette_number);
 
 		}
 

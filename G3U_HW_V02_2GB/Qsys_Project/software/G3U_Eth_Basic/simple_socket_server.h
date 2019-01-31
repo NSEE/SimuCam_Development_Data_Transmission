@@ -63,6 +63,11 @@
   #error including notes on migrating applications from lwIP to NicheStack.
 #endif
 
+
+/* Nichestack definitions */
+#include "ipport.h"
+#include "tcpport.h"
+
 /*
  * Task Prototypes:
  * 

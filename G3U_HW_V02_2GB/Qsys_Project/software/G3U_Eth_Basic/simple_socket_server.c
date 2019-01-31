@@ -34,10 +34,6 @@
 #include "simple_socket_server.h"                                                                    
 #include "alt_error_handler.h"
 
-/* Nichestack definitions */
-#include "ipport.h"
-#include "tcpport.h"
-
 #include "driver/leds/leds.h"
 
 /*sub-unit definitions*/
@@ -52,6 +48,7 @@
  */
 
 static struct _ethernet_payload *p_payload;
+SSSConn conn;
 
 /*
  * Creation of the queue for receive/command communication [yb]
@@ -594,7 +591,6 @@ void sss_handle_receive(SSSConn* conn) {
 void SSSSimpleSocketServerTask() {
 	int fd_listen, max_socket;
 	struct sockaddr_in addr;
-	static SSSConn conn;
 	fd_set readfds;
 
 	/*
