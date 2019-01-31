@@ -29,7 +29,7 @@
 
 /* Macro definitions */
 #define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
-#define MAX_IMAGETTE_SIZE 			100000 	/*Imagette size in bytes*/
+#define MAX_IMAGETTE_SIZE 			20000 	/*Imagette size in bytes*/
 #define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	100		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
@@ -45,11 +45,6 @@
 #define NOT_IMPLEMENTED				7	/*Command not implemented*/
 #define	TIMER_ERROR					8
 #define PARSER_ERROR				9
-
-
-struct ram_teste{
-	INT8U teste[300000];
-};
 
 struct imagette_control{
 

@@ -252,22 +252,26 @@ void sss_handle_accept(int listen_socket, SSSConn* conn) {
  * comes time to see whether to close the connection or not.
  */
 void sss_exec_command(SSSConn* conn) {
-	int bytes_to_process = conn->rx_wr_pos - conn->rx_rd_pos;
 
-	char tx_buf[SSS_TX_BUF_SIZE];
-	char* tx_wr_pos = tx_buf;
+	INT8U error_code;
+
+
+//	int bytes_to_process = conn->rx_wr_pos - conn->rx_rd_pos;
+
+//	char tx_buf[SSS_TX_BUF_SIZE];
+//	char* tx_wr_pos = tx_buf;
 
 	/*
 	 * Values passed in the queue must be static -> intCommand [yb]
 	 */
-	INT8U error_code;
-	INT8U q_error;
 
-	INT32U command;
-	static INT8U intCommand[SSS_TX_BUF_SIZE];
-	INT8U* cmd_pos = intCommand;
-	int i = 0;
-	static int puta = 0;
+//	INT8U q_error;
+//
+//	INT32U command;
+//	static INT8U intCommand[SSS_TX_BUF_SIZE];
+//	INT8U* cmd_pos = intCommand;
+//	int i = 0;
+//	static int puta = 0;
 
 	/*
 	 * Isolate the command from garbage. And terminate the process if need be.[yb]
@@ -371,11 +375,7 @@ void sss_exec_command(SSSConn* conn) {
 
 	p_payload = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
 	alt_SSSErrorHandler(error_code, 0);
-//	if (q_error) {
-//		tx_wr_pos += sprintf(tx_wr_pos, "\n\rCommand properly executed.\n\n\r");
-//	} else
-//		tx_wr_pos += sprintf(tx_wr_pos,
-//				"\n\rError in command execution.\n\n\r");
+
 	send(conn->fd, p_payload->data, p_payload->size, 0);
 
 	return;
@@ -405,13 +405,19 @@ void sss_exec_command(SSSConn* conn) {
 void sss_handle_receive(SSSConn* conn) {
 	int data_used = 0, rx_code = 0;
 	char *lf_addr;
+
 	int i = 0;
+	alt_u32 Ddr2Base_eth_buffer = SSSBUFFER_ADDR;
 	INT8U error_code = 0;
 	INT16U calculated_crc = 0;
 
-	struct ethernet_buffer buffer;
+//	struct ethernet_buffer buffer;
 	struct ethernet_buffer *p_ethernet_buffer;
-	p_ethernet_buffer = &buffer;
+//	p_ethernet_buffer = &buffer;
+
+	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
+
+	p_ethernet_buffer = (struct p_ethernet_buffer *)Ddr2Base_eth_buffer;
 
 	p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
 	p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
@@ -425,7 +431,7 @@ void sss_handle_receive(SSSConn* conn) {
 
 	while (conn->state != CLOSE) {
 
-		printf("[sss_handle_receive DEBUG] receiving first bytes\n");
+		printf("[sss_handle_receive DEBUG]Waiting transmission...\n");
 
 		rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_rd_pos, 8, 0);
 
@@ -483,16 +489,16 @@ void sss_handle_receive(SSSConn* conn) {
 			if (p_payload->size > 10) {
 				for (i = 1; i <= p_payload->size - 10; i++) {
 					p_payload->data[i - 1] = p_ethernet_buffer->rx_buffer[i - 1];
-					printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
-							(INT8U) p_payload->data[i - 1], (INT8U) i);
+//					printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
+//							(INT8U) p_payload->data[i - 1], (INT8U) i);
 				}
 			}
 
-			printf("[sss_handle_receive DEBUG]Printing buffer = ");
-			for (int k = 0; k < p_payload->size - 8; k++) {
-				printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
-			}
-			printf("\r\n");
+//			printf("[sss_handle_receive DEBUG]Printing buffer = ");
+//			for (int k = 0; k < p_payload->size - 8; k++) {
+//				printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+//			}
+//			printf("\r\n");
 
 			printf(
 					"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
@@ -521,7 +527,7 @@ void sss_handle_receive(SSSConn* conn) {
 
 			sss_exec_command(conn);
 
-			printf("[sss_handle_receive DEBUG]Returned from function\n");
+//			printf("[sss_handle_receive DEBUG]Returned from function\n");
 		}
 
 
@@ -566,8 +572,6 @@ void sss_handle_receive(SSSConn* conn) {
 //		conn->rx_rd_pos = conn->rx_buffer;
 //		conn->rx_wr_pos -= data_used;
 //		memset(conn->rx_wr_pos, 0, data_used);
-
-		printf("[sss_handle_receive DEBUG]Buffer managed\n");
 	}
 
 	printf("[sss_handle_receive] closing connection\n");

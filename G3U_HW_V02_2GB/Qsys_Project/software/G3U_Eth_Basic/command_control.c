@@ -7,8 +7,11 @@
 
 #include "command_control.h"
 
-struct imagette_control img_struct;
+
 struct sub_config config_send_A;
+
+struct imagette_control img_struct;
+struct imagette_control *p_img_control;
 
 INT8U b_meb_status = 0; //default starting mode is config
 INT8U i_forward_data = 0;
@@ -90,7 +93,7 @@ void v_HK_creator(struct _ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[24] = 0; //current index
 	p_HK->data[25] = i_imagette_counter; //current index
 	p_HK->data[26] = 0; //packets to send
-	p_HK->data[27] = img_struct.nb_of_imagettes - i_imagette_counter; //packets to send
+	p_HK->data[27] = p_img_control->nb_of_imagettes - i_imagette_counter; //packets to send
 	p_HK->data[28] = 25;			//crc
 	p_HK->data[29] = 86;			//crc
 	p_HK->size = 30;
@@ -138,6 +141,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	INT32U p = 0;
 	INT32U o = DATA_SHIFT;
 	INT32U d = 0;
+	INT16U nb_imagettes;
 	INT32U error_verif = 0;
 
 	printf(
@@ -151,9 +155,10 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	 * Do not use first 2 bytes
 	 */
 
-	p_img_ctrl->nb_of_imagettes = p_payload->data[3] + 256 * p_payload->data[2];
+	nb_imagettes = p_payload->data[3] + 256 * p_payload->data[2];
+	p_img_ctrl->nb_of_imagettes = nb_imagettes;
 
-	printf("[PARSER] Number of imagettes: %i\r\n", p_img_ctrl->nb_of_imagettes);
+	printf("[PARSER] Number of imagettes: %i\r\n", nb_imagettes);
 
 	p_img_ctrl->tag[7] = p_payload->data[4];
 	p_img_ctrl->tag[6] = p_payload->data[5];
@@ -164,43 +169,43 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	p_img_ctrl->tag[1] = p_payload->data[10];
 	p_img_ctrl->tag[0] = p_payload->data[11];
 
-	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n",
-			p_img_ctrl->tag[7], p_img_ctrl->tag[6], p_img_ctrl->tag[5],
-			p_img_ctrl->tag[4], p_img_ctrl->tag[3], p_img_ctrl->tag[2],
-			p_img_ctrl->tag[1], p_img_ctrl->tag[0]);
+	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n", p_img_ctrl->tag[7],
+			p_img_ctrl->tag[6], p_img_ctrl->tag[5], p_img_ctrl->tag[4],
+			p_img_ctrl->tag[3], p_img_ctrl->tag[2], p_img_ctrl->tag[1],
+			p_img_ctrl->tag[0]);
 
-	while (i < p_img_ctrl->nb_of_imagettes) {
+	printf("[PARSER]Starting imagette addr %x\r\n", &(p_img_ctrl->imagette[0]));
 
-		p_img_ctrl->offset[i] = (p_payload->data[o + 3]
+	while (i < nb_imagettes) {
+
+		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
+				(INT32U) &(p_img_ctrl->imagette[d]));
+
+		p_img_ctrl->offset[i] = p_payload->data[o + 3]
 				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
-				+ 4294967296 * p_payload->data[o]) / 10;
+				+ 4294967296 * p_payload->data[o];
 
 		p_img_ctrl->imagette_length[i] = p_payload->data[o + 5]
 				+ 256 * p_payload->data[o + 4];
-
-		error_verif += p_img_ctrl->imagette_length[i];
 
 		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
 				p_img_ctrl->offset[i], p_img_ctrl->imagette_length[i]);
 
 		for (p = 0; p < p_img_ctrl->imagette_length[i]; p++, d++) {
 			p_img_ctrl->imagette[d] = p_payload->data[o + DELAY_SIZE + p];
-			printf(
-					"[PARSER]Teste de recepcao:imagette_nb %i, imagette_data %i\r\n",
-					(INT32U) i, (INT8U) p_img_ctrl->imagette[d]);
+//			printf(
+//					"[PARSER]Teste de recepcao:imagette_nb %i, imagette_data %i\r\n",
+//					(INT32U) i, (INT8U) p_img_ctrl->imagette[d]);
 		}
-
-		printf("[PARSER] offset %i: %i, data: %i\r\n", (int) o,
-				(INT32U) p_img_ctrl->offset[i],
-				(INT8U) p_img_ctrl->imagette[i + p + DELAY_SIZE]);
 		o += DELAY_SIZE + p_img_ctrl->imagette_length[i];
 		i++;
-		printf("[PARSER] offset counter: %i\r\n", (INT32U) i);
-		printf("[PARSER] error verif: %i\r\n", (INT32U) error_verif);
 	}
 
 	p_img_ctrl->size = d;
-	if (p_img_ctrl->size == error_verif) {
+	error_verif = o + DATA_SHIFT - 2;
+	printf("[PARSER]error_verif %i\r\n", error_verif);
+	if (p_payload->size == error_verif) {
+		printf("[PARSER]OK...\r\n");
 		return ACK_OK;
 	} else
 		return PARSER_ERROR;
@@ -226,10 +231,10 @@ void central_timer_callback_function(void *p_arg) {
 	INT8U error_code = 0;
 
 	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
-			(INT32U) img_struct.offset[i_imagette_counter],
+			(INT32U) p_img_control->offset[i_imagette_counter],
 			(INT32U) i_central_timer_counter);
 
-	if (img_struct.offset[i_imagette_counter] == i_central_timer_counter) {
+	if (p_img_control->offset[i_imagette_counter] == i_central_timer_counter) {
 
 		/*
 		 * Enviar comando de envio para o sub-unit
@@ -279,16 +284,15 @@ void CommandManagementTask() {
 	static struct _ethernet_payload *p_payload;
 	p_payload = &payload;
 
-	struct ram_teste *p_ram_teste;
+	/*
+	 * Assigning imagette struct to RAM
+	 */
 	alt_u32 Ddr2Base;
 	alt_u32 ByteLen;
-
 	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
 	Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
 	ByteLen = DDR2_M1_MEMORY_SIZE;
-	p_ram_teste = (struct ram_teste *) Ddr2Base;
-
-	struct imagette_control *p_img_control;
+//	p_img_control = (struct imagette_control *) Ddr2Base;
 	p_img_control = &img_struct;
 
 	/*

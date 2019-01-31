@@ -187,8 +187,10 @@ typedef struct SSS_SOCKET
  * "SSS" are declared in file "simple_socket_server.c".
  */
 
-#define BUFFER_SIZE				1500
+#define BUFFER_SIZE				2000000
 #define EMPIRICAL_BUFFER_MIN 	21
+#define SSSBUFFER_ADDR			0x7FF0BDC0
+
 #define PROTOCOL_OVERHEAD		7
 #define EXIT_CODE				3
 
