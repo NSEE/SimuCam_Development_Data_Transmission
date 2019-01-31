@@ -252,7 +252,6 @@ void sss_exec_command(SSSConn* conn) {
 
 	INT8U error_code;
 
-
 //	int bytes_to_process = conn->rx_wr_pos - conn->rx_rd_pos;
 
 //	char tx_buf[SSS_TX_BUF_SIZE];
@@ -269,7 +268,6 @@ void sss_exec_command(SSSConn* conn) {
 //	INT8U* cmd_pos = intCommand;
 //	int i = 0;
 //	static int puta = 0;
-
 	/*
 	 * Isolate the command from garbage. And terminate the process if need be.[yb]
 	 //	 */
@@ -414,7 +412,7 @@ void sss_handle_receive(SSSConn* conn) {
 
 	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
 
-	p_ethernet_buffer = (struct p_ethernet_buffer *)Ddr2Base_eth_buffer;
+	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
 
 	p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
 	p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
@@ -427,6 +425,10 @@ void sss_handle_receive(SSSConn* conn) {
 	printf("[sss_handle_receive] processing RX data\n");
 
 	while (conn->state != CLOSE) {
+
+//		printf(
+//				"[sss_handle_receive DEBUG]Comeco::rx_rd_pos: %x \r\nrx_wr_pos: %x\r\n",
+//				p_ethernet_buffer->rx_rd_pos, p_ethernet_buffer->rx_wr_pos);
 
 		printf("[sss_handle_receive DEBUG]Waiting transmission...\n");
 
@@ -485,17 +487,18 @@ void sss_handle_receive(SSSConn* conn) {
 			 */
 			if (p_payload->size > 10) {
 				for (i = 1; i <= p_payload->size - 10; i++) {
-					p_payload->data[i - 1] = p_ethernet_buffer->rx_buffer[i - 1];
+					p_payload->data[i - 1] =
+							p_ethernet_buffer->rx_buffer[i - 1];
 //					printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
 //							(INT8U) p_payload->data[i - 1], (INT8U) i);
 				}
 			}
 
-//			printf("[sss_handle_receive DEBUG]Printing buffer = ");
-//			for (int k = 0; k < p_payload->size - 8; k++) {
-//				printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
-//			}
-//			printf("\r\n");
+			printf("[sss_handle_receive DEBUG]Printing buffer = ");
+			for (int k = 0; k < p_payload->size - 8; k++) {
+				printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+			}
+			printf("\r\n");
 
 			printf(
 					"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
@@ -526,7 +529,6 @@ void sss_handle_receive(SSSConn* conn) {
 
 //			printf("[sss_handle_receive DEBUG]Returned from function\n");
 		}
-
 
 //		/* Find the Carriage return which marks the end of the header */
 //		lf_addr = strchr((const char*) conn->rx_buffer, '\n');
@@ -559,9 +561,25 @@ void sss_handle_receive(SSSConn* conn) {
 
 		/* Manage buffer */
 
+//		printf(
+//				"[sss_handle_receive DEBUG]Antes::rx_rd_pos: %x \r\nrx_wr_pos: %x\r\n",
+//				p_ethernet_buffer->rx_rd_pos, p_ethernet_buffer->rx_wr_pos);
+
+		data_used = conn->rx_rd_pos - conn->rx_buffer;
 		p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
-		p_ethernet_buffer->rx_wr_pos -= p_payload->size;
+		p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
 		memset(p_ethernet_buffer->rx_wr_pos, 0, p_payload->size);
+
+//		printf(
+//				"[sss_handle_receive DEBUG]Depois::rx_rd_pos: %x \r\nrx_wr_pos: %x\r\n",
+//				p_ethernet_buffer->rx_rd_pos, p_ethernet_buffer->rx_wr_pos);
+//
+//		printf("[sss_handle_receive DEBUG]Printing buffer after memset = ");
+//		for (int k = 0; k < p_payload->size - 8; k++) {
+//			printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+//		}
+//		printf("\r\n");
+
 //
 //		data_used = conn->rx_rd_pos - conn->rx_buffer;
 //		memmove(conn->rx_buffer, conn->rx_rd_pos,

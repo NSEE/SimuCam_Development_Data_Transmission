@@ -180,9 +180,10 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
 				(INT32U) &(p_img_ctrl->imagette[d]));
 
-		p_img_ctrl->offset[i] = div( (p_payload->data[o + 3]
-				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
-				+ 4294967296 * p_payload->data[o]), 10).quot;
+		p_img_ctrl->offset[i] = div(
+				(p_payload->data[o + 3] + 256 * p_payload->data[o + 2]
+						+ 65536 * p_payload->data[o + 1]
+						+ 4294967296 * p_payload->data[o]), 10).quot;
 
 		p_img_ctrl->imagette_length[i] = p_payload->data[o + 5]
 				+ 256 * p_payload->data[o + 4];
@@ -303,7 +304,6 @@ void CommandManagementTask() {
 	config_send->RMAP_handling = 0;
 	config_send->forward_data = 0;
 	config_send->link_config = 0;
-	config_send->echo_sent = 0;
 	config_send->sub_status_sending = 0;
 	config_send->linkstatus_running = 1;
 	config_send->linkspeed = 3;
@@ -640,8 +640,7 @@ void CommandManagementTask() {
 				 * char: e
 				 */
 			case 101:
-				printf("[CommandManagementTask]Selected command: %c\n\r",
-						(char) p_payload->type);
+				printf("[CommandManagementTask]Configure Sub-Unit\r\n");
 
 				/* Add a case for channel selection */
 
@@ -649,14 +648,11 @@ void CommandManagementTask() {
 				config_send->linkspeed = p_payload->data[2];
 				config_send->linkstatus_running = p_payload->data[3];
 
-//				error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-//						config_send);
-//				alt_SSSErrorHandler(error_code, 0);
 				printf(
 						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
-						(INT8U) config_send->mode,
-						(INT8U) config_send->forward_data,
-						(INT8U) config_send->RMAP_handling);
+						(INT8U) config_send->link_config,
+						(INT8U) config_send->linkspeed,
+						(INT8U) config_send->linkstatus_running);
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -670,17 +666,16 @@ void CommandManagementTask() {
 				 * char: f
 				 */
 			case 102:
-				printf("[CommandManagementTask]Selected command: %c\n\r",
-						(char) p_payload->type);
+				printf("[CommandManagementTask]Parse data\n\r");
 
 				exec_error = v_parse_data(p_payload, p_img_control);
 				printf(
 						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-						(INT8U) p_img_control->imagette[4],
+						(INT8U) p_img_control->imagette[0],
 						(INT32U) p_img_control->offset[0],
 						(INT32U) p_img_control->size);
 
-				printf("[CommandManagementTask]Data parsed correctly\r\n");
+				printf("[CommandManagementTask]Data parsed\r\n");
 
 				config_send->imagette = p_img_control;
 
@@ -722,10 +717,10 @@ void CommandManagementTask() {
 				 * char: i
 				 */
 			case 105:
-				printf("[CommandManagementTask]Selected command: %c\n\r",
-						(char) p_payload->type);
+				printf("[CommandManagementTask]Change Mode\r\n");
 
 				b_meb_status = p_payload->data[0];
+
 				if (b_meb_status == 1) {
 					config_send->mode = 1;
 				}
@@ -743,8 +738,7 @@ void CommandManagementTask() {
 				 * Clear RAM
 				 */
 			case 108:
-				printf("[CommandManagementTask]Selected command: %c\n\r",
-						(int) p_payload->type);
+				printf("[CommandManagementTask]Clear RAM\r\n");
 
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
 
@@ -758,22 +752,24 @@ void CommandManagementTask() {
 				 * char: m
 				 */
 			case 109:
-				printf("[CommandManagementTask]Selected command: %c\n\r",
-						(int) p_payload->type);
-				char channel;
-				switch (p_payload->data[0]) {
-				case 0:
-					channel = 'A';
-					break;
-				}
 
-				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(channel,
-						&(p_payload->data[1]), (p_payload->size) - 11);
-
-				v_ack_creator(p_payload, ACK_OK);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
+//				int received_channel;
+//				switch (p_payload->data[0]) {
+//				case 0:
+//					received_channel = 'A';
+//					break;
+//				}
+//
+//				printf("[CommandManagementTask]Direct Send to %c\n\r",
+//						(char) received_channel);
+//
+//				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(received_channel,
+//						&(p_payload->data[1]), (p_payload->size) - 11);
+//
+//				v_ack_creator(p_payload, ACK_OK);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -781,6 +777,7 @@ void CommandManagementTask() {
 				 * Get HK
 				 */
 			case 110:
+				printf("[CommandManagementTask]Get HK\r\n");
 
 				v_HK_creator(p_payload, p_payload->data[0]);
 				//v_ack_creator(p_payload, NOT_IMPLEMENTED);
@@ -793,11 +790,14 @@ void CommandManagementTask() {
 				 * Config MEB
 				 */
 			case 111:
-				printf("[CommandManagementTask]Selected command: %c\n\r",
-						(int) p_payload->type);
+				printf("[CommandManagementTask]Clear RAM\r\n");
 
 				i_forward_data = p_payload->data[0];
 				i_echo_sent_data = p_payload->data[1];
+
+				printf(
+						"[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
+						(int) i_forward_data, (int) i_echo_sent_data);
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -806,6 +806,9 @@ void CommandManagementTask() {
 
 				break;
 
+				/*
+				 * Set Recording
+				 */
 			case 112:
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(int) p_payload->type);
@@ -1024,6 +1027,10 @@ void CommandManagementTask() {
 			} else {
 
 				switch (p_payload->type) {
+
+				/*
+				 * Change Simucam Mode
+				 */
 				case 105:
 					printf("[CommandManagementTask]MEB status: %i\r\n",
 							(INT8U) p_payload->data[0]);
@@ -1047,6 +1054,9 @@ void CommandManagementTask() {
 					alt_SSSErrorHandler(error_code, 0);
 					break;
 
+					/*
+					 * Abort Sending
+					 */
 				case 107:
 					printf("[CommandManagementTask]Selected command: %i\n\r",
 							(int) p_payload->type);
@@ -1074,21 +1084,27 @@ void CommandManagementTask() {
 
 					/*
 					 * Direct send
-					 * char: m
 					 */
 				case 109:
-					printf("[CommandManagementTask]Selected command: %i\n\r",
-							(int) p_payload->type);
-
-					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
-							(char) toupper(p_payload->data[0]),
-							&(p_payload->data[1]), (p_payload->size) - 11);
-
-					v_ack_creator(p_payload, ACK_OK);
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
+//					INT8U received_channel;
+//					switch (p_payload->data[0]) {
+//					case 0:
+//						received_channel = 'A';
+//						break;
+//					}
+//
+//					printf("[CommandManagementTask]Direct Send to %c\n\r",
+//							(char) received_channel);
+//
+//					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
+//							(char) received_channel,
+//							&(p_payload->data[1]), (p_payload->size) - 11);
+//
+//					v_ack_creator(p_payload, ACK_OK);
+//
+//					error_code = (INT8U) OSQPost(p_simucam_command_q,
+//							p_payload);
+//					alt_SSSErrorHandler(error_code, 0);
 
 					break;
 
@@ -1096,6 +1112,7 @@ void CommandManagementTask() {
 					 * Get HK
 					 */
 				case 110:
+					printf("[CommandManagementTask]Get HK\r\n");
 
 					v_HK_creator(p_payload, p_payload->data[0]);
 

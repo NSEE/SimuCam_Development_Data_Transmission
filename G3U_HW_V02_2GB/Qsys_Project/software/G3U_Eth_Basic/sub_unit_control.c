@@ -105,7 +105,6 @@ void sub_unit_control_task() {
 	p_config->RMAP_handling = 0;
 	p_config->forward_data = 0;
 	p_config->link_config = 0;
-	p_config->echo_sent = 0;
 	p_config->sub_status_sending = 0;
 	p_config->linkstatus_running = 1;
 	p_config->linkspeed = 3;
@@ -208,7 +207,7 @@ void sub_unit_control_task() {
 			 * Implement echo command, Next version
 			 */
 
-//			if (p_config->echo_sent == 1) {
+//			if (i_echo_sent_data == 1) {
 //				send(conn.fd, i_echo_dataset(p_imagette_buffer),
 //						p_imagette_buffer->imagette_length[i_imagette_number]
 //								+ 10, 0);
