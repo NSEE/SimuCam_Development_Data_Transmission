@@ -180,6 +180,10 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
 				(INT32U) &(p_img_ctrl->imagette[d]));
 
+//		printf("[PARSER]Offset bytes: %i %i %i %i\r\n",p_payload->data[o],
+//				p_payload->data[o + 1], p_payload->data[o + 2], 256 * p_payload->data[o + 2],
+//					p_payload->data[o + 3]);
+
 		p_img_ctrl->offset[i] = div(
 				(p_payload->data[o + 3] + 256 * p_payload->data[o + 2]
 						+ 65536 * p_payload->data[o + 1]
@@ -231,7 +235,7 @@ void central_timer_callback_function(void *p_arg) {
 	INT8U error_code = 0;
 	INT8U buffer_nb;
 
-	buffer_nb = i_imagette_number;
+//	buffer_nb = i_imagette_number;
 
 	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
 			(INT32U) p_img_control->offset[i_imagette_counter],

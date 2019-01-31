@@ -361,18 +361,16 @@ void sss_exec_command(SSSConn* conn) {
 //
 //	error_code = OSQPost(p_simucam_command_q, p_payload);
 //	alt_SSSErrorHandler(error_code, 0);
-	error_code = OSQPost(p_simucam_command_q, p_payload);
-	alt_SSSErrorHandler(error_code, 0);
-
+//	error_code = OSQPost(p_simucam_command_q, p_payload);
+//	alt_SSSErrorHandler(error_code, 0);
 	/*
 	 * Error code verification for the commands[yb]
 	 */
 
-	p_payload = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
-	alt_SSSErrorHandler(error_code, 0);
-
-	send(conn->fd, p_payload->data, p_payload->size, 0);
-
+//	p_payload = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
+//	alt_SSSErrorHandler(error_code, 0);
+//
+//	send(conn->fd, p_payload->data, p_payload->size, 0);
 	return;
 }
 
@@ -522,10 +520,17 @@ void sss_handle_receive(SSSConn* conn) {
 
 			printf("[sss_handle_receive DEBUG]finished receiving\n");
 
-//		error_code = OSQPost(p_simucam_command_q, p_payload);
-//		alt_SSSErrorHandler(error_code, 0);
+			error_code = OSQPost(p_simucam_command_q, p_payload);
+			alt_SSSErrorHandler(error_code, 0);
 
-			sss_exec_command(conn);
+			printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
+
+			p_payload = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
+			alt_SSSErrorHandler(error_code, 0);
+
+			send(conn->fd, p_payload->data, p_payload->size, 0);
+
+//			sss_exec_command(conn);
 
 //			printf("[sss_handle_receive DEBUG]Returned from function\n");
 		}
@@ -564,7 +569,6 @@ void sss_handle_receive(SSSConn* conn) {
 //		printf(
 //				"[sss_handle_receive DEBUG]Antes::rx_rd_pos: %x \r\nrx_wr_pos: %x\r\n",
 //				p_ethernet_buffer->rx_rd_pos, p_ethernet_buffer->rx_wr_pos);
-
 		data_used = conn->rx_rd_pos - conn->rx_buffer;
 		p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
 		p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
