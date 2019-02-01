@@ -15,6 +15,8 @@
 #include "system.h"
 #include <stdio.h>
 #include "os_cpu.h"
+#include <ctype.h>
+
 
 #define DEBUG_HIGH
 #define DEBUG_MID

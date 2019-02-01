@@ -22,7 +22,7 @@ struct sub_config *p_sub_unit_config_queue_tbl[SUBUNIT_BUFFER]; /*Storage for su
  * Creation of the sub-unit command queue [yb]
  */
 OS_EVENT *p_sub_unit_command_queue;
-struct _ethernet_payload *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
+int *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
 
 INT8U tx_buffer[SSS_TX_BUF_SIZE];
 static INT8U *p_tx_buffer = &tx_buffer[0];
@@ -123,6 +123,8 @@ void sub_unit_control_task() {
 	p_config = &sub_config;
 	struct imagette_control *p_imagette_buffer;
 
+	int i_abort_flag = 0;
+
 	p_config->mode = 0;
 	p_config->RMAP_handling = 0;
 	p_config->forward_data = 0;
@@ -161,6 +163,7 @@ void sub_unit_control_task() {
 
 		i_imagette_counter = 0;
 		i_imagette_number = 0;
+		i_abort_flag = 0;
 
 		int p;
 		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
@@ -248,48 +251,53 @@ void sub_unit_control_task() {
 			p_config->sub_status_sending = 0;
 
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
+			i_abort_flag = OSQAccept(p_sub_unit_command_queue, &error_code);
+			if(i_abort_flag != 0){
+				printf("[SUBUNIT]Abort Flag received\r\n");
+				i_imagette_number = nb_of_imagettes;
+			} else {
+				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
+						&(p_imagette_buffer->imagette[i_imagette_counter]),
+						p_imagette_buffer->imagette_length[i_imagette_number]);
+				p_config->sub_status_sending = 0;
 
-			error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
-					&(p_imagette_buffer->imagette[i_imagette_counter]),
-					p_imagette_buffer->imagette_length[i_imagette_number]);
-			p_config->sub_status_sending = 0;
+				/*
+				 * Echo command statement
+				 */
+				if (i_echo_sent_data == 1) {
 
-			/*
-			 * Echo command statement
-			 */
-			if (i_echo_sent_data == 1) {
+					i_echo_dataset(p_imagette_buffer, p_tx_buffer);
 
-				i_echo_dataset(p_imagette_buffer, p_tx_buffer);
+					printf("[Echo in fct DEBUG]Printing buffer = ");
+					for (int k = 0;
+							k
+							< p_imagette_buffer->imagette_length[i_imagette_number]
+							+ ECHO_CMD_OVERHEAD; k++) {
+						printf("%i ", (INT8U) tx_buffer[k]);
+					}
+					printf("\r\n");
 
-				printf("[Echo in fct DEBUG]Printing buffer = ");
-				for (int k = 0;
-						k
-								< p_imagette_buffer->imagette_length[i_imagette_number]
-										+ ECHO_CMD_OVERHEAD; k++) {
-					printf("%i ", (INT8U) tx_buffer[k]);
+					send(conn.fd, p_tx_buffer,
+							p_imagette_buffer->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD,
+							0);
 				}
-				printf("\r\n");
 
-				send(conn.fd, p_tx_buffer,
-						p_imagette_buffer->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD,
-						0);
+				printf("[SUBUNIT]imagette sent\r\n");
+
+				i_imagette_counter += i_imagette_length;
+				i_imagette_number++;
+
+				printf("[SUBUNIT]imagette counter %i\r\n",
+						(INT16U) i_imagette_counter);
+
+				printf("[SUBUNIT]imagette nb %i\r\n", (INT16U) i_imagette_number);
+
 			}
-
-			printf("[SUBUNIT]imagette sent\r\n");
-
-			i_imagette_counter += i_imagette_length;
-			i_imagette_number++;
-
-			printf("[SUBUNIT]imagette counter %i\r\n",
-					(INT16U) i_imagette_counter);
-
-			printf("[SUBUNIT]imagette nb %i\r\n", (INT16U) i_imagette_number);
-
 		}
 
 		/* Modificar para assegurar um funcionamento como desejado */
 		printf("[SUBUNIT]Waiting config instructions\r\n");
-		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
+		p_config = OSQPend(p_sub_unit_config_queue, 5000, &error_code);
 		printf("[SUBUNIT]Configuration instructions received\r\n");
 
 	}
