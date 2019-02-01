@@ -279,11 +279,13 @@ void Configure_SpW_Autostart(char c_SpwID) {
 	// Coloca Codec no modo Normal
 //	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_NORMAL_MODE);
 	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_BACKDOOR_MODE);
-	// Coloca Codec no link Autostart
+	// Coloca Codec no link Disabled, funcao padrao para o IWF
 	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_CLEAR,
 	SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
 	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
-	SPWC_AUTOSTART_CONTROL_BIT_MASK);
+			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
+//	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
+//	SPWC_AUTOSTART_CONTROL_BIT_MASK);
 	printf("SpaceWire %c configurado\n", c_SpwID);
 }
 

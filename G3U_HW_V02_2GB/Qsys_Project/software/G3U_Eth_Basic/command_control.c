@@ -355,21 +355,24 @@ void CommandManagementTask() {
 	static struct sub_config *config_send;
 	config_send = &config_send_A;
 
-	config_send->mode = 0; //default starting mode is config
-	config_send->RMAP_handling = 0;
-	config_send->forward_data = 0;
-	config_send->link_config = 0;
-	config_send->sub_status_sending = 0;
-	config_send->linkstatus_running = 1;
-	config_send->linkspeed = 3;
-
 	/*
-	 * Forcing all sub-units to config mode
-	 * Repeat to all 8 sub-units will be implemented once
-	 * all subs will be functionnal
+	 * Configuring done inside the sub-unit modules
 	 */
-	error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
-	alt_SSSErrorHandler(error_code, 0);
+//	config_send->mode = 0; //default starting mode is config
+//	config_send->RMAP_handling = 0;
+//	config_send->forward_data = 0;
+//	config_send->link_config = 0;
+//	config_send->sub_status_sending = 0;
+//	config_send->linkstatus_running = 1;
+//	config_send->linkspeed = 3;
+//
+//	/*
+//	 * Forcing all sub-units to config mode
+//	 * Repeat to all 8 sub-units will be implemented once
+//	 * all subs will be functionnal
+//	 */
+//	error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
+//	alt_SSSErrorHandler(error_code, 0);
 
 	while (1) {
 

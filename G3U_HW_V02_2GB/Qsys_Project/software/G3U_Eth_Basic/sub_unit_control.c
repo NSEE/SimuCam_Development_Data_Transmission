@@ -135,7 +135,11 @@ void sub_unit_control_task() {
 
 	while (p_config->mode == 0) {
 
-		printf("[SUBUNIT]Channel disabled\r\n");
+		/*
+		 * Disabling SpW channel
+		 */
+		v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+		SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
 		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 		SPWC_REG_SET,
 		SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
@@ -171,6 +175,10 @@ void sub_unit_control_task() {
 		if (p_config->linkstatus_running == 0) {
 
 			printf("[SUBUNIT]Channel disabled\r\n");
+			//Testar ver se isso funciona
+			v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+			SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
+			//fim teste
 			error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 			SPWC_REG_SET,
 			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
@@ -186,9 +194,11 @@ void sub_unit_control_task() {
 			case 0:
 
 				printf("[SUBUNIT]Channel autostart\r\n");
+
 				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
 						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
 								| SPWC_LINK_START_CONTROL_BIT_MASK);
+
 				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 				SPWC_REG_SET,
 				SPWC_AUTOSTART_CONTROL_BIT_MASK);
@@ -200,9 +210,11 @@ void sub_unit_control_task() {
 				 */
 			case 1:
 				printf("[SUBUNIT]Channel start\r\n");
+				//testar se isso funciona
 				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
 						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
-								| SPWC_LINK_START_CONTROL_BIT_MASK);
+								| SPWC_AUTOSTART_CONTROL_BIT_MASK);
+				//fim teste
 				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 				SPWC_REG_SET,
 				SPWC_LINK_START_CONTROL_BIT_MASK);
@@ -241,10 +253,10 @@ void sub_unit_control_task() {
 					&(p_imagette_buffer->imagette[i_imagette_counter]),
 					p_imagette_buffer->imagette_length[i_imagette_number]);
 			p_config->sub_status_sending = 0;
-			/*
-			 * Implement echo command, Next version
-			 */
 
+			/*
+			 * Echo command statement
+			 */
 			if (i_echo_sent_data == 1) {
 
 				i_echo_dataset(p_imagette_buffer, p_tx_buffer);
