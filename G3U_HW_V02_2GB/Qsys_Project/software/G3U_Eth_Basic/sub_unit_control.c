@@ -9,6 +9,7 @@
 
 extern struct sub_config sub_config;
 INT16U i_imagette_number;
+INT16U i_imagette_counter;
 
 /*
  * Creation of the sub-unit communication queue [yb]
@@ -22,6 +23,9 @@ struct sub_config *p_sub_unit_config_queue_tbl[SUBUNIT_BUFFER]; /*Storage for su
  */
 OS_EVENT *p_sub_unit_command_queue;
 struct _ethernet_payload *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
+
+INT8U tx_buffer[SSS_TX_BUF_SIZE];
+INT8U *p_tx_buffer = &tx_buffer[0];
 
 /*
  * Create the sub-unit defined data structures and queues
@@ -61,33 +65,47 @@ void sub_unit_create_os_data_structs(void) {
  * Echo data creation function
  */
 
-//INT8U* i_echo_dataset(struct imagette_control* p_imagette) {
-//	INT8U tx_buffer[SSS_TX_BUF_SIZE];
-//	INT8U i = 0;
-//
-//	tx_buffer[0] = 2;
-//	tx_buffer[1] = 203;
-//	tx_buffer[2] = 0;
-//	tx_buffer[3] = 0;
-//	tx_buffer[4] = 0;
-//	tx_buffer[5] = p_imagette->imagette_length[i_imagette_number] + 13;
-//	tx_buffer[6] = 0;
-//	tx_buffer[7] = 0;
-//	tx_buffer[8] = 0;
-//	tx_buffer[9] = i_central_timer_counter;
-//	tx_buffer[10] = 0;
-//
-//	while (i < p_imagette->imagette_length[i_imagette_number]) {
-//		tx_buffer[i + 11] = p_imagette->imagette[i_imagette_number];
-//		i++;
-//	}
-//
-//	tx_buffer[i + 11] = 0;	//crc
-//	tx_buffer[i + 12] = 7;	//crc
-//
+void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
+//	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
+	INT8U i = 0;
+	INT32U i_imagette_counter_echo = i_imagette_counter;
+	INT32U k;
+
+	tx_buffer[0] = 2;
+	tx_buffer[1] = 0;
+	tx_buffer[2] = i_id_accum;
+	tx_buffer[3] = 203;
+	tx_buffer[4] = 0;
+	tx_buffer[5] = 0;
+	tx_buffer[6] = 0;
+	tx_buffer[7] = p_imagette->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD;
+	tx_buffer[8] = 0;
+	tx_buffer[9] = 0;
+	tx_buffer[10] = 0;
+	tx_buffer[11] = i_central_timer_counter;
+	tx_buffer[12] = 0;
+
+	while (i < p_imagette->imagette_length[i_imagette_number]) {
+		tx_buffer[i + (ECHO_CMD_OVERHEAD -2)] = p_imagette->imagette[i_imagette_counter_echo];
+		i++;
+		i_imagette_counter_echo++;
+	}
+
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = 0;	//crc
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = 7;	//crc
+
+	i_id_accum++;
+
+	printf("[Echo DEBUG]Printing buffer = ");
+	for (int k = 0; k < p_imagette->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD;
+			k++) {
+		printf("%i ", (INT8U) tx_buffer[k]);
+	}
+	printf("\r\n");
+
 //	return *tx_buffer;
-//
-//}
+
+}
 
 /*
  * Control task for sub-unit operation[yb]
@@ -127,7 +145,9 @@ void sub_unit_control_task() {
 	while (p_config->mode == 1) {
 		INT8U error_code; /*uCOS error code*/
 		INT8U exec_error; /*Internal error code for the command module*/
-		INT16U i_imagette_counter = 0;
+
+		i_imagette_counter = 0;
+		i_imagette_number = 0;
 
 		int p;
 		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
@@ -175,12 +195,12 @@ void sub_unit_control_task() {
 			}
 		}
 
+		printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
+				(int) i_imagette_counter, (int) i_imagette_number);
+
 		while (i_imagette_number < nb_of_imagettes) {
 
 			printf("[SUBUNIT]Entered while\r\n");
-
-			printf("[SUBUNIT]imagette counter antes %i\r\n",
-					(int) i_imagette_counter);
 
 			printf("[SUBUNIT]Received imagette %i start byte: %i @ %x\r\n",
 					i_imagette_number,
@@ -196,7 +216,9 @@ void sub_unit_control_task() {
 					(INT16U) p_imagette_buffer->imagette_length[i_imagette_number]);
 
 			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
+
 			p_config->sub_status_sending = 0;
+
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
 
 			error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
@@ -207,16 +229,27 @@ void sub_unit_control_task() {
 			 * Implement echo command, Next version
 			 */
 
-//			if (i_echo_sent_data == 1) {
-//				send(conn.fd, i_echo_dataset(p_imagette_buffer),
-//						p_imagette_buffer->imagette_length[i_imagette_number]
-//								+ 10, 0);
-//			}
+			if (i_echo_sent_data == 1) {
+
+				i_echo_dataset(p_imagette_buffer,p_tx_buffer);
+
+				printf("[Echo in fct DEBUG]Printing buffer = ");
+				for (int k = 0;
+						k
+								< p_imagette_buffer->imagette_length[i_imagette_number]
+										+ ECHO_CMD_OVERHEAD; k++) {
+					printf("%i ", (INT8U) tx_buffer[k]);
+				}
+				printf("\r\n");
+
+				send(conn.fd, p_tx_buffer,
+						p_imagette_buffer->imagette_length[i_imagette_number]
+								+ ECHO_CMD_OVERHEAD, 0);
+			}
 
 			printf("[SUBUNIT]imagette sent\r\n");
 
 			i_imagette_counter += i_imagette_length;
-
 			i_imagette_number++;
 
 			printf("[SUBUNIT]imagette counter %i\r\n",

@@ -29,12 +29,12 @@
 
 /* Macro definitions */
 #define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
-#define MAX_IMAGETTE_SIZE 			20000 	/*Imagette size in bytes*/
+#define MAX_IMAGETTE_SIZE 			2000 	/*Imagette size in bytes*/
 #define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	1		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 #define DATA_SHIFT					12		/*Data header shift*/
-
+#define ASCII_A						65
 
 /*
  * Error codes definitions
@@ -45,6 +45,7 @@
 #define NOT_IMPLEMENTED				7	/*Command not implemented*/
 #define	TIMER_ERROR					8
 #define PARSER_ERROR				9
+#define	ECHO_ERROR					10
 
 struct imagette_control{
 
@@ -68,7 +69,9 @@ struct imagette_control{
 int v_parse_data(struct _ethernet_payload*,struct imagette_control*);
 void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code);
 INT32U i_compute_size(INT8U*);
+
 extern INT16U i_imagette_number;
+extern INT16U i_imagette_counter;
 extern SSSConn conn;
 
 OS_TMR *central_timer;

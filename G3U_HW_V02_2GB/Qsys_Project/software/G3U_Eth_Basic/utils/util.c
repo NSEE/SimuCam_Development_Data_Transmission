@@ -217,3 +217,46 @@ INT16U crc16(INT8U *p_data, INT32U i_length) {
 		return (crc);
 	}
 
+/**
+ * @name long_to_int
+ * @brief Computes the CRC16 of the data array
+ * @ingroup UTIL
+ *
+ * This routine generates the 16 bit remainder of a block of
+ * data using the ccitt polynomial generator.
+ *
+ * note: when the crc is included in the message(our case),
+ * the valid crc is 0x470F.
+ *
+ * @param 	[in] 	*INT8U Data array
+ * 			[in]	INT8U Array lenght
+ *
+ * @retval INT16U crc
+ **/
+
+void long_to_int(int nb, int nb_bytes,INT8U *p_destination){
+//	def long_to_bytes(nb,n_bytes):
+//	    p=0
+//	    size = []
+//	    while p < n_bytes:
+//	        buff = nb//256
+//	        size.append(nb%256)
+//	        nb = buff
+//	        p+=1
+//	    return size[::-1]
+	int p =0;
+	int k=0;
+	INT8U byte_buffer[nb_bytes];
+	INT32U i_buffer;
+	while(p < nb_bytes){
+//		i_buffer[p] = div(nb,256).quot;
+//		byte_buffer[p] = div(nb,256).rem;
+//		p++;
+	}
+	while(p !=0){
+	p_destination[p] = byte_buffer[k];
+	p--;
+	k++;
+	}
+
+}
