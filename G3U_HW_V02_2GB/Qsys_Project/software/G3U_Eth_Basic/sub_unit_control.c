@@ -25,7 +25,7 @@ OS_EVENT *p_sub_unit_command_queue;
 struct _ethernet_payload *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
 
 INT8U tx_buffer[SSS_TX_BUF_SIZE];
-INT8U *p_tx_buffer = &tx_buffer[0];
+static INT8U *p_tx_buffer = &tx_buffer[0];
 
 /*
  * Create the sub-unit defined data structures and queues
@@ -78,7 +78,8 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 	tx_buffer[4] = 0;
 	tx_buffer[5] = 0;
 	tx_buffer[6] = 0;
-	tx_buffer[7] = p_imagette->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD;
+	tx_buffer[7] = p_imagette->imagette_length[i_imagette_number]
+			+ ECHO_CMD_OVERHEAD;
 	tx_buffer[8] = 0;
 	tx_buffer[9] = 0;
 	tx_buffer[10] = 0;
@@ -86,7 +87,8 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 	tx_buffer[12] = 0;
 
 	while (i < p_imagette->imagette_length[i_imagette_number]) {
-		tx_buffer[i + (ECHO_CMD_OVERHEAD -2)] = p_imagette->imagette[i_imagette_counter_echo];
+		tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] =
+				p_imagette->imagette[i_imagette_counter_echo];
 		i++;
 		i_imagette_counter_echo++;
 	}
@@ -97,8 +99,10 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 	i_id_accum++;
 
 	printf("[Echo DEBUG]Printing buffer = ");
-	for (int k = 0; k < p_imagette->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD;
-			k++) {
+	for (int k = 0;
+			k
+					< p_imagette->imagette_length[i_imagette_number]
+							+ ECHO_CMD_OVERHEAD; k++) {
 		printf("%i ", (INT8U) tx_buffer[k]);
 	}
 	printf("\r\n");
@@ -112,7 +116,7 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
  */
 void sub_unit_control_task() {
 	INT8U error_code; /*uCOS error code*/
-
+	INT8U exec_error; /*Internal error code for the command module*/
 	INT16U i_imagette_length = 0;
 
 	struct sub_config *p_config;
@@ -131,6 +135,12 @@ void sub_unit_control_task() {
 
 	while (p_config->mode == 0) {
 
+		printf("[SUBUNIT]Channel disabled\r\n");
+		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+		SPWC_REG_SET,
+		SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
+		exec_error = Verif_Error(error_code);
+
 		printf("[SUBUNIT]Sub-unit in config mode\r\n");
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
@@ -144,7 +154,6 @@ void sub_unit_control_task() {
 	 */
 	while (p_config->mode == 1) {
 		INT8U error_code; /*uCOS error code*/
-		INT8U exec_error; /*Internal error code for the command module*/
 
 		i_imagette_counter = 0;
 		i_imagette_number = 0;
@@ -166,6 +175,7 @@ void sub_unit_control_task() {
 			SPWC_REG_SET,
 			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 			exec_error = Verif_Error(error_code);
+
 		} else {
 
 			switch (p_config->link_config) {
@@ -176,6 +186,9 @@ void sub_unit_control_task() {
 			case 0:
 
 				printf("[SUBUNIT]Channel autostart\r\n");
+				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
+								| SPWC_LINK_START_CONTROL_BIT_MASK);
 				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 				SPWC_REG_SET,
 				SPWC_AUTOSTART_CONTROL_BIT_MASK);
@@ -187,6 +200,9 @@ void sub_unit_control_task() {
 				 */
 			case 1:
 				printf("[SUBUNIT]Channel start\r\n");
+				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
+								| SPWC_LINK_START_CONTROL_BIT_MASK);
 				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 				SPWC_REG_SET,
 				SPWC_LINK_START_CONTROL_BIT_MASK);
@@ -231,7 +247,7 @@ void sub_unit_control_task() {
 
 			if (i_echo_sent_data == 1) {
 
-				i_echo_dataset(p_imagette_buffer,p_tx_buffer);
+				i_echo_dataset(p_imagette_buffer, p_tx_buffer);
 
 				printf("[Echo in fct DEBUG]Printing buffer = ");
 				for (int k = 0;
@@ -243,8 +259,8 @@ void sub_unit_control_task() {
 				printf("\r\n");
 
 				send(conn.fd, p_tx_buffer,
-						p_imagette_buffer->imagette_length[i_imagette_number]
-								+ ECHO_CMD_OVERHEAD, 0);
+						p_imagette_buffer->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD,
+						0);
 			}
 
 			printf("[SUBUNIT]imagette sent\r\n");

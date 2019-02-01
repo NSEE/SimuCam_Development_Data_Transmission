@@ -66,7 +66,7 @@ void MemDMATask(void *task_data) {
 //	if (DMA_DISPATCHER_RESET(DMADev, DMA_WAIT, DMA_DEFAULT_WAIT_PERIOD) == FALSE){
 //		printf("Error Reseting Dispatcher");
 //	}
-	
+
 	/* read address - source address (data buffer) */
 	/* write address - destination address (transparent interface) */
 	/* transfer size bytes - number of bytes to be transfered */
@@ -178,113 +178,83 @@ void LogTask(void *task_data) {
 void Init_Simucam_Tasks(void) {
 
 	error_code = OSTaskCreateExt(MemDMATask,
-	                             NULL,
-	                             (void *) &MemDMATaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             MEM_DMA_TASK_PRIORITY,
-	                             MEM_DMA_TASK_PRIORITY,
-	                             MemDMATaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &MemDMATaskStk[SIMUCAM_TASK_STACKSIZE],
+	MEM_DMA_TASK_PRIORITY,
+	MEM_DMA_TASK_PRIORITY, MemDMATaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWATask,
-	                             NULL,
-	                             (void *) &SPWATaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_A_TASK_PRIORITY,
-	                             SPW_A_TASK_PRIORITY,
-	                             SPWATaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWATaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_A_TASK_PRIORITY,
+	SPW_A_TASK_PRIORITY, SPWATaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWBTask,
-	                             NULL,
-	                             (void *) &SPWBTaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_B_TASK_PRIORITY,
-	                             SPW_B_TASK_PRIORITY,
-	                             SPWBTaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWBTaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_B_TASK_PRIORITY,
+	SPW_B_TASK_PRIORITY, SPWBTaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWCTask,
-	                             NULL,
-	                             (void *) &SPWCTaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_C_TASK_PRIORITY,
-	                             SPW_C_TASK_PRIORITY,
-	                             SPWCTaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWCTaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_C_TASK_PRIORITY,
+	SPW_C_TASK_PRIORITY, SPWCTaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWDTask,
-	                             NULL,
-	                             (void *) &SPWDTaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_D_TASK_PRIORITY,
-	                             SPW_D_TASK_PRIORITY,
-	                             SPWDTaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWDTaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_D_TASK_PRIORITY,
+	SPW_D_TASK_PRIORITY, SPWDTaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWETask,
-	                             NULL,
-	                             (void *) &SPWETaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_E_TASK_PRIORITY,
-	                             SPW_E_TASK_PRIORITY,
-	                             SPWETaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWETaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_E_TASK_PRIORITY,
+	SPW_E_TASK_PRIORITY, SPWETaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWFTask,
-	                             NULL,
-	                             (void *) &SPWFTaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_F_TASK_PRIORITY,
-	                             SPW_F_TASK_PRIORITY,
-	                             SPWFTaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWFTaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_F_TASK_PRIORITY,
+	SPW_F_TASK_PRIORITY, SPWFTaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWGTask,
-	                             NULL,
-	                             (void *) &SPWGTaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_G_TASK_PRIORITY,
-	                             SPW_G_TASK_PRIORITY,
-	                             SPWGTaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWGTaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_G_TASK_PRIORITY,
+	SPW_G_TASK_PRIORITY, SPWGTaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	error_code = OSTaskCreateExt(SPWHTask,
-	                             NULL,
-	                             (void *) &SPWHTaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             SPW_H_TASK_PRIORITY,
-	                             SPW_H_TASK_PRIORITY,
-	                             SPWHTaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &SPWHTaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_H_TASK_PRIORITY,
+	SPW_H_TASK_PRIORITY, SPWHTaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
-	
+
 	error_code = OSTaskCreateExt(LogTask,
-	                             NULL,
-	                             (void *) &LogTaskStk[SIMUCAM_TASK_STACKSIZE],
-	                             LOG_TASK_PRIORITY,
-	                             LOG_TASK_PRIORITY,
-	                             LogTaskStk,
-	                             SIMUCAM_TASK_STACKSIZE,
-	                             NULL,
-	                             0);
+	NULL, (void *) &LogTaskStk[SIMUCAM_TASK_STACKSIZE],
+	LOG_TASK_PRIORITY,
+	LOG_TASK_PRIORITY, LogTaskStk,
+	SIMUCAM_TASK_STACKSIZE,
+	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 }
@@ -297,12 +267,15 @@ void Configure_SpW_Autostart(char c_SpwID) {
 	// Habilita a Interface Transparente
 	v_Transparent_Interface_Enable_Control(c_SpwID, TRAN_REG_SET,
 			TRAN_INTERFACE_ENABLE_CONTROL_BIT_MASK
-					| TRAN_INTERFACE_TX_ENABLE_CONTROL_BIT_MASK | TRAN_INTERFACE_RX_ENABLE_CONTROL_BIT_MASK);
+					| TRAN_INTERFACE_TX_ENABLE_CONTROL_BIT_MASK
+					| TRAN_INTERFACE_RX_ENABLE_CONTROL_BIT_MASK);
 	// Reseta Codec
 	v_SpaceWire_Interface_Force_Reset(c_SpwID);
 	// Habilita a Interface SpaceWire
 	b_SpaceWire_Interface_Enable_Control(c_SpwID, SPWC_REG_SET,
-	SPWC_CODEC_ENABLE_CONTROL_BIT_MASK | SPWC_CODEC_TX_ENABLE_CONTROL_BIT_MASK | SPWC_CODEC_RX_ENABLE_CONTROL_BIT_MASK);
+			SPWC_CODEC_ENABLE_CONTROL_BIT_MASK
+					| SPWC_CODEC_TX_ENABLE_CONTROL_BIT_MASK
+					| SPWC_CODEC_RX_ENABLE_CONTROL_BIT_MASK);
 	// Coloca Codec no modo Normal
 //	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_NORMAL_MODE);
 	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_BACKDOOR_MODE);

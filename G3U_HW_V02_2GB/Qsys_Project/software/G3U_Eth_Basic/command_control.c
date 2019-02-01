@@ -29,8 +29,8 @@ INT8U exec_error;
 
 INT16U i_id_accum = 1;
 
-INT8U tx_buffer[SSS_TX_BUF_SIZE];
-INT8U *p_tx_buffer = &tx_buffer[0];
+INT8U tx_buffer_CC[SSS_TX_BUF_SIZE];
+INT8U *p_tx_buffer = &tx_buffer_CC[0];
 
 void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 		INT8U* tx_buffer) {
@@ -46,15 +46,15 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 	tx_buffer[4] = 0;
 	tx_buffer[5] = 0;
 	tx_buffer[6] = 0;
-	tx_buffer[7] = (p_imagette->size - 10) + ECHO_CMD_OVERHEAD;
+	tx_buffer[7] = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
 	tx_buffer[8] = 0;
 	tx_buffer[9] = 0;
 	tx_buffer[10] = 0;
 	tx_buffer[11] = i_central_timer_counter;
-	tx_buffer[12] = 0;
+	tx_buffer[12] = 0;			//channel info
 
-	while (i < p_imagette->size - 10) {
-		tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = p_imagette->data[i];
+	while (i < p_imagette->size - 11) {
+		tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = p_imagette->data[i+1];
 		i++;
 	}
 
@@ -64,7 +64,7 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 	i_id_accum++;
 
 	printf("[Echo DEBUG]Printing buffer = ");
-	for (int k = 0; k < (p_imagette->size - 10) + ECHO_CMD_OVERHEAD; k++) {
+	for (int k = 0; k < (p_imagette->size - 11) + ECHO_CMD_OVERHEAD; k++) {
 		printf("%i ", (INT8U) tx_buffer[k]);
 	}
 	printf("\r\n");
@@ -1137,14 +1137,14 @@ void CommandManagementTask() {
 						i_echo_dataset_direct_send(p_payload, p_tx_buffer);
 
 						exec_error = send(conn.fd, p_tx_buffer,
-								p_payload->size+5,
+								p_payload->size+4,
 								0);
 					}
 
 					if(exec_error == -1){
 						v_ack_creator(p_payload, ECHO_ERROR);
 					}else{
-					v_ack_creator(p_payload, ACK_OK);
+						v_ack_creator(p_payload, ACK_OK);
 					}
 
 
