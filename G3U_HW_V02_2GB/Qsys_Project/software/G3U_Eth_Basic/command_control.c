@@ -93,11 +93,11 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 	tx_buffer[1] = 0;
 	tx_buffer[2] = i_id_accum;
 	tx_buffer[3] = 203;
-	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, tx_buffer[4]);
-//	tx_buffer[4] = 0;
-//	tx_buffer[5] = 0;
-//	tx_buffer[6] = 0;
-//	tx_buffer[7] = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
+//	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, tx_buffer[4]);
+	tx_buffer[4] = 0;
+	tx_buffer[5] = 0;
+	tx_buffer[6] = 0;
+	tx_buffer[7] = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
 	tx_buffer[8] = 0;
 	tx_buffer[9] = 0;
 	tx_buffer[10] = 0;
@@ -885,8 +885,13 @@ void CommandManagementTask() {
 			case 110:
 				printf("[CommandManagementTask]Get HK\r\n");
 
-				v_HK_creator(p_payload, p_payload->data[0]);
-				//v_ack_creator(p_payload, NOT_IMPLEMENTED);
+				int i_channel_buffer = p_payload->data[0];
+
+//				switch(p_payload->data[0]){
+//				case 0:
+//				}
+
+				v_HK_creator(p_payload, i_channel_buffer);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
@@ -1117,7 +1122,7 @@ void CommandManagementTask() {
 					printf("[CommandManagementTask]MEB status to: %i\r\n",
 							(INT8U) p_payload->data[0]);
 
-					b_meb_status = 0;	//change this
+					b_meb_status = p_payload->data[0];
 
 					if (b_meb_status == 0) {
 						i_central_timer_counter = 1;
