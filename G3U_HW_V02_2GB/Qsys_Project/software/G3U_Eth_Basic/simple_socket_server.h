@@ -117,8 +117,6 @@ void SSSCreateTasks();
  *  Subnet Mask: 255.255.255.0
  */
 
-//Change to all 0 and 255 255 255 0 after test!!
-
 #define IPADDR0   192
 #define IPADDR1   168
 #define IPADDR2   1

@@ -24,6 +24,8 @@ INT32U i_total_imagette_counter = 0;
 INT8U data[MAX_IMAGETTES];
 INT8U *p_data_pos = &data[0];
 
+INT32U i_running_timer_counter = 1;
+
 INT32U i_central_timer_counter = 1;
 INT8U exec_error;
 
@@ -74,11 +76,20 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 		p++;
 	}
 
+	printf("[LongToInt]Final Bytes ");
 	while (p != 0) {
 		p_destination[p] = byte_buffer[k];
+		printf("%i ", p_destination[p]);
 		p--;
 		k++;
 	}
+	printf("\r\n");
+
+	printf("[LongToInt]Byte buffer ");
+	for (p = 0; p < nb_bytes; p++) {
+		printf("%i ", byte_buffer[p]);
+	}
+	printf("\r\n");
 
 }
 
@@ -88,20 +99,51 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 	INT8U i = 0;
 //	INT32U i_imagette_counter_echo = i_imagette_counter;
 //	INT32U k;
+	INT32U nb_size = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
+	INT32U nb_time = i_running_timer_counter;
+	INT16U crc;
+
+//	INT8U buffer_size[4];
+//	INT8U *p_buffer_size;
+//	p_buffer_size = &buffer_size[0];
 
 	tx_buffer[0] = 2;
 	tx_buffer[1] = 0;
 	tx_buffer[2] = i_id_accum;
 	tx_buffer[3] = 203;
-//	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, tx_buffer[4]);
-	tx_buffer[4] = 0;
-	tx_buffer[5] = 0;
-	tx_buffer[6] = 0;
-	tx_buffer[7] = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
-	tx_buffer[8] = 0;
-	tx_buffer[9] = 0;
-	tx_buffer[10] = 0;
-	tx_buffer[11] = i_central_timer_counter;
+
+//	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, p_buffer_size);
+
+//	printf("Buffer: %i %i %i %i\r\n", buffer_size[0], buffer_size[1],
+//			buffer_size[2], buffer_size[3]);
+
+	/*
+	 * size to bytes
+	 */
+	tx_buffer[7] = div(nb_size, 256).rem;
+	nb_size = div(nb_size, 256).quot;
+	tx_buffer[6] = div(nb_size, 256).rem;
+	nb_size = div(nb_size, 256).quot;
+	tx_buffer[5] = div(nb_size, 256).rem;
+	nb_size = div(nb_size, 256).quot;
+	tx_buffer[4] = div(nb_size, 256).rem;
+
+	/*
+	 * Timer to bytes
+	 */
+	tx_buffer[11] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[10] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[9] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[8] = div(nb_time, 256).rem;
+
+//	tx_buffer[8] = 0;
+//	tx_buffer[9] = 0;
+//	tx_buffer[10] = 0;
+//	tx_buffer[11] = i_running_timer_counter;
+
 	tx_buffer[12] = 0;			//channel info
 
 	while (i < p_imagette->size - 11) {
@@ -109,8 +151,12 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 		i++;
 	}
 
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = 0;	//crc
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = 7;	//crc
+	crc = crc16(tx_buffer,(p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
+
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = div(crc,256).rem;
+	crc = div(crc,256).quot;
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc,256).rem;
+
 
 	i_id_accum++;
 
@@ -144,17 +190,35 @@ void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code) {
 //
 //	printf("[ACK DEBUG]teste de id_buffer %i %i\r\n", id_buffer[0], id_buffer[1]);
 
+	INT16U nb_id = i_id_accum;
+	INT16U nb_id_pkt = p_error_response->packet_id;
+
 	p_error_response->data[0] = 2;
-	p_error_response->data[1] = 0;
-	p_error_response->data[2] = i_id_accum;
+
+	/*
+	 * Id to bytes
+	 */
+	p_error_response->data[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	p_error_response->data[1] = div(nb_id, 256).rem;
+
+//	p_error_response->data[1] = 0;
+//	p_error_response->data[2] = i_id_accum;
 	p_error_response->data[3] = 201;
 	p_error_response->data[4] = 0;
 	p_error_response->data[5] = 0;
 	p_error_response->data[6] = 0;
 	p_error_response->data[7] = 14;
 
-	p_error_response->data[8] = 0;
-	p_error_response->data[9] = p_error_response->packet_id;
+	/*
+	 * Packet id to bytes
+	 */
+	p_error_response->data[9] = div(nb_id_pkt, 256).rem;
+	nb_id_pkt = div(nb_id_pkt, 256).quot;
+	p_error_response->data[8] = div(nb_id_pkt, 256).rem;
+
+//	p_error_response->data[8] = 0;
+//	p_error_response->data[9] = p_error_response->packet_id;
 
 	p_error_response->data[10] = p_error_response->type;
 	p_error_response->data[11] = error_code;
@@ -168,10 +232,22 @@ void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code) {
 void v_HK_creator(struct _ethernet_payload* p_HK, INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
+	INT16U crc;
+	INT16U nb_id = i_id_accum;
+	INT16U nb_counter_total = i_total_imagette_counter;
+	INT16U nb_counter_current = i_imagette_counter;
+	INT16U nb_counter_left = p_img_control->nb_of_imagettes
+			- i_imagette_counter;
 
 	p_HK->data[0] = 2;
-	p_HK->data[1] = 0;
-	p_HK->data[2] = i_id_accum;
+
+	/*
+	 * Id to bytes
+	 */
+	p_HK->data[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	p_HK->data[1] = div(nb_id, 256).rem;
+
 	p_HK->data[3] = 204;
 	p_HK->data[4] = 0;
 	p_HK->data[5] = 0;
@@ -189,17 +265,40 @@ void v_HK_creator(struct _ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[17] = 0;
 	p_HK->data[18] = 0;
 	p_HK->data[19] = 0;
-	p_HK->data[20] = 0; //sent packets byte 1
-	p_HK->data[21] = i_total_imagette_counter; //sent packets byte 0
+
+	/*
+	 * Sent Packets
+	 */
+	p_HK->data[21] = div(nb_counter_total, 256).rem;
+	nb_counter_total = div(nb_counter_total, 256).quot;
+	p_HK->data[20] = div(nb_counter_total, 256).rem;
+
 	p_HK->data[22] = 0; //Received packets 1
 	p_HK->data[23] = 0; //Received packets 0
-	p_HK->data[24] = 0; //current index
-	p_HK->data[25] = i_imagette_counter; //current index
-	p_HK->data[26] = 0; //packets to send
-	p_HK->data[27] = p_img_control->nb_of_imagettes - i_imagette_counter; //packets to send
-	p_HK->data[28] = 25;			//crc
-	p_HK->data[29] = 86;			//crc
+
+	/*
+	 * Current packet nb
+	 */
+	p_HK->data[25] = div(nb_counter_current, 256).rem;
+	nb_counter_current = div(nb_counter_current, 256).quot;
+	p_HK->data[24] = div(nb_counter_current, 256).rem;
+
+	/*
+	 * Packets to send
+	 */
+	p_HK->data[26] = div(nb_counter_left, 256).rem;
+	nb_counter_left = div(nb_counter_left, 256).quot;
+	p_HK->data[27] = div(nb_counter_left, 256).rem;
 	p_HK->size = 30;
+
+	/*
+	 * Calculating CRC
+	 */
+	crc = crc16(p_HK->data, p_HK->size-2);
+
+	p_HK->data[29] = div(crc, 256).rem;
+	crc = div(crc, 256).quot;
+	p_HK->data[28] = div(crc, 256).rem;
 
 }
 /**
@@ -393,6 +492,27 @@ void central_timer_callback_function(void *p_arg) {
 //	}
 }
 
+/**
+ * COMPLETAR
+ * @name central_timer_callback_function
+ * @brief Parses the payload to a struct useable to command
+ * @ingroup UTIL
+ *
+ * This routine parses the payload to get the delay times and imagettes. It's used by the
+ * command control and sub-units to prepare the SpW links. The imagette and delay sizes in
+ * bytes can be changed accordingly in the header file.
+ *
+ * @param 	[in] 	*_ethernet_payload Payload Struct
+ * 			[in]	*_imagette_control Control struct to receive the data
+ *
+ * @retval void
+ **/
+void simucam_running_timer_callback_function(void *p_arg) {
+
+	i_running_timer_counter++;
+
+}
+
 /*
  * Task used to parse and execute the commands received via ethernet. [yb]
  */
@@ -436,6 +556,13 @@ void CommandManagementTask() {
 	config_send->sub_status_sending = 0;
 	config_send->linkstatus_running = 1;
 	config_send->linkspeed = 3;
+
+	/*
+	 * Creating running timer
+	 */
+	simucam_running_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
+	OS_TMR_OPT_PERIODIC, simucam_running_timer_callback_function, (void *) 0,
+			(INT8U*) "Running Timer", (INT8U*) &exec_error);
 //
 //	/*
 //	 * Forcing all sub-units to config mode
@@ -1071,6 +1198,9 @@ void CommandManagementTask() {
 			static INT8U b_timer_starter = 0;
 			exec_error = 0;
 
+			OSTmrStart((OS_TMR *) simucam_running_timer,
+					(INT8U *) &i_internal_error);
+
 			printf("MEB in running mode\n\r");
 
 			if (b_timer_starter == 0) {
@@ -1089,6 +1219,7 @@ void CommandManagementTask() {
 					printf(
 							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
 				}
+
 			}
 
 			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
@@ -1131,6 +1262,20 @@ void CommandManagementTask() {
 						 */
 						printf(
 								"[CommandManagementTask]Sending change mode command...\r\n");
+
+						/*
+						 * Stop and restart running timer
+						 */
+						OSTmrStop(simucam_running_timer,
+						OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+						if (i_internal_error == OS_ERR_NONE
+								|| i_internal_error == OS_ERR_TMR_STOPPED) {
+							printf(
+									"[CommandManagementTask Restart]Running Timer stopped\r\n");
+							i_running_timer_counter = 1;
+							printf(
+									"[CommandManagementTask Restart]Running Timer restarted\r\n");
+						}
 
 						error_code = OSQPost(p_sub_unit_command_queue,
 								i_return_config_flag);

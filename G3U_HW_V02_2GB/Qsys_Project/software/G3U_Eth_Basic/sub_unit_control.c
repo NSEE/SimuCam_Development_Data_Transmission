@@ -70,20 +70,61 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 	INT8U i = 0;
 	INT32U i_imagette_counter_echo = i_imagette_counter;
 	INT32U k;
+	INT32U nb_size = p_imagette->imagette_length[i_imagette_number]
+			+ ECHO_CMD_OVERHEAD;
+	INT32U nb_time = i_running_timer_counter;
+	INT16U nb_id = i_id_accum;
+	INT16U crc;
 
 	tx_buffer[0] = 2;
-	tx_buffer[1] = 0;
-	tx_buffer[2] = i_id_accum;
+
+	/*
+	 * Id to bytes
+	 */
+	tx_buffer[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	tx_buffer[1] = div(nb_id, 256).rem;
+
+//	tx_buffer[1] = 0;
+//	tx_buffer[2] = i_id_accum;
+
+	/*
+	 * Type
+	 */
 	tx_buffer[3] = 203;
-	tx_buffer[4] = 0;
-	tx_buffer[5] = 0;
-	tx_buffer[6] = 0;
-	tx_buffer[7] = p_imagette->imagette_length[i_imagette_number]
-			+ ECHO_CMD_OVERHEAD;
-	tx_buffer[8] = 0;
-	tx_buffer[9] = 0;
-	tx_buffer[10] = 0;
-	tx_buffer[11] = i_central_timer_counter;
+
+	/*
+	 * size to bytes
+	 */
+	tx_buffer[7] = div(nb_size, 256).rem;
+	nb_size = div(nb_size, 256).quot;
+	tx_buffer[6] = div(nb_size, 256).rem;
+	nb_size = div(nb_size, 256).quot;
+	tx_buffer[5] = div(nb_size, 256).rem;
+	nb_size = div(nb_size, 256).quot;
+	tx_buffer[4] = div(nb_size, 256).rem;
+
+	/*
+	 * Timer to bytes
+	 */
+	tx_buffer[11] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[10] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[9] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[8] = div(nb_time, 256).rem;
+
+//	tx_buffer[4] = 0;
+//	tx_buffer[5] = 0;
+//	tx_buffer[6] = 0;
+//	tx_buffer[7] = p_imagette->imagette_length[i_imagette_number]
+//			+ ECHO_CMD_OVERHEAD;
+//	tx_buffer[8] = 0;
+//	tx_buffer[9] = 0;
+//	tx_buffer[10] = 0;
+//	tx_buffer[11] = i_running_timer_counter;
+
 	tx_buffer[12] = 0;
 
 	while (i < p_imagette->imagette_length[i_imagette_number]) {
@@ -93,8 +134,14 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 		i_imagette_counter_echo++;
 	}
 
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = 0;	//crc
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = 7;	//crc
+	crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
+
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = div(crc, 256).rem;
+	crc = div(crc, 256).quot;
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc, 256).rem;
+
+//	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = 0;	//crc
+//	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = 7;	//crc
 
 	i_id_accum++;
 
@@ -288,8 +335,10 @@ void sub_unit_control_task() {
 					/*
 					 * Disabling SpW channel
 					 */
-					v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
-					SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
+					v_SpaceWire_Interface_Link_Control((char) 'A',
+					SPWC_REG_CLEAR,
+							SPWC_AUTOSTART_CONTROL_BIT_MASK
+									| SPWC_LINK_START_CONTROL_BIT_MASK);
 					error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
 					SPWC_REG_SET,
 					SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);

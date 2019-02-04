@@ -29,7 +29,7 @@
 
 /* Macro definitions */
 #define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
-#define MAX_IMAGETTE_SIZE 			2000 	/*Imagette size in bytes*/
+#define MAX_IMAGETTE_SIZE 			20000 	/*Imagette size in bytes*/
 #define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	1		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
@@ -75,5 +75,6 @@ extern INT16U i_imagette_counter;
 extern SSSConn conn;
 
 OS_TMR *central_timer;
+OS_TMR *simucam_running_timer;
 
 #endif /* COMMAND_CONTROL_H_ */
