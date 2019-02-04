@@ -32,7 +32,8 @@ INT16U i_id_accum = 1;
 INT8U tx_buffer_CC[SSS_TX_BUF_SIZE];
 INT8U *p_tx_buffer = &tx_buffer_CC[0];
 
-int abort_flag = 0;
+int abort_flag = 1;
+int i_return_config_flag = 2;
 
 /**
  * @name long_to_int
@@ -337,6 +338,7 @@ void central_timer_callback_function(void *p_arg) {
 
 	INT8U error_code = 0;
 	INT8U buffer_nb;
+	int i_internal_error_timer;
 
 //	buffer_nb = i_imagette_number;
 
@@ -361,25 +363,34 @@ void central_timer_callback_function(void *p_arg) {
 
 	i_central_timer_counter++;
 
-	if (i_imagette_number == p_img_control->nb_of_imagettes) {
-
-		p_payload->type = 5;
-		error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-		alt_SSSErrorHandler(error_code, 0);
-
+//	if (i_imagette_number == p_img_control->nb_of_imagettes) {
+//
+//		printf("[CALLBACK]Timer stopped\r\n");
 //		i_central_timer_counter = 1;
-//		OSQPost(p_sub_unit_command_queue, &abort_flag);
-//		OSSemPost(sub_unit_command_semaphore);
-
-//		error_code = OSTmrStop(central_timer,
-//		OS_TMR_OPT_NONE, (void *) 0, &error_code);
-//		if (error_code == OS_ERR_NONE || error_code == OS_ERR_TMR_STOPPED) {
-////			i_imagette_number = 0;
-////			i_imagette_counter = 0;
-//			printf("[CommandManagementTask]Timer stopped\r\n");
-//			printf("[CommandManagementTask]Timer restarted\r\n");
-//		}
-	}
+////		OSQPost(p_sub_unit_command_queue, abort_flag);
+////		OSSemPost(sub_unit_command_semaphore);
+//		printf("[CALLBACK]Timer restarted\r\n");
+//
+//		OSTmrStop(central_timer,
+//		OS_TMR_OPT_NONE, (void *) 0, &i_internal_error_timer);
+//
+////		p_payload->type = 5;
+////		error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+////		alt_SSSErrorHandler(error_code, 0);
+//
+////		i_central_timer_counter = 1;
+////		OSQPost(p_sub_unit_command_queue, &abort_flag);
+////		OSSemPost(sub_unit_command_semaphore);
+//
+////		error_code = OSTmrStop(central_timer,
+////		OS_TMR_OPT_NONE, (void *) 0, &error_code);
+////		if (error_code == OS_ERR_NONE || error_code == OS_ERR_TMR_STOPPED) {
+//////			i_imagette_number = 0;
+//////			i_imagette_counter = 0;
+////			printf("[CommandManagementTask]Timer stopped\r\n");
+////			printf("[CommandManagementTask]Timer restarted\r\n");
+////		}
+//	}
 }
 
 /*
@@ -418,13 +429,13 @@ void CommandManagementTask() {
 	/*
 	 * Configuring done inside the sub-unit modules
 	 */
-//	config_send->mode = 0; //default starting mode is config
-//	config_send->RMAP_handling = 0;
-//	config_send->forward_data = 0;
-//	config_send->link_config = 0;
-//	config_send->sub_status_sending = 0;
-//	config_send->linkstatus_running = 1;
-//	config_send->linkspeed = 3;
+	config_send->mode = 0; //default starting mode is config
+	config_send->RMAP_handling = 0;
+	config_send->forward_data = 0;
+	config_send->link_config = 0;
+	config_send->sub_status_sending = 0;
+	config_send->linkstatus_running = 1;
+	config_send->linkspeed = 3;
 //
 //	/*
 //	 * Forcing all sub-units to config mode
@@ -1070,39 +1081,6 @@ void CommandManagementTask() {
 				}
 			}
 
-			/*
-			 * Test variables
-			 */
-
-//			if (y == 1) {
-//				OSTmrStart((OS_TMR *) central_timer,
-//						(INT8U *) &i_internal_error);
-//				if (i_internal_error == OS_ERR_NONE) {
-//					b_timer_starter = 1;
-//					printf("[CommandManagementTask]timer started\r\n");
-//					y = 0;
-//
-//				}
-//			}
-//				p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
-//				alt_uCOSIIErrorHandler(i_internal_error, 0);
-//
-//				printf("[CommandManagementTask]Payload received %i\r\n",
-//						(INT8U) p_payload->type);
-//
-//				if (p_payload->type == 'k') {
-//					OSTmrStop(central_timer,
-//					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
-//
-//					if (i_internal_error == OS_ERR_NONE
-//							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-//						printf("[CommandManagementTask]Timer stopped\r\n");
-//						i_central_timer_counter = 1;
-//						printf("[CommandManagementTask]Timer restarted\r\n");
-//					}
-//				}
-//			} else {
-
 			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 			alt_uCOSIIErrorHandler(i_internal_error, 0);
@@ -1137,12 +1115,16 @@ void CommandManagementTask() {
 					b_meb_status = 0;	//change this
 
 					if (b_meb_status == 0) {
+						i_central_timer_counter = 1;
 						/*
 						 * Send sub_units to config.
 						 */
-						config_send->mode = 0;
-						error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-								config_send);
+						printf(
+								"[CommandManagementTask]Sending change mode command...\r\n");
+
+						error_code = OSQPost(p_sub_unit_command_queue,
+								i_return_config_flag);
+						OSSemPost(sub_unit_command_semaphore);
 						alt_SSSErrorHandler(error_code, 0);
 					}
 
@@ -1165,15 +1147,16 @@ void CommandManagementTask() {
 
 					if (i_internal_error == OS_ERR_NONE
 							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-						printf("[CommandManagementTask]Timer stopped\r\n");
+						printf(
+								"[CommandManagementTask Restart]Timer stopped\r\n");
 						i_central_timer_counter = 1;
-						OSQPost(p_sub_unit_command_queue, &abort_flag);
-						OSSemPost(sub_unit_command_semaphore);
-						printf("[CommandManagementTask]Timer restarted\r\n");
+//						OSQPost(p_sub_unit_command_queue, abort_flag);
+//						OSSemPost(sub_unit_command_semaphore);
+						printf(
+								"[CommandManagementTask Restart]Timer restarted\r\n");
 					}
 
 					break;
-
 					/*
 					 * Abort Sending
 					 *
@@ -1189,13 +1172,13 @@ void CommandManagementTask() {
 
 					if (i_internal_error == OS_ERR_NONE
 							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-						printf("[CommandManagementTask]Timer stopped\r\n");
+						printf(
+								"[CommandManagementTask Abort]Timer stopped\r\n");
 						i_central_timer_counter = 1;
-						OSQPost(p_sub_unit_command_queue, &abort_flag);
+						OSQPost(p_sub_unit_command_queue, abort_flag);
 						OSSemPost(sub_unit_command_semaphore);
-//						i_imagette_counter = 0;
-//						i_imagette_number = 0;
-						printf("[CommandManagementTask]Timer restarted\r\n");
+						printf(
+								"[CommandManagementTask Abort]Timer restarted\r\n");
 
 						v_ack_creator(p_payload, ACK_OK);
 					} else {

@@ -123,7 +123,7 @@ void sub_unit_control_task() {
 	p_config = &sub_config;
 	struct imagette_control *p_imagette_buffer;
 
-	int i_abort_flag = 0;
+	int i_command_control = 0;
 
 	p_config->mode = 0;
 	p_config->RMAP_handling = 0;
@@ -133,9 +133,13 @@ void sub_unit_control_task() {
 	p_config->linkstatus_running = 1;
 	p_config->linkspeed = 3;
 
+	int b_sub_status = 0;
+
 	struct _ethernet_payload *p_sub_data;
 
-	while (p_config->mode == 0) {
+	while (b_sub_status == 0) {
+
+		printf("[SUBUNIT]Sub-unit in config mode\r\n");
 
 		/*
 		 * Disabling SpW channel
@@ -147,10 +151,12 @@ void sub_unit_control_task() {
 		SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 		exec_error = Verif_Error(error_code);
 
-		printf("[SUBUNIT]Sub-unit in config mode\r\n");
+		printf("[SUBUNIT]Sub-unit waiting config...\r\n");
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
 				(INT8U) p_config->mode);
+
+		b_sub_status = p_config->mode;
 
 		p_imagette_buffer = p_config->imagette;
 	}
@@ -158,12 +164,12 @@ void sub_unit_control_task() {
 	/*
 	 * Sub-Unit in running mode
 	 */
-	while (p_config->mode == 1) {
+	while (b_sub_status == 1) {
 		INT8U error_code; /*uCOS error code*/
 
 		i_imagette_counter = 0;
 		i_imagette_number = 0;
-		i_abort_flag = 0;
+		i_command_control = 0;
 
 		int p;
 		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
@@ -251,11 +257,61 @@ void sub_unit_control_task() {
 			p_config->sub_status_sending = 0;
 
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
-			i_abort_flag = OSQAccept(p_sub_unit_command_queue, &error_code);
-			if(i_abort_flag != 0){
-				printf("[SUBUNIT]Abort Flag received\r\n");
-				i_imagette_number = nb_of_imagettes;
+			i_command_control = (int) OSQAccept(p_sub_unit_command_queue,
+					&error_code);
+
+			printf("[SUBUNIT]command_control: %i\r\n", (int) i_command_control);
+			/*
+			 * Adicionar um if de retorno ao modo config, usando assim o mesmo combo
+			 * Sem/abort para voltar ao modo de configuração
+			 */
+//			if (i_command_control == 2) {
+//				printf("[SUBUNIT]Returning to config mode...\r\n");
+////				p_config->mode = 0;
+////				b_sub_status = 0;
+//				i_command_control = 0;
+//				i_imagette_number = nb_of_imagettes;
+//			} else
+			if (i_command_control != 0) {
+				printf("[SUBUNIT]Parsing command\r\n");
+
+				switch (i_command_control) {
+				case 1:
+					printf("[SUBUNIT]Abort Flag received\r\n");
+					i_imagette_number = nb_of_imagettes;
+					break;
+
+				case 2:
+					printf("[SUBUNIT]Returning to config mode...\r\n");
+					i_imagette_number = nb_of_imagettes;
+
+					/*
+					 * Disabling SpW channel
+					 */
+					v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+					SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
+					error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+					SPWC_REG_SET,
+					SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
+					exec_error = Verif_Error(error_code);
+
+					printf("[SUBUNIT]Sub-unit waiting config...\r\n");
+					p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
+					printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
+							(INT8U) p_config->mode);
+
+					b_sub_status = p_config->mode;
+					p_imagette_buffer = p_config->imagette;
+					break;
+				default:
+					break;
+				}
+
 			} else {
+
+				/*
+				 * Send data through SpW
+				 */
 				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
 						&(p_imagette_buffer->imagette[i_imagette_counter]),
 						p_imagette_buffer->imagette_length[i_imagette_number]);
@@ -271,8 +327,8 @@ void sub_unit_control_task() {
 					printf("[Echo in fct DEBUG]Printing buffer = ");
 					for (int k = 0;
 							k
-							< p_imagette_buffer->imagette_length[i_imagette_number]
-							+ ECHO_CMD_OVERHEAD; k++) {
+									< p_imagette_buffer->imagette_length[i_imagette_number]
+											+ ECHO_CMD_OVERHEAD; k++) {
 						printf("%i ", (INT8U) tx_buffer[k]);
 					}
 					printf("\r\n");
@@ -290,15 +346,29 @@ void sub_unit_control_task() {
 				printf("[SUBUNIT]imagette counter %i\r\n",
 						(INT16U) i_imagette_counter);
 
-				printf("[SUBUNIT]imagette nb %i\r\n", (INT16U) i_imagette_number);
+				printf("[SUBUNIT]imagette nb %i\r\n",
+						(INT16U) i_imagette_number);
+
+				/*
+				 * Restarting the timer when the transmission ends
+				 */
+				if (i_imagette_number == nb_of_imagettes) {
+
+					printf("[SUBUNIT]EOT timer restart\r\n");
+					p_sub_data->type = 5;
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_sub_data);
+					alt_SSSErrorHandler(error_code, 0);
+				}
 
 			}
 		}
 
-		/* Modificar para assegurar um funcionamento como desejado */
-		printf("[SUBUNIT]Waiting config instructions\r\n");
-		p_config = OSQPend(p_sub_unit_config_queue, 5000, &error_code);
-		printf("[SUBUNIT]Configuration instructions received\r\n");
+		printf("[SUBUNIT]End of sending\r\n");
 
+		/* Modificar para assegurar um funcionamento como desejado */
+//		printf("[SUBUNIT]Waiting config instructions\r\n");
+//		p_config = OSQPend(p_sub_unit_config_queue, 5000, &error_code);
+//		printf("[SUBUNIT]Configuration instructions received\r\n");
 	}
 }
