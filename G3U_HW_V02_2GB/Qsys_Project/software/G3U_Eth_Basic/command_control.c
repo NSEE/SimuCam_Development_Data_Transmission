@@ -930,7 +930,12 @@ void CommandManagementTask() {
 				printf(
 						"[CommandManagementTask]Nenhum comando identificado\n\r");
 
-				v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+				if (p_payload->data == 106 || p_payload->data == 106
+						|| p_payload->data == 107 || p_payload->data == 109) {
+					v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+				} else {
+					v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+				}
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
@@ -1238,7 +1243,14 @@ void CommandManagementTask() {
 					printf(
 							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 
-					v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+					if (p_payload->data == 101 || p_payload->data == 102
+							|| p_payload->data == 103 || p_payload->data == 104
+							|| p_payload->data == 108
+							|| p_payload->data == 111) {
+						v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+					} else {
+						v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+					}
 
 					error_code = (INT8U) OSQPost(p_simucam_command_q,
 							p_payload);
