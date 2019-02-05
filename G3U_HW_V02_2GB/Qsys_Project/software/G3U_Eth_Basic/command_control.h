@@ -5,6 +5,11 @@
  *      Author: root
  */
 
+/*
+ ************************************************************************************************
+ *                                        INCLUDE FILES
+ ************************************************************************************************
+ */
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -23,9 +28,16 @@
  */
 #include "logic/comm/comm.h"
 
+/*$PAGE*/
 
 #ifndef COMMAND_CONTROL_H_
 #define COMMAND_CONTROL_H_
+
+/*
+ ************************************************************************************************
+ *                                        CONSTANTS & MACROS
+ ************************************************************************************************
+ */
 
 /* Macro definitions */
 #define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
@@ -47,6 +59,23 @@
 #define PARSER_ERROR				9
 #define	ECHO_ERROR					10
 
+extern INT16U i_imagette_number;
+extern INT16U i_imagette_counter;
+extern SSSConn conn;
+
+OS_TMR *central_timer;
+OS_TMR *simucam_running_timer;
+
+/*$PAGE*/
+
+
+
+/*
+ ************************************************************************************************
+ *                                            DATA TYPES
+ ************************************************************************************************
+ */
+
 struct imagette_control{
 
 	INT32U offset[MAX_IMAGETTES]; 					/* In miliseconds*/
@@ -59,22 +88,23 @@ struct imagette_control{
 	INT8U sto_locale;
 }imagette_control;
 
-//struct imagette{
-//
-//	INT8U *imagette_byte[IMAGETTE_SIZE-1];	/*Pointer to de DDR2 address*/
-//
-//}imagette;
+/*$PAGE*/
 
-/* Control functions*/
+/*
+************************************************************************************************
+*                                        FUNCTION PROTOTYPES
+************************************************************************************************
+*/
+
 int v_parse_data(struct _ethernet_payload*,struct imagette_control*);
 void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code);
 INT32U i_compute_size(INT8U*);
+INT8U set_spw_linkspeed(INT8U, INT8U);
+void i_echo_dataset_direct_send(struct _ethernet_payload*, INT8U*);
+void v_HK_creator(struct _ethernet_payload*, INT8U);
+void central_timer_callback_function(void *);
+void simucam_running_timer_callback_function(void *);
 
-extern INT16U i_imagette_number;
-extern INT16U i_imagette_counter;
-extern SSSConn conn;
-
-OS_TMR *central_timer;
-OS_TMR *simucam_running_timer;
+/*$PAGE*/
 
 #endif /* COMMAND_CONTROL_H_ */

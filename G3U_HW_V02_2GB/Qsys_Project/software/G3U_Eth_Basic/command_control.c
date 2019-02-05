@@ -37,6 +37,45 @@ INT8U *p_tx_buffer = &tx_buffer_CC[0];
 int abort_flag = 1;
 int i_return_config_flag = 2;
 
+
+
+
+/**
+ * @name set_spw_linkspeed
+ * @brief Set SpW linkspeed
+ * @ingroup command_control
+ *
+ * Set the linkspeed of specific SpW channel according to the
+ * specified divider code
+ *
+ * @param 	[in] 	INT8U channel_code, INT8U linkspeed_code
+ * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
+ * @retval INT8U error_code 1 if OK
+ **/
+INT8U set_spw_linkspeed(INT8U i_channel_code,INT8U i_linkspeed_code){
+	INT8U error_code = 0;
+
+	switch(i_linkspeed_code){
+	case 0:
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,10);
+		break;
+
+	case 1:
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,4);
+		break;
+
+	case 2:
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,2);
+		break;
+
+	case 3:
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,1);
+		break;
+	}
+
+	return error_code;
+}
+
 /**
  * @name long_to_int
  * @brief Computes the CRC16 of the data array
