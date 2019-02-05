@@ -112,19 +112,19 @@ void SSSCreateTasks();
  * these values are only a valid default on networks with DHCP server. 
  * 
  * If DHCP will not be used, select valid static IP addresses here, for example:
- *           IP: 192.168.1.234
- *      Gateway: 192.168.1.1
+ *           IP: 10.9.11.216
+ *      Gateway: 10.9.11.1
  *  Subnet Mask: 255.255.255.0
  */
 
-#define IPADDR0   192
-#define IPADDR1   168
-#define IPADDR2   1
-#define IPADDR3   234
+#define IPADDR0   10
+#define IPADDR1   9
+#define IPADDR2   11
+#define IPADDR3   216
 
-#define GWADDR0   192
-#define GWADDR1   168
-#define GWADDR2   1
+#define GWADDR0   10
+#define GWADDR1   9
+#define GWADDR2   11
 #define GWADDR3   1
 
 #define MSKADDR0  255
