@@ -49,7 +49,7 @@ int i_return_config_flag = 2;
  * specified divider code
  *
  * @param 	[in] 	INT8U channel_code, INT8U linkspeed_code
- * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
+ * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits Check divided values
  * @retval INT8U error_code 1 if OK
  **/
 INT8U set_spw_linkspeed(INT8U i_channel_code,INT8U i_linkspeed_code){
@@ -57,11 +57,11 @@ INT8U set_spw_linkspeed(INT8U i_channel_code,INT8U i_linkspeed_code){
 
 	switch(i_linkspeed_code){
 	case 0:
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,10);
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,9);
 		break;
 
 	case 1:
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,4);
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,3);
 		break;
 
 	case 2:
@@ -69,7 +69,7 @@ INT8U set_spw_linkspeed(INT8U i_channel_code,INT8U i_linkspeed_code){
 		break;
 
 	case 3:
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,1);
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,0);
 		break;
 	}
 

@@ -259,6 +259,8 @@ void sub_unit_control_task() {
 				SPWC_REG_SET,
 				SPWC_AUTOSTART_CONTROL_BIT_MASK);
 				exec_error = Verif_Error(error_code);
+
+				printf("error_code: %i",exec_error);
 				break;
 
 				/*
@@ -275,9 +277,13 @@ void sub_unit_control_task() {
 				SPWC_REG_SET,
 				SPWC_LINK_START_CONTROL_BIT_MASK);
 				exec_error = Verif_Error(error_code);
+
+				printf("error_code: %i",exec_error);
 				break;
 			}
 		}
+
+//		set_spw_linkspeed(0,p_config->linkspeed);
 
 		printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
 				(int) i_imagette_counter, (int) i_imagette_number);
