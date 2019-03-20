@@ -50,28 +50,32 @@ int i_return_config_flag = 2;
  * 	ref_clock = 200M -> spw_clock = ref_clock/(div+1)
  * @retval INT8U error_code 1 if OK
  **/
-INT8U set_spw_linkspeed(INT8U i_channel_code,INT8U i_linkspeed_code){
+INT8U set_spw_linkspeed(INT8U i_channel_code, INT8U i_linkspeed_code) {
 	INT8U error_code = 0;
 
-	switch(i_linkspeed_code){
+	switch (i_linkspeed_code) {
 	case 0:
 		//10Mbits
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,19);
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
+				19);
 		break;
 
 	case 1:
 		//25Mbits
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,7);
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
+				7);
 		break;
 
 	case 2:
 		//50Mbits
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,3);
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
+				3);
 		break;
 
 	case 3:
 		//100Mbits
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code+ASCII_A,1);
+		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
+				1);
 		break;
 	}
 
@@ -117,20 +121,20 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 		p++;
 	}
 
-	printf("[LongToInt]Final Bytes ");
+	//printf("[LongToInt]Final Bytes ");
 	while (p != 0) {
 		p_destination[p] = byte_buffer[k];
-		printf("%i ", p_destination[p]);
+		//printf("%i ", p_destination[p]);
 		p--;
 		k++;
 	}
-	printf("\r\n");
+	//printf("\r\n");
 
-	printf("[LongToInt]Byte buffer ");
+	//printf("[LongToInt]Byte buffer ");
 	for (p = 0; p < nb_bytes; p++) {
-		printf("%i ", byte_buffer[p]);
+		//printf("%i ", byte_buffer[p]);
 	}
-	printf("\r\n");
+	//printf("\r\n");
 
 }
 
@@ -155,7 +159,7 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 
 //	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, p_buffer_size);
 
-//	printf("Buffer: %i %i %i %i\r\n", buffer_size[0], buffer_size[1],
+//	//printf("Buffer: %i %i %i %i\r\n", buffer_size[0], buffer_size[1],
 //			buffer_size[2], buffer_size[3]);
 
 	/*
@@ -192,20 +196,19 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 		i++;
 	}
 
-	crc = crc16(tx_buffer,(p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
+	crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
 
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = div(crc,256).rem;
-	crc = div(crc,256).quot;
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc,256).rem;
-
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = div(crc, 256).rem;
+	crc = div(crc, 256).quot;
+	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc, 256).rem;
 
 	i_id_accum++;
 
-	printf("[Echo DEBUG]Printing buffer = ");
+	//printf("[Echo DEBUG]Printing buffer = ");
 	for (int k = 0; k < (p_imagette->size - 11) + ECHO_CMD_OVERHEAD; k++) {
-		printf("%i ", (INT8U) tx_buffer[k]);
+		//printf("%i ", (INT8U) tx_buffer[k]);
 	}
-	printf("\r\n");
+	//printf("\r\n");
 
 //	return *tx_buffer;
 
@@ -229,7 +232,7 @@ void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code) {
 //	INT8U id_buffer[2];
 //	long_to_int(id_buffer[0], 2, p_error_response->packet_id);
 //
-//	printf("[ACK DEBUG]teste de id_buffer %i %i\r\n", id_buffer[0], id_buffer[1]);
+//	//printf("[ACK DEBUG]teste de id_buffer %i %i\r\n", id_buffer[0], id_buffer[1]);
 
 	INT16U nb_id = i_id_accum;
 	INT16U nb_id_pkt = p_error_response->packet_id;
@@ -335,7 +338,7 @@ void v_HK_creator(struct _ethernet_payload* p_HK, INT8U i_channel) {
 	/*
 	 * Calculating CRC
 	 */
-	crc = crc16(p_HK->data, p_HK->size-2);
+	crc = crc16(p_HK->data, p_HK->size - 2);
 
 	p_HK->data[29] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;
@@ -387,12 +390,12 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	INT16U nb_imagettes;
 	INT32U error_verif = 0;
 
-	printf(
-			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
-			p_payload->size, (char) p_payload->data[8],
-			(char) p_payload->data[9], (char) p_payload->data[10],
-			(char) p_payload->data[11], (char) p_payload->data[12],
-			(char) p_payload->data[13]);
+	//printf(
+//			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
+//			p_payload->size, (char) p_payload->data[8],
+//			(char) p_payload->data[9], (char) p_payload->data[10],
+//			(char) p_payload->data[11], (char) p_payload->data[12],
+//			(char) p_payload->data[13]);
 
 	/*
 	 * Do not use first 2 bytes
@@ -401,7 +404,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	nb_imagettes = p_payload->data[3] + 256 * p_payload->data[2];
 	p_img_ctrl->nb_of_imagettes = nb_imagettes;
 
-	printf("[PARSER] Number of imagettes: %i\r\n", nb_imagettes);
+	//printf("[PARSER] Number of imagettes: %i\r\n", nb_imagettes);
 
 	p_img_ctrl->tag[7] = p_payload->data[4];
 	p_img_ctrl->tag[6] = p_payload->data[5];
@@ -412,19 +415,19 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	p_img_ctrl->tag[1] = p_payload->data[10];
 	p_img_ctrl->tag[0] = p_payload->data[11];
 
-	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n", p_img_ctrl->tag[7],
-			p_img_ctrl->tag[6], p_img_ctrl->tag[5], p_img_ctrl->tag[4],
-			p_img_ctrl->tag[3], p_img_ctrl->tag[2], p_img_ctrl->tag[1],
-			p_img_ctrl->tag[0]);
+	//printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n", p_img_ctrl->tag[7],
+//			p_img_ctrl->tag[6], p_img_ctrl->tag[5], p_img_ctrl->tag[4],
+//			p_img_ctrl->tag[3], p_img_ctrl->tag[2], p_img_ctrl->tag[1],
+//			p_img_ctrl->tag[0]);
 
-	printf("[PARSER]Starting imagette addr %x\r\n", &(p_img_ctrl->imagette[0]));
+	//printf("[PARSER]Starting imagette addr %x\r\n", &(p_img_ctrl->imagette[0]));
 
 	while (i < nb_imagettes) {
 
-		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
-				(INT32U) &(p_img_ctrl->imagette[d]));
+		//printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
+//				(INT32U) &(p_img_ctrl->imagette[d]));
 
-//		printf("[PARSER]Offset bytes: %i %i %i %i\r\n",p_payload->data[o],
+//		//printf("[PARSER]Offset bytes: %i %i %i %i\r\n",p_payload->data[o],
 //				p_payload->data[o + 1], p_payload->data[o + 2], 256 * p_payload->data[o + 2],
 //					p_payload->data[o + 3]);
 
@@ -436,12 +439,12 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 		p_img_ctrl->imagette_length[i] = p_payload->data[o + 5]
 				+ 256 * p_payload->data[o + 4];
 
-		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
-				p_img_ctrl->offset[i], p_img_ctrl->imagette_length[i]);
+		//printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
+//				p_img_ctrl->offset[i], p_img_ctrl->imagette_length[i]);
 
 		for (p = 0; p < p_img_ctrl->imagette_length[i]; p++, d++) {
 			p_img_ctrl->imagette[d] = p_payload->data[o + DELAY_SIZE + p];
-//			printf(
+//			//printf(
 //					"[PARSER]Teste de recepcao:imagette_nb %i, imagette_data %i\r\n",
 //					(INT32U) i, (INT8U) p_img_ctrl->imagette[d]);
 		}
@@ -451,9 +454,9 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 
 	p_img_ctrl->size = d;
 	error_verif = o + DATA_SHIFT - 2;
-	printf("[PARSER]error_verif %i\r\n", error_verif);
+	//printf("[PARSER]error_verif %i\r\n", error_verif);
 	if (p_payload->size == error_verif) {
-		printf("[PARSER]OK...\r\n");
+		//printf("[PARSER]OK...\r\n");
 		return ACK_OK;
 	} else
 		return PARSER_ERROR;
@@ -482,7 +485,7 @@ void central_timer_callback_function(void *p_arg) {
 
 //	buffer_nb = i_imagette_number;
 
-//	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
+//	//printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
 //			(INT32U) p_img_control->offset[i_imagette_counter],
 //			(INT32U) i_central_timer_counter);
 
@@ -493,11 +496,11 @@ void central_timer_callback_function(void *p_arg) {
 		 */
 		error_code = OSSemPost(sub_unit_command_semaphore);
 		if (error_code == OS_ERR_NONE) {
-			printf("[CALLBACK]Semaphore triggered\r\n");
+			//printf("[CALLBACK]Semaphore triggered\r\n");
 //			i_imagette_counter++;
 			i_total_imagette_counter++;
-			printf("[CALLBACK]Entered function imagette count: %i\r\n",
-					(INT32U) i_imagette_number);
+			//printf("[CALLBACK]Entered function imagette count: %i\r\n",
+//					(INT32U) i_imagette_number);
 		}
 	}
 
@@ -505,11 +508,11 @@ void central_timer_callback_function(void *p_arg) {
 
 //	if (i_imagette_number == p_img_control->nb_of_imagettes) {
 //
-//		printf("[CALLBACK]Timer stopped\r\n");
+//		//printf("[CALLBACK]Timer stopped\r\n");
 //		i_central_timer_counter = 1;
 ////		OSQPost(p_sub_unit_command_queue, abort_flag);
 ////		OSSemPost(sub_unit_command_semaphore);
-//		printf("[CALLBACK]Timer restarted\r\n");
+//		//printf("[CALLBACK]Timer restarted\r\n");
 //
 //		OSTmrStop(central_timer,
 //		OS_TMR_OPT_NONE, (void *) 0, &i_internal_error_timer);
@@ -527,8 +530,8 @@ void central_timer_callback_function(void *p_arg) {
 ////		if (error_code == OS_ERR_NONE || error_code == OS_ERR_TMR_STOPPED) {
 //////			i_imagette_number = 0;
 //////			i_imagette_counter = 0;
-////			printf("[CommandManagementTask]Timer stopped\r\n");
-////			printf("[CommandManagementTask]Timer restarted\r\n");
+////			//printf("[CommandManagementTask]Timer stopped\r\n");
+////			//printf("[CommandManagementTask]Timer restarted\r\n");
 ////		}
 //	}
 }
@@ -618,7 +621,7 @@ void CommandManagementTask() {
 		 */
 		while (b_meb_status == 0) {
 
-			printf("[CommandManagementTask]MEB in config mode\n\r");
+			//printf("[CommandManagementTask]MEB in config mode\n\r");
 			/*
 			 * Enter the receive command mode
 			 */
@@ -626,24 +629,26 @@ void CommandManagementTask() {
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
 
-			printf(
-					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
-					(INT8U) p_payload->type, (char) p_payload->data[0],
-					(char) p_payload->data[1], (char) p_payload->data[2],
-					(char) p_payload->data[3], (char) p_payload->data[4]);
+			//printf(
+//					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
+//					(INT8U) p_payload->type, (char) p_payload->data[0],
+//					(char) p_payload->data[1], (char) p_payload->data[2],
+//					(char) p_payload->data[3], (char) p_payload->data[4]);
 
 			/*
 			 * Switch case to select from different command options.[yb]
 			 * Will be modified to suit IWF's needs
 			 */
+			int i_channel_buffer;
+
 			switch (p_payload->type) { /*Selector for commands and actions*/
 
-				/*
-				 * Sub-Unit config command
-				 * char: e
-				 */
+			/*
+			 * Sub-Unit config command
+			 * char: e
+			 */
 			case 101:
-				printf("[CommandManagementTask]Configure Sub-Unit\r\n");
+				//printf("[CommandManagementTask]Configure Sub-Unit\r\n");
 
 				/* Add a case for channel selection */
 
@@ -651,11 +656,11 @@ void CommandManagementTask() {
 				config_send->linkspeed = p_payload->data[2];
 				config_send->linkstatus_running = p_payload->data[3];
 
-				printf(
-						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
-						(INT8U) config_send->link_config,
-						(INT8U) config_send->linkspeed,
-						(INT8U) config_send->linkstatus_running);
+				//printf(
+//						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
+//						(INT8U) config_send->link_config,
+//						(INT8U) config_send->linkspeed,
+//						(INT8U) config_send->linkstatus_running);
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -669,16 +674,16 @@ void CommandManagementTask() {
 				 * char: f
 				 */
 			case 102:
-				printf("[CommandManagementTask]Parse data\n\r");
+				//printf("[CommandManagementTask]Parse data\n\r");
 
 				exec_error = v_parse_data(p_payload, p_img_control);
-				printf(
-						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-						(INT8U) p_img_control->imagette[0],
-						(INT32U) p_img_control->offset[0],
-						(INT32U) p_img_control->size);
+				//printf(
+//						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
+//						(INT8U) p_img_control->imagette[0],
+//						(INT32U) p_img_control->offset[0],
+//						(INT32U) p_img_control->size);
 
-				printf("[CommandManagementTask]Data parsed\r\n");
+				//printf("[CommandManagementTask]Data parsed\r\n");
 
 				config_send->imagette = p_img_control;
 
@@ -720,7 +725,7 @@ void CommandManagementTask() {
 				 * char: i
 				 */
 			case 105:
-				printf("[CommandManagementTask]Change Mode\r\n");
+				//printf("[CommandManagementTask]Change Mode\r\n");
 
 				b_meb_status = p_payload->data[0];
 
@@ -732,7 +737,7 @@ void CommandManagementTask() {
 					alt_SSSErrorHandler(error_code, 0);
 				}
 
-				printf("[CommandManagementTask]Config sent to sub\n\r");
+				//printf("[CommandManagementTask]Config sent to sub\n\r");
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -745,7 +750,7 @@ void CommandManagementTask() {
 				 * Clear RAM
 				 */
 			case 108:
-				printf("[CommandManagementTask]Clear RAM\r\n");
+				//printf("[CommandManagementTask]Clear RAM\r\n");
 
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
 
@@ -758,10 +763,9 @@ void CommandManagementTask() {
 				 * Get HK
 				 */
 			case 110:
-				printf("[CommandManagementTask]Get HK\r\n");
+				//printf("[CommandManagementTask]Get HK\r\n");
 
-				int i_channel_buffer = p_payload->data[0];
-
+				i_channel_buffer = p_payload->data[0];
 //				switch(p_payload->data[0]){
 //				case 0:
 //				}
@@ -776,14 +780,14 @@ void CommandManagementTask() {
 				 * Config MEB
 				 */
 			case 111:
-				printf("[CommandManagementTask]Clear RAM\r\n");
+				//printf("[CommandManagementTask]Clear RAM\r\n");
 
 				i_forward_data = p_payload->data[0];
 				i_echo_sent_data = p_payload->data[1];
 
-				printf(
-						"[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
-						(int) i_forward_data, (int) i_echo_sent_data);
+				//printf(
+//						"[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
+//						(int) i_forward_data, (int) i_echo_sent_data);
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -796,8 +800,8 @@ void CommandManagementTask() {
 				 * Set Recording
 				 */
 			case 112:
-				printf("[CommandManagementTask]Selected command: %c\n\r",
-						(int) p_payload->type);
+				//printf("[CommandManagementTask]Selected command: %c\n\r",
+//						(int) p_payload->type);
 
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
 
@@ -807,8 +811,8 @@ void CommandManagementTask() {
 				break;
 
 			default:
-				printf(
-						"[CommandManagementTask]Nenhum comando identificado\n\r");
+				//printf(
+//						"[CommandManagementTask]Nenhum comando identificado\n\r");
 
 				if (p_payload->data == 106 || p_payload->data == 106
 						|| p_payload->data == 107 || p_payload->data == 109) {
@@ -838,7 +842,7 @@ void CommandManagementTask() {
 //					exec_error = Verif_Error(!error_code);
 //
 //				} else
-//					printf("%c Nao e um canal valido do SpW\n\r",
+//					//printf("%c Nao e um canal valido do SpW\n\r",
 //							(char) cmd_pos[1]);
 //				break;
 //
@@ -853,7 +857,7 @@ void CommandManagementTask() {
 //						p += 2;
 //					}
 //				} else
-//					printf("%c Nao e um canal valido do SpW\n\r",
+//					//printf("%c Nao e um canal valido do SpW\n\r",
 //							(char) cmd_pos[1]);
 //
 //				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
@@ -871,7 +875,7 @@ void CommandManagementTask() {
 //					size = ui_SpaceWire_Interface_Get_SpaceWire_Data(cmd_pos[1],
 //							data_pos, 512);
 //
-//					printf("size: %i\n", size);
+//					//printf("size: %i\n", size);
 //					exec_error = Verif_Error(size);
 //					if (!exec_error)
 //						break;
@@ -882,7 +886,7 @@ void CommandManagementTask() {
 //						alt_SSSErrorHandler(error_code, 0);
 //					}
 //				} else
-//					printf("%c Nao e um canal valido do SpW\n\r",
+//					//printf("%c Nao e um canal valido do SpW\n\r",
 //							(char) cmd_pos[1]);
 //				break;
 //
@@ -896,7 +900,7 @@ void CommandManagementTask() {
 //							SPWC_AUTOSTART_CONTROL_BIT_MASK);
 //					exec_error = Verif_Error(error_code);
 //				} else
-//					printf("%c Nao e um canal valido do SpW\n\r",
+//					//printf("%c Nao e um canal valido do SpW\n\r",
 //							(char) cmd_pos[1]);
 //				break;
 //
@@ -910,7 +914,7 @@ void CommandManagementTask() {
 //							SPWC_LINK_START_CONTROL_BIT_MASK);
 //					exec_error = Verif_Error(error_code);
 //				} else
-//					printf("%c Nao e um canal valido do SpW\n\r",
+//					//printf("%c Nao e um canal valido do SpW\n\r",
 //							(char) cmd_pos[1]);
 //				break;
 //
@@ -924,7 +928,7 @@ void CommandManagementTask() {
 //							SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 //					exec_error = Verif_Error(error_code);
 //				} else
-//					printf("%c Nao e um canal valido do SpW\n\r",
+//					//printf("%c Nao e um canal valido do SpW\n\r",
 //							(char) cmd_pos[1]);
 //				break;
 
@@ -949,7 +953,7 @@ void CommandManagementTask() {
 			OSTmrStart((OS_TMR *) simucam_running_timer,
 					(INT8U *) &i_internal_error);
 
-			printf("MEB in running mode\n\r");
+			//printf("MEB in running mode\n\r");
 
 			if (b_timer_starter == 0) {
 
@@ -964,25 +968,25 @@ void CommandManagementTask() {
 				if (exec_error == OS_ERR_NONE) {
 					b_timer_starter = 1;
 					/* Timer was created but NOT started */
-					printf(
-							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
+					//printf(
+//							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
 				}
 
 			}
 
-			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
+			//printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 			alt_uCOSIIErrorHandler(i_internal_error, 0);
 
 			if (p_payload->type == 106) {
 
-				printf("[CommandManagementTask]Starting timer\r\n");
+				//printf("[CommandManagementTask]Starting timer\r\n");
 
 				OSTmrStart((OS_TMR *) central_timer,
 						(INT8U *) &i_internal_error);
 				if (i_internal_error == OS_ERR_NONE) {
 					b_timer_starter = 1;
-					printf("[CommandManagementTask]timer started\r\n");
+					//printf("[CommandManagementTask]timer started\r\n");
 
 					v_ack_creator(p_payload, ACK_OK);
 
@@ -998,8 +1002,8 @@ void CommandManagementTask() {
 				 * Change Simucam Mode
 				 */
 				case 105:
-					printf("[CommandManagementTask]MEB status to: %i\r\n",
-							(INT8U) p_payload->data[0]);
+					//printf("[CommandManagementTask]MEB status to: %i\r\n",
+//							(INT8U) p_payload->data[0]);
 
 					b_meb_status = p_payload->data[0];
 
@@ -1008,9 +1012,8 @@ void CommandManagementTask() {
 						/*
 						 * Send sub_units to config.
 						 */
-						printf(
-								"[CommandManagementTask]Sending change mode command...\r\n");
-
+						//printf(
+//								"[CommandManagementTask]Sending change mode command...\r\n");
 						/*
 						 * Stop and restart running timer
 						 */
@@ -1018,11 +1021,11 @@ void CommandManagementTask() {
 						OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 						if (i_internal_error == OS_ERR_NONE
 								|| i_internal_error == OS_ERR_TMR_STOPPED) {
-							printf(
-									"[CommandManagementTask Restart]Running Timer stopped\r\n");
+							//printf(
+//									"[CommandManagementTask Restart]Running Timer stopped\r\n");
 							i_running_timer_counter = 1;
-							printf(
-									"[CommandManagementTask Restart]Running Timer restarted\r\n");
+							//printf(
+//									"[CommandManagementTask Restart]Running Timer restarted\r\n");
 						}
 
 						error_code = OSQPost(p_sub_unit_command_queue,
@@ -1043,20 +1046,20 @@ void CommandManagementTask() {
 					 * End of dataset internal command
 					 */
 				case 5:
-					printf(
-							"[CommandManagementTask]End of dataset, restarting\r\n");
+					//printf(
+//							"[CommandManagementTask]End of dataset, restarting\r\n");
 					OSTmrStop(central_timer,
 					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
 					if (i_internal_error == OS_ERR_NONE
 							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-						printf(
-								"[CommandManagementTask Restart]Timer stopped\r\n");
+						//printf(
+//								"[CommandManagementTask Restart]Timer stopped\r\n");
 						i_central_timer_counter = 1;
 //						OSQPost(p_sub_unit_command_queue, abort_flag);
 //						OSSemPost(sub_unit_command_semaphore);
-						printf(
-								"[CommandManagementTask Restart]Timer restarted\r\n");
+						//printf(
+//								"[CommandManagementTask Restart]Timer restarted\r\n");
 					}
 
 					break;
@@ -1067,21 +1070,21 @@ void CommandManagementTask() {
 					 *
 					 */
 				case 107:
-					printf("[CommandManagementTask]Selected command: %i\n\r",
-							(int) p_payload->type);
+					//printf("[CommandManagementTask]Selected command: %i\n\r",
+//							(int) p_payload->type);
 
 					OSTmrStop(central_timer,
 					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
 					if (i_internal_error == OS_ERR_NONE
 							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-						printf(
-								"[CommandManagementTask Abort]Timer stopped\r\n");
+						//printf(
+//								"[CommandManagementTask Abort]Timer stopped\r\n");
 						i_central_timer_counter = 1;
 						OSQPost(p_sub_unit_command_queue, abort_flag);
 						OSSemPost(sub_unit_command_semaphore);
-						printf(
-								"[CommandManagementTask Abort]Timer restarted\r\n");
+						//printf(
+//								"[CommandManagementTask Abort]Timer restarted\r\n");
 
 						v_ack_creator(p_payload, ACK_OK);
 					} else {
@@ -1098,8 +1101,8 @@ void CommandManagementTask() {
 					 */
 				case 109:
 
-					printf("[CommandManagementTask]Direct Send to %c\n\r",
-							(char) (p_payload->data[0] + ASCII_A));
+					//printf("[CommandManagementTask]Direct Send to %c\n\r",
+//							(char) (p_payload->data[0] + ASCII_A));
 
 					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
 							(char) p_payload->data[0] + ASCII_A,
@@ -1128,7 +1131,7 @@ void CommandManagementTask() {
 					 * Get HK
 					 */
 				case 110:
-					printf("[CommandManagementTask]Get HK\r\n");
+					//printf("[CommandManagementTask]Get HK\r\n");
 
 					v_HK_creator(p_payload, p_payload->data[0]);
 
@@ -1138,8 +1141,8 @@ void CommandManagementTask() {
 					break;
 
 				default:
-					printf(
-							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
+					//printf(
+//							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 
 					if (p_payload->data == 101 || p_payload->data == 102
 							|| p_payload->data == 103 || p_payload->data == 104

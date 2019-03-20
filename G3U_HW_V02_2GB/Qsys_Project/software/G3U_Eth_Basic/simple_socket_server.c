@@ -91,7 +91,9 @@ void SimucamCreateOSQ(void) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create Simucam Command Queue.\n");
 	} else {
+#ifdef DEBUG_ON
 		printf("Simucam Command Queue created successfully.\r\n");
+#endif
 	}
 }
 
@@ -105,7 +107,9 @@ void DataCreateOSQ(void) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create SimucamDataQ.\n");
 	} else {
+#ifdef DEBUG_ON
 		printf("SimucamDataQ created successfully.\r\n");
+#endif
 	}
 }
 
@@ -140,7 +144,9 @@ void SSSCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
+#ifdef DEBUG_ON
 	printf("Tasks created successfully\r\n");
+#endif
 }
 
 /*
@@ -223,12 +229,16 @@ void sss_handle_accept(int listen_socket, SSSConn* conn) {
 		} else {
 			(conn)->fd = socket;
 			sss_send_menu(conn);
+#ifdef DEBUG_ON
 			printf("[sss_handle_accept] accepted connection request from %s\n",
 					inet_ntoa(incoming_addr.sin_addr));
+#endif
 		}
 	} else {
+#ifdef DEBUG_ON
 		printf("[sss_handle_accept] rejected connection request from %s\n",
 				inet_ntoa(incoming_addr.sin_addr));
+#endif
 	}
 
 	return;
@@ -420,7 +430,9 @@ void sss_handle_receive(SSSConn* conn) {
 	conn->rx_rd_pos = conn->rx_buffer;
 	conn->rx_wr_pos = conn->rx_buffer;
 
+#ifdef DEBUG_ON
 	printf("[sss_handle_receive] processing RX data\n");
+#endif
 
 	while (conn->state != CLOSE) {
 
@@ -428,7 +440,9 @@ void sss_handle_receive(SSSConn* conn) {
 //				"[sss_handle_receive DEBUG]Comeco::rx_rd_pos: %x \r\nrx_wr_pos: %x\r\n",
 //				p_ethernet_buffer->rx_rd_pos, p_ethernet_buffer->rx_wr_pos);
 
+#ifdef DEBUG_ON
 		printf("[sss_handle_receive DEBUG]Waiting transmission...\n");
+#endif
 
 		rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_rd_pos, 8, 0);
 
@@ -439,23 +453,31 @@ void sss_handle_receive(SSSConn* conn) {
 			*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 		}
 
+#ifdef DEBUG_ON
 		printf("Printing all bytes: ");
+#endif
 
 		for (int j = 0; j < 8; j++) {
+#ifdef DEBUG_ON
 			printf("%i ", (int) p_ethernet_buffer->rx_buffer[j]);
+#endif
 		}
 
+#ifdef DEBUG_ON
 		printf("\n");
+#endif
 
 		if (p_ethernet_buffer->rx_buffer[0] == EXIT_CODE) {
 			conn->close = 1;
 		} else {
 
+#ifdef DEBUG_ON
 			printf("[sss_handle_receive DEBUG]Print size bytes: %i %i %i %i\n",
 					(int) p_ethernet_buffer->rx_buffer[7],
 					(int) p_ethernet_buffer->rx_buffer[6],
 					(int) p_ethernet_buffer->rx_buffer[5],
 					(int) p_ethernet_buffer->rx_buffer[4]);
+#endif
 
 			p_payload->header = p_ethernet_buffer->rx_buffer[0];
 			p_payload->packet_id = p_ethernet_buffer->rx_buffer[2]
@@ -467,8 +489,10 @@ void sss_handle_receive(SSSConn* conn) {
 					+ 65536 * p_ethernet_buffer->rx_buffer[5]
 					+ 4294967296 * p_ethernet_buffer->rx_buffer[4];
 
+#ifdef DEBUG_ON
 			printf("[sss_handle_receive DEBUG] calculating size = %i\n",
 					(INT32U) p_payload->size);
+#endif
 
 			rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
 					p_payload->size - 8, 0);
@@ -492,38 +516,51 @@ void sss_handle_receive(SSSConn* conn) {
 				}
 			}
 
+#ifdef DEBUG_ON
 			printf("[sss_handle_receive DEBUG]Printing buffer = ");
+#endif
 			for (int k = 0; k < p_payload->size - 8; k++) {
+#ifdef DEBUG_ON
 				printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+#endif
 			}
+#ifdef DEBUG_ON
 			printf("\r\n");
-
 			printf(
 					"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
 							"Type: %i\r\n", (int) p_payload->header,
 					(int) p_payload->packet_id, (int) p_payload->type);
 
+#endif
+
 			p_payload->crc = p_ethernet_buffer->rx_buffer[p_payload->size]
 					+ 256 * p_ethernet_buffer->rx_buffer[p_payload->size - 1];
 
+#ifdef DEBUG_ON
 			printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
 					(INT16U) p_payload->crc);
+#endif
 
 			calculated_crc = crc16(p_ethernet_buffer->rx_buffer,
 					p_payload->size);
 
+#ifdef DEBUG_ON
 			printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
 					(INT16U) calculated_crc);
+#endif
 
 //		printf("[sss_handle_receive DEBUG]Print received data bytes 0: %i\n",
 //				(INT8U) p_payload->data[0]);
 
+#ifdef DEBUG_ON
 			printf("[sss_handle_receive DEBUG]finished receiving\n");
+#endif
 
 			error_code = OSQPost(p_simucam_command_q, p_payload);
 			alt_SSSErrorHandler(error_code, 0);
-
+#ifdef DEBUG_ON
 			printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
+#endif
 
 			p_payload = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_SSSErrorHandler(error_code, 0);
@@ -562,7 +599,9 @@ void sss_handle_receive(SSSConn* conn) {
 		 */
 		conn->state = conn->close ? CLOSE : READY;
 
+#ifdef DEBUG_ON
 		printf("[sss_handle_receive DEBUG]connection state checked\n");
+#endif
 
 		/* Manage buffer */
 
@@ -593,7 +632,9 @@ void sss_handle_receive(SSSConn* conn) {
 //		memset(conn->rx_wr_pos, 0, data_used);
 	}
 
+#ifdef DEBUG_ON
 	printf("[sss_handle_receive] closing connection\n");
+#endif
 	close(conn->fd);
 	sss_reset_connection(conn);
 
@@ -665,8 +706,10 @@ void SSSSimpleSocketServerTask() {
 	 * on SSS_PORT for connection requests from any remote address.
 	 */
 	sss_reset_connection(&conn);
+#ifdef DEBUG_ON
 	printf("[sss_task] Simple Socket Server listening on port %d\n",
 	SSS_PORT);
+#endif
 
 	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_ST_1_MASK);
 
