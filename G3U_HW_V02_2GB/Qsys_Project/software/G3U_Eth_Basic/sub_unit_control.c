@@ -145,14 +145,20 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 
 	i_id_accum++;
 
-//	//printf("[Echo DEBUG]Printing buffer = ");
+#ifdef DEBUG_ON
+	//printf("[Echo DEBUG]Printing buffer = ");
+#endif
 	for (int k = 0;
 			k
 					< p_imagette->imagette_length[i_imagette_number]
 							+ ECHO_CMD_OVERHEAD; k++) {
+#ifdef DEBUG_ON
 		//printf("%i ", (INT8U) tx_buffer[k]);
+#endif
 	}
+#ifdef DEBUG_ON
 	//printf("\r\n");
+#endif
 
 //	return *tx_buffer;
 
@@ -185,9 +191,9 @@ void sub_unit_control_task() {
 	struct _ethernet_payload *p_sub_data;
 
 	while (b_sub_status == 0) {
-
-		//printf("[SUBUNIT]Sub-unit in config mode\r\n");
-
+#ifdef DEBUG_ON
+		printf("[SUBUNIT]Sub-unit in config mode\r\n");
+#endif
 		/*
 		 * Disabling SpW channel
 		 */
@@ -197,12 +203,14 @@ void sub_unit_control_task() {
 		SPWC_REG_SET,
 		SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 		exec_error = Verif_Error(error_code);
-
-		//printf("[SUBUNIT]Sub-unit waiting config...\r\n");
+#ifdef DEBUG_ON
+		printf("[SUBUNIT]Sub-unit waiting config...\r\n");
+#endif
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
-		//printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
-//				(INT8U) p_config->mode)
-
+#ifdef DEBUG_ON
+		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
+				(INT8U) p_config->mode)
+#endif
 		b_sub_status = p_config->mode;
 
 		p_imagette_buffer = p_config->imagette;
@@ -221,16 +229,17 @@ void sub_unit_control_task() {
 		int p;
 		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
 		p++;
-
-		//printf("[SUBUNIT]Sub-unit in running mode\r\n");
-
+#ifdef DEBUG_ON
+		printf("[SUBUNIT]Sub-unit in running mode\r\n");
+#endif
 		/*
 		 * Set link interface status according to
 		 * link_config
 		 */
 		if (p_config->linkstatus_running == 0) {
-
-			//printf("[SUBUNIT]Channel disabled\r\n");
+#ifdef DEBUG_ON
+			printf("[SUBUNIT]Channel disabled\r\n");
+#endif
 			//Testar ver se isso funciona
 			v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
 			SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
@@ -248,9 +257,9 @@ void sub_unit_control_task() {
 			 * Set link to autostart
 			 */
 			case 0:
-
-				//printf("[SUBUNIT]Channel autostart\r\n");
-
+#ifdef DEBUG_ON
+				printf("[SUBUNIT]Channel autostart\r\n");
+#endif
 				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
 						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
 								| SPWC_LINK_START_CONTROL_BIT_MASK);
@@ -267,7 +276,9 @@ void sub_unit_control_task() {
 				 * Set link to start
 				 */
 			case 1:
-				//printf("[SUBUNIT]Channel start\r\n");
+#ifdef DEBUG_ON
+				printf("[SUBUNIT]Channel start\r\n");
+#endif
 				//testar se isso funciona
 				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
 						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
