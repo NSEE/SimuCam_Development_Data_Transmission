@@ -151,7 +151,7 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 	tx_buffer[3] = 203;
 
 //	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, p_buffer_size);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("Buffer: %i %i %i %i\r\n", buffer_size[0], buffer_size[1],
 			buffer_size[2], buffer_size[3]);
 #endif
@@ -197,7 +197,7 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
 
 	i_id_accum++;
 
-#ifdef DEBUG_ON
+#if DEBUG_ON
 	printf("[Echo DEBUG]Printing buffer = ");
 	for (int k = 0; k < (p_imagette->size - 11) + ECHO_CMD_OVERHEAD; k++) {
 		printf("%i ", (INT8U) tx_buffer[k]);
@@ -383,7 +383,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	INT32U d = 0;
 	INT16U nb_imagettes;
 	INT32U error_verif = 0;
-#ifdef DEBUG_ON
+#if DEBUG_ON
 	printf(
 			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
 			p_payload->size, (char) p_payload->data[8],
@@ -398,7 +398,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 
 	nb_imagettes = p_payload->data[3] + 256 * p_payload->data[2];
 	p_img_ctrl->nb_of_imagettes = nb_imagettes;
-#ifdef DEBUG_ON
+#if DEBUG_ON
 	printf("[PARSER] Number of imagettes: %i\r\n", nb_imagettes);
 #endif
 
@@ -410,7 +410,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 	p_img_ctrl->tag[2] = p_payload->data[9];
 	p_img_ctrl->tag[1] = p_payload->data[10];
 	p_img_ctrl->tag[0] = p_payload->data[11];
-#ifdef DEBUG_ON
+#if DEBUG_ON
 	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n", p_img_ctrl->tag[7],
 			p_img_ctrl->tag[6], p_img_ctrl->tag[5], p_img_ctrl->tag[4],
 			p_img_ctrl->tag[3], p_img_ctrl->tag[2], p_img_ctrl->tag[1],
@@ -420,7 +420,7 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 #endif
 
 	while (i < nb_imagettes) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
 				(INT32U) &(p_img_ctrl->imagette[d]));
 
@@ -436,14 +436,14 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 
 		p_img_ctrl->imagette_length[i] = p_payload->data[o + 5]
 				+ 256 * p_payload->data[o + 4];
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
 				p_img_ctrl->offset[i], p_img_ctrl->imagette_length[i]);
 #endif
 
 		for (p = 0; p < p_img_ctrl->imagette_length[i]; p++, d++) {
 			p_img_ctrl->imagette[d] = p_payload->data[o + DELAY_SIZE + p];
-#ifdef DEBUG_ON
+#if DEBUG_ON
 			printf(
 					"[PARSER]Teste de recepcao:imagette_nb %i, imagette_data %i\r\n",
 					(INT32U) i, (INT8U) p_img_ctrl->imagette[d]);
@@ -455,11 +455,11 @@ int v_parse_data(struct _ethernet_payload *p_payload,
 
 	p_img_ctrl->size = d;
 	error_verif = o + DATA_SHIFT - 2;
-#ifdef DEBUG_ON
+#if DEBUG_ON
 	printf("[PARSER]error_verif %i\r\n", error_verif);
 #endif
 	if (p_payload->size == error_verif) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("[PARSER]OK...\r\n");
 #endif
 		return ACK_OK;
@@ -489,7 +489,7 @@ void central_timer_callback_function(void *p_arg) {
 	int i_internal_error_timer;
 
 //	buffer_nb = i_imagette_number;
-#ifdef DEBUG_ON
+#if DEBUG_ON
 	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
 			(INT32U) p_img_control->offset[i_imagette_counter],
 			(INT32U) i_central_timer_counter);
@@ -502,12 +502,12 @@ void central_timer_callback_function(void *p_arg) {
 		 */
 		error_code = OSSemPost(sub_unit_command_semaphore);
 		if (error_code == OS_ERR_NONE) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 			printf("[CALLBACK]Semaphore triggered\r\n");
 #endif
 //			i_imagette_counter++;
 			i_total_imagette_counter++;
-#ifdef DEBUG_ON
+#if DEBUG_ON
 			printf("[CALLBACK]Entered function imagette count: %i\r\n",
 					(INT32U) i_imagette_number);
 #endif
@@ -631,7 +631,7 @@ void CommandManagementTask() {
 		 */
 		while (b_meb_status == 0) {
 
-#ifdef DEBUG_ON
+#if DEBUG_ON
 			printf("[CommandManagementTask]MEB in config mode\n\r");
 #endif
 			/*
@@ -660,7 +660,7 @@ void CommandManagementTask() {
 			 * char: e
 			 */
 			case 101:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Configure Sub-Unit\r\n");
 #endif
 
@@ -688,7 +688,7 @@ void CommandManagementTask() {
 				 * char: f
 				 */
 			case 102:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Parse data\n\r");
 #endif
 
@@ -698,7 +698,7 @@ void CommandManagementTask() {
 //						(INT8U) p_img_control->imagette[0],
 //						(INT32U) p_img_control->offset[0],
 //						(INT32U) p_img_control->size);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Data parsed\r\n");
 #endif
 
@@ -742,7 +742,7 @@ void CommandManagementTask() {
 				 * char: i
 				 */
 			case 105:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Change Mode\r\n");
 #endif
 
@@ -756,7 +756,7 @@ void CommandManagementTask() {
 					alt_SSSErrorHandler(error_code, 0);
 				}
 
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Config sent to sub\n\r");
 #endif
 
@@ -771,7 +771,7 @@ void CommandManagementTask() {
 				 * Clear RAM
 				 */
 			case 108:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Clear RAM\r\n");
 #endif
 
@@ -786,7 +786,7 @@ void CommandManagementTask() {
 				 * Get HK
 				 */
 			case 110:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Get HK\r\n");
 #endif
 				i_channel_buffer = p_payload->data[0];
@@ -804,12 +804,12 @@ void CommandManagementTask() {
 				 * Config MEB
 				 */
 			case 111:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Clear RAM\r\n");
 #endif
 				i_forward_data = p_payload->data[0];
 				i_echo_sent_data = p_payload->data[1];
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf(
 						"[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
 						(int) i_forward_data, (int) i_echo_sent_data);
@@ -825,7 +825,7 @@ void CommandManagementTask() {
 				 * Set Recording
 				 */
 			case 112:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Selected command: %c\n\r",
 						(int) p_payload->type);
 #endif
@@ -837,7 +837,7 @@ void CommandManagementTask() {
 				break;
 
 			default:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Nenhum comando identificado\n\r");
 #endif
 
@@ -872,7 +872,7 @@ void CommandManagementTask() {
 
 			OSTmrStart((OS_TMR *) simucam_running_timer,
 					(INT8U *) &i_internal_error);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 			printf("MEB in running mode\n\r");
 #endif
 			if (b_timer_starter == 0) {
@@ -889,20 +889,20 @@ void CommandManagementTask() {
 					b_timer_starter = 1;
 
 					/* Timer was created but NOT started */
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]SWTimer1 was created but NOT started \n");
 #endif
 				}
 
 			}
-#ifdef DEBUG_ON
+#if DEBUG_ON
 			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
 #endif
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 			alt_uCOSIIErrorHandler(i_internal_error, 0);
 
 			if (p_payload->type == 106) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[CommandManagementTask]Starting timer\r\n");
 #endif
 				OSTmrStart((OS_TMR *) central_timer,
@@ -910,7 +910,7 @@ void CommandManagementTask() {
 				if (i_internal_error == OS_ERR_NONE) {
 					b_timer_starter = 1;
 
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]timer started\r\n");
 #endif
 
@@ -929,7 +929,7 @@ void CommandManagementTask() {
 				 */
 				case 105:
 
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]MEB status to: %i\r\n",
 							(INT8U) p_payload->data[0]);
 #endif
@@ -942,7 +942,7 @@ void CommandManagementTask() {
 						/*
 						 * Send sub_units to config.
 						 */
-#ifdef DEBUG_ON
+#if DEBUG_ON
 						printf("[CommandManagementTask]Sending change mode command...\r\n");
 #endif
 
@@ -953,13 +953,13 @@ void CommandManagementTask() {
 						OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 						if (i_internal_error == OS_ERR_NONE
 								|| i_internal_error == OS_ERR_TMR_STOPPED) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 							printf("[CommandManagementTask Restart]Running Timer stopped\r\n");
 #endif
 
 							i_running_timer_counter = 1;
 
-#ifdef DEBUG_ON
+#if DEBUG_ON
 							printf("[CommandManagementTask Restart]Running Timer restarted\r\n");
 #endif
 						}
@@ -982,7 +982,7 @@ void CommandManagementTask() {
 					 * End of dataset internal command
 					 */
 				case 5:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]End of dataset, restarting\r\n");
 #endif
 					OSTmrStop(central_timer,
@@ -990,13 +990,13 @@ void CommandManagementTask() {
 
 					if (i_internal_error == OS_ERR_NONE
 							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 						printf("[CommandManagementTask Restart]Timer stopped\r\n");
 #endif
 						i_central_timer_counter = 1;
 //						OSQPost(p_sub_unit_command_queue, abort_flag);
 //						OSSemPost(sub_unit_command_semaphore);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 						printf("[CommandManagementTask Restart]Timer restarted\r\n");
 #endif
 					}
@@ -1009,7 +1009,7 @@ void CommandManagementTask() {
 					 *
 					 */
 				case 107:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]Selected command: %i\n\r",
 							(int) p_payload->type);
 #endif
@@ -1018,13 +1018,13 @@ void CommandManagementTask() {
 
 					if (i_internal_error == OS_ERR_NONE
 							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 						printf("[CommandManagementTask Abort]Timer stopped\r\n");
 #endif
 						i_central_timer_counter = 1;
 						OSQPost(p_sub_unit_command_queue, abort_flag);
 						OSSemPost(sub_unit_command_semaphore);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 						printf("[CommandManagementTask Abort]Timer restarted\r\n");
 #endif
 						v_ack_creator(p_payload, ACK_OK);
@@ -1041,7 +1041,7 @@ void CommandManagementTask() {
 					 * Direct send
 					 */
 				case 109:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]Direct Send to %c\n\r",
 							(char) (p_payload->data[0] + ASCII_A));
 #endif
@@ -1072,7 +1072,7 @@ void CommandManagementTask() {
 					 * Get HK
 					 */
 				case 110:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]Get HK\r\n");
 #endif
 					v_HK_creator(p_payload, p_payload->data[0]);
@@ -1083,7 +1083,7 @@ void CommandManagementTask() {
 					break;
 
 				default:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 					printf("[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
 					if (p_payload->data == 101 || p_payload->data == 102

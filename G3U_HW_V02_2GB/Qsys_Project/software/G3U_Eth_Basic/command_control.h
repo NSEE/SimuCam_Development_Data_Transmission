@@ -39,8 +39,6 @@
  ************************************************************************************************
  */
 
-//#define DEBUG_ON 1
-
 /* Macro definitions */
 #define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
 #define MAX_IMAGETTE_SIZE 			20000 	/*Imagette size in bytes*/

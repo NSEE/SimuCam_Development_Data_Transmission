@@ -145,18 +145,18 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 
 	i_id_accum++;
 
-#ifdef DEBUG_ON
-	//printf("[Echo DEBUG]Printing buffer = ");
+#if DEBUG_ON
+//	printf("[Echo DEBUG]Printing buffer = ");
 #endif
 	for (int k = 0;
 			k
 					< p_imagette->imagette_length[i_imagette_number]
 							+ ECHO_CMD_OVERHEAD; k++) {
-#ifdef DEBUG_ON
-		//printf("%i ", (INT8U) tx_buffer[k]);
+#if DEBUG_ON
+//		printf("%i ", (INT8U) tx_buffer[k]);
 #endif
 	}
-#ifdef DEBUG_ON
+#if DEBUG_ON
 	//printf("\r\n");
 #endif
 
@@ -191,7 +191,7 @@ void sub_unit_control_task() {
 	struct _ethernet_payload *p_sub_data;
 
 	while (b_sub_status == 0) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit in config mode\r\n");
 #endif
 		/*
@@ -203,11 +203,11 @@ void sub_unit_control_task() {
 		SPWC_REG_SET,
 		SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 		exec_error = Verif_Error(error_code);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit waiting config...\r\n");
 #endif
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
 				(INT8U) p_config->mode)
 #endif
@@ -229,7 +229,7 @@ void sub_unit_control_task() {
 		int p;
 		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
 		p++;
-#ifdef DEBUG_ON
+#if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit in running mode\r\n");
 #endif
 		/*
@@ -237,7 +237,7 @@ void sub_unit_control_task() {
 		 * link_config
 		 */
 		if (p_config->linkstatus_running == 0) {
-#ifdef DEBUG_ON
+#if DEBUG_ON
 			printf("[SUBUNIT]Channel disabled\r\n");
 #endif
 			//Testar ver se isso funciona
@@ -257,7 +257,7 @@ void sub_unit_control_task() {
 			 * Set link to autostart
 			 */
 			case 0:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[SUBUNIT]Channel autostart\r\n");
 #endif
 				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
@@ -268,7 +268,7 @@ void sub_unit_control_task() {
 				SPWC_REG_SET,
 				SPWC_AUTOSTART_CONTROL_BIT_MASK);
 				exec_error = Verif_Error(error_code);
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("error_code: %i",exec_error);
 #endif
 
@@ -278,7 +278,7 @@ void sub_unit_control_task() {
 				 * Set link to start
 				 */
 			case 1:
-#ifdef DEBUG_ON
+#if DEBUG_ON
 				printf("[SUBUNIT]Channel start\r\n");
 #endif
 				//testar se isso funciona

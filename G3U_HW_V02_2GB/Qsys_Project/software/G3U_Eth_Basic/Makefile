@@ -165,6 +165,8 @@ C_SRCS += utils/util.c
 C_SRCS += command_control.c
 C_SRCS += sub_unit_control.c
 C_SRCS += driver/ctrl_io_lvds/ctrl_io_lvds.c
+C_SRCS += utils/configs_simucam.c
+C_SRCS += utils/sdcard_file_manager.c
 CXX_SRCS :=
 ASM_SRCS :=
 
