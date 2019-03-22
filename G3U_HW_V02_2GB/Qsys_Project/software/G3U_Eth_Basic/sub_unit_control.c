@@ -268,8 +268,10 @@ void sub_unit_control_task() {
 				SPWC_REG_SET,
 				SPWC_AUTOSTART_CONTROL_BIT_MASK);
 				exec_error = Verif_Error(error_code);
+#ifdef DEBUG_ON
+				printf("error_code: %i",exec_error);
+#endif
 
-				//printf("error_code: %i",exec_error);
 				break;
 
 				/*
@@ -296,7 +298,7 @@ void sub_unit_control_task() {
 
 //		set_spw_linkspeed(0,p_config->linkspeed);
 
-		//printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
+//printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
 //				(int) i_imagette_counter, (int) i_imagette_number);
 
 		while (i_imagette_number < nb_of_imagettes) {
@@ -316,7 +318,7 @@ void sub_unit_control_task() {
 //					(INT16U) i_imagette_length,
 //					(INT16U) p_imagette_buffer->imagette_length[i_imagette_number]);
 
-			//printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
+//printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 
 			p_config->sub_status_sending = 0;
 
@@ -327,7 +329,7 @@ void sub_unit_control_task() {
 			//printf("[SUBUNIT]command_control: %i\r\n", (int) i_command_control);
 			/*
 			 * Adicionar um if de retorno ao modo config, usando assim o mesmo combo
-			 * Sem/abort para voltar ao modo de configuração
+			 * Sem/abort para voltar ao modo de configuraï¿½ï¿½o
 			 */
 //			if (i_command_control == 2) {
 //				//printf("[SUBUNIT]Returning to config mode...\r\n");
@@ -412,7 +414,7 @@ void sub_unit_control_task() {
 				//printf("[SUBUNIT]imagette counter %i\r\n",
 //						(INT16U) i_imagette_counter);
 
-				//printf("[SUBUNIT]imagette nb %i\r\n",
+//printf("[SUBUNIT]imagette nb %i\r\n",
 //						(INT16U) i_imagette_number);
 
 				/*
