@@ -55,25 +55,25 @@ INT8U set_spw_linkspeed(INT8U i_channel_code, INT8U i_linkspeed_code) {
 
 	switch (i_linkspeed_code) {
 	case 0:
-		//10Mbits
+		/* 10 Mbits */
 		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
 				19);
 		break;
 
 	case 1:
-		//25Mbits
+		/* 25 Mbits */
 		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
 				7);
 		break;
 
 	case 2:
-		//50Mbits
+		/* 50 Mbits */
 		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
 				3);
 		break;
 
 	case 3:
-		//100Mbits
+		/* 100 Mbits */
 		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
 				1);
 		break;
@@ -102,6 +102,7 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 //	        nb = buff
 //	        p+=1
 //	    return size[::-1]
+
 	int p = 0;
 	int k = 0;
 	INT8U byte_buffer[nb_bytes];
@@ -122,6 +123,7 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 		k++;
 	}
 	//printf("\r\n");
+
 
 	//printf("[LongToInt]Byte buffer ");
 	for (p = 0; p < nb_bytes; p++) {
@@ -226,7 +228,9 @@ void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code) {
 //	INT8U id_buffer[2];
 //	long_to_int(id_buffer[0], 2, p_error_response->packet_id);
 //
-//	//printf("[ACK DEBUG]teste de id_buffer %i %i\r\n", id_buffer[0], id_buffer[1]);
+#if DEBUG_ON
+printf("[ACK DEBUG]teste de id_buffer %i %i\r\n", id_buffer[0], id_buffer[1]);
+#endif
 
 	INT16U nb_id = i_id_accum;
 	INT16U nb_id_pkt = p_error_response->packet_id;
@@ -488,7 +492,6 @@ void central_timer_callback_function(void *p_arg) {
 	INT8U buffer_nb;
 	int i_internal_error_timer;
 
-//	buffer_nb = i_imagette_number;
 #if DEBUG_ON
 	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
 			(INT32U) p_img_control->offset[i_imagette_counter],
@@ -505,7 +508,6 @@ void central_timer_callback_function(void *p_arg) {
 #if DEBUG_ON
 			printf("[CALLBACK]Semaphore triggered\r\n");
 #endif
-//			i_imagette_counter++;
 			i_total_imagette_counter++;
 #if DEBUG_ON
 			printf("[CALLBACK]Entered function imagette count: %i\r\n",
@@ -515,35 +517,6 @@ void central_timer_callback_function(void *p_arg) {
 	}
 
 	i_central_timer_counter++;
-
-//	if (i_imagette_number == p_img_control->nb_of_imagettes) {
-//
-//		//printf("[CALLBACK]Timer stopped\r\n");
-//		i_central_timer_counter = 1;
-////		OSQPost(p_sub_unit_command_queue, abort_flag);
-////		OSSemPost(sub_unit_command_semaphore);
-//		//printf("[CALLBACK]Timer restarted\r\n");
-//
-//		OSTmrStop(central_timer,
-//		OS_TMR_OPT_NONE, (void *) 0, &i_internal_error_timer);
-//
-////		p_payload->type = 5;
-////		error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-////		alt_SSSErrorHandler(error_code, 0);
-//
-////		i_central_timer_counter = 1;
-////		OSQPost(p_sub_unit_command_queue, &abort_flag);
-////		OSSemPost(sub_unit_command_semaphore);
-//
-////		error_code = OSTmrStop(central_timer,
-////		OS_TMR_OPT_NONE, (void *) 0, &error_code);
-////		if (error_code == OS_ERR_NONE || error_code == OS_ERR_TMR_STOPPED) {
-//////			i_imagette_number = 0;
-//////			i_imagette_counter = 0;
-////			//printf("[CommandManagementTask]Timer stopped\r\n");
-////			//printf("[CommandManagementTask]Timer restarted\r\n");
-////		}
-//	}
 }
 
 /**
@@ -640,13 +613,13 @@ void CommandManagementTask() {
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
-
+#if DEBUG_ON
 			//printf(
 //					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
 //					(INT8U) p_payload->type, (char) p_payload->data[0],
 //					(char) p_payload->data[1], (char) p_payload->data[2],
 //					(char) p_payload->data[3], (char) p_payload->data[4]);
-
+#endif
 			/*
 			 * Switch case to select from different command options.[yb]
 			 * Will be modified to suit IWF's needs
@@ -669,12 +642,13 @@ void CommandManagementTask() {
 				config_send->link_config = p_payload->data[1];
 				config_send->linkspeed = p_payload->data[2];
 				config_send->linkstatus_running = p_payload->data[3];
-
+#if DEBUG_ON
 				//printf(
 //						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
 //						(INT8U) config_send->link_config,
 //						(INT8U) config_send->linkspeed,
 //						(INT8U) config_send->linkstatus_running);
+#endif
 
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -693,11 +667,14 @@ void CommandManagementTask() {
 #endif
 
 				exec_error = v_parse_data(p_payload, p_img_control);
+#if DEBUG_ON
 				//printf(
 //						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
 //						(INT8U) p_img_control->imagette[0],
 //						(INT32U) p_img_control->offset[0],
 //						(INT32U) p_img_control->size);
+#endif
+
 #if DEBUG_ON
 				printf("[CommandManagementTask]Data parsed\r\n");
 #endif

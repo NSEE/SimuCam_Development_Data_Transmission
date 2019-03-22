@@ -335,8 +335,11 @@ void sss_handle_receive(SSSConn* conn) {
 				for (i = 1; i <= p_payload->size - 10; i++) {
 					p_payload->data[i - 1] =
 							p_ethernet_buffer->rx_buffer[i - 1];
-//					printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
-//							(INT8U) p_payload->data[i - 1], (INT8U) i);
+#if DEBUG_ON
+					printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
+							(INT8U) p_payload->data[i - 1], (INT8U) i);
+#endif
+
 				}
 			}
 
