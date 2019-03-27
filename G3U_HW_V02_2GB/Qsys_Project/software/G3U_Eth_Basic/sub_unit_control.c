@@ -188,7 +188,7 @@ void sub_unit_control_task() {
 
 	int b_sub_status = 0;
 
-	struct _ethernet_payload *p_sub_data;
+	struct x_ethernet_payload *p_sub_data;
 
 	while (b_sub_status == 0) {
 #if DEBUG_ON

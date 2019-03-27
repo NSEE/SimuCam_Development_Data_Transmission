@@ -47,7 +47,7 @@
  * beginning with "SSS" are declared and created in this file.
  */
 
-static struct _ethernet_payload *p_payload;
+static struct x_ethernet_payload *p_payload;
 SSSConn conn;
 
 /*
@@ -55,7 +55,7 @@ SSSConn conn;
  */
 
 OS_EVENT *p_simucam_command_q;
-struct _ethernet_payload *p_simucam_command_q_table[3]; /*Storage for SimucamCommandQ */
+struct x_ethernet_payload *p_simucam_command_q_table[3]; /*Storage for SimucamCommandQ */
 
 /*
  * Configuration of the sub-unit management task

@@ -212,7 +212,7 @@ struct ethernet_buffer{
  * Command + payload struct for the simucam ethernet control
  */
 
-struct _ethernet_payload {
+struct x_ethernet_payload {
 	INT8U header;		/* Command Header */
 	INT16U packet_id;	/* Unique identifier */
 	INT8U type;			/* Will be the command id */

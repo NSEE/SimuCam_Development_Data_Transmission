@@ -12,7 +12,7 @@ struct sub_config config_send_A;
 struct imagette_control img_struct;
 struct imagette_control *p_img_control;
 
-struct _ethernet_payload *p_payload;
+struct x_ethernet_payload *p_payload;
 
 INT8U b_meb_status = 0; //default starting mode is config
 INT8U i_forward_data = 0;
@@ -133,7 +133,7 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 
 }
 
-void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
+void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
 		INT8U* tx_buffer) {
 //	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
 	INT8U i = 0;
@@ -223,7 +223,7 @@ void i_echo_dataset_direct_send(struct _ethernet_payload* p_imagette,
  * @param 	[in] 	*INT8U Data array
  * @retval INT32U size
  **/
-void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code) {
+void v_ack_creator(struct x_ethernet_payload* p_error_response, int error_code) {
 
 //	INT8U id_buffer[2];
 //	long_to_int(id_buffer[0], 2, p_error_response->packet_id);
@@ -271,7 +271,7 @@ printf("[ACK DEBUG]teste de id_buffer %i %i\r\n", id_buffer[0], id_buffer[1]);
 	i_id_accum++;
 }
 
-void v_HK_creator(struct _ethernet_payload* p_HK, INT8U i_channel) {
+void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
 	INT16U crc;
@@ -379,7 +379,7 @@ INT32U i_compute_size(INT8U *p_length) {
  *
  * @retval int	9 if error, 1 if no error
  **/
-int v_parse_data(struct _ethernet_payload *p_payload,
+int v_parse_data(struct x_ethernet_payload *p_payload,
 		struct imagette_control *p_img_ctrl) {
 	INT32U i = 0;
 	INT32U p = 0;
@@ -551,7 +551,7 @@ void CommandManagementTask() {
 //	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
 	//INT8U* cmd_char = cmd_char_buffer;
 
-	struct _ethernet_payload payload;
+	struct x_ethernet_payload payload;
 	p_payload = &payload;
 
 	/*

@@ -96,12 +96,12 @@ struct imagette_control{
 ************************************************************************************************
 */
 
-int v_parse_data(struct _ethernet_payload*,struct imagette_control*);
-void v_ack_creator(struct _ethernet_payload* p_error_response, int error_code);
+int v_parse_data(struct x_ethernet_payload*,struct imagette_control*);
+void v_ack_creator(struct x_ethernet_payload* p_error_response, int error_code);
 INT32U i_compute_size(INT8U*);
 INT8U set_spw_linkspeed(INT8U, INT8U);
-void i_echo_dataset_direct_send(struct _ethernet_payload*, INT8U*);
-void v_HK_creator(struct _ethernet_payload*, INT8U);
+void i_echo_dataset_direct_send(struct x_ethernet_payload*, INT8U*);
+void v_HK_creator(struct x_ethernet_payload*, INT8U);
 void central_timer_callback_function(void *);
 void simucam_running_timer_callback_function(void *);
 
