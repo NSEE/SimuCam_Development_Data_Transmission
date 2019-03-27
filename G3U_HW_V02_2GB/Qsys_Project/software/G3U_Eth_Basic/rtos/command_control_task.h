@@ -17,16 +17,16 @@
 #include <ucos_ii.h>
 #include "os_cfg.h"
 #include "os_cpu.h"
-#include "simple_socket_server.h"
-#include "alt_error_handler.h"
-#include "utils/util.h"
+#include "../simple_socket_server.h"
+#include "../alt_error_handler.h"
+#include "../utils/util.h"
 #include "sub_unit_control_task.h"
-#include "logic/ddr2/ddr2.h"
+#include "../logic/ddr2/ddr2.h"
 
 /*
  * Include configurations for the communication modules [yb]
  */
-#include "logic/comm/comm.h"
+#include "../logic/comm/comm.h"
 
 /*$PAGE*/
 
