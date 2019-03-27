@@ -33,7 +33,7 @@
 #include "alt_error_handler.h"
 #include "includes.h"
 #include "simple_socket_server.h"
-#include "command_control.h"
+#include "command_control_task.h"
 
 /*
  * Include configurations for the SpW communication modules [yb]

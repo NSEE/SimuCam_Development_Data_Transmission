@@ -5,7 +5,7 @@
  *      Author: yuribunduki
  */
 
-#include "command_control.h"
+#include "command_control_task.h"
 
 struct sub_config config_send_A;
 

@@ -37,10 +37,10 @@
 #include "driver/leds/leds.h"
 
 /*sub-unit definitions*/
-#include "sub_unit_control.h"
+#include "sub_unit_control_task.h"
 
 /* Command control definitions*/
-#include "command_control.h"
+#include "command_control_task.h"
 
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 

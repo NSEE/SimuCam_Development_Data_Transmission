@@ -20,7 +20,7 @@
 #include "simple_socket_server.h"
 #include "alt_error_handler.h"
 #include "utils/util.h"
-#include "sub_unit_control.h"
+#include "sub_unit_control_task.h"
 #include "logic/ddr2/ddr2.h"
 
 /*

@@ -5,7 +5,7 @@
  *      Author: Yuri Bunduki
  */
 
-#include "sub_unit_control.h"
+#include "sub_unit_control_task.h"
 
 extern struct sub_config sub_config;
 INT16U i_imagette_number;
