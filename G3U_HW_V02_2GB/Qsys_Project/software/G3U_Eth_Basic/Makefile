@@ -145,7 +145,6 @@ ELF := G3U_Eth_Basic.elf
 C_SRCS += alt_error_handler.c
 C_SRCS += iniche_init.c
 C_SRCS += network_utilities.c
-C_SRCS += simple_socket_server.c
 C_SRCS += tse_my_system.c
 C_SRCS += driver/i2c/i2c.c
 C_SRCS += driver/leds/leds.c
@@ -167,6 +166,7 @@ C_SRCS += utils/configs_simucam.c
 C_SRCS += utils/sdcard_file_manager.c
 C_SRCS += rtos/command_control_task.c
 C_SRCS += rtos/sub_unit_control_task.c
+C_SRCS += rtos/simple_socket_server.c
 CXX_SRCS :=
 ASM_SRCS :=
 

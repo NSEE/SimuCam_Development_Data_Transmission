@@ -32,15 +32,15 @@
 
 /* Simple Socket Server definitions */
 #include "simple_socket_server.h"                                                                    
-#include "alt_error_handler.h"
+#include "../alt_error_handler.h"
 
-#include "driver/leds/leds.h"
+#include "../driver/leds/leds.h"
 
 /*sub-unit definitions*/
-#include "rtos/sub_unit_control_task.h"
+#include "sub_unit_control_task.h"
 
 /* Command control definitions*/
-#include "rtos/command_control_task.h"
+#include "command_control_task.h"
 
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 

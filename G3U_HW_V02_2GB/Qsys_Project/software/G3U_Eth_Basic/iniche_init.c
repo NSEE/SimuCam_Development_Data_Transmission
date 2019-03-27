@@ -27,7 +27,7 @@
 #include "includes.h"
 
 /* Simple Socket Server definitions */
-#include "simple_socket_server.h"                                                                    
+#include "rtos/simple_socket_server.h"
 #include "alt_error_handler.h"
 
 /* Nichestack definitions */

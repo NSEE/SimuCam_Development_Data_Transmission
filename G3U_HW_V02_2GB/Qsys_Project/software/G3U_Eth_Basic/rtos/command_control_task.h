@@ -17,7 +17,7 @@
 #include <ucos_ii.h>
 #include "os_cfg.h"
 #include "os_cpu.h"
-#include "../simple_socket_server.h"
+#include "simple_socket_server.h"
 #include "../alt_error_handler.h"
 #include "../utils/util.h"
 #include "sub_unit_control_task.h"
