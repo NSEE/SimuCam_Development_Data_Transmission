@@ -1,15 +1,24 @@
 /*
- * command_control.c
- *
- *  Created on: Apr 26, 2018
- *      Author: yuribunduki
- */
+************************************************************************************************
+*                                              NSEE
+*                                             Address
+*
+*                                       All Rights Reserved
+*
+*
+* Filename     : command_control_task.c
+* Programmer(s): Yuri Bunduki
+* Created on: Apr 26, 2018
+* Description  : Source file for the command control management task.
+************************************************************************************************
+*/
+/*$PAGE*/
 
 #include "command_control_task.h"
 
 struct sub_config config_send_A;
 
-struct imagette_control img_struct;
+//struct imagette_control img_struct;
 struct imagette_control *p_img_control;
 
 struct x_ethernet_payload *p_payload;
@@ -45,7 +54,8 @@ int i_return_config_flag = 2;
  * Set the linkspeed of specific SpW channel according to the
  * specified divider code
  *
- * @param 	[in] 	INT8U channel_code, INT8U linkspeed_code
+ * @param 	[in] 	INT8U channel_code
+ * @param	[in]	INT8U linkspeed_code
  * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
  * 	ref_clock = 200M -> spw_clock = ref_clock/(div+1)
  * @retval INT8U error_code 1 if OK
@@ -84,10 +94,12 @@ INT8U set_spw_linkspeed(INT8U i_channel_code, INT8U i_linkspeed_code) {
 
 /**
  * @name long_to_int
- * @brief
+ * @brief transforms an int to a byte array
  * @ingroup UTIL
  *
- * @param 	[in]
+ * @param 	[in]	int 	number
+ * @param	[in]	int 	number of bytes
+ * @param	[in]	INT8U	*destination array
  *
  * @retval INT16U crc
  **/
@@ -114,25 +126,40 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 		nb = i_buffer;
 		p++;
 	}
-
-	//printf("[LongToInt]Final Bytes ");
+#if DEBUG_ON
+	printf("[LongToInt]Final Bytes ");
+#endif
 	while (p != 0) {
 		p_destination[p] = byte_buffer[k];
-		//printf("%i ", p_destination[p]);
+#if DEBUG_ON
+		printf("%i ", p_destination[p]);
+#endif
 		p--;
 		k++;
 	}
-	//printf("\r\n");
+#if DEBUG_ON
+	printf("\r\n");
+#endif
 
-
-	//printf("[LongToInt]Byte buffer ");
+#if DEBUG_ON
+	printf("[LongToInt]Byte buffer ");
 	for (p = 0; p < nb_bytes; p++) {
-		//printf("%i ", byte_buffer[p]);
+		printf("%i ", byte_buffer[p]);
 	}
-	//printf("\r\n");
-
+	printf("\r\n");
+#endif
 }
 
+/**
+ * @name i_echo_dataset_direct_send
+ * @brief Send direct-send echo
+ * @ingroup UTIL
+ *
+ *
+ * @param 	[in] 	x_ethernet_payload 	*Imagette
+ * @param	[in]	INT8U				*tx_buffer
+ * @retval void
+ **/
 void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
 		INT8U* tx_buffer) {
 //	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
@@ -153,10 +180,6 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
 	tx_buffer[3] = 203;
 
 //	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, p_buffer_size);
-#if DEBUG_ON
-		printf("Buffer: %i %i %i %i\r\n", buffer_size[0], buffer_size[1],
-			buffer_size[2], buffer_size[3]);
-#endif
 	/*
 	 * size to bytes
 	 */
@@ -225,13 +248,6 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
  **/
 void v_ack_creator(struct x_ethernet_payload* p_error_response, int error_code) {
 
-//	INT8U id_buffer[2];
-//	long_to_int(id_buffer[0], 2, p_error_response->packet_id);
-//
-#if DEBUG_ON
-printf("[ACK DEBUG]teste de id_buffer %i %i\r\n", id_buffer[0], id_buffer[1]);
-#endif
-
 	INT16U nb_id = i_id_accum;
 	INT16U nb_id_pkt = p_error_response->packet_id;
 
@@ -295,15 +311,15 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[5] = 0;
 	p_HK->data[6] = 0;
 	p_HK->data[7] = 30;
-	p_HK->data[8] = chann_buff;	//channel
-	p_HK->data[9] = b_meb_status; //meb mode
-	p_HK->data[10] = sub_config.linkstatus_running;	//Sub_config_enabled
-	p_HK->data[11] = sub_config.link_config; //sub_config_linkstatus
-	p_HK->data[12] = sub_config.linkspeed; //sub_config_linkspeed
-	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); //sub_status_linkrunning
-	p_HK->data[14] = 1; //link enabled
+	p_HK->data[8] = chann_buff;	/*channel*/
+	p_HK->data[9] = b_meb_status; /*meb mode*/
+	p_HK->data[10] = sub_config.linkstatus_running;	/*Sub_config_enabled*/
+	p_HK->data[11] = sub_config.link_config; /*sub_config_linkstatus*/
+	p_HK->data[12] = sub_config.linkspeed; /*sub_config_linkspeed*/
+	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /*sub_status_linkrunning*/
+	p_HK->data[14] = 1; /*link enabled*/
 	p_HK->data[15] = sub_config.sub_status_sending;
-	p_HK->data[16] = 0;	//link errors
+	p_HK->data[16] = 0;	/*link errors*/
 	p_HK->data[17] = 0;
 	p_HK->data[18] = 0;
 	p_HK->data[19] = 0;
@@ -315,8 +331,8 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	nb_counter_total = div(nb_counter_total, 256).quot;
 	p_HK->data[20] = div(nb_counter_total, 256).rem;
 
-	p_HK->data[22] = 0; //Received packets 1
-	p_HK->data[23] = 0; //Received packets 0
+	p_HK->data[22] = 0; /*Received packets 1*/
+	p_HK->data[23] = 0; /*Received packets 0*/
 
 	/*
 	 * Current packet nb
@@ -375,7 +391,7 @@ INT32U i_compute_size(INT8U *p_length) {
  * bytes can be changed accordingly in the header file.
  *
  * @param 	[in] 	*_ethernet_payload Payload Struct
- * 			[in]	*_imagette_control Control struct to receive the data
+ * @param	[in]	*_imagette_control Control struct to receive the data
  *
  * @retval int	9 if error, 1 if no error
  **/
@@ -482,7 +498,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
  * bytes can be changed accordingly in the header file.
  *
  * @param 	[in] 	*_ethernet_payload Payload Struct
- * 			[in]	*_imagette_control Control struct to receive the data
+ * @param	[in]	*_imagette_control Control struct to receive the data
  *
  * @retval void
  **/
@@ -549,7 +565,7 @@ void CommandManagementTask() {
 
 //	INT8U* cmd_pos;
 //	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
-	//INT8U* cmd_char = cmd_char_buffer;
+//	INT8U* cmd_char = cmd_char_buffer;
 
 	struct x_ethernet_payload payload;
 	p_payload = &payload;
@@ -562,8 +578,8 @@ void CommandManagementTask() {
 	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
 	Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
 	ByteLen = DDR2_M1_MEMORY_SIZE;
-//	p_img_control = (struct imagette_control *) Ddr2Base;
-	p_img_control = &img_struct;
+	p_img_control = (struct imagette_control *) Ddr2Base;
+//	p_img_control = &img_struct;
 
 	/*
 	 * Declaring the sub-units initial status
@@ -584,6 +600,7 @@ void CommandManagementTask() {
 
 	/*
 	 * Creating running timer
+	 * Will be substituted by HW timer
 	 */
 	simucam_running_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
 	OS_TMR_OPT_PERIODIC, simucam_running_timer_callback_function, (void *) 0,

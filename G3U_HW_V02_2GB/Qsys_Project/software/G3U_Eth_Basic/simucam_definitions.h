@@ -2,14 +2,14 @@
  * simucam_definitions.h
  *
  *  Created on: Mar 22, 2019
- *      Author: bndky
+ *      Author: Yuri Bunduki
  */
 
 #ifndef SIMUCAM_DEFINITIONS_H_
 #define SIMUCAM_DEFINITIONS_H_
 
 
-#define DEBUG_ON 1
+#define DEBUG_ON 0
 
 #ifndef bool
 	//typedef short int bool;

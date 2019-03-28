@@ -167,6 +167,7 @@ C_SRCS += utils/sdcard_file_manager.c
 C_SRCS += rtos/command_control_task.c
 C_SRCS += rtos/sub_unit_control_task.c
 C_SRCS += rtos/simple_socket_server.c
+C_SRCS += rtos/telemetry_manager_task.c
 CXX_SRCS :=
 ASM_SRCS :=
 

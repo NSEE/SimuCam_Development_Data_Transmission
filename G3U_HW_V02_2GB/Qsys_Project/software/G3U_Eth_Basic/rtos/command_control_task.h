@@ -2,7 +2,7 @@
  * command_control.h
  *
  *  Created on: 21/11/2018
- *      Author: root
+ *      Author: Yuri Bunduki
  */
 
 /*
@@ -22,6 +22,7 @@
 #include "../utils/util.h"
 #include "sub_unit_control_task.h"
 #include "../logic/ddr2/ddr2.h"
+#include "../simucam_definitions.h"
 
 /*
  * Include configurations for the communication modules [yb]
@@ -41,7 +42,7 @@
 
 /* Macro definitions */
 #define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
-#define MAX_IMAGETTE_SIZE 			20000 	/*Imagette size in bytes*/
+#define MAX_IMAGETTE_SIZE 			400000 	/*Imagette size in bytes*/
 #define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	1		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */

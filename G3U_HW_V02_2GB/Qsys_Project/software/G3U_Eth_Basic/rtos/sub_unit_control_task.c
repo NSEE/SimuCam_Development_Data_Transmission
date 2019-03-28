@@ -209,7 +209,7 @@ void sub_unit_control_task() {
 		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
 #if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
-				(INT8U) p_config->mode)
+				(INT8U) p_config->mode);
 #endif
 		b_sub_status = p_config->mode;
 

@@ -55,7 +55,9 @@ void Set_SpW_Led(char c_SpwID);
 
 /* Mem DMA Task, configure and manages the Memories DMA for use of the SpW Transparent Interface*/
 void MemDMATask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"mem dma\" Task (Prio:%d) \n", MEM_DMA_TASK_PRIORITY);
+#endif
 
 //	/* Open DMA Device */
 //	if (DMA_OPEN_DEVICE(&DMADev, (char *)DMA_DDR_M_CSR_NAME) == FALSE){
@@ -78,7 +80,9 @@ void MemDMATask(void *task_data) {
 
 /* SPW A Task, configure and monitor the SpW A channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWATask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw a\" Task (Prio:%d) \n", SPW_A_TASK_PRIORITY);
+#endif
 
 	Configure_SpW_Autostart('A');
 	while (1) {
@@ -89,7 +93,9 @@ void SPWATask(void *task_data) {
 
 /* SPW B Task, configure and monitor the SpW B channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWBTask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw b\" Task (Prio:%d) \n", SPW_B_TASK_PRIORITY);
+#endif
 
 	Configure_SpW_Autostart('B');
 	while (1) {
@@ -100,7 +106,9 @@ void SPWBTask(void *task_data) {
 
 /* SPW C Task, configure and monitor the SpW C channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWCTask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw c\" Task (Prio:%d) \n", SPW_C_TASK_PRIORITY);
+#endif
 
 	Configure_SpW_Autostart('C');
 	while (1) {
@@ -111,7 +119,9 @@ void SPWCTask(void *task_data) {
 
 /* SPW D Task, configure and monitor the SpW D channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWDTask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw d\" Task (Prio:%d) \n", SPW_D_TASK_PRIORITY);
+#endif
 
 	Configure_SpW_Autostart('D');
 	while (1) {
@@ -122,7 +132,9 @@ void SPWDTask(void *task_data) {
 
 /* SPW E Task, configure and monitor the SpW E channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWETask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw e\" Task (Prio:%d) \n", SPW_E_TASK_PRIORITY);
+#endif
 
 	Configure_SpW_Autostart('E');
 	while (1) {
@@ -133,7 +145,9 @@ void SPWETask(void *task_data) {
 
 /* SPW F Task, configure and monitor the SpW F channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWFTask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw f\" Task (Prio:%d) \n", SPW_F_TASK_PRIORITY);
+#endif
 
 	Configure_SpW_Autostart('F');
 	while (1) {
@@ -144,7 +158,9 @@ void SPWFTask(void *task_data) {
 
 /* SPW G Task, configure and monitor the SpW G channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWGTask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw g\" Task (Prio:%d) \n", SPW_G_TASK_PRIORITY);
+#endif
 
 	Configure_SpW_Autostart('G');
 	while (1) {
@@ -155,8 +171,9 @@ void SPWGTask(void *task_data) {
 
 /* SPW H Task, configure and monitor the SpW H channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWHTask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"spw h\" Task (Prio:%d) \n", SPW_H_TASK_PRIORITY);
-
+#endif
 	Configure_SpW_Autostart('H');
 	while (1) {
 		Set_SpW_Led('H');
@@ -166,7 +183,9 @@ void SPWHTask(void *task_data) {
 
 /* Log Task, show the FPGA core temperature in the seven segments display, update rate of 1 s */
 void LogTask(void *task_data) {
+#if DEBUG_ON
 	printf("Created \"log\" Task (Prio:%d) \n", LOG_TASK_PRIORITY);
+#endif
 	while (1) {
 		TEMP_Read(&tempFPGA, &tempBoard);
 		SSDP_UPDATE(tempFPGA);
@@ -286,7 +305,9 @@ void Configure_SpW_Autostart(char c_SpwID) {
 			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 //	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
 //	SPWC_AUTOSTART_CONTROL_BIT_MASK);
+#if DEBUG_ON
 	printf("SpaceWire %c configurado\n", c_SpwID);
+#endif
 }
 
 void Set_SpW_Led(char c_SpwID) {
