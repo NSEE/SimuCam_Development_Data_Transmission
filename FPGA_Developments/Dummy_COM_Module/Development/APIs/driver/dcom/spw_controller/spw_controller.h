@@ -18,18 +18,25 @@ typedef struct SpwcLinkStatus {
 	bool bRunning;
 } TSpwcLinkStatus;
 
-typedef struct SpwcTimecode {
+typedef struct SpwcRxTimecode {
 	alt_u8 ucControl;
 	alt_u8 ucCounter;
-} TSpwcTimecode;
+	bool bTransmit;
+} TSpwcRxTimecode;
+
+typedef struct SpwcTxTimecode {
+	alt_u8 ucControl;
+	alt_u8 ucCounter;
+	bool bReceived;
+} TSpwcTxTimecode;
 
 typedef struct SpwcChannel {
 	alt_u32 *puliSpwcChAddr;
 	TSpwcLinkConfig xLinkConfig;
 	TSpwcLinkError xLinkError;
 	TSpwcLinkStatus xLinkStatus;
-	TSpwcTimecode xRxTimecode;
-	TSpwcTimecode xTxTimecode;
+	TSpwcRxTimecode xRxTimecode;
+	TSpwcTxTimecode xTxTimecode;
 } TSpwcChannel;
 
 // Set functions -> set data from channel variable to hardware
@@ -42,7 +49,9 @@ bool bSpwcGetLinkError(TSpwcChannel *pxSpwcCh);
 
 bool bSpwcGetLinkStatus(TSpwcChannel *pxSpwcCh);
 
-bool bSpwcSetTimecode(TSpwcChannel *pxSpwcCh);
-bool bSpwcGetTimecode(TSpwcChannel *pxSpwcCh);
+bool bSpwcSetTxTimecode(TSpwcChannel *pxSpwcCh);
+bool bSpwcGetTxTimecode(TSpwcChannel *pxSpwcCh);
+
+bool bSpwcGetRxTimecode(TSpwcChannel *pxSpwcCh);
 
 bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucCommCh);

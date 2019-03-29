@@ -1,10 +1,12 @@
 typedef struct DschTimerConfig {
+	bool bStartOnSync;
 	uint32_t uliTimerDiv;
 } TDschTimerConfig;
 
 typedef struct DschTimerStatus {
 	uint32_t uliTime;
 	bool bStopped;
+	bool bStarted;
 	bool bRunning;
 	bool bCleared;
 } TDschTimerStatus;
@@ -25,9 +27,8 @@ bool bDschGetTimerStatus(TDschChannel *pxDschCh);
 
 uint32_t uliDschGetTime(TDschChannel *pxDschCh);
 
-bool bDschGetTimerStatus(TDschChannel *pxDschCh);
-
 bool bDschStartTimer(TDschChannel *pxDschCh);
+bool bDschRunTimer(TDschChannel *pxDschCh);
 bool bDschStopTimer(TDschChannel *pxDschCh);
 bool bDschClrTimer(TDschChannel *pxDschCh);
 

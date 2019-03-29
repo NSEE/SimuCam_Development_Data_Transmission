@@ -1,15 +1,15 @@
-enum SdmaChBufferId {
-	eSdmaCh1Buffer = 0,
-	eSdmaCh2Buffer = 1,
-	eSdmaCh3Buffer = 2,
-	eSdmaCh4Buffer = 3,
-	eSdmaCh5Buffer = 4,
-	eSdmaCh6Buffer = 5,
-	eSdmaCh7Buffer = 6,
-	eSdmaCh8Buffer = 7
-} ESdmaChBufferId;
+enum IdmaChBufferId {
+	eIdmaCh1Buffer = 0,
+	eIdmaCh2Buffer = 1,
+	eIdmaCh3Buffer = 2,
+	eIdmaCh4Buffer = 3,
+	eIdmaCh5Buffer = 4,
+	eIdmaCh6Buffer = 5,
+	eIdmaCh7Buffer = 6,
+	eIdmaCh8Buffer = 7
+} EIdmaChBufferId;
 
-bool bSdmaInitM1Dma(void);
-bool bSdmaInitM2Dma(void);
-bool bSdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBlocks, alt_u8 ucChBufferId);
-bool bSdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBlocks, alt_u8 ucChBufferId);
+bool bIdmaInitM1Dma(void);
+bool bIdmaInitM2Dma(void);
+bool bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBlocks, alt_u8 ucChBufferId);
+bool bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBlocks, alt_u8 ucChBufferId);
