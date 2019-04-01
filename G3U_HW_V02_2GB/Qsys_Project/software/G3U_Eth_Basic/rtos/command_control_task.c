@@ -1,17 +1,17 @@
 /*
-************************************************************************************************
-*                                              NSEE
-*                                             Address
-*
-*                                       All Rights Reserved
-*
-*
-* Filename     : command_control_task.c
-* Programmer(s): Yuri Bunduki
-* Created on: Apr 26, 2018
-* Description  : Source file for the command control management task.
-************************************************************************************************
-*/
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
+ *
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : command_control_task.c
+ * Programmer(s): Yuri Bunduki
+ * Created on: Apr 26, 2018
+ * Description  : Source file for the command control management task.
+ ************************************************************************************************
+ */
 /*$PAGE*/
 
 #include "command_control_task.h"
@@ -311,15 +311,15 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[5] = 0;
 	p_HK->data[6] = 0;
 	p_HK->data[7] = 30;
-	p_HK->data[8] = chann_buff;	/*channel*/
-	p_HK->data[9] = b_meb_status; /*meb mode*/
-	p_HK->data[10] = sub_config.linkstatus_running;	/*Sub_config_enabled*/
-	p_HK->data[11] = sub_config.link_config; /*sub_config_linkstatus*/
-	p_HK->data[12] = sub_config.linkspeed; /*sub_config_linkspeed*/
-	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /*sub_status_linkrunning*/
-	p_HK->data[14] = 1; /*link enabled*/
+	p_HK->data[8] = chann_buff; /**channel*/
+	p_HK->data[9] = b_meb_status; /**meb mode*/
+	p_HK->data[10] = sub_config.linkstatus_running; /**Sub_config_enabled*/
+	p_HK->data[11] = sub_config.link_config; /**sub_config_linkstatus*/
+	p_HK->data[12] = sub_config.linkspeed; /**sub_config_linkspeed*/
+	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /**sub_status_linkrunning*/
+	p_HK->data[14] = 1; /**link enabled*/
 	p_HK->data[15] = sub_config.sub_status_sending;
-	p_HK->data[16] = 0;	/*link errors*/
+	p_HK->data[16] = 0; /**link errors*/
 	p_HK->data[17] = 0;
 	p_HK->data[18] = 0;
 	p_HK->data[19] = 0;
@@ -331,17 +331,17 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	nb_counter_total = div(nb_counter_total, 256).quot;
 	p_HK->data[20] = div(nb_counter_total, 256).rem;
 
-	p_HK->data[22] = 0; /*Received packets 1*/
-	p_HK->data[23] = 0; /*Received packets 0*/
+	p_HK->data[22] = 0; /**Received packets 1*/
+	p_HK->data[23] = 0; /**Received packets 0*/
 
-	/*
+	/**
 	 * Current packet nb
 	 */
 	p_HK->data[25] = div(nb_counter_current, 256).rem;
 	nb_counter_current = div(nb_counter_current, 256).quot;
 	p_HK->data[24] = div(nb_counter_current, 256).rem;
 
-	/*
+	/**
 	 * Packets to send
 	 */
 	p_HK->data[26] = div(nb_counter_left, 256).rem;
@@ -349,7 +349,7 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[27] = div(nb_counter_left, 256).rem;
 	p_HK->size = 30;
 
-	/*
+	/**
 	 * Calculating CRC
 	 */
 	crc = crc16(p_HK->data, p_HK->size - 2);
@@ -396,7 +396,8 @@ INT32U i_compute_size(INT8U *p_length) {
  * @retval int	9 if error, 1 if no error
  **/
 int v_parse_data(struct x_ethernet_payload *p_payload,
-		struct imagette_control *p_img_ctrl) {
+		struct imagette_control *p_img_ctrl, struct x_imagette *dataset) {
+
 	INT32U i = 0;
 	INT32U p = 0;
 	INT32U o = DATA_SHIFT;
@@ -439,6 +440,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 	printf("[PARSER]Starting imagette addr %x\r\n", &(p_img_ctrl->imagette[0]));
 #endif
 
+#if DMA_DEV
 	while (i < nb_imagettes) {
 #if DEBUG_ON
 		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
@@ -446,7 +448,60 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 
 		printf("[PARSER]Offset bytes: %i %i %i %i\r\n",p_payload->data[o],
 				p_payload->data[o + 1], p_payload->data[o + 2], 256 * p_payload->data[o + 2],
-					p_payload->data[o + 3]);
+				p_payload->data[o + 3]);
+#endif
+		dataset[i].offset = div(
+				(p_payload->data[o + 3] + 256 * p_payload->data[o + 2]
+						+ 65536 * p_payload->data[o + 1]
+						+ 4294967296 * p_payload->data[o]), 10).quot;
+
+		dataset[i].imagette_length = p_payload->data[o + 5]
+		+ 256 * p_payload->data[o + 4];
+#if DEBUG_ON
+		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
+				dataset[i].offset, dataset[i].imagette_length);
+#endif
+		dataset[0]->imagette_start = p_payload->data[o + DELAY_SIZE];
+		imagette_byte = &(dataset[0]->imagette_start);
+
+		for (p = 1; p < dataset[i].imagette_length; p++, d++) {
+			imagette_byte++;
+			*(imagette_byte) = p_payload->data[o + DELAY_SIZE + p];
+		}
+
+		imagette_byte++;
+		o += DELAY_SIZE + dataset[i].imagette_length;
+		i++;
+	}
+
+	p_img_ctrl->size = d;
+	error_verif = o + DATA_SHIFT - 2;
+#if DEBUG_ON
+	printf("[PARSER]error_verif %i\r\n", error_verif);
+#endif
+	if (p_payload->size == error_verif) {
+#if DEBUG_ON
+		printf("[PARSER]OK...\r\n");
+#endif
+		return ACK_OK;
+	} else
+	return PARSER_ERROR;
+}
+
+#endif
+
+	/*
+	 * Old ways, funny ways
+	 */
+#if !DMA_DEV
+	while (i < nb_imagettes) {
+#if DEBUG_ON
+		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
+				(INT32U) &(p_img_ctrl->imagette[d]));
+
+		printf("[PARSER]Offset bytes: %i %i %i %i\r\n",p_payload->data[o],
+				p_payload->data[o + 1], p_payload->data[o + 2], 256 * p_payload->data[o + 2],
+				p_payload->data[o + 3]);
 #endif
 
 		p_img_ctrl->offset[i] = div(
@@ -469,6 +524,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 					(INT32U) i, (INT8U) p_img_ctrl->imagette[d]);
 #endif
 		}
+
 		o += DELAY_SIZE + p_img_ctrl->imagette_length[i];
 		i++;
 	}
@@ -485,6 +541,8 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 		return ACK_OK;
 	} else
 		return PARSER_ERROR;
+
+#endif
 }
 
 /**
@@ -578,7 +636,7 @@ void CommandManagementTask() {
 	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
 	Ddr2Base = DDR2_EXTENDED_ADDRESS_WINDOWED_BASE;
 	ByteLen = DDR2_M1_MEMORY_SIZE;
-	p_img_control = (struct imagette_control *) Ddr2Base;
+//	p_img_control = (struct imagette_control *) Ddr2Base;
 //	p_img_control = &img_struct;
 
 	/*
@@ -660,11 +718,11 @@ void CommandManagementTask() {
 				config_send->linkspeed = p_payload->data[2];
 				config_send->linkstatus_running = p_payload->data[3];
 #if DEBUG_ON
-				//printf(
-//						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
-//						(INT8U) config_send->link_config,
-//						(INT8U) config_send->linkspeed,
-//						(INT8U) config_send->linkstatus_running);
+				printf(
+						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
+						(INT8U) config_send->link_config,
+						(INT8U) config_send->linkspeed,
+						(INT8U) config_send->linkstatus_running);
 #endif
 
 				v_ack_creator(p_payload, ACK_OK);
@@ -685,11 +743,11 @@ void CommandManagementTask() {
 
 				exec_error = v_parse_data(p_payload, p_img_control);
 #if DEBUG_ON
-				//printf(
-//						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-//						(INT8U) p_img_control->imagette[0],
-//						(INT32U) p_img_control->offset[0],
-//						(INT32U) p_img_control->size);
+				printf(
+						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
+						(INT8U) p_img_control->imagette[0],
+						(INT32U) p_img_control->offset[0],
+						(INT32U) p_img_control->size);
 #endif
 
 #if DEBUG_ON
@@ -784,9 +842,6 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]Get HK\r\n");
 #endif
 				i_channel_buffer = p_payload->data[0];
-//				switch(p_payload->data[0]){
-//				case 0:
-//				}
 
 				v_HK_creator(p_payload, i_channel_buffer);
 

@@ -49,6 +49,8 @@
 #define DATA_SHIFT					12		/*Data header shift*/
 #define ASCII_A						65
 
+#define DMA_DEV						0
+
 /*
  * Error codes definitions
  */
@@ -69,33 +71,45 @@ OS_TMR *simucam_running_timer;
 
 /*$PAGE*/
 
-
-
 /*
  ************************************************************************************************
  *                                            DATA TYPES
  ************************************************************************************************
  */
 
-struct imagette_control{
+struct x_imagette {
+	/*
+	 * Usar memcpy
+	 */
+	INT32U offset; /* In miliseconds*/
+	INT16U imagette_length; /* length of N imagette */
+	INT8U imagette_start; /*Pointer to de DDR2 address*/
+}x_imagette;
 
-	INT32U offset[MAX_IMAGETTES]; 					/* In miliseconds*/
-	INT16U imagette_length[MAX_IMAGETTES];			/* length of N imagette */
-	INT8U  imagette[MAX_IMAGETTE_SIZE];	/*Pointer to de DDR2 address*/
-	INT8U* img_test;								/* Teste de imagette referenciada*/
-	INT16U nb_of_imagettes;							/*Number of imagettes in dataset*/
-	INT32U size;									/*Imagette array size*/
+
+struct imagette_control {
+#if DMA_DEV
+	x_imagette *dataset[MAX_IMAGETTES];
+#endif
+#if !DMA_DEV
+	INT32U offset[MAX_IMAGETTES]; /* In miliseconds*/
+	INT16U imagette_length[MAX_IMAGETTES]; /* length of N imagette */
+	INT8U imagette[MAX_IMAGETTE_SIZE]; /*Pointer to de DDR2 address*/
+#endif
+	INT16U nb_of_imagettes; /*Number of imagettes in dataset*/
+	INT32U size; 			/*Imagette array size*/
 	INT8U tag[8];
 	INT8U sto_locale;
 }imagette_control;
 
+
 /*$PAGE*/
 
 /*
-************************************************************************************************
-*                                        FUNCTION PROTOTYPES
-************************************************************************************************
-*/
+ ************************************************************************************************
+ *                                        FUNCTION PROTOTYPES
+ ************************************************************************************************
+ */
 
 int v_parse_data(struct x_ethernet_payload*,struct imagette_control*);
 void v_ack_creator(struct x_ethernet_payload* p_error_response, int error_code);
