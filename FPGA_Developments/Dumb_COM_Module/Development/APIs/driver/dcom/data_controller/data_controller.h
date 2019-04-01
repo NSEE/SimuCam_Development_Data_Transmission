@@ -1,32 +1,49 @@
-const alt_u8 cucDctrIrqFlagsQtd;
+/*
+ * data_controller.h
+ *
+ *  Created on: 31/03/2019
+ *      Author: rfranca
+ */
 
+#ifndef DATA_CONTROLLER_H_
+#define DATA_CONTROLLER_H_
+
+#include "../dcom.h"
+
+//! [constants definition]
+const alt_u8 cucDctrIrqFlagsQtd = 2;
+//! [constants definition]
+
+//! [public module structs definition]
 enum DctrIrqFlags {
-	eTxBeginFlag = 0,
-	eTxEndFlag,
+	eTxEndFlag = 0,
+	eTxBeginFlag
 } EDctrIrqFlags;
 
 typedef struct DctrIrqControl {
 	bool bTxBeginEn;
 	bool bTxEndEn;
-} TDctrControl;
+} TDctrIrqControl;
 
 typedef struct DctrIrqFlag {
 	bool bTxBeginFlag;
-	bool bTxEndFlag
+	bool bTxEndFlag;
 } TDctrIrqFlag;
 
 typedef struct DctrControllerConfig {
 	bool bSendEop;
 	bool bSendEep;
-} DctrControllerConfig;
+} TDctrControllerConfig;
 
 typedef struct DctrChannel {
 	alt_u32 *puliDctrChAddr;
-	DctrIrqControl xIrqControl;
-	DctrIrqFlag xIrqFlag;
-	DctrControllerConfig xControllerConfig;
+	TDctrIrqControl xIrqControl;
+	TDctrIrqFlag xIrqFlag;
+	TDctrControllerConfig xControllerConfig;
 } TDctrChannel;
+//! [public module structs definition]
 
+//! [public function prototypes]
 void vDctrCh1HandleIrq(void* pvContext);
 void vDctrCh2HandleIrq(void* pvContext);
 void vDctrCh3HandleIrq(void* pvContext);
@@ -54,7 +71,7 @@ void vDctrCh6IrqFlag(bool *pbIrqFlags);
 void vDctrCh7IrqFlag(bool *pbIrqFlags);
 void vDctrCh8IrqFlag(bool *pbIrqFlags);
 
-bool vDctrInitIrq(alt_u8 ucCommCh);
+bool vDctrInitIrq(alt_u8 ucDcomCh);
 
 // Set functions -> set data from channel variable to hardware
 // Get functions -> get data from hardware to channel variable
@@ -66,4 +83,19 @@ bool bDctrGetIrqFlags(TDctrChannel *pxDctrCh);
 bool bDctrSetControllerConfig(TDctrChannel *pxDctrCh);
 bool bDctrGetControllerConfig(TDctrChannel *pxDctrCh);
 
-bool bDctrInitCh(TDctrChannel *pxDctrCh, alt_u8 ucCommCh);
+bool bDctrInitCh(TDctrChannel *pxDctrCh, alt_u8 ucDcomCh);
+//! [public function prototypes]
+
+//! [data memory public global variables - use extern]
+//! [data memory public global variables - use extern]
+
+//! [flags]
+//! [flags]
+
+//! [program memory public global variables - use extern]
+//! [program memory public global variables - use extern]
+
+//! [macros]
+//! [macros]
+
+#endif /* DATA_CONTROLLER_H_ */
