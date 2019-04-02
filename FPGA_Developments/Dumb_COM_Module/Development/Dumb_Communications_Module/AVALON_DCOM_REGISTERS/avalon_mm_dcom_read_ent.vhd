@@ -10,9 +10,9 @@ entity avalon_mm_dcom_read_ent is
 		clk_i                  : in  std_logic;
 		rst_i                  : in  std_logic;
 		avalon_mm_dcom_i       : in  t_avalon_mm_dcom_read_in;
-		avalon_mm_dcom_o       : out t_avalon_mm_dcom_read_out;
 		dcom_write_registers_i : in  t_dcom_write_registers;
-		dcom_read_registers_i  : in  t_dcom_read_registers
+		dcom_read_registers_i  : in  t_dcom_read_registers;
+		avalon_mm_dcom_o       : out t_avalon_mm_dcom_read_out
 	);
 end entity avalon_mm_dcom_read_ent;
 
