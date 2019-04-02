@@ -1,3 +1,20 @@
+/*
+ * spw_controller.h
+ *
+ *  Created on: 01/04/2019
+ *      Author: rfranca
+ */
+
+#ifndef SPW_CONTROLLER_H_
+#define SPW_CONTROLLER_H_
+
+
+#include "../dcom.h"
+
+//! [constants definition]
+//! [constants definition]
+
+//! [public module structs definition]
 typedef struct SpwcLinkConfig {
 	bool bAutostart;
 	bool bLinkStart;
@@ -19,15 +36,15 @@ typedef struct SpwcLinkStatus {
 } TSpwcLinkStatus;
 
 typedef struct SpwcRxTimecode {
-	alt_u8 ucControl;
 	alt_u8 ucCounter;
-	bool bTransmit;
+	alt_u8 ucControl;
+	bool bReceived;
 } TSpwcRxTimecode;
 
 typedef struct SpwcTxTimecode {
-	alt_u8 ucControl;
 	alt_u8 ucCounter;
-	bool bReceived;
+	alt_u8 ucControl;
+	bool bTransmit;
 } TSpwcTxTimecode;
 
 typedef struct SpwcChannel {
@@ -38,7 +55,9 @@ typedef struct SpwcChannel {
 	TSpwcRxTimecode xRxTimecode;
 	TSpwcTxTimecode xTxTimecode;
 } TSpwcChannel;
+//! [public module structs definition]
 
+//! [public function prototypes]
 // Set functions -> set data from channel variable to hardware
 // Get functions -> get data from hardware to channel variable
 
@@ -54,4 +73,20 @@ bool bSpwcGetTxTimecode(TSpwcChannel *pxSpwcCh);
 
 bool bSpwcGetRxTimecode(TSpwcChannel *pxSpwcCh);
 
-bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucCommCh);
+bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh);
+//! [public function prototypes]
+
+//! [data memory public global variables - use extern]
+//! [data memory public global variables - use extern]
+
+//! [flags]
+//! [flags]
+
+//! [program memory public global variables - use extern]
+//! [program memory public global variables - use extern]
+
+//! [macros]
+//! [macros]
+
+
+#endif /* SPW_CONTROLLER_H_ */
