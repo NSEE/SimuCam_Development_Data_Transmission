@@ -396,7 +396,7 @@ INT32U i_compute_size(INT8U *p_length) {
  * @retval int	9 if error, 1 if no error
  **/
 int v_parse_data(struct x_ethernet_payload *p_payload,
-		struct imagette_control *p_img_ctrl, struct x_imagette *dataset) {
+		struct imagette_control *p_img_ctrl ) { //, struct x_imagette *dataset
 
 	INT32U i = 0;
 	INT32U p = 0;
@@ -471,6 +471,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 
 		imagette_byte++;
 		o += DELAY_SIZE + dataset[i].imagette_length;
+		p_img_ctrl->dataset = &dataset[i];
 		i++;
 	}
 
@@ -1135,10 +1136,10 @@ void CommandManagementTask() {
 #if DEBUG_ON
 					printf("[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
-					if (p_payload->data == 101 || p_payload->data == 102
-							|| p_payload->data == 103 || p_payload->data == 104
-							|| p_payload->data == 108
-							|| p_payload->data == 111) {
+					if (p_payload->type == 101 || p_payload->type == 102
+							|| p_payload->type == 103 || p_payload->type == 104
+							|| p_payload->type == 108
+							|| p_payload->type == 111) {
 						v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
 					} else {
 						v_ack_creator(p_payload, COMMAND_NOT_FOUND);
