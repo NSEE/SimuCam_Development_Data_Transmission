@@ -83,7 +83,7 @@ begin
 					avalon_mm_dcom_o.readdata(3)           <= dcom_read_registers_i.data_scheduler_timer_status_reg.timer_cleared;
 					avalon_mm_dcom_o.readdata(31 downto 4) <= (others => '0');
 				when (x"07") =>
-					avalon_mm_dcom_o.readdata(31 downto 0) <= dcom_write_registers_i.data_scheduler_timer_time_reg.timer_time;
+					avalon_mm_dcom_o.readdata(31 downto 0) <= dcom_read_registers_i.data_scheduler_timer_time_out_reg.timer_time_out;
 				when (x"08") =>
 					avalon_mm_dcom_o.readdata(0)           <= dcom_write_registers_i.data_scheduler_timer_control_reg.timer_start;
 					avalon_mm_dcom_o.readdata(1)           <= dcom_write_registers_i.data_scheduler_timer_control_reg.timer_run;

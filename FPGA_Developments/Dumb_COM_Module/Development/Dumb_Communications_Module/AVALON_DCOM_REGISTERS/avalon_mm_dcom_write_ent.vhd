@@ -35,7 +35,7 @@ begin
 			dcom_write_registers_o.data_controller_config_reg.send_eep                 <= '1';
 			dcom_write_registers_o.data_scheduler_timer_config_reg.timer_start_on_sync <= '1';
 			dcom_write_registers_o.data_scheduler_timer_clkdiv_reg.timer_clk_div       <= x"00000000";
-			dcom_write_registers_o.data_scheduler_timer_time_reg.timer_time            <= x"00000000";
+			dcom_write_registers_o.data_scheduler_timer_time_in_reg.timer_time_in      <= x"00000000";
 			dcom_write_registers_o.data_scheduler_timer_control_reg.timer_start        <= '0';
 			dcom_write_registers_o.data_scheduler_timer_control_reg.timer_run          <= '0';
 			dcom_write_registers_o.data_scheduler_timer_control_reg.timer_stop         <= '0';
@@ -89,7 +89,7 @@ begin
 				when (x"06") =>
 					null;
 				when (x"07") =>
-					dcom_write_registers_o.data_scheduler_timer_time_reg.timer_time <= avalon_mm_dcom_i.writedata(31 downto 0);
+					dcom_write_registers_o.data_scheduler_timer_time_in_reg.timer_time_in <= avalon_mm_dcom_i.writedata(31 downto 0);
 				when (x"08") =>
 					dcom_write_registers_o.data_scheduler_timer_control_reg.timer_start <= avalon_mm_dcom_i.writedata(0);
 					dcom_write_registers_o.data_scheduler_timer_control_reg.timer_run   <= avalon_mm_dcom_i.writedata(1);

@@ -61,8 +61,12 @@ package avalon_mm_dcom_registers_pkg is
 	end record t_dcom_data_scheduler_timer_status_rd_reg;
 
 	type t_dcom_data_scheduler_timer_time_wr_reg is record
-		timer_time : std_logic_vector(31 downto 0);
+		timer_time_in : std_logic_vector(31 downto 0);
 	end record t_dcom_data_scheduler_timer_time_wr_reg;
+
+	type t_dcom_data_scheduler_timer_time_rd_reg is record
+		timer_time_out : std_logic_vector(31 downto 0);
+	end record t_dcom_data_scheduler_timer_time_rd_reg;
 
 	type t_dcom_data_scheduler_timer_control_wr_reg is record
 		timer_start : std_logic;
@@ -93,18 +97,19 @@ package avalon_mm_dcom_registers_pkg is
 		data_controller_config_reg       : t_dcom_data_controller_config_wr_reg;
 		data_scheduler_timer_config_reg  : t_dcom_data_scheduler_timer_config_wr_reg;
 		data_scheduler_timer_clkdiv_reg  : t_dcom_data_scheduler_timer_clkdiv_wr_reg;
-		data_scheduler_timer_time_reg    : t_dcom_data_scheduler_timer_time_wr_reg;
+		data_scheduler_timer_time_in_reg : t_dcom_data_scheduler_timer_time_wr_reg;
 		data_scheduler_timer_control_reg : t_dcom_data_scheduler_timer_control_wr_reg;
 		dcom_irq_control_reg             : t_dcom_dcom_irq_control_wr_reg;
 		dcom_irq_flags_clear_reg         : t_dcom_dcom_irq_flags_clear_wr_reg;
 	end record t_dcom_write_registers;
 
 	type t_dcom_read_registers is record
-		spw_link_status_reg             : t_dcom_spw_link_status_rd_reg;
-		spw_timecode_rx_reg             : t_dcom_spw_timecode_rx_rd_reg;
-		data_buffers_status_reg         : t_dcom_data_buffers_status_rd_reg;
-		data_scheduler_timer_status_reg : t_dcom_data_scheduler_timer_status_rd_reg;
-		dcom_irq_flags_reg              : t_dcom_dcom_irq_flags_rd_reg;
+		spw_link_status_reg               : t_dcom_spw_link_status_rd_reg;
+		spw_timecode_rx_reg               : t_dcom_spw_timecode_rx_rd_reg;
+		data_buffers_status_reg           : t_dcom_data_buffers_status_rd_reg;
+		data_scheduler_timer_status_reg   : t_dcom_data_scheduler_timer_status_rd_reg;
+		data_scheduler_timer_time_out_reg : t_dcom_data_scheduler_timer_time_rd_reg;
+		dcom_irq_flags_reg                : t_dcom_dcom_irq_flags_rd_reg;
 	end record t_dcom_read_registers;
 
 end package avalon_mm_dcom_registers_pkg;
