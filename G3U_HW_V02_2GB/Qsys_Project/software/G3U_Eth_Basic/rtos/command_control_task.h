@@ -51,6 +51,8 @@
 
 #define DMA_DEV						0
 
+#define DDR2_BASE_ADDR_DATASET_1	0x0
+
 /*
  * Error codes definitions
  */
@@ -89,13 +91,15 @@ struct x_imagette {
 
 struct imagette_control {
 #if DMA_DEV
-	x_imagette *dataset[MAX_IMAGETTES];
+	struct x_imagette *dataset[MAX_IMAGETTES];
 #endif
 #if !DMA_DEV
 	INT32U offset[MAX_IMAGETTES]; /* In miliseconds*/
 	INT16U imagette_length[MAX_IMAGETTES]; /* length of N imagette */
-	INT8U imagette[MAX_IMAGETTE_SIZE]; /*Pointer to de DDR2 address*/
+//	INT8U imagette[MAX_IMAGETTE_SIZE]; /*Pointer to de DDR2 address*/
+	INT8U imagette[MAX_IMAGETTES];
 #endif
+	struct x_imagette *dataset[MAX_IMAGETTES];
 	INT16U nb_of_imagettes; /*Number of imagettes in dataset*/
 	INT32U size; 			/*Imagette array size*/
 	INT8U tag[8];
