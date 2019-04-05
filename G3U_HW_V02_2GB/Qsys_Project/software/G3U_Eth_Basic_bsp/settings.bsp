@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 28, 2019 2:23:59 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1553793839015</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Apr 4, 2019 12:26:29 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1554391589101</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/bndky/git/IWF_SimuCam_Development/G3U_HW_V02_2GB/Qsys_Project/software/G3U_Eth_Basic_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../MebX_Qsys_Project.sopcinfo</SopcDesignFile>
