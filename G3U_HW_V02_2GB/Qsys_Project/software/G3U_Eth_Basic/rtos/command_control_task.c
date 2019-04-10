@@ -461,7 +461,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 						+ 4294967296 * p_payload->data[o]), 10).quot;
 
 		dataset[i].imagette_length = p_payload->data[o + 5]
-				+ 256 * p_payload->data[o + 4];
+		+ 256 * p_payload->data[o + 4];
 
 #if DEBUG_ON
 		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
@@ -507,7 +507,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 #endif
 		return ACK_OK;
 	} else
-		return PARSER_ERROR;
+	return PARSER_ERROR;
 }
 
 #endif
@@ -786,7 +786,7 @@ void CommandManagementTask() {
 	p_imagette_A[0] = (struct x_imagette *) Ddr2Base;
 
 #if DEBUG_ON
-			printf("[CommandManagementTask]p_imagette_A[0] addr %x\n\r", p_imagette_A[0]);
+	printf("[CommandManagementTask]p_imagette_A[0] addr %x\n\r", p_imagette_A[0]);
 #endif
 
 	/*

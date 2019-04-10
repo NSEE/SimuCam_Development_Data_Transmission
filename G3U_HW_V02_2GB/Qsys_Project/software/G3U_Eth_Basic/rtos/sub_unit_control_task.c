@@ -85,9 +85,6 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 	nb_id = div(nb_id, 256).quot;
 	tx_buffer[1] = div(nb_id, 256).rem;
 
-//	tx_buffer[1] = 0;
-//	tx_buffer[2] = i_id_accum;
-
 	/*
 	 * Type
 	 */
@@ -114,16 +111,6 @@ void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
 	tx_buffer[9] = div(nb_time, 256).rem;
 	nb_time = div(nb_time, 256).quot;
 	tx_buffer[8] = div(nb_time, 256).rem;
-
-//	tx_buffer[4] = 0;
-//	tx_buffer[5] = 0;
-//	tx_buffer[6] = 0;
-//	tx_buffer[7] = p_imagette->imagette_length[i_imagette_number]
-//			+ ECHO_CMD_OVERHEAD;
-//	tx_buffer[8] = 0;
-//	tx_buffer[9] = 0;
-//	tx_buffer[10] = 0;
-//	tx_buffer[11] = i_running_timer_counter;
 
 	tx_buffer[12] = 0;
 
@@ -287,36 +274,38 @@ void sub_unit_control_task() {
 				SPWC_REG_SET,
 				SPWC_LINK_START_CONTROL_BIT_MASK);
 				exec_error = Verif_Error(error_code);
-
-				//printf("error_code: %i",exec_error);
+#if DEBUG_ON
+				printf("error_code: %i",exec_error);
+#endif
 				break;
 			}
 		}
 
 //		set_spw_linkspeed(0,p_config->linkspeed);
-
-//printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
-//				(int) i_imagette_counter, (int) i_imagette_number);
+#if DEBUG_ON
+printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
+				(int) i_imagette_counter, (int) i_imagette_number);
+#endif
 
 		while (i_imagette_number < nb_of_imagettes) {
+#if DEBUG_ON
+			printf("[SUBUNIT]Entered while\r\n");
 
-			//printf("[SUBUNIT]Entered while\r\n");
-
-			//printf("[SUBUNIT]Received imagette %i start byte: %i @ %x\r\n",
-//					i_imagette_number,
-//					p_imagette_buffer->imagette[i_imagette_counter],
-//					&(p_imagette_buffer->imagette[i_imagette_counter]));
-
+			printf("[SUBUNIT]Received imagette %i start byte: %i @ %x\r\n",
+					i_imagette_number,
+					p_imagette_buffer->imagette[i_imagette_counter],
+					&(p_imagette_buffer->imagette[i_imagette_counter]));
+#endif
 			i_imagette_length =
 					p_imagette_buffer->imagette_length[i_imagette_number];
+#if DEBUG_ON
+			printf(
+					"[SUBUNIT]imagette length var: %i, imagette length p_config %i\r\n",
+					(INT16U) i_imagette_length,
+					(INT16U) p_imagette_buffer->imagette_length[i_imagette_number]);
 
-			//printf(
-//					"[SUBUNIT]imagette length var: %i, imagette length p_config %i\r\n",
-//					(INT16U) i_imagette_length,
-//					(INT16U) p_imagette_buffer->imagette_length[i_imagette_number]);
-
-//printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
-
+printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
+#endif
 			p_config->sub_status_sending = 0;
 
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
@@ -324,17 +313,7 @@ void sub_unit_control_task() {
 					&error_code);
 
 			//printf("[SUBUNIT]command_control: %i\r\n", (int) i_command_control);
-			/*
-			 * Adicionar um if de retorno ao modo config, usando assim o mesmo combo
-			 * Sem/abort para voltar ao modo de configura��o
-			 */
-//			if (i_command_control == 2) {
-//				//printf("[SUBUNIT]Returning to config mode...\r\n");
-////				p_config->mode = 0;
-////				b_sub_status = 0;
-//				i_command_control = 0;
-//				i_imagette_number = nb_of_imagettes;
-//			} else
+
 			if (i_command_control != 0) {
 #if DEBUG_ON
 				printf("[SUBUNIT]Parsing command\r\n");
@@ -384,11 +363,24 @@ void sub_unit_control_task() {
 				/*
 				 * Send data through SpW
 				 */
-				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
-						&(p_imagette_buffer->imagette[i_imagette_counter]),
-						p_imagette_buffer->imagette_length[i_imagette_number]);
-				p_config->sub_status_sending = 0;
+#if !DMA_DEV
+//				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
+//						&(p_imagette_buffer->imagette[i_imagette_counter]),
+//						p_imagette_buffer->imagette_length[i_imagette_number]);
+//				p_config->sub_status_sending = 0;
+#endif
 
+#if DMA_DEV
+				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
+						&(p_imagette_buffer->dataset[i_imagette_number]->imagette_start),
+						p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
+				p_config->sub_status_sending = 0;
+#endif
+				error_code =
+						b_SpaceWire_Interface_Send_SpaceWire_Data('A',
+								&(p_imagette_buffer->dataset[i_imagette_number]->imagette_start),
+								p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
+				p_config->sub_status_sending = 0;
 				/*
 				 * Echo command statement
 				 */
