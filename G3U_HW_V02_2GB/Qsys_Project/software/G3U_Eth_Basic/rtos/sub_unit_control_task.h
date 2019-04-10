@@ -29,16 +29,16 @@
 #include <ucos_ii.h>
 
 #include "os_cfg.h"
-#include "utils/util.h"
-#include "alt_error_handler.h"
+#include "../utils/util.h"
+#include "../alt_error_handler.h"
 #include "includes.h"
 #include "simple_socket_server.h"
-#include "command_control.h"
+#include "command_control_task.h"
 
 /*
  * Include configurations for the SpW communication modules [yb]
  */
-#include "logic/comm/comm.h"
+#include "../logic/comm/comm.h"
 
 /*$PAGE*/
 
