@@ -28,14 +28,14 @@ INT8U i_forward_data = 0;
 INT8U i_echo_sent_data = 0;
 
 //INT32U i_imagette_counter_CC = 0;
-INT32U i_total_imagette_counter = 0;
+volatile INT32U i_total_imagette_counter = 0;
 
 INT8U data[MAX_IMAGETTES];
 INT8U *p_data_pos = &data[0];
 
-INT32U i_running_timer_counter = 1;
+volatile INT32U i_running_timer_counter = 1;
 
-INT32U i_central_timer_counter = 1;
+volatile INT32U i_central_timer_counter = 1;
 INT8U exec_error;
 
 INT16U i_id_accum = 1;
