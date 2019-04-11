@@ -37,7 +37,7 @@ architecture RTL of data_controller_ent is
 	type t_data_controller_fsm is (
 		STOPPED,                        -- Stopped, reset all internal signals
 		DATA_PACKET_BEGIN,              -- Data packet begin, set initial signals to begin a data packet transmission
-		WAIT_DATA_FIFO_AVAILABLE,       -- Wait state for the data fifo to have available data
+		WAIT_DATA_FIFO,                 -- Wait state for the data fifo to have available data
 		FETCH_DATA,                     -- Fetch data from the data fifo
 		DELAY,                          -- Delay for data fetch
 		DATA_LENGTH,                    -- Get the data length for the current data packet
@@ -99,13 +99,20 @@ begin
 					s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
-				-- conditional state transition
+					-- conditional state transition
+					-- check if a command to start was received
+					if (tmr_start_i = '1') then
+						-- go to data packet begin
+						s_data_controller_state        <= DATA_PACKET_BEGIN;
+						v_data_controller_state        := DATA_PACKET_BEGIN;
+						s_data_controller_return_state <= STOPPED;
+					end if;
 
 				when DATA_PACKET_BEGIN =>
 					-- Data packet begin, set initial signals to begin a data packet transmission
 					-- default state transition
-					s_data_controller_state        <= WAIT_DATA_FIFO_AVAILABLE;
-					v_data_controller_state        := WAIT_DATA_FIFO_AVAILABLE;
+					s_data_controller_state        <= WAIT_DATA_FIFO;
+					v_data_controller_state        := WAIT_DATA_FIFO;
 					s_data_controller_return_state <= DATA_LENGTH;
 					-- default internal signal values
 					-- prepare word counter for multi-word data (data length)
@@ -114,11 +121,11 @@ begin
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 				-- conditional state transition
 
-				when WAIT_DATA_FIFO_AVAILABLE =>
+				when WAIT_DATA_FIFO =>
 					-- Wait state for the data fifo to have available data
 					-- default state transition
-					s_data_controller_state <= WAIT_DATA_FIFO_AVAILABLE;
-					v_data_controller_state := WAIT_DATA_FIFO_AVAILABLE;
+					s_data_controller_state <= WAIT_DATA_FIFO;
+					v_data_controller_state := WAIT_DATA_FIFO;
 					-- default internal signal values
 					-- conditional state transition
 					-- check if there is data to be fetched from the data buffer
@@ -149,8 +156,8 @@ begin
 				when DATA_LENGTH =>
 					-- Get the data length for the current data packet
 					-- default state transition
-					s_data_controller_state                    <= WAIT_DATA_FIFO_AVAILABLE;
-					v_data_controller_state                    := WAIT_DATA_FIFO_AVAILABLE;
+					s_data_controller_state                    <= WAIT_DATA_FIFO;
+					v_data_controller_state                    := WAIT_DATA_FIFO;
 					s_data_controller_return_state             <= DATA_LENGTH;
 					-- default internal signal values
 					s_word_counter                             <= std_logic_vector(to_unsigned(0, s_word_counter'length));
@@ -171,8 +178,8 @@ begin
 				when DATA_TIME =>
 					-- Get the data time for the current data packet
 					-- default state transition
-					s_data_controller_state                  <= WAIT_DATA_FIFO_AVAILABLE;
-					v_data_controller_state                  := WAIT_DATA_FIFO_AVAILABLE;
+					s_data_controller_state                  <= WAIT_DATA_FIFO;
+					v_data_controller_state                  := WAIT_DATA_FIFO;
 					s_data_controller_return_state           <= DATA_TIME;
 					-- default internal signal values
 					s_word_counter                           <= std_logic_vector(to_unsigned(0, s_word_counter'length));
@@ -249,8 +256,8 @@ begin
 						else
 							-- wait is not for an eop or eep, need to fetch data from the data fifo
 							-- go wait data fifo available
-							s_data_controller_state <= WAIT_DATA_FIFO_AVAILABLE;
-							v_data_controller_state := WAIT_DATA_FIFO_AVAILABLE;
+							s_data_controller_state <= WAIT_DATA_FIFO;
+							v_data_controller_state := WAIT_DATA_FIFO;
 						end if;
 					end if;
 
@@ -347,7 +354,7 @@ begin
 					spw_tx_data_o    <= x"00";
 				-- conditional output signals
 
-				when WAIT_DATA_FIFO_AVAILABLE =>
+				when WAIT_DATA_FIFO =>
 					-- Wait state for the data fifo to have available data
 					-- default output signals
 					dctrl_tx_begin_o <= '0';
@@ -515,12 +522,12 @@ begin
 
 	-- signals assingments
 	-- data packet length signal
-	s_data_packet_length((2 * g_WORD_WIDTH - 1) downto (2 * g_WORD_WIDTH)) <= s_data_packet_length_words(1);
+	s_data_packet_length((2 * g_WORD_WIDTH - 1) downto (1 * g_WORD_WIDTH)) <= s_data_packet_length_words(1);
 	s_data_packet_length((g_WORD_WIDTH - 1) downto 0)                      <= s_data_packet_length_words(0);
 	-- data packet time signal
-	s_data_packet_time((4 * g_WORD_WIDTH - 1) downto (4 * g_WORD_WIDTH))   <= s_data_packet_time_words(3);
-	s_data_packet_time((3 * g_WORD_WIDTH - 1) downto (3 * g_WORD_WIDTH))   <= s_data_packet_time_words(2);
-	s_data_packet_time((2 * g_WORD_WIDTH - 1) downto (2 * g_WORD_WIDTH))   <= s_data_packet_time_words(1);
+	s_data_packet_time((4 * g_WORD_WIDTH - 1) downto (3 * g_WORD_WIDTH))   <= s_data_packet_time_words(3);
+	s_data_packet_time((3 * g_WORD_WIDTH - 1) downto (2 * g_WORD_WIDTH))   <= s_data_packet_time_words(2);
+	s_data_packet_time((2 * g_WORD_WIDTH - 1) downto (1 * g_WORD_WIDTH))   <= s_data_packet_time_words(1);
 	s_data_packet_time((g_WORD_WIDTH - 1) downto 0)                        <= s_data_packet_time_words(0);
 
 end architecture RTL;

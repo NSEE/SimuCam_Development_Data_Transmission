@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 package avalon_mm_data_buffer_pkg is
 
-	constant c_AVALON_MM_DATA_BUFFER_ADRESS_SIZE : natural := 10;
+	constant c_AVALON_MM_DATA_BUFFER_ADRESS_SIZE : natural := 12;
 	constant c_AVALON_MM_DATA_BUFFER_DATA_SIZE   : natural := 64;
 	constant c_AVALON_MM_DATA_BUFFER_SYMBOL_SIZE : natural := 8;
 
@@ -14,6 +14,7 @@ package avalon_mm_data_buffer_pkg is
 		address   : std_logic_vector((c_AVALON_MM_DATA_BUFFER_ADRESS_SIZE - 1) downto 0);
 		write     : std_logic;
 		writedata : std_logic_vector((c_AVALON_MM_DATA_BUFFER_DATA_SIZE - 1) downto 0);
+		byteenable : std_logic_vector(((c_AVALON_MM_DATA_BUFFER_DATA_SIZE / c_AVALON_MM_DATA_BUFFER_SYMBOL_SIZE) - 1) downto 0);
 	end record t_avalon_mm_data_buffer_write_in;
 
 	type t_avalon_mm_data_buffer_write_out is record
