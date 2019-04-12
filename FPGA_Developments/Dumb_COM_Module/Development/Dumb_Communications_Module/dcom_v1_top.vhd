@@ -28,7 +28,7 @@ entity dcom_v1_top is
 		sync_channel                         : in  std_logic                     := '0'; --          --         sync_conduit_end.sync_channel_signal
 		clock_sink_100_clk                   : in  std_logic                     := '0'; --          --           clock_sink_100.clk
 		clock_sink_200_clk                   : in  std_logic                     := '0'; --          --           clock_sink_200.clk
-		avalon_slave_data_buffer_address     : in  std_logic_vector(9 downto 0)  := (others => '0'); -- avalon_slave_data_buffer.address
+		avalon_slave_data_buffer_address     : in  std_logic_vector(11 downto 0) := (others => '0'); -- avalon_slave_data_buffer.address
 		avalon_slave_data_buffer_write       : in  std_logic                     := '0'; --          --                         .write
 		avalon_slave_data_buffer_writedata   : in  std_logic_vector(63 downto 0) := (others => '0'); --                         .writedata
 		avalon_slave_data_buffer_byteenable  : in  std_logic_vector(7 downto 0)  := (others => '0'); --                         .byteenable

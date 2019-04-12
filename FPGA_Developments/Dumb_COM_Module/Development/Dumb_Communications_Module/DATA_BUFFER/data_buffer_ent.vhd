@@ -48,7 +48,7 @@ architecture RTL of data_buffer_ent is
 	);
 	signal s_data_buffer_state : t_data_buffer_fsm; -- current state
 
-	signal s_byte_counter : natural range 1 to 32 := c_AVS_BEBUFFER_DATA_WIDTH;
+	signal s_byte_counter : natural range 0 to 32 := c_AVS_BEBUFFER_DATA_WIDTH;
 
 	type t_avs_dbuffer_data_bytes is array (0 to (c_AVS_BEBUFFER_DATA_WIDTH - 1)) of std_logic_vector(7 downto 0);
 	signal s_avs_dbuffer_data_bytes : t_avs_dbuffer_data_bytes;

@@ -67,41 +67,41 @@ begin
 				-- Case for access to all registers address
 
 				-- dcom registers
-				when (x"00") =>
+				when (16#00#) =>
 					dcom_write_registers_o.spw_link_config_reg.spw_lnkcfg_disconnect <= avalon_mm_dcom_i.writedata(0);
 					dcom_write_registers_o.spw_link_config_reg.spw_lnkcfg_linkstart  <= avalon_mm_dcom_i.writedata(1);
 					dcom_write_registers_o.spw_link_config_reg.spw_lnkcfg_autostart  <= avalon_mm_dcom_i.writedata(2);
 					dcom_write_registers_o.spw_link_config_reg.spw_lnkcfg_txdivcnt   <= avalon_mm_dcom_i.writedata(31 downto 24);
-				when (x"01") =>
+				when (16#01#) =>
 					dcom_write_registers_o.spw_timecode_tx_rxctrl_reg.timecode_tx_time         <= avalon_mm_dcom_i.writedata(5 downto 0);
 					dcom_write_registers_o.spw_timecode_tx_rxctrl_reg.timecode_tx_control      <= avalon_mm_dcom_i.writedata(7 downto 6);
 					dcom_write_registers_o.spw_timecode_tx_rxctrl_reg.timecode_tx_send         <= avalon_mm_dcom_i.writedata(8);
 					dcom_write_registers_o.spw_timecode_tx_rxctrl_reg.timecode_rx_received_clr <= avalon_mm_dcom_i.writedata(24);
-				when (x"02") =>
+				when (16#02#) =>
 					null;
-				when (x"03") =>
+				when (16#03#) =>
 					dcom_write_registers_o.data_controller_config_reg.send_eop <= avalon_mm_dcom_i.writedata(0);
 					dcom_write_registers_o.data_controller_config_reg.send_eep <= avalon_mm_dcom_i.writedata(1);
-				when (x"04") =>
+				when (16#04#) =>
 					dcom_write_registers_o.data_scheduler_timer_config_reg.timer_start_on_sync <= avalon_mm_dcom_i.writedata(0);
-				when (x"05") =>
+				when (16#05#) =>
 					dcom_write_registers_o.data_scheduler_timer_clkdiv_reg.timer_clk_div <= avalon_mm_dcom_i.writedata(31 downto 0);
-				when (x"06") =>
+				when (16#06#) =>
 					null;
-				when (x"07") =>
+				when (16#07#) =>
 					dcom_write_registers_o.data_scheduler_timer_time_in_reg.timer_time_in <= avalon_mm_dcom_i.writedata(31 downto 0);
-				when (x"08") =>
+				when (16#08#) =>
 					dcom_write_registers_o.data_scheduler_timer_control_reg.timer_start <= avalon_mm_dcom_i.writedata(0);
 					dcom_write_registers_o.data_scheduler_timer_control_reg.timer_run   <= avalon_mm_dcom_i.writedata(1);
 					dcom_write_registers_o.data_scheduler_timer_control_reg.timer_stop  <= avalon_mm_dcom_i.writedata(2);
 					dcom_write_registers_o.data_scheduler_timer_control_reg.timer_clear <= avalon_mm_dcom_i.writedata(3);
-				when (x"09") =>
+				when (16#09#) =>
 					dcom_write_registers_o.dcom_irq_control_reg.dcom_tx_end_en     <= avalon_mm_dcom_i.writedata(0);
 					dcom_write_registers_o.dcom_irq_control_reg.dcom_tx_begin_en   <= avalon_mm_dcom_i.writedata(1);
 					dcom_write_registers_o.dcom_irq_control_reg.dcom_global_irq_en <= avalon_mm_dcom_i.writedata(8);
-				when (x"0A") =>
+				when (16#0A#) =>
 					null;
-				when (x"0B") =>
+				when (16#0B#) =>
 					dcom_write_registers_o.dcom_irq_flags_clear_reg.dcom_tx_end_flag_clear   <= avalon_mm_dcom_i.writedata(0);
 					dcom_write_registers_o.dcom_irq_flags_clear_reg.dcom_tx_begin_flag_clear <= avalon_mm_dcom_i.writedata(1);
 				when others =>

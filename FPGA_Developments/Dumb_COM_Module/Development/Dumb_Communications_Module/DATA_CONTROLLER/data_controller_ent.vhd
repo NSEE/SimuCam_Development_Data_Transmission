@@ -156,12 +156,12 @@ begin
 				when DATA_LENGTH =>
 					-- Get the data length for the current data packet
 					-- default state transition
-					s_data_controller_state                    <= WAIT_DATA_FIFO;
-					v_data_controller_state                    := WAIT_DATA_FIFO;
-					s_data_controller_return_state             <= DATA_LENGTH;
+					s_data_controller_state                                          <= WAIT_DATA_FIFO;
+					v_data_controller_state                                          := WAIT_DATA_FIFO;
+					s_data_controller_return_state                                   <= DATA_LENGTH;
 					-- default internal signal values
-					s_word_counter                             <= std_logic_vector(to_unsigned(0, s_word_counter'length));
-					s_data_packet_length_words(s_word_counter) <= dbuffer_rddata_i;
+					s_word_counter                                                   <= std_logic_vector(to_unsigned(0, s_word_counter'length));
+					s_data_packet_length_words(to_integer(unsigned(s_word_counter))) <= dbuffer_rddata_i;
 					-- conditional state transition
 					-- check if all data has been read
 					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
@@ -178,12 +178,12 @@ begin
 				when DATA_TIME =>
 					-- Get the data time for the current data packet
 					-- default state transition
-					s_data_controller_state                  <= WAIT_DATA_FIFO;
-					v_data_controller_state                  := WAIT_DATA_FIFO;
-					s_data_controller_return_state           <= DATA_TIME;
+					s_data_controller_state                                        <= WAIT_DATA_FIFO;
+					v_data_controller_state                                        := WAIT_DATA_FIFO;
+					s_data_controller_return_state                                 <= DATA_TIME;
 					-- default internal signal values
-					s_word_counter                           <= std_logic_vector(to_unsigned(0, s_word_counter'length));
-					s_data_packet_time_words(s_word_counter) <= dbuffer_rddata_i;
+					s_word_counter                                                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
+					s_data_packet_time_words(to_integer(unsigned(s_word_counter))) <= dbuffer_rddata_i;
 					-- conditional state transition
 					-- check if all data has been read
 					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
