@@ -380,7 +380,7 @@ begin
 	begin
 		if (a_reset) = '1' then
 			s_sync_in_trigger <= '0';
-			s_sync_in_delayed <= '0';
+			s_sync_in_delayed <= '1';
 		elsif rising_edge(a_avs_clock) then
 			-- trigger signal
 			s_sync_in_trigger <= '0';

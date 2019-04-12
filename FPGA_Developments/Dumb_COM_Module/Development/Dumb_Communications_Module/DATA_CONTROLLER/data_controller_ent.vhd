@@ -40,8 +40,8 @@ architecture RTL of data_controller_ent is
 		WAIT_DATA_FIFO,                 -- Wait state for the data fifo to have available data
 		FETCH_DATA,                     -- Fetch data from the data fifo
 		DELAY,                          -- Delay for data fetch
-		DATA_LENGTH,                    -- Get the data length for the current data packet
 		DATA_TIME,                      -- Get the data time for the current data packet
+		DATA_LENGTH,                    -- Get the data length for the current data packet
 		WAITING_DATA_TIME,              -- Wait state until the timer time reaches the data time
 		DATA_PACKET_START,              -- Data packet start, indicate the start of a data packet transmission
 		WAITING_SPW_BUFFER_SPACE,       -- Wait state until thete is space in the spw tx buffer 
@@ -56,7 +56,7 @@ architecture RTL of data_controller_ent is
 	signal s_word_counter : std_logic_vector((c_DATA_LENGTH_WIDTH - 1) downto 0);
 
 	signal s_data_packet_length       : std_logic_vector((c_DATA_LENGTH_WIDTH - 1) downto 0);
-	type t_data_packet_length_words is array (0 to (g_DATA_LENGTH_WORDS)) of std_logic_vector((g_WORD_WIDTH - 1) downto 0);
+	type t_data_packet_length_words is array (0 to (g_DATA_LENGTH_WORDS - 1)) of std_logic_vector((g_WORD_WIDTH - 1) downto 0);
 	signal s_data_packet_length_words : t_data_packet_length_words;
 
 	signal s_data_packet_time       : std_logic_vector((c_DATA_TIME_WIDTH - 1) downto 0);
@@ -113,10 +113,10 @@ begin
 					-- default state transition
 					s_data_controller_state        <= WAIT_DATA_FIFO;
 					v_data_controller_state        := WAIT_DATA_FIFO;
-					s_data_controller_return_state <= DATA_LENGTH;
+					s_data_controller_return_state <= DATA_TIME;
 					-- default internal signal values
-					-- prepare word counter for multi-word data (data length)
-					s_word_counter                 <= std_logic_vector(to_unsigned(g_DATA_LENGTH_WORDS, s_word_counter'length) - 1);
+					-- prepare word counter for multi-word data (data time)
+					s_word_counter                 <= std_logic_vector(to_unsigned(g_DATA_TIME_WORDS, s_word_counter'length) - 1);
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 				-- conditional state transition
@@ -153,28 +153,6 @@ begin
 				-- default internal signal values
 				-- conditional state transition
 
-				when DATA_LENGTH =>
-					-- Get the data length for the current data packet
-					-- default state transition
-					s_data_controller_state                                          <= WAIT_DATA_FIFO;
-					v_data_controller_state                                          := WAIT_DATA_FIFO;
-					s_data_controller_return_state                                   <= DATA_LENGTH;
-					-- default internal signal values
-					s_word_counter                                                   <= std_logic_vector(to_unsigned(0, s_word_counter'length));
-					s_data_packet_length_words(to_integer(unsigned(s_word_counter))) <= dbuffer_rddata_i;
-					-- conditional state transition
-					-- check if all data has been read
-					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
-						-- all data read
-						-- go to next field (data time)
-						s_data_controller_return_state <= DATA_TIME;
-						-- prepare word counter for multi-word data (data time)
-						s_word_counter                 <= std_logic_vector(to_unsigned(g_DATA_TIME_WORDS, s_word_counter'length) - 1);
-					else
-						-- update word counter (for next word)
-						s_word_counter <= std_logic_vector(unsigned(s_word_counter) - 1);
-					end if;
-
 				when DATA_TIME =>
 					-- Get the data time for the current data packet
 					-- default state transition
@@ -188,14 +166,36 @@ begin
 					-- check if all data has been read
 					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
 						-- all data read
-						-- go to next field (data packet start)
-						s_data_controller_state        <= DATA_PACKET_START;
-						v_data_controller_state        := DATA_PACKET_START;
+						-- go to next field (data length)
+						s_data_controller_return_state <= DATA_LENGTH;
+						-- prepare word counter for multi-word data (data length)
+						s_word_counter                 <= std_logic_vector(to_unsigned(g_DATA_LENGTH_WORDS, s_word_counter'length) - 1);
+					else
+						-- there is still data to be read
+						-- update word counter (for next word)
+						s_word_counter <= std_logic_vector(unsigned(s_word_counter) - 1);
+					end if;
+
+				when DATA_LENGTH =>
+					-- Get the data length for the current data packet
+					-- default state transition
+					s_data_controller_state                                          <= WAIT_DATA_FIFO;
+					v_data_controller_state                                          := WAIT_DATA_FIFO;
+					s_data_controller_return_state                                   <= DATA_LENGTH;
+					-- default internal signal values
+					s_word_counter                                                   <= std_logic_vector(to_unsigned(0, s_word_counter'length));
+					s_data_packet_length_words(to_integer(unsigned(s_word_counter))) <= dbuffer_rddata_i;
+					-- conditional state transition
+					-- check if all data has been read
+					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
+						-- all data read
+						-- go to next field (waiting data time)
+						s_data_controller_state        <= WAITING_DATA_TIME;
+						v_data_controller_state        := WAITING_DATA_TIME;
 						s_data_controller_return_state <= STOPPED;
 						-- clear word counter
 						s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					else
-						-- there is still data to be read
 						-- update word counter (for next word)
 						s_word_counter <= std_logic_vector(unsigned(s_word_counter) - 1);
 					end if;
@@ -209,7 +209,7 @@ begin
 					-- default internal signal values
 					-- conditional state transition
 					-- check if the time to send the data packet have arrived
-					if (tmr_time_i = s_data_packet_time((tmr_time_i'length - 1) downto 0)) then
+					if (unsigned(tmr_time_i) >= unsigned(s_data_packet_time((tmr_time_i'length - 1) downto 0))) then
 						-- time to send the data packet arrived
 						-- go to waiting buffer space
 						s_data_controller_state <= DATA_PACKET_START;
@@ -285,10 +285,8 @@ begin
 							v_data_controller_state        := DATA_PACKET_END;
 							s_data_controller_return_state <= STOPPED;
 						end if;
-						-- go to next field (data time)
-						s_data_controller_return_state <= STOPPED;
 						-- clear word counter
-						s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
+						s_word_counter <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					else
 						-- there is still data to be read
 						-- update word counter (for next word)
@@ -388,8 +386,8 @@ begin
 					spw_tx_data_o    <= x"00";
 				-- conditional output signals
 
-				when DATA_LENGTH =>
-					-- Get the data length for the current data packet
+				when DATA_TIME =>
+					-- Get the data time for the current data packet
 					-- default output signals
 					dctrl_tx_begin_o <= '0';
 					dctrl_tx_ended_o <= '0';
@@ -399,8 +397,8 @@ begin
 					spw_tx_data_o    <= x"00";
 				-- conditional output signals
 
-				when DATA_TIME =>
-					-- Get the data time for the current data packet
+				when DATA_LENGTH =>
+					-- Get the data length for the current data packet
 					-- default output signals
 					dctrl_tx_begin_o <= '0';
 					dctrl_tx_ended_o <= '0';
