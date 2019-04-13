@@ -36,7 +36,7 @@ set_module_property REPORT_HIERARCHY false
 # file sets
 # 
 add_fileset SIM_VHDL SIM_VHDL "" ""
-set_fileset_property SIM_VHDL TOP_LEVEL comm_v1_50_top
+set_fileset_property SIM_VHDL TOP_LEVEL dcom_v1_top
 set_fileset_property SIM_VHDL ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property SIM_VHDL ENABLE_FILE_OVERWRITE_MODE false
 add_fileset_file avalon_mm_dcom_registers_pkg.vhd VHDL PATH Dumb_Communications_Module/REGISTERS/avalon_mm_dcom_registers_pkg.vhd
