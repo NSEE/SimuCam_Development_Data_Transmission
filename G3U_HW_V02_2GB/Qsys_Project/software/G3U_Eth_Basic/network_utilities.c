@@ -15,7 +15,7 @@
 #include <sys/alt_flash.h>
 #include "includes.h"
 #include "io.h"
-#include "simple_socket_server.h"
+#include "rtos/simple_socket_server.h"
 
 #include <alt_iniche_dev.h>
 

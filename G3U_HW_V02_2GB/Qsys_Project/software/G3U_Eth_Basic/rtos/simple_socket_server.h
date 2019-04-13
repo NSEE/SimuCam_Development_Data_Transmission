@@ -212,7 +212,7 @@ struct ethernet_buffer{
  * Command + payload struct for the simucam ethernet control
  */
 
-struct _ethernet_payload {
+struct x_ethernet_payload {
 	INT8U header;		/* Command Header */
 	INT16U packet_id;	/* Unique identifier */
 	INT8U type;			/* Will be the command id */
@@ -237,7 +237,7 @@ void SimucamCreateOSQ();
 
 extern OS_EVENT *SimucamDataQ;
 extern OS_EVENT *p_simucam_command_q;
-
+extern OS_EVENT *p_telemetry_queue;
 
 #endif /* __SIMPLE_SOCKET_SERVER_H__ */
 

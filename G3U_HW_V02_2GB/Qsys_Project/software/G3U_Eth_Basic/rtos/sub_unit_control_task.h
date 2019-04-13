@@ -29,16 +29,16 @@
 #include <ucos_ii.h>
 
 #include "os_cfg.h"
-#include "utils/util.h"
-#include "alt_error_handler.h"
+#include "../utils/util.h"
+#include "../alt_error_handler.h"
 #include "includes.h"
 #include "simple_socket_server.h"
-#include "command_control.h"
+#include "command_control_task.h"
 
 /*
  * Include configurations for the SpW communication modules [yb]
  */
-#include "logic/comm/comm.h"
+#include "../logic/comm/comm.h"
 
 /*$PAGE*/
 
@@ -70,8 +70,8 @@ void sub_unit_control_task ();
 
 extern OS_EVENT *p_sub_unit_config_queue;
 extern OS_EVENT *p_sub_unit_command_queue;
-extern INT32U i_central_timer_counter;
-extern INT32U i_running_timer_counter;
+extern volatile INT32U i_central_timer_counter;
+extern volatile INT32U i_running_timer_counter;
 extern INT8U i_echo_sent_data;
 extern INT16U i_id_accum;
 INT16U i_imagette_number;

@@ -27,7 +27,7 @@
 #include "includes.h"
 
 /* Simple Socket Server definitions */
-#include "simple_socket_server.h"                                                                    
+#include "rtos/simple_socket_server.h"
 #include "alt_error_handler.h"
 
 /* Nichestack definitions */
@@ -68,7 +68,7 @@ void SSSInitialTask(void *task_data)
 {
   INT8U error_code;
   
-  /*
+  /**
    * Initialize Altera NicheStack TCP/IP Stack - Nios II Edition specific code.
    * NicheStack is initialized from a task, so that RTOS will have started, and 
    * I/O drivers are available.  Two tasks are created:
@@ -93,7 +93,9 @@ void SSSInitialTask(void *task_data)
   /* Create the main simple socket server task. */
   TK_NEWTASK(&ssstask);
   
-  /*create os data structures [yb] */
+  /**
+   * Create os data structures [yb]
+   */
   SimucamCreateOSQ();
   DataCreateOSQ();
 
