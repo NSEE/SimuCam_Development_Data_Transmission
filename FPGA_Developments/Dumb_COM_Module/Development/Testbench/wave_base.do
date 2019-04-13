@@ -131,7 +131,7 @@ add wave -noupdate -group data_buffer /testbench_top/dcom_v1_top_inst/data_buffe
 add wave -noupdate -group data_buffer /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_avs_dbuffer_sclr
 add wave -noupdate -group data_buffer /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_avs_bebuffer_fifo
 add wave -noupdate -group data_buffer /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_avs_bebuffer_sclr
-add wave -noupdate -group data_buffer -childformat {{/testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_dctrl_dbuffer_fifo.data -radix unsigned}} -subitemconfig {/testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_dctrl_dbuffer_fifo.data {-height 15 -radix unsigned}} /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_dctrl_dbuffer_fifo
+add wave -noupdate -group data_buffer -childformat {{/testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_dctrl_dbuffer_fifo.data -radix unsigned}} -expand -subitemconfig {/testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_dctrl_dbuffer_fifo.data {-height 15 -radix unsigned}} /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_dctrl_dbuffer_fifo
 add wave -noupdate -group data_buffer /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_dctrl_dbuffer_sclr
 add wave -noupdate -group data_buffer /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_data_buffer_state
 add wave -noupdate -group data_buffer /testbench_top/dcom_v1_top_inst/data_buffer_ent_inst/s_byte_counter
@@ -141,7 +141,6 @@ add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_c
 add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/rst_i
 add wave -noupdate -group data_controller -radix unsigned /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/tmr_time_i
 add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/tmr_stop_i
-add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/tmr_clear_i
 add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/tmr_start_i
 add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/dctrl_send_eep_i
 add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/dctrl_send_eop_i
@@ -161,6 +160,7 @@ add wave -noupdate -group data_controller -radix unsigned /testbench_top/dcom_v1
 add wave -noupdate -group data_controller -radix hexadecimal -childformat {{/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_length_words(0) -radix hexadecimal} {/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_length_words(1) -radix hexadecimal}} -subitemconfig {/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_length_words(0) {-height 15 -radix hexadecimal} /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_length_words(1) {-height 15 -radix hexadecimal}} /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_length_words
 add wave -noupdate -group data_controller -radix unsigned /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time
 add wave -noupdate -group data_controller -radix hexadecimal -childformat {{/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(0) -radix hexadecimal} {/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(1) -radix hexadecimal} {/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(2) -radix hexadecimal} {/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(3) -radix hexadecimal}} -subitemconfig {/testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(0) {-height 15 -radix hexadecimal} /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(1) {-height 15 -radix hexadecimal} /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(2) {-height 15 -radix hexadecimal} /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words(3) {-height 15 -radix hexadecimal}} /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_data_packet_time_words
+add wave -noupdate -group data_controller /testbench_top/dcom_v1_top_inst/data_controller_ent_inst/s_spw_transmitting
 add wave -noupdate -group data_scheduler /testbench_top/dcom_v1_top_inst/data_scheduler_ent_inst/clk_i
 add wave -noupdate -group data_scheduler /testbench_top/dcom_v1_top_inst/data_scheduler_ent_inst/rst_i
 add wave -noupdate -group data_scheduler /testbench_top/dcom_v1_top_inst/data_scheduler_ent_inst/tmr_run_on_sync_i
@@ -181,7 +181,7 @@ add wave -noupdate -group data_scheduler -radix unsigned /testbench_top/dcom_v1_
 add wave -noupdate -group data_scheduler -radix unsigned /testbench_top/dcom_v1_top_inst/data_scheduler_ent_inst/s_tmr_registered_clkdiv
 add wave -noupdate -group data_scheduler -radix unsigned /testbench_top/dcom_v1_top_inst/data_scheduler_ent_inst/s_tmr_evt_counter
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {206217132 ps} 0}
+WaveRestoreCursors {{Cursor 1} {0 ps} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 273
 configure wave -valuecolwidth 132
@@ -197,4 +197,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ps
 update
-WaveRestoreZoom {204020663 ps} {207401796 ps}
+WaveRestoreZoom {0 ps} {26124745 ps}

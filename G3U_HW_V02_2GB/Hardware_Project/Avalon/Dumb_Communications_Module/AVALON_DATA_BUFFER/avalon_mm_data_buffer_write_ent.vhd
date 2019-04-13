@@ -46,14 +46,13 @@ begin
 
 		procedure p_writedata(write_address_i : t_avalon_mm_data_buffer_address) is
 		begin
+			if (s_data_written = '0') then
+				-- Registers Write Data
+				case (write_address_i) is
+					-- Case for access to all registers address
 
-			-- Registers Write Data
-			case (write_address_i) is
-				-- Case for access to all registers address
+					when 0 to 2047 =>
 
-				when 0 to 2047 =>
-
-					if (s_data_written = '0') then
 						if ((avs_dbuffer_full_i = '0') and (avs_bebuffer_full_i = '0')) then
 							avs_dbuffer_wrreq_o   <= '1';
 							avs_dbuffer_wrdata_o  <= avalon_mm_data_buffer_i.writedata;
@@ -61,12 +60,11 @@ begin
 							avs_bebuffer_wrdata_o <= avalon_mm_data_buffer_i.byteenable;
 						end if;
 						s_data_written <= '1';
-					end if;
 
-				when others =>
-					null;
-			end case;
-
+					when others =>
+						null;
+				end case;
+			end if;
 		end procedure p_writedata;
 
 		variable v_write_address : t_avalon_mm_data_buffer_address := 0;

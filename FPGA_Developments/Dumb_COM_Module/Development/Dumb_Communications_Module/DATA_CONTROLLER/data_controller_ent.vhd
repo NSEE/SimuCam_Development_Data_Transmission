@@ -13,7 +13,6 @@ entity data_controller_ent is
 		rst_i            : in  std_logic;
 		tmr_time_i       : in  std_logic_vector(31 downto 0);
 		tmr_stop_i       : in  std_logic;
-		tmr_clear_i      : in  std_logic;
 		tmr_start_i      : in  std_logic;
 		dctrl_send_eep_i : in  std_logic;
 		dctrl_send_eop_i : in  std_logic;
@@ -63,6 +62,8 @@ architecture RTL of data_controller_ent is
 	type t_data_packet_time_words is array (0 to (g_DATA_TIME_WORDS - 1)) of std_logic_vector((g_WORD_WIDTH - 1) downto 0);
 	signal s_data_packet_time_words : t_data_packet_time_words;
 
+	signal s_spw_transmitting : std_logic;
+
 begin
 
 	-- data controller fsm process
@@ -78,6 +79,7 @@ begin
 			s_word_counter                 <= std_logic_vector(to_unsigned(0, c_DATA_LENGTH_WIDTH));
 			s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 			s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
+			s_spw_transmitting             <= '0';
 			-- outputs
 			dctrl_tx_begin_o               <= '0';
 			dctrl_tx_ended_o               <= '0';
@@ -99,6 +101,7 @@ begin
 					s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
+					s_spw_transmitting             <= '0';
 					-- conditional state transition
 					-- check if a command to start was received
 					if (tmr_start_i = '1') then
@@ -119,6 +122,7 @@ begin
 					s_word_counter                 <= std_logic_vector(to_unsigned(g_DATA_TIME_WORDS, s_word_counter'length) - 1);
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
+					s_spw_transmitting             <= '0';
 				-- conditional state transition
 
 				when WAIT_DATA_FIFO =>
@@ -162,6 +166,7 @@ begin
 					-- default internal signal values
 					s_word_counter                                                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					s_data_packet_time_words(to_integer(unsigned(s_word_counter))) <= dbuffer_rddata_i;
+					s_spw_transmitting                                             <= '0';
 					-- conditional state transition
 					-- check if all data has been read
 					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
@@ -185,6 +190,7 @@ begin
 					-- default internal signal values
 					s_word_counter                                                   <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					s_data_packet_length_words(to_integer(unsigned(s_word_counter))) <= dbuffer_rddata_i;
+					s_spw_transmitting                                               <= '0';
 					-- conditional state transition
 					-- check if all data has been read
 					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
@@ -207,6 +213,7 @@ begin
 					v_data_controller_state        := WAITING_DATA_TIME;
 					s_data_controller_return_state <= STOPPED;
 					-- default internal signal values
+					s_spw_transmitting             <= '0';
 					-- conditional state transition
 					-- check if the time to send the data packet have arrived
 					if (unsigned(tmr_time_i) >= unsigned(s_data_packet_time((tmr_time_i'length - 1) downto 0))) then
@@ -270,6 +277,7 @@ begin
 					-- default internal signal values
 					s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					-- conditional state transition
+					s_spw_transmitting             <= '1';
 					-- check if all data has been read
 					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
 						-- all data read
@@ -299,7 +307,8 @@ begin
 					s_data_controller_state        <= DATA_PACKET_END;
 					v_data_controller_state        := DATA_PACKET_END;
 					s_data_controller_return_state <= STOPPED;
-				-- default internal signal values
+					-- default internal signal values
+					s_spw_transmitting             <= '0';
 				-- conditional state transition
 
 				when DATA_PACKET_END =>
@@ -312,6 +321,7 @@ begin
 					s_word_counter                 <= std_logic_vector(to_unsigned(0, c_DATA_LENGTH_WIDTH));
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
+					s_spw_transmitting             <= '0';
 				-- conditional state transition
 
 				when TRANSMIT_EEP =>
@@ -324,6 +334,7 @@ begin
 					s_word_counter                 <= std_logic_vector(to_unsigned(0, c_DATA_LENGTH_WIDTH));
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
+					s_spw_transmitting             <= '0';
 					-- conditional state transition
 
 			end case;
@@ -502,7 +513,7 @@ begin
 			if (tmr_stop_i = '1') then
 				-- stop issued, go to stopped
 				-- check if the transmitter is in the middle of a transmission (have the spw mux access rights)
-				if ((s_data_controller_state /= STOPPED) and (s_data_controller_state /= DATA_PACKET_BEGIN) and (s_data_controller_state /= DATA_PACKET_END)) then
+				if ((s_spw_transmitting = '1') and (s_data_controller_state /= TRANSMIT_EOP) and (dctrl_send_eep_i = '1')) then
 					-- transmit and eep to release the spw mux and indicate an error
 					s_data_controller_state        <= WAITING_SPW_BUFFER_SPACE;
 					v_data_controller_state        := WAITING_SPW_BUFFER_SPACE;
@@ -520,12 +531,12 @@ begin
 
 	-- signals assingments
 	-- data packet length signal
-	s_data_packet_length((2 * g_WORD_WIDTH - 1) downto (1 * g_WORD_WIDTH)) <= s_data_packet_length_words(1);
-	s_data_packet_length((g_WORD_WIDTH - 1) downto 0)                      <= s_data_packet_length_words(0);
+	s_data_packet_length((2 * g_WORD_WIDTH - 1) downto (1 * g_WORD_WIDTH)) <= s_data_packet_length_words(0);
+	s_data_packet_length((g_WORD_WIDTH - 1) downto 0)                      <= s_data_packet_length_words(1);
 	-- data packet time signal
-	s_data_packet_time((4 * g_WORD_WIDTH - 1) downto (3 * g_WORD_WIDTH))   <= s_data_packet_time_words(3);
-	s_data_packet_time((3 * g_WORD_WIDTH - 1) downto (2 * g_WORD_WIDTH))   <= s_data_packet_time_words(2);
-	s_data_packet_time((2 * g_WORD_WIDTH - 1) downto (1 * g_WORD_WIDTH))   <= s_data_packet_time_words(1);
-	s_data_packet_time((g_WORD_WIDTH - 1) downto 0)                        <= s_data_packet_time_words(0);
+	s_data_packet_time((4 * g_WORD_WIDTH - 1) downto (3 * g_WORD_WIDTH))   <= s_data_packet_time_words(0);
+	s_data_packet_time((3 * g_WORD_WIDTH - 1) downto (2 * g_WORD_WIDTH))   <= s_data_packet_time_words(1);
+	s_data_packet_time((2 * g_WORD_WIDTH - 1) downto (1 * g_WORD_WIDTH))   <= s_data_packet_time_words(2);
+	s_data_packet_time((g_WORD_WIDTH - 1) downto 0)                        <= s_data_packet_time_words(3);
 
 end architecture RTL;

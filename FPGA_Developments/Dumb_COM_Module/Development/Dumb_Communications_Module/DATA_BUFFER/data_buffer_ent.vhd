@@ -270,8 +270,8 @@ begin
 			-- check if a stop was issued
 			if (tmr_stop_i = '1') then
 				-- stop issued, go to stopped
-				s_data_buffer_state <= WAITING_DCTRL_SPACE;
-				v_data_buffer_state := WAITING_DCTRL_SPACE;
+				s_data_buffer_state <= STOPPED;
+				v_data_buffer_state := STOPPED;
 			end if;
 
 		end if;
@@ -348,25 +348,25 @@ begin
 
 	-- Avalon Slave Data Buffer Signals Assignments
 	s_avs_dbuffer_sclr          <= ('1') when (rst_i = '1') else (s_avs_dbuffer_fifo.sclr);
-	s_avs_dbuffer_data_bytes(7) <= s_avs_dbuffer_fifo.q((8 * 8 - 1) downto (7 * 8));
-	s_avs_dbuffer_data_bytes(6) <= s_avs_dbuffer_fifo.q((7 * 8 - 1) downto (6 * 8));
-	s_avs_dbuffer_data_bytes(5) <= s_avs_dbuffer_fifo.q((6 * 8 - 1) downto (5 * 8));
-	s_avs_dbuffer_data_bytes(4) <= s_avs_dbuffer_fifo.q((5 * 8 - 1) downto (4 * 8));
-	s_avs_dbuffer_data_bytes(3) <= s_avs_dbuffer_fifo.q((4 * 8 - 1) downto (3 * 8));
-	s_avs_dbuffer_data_bytes(2) <= s_avs_dbuffer_fifo.q((3 * 8 - 1) downto (2 * 8));
-	s_avs_dbuffer_data_bytes(1) <= s_avs_dbuffer_fifo.q((2 * 8 - 1) downto (1 * 8));
-	s_avs_dbuffer_data_bytes(0) <= s_avs_dbuffer_fifo.q((1 * 8 - 1) downto (0 * 8));
+	s_avs_dbuffer_data_bytes(0) <= s_avs_dbuffer_fifo.q((8 * 8 - 1) downto (7 * 8));
+	s_avs_dbuffer_data_bytes(1) <= s_avs_dbuffer_fifo.q((7 * 8 - 1) downto (6 * 8));
+	s_avs_dbuffer_data_bytes(2) <= s_avs_dbuffer_fifo.q((6 * 8 - 1) downto (5 * 8));
+	s_avs_dbuffer_data_bytes(3) <= s_avs_dbuffer_fifo.q((5 * 8 - 1) downto (4 * 8));
+	s_avs_dbuffer_data_bytes(4) <= s_avs_dbuffer_fifo.q((4 * 8 - 1) downto (3 * 8));
+	s_avs_dbuffer_data_bytes(5) <= s_avs_dbuffer_fifo.q((3 * 8 - 1) downto (2 * 8));
+	s_avs_dbuffer_data_bytes(6) <= s_avs_dbuffer_fifo.q((2 * 8 - 1) downto (1 * 8));
+	s_avs_dbuffer_data_bytes(7) <= s_avs_dbuffer_fifo.q((1 * 8 - 1) downto (0 * 8));
 
 	-- Avalon Slave Byte Enable Buffer Signals Assignments
 	s_avs_bebuffer_sclr         <= ('1') when (rst_i = '1') else (s_avs_bebuffer_fifo.sclr);
-	s_avs_bebuffer_data_bits(7) <= s_avs_bebuffer_fifo.q((8 * 1 - 1));
-	s_avs_bebuffer_data_bits(6) <= s_avs_bebuffer_fifo.q((7 * 1 - 1));
-	s_avs_bebuffer_data_bits(5) <= s_avs_bebuffer_fifo.q((6 * 1 - 1));
-	s_avs_bebuffer_data_bits(4) <= s_avs_bebuffer_fifo.q((5 * 1 - 1));
-	s_avs_bebuffer_data_bits(3) <= s_avs_bebuffer_fifo.q((4 * 1 - 1));
-	s_avs_bebuffer_data_bits(2) <= s_avs_bebuffer_fifo.q((3 * 1 - 1));
-	s_avs_bebuffer_data_bits(1) <= s_avs_bebuffer_fifo.q((2 * 1 - 1));
-	s_avs_bebuffer_data_bits(0) <= s_avs_bebuffer_fifo.q((1 * 1 - 1));
+	s_avs_bebuffer_data_bits(0) <= s_avs_bebuffer_fifo.q((8 * 1 - 1));
+	s_avs_bebuffer_data_bits(1) <= s_avs_bebuffer_fifo.q((7 * 1 - 1));
+	s_avs_bebuffer_data_bits(2) <= s_avs_bebuffer_fifo.q((6 * 1 - 1));
+	s_avs_bebuffer_data_bits(3) <= s_avs_bebuffer_fifo.q((5 * 1 - 1));
+	s_avs_bebuffer_data_bits(4) <= s_avs_bebuffer_fifo.q((4 * 1 - 1));
+	s_avs_bebuffer_data_bits(5) <= s_avs_bebuffer_fifo.q((3 * 1 - 1));
+	s_avs_bebuffer_data_bits(6) <= s_avs_bebuffer_fifo.q((2 * 1 - 1));
+	s_avs_bebuffer_data_bits(7) <= s_avs_bebuffer_fifo.q((1 * 1 - 1));
 
 	-- Data Controller Data Buffer Signals Assignments
 	s_dctrl_dbuffer_sclr <= ('1') when (rst_i = '1') else (s_dctrl_dbuffer_fifo.sclr);

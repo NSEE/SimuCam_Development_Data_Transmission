@@ -1,3 +1,7 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 package data_buffer_pkg is
 
 	constant c_AVS_DBUFFER_DATA_WIDTH  : natural range 8 to 256 := 64;

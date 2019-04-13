@@ -28,7 +28,7 @@ entity dcom_v1_top is
 		sync_channel                         : in  std_logic                     := '0'; --          --         sync_conduit_end.sync_channel_signal
 		clock_sink_100_clk                   : in  std_logic                     := '0'; --          --           clock_sink_100.clk
 		clock_sink_200_clk                   : in  std_logic                     := '0'; --          --           clock_sink_200.clk
-		avalon_slave_data_buffer_address     : in  std_logic_vector(9 downto 0)  := (others => '0'); -- avalon_slave_data_buffer.address
+		avalon_slave_data_buffer_address     : in  std_logic_vector(11 downto 0) := (others => '0'); -- avalon_slave_data_buffer.address
 		avalon_slave_data_buffer_write       : in  std_logic                     := '0'; --          --                         .write
 		avalon_slave_data_buffer_writedata   : in  std_logic_vector(63 downto 0) := (others => '0'); --                         .writedata
 		avalon_slave_data_buffer_byteenable  : in  std_logic_vector(7 downto 0)  := (others => '0'); --                         .byteenable
@@ -207,7 +207,6 @@ begin
 			clk_i            => a_avs_clock,
 			rst_i            => a_reset,
 			tmr_time_i       => s_dcom_read_registers.data_scheduler_timer_time_out_reg.timer_time_out,
-			tmr_clear_i      => s_dcom_write_registers.data_scheduler_timer_control_reg.timer_clear,
 			tmr_stop_i       => s_dcom_write_registers.data_scheduler_timer_control_reg.timer_stop,
 			tmr_start_i      => s_dcom_write_registers.data_scheduler_timer_control_reg.timer_start,
 			dctrl_send_eep_i => s_dcom_write_registers.data_controller_config_reg.send_eep,
@@ -380,7 +379,7 @@ begin
 	begin
 		if (a_reset) = '1' then
 			s_sync_in_trigger <= '0';
-			s_sync_in_delayed <= '0';
+			s_sync_in_delayed <= '1';
 		elsif rising_edge(a_avs_clock) then
 			-- trigger signal
 			s_sync_in_trigger <= '0';

@@ -141,34 +141,37 @@ begin
 					v_data_scheduler_state := RUNNING;
 					-- default internal signal values
 					-- conditional state transition
-					-- check if a event happened
-					if (v_tmr_evt_flag = '1') then
-						-- clear the event flag
-						v_tmr_evt_flag := '0';
-						-- check if the timer can be incremented (a overflow will not occur)
-						if (s_tmr_time < c_MAX_TIME_VALUE) then
-							-- timer can be incremented without overflow
-							-- increment the timer
-							s_tmr_time <= std_logic_vector(unsigned(s_tmr_time) + 1);
-						else
-							-- timer will go to overflow if incremented
-							-- reset the timer, go to clear
-							s_tmr_time             <= std_logic_vector(to_unsigned(0, s_tmr_time'length));
-							s_data_scheduler_state <= CLEAR;
-							v_data_scheduler_state := CLEAR;
+					-- check if clear command was issued
+					if (tmr_clear_i = '1') then
+						-- go to clear
+						s_data_scheduler_state <= CLEAR;
+						v_data_scheduler_state := CLEAR;
+					else
+						-- check if a event happened
+						if (v_tmr_evt_flag = '1') then
+							-- clear the event flag
+							v_tmr_evt_flag := '0';
+							-- check if the timer can be incremented (a overflow will not occur)
+							if (s_tmr_time < c_MAX_TIME_VALUE) then
+								-- timer can be incremented without overflow
+								-- increment the timer
+								s_tmr_time <= std_logic_vector(unsigned(s_tmr_time) + 1);
+							else
+								-- timer will go to overflow if incremented
+								s_tmr_time <= std_logic_vector(to_unsigned(0, s_tmr_time'length));
+							end if;
 						end if;
 					end if;
 
 				when CLEAR =>
 					-- Clear timer
 					-- default state transition
-					s_data_scheduler_state  <= STOPPED;
-					v_data_scheduler_state  := STOPPED;
+					s_data_scheduler_state <= RUNNING;
+					v_data_scheduler_state := RUNNING;
 					-- default internal signal values
-					s_tmr_time              <= std_logic_vector(to_unsigned(0, s_tmr_time'length));
-					s_tmr_registered_clkdiv <= std_logic_vector(to_unsigned(0, s_tmr_registered_clkdiv'length));
-					s_tmr_evt_counter       <= std_logic_vector(to_unsigned(0, s_tmr_evt_counter'length));
-					v_tmr_evt_flag          := '0';
+					s_tmr_time             <= std_logic_vector(to_unsigned(0, s_tmr_time'length));
+					s_tmr_evt_counter      <= std_logic_vector(to_unsigned(0, s_tmr_evt_counter'length));
+					v_tmr_evt_flag         := '0';
 					-- conditional state transition
 
 			end case;
@@ -179,6 +182,7 @@ begin
 				when STOPPED =>
 					-- Stopped, reset all internal signals
 					-- default output signals
+					tmr_cleared_o  <= '0';
 					tmr_running_o  <= '0';
 					tmr_started_o  <= '0';
 					tmr_stopped_o  <= '1';
@@ -198,7 +202,6 @@ begin
 				when RUNNING =>
 					-- Timer is running
 					-- default output signals
-					tmr_cleared_o  <= '0';
 					tmr_running_o  <= '1';
 					tmr_started_o  <= '0';
 					tmr_stopped_o  <= '0';
@@ -209,24 +212,19 @@ begin
 					-- Clear timer
 					-- default output signals
 					tmr_cleared_o  <= '1';
-					tmr_running_o  <= '0';
+					tmr_running_o  <= '1';
 					tmr_started_o  <= '0';
-					tmr_stopped_o  <= '1';
-					tmr_time_out_o <= std_logic_vector(to_unsigned(0, tmr_time_out_o'length));
+					tmr_stopped_o  <= '0';
+					tmr_time_out_o <= s_tmr_time;
 					-- conditional output signals
 
 			end case;
 
-			-- check if a stop or clear was issued
-			if ((tmr_stop_i = '1') or ((tmr_clear_i = '1'))) then
-				-- stop or clear issued, go to clear
-				-- check if the timer is not already stopped or being cleared
-				if ((s_data_scheduler_state /= STOPPED) and (s_data_scheduler_state /= CLEAR)) then
-					-- timer is not already stopped or being cleared
-					-- go to clear
-					s_data_scheduler_state <= CLEAR;
-					v_data_scheduler_state := CLEAR;
-				end if;
+			-- check if a stop was issued
+			if (tmr_stop_i = '1') then
+				-- stop, go to stopped
+				s_data_scheduler_state <= STOPPED;
+				v_data_scheduler_state := STOPPED;
 			end if;
 
 		end if;

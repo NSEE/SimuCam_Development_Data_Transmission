@@ -207,7 +207,6 @@ begin
 			clk_i            => a_avs_clock,
 			rst_i            => a_reset,
 			tmr_time_i       => s_dcom_read_registers.data_scheduler_timer_time_out_reg.timer_time_out,
-			tmr_clear_i      => s_dcom_write_registers.data_scheduler_timer_control_reg.timer_clear,
 			tmr_stop_i       => s_dcom_write_registers.data_scheduler_timer_control_reg.timer_stop,
 			tmr_start_i      => s_dcom_write_registers.data_scheduler_timer_control_reg.timer_start,
 			dctrl_send_eep_i => s_dcom_write_registers.data_controller_config_reg.send_eep,

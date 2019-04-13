@@ -70,8 +70,8 @@ begin
 			avalon_mm_address_o   <= (others => '0');
 			avalon_mm_write_o     <= '0';
 			avalon_mm_writedata_o <= (others => '0');
-						s_counter             <= 0;
---			s_counter             <= 5000;
+			s_counter             <= 0;
+			--			s_counter             <= 5000;
 			--			s_counter             <= 900;
 			s_address_cnt         <= 0;
 			s_mask_cnt            <= 0;
@@ -92,52 +92,52 @@ begin
 					avalon_mm_address_o                 <= std_logic_vector(to_unsigned(0, g_ADDRESS_WIDTH));
 					avalon_mm_write_o                   <= '1';
 					avalon_mm_writedata_o               <= (others => '0');
-					avalon_mm_writedata_o(63 downto 32) <= std_logic_vector(to_unsigned(50, 32)); -- data time
-					avalon_mm_writedata_o(31 downto 16) <= std_logic_vector(to_unsigned(25, 16)); -- data length
-					avalon_mm_writedata_o(15 downto 8)  <= std_logic_vector(to_unsigned(0, 8)); -- data
-					avalon_mm_writedata_o(7 downto 0)   <= std_logic_vector(to_unsigned(1, 8)); -- data
+					avalon_mm_writedata_o(31 downto 0)  <= std_logic_vector(to_unsigned(50, 32)); -- data time
+					avalon_mm_writedata_o(47 downto 32) <= std_logic_vector(to_unsigned(25, 16)); -- data length
+					avalon_mm_writedata_o(55 downto 48) <= std_logic_vector(to_unsigned(0, 8)); -- data
+					avalon_mm_writedata_o(63 downto 56) <= std_logic_vector(to_unsigned(1, 8)); -- data
 					avalon_mm_byteenable_o              <= "11111111";
 
 				when 2503 to 2504 =>
 					avalon_mm_address_o                 <= std_logic_vector(to_unsigned(1, g_ADDRESS_WIDTH));
 					avalon_mm_write_o                   <= '1';
 					avalon_mm_writedata_o               <= (others => '0');
-					avalon_mm_writedata_o(63 downto 56) <= std_logic_vector(to_unsigned(2, 8)); -- data
-					avalon_mm_writedata_o(55 downto 48) <= std_logic_vector(to_unsigned(3, 8)); -- data
-					avalon_mm_writedata_o(47 downto 40) <= std_logic_vector(to_unsigned(4, 8)); -- data
-					avalon_mm_writedata_o(39 downto 32) <= std_logic_vector(to_unsigned(5, 8)); -- data
-					avalon_mm_writedata_o(31 downto 24) <= std_logic_vector(to_unsigned(6, 8)); -- data
-					avalon_mm_writedata_o(23 downto 16) <= std_logic_vector(to_unsigned(7, 8)); -- data
-					avalon_mm_writedata_o(15 downto 8)  <= std_logic_vector(to_unsigned(8, 8)); -- data
-					avalon_mm_writedata_o(7 downto 0)   <= std_logic_vector(to_unsigned(9, 8)); -- data
+					avalon_mm_writedata_o(7 downto 0)   <= std_logic_vector(to_unsigned(2, 8)); -- data
+					avalon_mm_writedata_o(15 downto 8)  <= std_logic_vector(to_unsigned(3, 8)); -- data
+					avalon_mm_writedata_o(23 downto 16) <= std_logic_vector(to_unsigned(4, 8)); -- data
+					avalon_mm_writedata_o(31 downto 24) <= std_logic_vector(to_unsigned(5, 8)); -- data
+					avalon_mm_writedata_o(39 downto 32) <= std_logic_vector(to_unsigned(6, 8)); -- data
+					avalon_mm_writedata_o(47 downto 40) <= std_logic_vector(to_unsigned(7, 8)); -- data
+					avalon_mm_writedata_o(55 downto 48) <= std_logic_vector(to_unsigned(8, 8)); -- data
+					avalon_mm_writedata_o(63 downto 56) <= std_logic_vector(to_unsigned(9, 8)); -- data
 					avalon_mm_byteenable_o              <= "11111111";
 
 				when 2506 to 2507 =>
 					avalon_mm_address_o                 <= std_logic_vector(to_unsigned(2, g_ADDRESS_WIDTH));
 					avalon_mm_write_o                   <= '1';
 					avalon_mm_writedata_o               <= (others => '0');
-					avalon_mm_writedata_o(63 downto 56) <= std_logic_vector(to_unsigned(10, 8)); -- data
-					avalon_mm_writedata_o(55 downto 48) <= std_logic_vector(to_unsigned(11, 8)); -- data
-					avalon_mm_writedata_o(47 downto 40) <= std_logic_vector(to_unsigned(12, 8)); -- data
-					avalon_mm_writedata_o(39 downto 32) <= std_logic_vector(to_unsigned(13, 8)); -- data
-					avalon_mm_writedata_o(31 downto 24) <= std_logic_vector(to_unsigned(14, 8)); -- data
-					avalon_mm_writedata_o(23 downto 16) <= std_logic_vector(to_unsigned(15, 8)); -- data
-					avalon_mm_writedata_o(15 downto 8)  <= std_logic_vector(to_unsigned(16, 8)); -- data
-					avalon_mm_writedata_o(7 downto 0)   <= std_logic_vector(to_unsigned(17, 8)); -- data
+					avalon_mm_writedata_o(7 downto 0)   <= std_logic_vector(to_unsigned(10, 8)); -- data
+					avalon_mm_writedata_o(15 downto 8)  <= std_logic_vector(to_unsigned(11, 8)); -- data
+					avalon_mm_writedata_o(23 downto 16) <= std_logic_vector(to_unsigned(12, 8)); -- data
+					avalon_mm_writedata_o(31 downto 24) <= std_logic_vector(to_unsigned(13, 8)); -- data
+					avalon_mm_writedata_o(39 downto 32) <= std_logic_vector(to_unsigned(14, 8)); -- data
+					avalon_mm_writedata_o(47 downto 40) <= std_logic_vector(to_unsigned(15, 8)); -- data
+					avalon_mm_writedata_o(55 downto 48) <= std_logic_vector(to_unsigned(16, 8)); -- data
+					avalon_mm_writedata_o(63 downto 56) <= std_logic_vector(to_unsigned(17, 8)); -- data
 					avalon_mm_byteenable_o              <= "11111111";
 
 				when 2509 to 2510 =>
 					avalon_mm_address_o                 <= std_logic_vector(to_unsigned(3, g_ADDRESS_WIDTH));
 					avalon_mm_write_o                   <= '1';
 					avalon_mm_writedata_o               <= (others => '0');
-					avalon_mm_writedata_o(63 downto 56) <= std_logic_vector(to_unsigned(18, 8)); -- data
-					avalon_mm_writedata_o(55 downto 48) <= std_logic_vector(to_unsigned(19, 8)); -- data
-					avalon_mm_writedata_o(47 downto 40) <= std_logic_vector(to_unsigned(20, 8)); -- data
-					avalon_mm_writedata_o(39 downto 32) <= std_logic_vector(to_unsigned(21, 8)); -- data
-					avalon_mm_writedata_o(31 downto 24) <= std_logic_vector(to_unsigned(22, 8)); -- data
-					avalon_mm_writedata_o(23 downto 16) <= std_logic_vector(to_unsigned(23, 8)); -- data
-					avalon_mm_writedata_o(15 downto 8)  <= std_logic_vector(to_unsigned(24, 8)); -- data
-					avalon_mm_writedata_o(7 downto 0)   <= std_logic_vector(to_unsigned(25, 8)); -- data
+					avalon_mm_writedata_o(7 downto 0)   <= std_logic_vector(to_unsigned(18, 8)); -- data
+					avalon_mm_writedata_o(15 downto 8)  <= std_logic_vector(to_unsigned(19, 8)); -- data
+					avalon_mm_writedata_o(23 downto 16) <= std_logic_vector(to_unsigned(20, 8)); -- data
+					avalon_mm_writedata_o(31 downto 24) <= std_logic_vector(to_unsigned(21, 8)); -- data
+					avalon_mm_writedata_o(39 downto 32) <= std_logic_vector(to_unsigned(22, 8)); -- data
+					avalon_mm_writedata_o(47 downto 40) <= std_logic_vector(to_unsigned(23, 8)); -- data
+					avalon_mm_writedata_o(55 downto 48) <= std_logic_vector(to_unsigned(24, 8)); -- data
+					avalon_mm_writedata_o(63 downto 56) <= std_logic_vector(to_unsigned(25, 8)); -- data
 					avalon_mm_byteenable_o              <= "11111111";
 
 				--				when 2500 =>
