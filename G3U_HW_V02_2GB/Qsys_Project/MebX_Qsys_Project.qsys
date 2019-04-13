@@ -2169,7 +2169,7 @@
   <parameter name="PROGRAMMABLE_BURST_ENABLE" value="0" />
   <parameter name="RESPONSE_PORT" value="2" />
   <parameter name="STRIDE_ENABLE" value="0" />
-  <parameter name="TRANSFER_TYPE" value="Aligned Accesses" />
+  <parameter name="TRANSFER_TYPE">Full Word Accesses Only</parameter>
   <parameter name="USE_FIX_ADDRESS_WIDTH" value="0" />
  </module>
  <module name="dma_DDR_M2" kind="altera_msgdma" version="16.1" enabled="1">
@@ -2212,7 +2212,7 @@
   <parameter name="PROGRAMMABLE_BURST_ENABLE" value="0" />
   <parameter name="RESPONSE_PORT" value="2" />
   <parameter name="STRIDE_ENABLE" value="0" />
-  <parameter name="TRANSFER_TYPE" value="Aligned Accesses" />
+  <parameter name="TRANSFER_TYPE">Full Word Accesses Only</parameter>
   <parameter name="USE_FIX_ADDRESS_WIDTH" value="0" />
  </module>
  <module
