@@ -785,6 +785,9 @@ void CommandManagementTask() {
 	p_payload = &payload;
 	p_imagette_A[0] = (struct x_imagette *) Ddr2Base;
 
+	struct x_telemetry x_telemetry_buffer;
+	struct x_telemetry *p_telemetry_buffer = &x_telemetry_buffer;
+
 #if DEBUG_ON
 	printf("[CommandManagementTask]p_imagette_A[0] addr %x\n\r", p_imagette_A[0]);
 #endif
@@ -876,6 +879,11 @@ void CommandManagementTask() {
 #endif
 
 				v_ack_creator(p_payload, ACK_OK);
+				p_telemetry_buffer->i_type = ACK_TYPE;
+				p_telemetry_buffer->error_code = ACK_OK;
+				p_telemetry_buffer->p_payload = p_payload;
+
+				error_code = (INT8U) OSQPost(p_telemetry_queue, p_telemetry_buffer);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);

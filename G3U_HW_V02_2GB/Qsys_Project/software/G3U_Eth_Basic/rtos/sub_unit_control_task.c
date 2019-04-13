@@ -155,6 +155,8 @@ void sub_unit_control_task() {
 	INT8U exec_error; /*Internal error code for the command module*/
 	INT16U i_imagette_length = 0;
 
+	char c_spw_channel = 'A';
+
 	struct sub_config *p_config;
 	p_config = &sub_config;
 	struct imagette_control *p_imagette_buffer;
@@ -180,9 +182,9 @@ void sub_unit_control_task() {
 		/*
 		 * Disabling SpW channel
 		 */
-		v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+		v_SpaceWire_Interface_Link_Control((char) c_spw_channel, SPWC_REG_CLEAR,
 		SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
-		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+		error_code = v_SpaceWire_Interface_Link_Control((char) c_spw_channel,
 		SPWC_REG_SET,
 		SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 
@@ -225,10 +227,10 @@ void sub_unit_control_task() {
 			printf("[SUBUNIT]Channel disabled\r\n");
 #endif
 			//Testar ver se isso funciona
-			v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+			v_SpaceWire_Interface_Link_Control((char) c_spw_channel, SPWC_REG_CLEAR,
 			SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
 			//fim teste
-			error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+			error_code = v_SpaceWire_Interface_Link_Control((char) c_spw_channel,
 			SPWC_REG_SET,
 			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 			exec_error = Verif_Error(error_code);
@@ -244,11 +246,11 @@ void sub_unit_control_task() {
 #if DEBUG_ON
 				printf("[SUBUNIT]Channel autostart\r\n");
 #endif
-				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+				v_SpaceWire_Interface_Link_Control((char) c_spw_channel, SPWC_REG_CLEAR,
 						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
 								| SPWC_LINK_START_CONTROL_BIT_MASK);
 
-				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+				error_code = v_SpaceWire_Interface_Link_Control((char) c_spw_channel,
 				SPWC_REG_SET,
 				SPWC_AUTOSTART_CONTROL_BIT_MASK);
 				exec_error = Verif_Error(error_code);
@@ -266,11 +268,11 @@ void sub_unit_control_task() {
 				printf("[SUBUNIT]Channel start\r\n");
 #endif
 				//testar se isso funciona
-				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
+				v_SpaceWire_Interface_Link_Control((char) c_spw_channel, SPWC_REG_CLEAR,
 						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
 								| SPWC_AUTOSTART_CONTROL_BIT_MASK);
 				//fim teste
-				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+				error_code = v_SpaceWire_Interface_Link_Control((char) c_spw_channel,
 				SPWC_REG_SET,
 				SPWC_LINK_START_CONTROL_BIT_MASK);
 				exec_error = Verif_Error(error_code);
@@ -335,11 +337,11 @@ printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 					/*
 					 * Disabling SpW channel
 					 */
-					v_SpaceWire_Interface_Link_Control((char) 'A',
+					v_SpaceWire_Interface_Link_Control((char) c_spw_channel,
 					SPWC_REG_CLEAR,
 							SPWC_AUTOSTART_CONTROL_BIT_MASK
 									| SPWC_LINK_START_CONTROL_BIT_MASK);
-					error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
+					error_code = v_SpaceWire_Interface_Link_Control((char) c_spw_channel,
 					SPWC_REG_SET,
 					SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
 					exec_error = Verif_Error(error_code);
@@ -371,13 +373,19 @@ printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 #endif
 
 #if DMA_DEV
-				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
+				while(buffer_space <= imagette_length){
+					//carregar imagette i no buffer
+				}
+#endif
+
+#if DMA_DEV
+				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(c_spw_channel,
 						&(p_imagette_buffer->dataset[i_imagette_number]->imagette_start),
 						p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
 				p_config->sub_status_sending = 0;
 #endif
 				error_code =
-						b_SpaceWire_Interface_Send_SpaceWire_Data('A',
+						b_SpaceWire_Interface_Send_SpaceWire_Data(c_spw_channel,
 								&(p_imagette_buffer->dataset[i_imagette_number]->imagette_start),
 								p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
 				p_config->sub_status_sending = 0;

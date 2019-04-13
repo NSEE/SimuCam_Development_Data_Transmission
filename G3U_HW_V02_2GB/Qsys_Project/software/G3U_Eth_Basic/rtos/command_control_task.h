@@ -23,6 +23,7 @@
 #include "sub_unit_control_task.h"
 #include "../logic/ddr2/ddr2.h"
 #include "../simucam_definitions.h"
+#include "telemetry_manager_task.h"
 
 /*
  * Include configurations for the communication modules [yb]

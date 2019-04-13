@@ -71,6 +71,13 @@ OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
 
 /*
+ * Configuration of the simucam command management task[yb]
+ */
+
+#define TELEMETRY_TASK_PRIORITY 30
+OS_STK telemetry_manager_task_stack[TASK_STACKSIZE];
+
+/*
  * Configuration of the simucam data queue[yb]
  */
 
@@ -144,6 +151,18 @@ void SSSCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
+	/*
+	 * Creating the telemtry management task [yb]
+	 */
+	error_code = OSTaskCreateExt(telemetry_manager_task,
+	NULL, (void *) &telemetry_manager_task_stack[TASK_STACKSIZE - 1],
+	TELEMETRY_TASK_PRIORITY,
+	TELEMETRY_TASK_PRIORITY, telemetry_manager_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
 #if DEBUG_ON
 	printf("Tasks created successfully\r\n");
 #endif
@@ -206,7 +225,6 @@ void sss_handle_accept(int listen_socket, SSSConn* conn) {
 
 	return;
 }
-
 
 /*
  * sss_handle_receive()
@@ -355,7 +373,7 @@ void sss_handle_receive(SSSConn* conn) {
 			printf("\r\n");
 			printf(
 					"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
-							"Type: %i\r\n", (int) p_payload->header,
+					"Type: %i\r\n", (int) p_payload->header,
 					(int) p_payload->packet_id, (int) p_payload->type);
 
 #endif
@@ -492,7 +510,7 @@ void SSSSimpleSocketServerTask() {
 	sss_reset_connection(&conn);
 #if DEBUG_ON
 	printf("[sss_task] Simple Socket Server listening on port %d\n",
-	SSS_PORT);
+			SSS_PORT);
 #endif
 
 	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_ST_1_MASK);
