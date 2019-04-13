@@ -54,6 +54,8 @@ architecture rtl of dcom_v1_top is
 
 	-- Signals --
 
+	signal s_dcom_avs_dump_arr : t_dcom_avs_dump_arr;
+
 	-- DCOM Avalon MM Read Signals
 	signal s_dcom_avalon_mm_read_waitrequest : std_logic;
 
@@ -138,7 +140,8 @@ begin
 			dcom_write_registers_i       => s_dcom_write_registers,
 			dcom_read_registers_i        => s_dcom_read_registers,
 			avalon_mm_dcom_o.readdata    => avalon_slave_dcom_readdata,
-			avalon_mm_dcom_o.waitrequest => s_dcom_avalon_mm_read_waitrequest
+			avalon_mm_dcom_o.waitrequest => s_dcom_avalon_mm_read_waitrequest,
+			avalon_mm_dcom_dump_i        => s_dcom_avs_dump_arr
 		);
 
 	-- DCOM Avalon MM Write Instantiation
@@ -171,7 +174,8 @@ begin
 			avs_dbuffer_wrreq_o                 => s_avs_dbuffer_wrreq,
 			avs_dbuffer_wrdata_o                => s_avs_dbuffer_wrdata,
 			avs_bebuffer_wrreq_o                => s_avs_bebuffer_wrreq,
-			avs_bebuffer_wrdata_o               => s_avs_bebuffer_wrdata
+			avs_bebuffer_wrdata_o               => s_avs_bebuffer_wrdata,
+			avalon_mm_dcom_dump_o               => s_dcom_avs_dump_arr
 		);
 
 	-- Data Buffer Instantiation

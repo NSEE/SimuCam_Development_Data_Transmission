@@ -60,6 +60,7 @@ module MebX_Qsys_Project (
 	dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal,
 	dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal,
 	dumb_communication_module_v1_timer_tx_interrupt_sender_irq,
+	eth_rst_export,
 	ext_export,
 	led_de4_export,
 	led_painel_export,
@@ -177,8 +178,7 @@ module MebX_Qsys_Project (
 	tse_mdio_mdio_out,
 	tse_mdio_mdio_oen,
 	tse_serial_txp,
-	tse_serial_rxp,
-	eth_rst_export);	
+	tse_serial_rxp);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -240,6 +240,7 @@ module MebX_Qsys_Project (
 	output		dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal;
 	input		dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal;
 	output		dumb_communication_module_v1_timer_tx_interrupt_sender_irq;
+	output		eth_rst_export;
 	input		ext_export;
 	output	[7:0]	led_de4_export;
 	output	[20:0]	led_painel_export;
@@ -358,5 +359,4 @@ module MebX_Qsys_Project (
 	output		tse_mdio_mdio_oen;
 	output		tse_serial_txp;
 	input		tse_serial_rxp;
-	output		eth_rst_export;
 endmodule

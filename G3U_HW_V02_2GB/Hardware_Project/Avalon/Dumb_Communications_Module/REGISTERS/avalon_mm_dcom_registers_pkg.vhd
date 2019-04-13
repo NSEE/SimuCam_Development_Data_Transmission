@@ -112,6 +112,13 @@ package avalon_mm_dcom_registers_pkg is
 		dcom_irq_flags_reg                : t_dcom_dcom_irq_flags_rd_reg;
 	end record t_dcom_read_registers;
 
+	type t_dcom_avs_dump is record
+		avs_writedata  : std_logic_vector(63 downto 0);
+		avs_byteenable : std_logic_vector(7 downto 0);
+	end record t_dcom_avs_dump;
+
+	type t_dcom_avs_dump_arr is array (0 to 79) of t_dcom_avs_dump;
+
 end package avalon_mm_dcom_registers_pkg;
 
 package body avalon_mm_dcom_registers_pkg is

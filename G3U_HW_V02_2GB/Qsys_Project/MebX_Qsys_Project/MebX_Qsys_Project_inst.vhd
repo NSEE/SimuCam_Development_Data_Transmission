@@ -60,6 +60,7 @@
 			dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal    : out   std_logic;                                        -- strobe_out_signal
 			dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal : in    std_logic                     := 'X';             -- sync_channel_signal
 			dumb_communication_module_v1_timer_tx_interrupt_sender_irq              : out   std_logic;                                        -- irq
+			eth_rst_export                                                          : out   std_logic;                                        -- export
 			ext_export                                                              : in    std_logic                     := 'X';             -- export
 			led_de4_export                                                          : out   std_logic_vector(7 downto 0);                     -- export
 			led_painel_export                                                       : out   std_logic_vector(20 downto 0);                    -- export
@@ -177,8 +178,7 @@
 			tse_mdio_mdio_out                                                       : out   std_logic;                                        -- mdio_out
 			tse_mdio_mdio_oen                                                       : out   std_logic;                                        -- mdio_oen
 			tse_serial_txp                                                          : out   std_logic;                                        -- txp
-			tse_serial_rxp                                                          : in    std_logic                     := 'X';             -- rxp
-			eth_rst_export                                                          : out   std_logic                                         -- export
+			tse_serial_rxp                                                          : in    std_logic                     := 'X'              -- rxp
 		);
 	end component MebX_Qsys_Project;
 
@@ -244,6 +244,7 @@
 			dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal    => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal,    --                                                            .strobe_out_signal
 			dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal => CONNECTED_TO_dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal, --         dumb_communication_module_v1_timer_sync_conduit_end.sync_channel_signal
 			dumb_communication_module_v1_timer_tx_interrupt_sender_irq              => CONNECTED_TO_dumb_communication_module_v1_timer_tx_interrupt_sender_irq,              --      dumb_communication_module_v1_timer_tx_interrupt_sender.irq
+			eth_rst_export                                                          => CONNECTED_TO_eth_rst_export,                                                          --                                                     eth_rst.export
 			ext_export                                                              => CONNECTED_TO_ext_export,                                                              --                                                         ext.export
 			led_de4_export                                                          => CONNECTED_TO_led_de4_export,                                                          --                                                     led_de4.export
 			led_painel_export                                                       => CONNECTED_TO_led_painel_export,                                                       --                                                  led_painel.export
@@ -361,7 +362,6 @@
 			tse_mdio_mdio_out                                                       => CONNECTED_TO_tse_mdio_mdio_out,                                                       --                                                            .mdio_out
 			tse_mdio_mdio_oen                                                       => CONNECTED_TO_tse_mdio_mdio_oen,                                                       --                                                            .mdio_oen
 			tse_serial_txp                                                          => CONNECTED_TO_tse_serial_txp,                                                          --                                                  tse_serial.txp
-			tse_serial_rxp                                                          => CONNECTED_TO_tse_serial_rxp,                                                          --                                                            .rxp
-			eth_rst_export                                                          => CONNECTED_TO_eth_rst_export                                                           --                                                     eth_rst.export
+			tse_serial_rxp                                                          => CONNECTED_TO_tse_serial_rxp                                                           --                                                            .rxp
 		);
 

@@ -59,6 +59,7 @@
 		.dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal    (<connected-to-dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal>),    //                                                            .strobe_out_signal
 		.dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal (<connected-to-dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal>), //         dumb_communication_module_v1_timer_sync_conduit_end.sync_channel_signal
 		.dumb_communication_module_v1_timer_tx_interrupt_sender_irq              (<connected-to-dumb_communication_module_v1_timer_tx_interrupt_sender_irq>),              //      dumb_communication_module_v1_timer_tx_interrupt_sender.irq
+		.eth_rst_export                                                          (<connected-to-eth_rst_export>),                                                          //                                                     eth_rst.export
 		.ext_export                                                              (<connected-to-ext_export>),                                                              //                                                         ext.export
 		.led_de4_export                                                          (<connected-to-led_de4_export>),                                                          //                                                     led_de4.export
 		.led_painel_export                                                       (<connected-to-led_painel_export>),                                                       //                                                  led_painel.export
@@ -176,7 +177,6 @@
 		.tse_mdio_mdio_out                                                       (<connected-to-tse_mdio_mdio_out>),                                                       //                                                            .mdio_out
 		.tse_mdio_mdio_oen                                                       (<connected-to-tse_mdio_mdio_oen>),                                                       //                                                            .mdio_oen
 		.tse_serial_txp                                                          (<connected-to-tse_serial_txp>),                                                          //                                                  tse_serial.txp
-		.tse_serial_rxp                                                          (<connected-to-tse_serial_rxp>),                                                          //                                                            .rxp
-		.eth_rst_export                                                          (<connected-to-eth_rst_export>)                                                           //                                                     eth_rst.export
+		.tse_serial_rxp                                                          (<connected-to-tse_serial_rxp>)                                                           //                                                            .rxp
 	);
 
