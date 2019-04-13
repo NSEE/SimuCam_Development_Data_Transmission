@@ -54,7 +54,10 @@ struct x_telemetry {
 	INT8U i_channel;
 	INT8U error_code;
 	struct x_ethernet_payload *p_payload;
+	struct imagette_control *p_imagette;
 
 } x_telemetry;
 
+void telemetry_manager_task();
+void telemetry_manager_create_os_data_structs();
 #endif /* TELEMETRY_MANAGER_TASK_H_ */
