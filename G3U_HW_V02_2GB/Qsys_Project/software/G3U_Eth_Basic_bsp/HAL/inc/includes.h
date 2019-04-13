@@ -20,7 +20,7 @@ extern "C"
 
 #include    "os_cpu.h"
 #include    "os_cfg.h"
-#include    "ucos_ii.h"
+#include    <ucos_ii.h>
 
 #ifdef      ONT_GLOBALS
 #define     ONT_EXT

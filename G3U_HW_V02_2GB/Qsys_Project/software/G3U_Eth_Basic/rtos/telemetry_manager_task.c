@@ -89,7 +89,8 @@ void i_echo_dataset_telemetry(struct imagette_control* p_imagette,
 		INT8U* tx_buffer) {
 //	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
 	INT8U i = 0;
-	INT32U i_imagette_counter_echo = i_imagette_counter;
+//	INT32U i_imagette_counter_echo = i_imagette_counter;
+	INT32U i_imagette_counter_echo = 0;
 	INT32U k;
 	INT32U nb_size = p_imagette->imagette_length[i_imagette_number]
 			+ ECHO_CMD_OVERHEAD;

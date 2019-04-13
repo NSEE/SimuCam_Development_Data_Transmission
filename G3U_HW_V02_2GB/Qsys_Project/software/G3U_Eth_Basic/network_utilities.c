@@ -314,17 +314,17 @@ error_t get_board_mac_addr(unsigned char mac_addr[6])
 {
     error_t error = 0;
     alt_u32 signature;
-    
+
     /* Get the flash sector with the MAC address. */
     error = FindLastFlashSectorOffset(&last_flash_sector_offset);
     if (!error)
         last_flash_sector = EXT_FLASH_BASE + last_flash_sector_offset;
 
-    /* This last_flash_sector region of flash is examined to see if 
-     * valid network settings are present, indicated by a signature of 0x00005afe at 
-     * the first address of the last flash sector.  This hex value is chosen as the 
-     * signature since it looks like the english word "SAFE", meaning that it is 
-     * safe to use these network address values.  
+    /* This last_flash_sector region of flash is examined to see if
+     * valid network settings are present, indicated by a signature of 0x00005afe at
+     * the first address of the last flash sector.  This hex value is chosen as the
+     * signature since it looks like the english word "SAFE", meaning that it is
+     * safe to use these network address values.
     */
     if (!error)
     {
@@ -334,7 +334,7 @@ error_t get_board_mac_addr(unsigned char mac_addr[6])
           error = generate_and_store_mac_addr();
         }
     }
-  
+
     if (!error)
     {
         mac_addr[0] = IORD_8DIRECT(last_flash_sector, 4);
@@ -343,17 +343,17 @@ error_t get_board_mac_addr(unsigned char mac_addr[6])
         mac_addr[3] = IORD_8DIRECT(last_flash_sector, 7);
         mac_addr[4] = IORD_8DIRECT(last_flash_sector, 8);
         mac_addr[5] = IORD_8DIRECT(last_flash_sector, 9);
-    
-        printf("Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n", 
+
+        printf("Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
             mac_addr[0],
             mac_addr[1],
             mac_addr[2],
             mac_addr[3],
             mac_addr[4],
             mac_addr[5]);
-    
+
     }
-    
+
     return error;
 }
 

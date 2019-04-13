@@ -208,21 +208,6 @@ struct ethernet_buffer{
 	INT8U *rx_wr_pos;
 };
 
-/*
- * Command + payload struct for the simucam ethernet control
- */
-
-struct x_ethernet_payload {
-	INT8U header;		/* Command Header */
-	INT16U packet_id;	/* Unique identifier */
-	INT8U type;			/* Will be the command id */
-	INT8U sub_type;		/* Could carry the sub-unit id */
-	INT32U size;		/* Size pre-computed in function */
-	INT8U data[1500];	/* Data array */
-	INT16U crc;			/* We will use the CCITT-CRC, that is also used in the PUS protocol */
-
-
-}_ethernet_payload;
 
 /*
  * SimuCam tasks prototypes
@@ -238,6 +223,8 @@ void SimucamCreateOSQ();
 extern OS_EVENT *SimucamDataQ;
 extern OS_EVENT *p_simucam_command_q;
 extern OS_EVENT *p_telemetry_queue;
+
+extern SSSConn conn;
 
 #endif /* __SIMPLE_SOCKET_SERVER_H__ */
 

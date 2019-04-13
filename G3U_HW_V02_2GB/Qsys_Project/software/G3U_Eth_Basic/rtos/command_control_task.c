@@ -18,8 +18,8 @@
 
 struct sub_config config_send_A;
 
-struct imagette_control img_struct;
-struct imagette_control *p_img_control;
+Timagette_control img_struct;
+Timagette_control *p_img_control;
 
 struct x_ethernet_payload *p_payload;
 
@@ -46,51 +46,6 @@ INT8U *p_tx_buffer = &tx_buffer_CC[0];
 int abort_flag = 1;
 int i_return_config_flag = 2;
 
-/**
- * @name set_spw_linkspeed
- * @brief Set SpW linkspeed
- * @ingroup command_control
- *
- * Set the linkspeed of specific SpW channel according to the
- * specified divider code
- *
- * @param 	[in] 	INT8U channel_code
- * @param	[in]	INT8U linkspeed_code
- * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
- * 	ref_clock = 200M -> spw_clock = ref_clock/(div+1)
- * @retval INT8U error_code 1 if OK
- **/
-INT8U set_spw_linkspeed(INT8U i_channel_code, INT8U i_linkspeed_code) {
-	INT8U error_code = 0;
-
-	switch (i_linkspeed_code) {
-	case 0:
-		/* 10 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				19);
-		break;
-
-	case 1:
-		/* 25 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				7);
-		break;
-
-	case 2:
-		/* 50 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				3);
-		break;
-
-	case 3:
-		/* 100 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				1);
-		break;
-	}
-
-	return error_code;
-}
 
 /**
  * @name long_to_int
@@ -104,51 +59,51 @@ INT8U set_spw_linkspeed(INT8U i_channel_code, INT8U i_linkspeed_code) {
  * @retval INT16U crc
  **/
 
-void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
-//	def long_to_bytes(nb,n_bytes):
-//	    p=0
-//	    size = []
-//	    while p < n_bytes:
-//	        buff = nb//256
-//	        size.append(nb%256)
-//	        nb = buff
-//	        p+=1
-//	    return size[::-1]
-
-	int p = 0;
-	int k = 0;
-	INT8U byte_buffer[nb_bytes];
-	INT32U i_buffer;
-
-	while (p < nb_bytes) {
-		i_buffer = div(nb, 256).quot;
-		byte_buffer[p] = div(nb, 256).rem;
-		nb = i_buffer;
-		p++;
-	}
-#if DEBUG_ON
-	printf("[LongToInt]Final Bytes ");
-#endif
-	while (p != 0) {
-		p_destination[p] = byte_buffer[k];
-#if DEBUG_ON
-		printf("%i ", p_destination[p]);
-#endif
-		p--;
-		k++;
-	}
-#if DEBUG_ON
-	printf("\r\n");
-#endif
-
-#if DEBUG_ON
-	printf("[LongToInt]Byte buffer ");
-	for (p = 0; p < nb_bytes; p++) {
-		printf("%i ", byte_buffer[p]);
-	}
-	printf("\r\n");
-#endif
-}
+//void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
+////	def long_to_bytes(nb,n_bytes):
+////	    p=0
+////	    size = []
+////	    while p < n_bytes:
+////	        buff = nb//256
+////	        size.append(nb%256)
+////	        nb = buff
+////	        p+=1
+////	    return size[::-1]
+//
+//	int p = 0;
+//	int k = 0;
+//	INT8U byte_buffer[nb_bytes];
+//	INT32U i_buffer;
+//
+//	while (p < nb_bytes) {
+//		i_buffer = div(nb, 256).quot;
+//		byte_buffer[p] = div(nb, 256).rem;
+//		nb = i_buffer;
+//		p++;
+//	}
+//#if DEBUG_ON
+//	printf("[LongToInt]Final Bytes ");
+//#endif
+//	while (p != 0) {
+//		p_destination[p] = byte_buffer[k];
+//#if DEBUG_ON
+//		printf("%i ", p_destination[p]);
+//#endif
+//		p--;
+//		k++;
+//	}
+//#if DEBUG_ON
+//	printf("\r\n");
+//#endif
+//
+//#if DEBUG_ON
+//	printf("[LongToInt]Byte buffer ");
+//	for (p = 0; p < nb_bytes; p++) {
+//		printf("%i ", byte_buffer[p]);
+//	}
+//	printf("\r\n");
+//#endif
+//}
 
 /**
  * @name i_echo_dataset_direct_send
@@ -316,7 +271,7 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[10] = sub_config.linkstatus_running; /**Sub_config_enabled*/
 	p_HK->data[11] = sub_config.link_config; /**sub_config_linkstatus*/
 	p_HK->data[12] = sub_config.linkspeed; /**sub_config_linkspeed*/
-	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /**sub_status_linkrunning*/
+//	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /**sub_status_linkrunning*/ // TODO
 	p_HK->data[14] = 1; /**link enabled*/
 	p_HK->data[15] = sub_config.sub_status_sending;
 	p_HK->data[16] = 0; /**link errors*/
@@ -771,7 +726,7 @@ void CommandManagementTask() {
 	 */
 	alt_u32 Ddr2Base;
 	alt_u32 ByteLen;
-	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
+	bDdr2SwitchMemory(DDR2_M1_ID);
 	Ddr2Base = DDR2_BASE_ADDR_DATASET_1;
 
 //	ByteLen = DDR2_M1_MEMORY_SIZE;
@@ -883,7 +838,8 @@ void CommandManagementTask() {
 				p_telemetry_buffer->error_code = ACK_OK;
 				p_telemetry_buffer->p_payload = p_payload;
 
-				error_code = (INT8U) OSQPost(p_telemetry_queue, p_telemetry_buffer);
+				error_code = (INT8U) OSQPost(p_telemetry_queue,
+						p_telemetry_buffer);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
@@ -1264,26 +1220,26 @@ void CommandManagementTask() {
 					printf("[CommandManagementTask]Direct Send to %c\n\r",
 							(char) (p_payload->data[0] + ASCII_A));
 #endif
-					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
-							(char) p_payload->data[0] + ASCII_A,
-							&(p_payload->data[1]), (p_payload->size) - 11);
-
-					if (i_echo_sent_data == 1) {
-						i_echo_dataset_direct_send(p_payload, p_tx_buffer);
-
-						exec_error = send(conn.fd, p_tx_buffer,
-								p_payload->size + 4, 0);
-					}
-
-					if (exec_error == -1) {
-						v_ack_creator(p_payload, ECHO_ERROR);
-					} else {
-						v_ack_creator(p_payload, ACK_OK);
-					}
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
+//					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
+//							(char) p_payload->data[0] + ASCII_A,
+//							&(p_payload->data[1]), (p_payload->size) - 11);
+//
+//					if (i_echo_sent_data == 1) {
+//						i_echo_dataset_direct_send(p_payload, p_tx_buffer);
+//
+//						exec_error = send(conn.fd, p_tx_buffer,
+//								p_payload->size + 4, 0);
+//					}
+//
+//					if (exec_error == -1) {
+//						v_ack_creator(p_payload, ECHO_ERROR);
+//					} else {
+//						v_ack_creator(p_payload, ACK_OK);
+//					}
+//
+//					error_code = (INT8U) OSQPost(p_simucam_command_q,
+//							p_payload);
+//					alt_SSSErrorHandler(error_code, 0);
 
 					break;
 

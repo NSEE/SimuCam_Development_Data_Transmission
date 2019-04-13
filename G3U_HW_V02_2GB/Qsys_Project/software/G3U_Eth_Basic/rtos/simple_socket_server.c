@@ -30,17 +30,22 @@
 /* MicroC/OS-II definitions */
 #include "includes.h"
 
+#include "../simucam_definitions.h"
+
 /* Simple Socket Server definitions */
 #include "simple_socket_server.h"                                                                    
 #include "../alt_error_handler.h"
 
 #include "../driver/leds/leds.h"
+#include "../api_drivers/ddr2/ddr2.h"
+
+#include "tasks_init.h"
 
 /*sub-unit definitions*/
-#include "sub_unit_control_task.h"
+//#include "sub_unit_control_task.h"
 
 /* Command control definitions*/
-#include "command_control_task.h"
+//#include "command_control_task.h"
 
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 
@@ -260,7 +265,7 @@ void sss_handle_receive(SSSConn* conn) {
 	struct ethernet_buffer *p_ethernet_buffer;
 //	p_ethernet_buffer = &buffer;
 
-	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
+	bDdr2SwitchMemory(DDR2_M1_ID);
 
 	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
 

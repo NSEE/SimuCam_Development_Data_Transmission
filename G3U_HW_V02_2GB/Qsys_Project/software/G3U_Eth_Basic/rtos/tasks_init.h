@@ -1,0 +1,14 @@
+/*
+ * tasks_init.h
+ *
+ *  Created on: 13/04/2019
+ *      Author: root
+ */
+
+#ifndef TASKS_INIT_H_
+#define TASKS_INIT_H_
+
+void sub_unit_control_task ();
+void telemetry_manager_task();
+
+#endif /* TASKS_INIT_H_ */
