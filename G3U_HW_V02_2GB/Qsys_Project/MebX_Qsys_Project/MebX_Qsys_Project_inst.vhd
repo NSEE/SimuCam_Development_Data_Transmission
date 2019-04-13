@@ -8,7 +8,58 @@
 			csense_sdi_export                                                       : out   std_logic;                                        -- export
 			csense_sdo_export                                                       : in    std_logic                     := 'X';             -- export
 			ctrl_io_lvds_export                                                     : out   std_logic_vector(3 downto 0);                     -- export
+			dcom_a_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_a_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_a_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_a_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_a_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
+			dcom_b_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_b_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_b_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_b_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_b_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
+			dcom_c_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_c_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_c_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_c_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_c_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
+			dcom_d_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_d_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_d_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_d_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_d_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
+			dcom_e_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_e_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_e_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_e_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_e_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
+			dcom_f_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_f_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_f_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_f_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_f_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
+			dcom_g_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_g_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_g_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_g_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_g_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
+			dcom_h_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
+			dcom_h_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
+			dcom_h_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dcom_h_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
+			dcom_h_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
 			dip_export                                                              : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- export
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_address     : in    std_logic_vector(11 downto 0) := (others => 'X'); -- address
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_write       : in    std_logic                     := 'X';             -- write
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_writedata   : in    std_logic_vector(63 downto 0) := (others => 'X'); -- writedata
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_waitrequest : out   std_logic;                                        -- waitrequest
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_byteenable  : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- byteenable
+			dumb_communication_module_v1_timer_spw_conduit_end_data_in_signal       : in    std_logic                     := 'X';             -- data_in_signal
+			dumb_communication_module_v1_timer_spw_conduit_end_data_out_signal      : out   std_logic;                                        -- data_out_signal
+			dumb_communication_module_v1_timer_spw_conduit_end_strobe_in_signal     : in    std_logic                     := 'X';             -- strobe_in_signal
+			dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal    : out   std_logic;                                        -- strobe_out_signal
+			dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal : in    std_logic                     := 'X';             -- sync_channel_signal
+			dumb_communication_module_v1_timer_tx_interrupt_sender_irq              : out   std_logic;                                        -- irq
 			ext_export                                                              : in    std_logic                     := 'X';             -- export
 			led_de4_export                                                          : out   std_logic_vector(7 downto 0);                     -- export
 			led_painel_export                                                       : out   std_logic_vector(20 downto 0);                    -- export
@@ -98,57 +149,36 @@
 			tristate_conduit_tcm_write_n_out                                        : out   std_logic_vector(0 downto 0);                     -- tcm_write_n_out
 			tristate_conduit_tcm_data_out                                           : inout std_logic_vector(15 downto 0) := (others => 'X'); -- tcm_data_out
 			tristate_conduit_tcm_chipselect_n_out                                   : out   std_logic_vector(0 downto 0);                     -- tcm_chipselect_n_out
-			dcom_a_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_a_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_a_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_a_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_a_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dcom_b_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_b_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_b_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_b_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_c_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_c_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_c_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_c_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_d_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_d_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_d_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_d_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_e_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_e_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_e_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_e_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_f_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_f_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_f_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_f_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_g_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_g_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_g_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_g_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_h_conduit_end_data_in_signal                                       : in    std_logic                     := 'X';             -- data_in_signal
-			dcom_h_conduit_end_data_out_signal                                      : out   std_logic;                                        -- data_out_signal
-			dcom_h_conduit_end_strobe_in_signal                                     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dcom_h_conduit_end_strobe_out_signal                                    : out   std_logic;                                        -- strobe_out_signal
-			dcom_b_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dcom_c_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dcom_d_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dcom_e_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dcom_f_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dcom_g_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dcom_h_sync_end_sync_channel_signal                                     : in    std_logic                     := 'X';             -- sync_channel_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_data_in_signal       : in    std_logic                     := 'X';             -- data_in_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_data_out_signal      : out   std_logic;                                        -- data_out_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_strobe_in_signal     : in    std_logic                     := 'X';             -- strobe_in_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal    : out   std_logic;                                        -- strobe_out_signal
-			dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal : in    std_logic                     := 'X';             -- sync_channel_signal
-			dumb_communication_module_v1_timer_tx_interrupt_sender_irq              : out   std_logic;                                        -- irq
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_address     : in    std_logic_vector(11 downto 0) := (others => 'X'); -- address
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_write       : in    std_logic                     := 'X';             -- write
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_writedata   : in    std_logic_vector(63 downto 0) := (others => 'X'); -- writedata
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_waitrequest : out   std_logic;                                        -- waitrequest
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_byteenable  : in    std_logic_vector(7 downto 0)  := (others => 'X')  -- byteenable
+			tse_clk_clk                                                             : in    std_logic                     := 'X';             -- clk
+			tse_led_crs                                                             : out   std_logic;                                        -- crs
+			tse_led_link                                                            : out   std_logic;                                        -- link
+			tse_led_panel_link                                                      : out   std_logic;                                        -- panel_link
+			tse_led_col                                                             : out   std_logic;                                        -- col
+			tse_led_an                                                              : out   std_logic;                                        -- an
+			tse_led_char_err                                                        : out   std_logic;                                        -- char_err
+			tse_led_disp_err                                                        : out   std_logic;                                        -- disp_err
+			tse_mac_mac_misc_connection_xon_gen                                     : in    std_logic                     := 'X';             -- xon_gen
+			tse_mac_mac_misc_connection_xoff_gen                                    : in    std_logic                     := 'X';             -- xoff_gen
+			tse_mac_mac_misc_connection_magic_wakeup                                : out   std_logic;                                        -- magic_wakeup
+			tse_mac_mac_misc_connection_magic_sleep_n                               : in    std_logic                     := 'X';             -- magic_sleep_n
+			tse_mac_mac_misc_connection_ff_tx_crc_fwd                               : in    std_logic                     := 'X';             -- ff_tx_crc_fwd
+			tse_mac_mac_misc_connection_ff_tx_septy                                 : out   std_logic;                                        -- ff_tx_septy
+			tse_mac_mac_misc_connection_tx_ff_uflow                                 : out   std_logic;                                        -- tx_ff_uflow
+			tse_mac_mac_misc_connection_ff_tx_a_full                                : out   std_logic;                                        -- ff_tx_a_full
+			tse_mac_mac_misc_connection_ff_tx_a_empty                               : out   std_logic;                                        -- ff_tx_a_empty
+			tse_mac_mac_misc_connection_rx_err_stat                                 : out   std_logic_vector(17 downto 0);                    -- rx_err_stat
+			tse_mac_mac_misc_connection_rx_frm_type                                 : out   std_logic_vector(3 downto 0);                     -- rx_frm_type
+			tse_mac_mac_misc_connection_ff_rx_dsav                                  : out   std_logic;                                        -- ff_rx_dsav
+			tse_mac_mac_misc_connection_ff_rx_a_full                                : out   std_logic;                                        -- ff_rx_a_full
+			tse_mac_mac_misc_connection_ff_rx_a_empty                               : out   std_logic;                                        -- ff_rx_a_empty
+			tse_mac_serdes_control_connection_export                                : out   std_logic;                                        -- export
+			tse_mdio_mdc                                                            : out   std_logic;                                        -- mdc
+			tse_mdio_mdio_in                                                        : in    std_logic                     := 'X';             -- mdio_in
+			tse_mdio_mdio_out                                                       : out   std_logic;                                        -- mdio_out
+			tse_mdio_mdio_oen                                                       : out   std_logic;                                        -- mdio_oen
+			tse_serial_txp                                                          : out   std_logic;                                        -- txp
+			tse_serial_rxp                                                          : in    std_logic                     := 'X';             -- rxp
+			eth_rst_export                                                          : out   std_logic                                         -- export
 		);
 	end component MebX_Qsys_Project;
 
@@ -162,7 +192,58 @@
 			csense_sdi_export                                                       => CONNECTED_TO_csense_sdi_export,                                                       --                                                  csense_sdi.export
 			csense_sdo_export                                                       => CONNECTED_TO_csense_sdo_export,                                                       --                                                  csense_sdo.export
 			ctrl_io_lvds_export                                                     => CONNECTED_TO_ctrl_io_lvds_export,                                                     --                                                ctrl_io_lvds.export
+			dcom_a_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_a_conduit_end_data_in_signal,                                       --                                          dcom_a_conduit_end.data_in_signal
+			dcom_a_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_a_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_a_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_a_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_a_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_a_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_a_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_a_sync_end_sync_channel_signal,                                     --                                             dcom_a_sync_end.sync_channel_signal
+			dcom_b_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_b_conduit_end_data_in_signal,                                       --                                          dcom_b_conduit_end.data_in_signal
+			dcom_b_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_b_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_b_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_b_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_b_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_b_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_b_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_b_sync_end_sync_channel_signal,                                     --                                             dcom_b_sync_end.sync_channel_signal
+			dcom_c_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_c_conduit_end_data_in_signal,                                       --                                          dcom_c_conduit_end.data_in_signal
+			dcom_c_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_c_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_c_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_c_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_c_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_c_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_c_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_c_sync_end_sync_channel_signal,                                     --                                             dcom_c_sync_end.sync_channel_signal
+			dcom_d_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_d_conduit_end_data_in_signal,                                       --                                          dcom_d_conduit_end.data_in_signal
+			dcom_d_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_d_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_d_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_d_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_d_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_d_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_d_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_d_sync_end_sync_channel_signal,                                     --                                             dcom_d_sync_end.sync_channel_signal
+			dcom_e_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_e_conduit_end_data_in_signal,                                       --                                          dcom_e_conduit_end.data_in_signal
+			dcom_e_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_e_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_e_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_e_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_e_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_e_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_e_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_e_sync_end_sync_channel_signal,                                     --                                             dcom_e_sync_end.sync_channel_signal
+			dcom_f_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_f_conduit_end_data_in_signal,                                       --                                          dcom_f_conduit_end.data_in_signal
+			dcom_f_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_f_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_f_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_f_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_f_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_f_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_f_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_f_sync_end_sync_channel_signal,                                     --                                             dcom_f_sync_end.sync_channel_signal
+			dcom_g_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_g_conduit_end_data_in_signal,                                       --                                          dcom_g_conduit_end.data_in_signal
+			dcom_g_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_g_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_g_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_g_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_g_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_g_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_g_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_g_sync_end_sync_channel_signal,                                     --                                             dcom_g_sync_end.sync_channel_signal
+			dcom_h_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_h_conduit_end_data_in_signal,                                       --                                          dcom_h_conduit_end.data_in_signal
+			dcom_h_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_h_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
+			dcom_h_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_h_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
+			dcom_h_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_h_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
+			dcom_h_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_h_sync_end_sync_channel_signal,                                     --                                             dcom_h_sync_end.sync_channel_signal
 			dip_export                                                              => CONNECTED_TO_dip_export,                                                              --                                                         dip.export
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_address     => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_address,     -- dumb_communication_module_v1_timer_avalon_slave_data_buffer.address
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_write       => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_write,       --                                                            .write
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_writedata   => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_writedata,   --                                                            .writedata
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_waitrequest => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_waitrequest, --                                                            .waitrequest
+			dumb_communication_module_v1_timer_avalon_slave_data_buffer_byteenable  => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_byteenable,  --                                                            .byteenable
+			dumb_communication_module_v1_timer_spw_conduit_end_data_in_signal       => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_data_in_signal,       --          dumb_communication_module_v1_timer_spw_conduit_end.data_in_signal
+			dumb_communication_module_v1_timer_spw_conduit_end_data_out_signal      => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_data_out_signal,      --                                                            .data_out_signal
+			dumb_communication_module_v1_timer_spw_conduit_end_strobe_in_signal     => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_strobe_in_signal,     --                                                            .strobe_in_signal
+			dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal    => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal,    --                                                            .strobe_out_signal
+			dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal => CONNECTED_TO_dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal, --         dumb_communication_module_v1_timer_sync_conduit_end.sync_channel_signal
+			dumb_communication_module_v1_timer_tx_interrupt_sender_irq              => CONNECTED_TO_dumb_communication_module_v1_timer_tx_interrupt_sender_irq,              --      dumb_communication_module_v1_timer_tx_interrupt_sender.irq
 			ext_export                                                              => CONNECTED_TO_ext_export,                                                              --                                                         ext.export
 			led_de4_export                                                          => CONNECTED_TO_led_de4_export,                                                          --                                                     led_de4.export
 			led_painel_export                                                       => CONNECTED_TO_led_painel_export,                                                       --                                                  led_painel.export
@@ -252,56 +333,35 @@
 			tristate_conduit_tcm_write_n_out                                        => CONNECTED_TO_tristate_conduit_tcm_write_n_out,                                        --                                                            .tcm_write_n_out
 			tristate_conduit_tcm_data_out                                           => CONNECTED_TO_tristate_conduit_tcm_data_out,                                           --                                                            .tcm_data_out
 			tristate_conduit_tcm_chipselect_n_out                                   => CONNECTED_TO_tristate_conduit_tcm_chipselect_n_out,                                   --                                                            .tcm_chipselect_n_out
-			dcom_a_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_a_conduit_end_data_in_signal,                                       --                                          dcom_a_conduit_end.data_in_signal
-			dcom_a_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_a_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_a_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_a_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_a_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_a_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_a_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_a_sync_end_sync_channel_signal,                                     --                                             dcom_a_sync_end.sync_channel_signal
-			dcom_b_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_b_conduit_end_data_in_signal,                                       --                                          dcom_b_conduit_end.data_in_signal
-			dcom_b_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_b_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_b_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_b_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_b_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_b_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_c_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_c_conduit_end_data_in_signal,                                       --                                          dcom_c_conduit_end.data_in_signal
-			dcom_c_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_c_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_c_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_c_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_c_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_c_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_d_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_d_conduit_end_data_in_signal,                                       --                                          dcom_d_conduit_end.data_in_signal
-			dcom_d_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_d_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_d_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_d_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_d_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_d_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_e_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_e_conduit_end_data_in_signal,                                       --                                          dcom_e_conduit_end.data_in_signal
-			dcom_e_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_e_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_e_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_e_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_e_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_e_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_f_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_f_conduit_end_data_in_signal,                                       --                                          dcom_f_conduit_end.data_in_signal
-			dcom_f_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_f_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_f_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_f_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_f_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_f_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_g_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_g_conduit_end_data_in_signal,                                       --                                          dcom_g_conduit_end.data_in_signal
-			dcom_g_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_g_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_g_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_g_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_g_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_g_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_h_conduit_end_data_in_signal                                       => CONNECTED_TO_dcom_h_conduit_end_data_in_signal,                                       --                                          dcom_h_conduit_end.data_in_signal
-			dcom_h_conduit_end_data_out_signal                                      => CONNECTED_TO_dcom_h_conduit_end_data_out_signal,                                      --                                                            .data_out_signal
-			dcom_h_conduit_end_strobe_in_signal                                     => CONNECTED_TO_dcom_h_conduit_end_strobe_in_signal,                                     --                                                            .strobe_in_signal
-			dcom_h_conduit_end_strobe_out_signal                                    => CONNECTED_TO_dcom_h_conduit_end_strobe_out_signal,                                    --                                                            .strobe_out_signal
-			dcom_b_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_b_sync_end_sync_channel_signal,                                     --                                             dcom_b_sync_end.sync_channel_signal
-			dcom_c_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_c_sync_end_sync_channel_signal,                                     --                                             dcom_c_sync_end.sync_channel_signal
-			dcom_d_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_d_sync_end_sync_channel_signal,                                     --                                             dcom_d_sync_end.sync_channel_signal
-			dcom_e_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_e_sync_end_sync_channel_signal,                                     --                                             dcom_e_sync_end.sync_channel_signal
-			dcom_f_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_f_sync_end_sync_channel_signal,                                     --                                             dcom_f_sync_end.sync_channel_signal
-			dcom_g_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_g_sync_end_sync_channel_signal,                                     --                                             dcom_g_sync_end.sync_channel_signal
-			dcom_h_sync_end_sync_channel_signal                                     => CONNECTED_TO_dcom_h_sync_end_sync_channel_signal,                                     --                                             dcom_h_sync_end.sync_channel_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_data_in_signal       => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_data_in_signal,       --          dumb_communication_module_v1_timer_spw_conduit_end.data_in_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_data_out_signal      => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_data_out_signal,      --                                                            .data_out_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_strobe_in_signal     => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_strobe_in_signal,     --                                                            .strobe_in_signal
-			dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal    => CONNECTED_TO_dumb_communication_module_v1_timer_spw_conduit_end_strobe_out_signal,    --                                                            .strobe_out_signal
-			dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal => CONNECTED_TO_dumb_communication_module_v1_timer_sync_conduit_end_sync_channel_signal, --         dumb_communication_module_v1_timer_sync_conduit_end.sync_channel_signal
-			dumb_communication_module_v1_timer_tx_interrupt_sender_irq              => CONNECTED_TO_dumb_communication_module_v1_timer_tx_interrupt_sender_irq,              --      dumb_communication_module_v1_timer_tx_interrupt_sender.irq
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_address     => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_address,     -- dumb_communication_module_v1_timer_avalon_slave_data_buffer.address
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_write       => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_write,       --                                                            .write
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_writedata   => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_writedata,   --                                                            .writedata
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_waitrequest => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_waitrequest, --                                                            .waitrequest
-			dumb_communication_module_v1_timer_avalon_slave_data_buffer_byteenable  => CONNECTED_TO_dumb_communication_module_v1_timer_avalon_slave_data_buffer_byteenable   --                                                            .byteenable
+			tse_clk_clk                                                             => CONNECTED_TO_tse_clk_clk,                                                             --                                                     tse_clk.clk
+			tse_led_crs                                                             => CONNECTED_TO_tse_led_crs,                                                             --                                                     tse_led.crs
+			tse_led_link                                                            => CONNECTED_TO_tse_led_link,                                                            --                                                            .link
+			tse_led_panel_link                                                      => CONNECTED_TO_tse_led_panel_link,                                                      --                                                            .panel_link
+			tse_led_col                                                             => CONNECTED_TO_tse_led_col,                                                             --                                                            .col
+			tse_led_an                                                              => CONNECTED_TO_tse_led_an,                                                              --                                                            .an
+			tse_led_char_err                                                        => CONNECTED_TO_tse_led_char_err,                                                        --                                                            .char_err
+			tse_led_disp_err                                                        => CONNECTED_TO_tse_led_disp_err,                                                        --                                                            .disp_err
+			tse_mac_mac_misc_connection_xon_gen                                     => CONNECTED_TO_tse_mac_mac_misc_connection_xon_gen,                                     --                                 tse_mac_mac_misc_connection.xon_gen
+			tse_mac_mac_misc_connection_xoff_gen                                    => CONNECTED_TO_tse_mac_mac_misc_connection_xoff_gen,                                    --                                                            .xoff_gen
+			tse_mac_mac_misc_connection_magic_wakeup                                => CONNECTED_TO_tse_mac_mac_misc_connection_magic_wakeup,                                --                                                            .magic_wakeup
+			tse_mac_mac_misc_connection_magic_sleep_n                               => CONNECTED_TO_tse_mac_mac_misc_connection_magic_sleep_n,                               --                                                            .magic_sleep_n
+			tse_mac_mac_misc_connection_ff_tx_crc_fwd                               => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_crc_fwd,                               --                                                            .ff_tx_crc_fwd
+			tse_mac_mac_misc_connection_ff_tx_septy                                 => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_septy,                                 --                                                            .ff_tx_septy
+			tse_mac_mac_misc_connection_tx_ff_uflow                                 => CONNECTED_TO_tse_mac_mac_misc_connection_tx_ff_uflow,                                 --                                                            .tx_ff_uflow
+			tse_mac_mac_misc_connection_ff_tx_a_full                                => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_a_full,                                --                                                            .ff_tx_a_full
+			tse_mac_mac_misc_connection_ff_tx_a_empty                               => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_a_empty,                               --                                                            .ff_tx_a_empty
+			tse_mac_mac_misc_connection_rx_err_stat                                 => CONNECTED_TO_tse_mac_mac_misc_connection_rx_err_stat,                                 --                                                            .rx_err_stat
+			tse_mac_mac_misc_connection_rx_frm_type                                 => CONNECTED_TO_tse_mac_mac_misc_connection_rx_frm_type,                                 --                                                            .rx_frm_type
+			tse_mac_mac_misc_connection_ff_rx_dsav                                  => CONNECTED_TO_tse_mac_mac_misc_connection_ff_rx_dsav,                                  --                                                            .ff_rx_dsav
+			tse_mac_mac_misc_connection_ff_rx_a_full                                => CONNECTED_TO_tse_mac_mac_misc_connection_ff_rx_a_full,                                --                                                            .ff_rx_a_full
+			tse_mac_mac_misc_connection_ff_rx_a_empty                               => CONNECTED_TO_tse_mac_mac_misc_connection_ff_rx_a_empty,                               --                                                            .ff_rx_a_empty
+			tse_mac_serdes_control_connection_export                                => CONNECTED_TO_tse_mac_serdes_control_connection_export,                                --                           tse_mac_serdes_control_connection.export
+			tse_mdio_mdc                                                            => CONNECTED_TO_tse_mdio_mdc,                                                            --                                                    tse_mdio.mdc
+			tse_mdio_mdio_in                                                        => CONNECTED_TO_tse_mdio_mdio_in,                                                        --                                                            .mdio_in
+			tse_mdio_mdio_out                                                       => CONNECTED_TO_tse_mdio_mdio_out,                                                       --                                                            .mdio_out
+			tse_mdio_mdio_oen                                                       => CONNECTED_TO_tse_mdio_mdio_oen,                                                       --                                                            .mdio_oen
+			tse_serial_txp                                                          => CONNECTED_TO_tse_serial_txp,                                                          --                                                  tse_serial.txp
+			tse_serial_rxp                                                          => CONNECTED_TO_tse_serial_rxp,                                                          --                                                            .rxp
+			eth_rst_export                                                          => CONNECTED_TO_eth_rst_export                                                           --                                                     eth_rst.export
 		);
 

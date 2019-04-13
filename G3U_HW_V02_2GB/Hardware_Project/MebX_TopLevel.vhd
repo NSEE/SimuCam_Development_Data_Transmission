@@ -81,10 +81,12 @@ port(
     FAN_CTRL	: out std_logic;
 	 
 	 -- SD CARD
-    SD_WP_n   : in    std_logic;
-    SD_CMD    : inout std_logic;            
-    SD_CLK    : out   std_logic;                                      
-    SD_DAT    : inout std_logic_vector(3 downto 0);
+	 
+	 I_SD_CARD_WP_n  : in    std_logic;
+	 B_SD_CARD_CMD   : inout std_logic;
+	 B_SD_CARD_DAT   : inout std_logic;
+	 B_SD_CARD_DAT3  : inout std_logic;
+	 O_SD_CARD_CLOCK : out   std_logic;
 
     -- Ethernet
     ETH_MDC   : out std_logic_vector(3 downto 0);
@@ -248,9 +250,13 @@ port(
 	RTCC_SDI	: out std_logic;
 	RTCC_SDO   : in  std_logic;
 	
-	-- Sincronization
-	SINC_IN    : in  std_logic;
-    SINC_OUT   : out std_logic
+		-- Synchronization
+		SYNC_IN                : in    std_logic;
+		SYNC_OUT               : out   std_logic;
+	
+	-- RS232 UART	 
+	I_RS232_UART_RXD : in  std_logic;
+   O_RS232_UART_TXD : out std_logic
 
   );
 end entity;
@@ -337,6 +343,21 @@ signal spw_h_so : std_logic_vector (0 downto 0);
 signal spw_h_di : std_logic_vector (0 downto 0);
 signal spw_h_do : std_logic_vector (0 downto 0);
 
+signal spw_a_sync : std_logic;
+signal spw_b_sync : std_logic;
+signal spw_c_sync : std_logic;
+signal spw_d_sync : std_logic;
+signal spw_e_sync : std_logic;
+signal spw_f_sync : std_logic;
+signal spw_g_sync : std_logic;
+signal spw_h_sync : std_logic;
+
+-----------------------------------------
+	-- Sync - test
+-----------------------------------------
+	signal s_sync_out : std_logic := '0';
+	signal s_sync_in  : std_logic := '0';
+
 -----------------------------------------
 -- Component
 -----------------------------------------
@@ -411,10 +432,6 @@ signal spw_h_do : std_logic_vector (0 downto 0);
             led_painel_export                                    : out   std_logic_vector(20 downto 0);
             ssdp_ssdp1                            : out   std_logic_vector(7 downto 0);
             ssdp_ssdp0                            : out   std_logic_vector(7 downto 0);
-            sd_wp_n_export     : in    std_logic;            
-            sd_cmd_export      : inout std_logic;            
-            sd_clk_export      : out   std_logic;                                       
-            sd_dat_export      : inout std_logic_vector(3 downto 0);
 				
 				ctrl_io_lvds_export   : out   std_logic_vector(3 downto 0);
 				
@@ -423,38 +440,47 @@ signal spw_h_do : std_logic_vector (0 downto 0);
             m2_ddr2_i2c_scl_export  : out   std_logic;                                 
             m2_ddr2_i2c_sda_export  : inout std_logic;    
 
-			comm_a_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_a_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_a_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_a_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
-			comm_b_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_b_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_b_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_b_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
-			comm_c_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_c_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_c_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_c_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
-			comm_d_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_d_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_d_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_d_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
-			comm_e_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_e_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_e_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_e_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
-			comm_f_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_f_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_f_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_f_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
-			comm_g_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_g_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_g_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_g_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
-			comm_h_conduit_end_spw_di_signal                     : in    std_logic                     := 'X';             -- spw_di_signal
-			comm_h_conduit_end_spw_si_signal                     : in    std_logic                     := 'X';             -- spw_si_signal
-			comm_h_conduit_end_spw_do_signal                     : out   std_logic;                                        -- spw_do_signal
-			comm_h_conduit_end_spw_so_signal                     : out   std_logic;                                        -- spw_so_signal
+			dcom_a_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_a_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_a_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_a_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			dcom_b_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_b_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_b_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_b_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			dcom_c_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_c_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_c_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_c_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			dcom_d_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_d_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_d_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_d_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			dcom_e_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_e_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_e_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_e_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			dcom_f_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_f_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_f_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_f_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			dcom_g_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_g_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_g_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_g_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			dcom_h_conduit_end_data_in_signal                         : in    std_logic                     := 'X';             -- spw_di_signal
+			dcom_h_conduit_end_strobe_in_signal                       : in    std_logic                     := 'X';             -- spw_si_signal
+			dcom_h_conduit_end_data_out_signal                        : out   std_logic;                                        -- spw_do_signal
+			dcom_h_conduit_end_strobe_out_signal                      : out   std_logic;                                        -- spw_so_signal
+			
+			   dcom_a_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
+            dcom_b_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
+            dcom_c_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
+            dcom_d_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
+            dcom_e_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
+            dcom_f_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
+            dcom_g_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
+            dcom_h_sync_end_sync_channel_signal                  : in    std_logic                     := 'X';             -- sync_channel_signal
 			
             temp_scl_export       : out   std_logic;                     
             temp_sda_export       : inout std_logic;
@@ -470,8 +496,25 @@ signal spw_h_do : std_logic_vector (0 downto 0);
             rtcc_sdi_export       : out   std_logic;         -- export
             rtcc_sdo_export       : in    std_logic  := 'X'; -- export
 				
-				sinc_in_export        : in    std_logic  := 'X'; -- export
-            sinc_out_export       : out   std_logic          -- export
+			sync_in_conduit                       : in    std_logic                     := 'X';
+			sync_out_conduit                      : out   std_logic;
+			sync_spwa_conduit                     : out   std_logic;
+			sync_spwb_conduit                     : out   std_logic;
+			sync_spwc_conduit                     : out   std_logic;
+			sync_spwd_conduit                     : out   std_logic;
+			sync_spwe_conduit                     : out   std_logic;
+			sync_spwf_conduit                     : out   std_logic;
+			sync_spwg_conduit                     : out   std_logic;
+			sync_spwh_conduit                     : out   std_logic;
+				
+				sd_card_wp_n_io_export                               : in    std_logic                     := 'X';             -- export
+            sd_card_ip_b_SD_cmd                                  : inout std_logic                     := 'X';             -- b_SD_cmd
+            sd_card_ip_b_SD_dat                                  : inout std_logic                     := 'X';             -- b_SD_dat
+            sd_card_ip_b_SD_dat3                                 : inout std_logic                     := 'X';             -- b_SD_dat3
+            sd_card_ip_o_SD_clock                                : out   std_logic;                                        -- o_SD_clock
+				
+            rs232_uart_rxd                                       : in    std_logic                     := 'X';             -- rxd
+            rs232_uart_txd                                       : out   std_logic                                         -- txd
         );
     end component MebX_Qsys_Project;
 
@@ -516,11 +559,6 @@ SOPC_INST : MebX_Qsys_Project
     dip_export      => SW,
     button_export   => Button,
     ext_export	     => EXT_IO,
-
-    sd_wp_n_export   => sd_wp_n,
-    sd_cmd_export    => sd_cmd,
-    sd_clk_export    => sd_clk,
-    sd_dat_export    => sd_dat,
 	 
 	 ctrl_io_lvds_export	=> ctrl_io_lvds,
     
@@ -585,38 +623,47 @@ SOPC_INST : MebX_Qsys_Project
     m2_ddr2_i2c_scl_export        => M2_DDR2_SCL,
     m2_ddr2_i2c_sda_export        => M2_DDR2_SDA,
     
-	comm_a_conduit_end_spw_di_signal => spw_a_di(0),
-	comm_a_conduit_end_spw_si_signal => spw_a_si(0),
-	comm_a_conduit_end_spw_do_signal => spw_a_do(0),
-	comm_a_conduit_end_spw_so_signal => spw_a_so(0),
-	comm_b_conduit_end_spw_di_signal => spw_b_di(0),
-	comm_b_conduit_end_spw_si_signal => spw_b_si(0),
-	comm_b_conduit_end_spw_do_signal => spw_b_do(0),
-	comm_b_conduit_end_spw_so_signal => spw_b_so(0),
-	comm_c_conduit_end_spw_di_signal => spw_c_di(0),
-	comm_c_conduit_end_spw_si_signal => spw_c_si(0),
-	comm_c_conduit_end_spw_do_signal => spw_c_do(0),
-	comm_c_conduit_end_spw_so_signal => spw_c_so(0),
-	comm_d_conduit_end_spw_di_signal => spw_d_di(0),
-	comm_d_conduit_end_spw_si_signal => spw_d_si(0),
-	comm_d_conduit_end_spw_do_signal => spw_d_do(0),
-	comm_d_conduit_end_spw_so_signal => spw_d_so(0),
-	comm_e_conduit_end_spw_di_signal => spw_e_di(0),
-	comm_e_conduit_end_spw_si_signal => spw_e_si(0),
-	comm_e_conduit_end_spw_do_signal => spw_e_do(0),
-	comm_e_conduit_end_spw_so_signal => spw_e_so(0),
-	comm_f_conduit_end_spw_di_signal => spw_f_di(0),
-	comm_f_conduit_end_spw_si_signal => spw_f_si(0),
-	comm_f_conduit_end_spw_do_signal => spw_f_do(0),
-	comm_f_conduit_end_spw_so_signal => spw_f_so(0),
-	comm_g_conduit_end_spw_di_signal => spw_g_di(0),
-	comm_g_conduit_end_spw_si_signal => spw_g_si(0),
-	comm_g_conduit_end_spw_do_signal => spw_g_do(0),
-	comm_g_conduit_end_spw_so_signal => spw_g_so(0),
-	comm_h_conduit_end_spw_di_signal => spw_h_di(0),
-	comm_h_conduit_end_spw_si_signal => spw_h_si(0),
-	comm_h_conduit_end_spw_do_signal => spw_h_do(0),
-	comm_h_conduit_end_spw_so_signal => spw_h_so(0),
+	dcom_a_conduit_end_data_in_signal    => spw_a_di(0),
+	dcom_a_conduit_end_strobe_in_signal  => spw_a_si(0),
+	dcom_a_conduit_end_data_out_signal   => spw_a_do(0),
+	dcom_a_conduit_end_strobe_out_signal => spw_a_so(0),
+	dcom_b_conduit_end_data_in_signal    => spw_b_di(0),
+	dcom_b_conduit_end_strobe_in_signal  => spw_b_si(0),
+	dcom_b_conduit_end_data_out_signal   => spw_b_do(0),
+	dcom_b_conduit_end_strobe_out_signal => spw_b_so(0),
+	dcom_c_conduit_end_data_in_signal    => spw_c_di(0),
+	dcom_c_conduit_end_strobe_in_signal  => spw_c_si(0),
+	dcom_c_conduit_end_data_out_signal   => spw_c_do(0),
+	dcom_c_conduit_end_strobe_out_signal => spw_c_so(0),
+	dcom_d_conduit_end_data_in_signal    => spw_d_di(0),
+	dcom_d_conduit_end_strobe_in_signal  => spw_d_si(0),
+	dcom_d_conduit_end_data_out_signal   => spw_d_do(0),
+	dcom_d_conduit_end_strobe_out_signal => spw_d_so(0),
+	dcom_e_conduit_end_data_in_signal    => spw_e_di(0),
+	dcom_e_conduit_end_strobe_in_signal  => spw_e_si(0),
+	dcom_e_conduit_end_data_out_signal   => spw_e_do(0),
+	dcom_e_conduit_end_strobe_out_signal => spw_e_so(0),
+	dcom_f_conduit_end_data_in_signal    => spw_f_di(0),
+	dcom_f_conduit_end_strobe_in_signal  => spw_f_si(0),
+	dcom_f_conduit_end_data_out_signal   => spw_f_do(0),
+	dcom_f_conduit_end_strobe_out_signal => spw_f_so(0),
+	dcom_g_conduit_end_data_in_signal    => spw_g_di(0),
+	dcom_g_conduit_end_strobe_in_signal  => spw_g_si(0),
+	dcom_g_conduit_end_data_out_signal   => spw_g_do(0),
+	dcom_g_conduit_end_strobe_out_signal => spw_g_so(0),
+	dcom_h_conduit_end_data_in_signal    => spw_h_di(0),
+	dcom_h_conduit_end_strobe_in_signal  => spw_h_si(0),
+	dcom_h_conduit_end_data_out_signal   => spw_h_do(0),
+	dcom_h_conduit_end_strobe_out_signal => spw_h_so(0),
+
+            dcom_a_sync_end_sync_channel_signal                  => spw_a_sync,                  --            comm_a_sync_end.sync_channel_signal
+            dcom_b_sync_end_sync_channel_signal                  => spw_b_sync,                  --            comm_b_sync_end.sync_channel_signal
+            dcom_c_sync_end_sync_channel_signal                  => spw_c_sync,                  --            comm_c_sync_end.sync_channel_signal
+            dcom_d_sync_end_sync_channel_signal                  => spw_d_sync,                  --            comm_d_sync_end.sync_channel_signal
+            dcom_e_sync_end_sync_channel_signal                  => spw_e_sync,                  --            comm_e_sync_end.sync_channel_signal
+            dcom_f_sync_end_sync_channel_signal                  => spw_f_sync,                  --            comm_f_sync_end.sync_channel_signal
+            dcom_g_sync_end_sync_channel_signal                  => spw_g_sync,                  --            comm_g_sync_end.sync_channel_signal
+            dcom_h_sync_end_sync_channel_signal                  => spw_h_sync,                  --            comm_h_sync_end.sync_channel_signal
 	
     temp_scl_export          => TEMP_SMCLK,
     temp_sda_export          => TEMP_SMDAT,
@@ -633,8 +680,25 @@ SOPC_INST : MebX_Qsys_Project
 	rtcc_sdi_export       => RTCC_SDI,
 	rtcc_sdo_export       => RTCC_SDO,
 	
-	sinc_in_export        => SINC_IN,
-	sinc_out_export       => SINC_OUT
+			sync_in_conduit                       => s_sync_in, --SYNC_IN,
+			sync_out_conduit                      => s_sync_out, --SYNC_OUT,
+			sync_spwa_conduit                     => spw_a_sync,
+			sync_spwb_conduit                     => spw_b_sync,
+			sync_spwc_conduit                     => spw_c_sync,
+			sync_spwd_conduit                     => spw_d_sync,
+			sync_spwe_conduit                     => spw_e_sync,
+			sync_spwf_conduit                     => spw_f_sync,
+			sync_spwg_conduit                     => spw_g_sync,
+			sync_spwh_conduit                     => spw_h_sync,
+	
+	sd_card_wp_n_io_export => I_SD_CARD_WP_n,   -- sd_card_wp_n_io.export
+	sd_card_ip_b_SD_cmd    => B_SD_CARD_CMD,    -- sd_card_ip.b_SD_cmd
+	sd_card_ip_b_SD_dat    => B_SD_CARD_DAT,    --           .b_SD_dat
+	sd_card_ip_b_SD_dat3   => B_SD_CARD_DAT3,   --           .b_SD_dat3
+	sd_card_ip_o_SD_clock  => O_SD_CARD_CLOCK,  --           .o_SD_clock
+	
+	rs232_uart_rxd => I_RS232_UART_RXD, -- rs232_uart.rxd
+	rs232_uart_txd => O_RS232_UART_TXD  --           .txd
 	
  );
 
@@ -647,6 +711,11 @@ rst <= CPU_RESET_n AND RESET_PAINEL_n;
 --==========--
 -- I/Os
 --==========--    
+	-- Routing sync i/o´s - test
+	SYNC_OUT     <= s_sync_out;
+	-- Observe that SYNC_IN is at high level state when there is no excitation input
+	-- For test purposes, don´t use isolator board.
+	s_sync_in    <= SYNC_IN;
 
 -- Ativa ventoinha
 FAN_CTRL <= '1';

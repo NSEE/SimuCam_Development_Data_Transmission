@@ -3,16 +3,16 @@
  <debug showDebugMenu="0" />
  <systemtable filter="All Interfaces">
   <columns>
-   <connections preferredWidth="655" />
+   <connections preferredWidth="783" />
    <irq preferredWidth="207" />
-   <name preferredWidth="341" />
+   <name preferredWidth="221" />
    <export preferredWidth="263" />
    <inputclock preferredWidth="99" />
   </columns>
  </systemtable>
  <library
-   expandedCategories="Project,Library/Processors and Peripherals,Library/Processors and Peripherals/Peripherals,Library" />
+   expandedCategories="Library/Processors and Peripherals,Library/Interface Protocols/PCI Express,Library/Processors and Peripherals/Peripherals,Library,Project,Library/Interface Protocols/PCI Express/QSYS Example Designs,Library/Interface Protocols" />
  <window width="1936" height="1056" x="-8" y="-8" />
- <generation synthesis="VHDL" simulation="VHDL" testbench_simulation="VHDL" />
+ <generation synthesis="VHDL" simulation="NONE" testbench_simulation="VHDL" />
  <hdlexample language="VHDL" />
 </preferences>
