@@ -472,11 +472,11 @@ void sub_unit_control_task() {
 //								p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
 //				p_config->sub_status_sending = 0;
 
-				exec_error =
-						bIdmaDmaM1Transfer(
-								(INT32U*) (&(p_imagette_buffer->dataset[i_imagette_number])),
-								p_imagette_buffer->dataset[i_imagette_number]->imagette_length
-										+ DMA_OFFSET, c_spw_channel);
+//				exec_error =
+//						bIdmaDmaM1Transfer(
+//								(INT32U*) (&(p_imagette_buffer->dataset[i_imagette_number])),
+//								p_imagette_buffer->dataset[i_imagette_number]->imagette_length
+//										+ DMA_OFFSET, c_spw_channel);
 
 				/*
 				 * Echo command statement

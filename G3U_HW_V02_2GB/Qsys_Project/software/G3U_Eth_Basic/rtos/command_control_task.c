@@ -580,10 +580,9 @@ int v_parse_data_teste(struct x_ethernet_payload *p_payload,
 
 #endif
 
-		dataset[i]->offset = div(
-				(p_payload->data[o + 3] + 256 * p_payload->data[o + 2]
-						+ 65536 * p_payload->data[o + 1]
-						+ 4294967296 * p_payload->data[o]), 10).quot;
+		dataset[i]->offset = (p_payload->data[o + 3]
+				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
+				+ 4294967296 * p_payload->data[o]);
 
 		dataset[i]->imagette_length = p_payload->data[o + 5]
 				+ 256 * p_payload->data[o + 4];
@@ -786,10 +785,21 @@ void CommandManagementTask() {
 			(INT8U*) "Running Timer", (INT8U*) &exec_error);
 
 	/*
-	 * Start timer for ChA
+	 * Stop timer for ChA
 	 * NOT STARTING THE TIMER
 	 */
-	bDschStartTimer(&(xChA.xDataScheduler));
+	bDschStopTimer(&(xChA.xDataScheduler));
+	bDschClrTimer(&(xChA.xDataScheduler));
+
+	/*
+	 * Initializing the timer
+	 * for channel A
+	 */
+	bDschGetTimerConfig(&(xChA.xDataScheduler));
+	xChA.xDataScheduler.xTimerConfig.bStartOnSync = TRUE;
+	xChA.xDataScheduler.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
+	bDschSetTimerConfig(&(xChA.xDataScheduler));
+
 //
 //	/*
 //	 * Forcing all sub-units to config mode
@@ -890,27 +900,26 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]Data parsed\r\n");
 #endif
 
-				bSpwcGetLink(&(xChA.xSpacewire));
-				xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
-				xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
-				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
-				bSpwcSetLink(&(xChA.xSpacewire));
+				/*
+				 * DMA test 1
+				 */
+//				bSpwcGetLink(&(xChA.xSpacewire));
+//				xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
+//				xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
+//				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
+//				bSpwcSetLink(&(xChA.xSpacewire));
+//
+				bIdmaDmaM1Transfer((INT32U*) (p_img_control->dataset[0]),
+						p_img_control->dataset[0]->imagette_length + DMA_OFFSET,
+						0);
 
-				bIdmaDmaM1Transfer(
-						(INT32U*) (p_img_control->dataset[0]),
-						p_img_control->dataset[0]->imagette_length
-								+ DMA_OFFSET, 0);
+				bIdmaDmaM1Transfer((INT32U*) (p_img_control->dataset[1]),
+						p_img_control->dataset[1]->imagette_length + DMA_OFFSET,
+						0);
 
-				bIdmaDmaM1Transfer(
-						(INT32U*) (p_img_control->dataset[1]),
-						p_img_control->dataset[1]->imagette_length
-								+ DMA_OFFSET, 0);
-
-				bIdmaDmaM1Transfer(
-						(INT32U*) (p_img_control->dataset[2]),
-						p_img_control->dataset[2]->imagette_length
-								+ DMA_OFFSET, 0);
-
+				bIdmaDmaM1Transfer((INT32U*) (p_img_control->dataset[2]),
+						p_img_control->dataset[2]->imagette_length + DMA_OFFSET,
+						0);
 				config_send->imagette = p_img_control;
 
 				v_ack_creator(p_payload, exec_error);
@@ -1079,6 +1088,13 @@ void CommandManagementTask() {
 
 			OSTmrStart((OS_TMR *) simucam_running_timer,
 					(INT8U *) &i_internal_error);
+
+			/*
+			 * Start timer for ChA
+			 * NOT STARTING THE TIMER
+			 */
+			bDschStartTimer(&(xChA.xDataScheduler));
+
 #if DEBUG_ON
 			printf("MEB in running mode\n\r");
 #endif
@@ -1109,7 +1125,13 @@ void CommandManagementTask() {
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 			alt_uCOSIIErrorHandler(i_internal_error, 0);
 
+			/*
+			 * SYNC cmd
+			 */
 			if (p_payload->type == 106) {
+
+				bDschRunTimer(&(xChA.xDataScheduler));
+
 #if DEBUG_ON
 				printf("[CommandManagementTask]Starting timer\r\n");
 #endif
@@ -1158,6 +1180,10 @@ void CommandManagementTask() {
 						/*
 						 * Stop and restart running timer
 						 */
+
+						bDschStopTimer(&(xChA.xDataScheduler));
+						bDschClrTimer(&(xChA.xDataScheduler));
+
 						OSTmrStop(simucam_running_timer,
 						OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 						if (i_internal_error == OS_ERR_NONE
@@ -1197,6 +1223,10 @@ void CommandManagementTask() {
 					printf(
 							"[CommandManagementTask]End of dataset, restarting\r\n");
 #endif
+
+					bDschStopTimer(&(xChA.xDataScheduler));
+					bDschClrTimer(&(xChA.xDataScheduler));
+
 					OSTmrStop(central_timer,
 					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
@@ -1227,6 +1257,10 @@ void CommandManagementTask() {
 					printf("[CommandManagementTask]Selected command: %i\n\r",
 							(int) p_payload->type);
 #endif
+
+					bDschStopTimer(&(xChA.xDataScheduler));
+					bDschClrTimer(&(xChA.xDataScheduler));
+
 					OSTmrStop(central_timer,
 					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
