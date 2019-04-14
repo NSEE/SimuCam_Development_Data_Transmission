@@ -784,6 +784,15 @@ void CommandManagementTask() {
 	OS_TMR_OPT_PERIODIC, simucam_running_timer_callback_function, (void *) 0,
 			(INT8U*) "Running Timer", (INT8U*) &exec_error);
 
+
+	bSyncSetOst(25e6);
+	bSyncSetPolarity(FALSE);
+	bSyncCtrExtnIrq(TRUE);
+	bSyncCtrReset();
+	bSyncCtrCh1OutEnable(TRUE);
+
+
+
 	/*
 	 * Stop timer for ChA
 	 * NOT STARTING THE TIMER
@@ -1130,7 +1139,8 @@ void CommandManagementTask() {
 			 */
 			if (p_payload->type == 106) {
 
-				bDschRunTimer(&(xChA.xDataScheduler));
+//				bDschRunTimer(&(xChA.xDataScheduler));
+				bSyncCtrOneShot();
 
 #if DEBUG_ON
 				printf("[CommandManagementTask]Starting timer\r\n");
