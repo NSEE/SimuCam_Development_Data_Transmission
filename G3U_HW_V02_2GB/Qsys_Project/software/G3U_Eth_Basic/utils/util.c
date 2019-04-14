@@ -132,7 +132,7 @@ INT8U aatoh(INT8U *buffer) {
 
 INT8U Verif_Error(INT8U error_code) {
 	if (!error_code) {
-		printf("ERROR\n\r");
+		printf("[VERIF ERROR]ERROR\n\r");
 		return 0;
 	} else
 		return 1;

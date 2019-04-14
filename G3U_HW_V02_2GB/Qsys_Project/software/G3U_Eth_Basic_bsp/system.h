@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Sat Apr 13 12:18:57 BRT 2019
+ * Generated: Sun Apr 14 10:48:01 BRT 2019
  */
 
 /*
@@ -605,7 +605,7 @@
 #define DMA_DDR_M1_CSR_SPAN 32
 #define DMA_DDR_M1_CSR_STRIDE_ENABLE 0
 #define DMA_DDR_M1_CSR_STRIDE_ENABLE_DERIVED 0
-#define DMA_DDR_M1_CSR_TRANSFER_TYPE "Aligned Accesses"
+#define DMA_DDR_M1_CSR_TRANSFER_TYPE "Full Word Accesses Only"
 #define DMA_DDR_M1_CSR_TYPE "altera_msgdma"
 
 
@@ -643,7 +643,7 @@
 #define DMA_DDR_M1_DESCRIPTOR_SLAVE_SPAN 32
 #define DMA_DDR_M1_DESCRIPTOR_SLAVE_STRIDE_ENABLE 0
 #define DMA_DDR_M1_DESCRIPTOR_SLAVE_STRIDE_ENABLE_DERIVED 0
-#define DMA_DDR_M1_DESCRIPTOR_SLAVE_TRANSFER_TYPE "Aligned Accesses"
+#define DMA_DDR_M1_DESCRIPTOR_SLAVE_TRANSFER_TYPE "Full Word Accesses Only"
 #define DMA_DDR_M1_DESCRIPTOR_SLAVE_TYPE "altera_msgdma"
 
 
@@ -681,7 +681,7 @@
 #define DMA_DDR_M2_CSR_SPAN 32
 #define DMA_DDR_M2_CSR_STRIDE_ENABLE 0
 #define DMA_DDR_M2_CSR_STRIDE_ENABLE_DERIVED 0
-#define DMA_DDR_M2_CSR_TRANSFER_TYPE "Aligned Accesses"
+#define DMA_DDR_M2_CSR_TRANSFER_TYPE "Full Word Accesses Only"
 #define DMA_DDR_M2_CSR_TYPE "altera_msgdma"
 
 
@@ -719,7 +719,7 @@
 #define DMA_DDR_M2_DESCRIPTOR_SLAVE_SPAN 32
 #define DMA_DDR_M2_DESCRIPTOR_SLAVE_STRIDE_ENABLE 0
 #define DMA_DDR_M2_DESCRIPTOR_SLAVE_STRIDE_ENABLE_DERIVED 0
-#define DMA_DDR_M2_DESCRIPTOR_SLAVE_TRANSFER_TYPE "Aligned Accesses"
+#define DMA_DDR_M2_DESCRIPTOR_SLAVE_TRANSFER_TYPE "Full Word Accesses Only"
 #define DMA_DDR_M2_DESCRIPTOR_SLAVE_TYPE "altera_msgdma"
 
 
@@ -1460,7 +1460,7 @@
 #define SYSID_QSYS_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_NAME "/dev/sysid_qsys"
 #define SYSID_QSYS_SPAN 8
-#define SYSID_QSYS_TIMESTAMP 1555132486
+#define SYSID_QSYS_TIMESTAMP 1555234600
 #define SYSID_QSYS_TYPE "altera_avalon_sysid_qsys"
 
 

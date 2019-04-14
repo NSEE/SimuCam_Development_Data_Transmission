@@ -209,9 +209,9 @@ void telemetry_manager_task() {
 		switch (p_telemetry->i_type) {
 
 		case ACK_TYPE:
-			v_ack_creator_telemetry(p_telemetry->p_payload, p_telemetry->error_code);
-			send(conn.fd, p_telemetry->p_payload->data,
-					p_telemetry->p_payload->size, 0);
+//			v_ack_creator_telemetry(p_telemetry->p_payload, p_telemetry->error_code);
+//			send(conn.fd, p_telemetry->p_payload->data,
+//					p_telemetry->p_payload->size, 0);
 #if DEBUG_ON
 			printf("ACK_SENT\r\n");
 #endif

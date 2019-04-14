@@ -64,9 +64,9 @@ void  doprint(char * target, char * sp, int * vp);
 #define MEMSET(ptr,val,size)  memset((void *)(ptr),(val),(size))
 #define MEMCMP(p1,p2,size)    memcmp((void *)(p1),(void *)(p2),(size))
 
-//#ifndef isdigit
-//#define isdigit(_c)  ((_c >= '0' && _c <= '9') ? 1:0)
-//#endif
+#ifndef isdigit
+#define isdigit(_c)  ((_c >= '0' && _c <= '9') ? 1:0)
+#endif
 
 #endif /* _LIBPORT_H_ */
 

@@ -42,6 +42,7 @@
 
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 
+#define DMA_OFFSET					6
 #define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
 #define MAX_IMAGETTE_SIZE 			400000 	/*Imagette size in bytes*/
 #define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
@@ -107,7 +108,7 @@ struct _sub_data {
 	INT32U i_data_size;
 }_sub_data;
 
-struct x_imagette {
+typedef struct x_imagette {
 	/*
 	 * Usar memcpy
 	 */

@@ -32,7 +32,7 @@
 #define __MSGDMA_H__
 
 #include <altera_msgdma.h>
-#include "../../simucam_definitions.h"
+//#include "../../simucam_definitions.h"
 //#include "../../utils/configs_simucam.h"
 
 #ifdef __cplusplus

@@ -18,7 +18,6 @@
 //#include "os_cfg.h"
 //#include "os_cpu.h"
 #include "includes.h"
-#include "simple_socket_server.h"
 #include "../alt_error_handler.h"
 #include "../utils/util.h"
 //#include "../logic/ddr2/ddr2.h"
@@ -100,6 +99,8 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload*, INT8U*);
 void v_HK_creator(struct x_ethernet_payload*, INT8U);
 void central_timer_callback_function(void *);
 void simucam_running_timer_callback_function(void *);
+int v_parse_data_teste(struct x_ethernet_payload *p_payload,
+		Timagette_control *p_img_ctrl, x_imagette *dataset[MAX_IMAGETTES]);
 
 /*$PAGE*/
 

@@ -207,7 +207,7 @@ void sub_unit_control_task() {
 	INT8U exec_error; /*Internal error code for the command module*/
 	INT16U i_imagette_length = 0;
 
-	char c_spw_channel = 'A';
+	INT8U c_spw_channel = eIdmaCh1Buffer;
 
 	struct sub_config *p_config;
 	p_config = &sub_config;
@@ -472,11 +472,11 @@ void sub_unit_control_task() {
 //								p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
 //				p_config->sub_status_sending = 0;
 
-//				bIdmaDmaM1Transfer(p_imagette_buffer->dataset->imagette_start,
-//						p_imagette_buffer->dataset->imagette_length,
-//						eIdmaCh1Buffer);
-
-//				p_imagette_buffer->dataset->imagette_start;
+				exec_error =
+						bIdmaDmaM1Transfer(
+								(INT32U*) (&(p_imagette_buffer->dataset[i_imagette_number])),
+								p_imagette_buffer->dataset[i_imagette_number]->imagette_length
+										+ DMA_OFFSET, c_spw_channel);
 
 				/*
 				 * Echo command statement
