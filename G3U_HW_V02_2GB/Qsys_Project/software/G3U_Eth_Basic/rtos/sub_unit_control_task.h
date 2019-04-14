@@ -35,6 +35,7 @@
 #include "../alt_error_handler.h"
 #include "../utils/util.h"
 #include "../api_drivers/ddr2/ddr2.h"
+#include "../api_drivers/iwf_simucam_dma/iwf_simucam_dma.h"
 #include "../simucam_definitions.h"
 //#include "telemetry_manager_task.h"
 #include "../driver/dcom/dcom_channel.h"

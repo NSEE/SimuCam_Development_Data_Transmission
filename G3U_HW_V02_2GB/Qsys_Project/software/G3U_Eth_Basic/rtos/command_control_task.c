@@ -351,7 +351,7 @@ INT32U i_compute_size(INT8U *p_length) {
  * @retval int	9 if error, 1 if no error
  **/
 int v_parse_data(struct x_ethernet_payload *p_payload,
-		struct imagette_control *p_img_ctrl) { //, struct x_imagette *dataset
+		struct Timagette_control *p_img_ctrl) { //, struct x_imagette *dataset
 
 	INT32U i = 0;
 	INT32U o = DATA_SHIFT;
@@ -524,7 +524,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 }
 
 int v_parse_data_teste(struct x_ethernet_payload *p_payload,
-		struct imagette_control *p_img_ctrl, struct x_imagette *dataset) { //, struct x_imagette *dataset
+		struct Timagette_control *p_img_ctrl, struct x_imagette *dataset) { //, struct x_imagette *dataset
 
 	INT32U i = 0;
 	INT32U o = DATA_SHIFT;
@@ -610,14 +610,20 @@ int v_parse_data_teste(struct x_ethernet_payload *p_payload,
 			printf("[PARSER] byte %i %i\r\n", p , *(p_imagette_byte));
 #endif
 		}
-
 #if DEBUG_ON
 		printf("[PARSER] first byte %i\r\n", (INT8U) dataset[0].imagette_start);
 		printf("[PARSER] last byte addr %x\r\n[PARSER] last byte %i\r\n",
 				p_imagette_byte, *(p_imagette_byte));
 #endif
 
-		p_imagette_byte++;
+		/*
+		 * Align last imagette byte with
+		 * an 8 byte memory
+		 */
+		while ((INT32U)(p_imagette_byte) % 8){
+			p_imagette_byte++;
+		}
+
 		o += DELAY_SIZE + dataset[i].imagette_length;
 		p_img_ctrl->dataset[i] = &(dataset[i]);
 		i++;

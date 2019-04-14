@@ -61,7 +61,6 @@ void sub_unit_create_os_data_structs(void) {
 	sub_unit_command_semaphore = OSSemCreate(0);
 }
 
-
 /**
  * @name set_spw_linkspeed
  * @brief Set SpW linkspeed
@@ -113,8 +112,6 @@ INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code) {
 
 	return error_code;
 }
-
-
 
 /*
  * Echo data creation function
@@ -214,7 +211,7 @@ void sub_unit_control_task() {
 
 	struct sub_config *p_config;
 	p_config = &sub_config;
-	struct imagette_control *p_imagette_buffer;
+	Timagette_control *p_imagette_buffer;
 
 	int i_command_control = 0;
 
@@ -474,6 +471,13 @@ void sub_unit_control_task() {
 //								&(p_imagette_buffer->dataset[i_imagette_number]->imagette_start),
 //								p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
 //				p_config->sub_status_sending = 0;
+
+//				bIdmaDmaM1Transfer(p_imagette_buffer->dataset->imagette_start,
+//						p_imagette_buffer->dataset->imagette_length,
+//						eIdmaCh1Buffer);
+
+//				p_imagette_buffer->dataset->imagette_start;
+
 				/*
 				 * Echo command statement
 				 */

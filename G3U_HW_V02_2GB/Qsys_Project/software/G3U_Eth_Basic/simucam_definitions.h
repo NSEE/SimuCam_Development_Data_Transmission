@@ -98,7 +98,7 @@ struct sub_config {
 	INT8U echo_sent;
 	INT8U sub_status_sending;
 	INT8U link_status;
-	struct imagette_control *imagette;
+	struct Timagette_control *imagette;
 
 }sub_config;
 
@@ -132,7 +132,7 @@ struct x_ethernet_payload {
 
 }_ethernet_payload;
 
-typedef struct imagette_control {
+typedef struct Timagette_control {
 #if DMA_DEV
 	struct x_imagette *dataset[MAX_IMAGETTES];
 #endif
@@ -155,7 +155,7 @@ struct x_telemetry {
 	INT8U i_channel;
 	INT8U error_code;
 	struct x_ethernet_payload *p_payload;
-	struct imagette_control *p_imagette;
+	struct Timagette_control *p_imagette;
 
 } x_telemetry;
 

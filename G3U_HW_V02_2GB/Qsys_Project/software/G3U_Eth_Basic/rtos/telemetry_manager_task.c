@@ -85,7 +85,7 @@ void v_ack_creator_telemetry(struct x_ethernet_payload* p_error_response,
 	i_id_accum++;
 }
 
-void i_echo_dataset_telemetry(struct imagette_control* p_imagette,
+void i_echo_dataset_telemetry(struct Timagette_control* p_imagette,
 		INT8U* tx_buffer) {
 //	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
 	INT8U i = 0;
