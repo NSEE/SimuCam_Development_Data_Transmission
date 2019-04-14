@@ -1,5 +1,5 @@
 Flow report for MebX_Quartus_Project
-Sat Apr 13 13:07:56 2019
+Sun Apr 14 07:17:59 2019
 Quartus Prime Version 16.1.0 Build 196 10/24/2016 SJ Standard Edition
 
 
@@ -41,7 +41,7 @@ agreement for further details.
 +-------------------------------------------------------------------------------------+
 ; Flow Summary                                                                        ;
 +-----------------------------------+-------------------------------------------------+
-; Flow Status                       ; Successful - Sat Apr 13 13:07:56 2019           ;
+; Flow Status                       ; Successful - Sun Apr 14 07:17:59 2019           ;
 ; Quartus Prime Version             ; 16.1.0 Build 196 10/24/2016 SJ Standard Edition ;
 ; Revision Name                     ; MebX_Quartus_Project                            ;
 ; Top-level Entity Name             ; MebX_TopLevel                                   ;
@@ -49,10 +49,10 @@ agreement for further details.
 ; Device                            ; EP4SGX230KF40C2                                 ;
 ; Timing Models                     ; Final                                           ;
 ; Logic utilization                 ; 35 %                                            ;
-;     Combinational ALUTs           ; 46,167 / 182,400 ( 25 % )                       ;
+;     Combinational ALUTs           ; 46,269 / 182,400 ( 25 % )                       ;
 ;     Memory ALUTs                  ; 1,578 / 91,200 ( 2 % )                          ;
-;     Dedicated logic registers     ; 47,087 / 182,400 ( 26 % )                       ;
-; Total registers                   ; 48375                                           ;
+;     Dedicated logic registers     ; 47,149 / 182,400 ( 26 % )                       ;
+; Total registers                   ; 48437                                           ;
 ; Total pins                        ; 481 / 888 ( 54 % )                              ;
 ; Total virtual pins                ; 0                                               ;
 ; Total block memory bits           ; 9,812,754 / 14,625,792 ( 67 % )                 ;
@@ -71,7 +71,7 @@ agreement for further details.
 +-------------------+----------------------+
 ; Option            ; Setting              ;
 +-------------------+----------------------+
-; Start date & time ; 04/13/2019 12:30:43  ;
+; Start date & time ; 04/14/2019 06:41:16  ;
 ; Main task         ; Compilation          ;
 ; Revision Name     ; MebX_Quartus_Project ;
 +-------------------+----------------------+
@@ -83,7 +83,7 @@ agreement for further details.
 ; Assignment Name                                   ; Value                                                                         ; Default Value                        ; Entity Name                 ; Section Id     ;
 +---------------------------------------------------+-------------------------------------------------------------------------------+--------------------------------------+-----------------------------+----------------+
 ; ADV_NETLIST_OPT_SYNTH_WYSIWYG_REMAP               ; On                                                                            ; Off                                  ; --                          ; --             ;
-; COMPILER_SIGNATURE_ID                             ; 66485671440360.155516943713088                                                ; --                                   ; --                          ; --             ;
+; COMPILER_SIGNATURE_ID                             ; 66485671440360.155523487016364                                                ; --                                   ; --                          ; --             ;
 ; ECO_REGENERATE_REPORT                             ; On                                                                            ; Off                                  ; --                          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT                            ; Vhdl                                                                          ; --                                   ; --                          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                               ; ModelSim-Altera (VHDL)                                                        ; <None>                               ; --                          ; --             ;
@@ -140,7 +140,7 @@ agreement for further details.
 ; ROUTER_TIMING_OPTIMIZATION_LEVEL                  ; MAXIMUM                                                                       ; Normal                               ; --                          ; --             ;
 ; SLD_FILE                                          ; ../Qsys_Project/MebX_Qsys_Project/synthesis/MebX_Qsys_Project.regmap          ; --                                   ; --                          ; --             ;
 ; SLD_FILE                                          ; ../Qsys_Project/MebX_Qsys_Project/synthesis/MebX_Qsys_Project.debuginfo       ; --                                   ; --                          ; --             ;
-; SLD_INFO                                          ; QSYS_NAME MebX_Qsys_Project HAS_SOPCINFO 1 GENERATION_ID 1555168371           ; --                                   ; MebX_Qsys_Project           ; --             ;
+; SLD_INFO                                          ; QSYS_NAME MebX_Qsys_Project HAS_SOPCINFO 1 GENERATION_ID 1555234600           ; --                                   ; MebX_Qsys_Project           ; --             ;
 ; SMART_RECOMPILE                                   ; On                                                                            ; Off                                  ; --                          ; --             ;
 ; SOPCINFO_FILE                                     ; ../Qsys_Project/MebX_Qsys_Project/synthesis/../../MebX_Qsys_Project.sopcinfo  ; --                                   ; --                          ; --             ;
 ; STATE_MACHINE_PROCESSING                          ; One-Hot                                                                       ; Auto                                 ; --                          ; --             ;
@@ -154,12 +154,12 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:10:16     ; 1.0                     ; 3177 MB             ; 00:10:46                           ;
-; Fitter                    ; 00:21:36     ; 1.2                     ; 3667 MB             ; 00:40:09                           ;
-; Assembler                 ; 00:00:38     ; 1.0                     ; 1219 MB             ; 00:00:35                           ;
-; TimeQuest Timing Analyzer ; 00:02:12     ; 1.2                     ; 2006 MB             ; 00:02:28                           ;
-; EDA Netlist Writer        ; 00:01:31     ; 1.0                     ; 1467 MB             ; 00:01:28                           ;
-; Total                     ; 00:36:13     ; --                      ; --                  ; 00:55:26                           ;
+; Analysis & Synthesis      ; 00:10:15     ; 1.0                     ; 3240 MB             ; 00:10:41                           ;
+; Fitter                    ; 00:21:12     ; 1.2                     ; 3692 MB             ; 00:39:56                           ;
+; Assembler                 ; 00:00:38     ; 1.0                     ; 1222 MB             ; 00:00:35                           ;
+; TimeQuest Timing Analyzer ; 00:02:09     ; 1.2                     ; 2009 MB             ; 00:02:27                           ;
+; EDA Netlist Writer        ; 00:01:31     ; 1.0                     ; 1466 MB             ; 00:01:28                           ;
+; Total                     ; 00:35:45     ; --                      ; --                  ; 00:55:07                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

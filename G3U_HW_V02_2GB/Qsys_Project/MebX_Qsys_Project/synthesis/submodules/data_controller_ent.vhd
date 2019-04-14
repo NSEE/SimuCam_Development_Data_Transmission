@@ -30,8 +30,9 @@ end entity data_controller_ent;
 
 architecture RTL of data_controller_ent is
 
-	constant c_DATA_LENGTH_WIDTH : natural := g_DATA_LENGTH_WORDS * g_WORD_WIDTH;
-	constant c_DATA_TIME_WIDTH   : natural := g_DATA_TIME_WORDS * g_WORD_WIDTH;
+	constant c_DATA_LENGTH_WIDTH      : natural := g_DATA_LENGTH_WORDS * g_WORD_WIDTH;
+	constant c_DATA_TIME_WIDTH        : natural := g_DATA_TIME_WORDS * g_WORD_WIDTH;
+	constant c_MEMORY_ALIGNMENT_WORDS : natural := 8;
 
 	type t_data_controller_fsm is (
 		STOPPED,                        -- Stopped, reset all internal signals
@@ -47,7 +48,8 @@ architecture RTL of data_controller_ent is
 		TRANSMIT_DATA,                  -- Transmit a byte from the data packet to the spw tx buffer
 		TRANSMIT_EOP,                   -- Transmit an eop to the spw tx buffer
 		DATA_PACKET_END,                -- Data packet end, finalize the data packet transmission
-		TRANSMIT_EEP                    -- Transmit an eep to the spw tx buffer
+		TRANSMIT_EEP,                   -- Transmit an eep to the spw tx buffer
+		MEMORY_ALIGNMENT                -- Align the avs access
 	);
 	signal s_data_controller_state        : t_data_controller_fsm; -- current state
 	signal s_data_controller_return_state : t_data_controller_fsm; -- return state from the wait states
@@ -63,6 +65,8 @@ architecture RTL of data_controller_ent is
 	signal s_data_packet_time_words : t_data_packet_time_words;
 
 	signal s_spw_transmitting : std_logic;
+
+	signal s_alignment_counter : natural range 0 to (c_MEMORY_ALIGNMENT_WORDS - 1);
 
 begin
 
@@ -80,6 +84,7 @@ begin
 			s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 			s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 			s_spw_transmitting             <= '0';
+			s_alignment_counter            <= 0;
 			-- outputs
 			dctrl_tx_begin_o               <= '0';
 			dctrl_tx_ended_o               <= '0';
@@ -102,6 +107,7 @@ begin
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_spw_transmitting             <= '0';
+					s_alignment_counter            <= 0;
 					-- conditional state transition
 					-- check if a command to start was received
 					if (tmr_start_i = '1') then
@@ -123,6 +129,7 @@ begin
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_spw_transmitting             <= '0';
+					s_alignment_counter            <= 0;
 				-- conditional state transition
 
 				when WAIT_DATA_FIFO =>
@@ -145,7 +152,13 @@ begin
 					-- default state transition
 					s_data_controller_state <= DELAY;
 					v_data_controller_state := DELAY;
-				-- default internal signal values
+					-- default internal signal values
+					-- update alignment counter
+					if (s_alignment_counter = (c_MEMORY_ALIGNMENT_WORDS - 1)) then
+						s_alignment_counter <= 0;
+					else
+						s_alignment_counter <= s_alignment_counter + 1;
+					end if;
 				-- conditional state transition
 
 				when DELAY =>
@@ -322,7 +335,15 @@ begin
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_spw_transmitting             <= '0';
-				-- conditional state transition
+					-- conditional state transition
+					-- check if the avs data need to be aligned
+					if (s_alignment_counter > 0) then
+						-- data need to be aligned
+						-- go to memory alignment
+						s_data_controller_state        <= WAIT_DATA_FIFO;
+						v_data_controller_state        := WAIT_DATA_FIFO;
+						s_data_controller_return_state <= MEMORY_ALIGNMENT;
+					end if;
 
 				when TRANSMIT_EEP =>
 					-- Transmit an eep to the spw tx buffer
@@ -335,7 +356,29 @@ begin
 					s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
 					s_spw_transmitting             <= '0';
+					s_alignment_counter            <= 0;
+				-- conditional state transition
+
+				when MEMORY_ALIGNMENT =>
+					-- Align the avs access
+					-- default state transition
+					s_data_controller_state        <= WAIT_DATA_FIFO;
+					v_data_controller_state        := WAIT_DATA_FIFO;
+					s_data_controller_return_state <= MEMORY_ALIGNMENT;
+					-- default internal signal values
+					s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
 					-- conditional state transition
+					s_spw_transmitting             <= '0';
+					-- check if the avs data is aligned
+					if (s_alignment_counter = 0) then
+						-- data is aligned
+						-- go to start data packet begin
+						s_data_controller_state        <= DATA_PACKET_BEGIN;
+						v_data_controller_state        := DATA_PACKET_BEGIN;
+						s_data_controller_return_state <= STOPPED;
+						-- clear alignment counter
+						s_alignment_counter            <= 0;
+					end if;
 
 			end case;
 
@@ -505,6 +548,17 @@ begin
 					spw_tx_flag_o    <= '1';
 					-- fill spw data with the eop identifier (0x00)
 					spw_tx_data_o    <= x"01";
+				-- conditional output signals
+
+				when MEMORY_ALIGNMENT =>
+					-- Align the avs access
+					-- default output signals
+					dctrl_tx_begin_o <= '0';
+					dctrl_tx_ended_o <= '0';
+					dbuffer_rdreq_o  <= '0';
+					spw_tx_write_o   <= '0';
+					spw_tx_flag_o    <= '0';
+					spw_tx_data_o    <= x"00";
 					-- conditional output signals
 
 			end case;
