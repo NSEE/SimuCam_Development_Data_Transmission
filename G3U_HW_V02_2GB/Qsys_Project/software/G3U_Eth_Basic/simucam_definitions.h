@@ -53,6 +53,7 @@
 #define DMA_DEV						0
 
 #define DDR2_BASE_ADDR_DATASET_1	0x0
+#define DDR2_BASE_ADDR_DATASET_2	0x40000000
 #define TIMER_CLOCK_DIV_1MS			99999	/*Timer div for 1ms clock*/
 
 /*

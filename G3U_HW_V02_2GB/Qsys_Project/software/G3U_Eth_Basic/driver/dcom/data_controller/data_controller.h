@@ -10,6 +10,8 @@
 
 #include "../dcom.h"
 
+
+extern OS_EVENT *sub_unit_command_semaphore;
 //! [constants definition]
 const alt_u8 cucDctrIrqFlagsQtd;
 //! [constants definition]

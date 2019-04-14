@@ -17,6 +17,7 @@
 #include "command_control_task.h"
 
 struct sub_config config_send_A;
+struct sub_config config_send_B;
 
 Timagette_control img_struct;
 Timagette_control *p_img_control;
@@ -729,6 +730,8 @@ void CommandManagementTask() {
 
 	x_imagette *p_imagette_A[MAX_IMAGETTES];
 
+	x_imagette *p_imagette_B[MAX_IMAGETTES];
+
 	/*
 	 * Assigning imagette struct to RAM
 	 */
@@ -737,6 +740,10 @@ void CommandManagementTask() {
 	bDdr2SwitchMemory(DDR2_M1_ID);
 	Ddr2Base = DDR2_BASE_ADDR_DATASET_1;
 
+
+	/*
+	 * Initialize DMA
+	 */
 	bIdmaInitM1Dma();
 	bIdmaInitM2Dma();
 
@@ -784,14 +791,11 @@ void CommandManagementTask() {
 	OS_TMR_OPT_PERIODIC, simucam_running_timer_callback_function, (void *) 0,
 			(INT8U*) "Running Timer", (INT8U*) &exec_error);
 
-
 	bSyncSetOst(25e6);
 	bSyncSetPolarity(FALSE);
 	bSyncCtrExtnIrq(TRUE);
 	bSyncCtrReset();
 	bSyncCtrCh1OutEnable(TRUE);
-
-
 
 	/*
 	 * Stop timer for ChA
@@ -808,6 +812,12 @@ void CommandManagementTask() {
 	xChA.xDataScheduler.xTimerConfig.bStartOnSync = TRUE;
 	xChA.xDataScheduler.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
 	bDschSetTimerConfig(&(xChA.xDataScheduler));
+
+	bDcomSetGlobalIrqEn(TRUE, eDcomSpwCh1);
+	bDctrGetIrqControl(&(xChA.xDataController));
+	xChA.xDataController.xIrqControl.bTxBeginEn = FALSE;
+	xChA.xDataController.xIrqControl.bTxEndEn = TRUE;
+	bDctrSetIrqControl(&(xChA.xDataController));
 
 //
 //	/*
@@ -894,48 +904,47 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]p_imagette_A addr %x\n\r",
 						p_imagette_A[0]);
 #endif
-				exec_error = v_parse_data_teste(p_payload, p_img_control,
-						p_imagette_A);
-				//exec_error = v_parse_data(p_payload, p_img_control);
+
+				switch (p_payload->data[1]) {
+
+				case 0:
+					exec_error = v_parse_data_teste(p_payload, p_img_control,
+							p_imagette_A);
+					//exec_error = v_parse_data(p_payload, p_img_control);
 #if DEBUG_ON
-				printf(
-						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-						(INT8U) p_img_control->dataset[0]->imagette_start,
-						(INT32U) p_img_control->dataset[0]->offset,
-						(INT32U) p_img_control->size);
+					printf(
+							"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
+							(INT8U) p_img_control->dataset[0]->imagette_start,
+							(INT32U) p_img_control->dataset[0]->offset,
+							(INT32U) p_img_control->size);
 #endif
 
 #if DEBUG_ON
-				printf("[CommandManagementTask]Data parsed\r\n");
+					printf("[CommandManagementTask]Data parsed\r\n");
 #endif
 
-				/*
-				 * DMA test 1
-				 */
-//				bSpwcGetLink(&(xChA.xSpacewire));
-//				xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
-//				xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
-//				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
-//				bSpwcSetLink(&(xChA.xSpacewire));
-//
-				bIdmaDmaM1Transfer((INT32U*) (p_img_control->dataset[0]),
-						p_img_control->dataset[0]->imagette_length + DMA_OFFSET,
-						0);
+					/*
+					 * DMA test 1
+					 */
+					INT16U i_dma_counter = 0;
+					while (i_dma_counter < p_img_control->nb_of_imagettes) {
 
-				bIdmaDmaM1Transfer((INT32U*) (p_img_control->dataset[1]),
-						p_img_control->dataset[1]->imagette_length + DMA_OFFSET,
-						0);
+						bIdmaDmaM1Transfer(
+								(INT32U*) (p_img_control->dataset[i_dma_counter]),
+								p_img_control->dataset[i_dma_counter]->imagette_length
+										+ DMA_OFFSET, 0);
+						i_dma_counter++;
+					}
 
-				bIdmaDmaM1Transfer((INT32U*) (p_img_control->dataset[2]),
-						p_img_control->dataset[2]->imagette_length + DMA_OFFSET,
-						0);
-				config_send->imagette = p_img_control;
+					config_send->imagette = p_img_control;
 
-				v_ack_creator(p_payload, exec_error);
+					v_ack_creator(p_payload, exec_error);
 
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
-
+					error_code = (INT8U) OSQPost(p_simucam_command_q,
+							p_payload);
+					alt_SSSErrorHandler(error_code, 0);
+					break;
+				}
 				break;
 
 				/*
@@ -1139,7 +1148,6 @@ void CommandManagementTask() {
 			 */
 			if (p_payload->type == 106) {
 
-//				bDschRunTimer(&(xChA.xDataScheduler));
 				bSyncCtrOneShot();
 
 #if DEBUG_ON
@@ -1191,6 +1199,9 @@ void CommandManagementTask() {
 						 * Stop and restart running timer
 						 */
 
+						/*
+						 * Stop and clear ChA timer
+						 */
 						bDschStopTimer(&(xChA.xDataScheduler));
 						bDschClrTimer(&(xChA.xDataScheduler));
 
@@ -1233,9 +1244,29 @@ void CommandManagementTask() {
 					printf(
 							"[CommandManagementTask]End of dataset, restarting\r\n");
 #endif
-
+					printf(
+							"[CommandManagementTask]End of dataset, restarting\r\n");
+					/*
+					 * Stop and clear ChA timer
+					 */
 					bDschStopTimer(&(xChA.xDataScheduler));
 					bDschClrTimer(&(xChA.xDataScheduler));
+
+					INT16U i_dma_counter = 0;
+					while (i_dma_counter < p_img_control->nb_of_imagettes) {
+
+						bIdmaDmaM1Transfer(
+								(INT32U*) (p_img_control->dataset[i_dma_counter]),
+								p_img_control->dataset[i_dma_counter]->imagette_length
+										+ DMA_OFFSET, 0);
+						i_dma_counter++;
+					}
+
+//					/*
+//					 * Start timer for ChA
+//					 * NOT STARTING THE TIMER
+//					 */
+//					bDschStartTimer(&(xChA.xDataScheduler));
 
 					OSTmrStop(central_timer,
 					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);

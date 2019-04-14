@@ -57,6 +57,9 @@ void vDctrCh1HandleIrq(void* pvContext){
 
 		/* Action to perform when Tx end Irq ocurred */
 
+
+		OSSemPost(sub_unit_command_semaphore);
+
 		vDctrCh1IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
