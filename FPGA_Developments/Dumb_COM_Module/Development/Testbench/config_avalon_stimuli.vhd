@@ -118,29 +118,29 @@ begin
 					avalon_mm_writedata_o(3) <= '0'; -- timer_clear        
 					avalon_mm_read_o         <= '0';
 					
-				-- data_scheduler_timer_control_reg
-				when 20630 to 20631 =>
-					-- register write
-					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#08#, g_ADDRESS_WIDTH));
-					avalon_mm_write_o        <= '1';
-					avalon_mm_writedata_o    <= (others => '0');
-					avalon_mm_writedata_o(0) <= '0'; -- timer_start        
-					avalon_mm_writedata_o(1) <= '0'; -- timer_run          
-					avalon_mm_writedata_o(2) <= '0'; -- timer_stop         
-					avalon_mm_writedata_o(3) <= '1'; -- timer_clear        
-					avalon_mm_read_o         <= '0';
+--				-- data_scheduler_timer_control_reg
+--				when 20630 to 20631 =>
+--					-- register write
+--					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#08#, g_ADDRESS_WIDTH));
+--					avalon_mm_write_o        <= '1';
+--					avalon_mm_writedata_o    <= (others => '0');
+--					avalon_mm_writedata_o(0) <= '0'; -- timer_start        
+--					avalon_mm_writedata_o(1) <= '0'; -- timer_run          
+--					avalon_mm_writedata_o(2) <= '0'; -- timer_stop         
+--					avalon_mm_writedata_o(3) <= '1'; -- timer_clear        
+--					avalon_mm_read_o         <= '0';
 
-				-- data_scheduler_timer_control_reg
-				when 20300 to 20301 =>
-					-- register write
-					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#08#, g_ADDRESS_WIDTH));
-					avalon_mm_write_o        <= '1';
-					avalon_mm_writedata_o    <= (others => '0');
-					avalon_mm_writedata_o(0) <= '0'; -- timer_start        
-					avalon_mm_writedata_o(1) <= '0'; -- timer_run          
-					avalon_mm_writedata_o(2) <= '1'; -- timer_stop         
-					avalon_mm_writedata_o(3) <= '0'; -- timer_clear        
-					avalon_mm_read_o         <= '0';
+--				-- data_scheduler_timer_control_reg
+--				when 20300 to 20301 =>
+--					-- register write
+--					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#08#, g_ADDRESS_WIDTH));
+--					avalon_mm_write_o        <= '1';
+--					avalon_mm_writedata_o    <= (others => '0');
+--					avalon_mm_writedata_o(0) <= '0'; -- timer_start        
+--					avalon_mm_writedata_o(1) <= '0'; -- timer_run          
+--					avalon_mm_writedata_o(2) <= '1'; -- timer_stop         
+--					avalon_mm_writedata_o(3) <= '0'; -- timer_clear        
+--					avalon_mm_read_o         <= '0';
 
 				-- dcom_irq_control_reg
 				when 850 to 851 =>

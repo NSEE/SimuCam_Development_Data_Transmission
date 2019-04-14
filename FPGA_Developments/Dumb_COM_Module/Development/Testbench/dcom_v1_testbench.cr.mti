@@ -31,15 +31,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity avalon_mm_dcom_write_ent
 -- Compiling architecture RTL of avalon_mm_dcom_write_ent
 
-} {} {}} ../Dumb_Communications_Module/AVALON_DATA_BUFFER/avalon_mm_data_buffer_write_ent.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/AVALON_DATA_BUFFER/avalon_mm_data_buffer_write_ent.vhd
+} {} {}} ../Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwrecv.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwrecv.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
--- Loading package avalon_mm_data_buffer_pkg
--- Compiling entity avalon_mm_data_buffer_write_ent
--- Compiling architecture RTL of avalon_mm_data_buffer_write_ent
+-- Loading package spwpkg
+-- Compiling entity spwrecv
+-- Compiling architecture spwrecv_arch of spwrecv
 
 } {} {}} ../Dumb_Communications_Module/DATA_BUFFER/data_buffer_pkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/data_buffer_pkg.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -51,15 +51,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling package body data_buffer_pkg
 -- Loading package data_buffer_pkg
 
-} {} {}} ../Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwrecv.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwrecv.vhd
+} {} {}} ../Dumb_Communications_Module/AVALON_DATA_BUFFER/avalon_mm_data_buffer_write_ent.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/AVALON_DATA_BUFFER/avalon_mm_data_buffer_write_ent.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
--- Loading package spwpkg
--- Compiling entity spwrecv
--- Compiling architecture spwrecv_arch of spwrecv
+-- Loading package avalon_mm_data_buffer_pkg
+-- Compiling entity avalon_mm_data_buffer_write_ent
+-- Compiling architecture RTL of avalon_mm_data_buffer_write_ent
 
 } {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_MUX/spw_mux_ent.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_MUX/spw_mux_ent.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -72,6 +72,14 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity spw_mux_ent
 -- Compiling architecture RTL of spw_mux_ent
 
+} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_byteen_buffer_sc_fifo/avs_byteen_buffer_sc_fifo.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_byteen_buffer_sc_fifo/avs_byteen_buffer_sc_fifo.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity avs_byteen_buffer_sc_fifo
+-- Compiling architecture SYN of avs_byteen_buffer_sc_fifo
+
 } {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_SCHEDULER/data_scheduler_ent.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_SCHEDULER/data_scheduler_ent.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -80,14 +88,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package NUMERIC_STD
 -- Compiling entity data_scheduler_ent
 -- Compiling architecture RTL of data_scheduler_ent
-
-} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_byteen_buffer_sc_fifo/avs_byteen_buffer_sc_fifo.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_byteen_buffer_sc_fifo/avs_byteen_buffer_sc_fifo.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity avs_byteen_buffer_sc_fifo
--- Compiling architecture SYN of avs_byteen_buffer_sc_fifo
 
 } {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/data_buffer_pkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/data_buffer_pkg.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -483,6 +483,23 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity spwrecv
 -- Compiling architecture spwrecv_arch of spwrecv
 
+} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/streamtest.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/streamtest.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package spwpkg
+-- Compiling entity streamtest
+-- Compiling architecture streamtest_arch of streamtest
+
+} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling package spwpkg
+
 } {} {}} ../Dumb_Communications_Module/SPW_CLK_SYNCHRONIZATION/altera_ipcore/dcfifo/spw_data_dc_fifo/spw_data_dc_fifo.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CLK_SYNCHRONIZATION/altera_ipcore/dcfifo/spw_data_dc_fifo/spw_data_dc_fifo.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -499,22 +516,20 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity spw_timecode_dc_fifo
 -- Compiling architecture SYN of spw_timecode_dc_fifo
 
-} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd
+} {} {}} ../Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Compiling package spwpkg
 
-} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/streamtest.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/streamtest.vhd
+} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_data_buffer_sc_fifo/avs_data_buffer_sc_fifo.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_data_buffer_sc_fifo/avs_data_buffer_sc_fifo.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package spwpkg
--- Compiling entity streamtest
--- Compiling architecture streamtest_arch of streamtest
+-- Compiling entity avs_data_buffer_sc_fifo
+-- Compiling architecture SYN of avs_data_buffer_sc_fifo
 
 } {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/REGISTERS/avalon_mm_dcom_registers_pkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/REGISTERS/avalon_mm_dcom_registers_pkg.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -526,28 +541,13 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling package body avalon_mm_dcom_registers_pkg
 -- Loading package avalon_mm_dcom_registers_pkg
 
-} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_data_buffer_sc_fifo/avs_data_buffer_sc_fifo.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/avs_data_buffer_sc_fifo/avs_data_buffer_sc_fifo.vhd
+} {} {}} ../Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/dctrl_data_buffer_sc_fifo/dctrl_data_buffer_sc_fifo.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/dctrl_data_buffer_sc_fifo/dctrl_data_buffer_sc_fifo.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity avs_data_buffer_sc_fifo
--- Compiling architecture SYN of avs_data_buffer_sc_fifo
-
-} {} {}} ../Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwpkg.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling package spwpkg
-
-} {} {}} ../Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/syncdff.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/syncdff.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity syncdff
--- Compiling architecture syncdff_arch of syncdff
+-- Compiling entity dctrl_data_buffer_sc_fifo
+-- Compiling architecture SYN of dctrl_data_buffer_sc_fifo
 
 } {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwlink.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwlink.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -559,22 +559,13 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity spwlink
 -- Compiling architecture spwlink_arch of spwlink
 
-} {} {}} ../Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/dctrl_data_buffer_sc_fifo/dctrl_data_buffer_sc_fifo.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/DATA_BUFFER/altera_ipcore/scfifo/dctrl_data_buffer_sc_fifo/dctrl_data_buffer_sc_fifo.vhd
+} {} {}} ../Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/syncdff.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/syncdff.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity dctrl_data_buffer_sc_fifo
--- Compiling architecture SYN of dctrl_data_buffer_sc_fifo
-
-} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spw_codec_pkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spw_codec_pkg.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package spwpkg
--- Compiling package spw_codec_pkg
+-- Compiling entity syncdff
+-- Compiling architecture syncdff_arch of syncdff
 
 } {} {}} ../Dumb_Communications_Module/REGISTERS/avalon_mm_dcom_registers_pkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/REGISTERS/avalon_mm_dcom_registers_pkg.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -585,6 +576,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling package avalon_mm_dcom_registers_pkg
 -- Compiling package body avalon_mm_dcom_registers_pkg
 -- Loading package avalon_mm_dcom_registers_pkg
+
+} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spw_codec_pkg.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spw_codec_pkg.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package spwpkg
+-- Compiling package spw_codec_pkg
 
 } {} {}} ../Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwxmit_fast.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwxmit_fast.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -624,15 +624,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading entity dcom_v1_top
 -- Loading entity spwstream
 
-} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwram.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwram.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity spwram
--- Compiling architecture spwram_arch of spwram
-
 } {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/AVALON_DCOM_REGISTERS/avalon_mm_dcom_read_ent.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/AVALON_DCOM_REGISTERS/avalon_mm_dcom_read_ent.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
@@ -643,6 +634,15 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package avalon_mm_dcom_registers_pkg
 -- Compiling entity avalon_mm_dcom_read_ent
 -- Compiling architecture RTL of avalon_mm_dcom_read_ent
+
+} {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwram.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwram.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity spwram
+-- Compiling architecture spwram_arch of spwram
 
 } {} {}} C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwxmit.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module/Development/Dumb_Communications_Module/SPW_CODEC/spacewire_light_codec/spwxmit.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
