@@ -106,7 +106,7 @@ INT16U i_imagette_number;
 
 OS_EVENT *sub_unit_command_semaphore;
 
-
+extern T_Simucam T_simucam;
 
 
 #endif /* SUB_UNIT_CONTROL_H_ */

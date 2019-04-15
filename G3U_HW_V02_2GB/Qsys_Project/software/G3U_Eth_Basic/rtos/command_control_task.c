@@ -22,7 +22,6 @@ struct sub_config config_send_B;
 Timagette_control img_struct;
 Timagette_control *p_img_control;
 
-
 INT8U b_meb_status = 0; //default starting mode is config
 INT8U i_forward_data = 0;
 INT8U i_echo_sent_data = 0;
@@ -51,7 +50,6 @@ int i_return_config_flag = 2;
  */
 
 T_Simucam T_simucam;
-
 
 /**
  * @name long_to_int
@@ -632,9 +630,16 @@ void CommandManagementTask() {
 
 				/* Add a case for channel selection */
 
-				config_send->link_config = p_payload->data[1];
-				config_send->linkspeed = p_payload->data[2];
-				config_send->linkstatus_running = p_payload->data[3];
+				T_simucam.T_Sub[p_payload->data[0]].T_conf.link_config =
+						p_payload->data[1];
+				T_simucam.T_Sub[p_payload->data[0]].T_conf.linkspeed =
+						p_payload->data[2];
+				T_simucam.T_Sub[p_payload->data[0]].T_conf.linkstatus_running =
+						p_payload->data[3];
+
+//				config_send->link_config = p_payload->data[1];
+//				config_send->linkspeed = p_payload->data[2];
+//				config_send->linkstatus_running = p_payload->data[3];
 #if DEBUG_ON
 				printf(
 						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
@@ -644,6 +649,7 @@ void CommandManagementTask() {
 #endif
 
 				v_ack_creator(p_payload, ACK_OK);
+
 				p_telemetry_buffer->i_type = ACK_TYPE;
 				p_telemetry_buffer->error_code = ACK_OK;
 				p_telemetry_buffer->p_payload = p_payload;
@@ -658,89 +664,90 @@ void CommandManagementTask() {
 
 				/*
 				 * Receive and Parse data
+				 * DEPRECATED
 				 * char: f
 				 */
-			case 102:
-#if DEBUG_ON
-				printf("[CommandManagementTask]Parse data\n\r");
-				printf("[CommandManagementTask]p_imagette_A addr %x\n\r",
-						p_imagette_A[0]);
-#endif
-				/*
-				 * Selected Channel Switch
-				 */
-				switch (p_payload->data[1]) {
-				INT16U i_dma_counter = 0;
-
-				/*
-				 * Channel 0 loop
-				 */
-			case 0:
-				exec_error = v_parse_data_teste(p_payload, p_img_control,
-						p_imagette_A);
-				//exec_error = v_parse_data(p_payload, p_img_control);
-#if DEBUG_ON
-				printf(
-						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-						(INT8U) p_img_control->dataset[0]->imagette_start,
-						(INT32U) p_img_control->dataset[0]->offset,
-						(INT32U) p_img_control->size);
-
-				printf("[CommandManagementTask]Data parsed\r\n");
-#endif
-
-				while (i_dma_counter < p_img_control->nb_of_imagettes) {
-
-					bIdmaDmaM1Transfer(
-							(INT32U*) (p_img_control->dataset[i_dma_counter]),
-							p_img_control->dataset[i_dma_counter]->imagette_length
-									+ DMA_OFFSET, 0);
-					i_dma_counter++;
-				}
-				i_dma_counter = 0;
-
-				config_send->imagette = p_img_control;
-
-				v_ack_creator(p_payload, exec_error);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
-				break;
-
-			case 1:
-				exec_error = v_parse_data_teste(p_payload, p_img_control,
-						p_imagette_B);
-				//exec_error = v_parse_data(p_payload, p_img_control);
-#if DEBUG_ON
-				printf(
-						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-						(INT8U) p_img_control->dataset[0]->imagette_start,
-						(INT32U) p_img_control->dataset[0]->offset,
-						(INT32U) p_img_control->size);
-
-				printf("[CommandManagementTask]Data parsed\r\n");
-#endif
-
-				while (i_dma_counter < p_img_control->nb_of_imagettes) {
-
-					bIdmaDmaM1Transfer(
-							(INT32U*) (p_img_control->dataset[i_dma_counter]),
-							p_img_control->dataset[i_dma_counter]->imagette_length
-									+ DMA_OFFSET, 1);
-					i_dma_counter++;
-				}
-				i_dma_counter = 0;
-
-				config_send->imagette = p_img_control;
-
-				v_ack_creator(p_payload, exec_error);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
-				break;
-
-				}
-				break;
+//			case 102:
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Parse data\n\r");
+//				printf("[CommandManagementTask]p_imagette_A addr %x\n\r",
+//						p_imagette_A[0]);
+//#endif
+//				/*
+//				 * Selected Channel Switch
+//				 */
+//				switch (p_payload->data[1]) {
+//				INT16U i_dma_counter = 0;
+//
+//				/*
+//				 * Channel 0 loop
+//				 */
+//			case 0:
+//				exec_error = v_parse_data_teste(p_payload, p_img_control,
+//						p_imagette_A);
+//				//exec_error = v_parse_data(p_payload, p_img_control);
+//#if DEBUG_ON
+//				printf(
+//						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
+//						(INT8U) p_img_control->dataset[0]->imagette_start,
+//						(INT32U) p_img_control->dataset[0]->offset,
+//						(INT32U) p_img_control->size);
+//
+//				printf("[CommandManagementTask]Data parsed\r\n");
+//#endif
+//
+//				while (i_dma_counter < p_img_control->nb_of_imagettes) {
+//
+//					bIdmaDmaM1Transfer(
+//							(INT32U*) (p_img_control->dataset[i_dma_counter]),
+//							p_img_control->dataset[i_dma_counter]->imagette_length
+//									+ DMA_OFFSET, 0);
+//					i_dma_counter++;
+//				}
+//				i_dma_counter = 0;
+//
+//				config_send->imagette = p_img_control;
+//
+//				v_ack_creator(p_payload, exec_error);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//				break;
+//
+//			case 1:
+//				exec_error = v_parse_data_teste(p_payload, p_img_control,
+//						p_imagette_B);
+//				//exec_error = v_parse_data(p_payload, p_img_control);
+//#if DEBUG_ON
+//				printf(
+//						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
+//						(INT8U) p_img_control->dataset[0]->imagette_start,
+//						(INT32U) p_img_control->dataset[0]->offset,
+//						(INT32U) p_img_control->size);
+//
+//				printf("[CommandManagementTask]Data parsed\r\n");
+//#endif
+//
+//				while (i_dma_counter < p_img_control->nb_of_imagettes) {
+//
+//					bIdmaDmaM1Transfer(
+//							(INT32U*) (p_img_control->dataset[i_dma_counter]),
+//							p_img_control->dataset[i_dma_counter]->imagette_length
+//									+ DMA_OFFSET, 1);
+//					i_dma_counter++;
+//				}
+//				i_dma_counter = 0;
+//
+//				config_send->imagette = p_img_control;
+//
+//				v_ack_creator(p_payload, exec_error);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//				break;
+//
+//				}
+//				break;
 
 				/*
 				 * Delete Data

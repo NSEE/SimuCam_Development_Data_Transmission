@@ -275,17 +275,14 @@ void sss_handle_receive(SSSConn* conn) {
 	char *lf_addr;
 
 	int i = 0;
-	alt_u32 Ddr2Base_eth_buffer = SSSBUFFER_ADDR;
 	INT8U error_code = 0;
 	INT16U calculated_crc = 0;
 
-//	struct ethernet_buffer buffer;
+	struct ethernet_buffer buffer;
 	struct ethernet_buffer *p_ethernet_buffer;
-//	p_ethernet_buffer = &buffer;
+	p_ethernet_buffer = &buffer;
 
-	bDdr2SwitchMemory(DDR2_M1_ID);
-
-	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
+//	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
 
 	p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
 	p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
@@ -377,7 +374,14 @@ void sss_handle_receive(SSSConn* conn) {
 				}
 
 				switch (p_ethernet_buffer->rx_buffer[1]) {
+				/*
+				 * Parse imagettes in the ChA memory space
+				 */
 				case 0:
+					/*
+					 * Switch to the right memory stick
+					 */
+					bDdr2SwitchMemory(DDR2_M1_ID);
 
 					p_imagette_byte =
 							(INT32U) T_simucam.T_Sub[0].T_data.addr_init;
@@ -421,14 +425,17 @@ void sss_handle_receive(SSSConn* conn) {
 							i_length = 256 * (INT8U) *(p_imagette_byte);
 							p_imagette_byte++;
 							i_length += (INT8U) *(p_imagette_byte);
-							p_imagette_byte ++;
+							p_imagette_byte++;
 						}
 
-						rx_code = recv(conn->fd, (char* )p_imagette_byte, i_length, 0);
+						rx_code = recv(conn->fd, (char* )p_imagette_byte,
+								i_length, 0);
 						if (rx_code > 0) {
 							p_imagette_byte += rx_code;
-							if( ((INT32U)p_imagette_byte % 8) ){
-								p_imagette_byte = (INT8U *) (((((INT32U)p_imagette_byte)>>3)+1)<<3);
+							if (((INT32U) p_imagette_byte % 8)) {
+								p_imagette_byte =
+										(INT8U *) (((((INT32U) p_imagette_byte)
+												>> 3) + 1) << 3);
 							}
 						}
 
@@ -444,87 +451,93 @@ void sss_handle_receive(SSSConn* conn) {
 						i_nb_imag_ctrl++;
 					}
 
+					/*
+					 * Prepare ACK statement
+					 */
+					send(conn->fd, p_payload->data, 2, 0); /* TODO parser ack*/
 					break;
 				}
 			} else {
 				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
 						p_payload->size - 8, 0);
-			}
 
-			if (rx_code > 0) {
-				p_ethernet_buffer->rx_wr_pos += rx_code;
+				if (rx_code > 0) {
+					p_ethernet_buffer->rx_wr_pos += rx_code;
 
-				/* Zero terminate so we can use string functions */
-				*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
-			}
-
-			/*
-			 * Assign data in the payload struct to data in the buffer
-			 * change to 0
-			 */
-			if (p_payload->size > 10) {
-				for (i = 1; i <= p_payload->size - 10; i++) {
-					p_payload->data[i - 1] =
-							p_ethernet_buffer->rx_buffer[i - 1];
-#if DEBUG_ON
-					printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
-							(INT8U) p_payload->data[i - 1], (INT8U) i);
-#endif
-
+					/* Zero terminate so we can use string functions */
+					*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 				}
-			}
 
+				/*
+				 * Assign data in the payload struct to data in the buffer
+				 * change to 0
+				 */
+				if (p_payload->size > 10) {
+					for (i = 1; i <= p_payload->size - 10; i++) {
+						p_payload->data[i - 1] = p_ethernet_buffer->rx_buffer[i
+								- 1];
 #if DEBUG_ON
-			printf("[sss_handle_receive DEBUG]Printing buffer = ");
-#endif
-			for (int k = 0; k < p_payload->size - 8; k++) {
-#if DEBUG_ON
-				printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
-#endif
-			}
-#if DEBUG_ON
-			printf("\r\n");
-			printf(
-					"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
-					"Type: %i\r\n", (int) p_payload->header,
-					(int) p_payload->packet_id, (int) p_payload->type);
-
+						printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
+								(INT8U) p_payload->data[i - 1], (INT8U) i);
 #endif
 
-			p_payload->crc = p_ethernet_buffer->rx_buffer[p_payload->size]
-					+ 256 * p_ethernet_buffer->rx_buffer[p_payload->size - 1];
+					}
+				}
 
 #if DEBUG_ON
-			printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
-					(INT16U) p_payload->crc);
+				printf("[sss_handle_receive DEBUG]Printing buffer = ");
+#endif
+				for (int k = 0; k < p_payload->size - 8; k++) {
+#if DEBUG_ON
+					printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+#endif
+				}
+#if DEBUG_ON
+				printf("\r\n");
+				printf(
+						"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
+						"Type: %i\r\n", (int) p_payload->header,
+						(int) p_payload->packet_id, (int) p_payload->type);
+
 #endif
 
-			calculated_crc = crc16(p_ethernet_buffer->rx_buffer,
-					p_payload->size);
+				p_payload->crc = p_ethernet_buffer->rx_buffer[p_payload->size]
+						+ 256
+								* p_ethernet_buffer->rx_buffer[p_payload->size
+										- 1];
 
 #if DEBUG_ON
-			printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
-					(INT16U) calculated_crc);
+				printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
+						(INT16U) p_payload->crc);
+#endif
+
+				calculated_crc = crc16(p_ethernet_buffer->rx_buffer,
+						p_payload->size);
+
+#if DEBUG_ON
+				printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
+						(INT16U) calculated_crc);
 #endif
 
 //		printf("[sss_handle_receive DEBUG]Print received data bytes 0: %i\n",
 //				(INT8U) p_payload->data[0]);
 
 #if DEBUG_ON
-			printf("[sss_handle_receive DEBUG]finished receiving\n");
+				printf("[sss_handle_receive DEBUG]finished receiving\n");
 #endif
 
-			error_code = OSQPost(p_simucam_command_q, p_payload);
-			alt_SSSErrorHandler(error_code, 0);
+				error_code = OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 #if DEBUG_ON
-			printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
+				printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
 #endif
 
-			p_payload = (INT8U) OSQPend(p_simucam_command_q, 0, &error_code);
-			alt_SSSErrorHandler(error_code, 0);
+				p_payload = (INT8U) OSQPend(p_simucam_command_q, 0,
+						&error_code);
+				alt_SSSErrorHandler(error_code, 0);
 
-			send(conn->fd, p_payload->data, p_payload->size, 0);
-
+				send(conn->fd, p_payload->data, p_payload->size, 0);
+			}
 //			printf("[sss_handle_receive DEBUG]Returned from function\n");
 		}
 

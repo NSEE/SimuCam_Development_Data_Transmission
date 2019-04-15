@@ -217,19 +217,27 @@ void sub_unit_control_task() {
 
 	int i_command_control = 0;
 
-	p_config->mode = 0;
-	p_config->RMAP_handling = 0;
-	p_config->forward_data = 0;
-	p_config->link_config = 0;
-	p_config->sub_status_sending = 0;
-	p_config->linkstatus_running = 1;
-	p_config->linkspeed = 3;
+//	p_config->mode = 0;
+//	p_config->RMAP_handling = 0;
+//	p_config->forward_data = 0;
+//	p_config->link_config = 0;
+//	p_config->sub_status_sending = 0;
+//	p_config->linkstatus_running = 1;
+//	p_config->linkspeed = 3;
+
+	T_simucam.T_Sub[0].T_conf.mode = 0;
+	T_simucam.T_Sub[0].T_conf.RMAP_handling = 0;
+	T_simucam.T_Sub[0].T_conf.forward_data = 0;
+	T_simucam.T_Sub[0].T_conf.link_config = 0;
+	T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
+	T_simucam.T_Sub[0].T_conf.linkstatus_running = 1;
+	T_simucam.T_Sub[0].T_conf.linkspeed = 3;
 
 	int b_sub_status = 0;
 
 	struct x_ethernet_payload *p_sub_data;
 
-	while (b_sub_status == 0) {
+	while (T_simucam.T_Sub[0].T_conf.mode == 0) {
 #if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit in config mode\r\n");
 #endif
@@ -251,24 +259,28 @@ void sub_unit_control_task() {
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
 				(INT8U) p_config->mode);
 #endif
-		b_sub_status = p_config->mode;
+		T_simucam.T_Sub[0].T_conf.mode = p_config->mode;
 
 		p_imagette_buffer = p_config->imagette;
 
-//		while(i_dma_counter < p_config->imagette->nb_of_imagettes){
-//
-//		bIdmaDmaM1Transfer((INT32U*) (p_imagette_buffer->dataset[i_dma_counter]),
-//				p_imagette_buffer->dataset[i_dma_counter]->imagette_length + DMA_OFFSET, 0);
-//		i_dma_counter++;
-//
-//		}
+		while (i_dma_counter < T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+
+			bIdmaDmaM1Transfer((INT32U*) (T_simucam.T_Sub[0].T_data.p_iterador),
+					T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+							+ DMA_OFFSET, 0);
+			T_simucam.T_Sub[0].T_data.p_iterador +=
+					T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+							+ DMA_OFFSET;
+			i_dma_counter++;
+
+		}
 
 	}
 
 	/*
 	 * Sub-Unit in running mode
 	 */
-	while (b_sub_status == 1) {
+	while (T_simucam.T_Sub[0].T_conf.mode == 1) {
 		INT8U error_code; /*uCOS error code*/
 
 		i_imagette_counter = 0;
@@ -285,7 +297,7 @@ void sub_unit_control_task() {
 		 * Set link interface status according to
 		 * link_config
 		 */
-		if (p_config->linkstatus_running == 0) {
+		if (T_simucam.T_Sub[0].T_conf.linkstatus_running == 0) {
 #if DEBUG_ON
 			printf("[SUBUNIT]Channel disabled\r\n");
 #endif
@@ -299,7 +311,7 @@ void sub_unit_control_task() {
 
 		} else {
 
-			switch (p_config->link_config) {
+			switch (T_simucam.T_Sub[0].T_conf.link_config) {
 
 			/*
 			 * Set link to autostart
@@ -342,7 +354,7 @@ void sub_unit_control_task() {
 
 		}
 
-//		set_spw_linkspeed(&(xChA.xSpacewire),p_config->linkspeed);
+//		set_spw_linkspeed(&(xChA.xSpacewire),T_simucam.T_Sub[0].T_conf.linkspeed);
 #if DEBUG_ON
 		printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
 				(int) i_imagette_counter, (int) i_imagette_number);
@@ -369,7 +381,7 @@ void sub_unit_control_task() {
 #endif
 			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 
-			p_config->sub_status_sending = 0;
+			T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
 
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
 			i_command_control = (int) OSQAccept(p_sub_unit_command_queue,
@@ -432,7 +444,7 @@ void sub_unit_control_task() {
 				/*
 				 * Echo command statement
 				 */
-				if (i_echo_sent_data == 1) {
+				if (T_simucam.T_Sub[0].T_conf.echo_sent == 1) {
 
 					i_echo_dataset(p_imagette_buffer, p_tx_buffer);
 #if DEBUG_ON

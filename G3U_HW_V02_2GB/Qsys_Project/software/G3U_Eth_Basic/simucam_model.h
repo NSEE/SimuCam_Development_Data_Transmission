@@ -8,6 +8,9 @@
 #ifndef SIMUCAM_MODEL_H_
 #define SIMUCAM_MODEL_H_
 
+/* Sub modes enum */
+typedef enum { subModeConfig = 0, subModeRun, subModeInit, subModetoConfig, subModetoRun }TSubStates;
+
 typedef struct T_imagette{
 	INT32U 	offset; 				/* In miliseconds*/
 	INT16U	imagette_length; 		/* length of N imagette */
@@ -23,7 +26,7 @@ typedef struct T_dataset{
 }T_dataset;
 
 typedef struct T_Sub_conf{
-	INT8U mode;
+	TSubStates mode;
 	//INT8U receive_data;
 	INT8U forward_data;
 	INT8U RMAP_handling;
@@ -43,6 +46,7 @@ typedef struct T_Sub{
 typedef struct T_Simucam_conf{
 	INT8U	b_meb_status;
 	INT8U	echo_sent;
+	INT8U	b_abort[8];
 }T_Simucam_conf;
 
 typedef struct T_Simucam{
