@@ -43,10 +43,8 @@
 
 /*sub-unit definitions*/
 //#include "sub_unit_control_task.h"
-
 /* Command control definitions*/
 //#include "command_control_task.h"
-
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 
  * beginning with "SSS" are declared and created in this file.
@@ -171,6 +169,26 @@ void SSSCreateTasks(void) {
 #if DEBUG_ON
 	printf("Tasks created successfully\r\n");
 #endif
+}
+
+/**
+ * @name v_parse_data
+ * @brief Parses the payload to a struct useable to command
+ * @ingroup UTIL
+ *
+ * This routine parses the payload to get the delay times and imagettes. It's used by the
+ * command control and sub-units to prepare the SpW links. The imagette and delay sizes in
+ * bytes can be changed accordingly in the header file.
+ *
+ * @param 	[in] 	*_ethernet_payload Payload Struct
+ * @param	[in]	*_imagette_control Control struct to receive the data
+ *
+ * @retval int	9 if error, 1 if no error
+ **/
+
+int v_parse_data(ethernet_buffer *p_ethernet_buffer, INT32U i_init_addr) {
+
+	return 0;
 }
 
 /*
@@ -341,8 +359,98 @@ void sss_handle_receive(SSSConn* conn) {
 					(INT32U) p_payload->size);
 #endif
 
-			rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
-					p_payload->size - 8, 0);
+			/*
+			 * Case for receiving data
+			 */
+
+			if (p_payload->type == 102) {
+				INT8U *p_imagette_byte;
+				INT16U i_nb_imag_ctrl = 0;
+
+				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
+						12, 0);
+				if (rx_code > 0) {
+					p_ethernet_buffer->rx_rd_pos += rx_code;
+
+					/* Zero terminate so we can use string functions */
+					*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
+				}
+
+				switch (p_ethernet_buffer->rx_buffer[1]) {
+				case 0:
+
+					p_imagette_byte =
+							(INT32U) T_simucam.T_Sub[0].T_data.addr_init;
+
+					/*
+					 * Parse nb of imagettes
+					 */
+					T_simucam.T_Sub[0].T_data.nb_of_imagettes =
+							p_ethernet_buffer->rx_buffer[3]
+									+ 256 * p_ethernet_buffer->rx_buffer[2];
+
+					/*
+					 * Parse TAG
+					 */
+					T_simucam.T_Sub[0].T_data.tag[7] =
+							p_ethernet_buffer->rx_buffer[4];
+					T_simucam.T_Sub[0].T_data.tag[6] =
+							p_ethernet_buffer->rx_buffer[5];
+					T_simucam.T_Sub[0].T_data.tag[5] =
+							p_ethernet_buffer->rx_buffer[6];
+					T_simucam.T_Sub[0].T_data.tag[4] =
+							p_ethernet_buffer->rx_buffer[7];
+					T_simucam.T_Sub[0].T_data.tag[3] =
+							p_ethernet_buffer->rx_buffer[8];
+					T_simucam.T_Sub[0].T_data.tag[2] =
+							p_ethernet_buffer->rx_buffer[9];
+					T_simucam.T_Sub[0].T_data.tag[1] =
+							p_ethernet_buffer->rx_buffer[10];
+					T_simucam.T_Sub[0].T_data.tag[0] =
+							p_ethernet_buffer->rx_buffer[11];
+
+					/*
+					 * Parse imagettes
+					 */
+					while (i_nb_imag_ctrl
+							< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+						INT16U i_length;
+						rx_code = recv(conn->fd, (char* )p_imagette_byte, 6, 0);
+						if (rx_code > 0) {
+							p_imagette_byte += 4;
+							i_length = 256 * (INT8U) *(p_imagette_byte);
+							p_imagette_byte++;
+							i_length += (INT8U) *(p_imagette_byte);
+							p_imagette_byte ++;
+						}
+
+						rx_code = recv(conn->fd, (char* )p_imagette_byte, i_length, 0);
+						if (rx_code > 0) {
+							p_imagette_byte += rx_code;
+							if( ((INT32U)p_imagette_byte % 8) ){
+								p_imagette_byte = (INT8U *) (((((INT32U)p_imagette_byte)>>3)+1)<<3);
+							}
+						}
+
+#if DEBUG_ON
+						INT8U* p_data = 0;
+						INT8U data;
+						INT32U i;
+						for (i = 0; i < (INT32U)p_imagette_byte; i++) {
+							data = (*p_data);
+							p_data++;
+						}
+#endif
+						i_nb_imag_ctrl++;
+					}
+
+					break;
+				}
+			} else {
+				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
+						p_payload->size - 8, 0);
+			}
+
 			if (rx_code > 0) {
 				p_ethernet_buffer->rx_wr_pos += rx_code;
 

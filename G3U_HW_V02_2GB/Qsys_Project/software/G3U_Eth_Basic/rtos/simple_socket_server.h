@@ -67,6 +67,7 @@
 /* Nichestack definitions */
 #include "ipport.h"
 #include "tcpport.h"
+#include "../simucam_model.h"
 
 /*
  * Task Prototypes:
@@ -202,11 +203,11 @@ typedef struct SSS_SOCKET
  */
 extern INT8U *data_addr;
 
-struct ethernet_buffer{
+typedef struct ethernet_buffer{
 	INT8U rx_buffer[BUFFER_SIZE];
 	INT8U *rx_rd_pos;
 	INT8U *rx_wr_pos;
-};
+}ethernet_buffer;
 
 
 /*
@@ -225,6 +226,7 @@ extern OS_EVENT *p_simucam_command_q;
 extern OS_EVENT *p_telemetry_queue;
 
 extern SSSConn conn;
+extern T_Simucam T_simucam;
 
 #endif /* __SIMPLE_SOCKET_SERVER_H__ */
 

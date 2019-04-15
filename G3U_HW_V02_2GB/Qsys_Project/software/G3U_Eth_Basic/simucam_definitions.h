@@ -23,6 +23,7 @@
 #include <sys/alt_irq.h>  // interrupt
 #include <priv/alt_legacy_irq.h>
 #include <priv/alt_busy_sleep.h>
+#include "simucam_model.h"
 
 /*
  ************************************************************************************************
