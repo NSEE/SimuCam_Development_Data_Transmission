@@ -27,6 +27,7 @@
 #include "sub_unit_control_task.h"
 #include "../simucam_definitions.h"
 #include "../api_drivers/ddr2/ddr2.h"
+#include "../driver/sync/sync.h"
 //#include "telemetry_manager_task.h"
 /*
  * Include configurations for the communication modules [yb]
@@ -69,9 +70,6 @@
 
 extern INT16U i_imagette_number;
 extern INT16U i_imagette_counter;
-
-OS_TMR *central_timer;
-OS_TMR *simucam_running_timer;
 
 /*$PAGE*/
 

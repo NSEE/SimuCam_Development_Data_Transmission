@@ -53,8 +53,8 @@
 #define DMA_DEV						0
 
 #define DDR2_BASE_ADDR_DATASET_1	0x0
-#define DDR2_BASE_ADDR_DATASET_2	0x40000000
-#define TIMER_CLOCK_DIV_1MS			99999	/*Timer div for 1ms clock*/
+#define DDR2_BASE_ADDR_DATASET_2	0x40000000	/* 1Gb space for dataset 1 */
+#define TIMER_CLOCK_DIV_1MS			99999		/*Timer div for 1ms clock*/
 
 /*
  * Error codes definitions
@@ -123,7 +123,7 @@ typedef struct x_imagette {
  * Command + payload struct for the simucam ethernet control
  */
 
-struct x_ethernet_payload {
+typedef struct x_ethernet_payload {
 	INT8U header;		/* Command Header */
 	INT16U packet_id;	/* Unique identifier */
 	INT8U type;			/* Will be the command id */

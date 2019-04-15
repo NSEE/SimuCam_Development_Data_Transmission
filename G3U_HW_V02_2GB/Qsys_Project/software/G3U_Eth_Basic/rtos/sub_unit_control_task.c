@@ -212,7 +212,8 @@ void sub_unit_control_task() {
 
 	struct sub_config *p_config;
 	p_config = &sub_config;
-	Timagette_control *p_imagette_buffer;
+	Timagette_control imagette_buffer;
+	Timagette_control *p_imagette_buffer = &imagette_buffer;
 
 	int i_command_control = 0;
 
@@ -472,6 +473,17 @@ void sub_unit_control_task() {
 					error_code = (INT8U) OSQPost(p_simucam_command_q,
 							p_sub_data);
 					alt_SSSErrorHandler(error_code, 0);
+
+					INT16U i_dma_counter = 0;
+					while (i_dma_counter < p_imagette_buffer->nb_of_imagettes) {
+
+						bIdmaDmaM1Transfer(
+								(INT32U*) (p_imagette_buffer->dataset[i_dma_counter]),
+								p_imagette_buffer->dataset[i_dma_counter]->imagette_length
+										+ DMA_OFFSET, 0);
+						i_dma_counter++;
+					}
+
 				}
 
 			}
