@@ -3,6 +3,7 @@
 	<name>G3U_Eth_Basic</name>
 	<comment></comment>
 	<projects>
+		<project>G3U_Eth_Basic_bsp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

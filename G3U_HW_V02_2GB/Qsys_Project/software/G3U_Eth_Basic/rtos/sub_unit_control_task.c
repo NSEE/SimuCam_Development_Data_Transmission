@@ -61,11 +61,63 @@ void sub_unit_create_os_data_structs(void) {
 	sub_unit_command_semaphore = OSSemCreate(0);
 }
 
+/**
+ * @name set_spw_linkspeed
+ * @brief Set SpW linkspeed
+ * @ingroup command_control
+ *
+ * Set the linkspeed of specific SpW channel according to the
+ * specified divider code
+ *
+ * @param 	[in] 	INT8U channel_code
+ * @param	[in]	INT8U linkspeed_code
+ * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
+ * 	ref_clock = 200M -> spw_clock = ref_clock/(div+1)
+ * @retval INT8U error_code 1 if OK
+ **/
+INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code) {
+	INT8U error_code = 0;
+	INT8U i_linkspeed_div = 1;
+
+	switch (i_linkspeed_code) {
+	case 0:
+		/* 10 Mbits */
+		i_linkspeed_div = 19;
+		break;
+
+	case 1:
+		/* 25 Mbits */
+		i_linkspeed_div = 7;
+		break;
+
+	case 2:
+		/* 50 Mbits */
+		i_linkspeed_div = 3;
+
+		break;
+
+	case 3:
+		/* 100 Mbits */
+		i_linkspeed_div = 1;
+		break;
+
+	default:
+		i_linkspeed_div = 1;
+		break;
+	}
+
+	bSpwcGetLink(&(x_channel->xSpacewire));
+	x_channel->xSpacewire.xLinkConfig.ucTxDivCnt = i_linkspeed_div;
+	bSpwcSetLink(&(x_channel->xSpacewire));
+
+	return error_code;
+}
+
 /*
  * Echo data creation function
  */
 
-void i_echo_dataset(struct imagette_control* p_imagette, INT8U* tx_buffer) {
+void i_echo_dataset(Timagette_control* p_imagette, INT8U* tx_buffer) {
 //	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
 	INT8U i = 0;
 	INT32U i_imagette_counter_echo = i_imagette_counter;
@@ -154,10 +206,14 @@ void sub_unit_control_task() {
 	INT8U error_code; /*uCOS error code*/
 	INT8U exec_error; /*Internal error code for the command module*/
 	INT16U i_imagette_length = 0;
+	INT16U i_dma_counter = 0;
+
+	INT8U c_spw_channel = eIdmaCh1Buffer;
 
 	struct sub_config *p_config;
 	p_config = &sub_config;
-	struct imagette_control *p_imagette_buffer;
+	Timagette_control imagette_buffer;
+	Timagette_control *p_imagette_buffer = &imagette_buffer;
 
 	int i_command_control = 0;
 
@@ -180,11 +236,11 @@ void sub_unit_control_task() {
 		/*
 		 * Disabling SpW channel
 		 */
-		v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
-		SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
-		error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-		SPWC_REG_SET,
-		SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
+		bSpwcGetLink(&(xChA.xSpacewire));
+		xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
+		xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
+		xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
+		bSpwcSetLink(&(xChA.xSpacewire));
 
 		exec_error = Verif_Error(error_code);
 #if DEBUG_ON
@@ -198,6 +254,15 @@ void sub_unit_control_task() {
 		b_sub_status = p_config->mode;
 
 		p_imagette_buffer = p_config->imagette;
+
+//		while(i_dma_counter < p_config->imagette->nb_of_imagettes){
+//
+//		bIdmaDmaM1Transfer((INT32U*) (p_imagette_buffer->dataset[i_dma_counter]),
+//				p_imagette_buffer->dataset[i_dma_counter]->imagette_length + DMA_OFFSET, 0);
+//		i_dma_counter++;
+//
+//		}
+
 	}
 
 	/*
@@ -225,13 +290,12 @@ void sub_unit_control_task() {
 			printf("[SUBUNIT]Channel disabled\r\n");
 #endif
 			//Testar ver se isso funciona
-			v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
-			SPWC_AUTOSTART_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
-			//fim teste
-			error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-			SPWC_REG_SET,
-			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
-			exec_error = Verif_Error(error_code);
+
+			bSpwcGetLink(&(xChA.xSpacewire));
+			xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
+			xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
+			xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
+			bSpwcSetLink(&(xChA.xSpacewire));
 
 		} else {
 
@@ -244,14 +308,13 @@ void sub_unit_control_task() {
 #if DEBUG_ON
 				printf("[SUBUNIT]Channel autostart\r\n");
 #endif
-				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
-						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
-								| SPWC_LINK_START_CONTROL_BIT_MASK);
 
-				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-				SPWC_REG_SET,
-				SPWC_AUTOSTART_CONTROL_BIT_MASK);
-				exec_error = Verif_Error(error_code);
+				bSpwcGetLink(&(xChA.xSpacewire));
+				xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
+				xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
+				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
+				bSpwcSetLink(&(xChA.xSpacewire));
+
 #if DEBUG_ON
 				printf("error_code: %i",exec_error);
 #endif
@@ -265,25 +328,23 @@ void sub_unit_control_task() {
 #if DEBUG_ON
 				printf("[SUBUNIT]Channel start\r\n");
 #endif
-				//testar se isso funciona
-				v_SpaceWire_Interface_Link_Control((char) 'A', SPWC_REG_CLEAR,
-						SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK
-								| SPWC_AUTOSTART_CONTROL_BIT_MASK);
-				//fim teste
-				error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-				SPWC_REG_SET,
-				SPWC_LINK_START_CONTROL_BIT_MASK);
-				exec_error = Verif_Error(error_code);
+
+				bSpwcGetLink(&(xChA.xSpacewire));
+				xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
+				xChA.xSpacewire.xLinkConfig.bLinkStart = TRUE;
+				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
+				bSpwcSetLink(&(xChA.xSpacewire));
 #if DEBUG_ON
 				printf("error_code: %i",exec_error);
 #endif
 				break;
 			}
+
 		}
 
-//		set_spw_linkspeed(0,p_config->linkspeed);
+//		set_spw_linkspeed(&(xChA.xSpacewire),p_config->linkspeed);
 #if DEBUG_ON
-printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
+		printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
 				(int) i_imagette_counter, (int) i_imagette_number);
 #endif
 
@@ -296,16 +357,18 @@ printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
 					p_imagette_buffer->imagette[i_imagette_counter],
 					&(p_imagette_buffer->imagette[i_imagette_counter]));
 #endif
-			i_imagette_length =
-					p_imagette_buffer->imagette_length[i_imagette_number];
+//			i_imagette_length =
+//					p_imagette_buffer->imagette_length[i_imagette_number];
 #if DEBUG_ON
 			printf(
 					"[SUBUNIT]imagette length var: %i, imagette length p_config %i\r\n",
 					(INT16U) i_imagette_length,
 					(INT16U) p_imagette_buffer->imagette_length[i_imagette_number]);
 
-printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
+			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 #endif
+			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
+
 			p_config->sub_status_sending = 0;
 
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
@@ -323,6 +386,7 @@ printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 #if DEBUG_ON
 					printf("[SUBUNIT]Abort Flag received\r\n");
 #endif
+					printf("[SUBUNIT]Abort Flag received\r\n");
 					i_imagette_number = nb_of_imagettes;
 					break;
 
@@ -335,14 +399,13 @@ printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 					/*
 					 * Disabling SpW channel
 					 */
-					v_SpaceWire_Interface_Link_Control((char) 'A',
-					SPWC_REG_CLEAR,
-							SPWC_AUTOSTART_CONTROL_BIT_MASK
-									| SPWC_LINK_START_CONTROL_BIT_MASK);
-					error_code = v_SpaceWire_Interface_Link_Control((char) 'A',
-					SPWC_REG_SET,
-					SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
-					exec_error = Verif_Error(error_code);
+
+					bSpwcGetLink(&(xChA.xSpacewire));
+					xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
+					xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
+					xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
+					bSpwcSetLink(&(xChA.xSpacewire));
+
 #if DEBUG_ON
 					printf("[SUBUNIT]Sub-unit waiting config...\r\n");
 #endif
@@ -360,27 +423,12 @@ printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 
 			} else {
 
-				/*
-				 * Send data through SpW
-				 */
-#if !DMA_DEV
-//				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
-//						&(p_imagette_buffer->imagette[i_imagette_counter]),
-//						p_imagette_buffer->imagette_length[i_imagette_number]);
-//				p_config->sub_status_sending = 0;
+#if DMA_DEV
+				while(buffer_space <= imagette_length) {
+					//carregar imagette i no buffer
+				}
 #endif
 
-#if DMA_DEV
-				error_code = b_SpaceWire_Interface_Send_SpaceWire_Data('A',
-						&(p_imagette_buffer->dataset[i_imagette_number]->imagette_start),
-						p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
-				p_config->sub_status_sending = 0;
-#endif
-				error_code =
-						b_SpaceWire_Interface_Send_SpaceWire_Data('A',
-								&(p_imagette_buffer->dataset[i_imagette_number]->imagette_start),
-								p_imagette_buffer->dataset[i_imagette_number]->imagette_length);
-				p_config->sub_status_sending = 0;
 				/*
 				 * Echo command statement
 				 */
@@ -397,12 +445,12 @@ printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 					}
 					printf("\r\n");
 #endif
-					send(conn.fd, p_tx_buffer,
-							p_imagette_buffer->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD,
-							0);
+//					send(conn.fd, p_tx_buffer,
+//							p_imagette_buffer->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD,
+//							0);
 				}
 
-				i_imagette_counter += i_imagette_length;
+//				i_imagette_counter += i_imagette_length;
 				i_imagette_number++;
 #if DEBUG_ON
 				printf("[SUBUNIT]imagette sent\r\n");
@@ -425,6 +473,17 @@ printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
 					error_code = (INT8U) OSQPost(p_simucam_command_q,
 							p_sub_data);
 					alt_SSSErrorHandler(error_code, 0);
+
+					INT16U i_dma_counter = 0;
+					while (i_dma_counter < p_imagette_buffer->nb_of_imagettes) {
+
+						bIdmaDmaM1Transfer(
+								(INT32U*) (p_imagette_buffer->dataset[i_dma_counter]),
+								p_imagette_buffer->dataset[i_dma_counter]->imagette_length
+										+ DMA_OFFSET, 0);
+						i_dma_counter++;
+					}
+
 				}
 
 			}

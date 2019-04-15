@@ -21,9 +21,20 @@
 
 #include "../logic/dma/dma.h"
 #include "../logic/sense/sense.h"
-#include "../logic/ddr2/ddr2.h"
-#include "../logic/comm/comm.h"
-#include "../logic/pgen/pgen.h"
+#include "../api_drivers/ddr2/ddr2.h"
+
+//#include "../driver/dcom/dcom_channel.h"
+#include "../driver/dcom/dcom_channel.h"
+//#include "sub_unit_control_task.h"
+
+TDcomChannel xChA;
+TDcomChannel xChB;
+TDcomChannel xChC;
+TDcomChannel xChD;
+TDcomChannel xChE;
+TDcomChannel xChF;
+TDcomChannel xChG;
+TDcomChannel xChH;
 
 /* OS Error Variables */
 alt_u8 error_code = 0;
@@ -48,7 +59,6 @@ OS_STK SPWHTaskStk[SIMUCAM_TASK_STACKSIZE];
 OS_STK LogTaskStk[SIMUCAM_TASK_STACKSIZE];
 
 /* SpW Functions */
-void Configure_SpW_Autostart(char c_SpwID);
 void Set_SpW_Led(char c_SpwID);
 
 /* OS Tasks */
@@ -84,7 +94,12 @@ void SPWATask(void *task_data) {
 	printf("Created \"spw a\" Task (Prio:%d) \n", SPW_A_TASK_PRIORITY);
 #endif
 
-	Configure_SpW_Autostart('A');
+	bDcomInitCh(&xChA, eDcomSpwCh1);
+
+	bSpwcGetLink(&(xChA.xSpacewire));
+	xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChA.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('A');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -97,7 +112,12 @@ void SPWBTask(void *task_data) {
 	printf("Created \"spw b\" Task (Prio:%d) \n", SPW_B_TASK_PRIORITY);
 #endif
 
-	Configure_SpW_Autostart('B');
+	bDcomInitCh(&xChB, eDcomSpwCh2);
+
+	bSpwcGetLink(&(xChB.xSpacewire));
+	xChB.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChB.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('B');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -110,7 +130,12 @@ void SPWCTask(void *task_data) {
 	printf("Created \"spw c\" Task (Prio:%d) \n", SPW_C_TASK_PRIORITY);
 #endif
 
-	Configure_SpW_Autostart('C');
+	bDcomInitCh(&xChC, eDcomSpwCh3);
+
+	bSpwcGetLink(&(xChC.xSpacewire));
+	xChC.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChC.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('C');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -123,7 +148,12 @@ void SPWDTask(void *task_data) {
 	printf("Created \"spw d\" Task (Prio:%d) \n", SPW_D_TASK_PRIORITY);
 #endif
 
-	Configure_SpW_Autostart('D');
+	bDcomInitCh(&xChD, eDcomSpwCh4);
+
+	bSpwcGetLink(&(xChD.xSpacewire));
+	xChD.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChD.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('D');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -136,7 +166,12 @@ void SPWETask(void *task_data) {
 	printf("Created \"spw e\" Task (Prio:%d) \n", SPW_E_TASK_PRIORITY);
 #endif
 
-	Configure_SpW_Autostart('E');
+	bDcomInitCh(&xChE, eDcomSpwCh5);
+
+	bSpwcGetLink(&(xChE.xSpacewire));
+	xChE.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChE.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('E');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -149,7 +184,12 @@ void SPWFTask(void *task_data) {
 	printf("Created \"spw f\" Task (Prio:%d) \n", SPW_F_TASK_PRIORITY);
 #endif
 
-	Configure_SpW_Autostart('F');
+	bDcomInitCh(&xChF, eDcomSpwCh6);
+
+	bSpwcGetLink(&(xChF.xSpacewire));
+	xChF.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChF.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('F');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -162,7 +202,12 @@ void SPWGTask(void *task_data) {
 	printf("Created \"spw g\" Task (Prio:%d) \n", SPW_G_TASK_PRIORITY);
 #endif
 
-	Configure_SpW_Autostart('G');
+	bDcomInitCh(&xChG, eDcomSpwCh7);
+
+	bSpwcGetLink(&(xChG.xSpacewire));
+	xChG.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChG.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('G');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -174,7 +219,14 @@ void SPWHTask(void *task_data) {
 #if DEBUG_ON
 	printf("Created \"spw h\" Task (Prio:%d) \n", SPW_H_TASK_PRIORITY);
 #endif
-	Configure_SpW_Autostart('H');
+
+
+	bDcomInitCh(&xChH, eDcomSpwCh8);
+
+	bSpwcGetLink(&(xChH.xSpacewire));
+	xChH.xSpacewire.xLinkConfig.bAutostart = TRUE;
+	bSpwcSetLink(&(xChH.xSpacewire));
+
 	while (1) {
 		Set_SpW_Led('H');
 		OSTimeDlyHMSM(0, 0, 0, 10);
@@ -278,85 +330,89 @@ void Init_Simucam_Tasks(void) {
 
 }
 
-void Configure_SpW_Autostart(char c_SpwID) {
-	// Configura COMM
-	// Reseta TX e RX Fifo
-	v_Transparent_Interface_RX_FIFO_Reset(c_SpwID);
-	v_Transparent_Interface_TX_FIFO_Reset(c_SpwID);
-	// Habilita a Interface Transparente
-	v_Transparent_Interface_Enable_Control(c_SpwID, TRAN_REG_SET,
-			TRAN_INTERFACE_ENABLE_CONTROL_BIT_MASK
-					| TRAN_INTERFACE_TX_ENABLE_CONTROL_BIT_MASK
-					| TRAN_INTERFACE_RX_ENABLE_CONTROL_BIT_MASK);
-	// Reseta Codec
-	v_SpaceWire_Interface_Force_Reset(c_SpwID);
-	// Habilita a Interface SpaceWire
-	b_SpaceWire_Interface_Enable_Control(c_SpwID, SPWC_REG_SET,
-			SPWC_CODEC_ENABLE_CONTROL_BIT_MASK
-					| SPWC_CODEC_TX_ENABLE_CONTROL_BIT_MASK
-					| SPWC_CODEC_RX_ENABLE_CONTROL_BIT_MASK);
-	// Coloca Codec no modo Normal
-//	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_NORMAL_MODE);
-	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_BACKDOOR_MODE);
-	// Coloca Codec no link Disabled, funcao padrao para o IWF
-	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_CLEAR,
-	SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
-	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
-			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
+//void Configure_SpW_Autostart(char c_SpwID) {
+//	// Configura DCOM
+//
+//	// Reseta TX e RX Fifo
+//	v_Transparent_Interface_RX_FIFO_Reset(c_SpwID);
+//	v_Transparent_Interface_TX_FIFO_Reset(c_SpwID);
+//	// Habilita a Interface Transparente
+//	v_Transparent_Interface_Enable_Control(c_SpwID, TRAN_REG_SET,
+//			TRAN_INTERFACE_ENABLE_CONTROL_BIT_MASK
+//					| TRAN_INTERFACE_TX_ENABLE_CONTROL_BIT_MASK
+//					| TRAN_INTERFACE_RX_ENABLE_CONTROL_BIT_MASK);
+//	// Reseta Codec
+//	v_SpaceWire_Interface_Force_Reset(c_SpwID);
+//	// Habilita a Interface SpaceWire
+//	b_SpaceWire_Interface_Enable_Control(c_SpwID, SPWC_REG_SET,
+//			SPWC_CODEC_ENABLE_CONTROL_BIT_MASK
+//					| SPWC_CODEC_TX_ENABLE_CONTROL_BIT_MASK
+//					| SPWC_CODEC_RX_ENABLE_CONTROL_BIT_MASK);
+//	// Coloca Codec no modo Normal
+////	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_NORMAL_MODE);
+//	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_BACKDOOR_MODE);
+//	// Coloca Codec no link Disabled, funcao padrao para o IWF
+//	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_CLEAR,
+//	SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
 //	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
-//	SPWC_AUTOSTART_CONTROL_BIT_MASK);
-#if DEBUG_ON
-	printf("SpaceWire %c configurado\n", c_SpwID);
-#endif
-}
+//			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
+////	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
+////	SPWC_AUTOSTART_CONTROL_BIT_MASK);
+//#if DEBUG_ON
+//	printf("SpaceWire %c configurado\n", c_SpwID);
+//#endif
+//}
 
 void Set_SpW_Led(char c_SpwID) {
 	alt_u32 ui_leds_mask_r = 0;
 	alt_u32 ui_leds_mask_g = 0;
+	TDcomChannel *pxChannel = &xChA;
 	switch (c_SpwID) {
 	case 'A':
 		ui_leds_mask_r = LEDS_1R_MASK;
 		ui_leds_mask_g = LEDS_1G_MASK;
+		pxChannel = &xChA;
 		break;
 	case 'B':
 		ui_leds_mask_r = LEDS_2R_MASK;
 		ui_leds_mask_g = LEDS_2G_MASK;
+		pxChannel = &xChB;
 		break;
 	case 'C':
 		ui_leds_mask_r = LEDS_3R_MASK;
 		ui_leds_mask_g = LEDS_3G_MASK;
+		pxChannel = &xChC;
 		break;
 	case 'D':
 		ui_leds_mask_r = LEDS_4R_MASK;
 		ui_leds_mask_g = LEDS_4G_MASK;
+		pxChannel = &xChD;
 		break;
 	case 'E':
 		ui_leds_mask_r = LEDS_5R_MASK;
 		ui_leds_mask_g = LEDS_5G_MASK;
+		pxChannel = &xChE;
 		break;
 	case 'F':
 		ui_leds_mask_r = LEDS_6R_MASK;
 		ui_leds_mask_g = LEDS_6G_MASK;
+		pxChannel = &xChF;
 		break;
 	case 'G':
 		ui_leds_mask_r = LEDS_7R_MASK;
 		ui_leds_mask_g = LEDS_7G_MASK;
+		pxChannel = &xChG;
 		break;
 	case 'H':
 		ui_leds_mask_r = LEDS_8R_MASK;
 		ui_leds_mask_g = LEDS_8G_MASK;
+		pxChannel = &xChH;
 		break;
 	}
-	alt_u32 SpW_Link_Status = ul_SpaceWire_Interface_Link_Status_Read(c_SpwID);
-	if (SpW_Link_Status & SPWC_LINK_RUNNING_STATUS_BIT_MASK) {
+	bSpwcGetLink(&(pxChannel->xSpacewire));
+	if (pxChannel->xSpacewire.xLinkStatus.bRunning) {
 		LEDS_PAINEL_DRIVE(LEDS_OFF, ui_leds_mask_r);
 		LEDS_PAINEL_DRIVE(LEDS_ON, ui_leds_mask_g);
-	} else if (SpW_Link_Status
-			& (SPWC_LINK_DISCONNECT_ERROR_BIT_MASK
-					| SPWC_LINK_PARITY_ERROR_BIT_MASK
-					| SPWC_LINK_ESCAPE_ERROR_BIT_MASK
-					| SPWC_LINK_CREDIT_ERROR_BIT_MASK)) {
-		LEDS_PAINEL_DRIVE(LEDS_ON, ui_leds_mask_g | ui_leds_mask_r);
 	} else {
 		LEDS_PAINEL_DRIVE(LEDS_OFF, ui_leds_mask_g);
 		LEDS_PAINEL_DRIVE(LEDS_ON, ui_leds_mask_r);

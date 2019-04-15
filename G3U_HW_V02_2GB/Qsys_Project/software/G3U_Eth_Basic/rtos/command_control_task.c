@@ -17,11 +17,11 @@
 #include "command_control_task.h"
 
 struct sub_config config_send_A;
+struct sub_config config_send_B;
 
-struct imagette_control img_struct;
-struct imagette_control *p_img_control;
+Timagette_control img_struct;
+Timagette_control *p_img_control;
 
-struct x_ethernet_payload *p_payload;
 
 INT8U b_meb_status = 0; //default starting mode is config
 INT8U i_forward_data = 0;
@@ -47,52 +47,6 @@ int abort_flag = 1;
 int i_return_config_flag = 2;
 
 /**
- * @name set_spw_linkspeed
- * @brief Set SpW linkspeed
- * @ingroup command_control
- *
- * Set the linkspeed of specific SpW channel according to the
- * specified divider code
- *
- * @param 	[in] 	INT8U channel_code
- * @param	[in]	INT8U linkspeed_code
- * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
- * 	ref_clock = 200M -> spw_clock = ref_clock/(div+1)
- * @retval INT8U error_code 1 if OK
- **/
-INT8U set_spw_linkspeed(INT8U i_channel_code, INT8U i_linkspeed_code) {
-	INT8U error_code = 0;
-
-	switch (i_linkspeed_code) {
-	case 0:
-		/* 10 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				19);
-		break;
-
-	case 1:
-		/* 25 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				7);
-		break;
-
-	case 2:
-		/* 50 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				3);
-		break;
-
-	case 3:
-		/* 100 Mbits */
-		error_code = b_SpaceWire_Interface_Set_TX_Div(i_channel_code + ASCII_A,
-				1);
-		break;
-	}
-
-	return error_code;
-}
-
-/**
  * @name long_to_int
  * @brief transforms an int to a byte array
  * @ingroup UTIL
@@ -104,52 +58,51 @@ INT8U set_spw_linkspeed(INT8U i_channel_code, INT8U i_linkspeed_code) {
  * @retval INT16U crc
  **/
 
-void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
-//	def long_to_bytes(nb,n_bytes):
-//	    p=0
-//	    size = []
-//	    while p < n_bytes:
-//	        buff = nb//256
-//	        size.append(nb%256)
-//	        nb = buff
-//	        p+=1
-//	    return size[::-1]
-
-	int p = 0;
-	int k = 0;
-	INT8U byte_buffer[nb_bytes];
-	INT32U i_buffer;
-
-	while (p < nb_bytes) {
-		i_buffer = div(nb, 256).quot;
-		byte_buffer[p] = div(nb, 256).rem;
-		nb = i_buffer;
-		p++;
-	}
-#if DEBUG_ON
-	printf("[LongToInt]Final Bytes ");
-#endif
-	while (p != 0) {
-		p_destination[p] = byte_buffer[k];
-#if DEBUG_ON
-		printf("%i ", p_destination[p]);
-#endif
-		p--;
-		k++;
-	}
-#if DEBUG_ON
-	printf("\r\n");
-#endif
-
-#if DEBUG_ON
-	printf("[LongToInt]Byte buffer ");
-	for (p = 0; p < nb_bytes; p++) {
-		printf("%i ", byte_buffer[p]);
-	}
-	printf("\r\n");
-#endif
-}
-
+//void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
+////	def long_to_bytes(nb,n_bytes):
+////	    p=0
+////	    size = []
+////	    while p < n_bytes:
+////	        buff = nb//256
+////	        size.append(nb%256)
+////	        nb = buff
+////	        p+=1
+////	    return size[::-1]
+//
+//	int p = 0;
+//	int k = 0;
+//	INT8U byte_buffer[nb_bytes];
+//	INT32U i_buffer;
+//
+//	while (p < nb_bytes) {
+//		i_buffer = div(nb, 256).quot;
+//		byte_buffer[p] = div(nb, 256).rem;
+//		nb = i_buffer;
+//		p++;
+//	}
+//#if DEBUG_ON
+//	printf("[LongToInt]Final Bytes ");
+//#endif
+//	while (p != 0) {
+//		p_destination[p] = byte_buffer[k];
+//#if DEBUG_ON
+//		printf("%i ", p_destination[p]);
+//#endif
+//		p--;
+//		k++;
+//	}
+//#if DEBUG_ON
+//	printf("\r\n");
+//#endif
+//
+//#if DEBUG_ON
+//	printf("[LongToInt]Byte buffer ");
+//	for (p = 0; p < nb_bytes; p++) {
+//		printf("%i ", byte_buffer[p]);
+//	}
+//	printf("\r\n");
+//#endif
+//}
 /**
  * @name i_echo_dataset_direct_send
  * @brief Send direct-send echo
@@ -316,7 +269,7 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[10] = sub_config.linkstatus_running; /**Sub_config_enabled*/
 	p_HK->data[11] = sub_config.link_config; /**sub_config_linkstatus*/
 	p_HK->data[12] = sub_config.linkspeed; /**sub_config_linkspeed*/
-	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /**sub_status_linkrunning*/
+//	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /**sub_status_linkrunning*/ // TODO
 	p_HK->data[14] = 1; /**link enabled*/
 	p_HK->data[15] = sub_config.sub_status_sending;
 	p_HK->data[16] = 0; /**link errors*/
@@ -396,7 +349,7 @@ INT32U i_compute_size(INT8U *p_length) {
  * @retval int	9 if error, 1 if no error
  **/
 int v_parse_data(struct x_ethernet_payload *p_payload,
-		struct imagette_control *p_img_ctrl) { //, struct x_imagette *dataset
+		struct Timagette_control *p_img_ctrl) { //, struct x_imagette *dataset
 
 	INT32U i = 0;
 	INT32U o = DATA_SHIFT;
@@ -569,7 +522,7 @@ int v_parse_data(struct x_ethernet_payload *p_payload,
 }
 
 int v_parse_data_teste(struct x_ethernet_payload *p_payload,
-		struct imagette_control *p_img_ctrl, struct x_imagette *dataset) { //, struct x_imagette *dataset
+		Timagette_control *p_img_ctrl, x_imagette *dataset[MAX_IMAGETTES]) { //, struct x_imagette *dataset
 
 	INT32U i = 0;
 	INT32U o = DATA_SHIFT;
@@ -627,45 +580,54 @@ int v_parse_data_teste(struct x_ethernet_payload *p_payload,
 
 #endif
 
-		dataset[i].offset = div(
-				(p_payload->data[o + 3] + 256 * p_payload->data[o + 2]
-						+ 65536 * p_payload->data[o + 1]
-						+ 4294967296 * p_payload->data[o]), 10).quot;
+		dataset[i]->offset = (p_payload->data[o + 3]
+				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
+				+ 4294967296 * p_payload->data[o]);
 
-		dataset[i].imagette_length = p_payload->data[o + 5]
+		dataset[i]->imagette_length = p_payload->data[o + 5]
 				+ 256 * p_payload->data[o + 4];
 
 #if DEBUG_ON
 		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
-				dataset[i].offset, dataset[i].imagette_length);
+				dataset[i]->offset, dataset[i]->imagette_length);
 #endif
 
-		dataset[i].imagette_start = p_payload->data[o + DELAY_SIZE];
-		p_imagette_byte = &(dataset[i].imagette_start);
+		dataset[i]->imagette_start = p_payload->data[o + DELAY_SIZE];
+//		p_imagette_byte = (INT8U *)dataset[i];
+		p_imagette_byte = (INT8U *) (dataset[i]) + DMA_OFFSET;
+//		p_imagette_byte = &((*dataset)[i].imagette_start);
 
 #if DEBUG_ON
 		printf("[PARSER] first byte addr %x = %x p_byte\r\n",
-				&(dataset[i].imagette_start), p_imagette_byte);
+				&(dataset[i]->imagette_start), p_imagette_byte);
 #endif
 
-		for (p = 1; p < dataset[i].imagette_length; p++, d++) {
+		for (p = 1; p < dataset[i]->imagette_length; p++, d++) {
 			p_imagette_byte++;
 			*(p_imagette_byte) = p_payload->data[o + DELAY_SIZE + p];
 #if DEBUG_ON
-			printf("[PARSER] byte %i %i\r\n", p , *(p_imagette_byte));
+			printf("[PARSER] byte %i %i\r\n", p, *(p_imagette_byte));
 #endif
 		}
-
 #if DEBUG_ON
-		printf("[PARSER] first byte %i\r\n", (INT8U) dataset[0].imagette_start);
+		printf("[PARSER] first byte %i\r\n",
+				(INT8U) dataset[0]->imagette_start);
 		printf("[PARSER] last byte addr %x\r\n[PARSER] last byte %i\r\n",
 				p_imagette_byte, *(p_imagette_byte));
 #endif
 
-		p_imagette_byte++;
-		o += DELAY_SIZE + dataset[i].imagette_length;
-		p_img_ctrl->dataset[i] = &(dataset[i]);
+		/*
+		 * Align last imagette byte with
+		 * an 8 byte memory
+		 */
+		while ((INT32U) (p_imagette_byte) % 8) {
+			p_imagette_byte++;
+		}
+
+		o += DELAY_SIZE + dataset[i]->imagette_length;
+		p_img_ctrl->dataset[i] = dataset[i];
 		i++;
+		dataset[i] = (x_imagette *) (p_imagette_byte);
 	}
 
 	p_img_ctrl->size = d;
@@ -682,74 +644,6 @@ int v_parse_data_teste(struct x_ethernet_payload *p_payload,
 		return PARSER_ERROR;
 }
 
-/**
- * COMPLETAR
- * @name central_timer_callback_function
- * @brief Parses the payload to a struct useable to command
- * @ingroup UTIL
- *
- * This routine parses the payload to get the delay times and imagettes. It's used by the
- * command control and sub-units to prepare the SpW links. The imagette and delay sizes in
- * bytes can be changed accordingly in the header file.
- *
- * @param 	[in] 	*_ethernet_payload Payload Struct
- * @param	[in]	*_imagette_control Control struct to receive the data
- *
- * @retval void
- **/
-void central_timer_callback_function(void *p_arg) {
-
-	INT8U error_code = 0;
-	INT8U buffer_nb;
-	int i_internal_error_timer;
-
-#if DEBUG_ON
-	printf("[CALLBACK]Entered callback\r\n next offset %i, counter %i\r\n",
-			(INT32U) p_img_control->dataset[i_imagette_number]->offset,
-			(INT32U) i_central_timer_counter);
-#endif
-
-	if (p_img_control->dataset[i_imagette_number]->offset
-			== i_central_timer_counter) {
-
-		/*
-		 * Enviar comando de envio para o sub-unit
-		 */
-		error_code = OSSemPost(sub_unit_command_semaphore);
-		if (error_code == OS_ERR_NONE) {
-#if DEBUG_ON
-			printf("[CALLBACK]Semaphore triggered\r\n");
-#endif
-			i_total_imagette_counter++;
-#if DEBUG_ON
-			printf("[CALLBACK]Entered function imagette count: %i\r\n",
-					(INT32U) i_imagette_number);
-#endif
-		}
-	}
-
-	i_central_timer_counter++;
-}
-
-/**
- * COMPLETAR
- * @name central_timer_callback_function
- * @brief Simucam central timer callback function
- * @ingroup UTIL
- *
- * This is the Simucam central timer callback function,
- * it's used to accumulate the total running time of the
- * Simucam (in running mode).
- *
- * @param 	[in] 	*p_arg NOT USED
- * @retval void
- **/
-void simucam_running_timer_callback_function(void *p_arg) {
-
-	i_running_timer_counter++;
-
-}
-
 /*
  * Task used to parse and execute the commands received via ethernet. [yb]
  */
@@ -763,30 +657,46 @@ void CommandManagementTask() {
 //	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
 //	INT8U* cmd_char = cmd_char_buffer;
 
-	struct x_ethernet_payload payload;
-	struct x_imagette *p_imagette_A[MAX_IMAGETTES];
+	_ethernet_payload payload;
+
+	_ethernet_payload *p_payload = &payload;
+
+	x_imagette *p_imagette_A[MAX_IMAGETTES];
+
+	x_imagette *p_imagette_B[MAX_IMAGETTES];
 
 	/*
-	 * Assigning imagette struct to RAM
+	 * Initialize DMA
 	 */
-	alt_u32 Ddr2Base;
-	alt_u32 ByteLen;
-	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
-	Ddr2Base = DDR2_BASE_ADDR_DATASET_1;
-
-//	ByteLen = DDR2_M1_MEMORY_SIZE;
-//	p_img_control = (struct imagette_control *) Ddr2Base;
+	bIdmaInitM1Dma();
+	bIdmaInitM2Dma();
 
 	/*
 	 * Img control is now addressed in the primary memory, since the
 	 * dataset will be assigned in vector mode.
 	 */
 	p_img_control = &img_struct;
-	p_payload = &payload;
+//	p_payload = &payload;
+
+	/*
+	 * Assigning imagette struct to RAM
+	 */
+	alt_u32 Ddr2Base;
+	//	alt_u32 ByteLen;
+	bDdr2SwitchMemory(DDR2_M1_ID);
+
+	Ddr2Base = DDR2_BASE_ADDR_DATASET_1;
 	p_imagette_A[0] = (struct x_imagette *) Ddr2Base;
 
+	Ddr2Base = DDR2_BASE_ADDR_DATASET_2;
+	p_imagette_B[0] = (struct x_imagette *) Ddr2Base;
+
+	struct x_telemetry x_telemetry_buffer;
+	struct x_telemetry *p_telemetry_buffer = &x_telemetry_buffer;
+
 #if DEBUG_ON
-	printf("[CommandManagementTask]p_imagette_A[0] addr %x\n\r", p_imagette_A[0]);
+	printf("[CommandManagementTask]p_imagette_A[0] addr %x\n\r",
+			p_imagette_A[0]);
 #endif
 
 	/*
@@ -807,20 +717,40 @@ void CommandManagementTask() {
 	config_send->linkspeed = 3;
 
 	/*
-	 * Creating running timer
-	 * Will be substituted by HW timer
+	 * Init and config of sync functionality
 	 */
-	simucam_running_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
-	OS_TMR_OPT_PERIODIC, simucam_running_timer_callback_function, (void *) 0,
-			(INT8U*) "Running Timer", (INT8U*) &exec_error);
-//
-//	/*
-//	 * Forcing all sub-units to config mode
-//	 * Repeat to all 8 sub-units will be implemented once
-//	 * all subs will be functionnal
-//	 */
-//	error_code = (INT8U) OSQPost(p_sub_unit_config_queue, config_send);
-//	alt_SSSErrorHandler(error_code, 0);
+	bSyncSetOst(25e6);
+	bSyncSetPolarity(FALSE);
+	bSyncCtrExtnIrq(TRUE);
+	bSyncCtrReset();
+	bSyncCtrCh1OutEnable(TRUE);
+
+	/*
+	 * Stop timer for ChA
+	 * NOT STARTING THE TIMER
+	 */
+	bDschStopTimer(&(xChA.xDataScheduler));
+	bDschClrTimer(&(xChA.xDataScheduler));
+
+	/*
+	 * Initialize Simucam Timer
+	 */
+
+	/*
+	 * Initializing the timer
+	 * for channel A
+	 */
+	bDschGetTimerConfig(&(xChA.xDataScheduler));
+	xChA.xDataScheduler.xTimerConfig.bStartOnSync = TRUE;
+	xChA.xDataScheduler.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
+	bDschSetTimerConfig(&(xChA.xDataScheduler));
+
+	bDcomSetGlobalIrqEn(TRUE, eDcomSpwCh1);
+	bDctrGetIrqControl(&(xChA.xDataController));
+	xChA.xDataController.xIrqControl.bTxBeginEn = FALSE;
+	xChA.xDataController.xIrqControl.bTxEndEn = TRUE;
+	bDctrSetIrqControl(&(xChA.xDataController));
+
 	while (1) {
 
 		/*
@@ -876,6 +806,12 @@ void CommandManagementTask() {
 #endif
 
 				v_ack_creator(p_payload, ACK_OK);
+				p_telemetry_buffer->i_type = ACK_TYPE;
+				p_telemetry_buffer->error_code = ACK_OK;
+				p_telemetry_buffer->p_payload = p_payload;
+
+				error_code = (INT8U) OSQPost(p_telemetry_queue,
+						p_telemetry_buffer);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
@@ -889,10 +825,21 @@ void CommandManagementTask() {
 			case 102:
 #if DEBUG_ON
 				printf("[CommandManagementTask]Parse data\n\r");
-				printf("[CommandManagementTask]p_imagette_A addr %x\n\r",p_imagette_A[0]);
-#endif
-				exec_error = v_parse_data_teste(p_payload, p_img_control,
+				printf("[CommandManagementTask]p_imagette_A addr %x\n\r",
 						p_imagette_A[0]);
+#endif
+				/*
+				 * Selected Channel Switch
+				 */
+				switch (p_payload->data[1]) {
+				INT16U i_dma_counter = 0;
+
+				/*
+				 * Channel 0 loop
+				 */
+			case 0:
+				exec_error = v_parse_data_teste(p_payload, p_img_control,
+						p_imagette_A);
 				//exec_error = v_parse_data(p_payload, p_img_control);
 #if DEBUG_ON
 				printf(
@@ -900,11 +847,19 @@ void CommandManagementTask() {
 						(INT8U) p_img_control->dataset[0]->imagette_start,
 						(INT32U) p_img_control->dataset[0]->offset,
 						(INT32U) p_img_control->size);
-#endif
 
-#if DEBUG_ON
 				printf("[CommandManagementTask]Data parsed\r\n");
 #endif
+
+				while (i_dma_counter < p_img_control->nb_of_imagettes) {
+
+					bIdmaDmaM1Transfer(
+							(INT32U*) (p_img_control->dataset[i_dma_counter]),
+							p_img_control->dataset[i_dma_counter]->imagette_length
+									+ DMA_OFFSET, 0);
+					i_dma_counter++;
+				}
+				i_dma_counter = 0;
 
 				config_send->imagette = p_img_control;
 
@@ -912,7 +867,41 @@ void CommandManagementTask() {
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
+				break;
 
+			case 1:
+				exec_error = v_parse_data_teste(p_payload, p_img_control,
+						p_imagette_B);
+				//exec_error = v_parse_data(p_payload, p_img_control);
+#if DEBUG_ON
+				printf(
+						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
+						(INT8U) p_img_control->dataset[0]->imagette_start,
+						(INT32U) p_img_control->dataset[0]->offset,
+						(INT32U) p_img_control->size);
+
+				printf("[CommandManagementTask]Data parsed\r\n");
+#endif
+
+				while (i_dma_counter < p_img_control->nb_of_imagettes) {
+
+					bIdmaDmaM1Transfer(
+							(INT32U*) (p_img_control->dataset[i_dma_counter]),
+							p_img_control->dataset[i_dma_counter]->imagette_length
+									+ DMA_OFFSET, 1);
+					i_dma_counter++;
+				}
+				i_dma_counter = 0;
+
+				config_send->imagette = p_img_control;
+
+				v_ack_creator(p_payload, exec_error);
+
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
+				break;
+
+				}
 				break;
 
 				/*
@@ -1072,57 +1061,52 @@ void CommandManagementTask() {
 			static INT8U b_timer_starter = 0;
 			exec_error = 0;
 
-			OSTmrStart((OS_TMR *) simucam_running_timer,
-					(INT8U *) &i_internal_error);
+			/*
+			 * Start timer for ChA
+			 * NOT STARTING THE TIMER
+			 */
+			bDschStartTimer(&(xChA.xDataScheduler));
+
 #if DEBUG_ON
 			printf("MEB in running mode\n\r");
 #endif
-			if (b_timer_starter == 0) {
-
-				/*
-				 * Initializing central control timer
-				 */
-				central_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
-				OS_TMR_OPT_PERIODIC, central_timer_callback_function,
-						(void *) 0, (INT8U*) "Central Timer",
-						(INT8U*) &exec_error);
-
-				if (exec_error == OS_ERR_NONE) {
-					b_timer_starter = 1;
-
-					/* Timer was created but NOT started */
-#if DEBUG_ON
-					printf(
-							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
-#endif
-				}
-
-			}
+//			if (b_timer_starter == 0) {
+//
+//				/*
+//				 * Initializing central control timer
+//				 */
+//				central_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
+//				OS_TMR_OPT_PERIODIC, central_timer_callback_function,
+//						(void *) 0, (INT8U*) "Central Timer",
+//						(INT8U*) &exec_error);
+//
+//				if (exec_error == OS_ERR_NONE) {
+//					b_timer_starter = 1;
+//
+//					/* Timer was created but NOT started */
+//#if DEBUG_ON
+//					printf(
+//							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
+//#endif
+//				}
+//
+//			}
 #if DEBUG_ON
 			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
 #endif
 			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
 			alt_uCOSIIErrorHandler(i_internal_error, 0);
 
+			/*
+			 * SYNC cmd
+			 */
 			if (p_payload->type == 106) {
+
+				bSyncCtrOneShot();
+
 #if DEBUG_ON
 				printf("[CommandManagementTask]Starting timer\r\n");
 #endif
-				OSTmrStart((OS_TMR *) central_timer,
-						(INT8U *) &i_internal_error);
-				if (i_internal_error == OS_ERR_NONE) {
-					b_timer_starter = 1;
-
-#if DEBUG_ON
-					printf("[CommandManagementTask]timer started\r\n");
-#endif
-
-					v_ack_creator(p_payload, ACK_OK);
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
-				}
 			} else {
 
 				switch (p_payload->type) {
@@ -1153,22 +1137,12 @@ void CommandManagementTask() {
 						/*
 						 * Stop and restart running timer
 						 */
-						OSTmrStop(simucam_running_timer,
-						OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
-						if (i_internal_error == OS_ERR_NONE
-								|| i_internal_error == OS_ERR_TMR_STOPPED) {
-#if DEBUG_ON
-							printf(
-									"[CommandManagementTask Restart]Running Timer stopped\r\n");
-#endif
 
-							i_running_timer_counter = 1;
-
-#if DEBUG_ON
-							printf(
-									"[CommandManagementTask Restart]Running Timer restarted\r\n");
-#endif
-						}
+						/*
+						 * Stop and clear ChA timer
+						 */
+						bDschStopTimer(&(xChA.xDataScheduler));
+						bDschClrTimer(&(xChA.xDataScheduler));
 
 						error_code = OSQPost(p_sub_unit_command_queue,
 								i_return_config_flag);
@@ -1192,23 +1166,23 @@ void CommandManagementTask() {
 					printf(
 							"[CommandManagementTask]End of dataset, restarting\r\n");
 #endif
-					OSTmrStop(central_timer,
-					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
+					printf(
+							"[CommandManagementTask]End of dataset, restarting\r\n");
+					/*
+					 * Stop and clear ChA timer
+					 */
+					bDschStopTimer(&(xChA.xDataScheduler));
+					bDschClrTimer(&(xChA.xDataScheduler));
 
-					if (i_internal_error == OS_ERR_NONE
-							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-#if DEBUG_ON
-						printf(
-								"[CommandManagementTask Restart]Timer stopped\r\n");
-#endif
-						i_central_timer_counter = 1;
-//						OSQPost(p_sub_unit_command_queue, abort_flag);
-//						OSSemPost(sub_unit_command_semaphore);
-#if DEBUG_ON
-						printf(
-								"[CommandManagementTask Restart]Timer restarted\r\n");
-#endif
-					}
+//					INT16U i_dma_counter = 0;
+//					while (i_dma_counter < p_img_control->nb_of_imagettes) {
+//
+//						bIdmaDmaM1Transfer(
+//								(INT32U*) (p_imagette_A[i_dma_counter]),
+//								p_imagette_A[i_dma_counter]->imagette_length
+//										+ DMA_OFFSET, 0);
+//						i_dma_counter++;
+//					}
 
 					break;
 					/*
@@ -1222,27 +1196,11 @@ void CommandManagementTask() {
 					printf("[CommandManagementTask]Selected command: %i\n\r",
 							(int) p_payload->type);
 #endif
-					OSTmrStop(central_timer,
-					OS_TMR_OPT_NONE, (void *) 0, &i_internal_error);
 
-					if (i_internal_error == OS_ERR_NONE
-							|| i_internal_error == OS_ERR_TMR_STOPPED) {
-#if DEBUG_ON
-						printf(
-								"[CommandManagementTask Abort]Timer stopped\r\n");
-#endif
-						i_central_timer_counter = 1;
-						OSQPost(p_sub_unit_command_queue, abort_flag);
-						OSSemPost(sub_unit_command_semaphore);
-#if DEBUG_ON
-						printf(
-								"[CommandManagementTask Abort]Timer restarted\r\n");
-#endif
-						v_ack_creator(p_payload, ACK_OK);
-					} else {
-						v_ack_creator(p_payload, TIMER_ERROR);
-					}
+					bDschStopTimer(&(xChA.xDataScheduler));
+					bDschClrTimer(&(xChA.xDataScheduler));
 
+					v_ack_creator(p_payload, ACK_OK);
 					error_code = (INT8U) OSQPost(p_simucam_command_q,
 							p_payload);
 					alt_SSSErrorHandler(error_code, 0);
@@ -1256,26 +1214,9 @@ void CommandManagementTask() {
 					printf("[CommandManagementTask]Direct Send to %c\n\r",
 							(char) (p_payload->data[0] + ASCII_A));
 #endif
-					error_code = b_SpaceWire_Interface_Send_SpaceWire_Data(
-							(char) p_payload->data[0] + ASCII_A,
-							&(p_payload->data[1]), (p_payload->size) - 11);
-
-					if (i_echo_sent_data == 1) {
-						i_echo_dataset_direct_send(p_payload, p_tx_buffer);
-
-						exec_error = send(conn.fd, p_tx_buffer,
-								p_payload->size + 4, 0);
-					}
-
-					if (exec_error == -1) {
-						v_ack_creator(p_payload, ECHO_ERROR);
-					} else {
-						v_ack_creator(p_payload, ACK_OK);
-					}
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
+					/*
+					 * Direct Send needs replaning
+					 */
 
 					break;
 

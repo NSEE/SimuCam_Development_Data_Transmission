@@ -30,17 +30,22 @@
 /* MicroC/OS-II definitions */
 #include "includes.h"
 
+#include "../simucam_definitions.h"
+
 /* Simple Socket Server definitions */
 #include "simple_socket_server.h"                                                                    
 #include "../alt_error_handler.h"
 
 #include "../driver/leds/leds.h"
+#include "../api_drivers/ddr2/ddr2.h"
+
+#include "tasks_init.h"
 
 /*sub-unit definitions*/
-#include "sub_unit_control_task.h"
+//#include "sub_unit_control_task.h"
 
 /* Command control definitions*/
-#include "command_control_task.h"
+//#include "command_control_task.h"
 
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 
@@ -69,6 +74,13 @@ OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 
 #define COMMAND_MANAGEMENT_TASK_PRIORITY 6
 OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
+
+/*
+ * Configuration of the simucam command management task[yb]
+ */
+
+#define TELEMETRY_TASK_PRIORITY 30
+OS_STK telemetry_manager_task_stack[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam data queue[yb]
@@ -144,6 +156,18 @@ void SSSCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
+	/*
+	 * Creating the telemtry management task [yb]
+	 */
+	error_code = OSTaskCreateExt(telemetry_manager_task,
+	NULL, (void *) &telemetry_manager_task_stack[TASK_STACKSIZE - 1],
+	TELEMETRY_TASK_PRIORITY,
+	TELEMETRY_TASK_PRIORITY, telemetry_manager_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
 #if DEBUG_ON
 	printf("Tasks created successfully\r\n");
 #endif
@@ -207,7 +231,6 @@ void sss_handle_accept(int listen_socket, SSSConn* conn) {
 	return;
 }
 
-
 /*
  * sss_handle_receive()
  * 
@@ -242,7 +265,7 @@ void sss_handle_receive(SSSConn* conn) {
 	struct ethernet_buffer *p_ethernet_buffer;
 //	p_ethernet_buffer = &buffer;
 
-	DDR2_SWITCH_MEMORY(DDR2_M1_ID);
+	bDdr2SwitchMemory(DDR2_M1_ID);
 
 	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
 
@@ -355,7 +378,7 @@ void sss_handle_receive(SSSConn* conn) {
 			printf("\r\n");
 			printf(
 					"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
-							"Type: %i\r\n", (int) p_payload->header,
+					"Type: %i\r\n", (int) p_payload->header,
 					(int) p_payload->packet_id, (int) p_payload->type);
 
 #endif
@@ -492,7 +515,7 @@ void SSSSimpleSocketServerTask() {
 	sss_reset_connection(&conn);
 #if DEBUG_ON
 	printf("[sss_task] Simple Socket Server listening on port %d\n",
-	SSS_PORT);
+			SSS_PORT);
 #endif
 
 	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_ST_1_MASK);

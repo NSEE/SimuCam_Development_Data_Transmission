@@ -18,11 +18,9 @@
 #include "system.h"
 #include <fcntl.h>
 
-#define DEBUG_DUMP  /*printf */ 
+#include "../simucam_definitions.h"
 
-typedef int bool;
-#define TRUE    1
-#define FALSE   0
+#define DEBUG_DUMP  /*printf */ 
 
 #define PUBLIC
 #define PRIVATE static
