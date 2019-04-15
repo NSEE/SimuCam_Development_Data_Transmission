@@ -21,10 +21,8 @@ typedef struct ConfEth{
 	unsigned char ucIP[4];
 	unsigned char ucGTW[4];
 	unsigned char ucSubNet[4];
-	unsigned char ucDNS[4];
 	unsigned char ucMAC[6];
 	unsigned short int siPort;
-	bool bDHCP;
 }TConfEth;
 
 extern TConfEth xConfEth;

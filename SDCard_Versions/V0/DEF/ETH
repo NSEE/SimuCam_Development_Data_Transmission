@@ -1,17 +1,13 @@
 ﻿'Eth connection'
-'MAC default'
-M=252:247:99:77:31:66;
+'MAC default (if RTCC is not working)'
+M=84:16:236:96:66:121;
 'IP Address'
-I=192.168.0.5;
+I=10.9.11.216;
 'Default Gateway'
-G=192.168.0.1;
+G=10.9.11.1;
 'Subnet-Mask'
 S=255.255.255.0;
-'DNS-Server'
-D=8.8.8.8;
 'TCP port for eth commands'
-P=17000;
-'DHCP - Used by Mauá - let always 0 for Static IP [ 0 = OFF , 1 = ON]'
-H=1;
+P=30;
 <<
 'Keep the "less than" (<) caracter, this is used in the parser'

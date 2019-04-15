@@ -130,27 +130,6 @@ bool vLoadDefaultETHConf( void ){
 						p_inteiro = inteiro;
 
 						break;
-					case 'H':
-
-						do {
-							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-						/*Tiago: Proteger com mutex*/
-						sidhcpTemp = atoi( inteiro );
-						if (sidhcpTemp == 1)
-							xConfEth.bDHCP = TRUE;
-						else
-							xConfEth.bDHCP = FALSE;
-						/*Tiago: Proteger com mutex*/
-						p_inteiro = inteiro;
-
-						break;
-
 					case 'S':
 
 						ucParser = 0;
@@ -165,26 +144,6 @@ bool vLoadDefaultETHConf( void ){
 							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 							/*Tiago: Proteger com mutex*/
 							xConfEth.ucSubNet[min_sim(ucParser,3)] = (unsigned char)atoi( inteiro );
-							/*Tiago: Proteger com mutex*/
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'D':
-
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-							/*Tiago: Proteger com mutex*/
-							xConfEth.ucDNS[min_sim(ucParser,3)] = (unsigned char)atoi( inteiro );
 							/*Tiago: Proteger com mutex*/
 							p_inteiro = inteiro;
 							ucParser++;
@@ -260,8 +219,6 @@ bool vLoadDefaultETHConf( void ){
 		xConfEth.ucMAC[3] = 0x4D;
 		xConfEth.ucMAC[4] = 0x1F;
 		xConfEth.ucMAC[5] = 0x42;
-
-		xConfEth.bDHCP = FALSE;
 
 	}
 
