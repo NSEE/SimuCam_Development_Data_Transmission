@@ -435,6 +435,59 @@ void sub_unit_control_task() {
 
 				switch (p_config->mode) {
 
+//				case subAccessDMA1:
+//					if (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
+//							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
+//						OSMutexPend(
+//								xMutexDMA[(unsigned char) c_spw_channel / 4], 0,
+//								&error_code);
+//						if (error_code != OS_NO_ERR) {
+//#if DEBUG_ON
+//							printf("[SUBUNIT] Mutex error.", exec_error);
+//#endif
+//						}
+//
+//						/*
+//						 * TODO Verif buffer
+//						 * 3 queues case false
+//						 *
+//						 */
+//						error_code =
+//								bIdmaDmaM1Transfer(
+//										(INT32U*) (T_simucam.T_Sub[0].T_data.p_iterador),
+//										T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+//												+ DMA_OFFSET, 0);
+//						OSMutexPost(
+//								xMutexDMA[(unsigned char) c_spw_channel / 4]);
+//						if (error_code == OS_NO_ERR) {
+//							/*
+//							 * Signal cmd that DMA is free
+//							 */
+//							xTemp_sub.type = simDMA1Back;
+//							OSQPost(p_simucam_command_q, &xTemp_sub);
+//
+//							i_mem_pointer_buffer =
+//									(INT32U) T_simucam.T_Sub[0].T_data.p_iterador
+//											+ T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+//											+ DMA_OFFSET;
+//							if ((i_mem_pointer_buffer % 8)) {
+//								i_mem_pointer_buffer = ((((i_mem_pointer_buffer)
+//										>> 3) + 1) << 3);
+//							}
+//							T_simucam.T_Sub[0].T_data.p_iterador =
+//									(T_Imagette *) i_mem_pointer_buffer;
+//						} else {
+//#if DEBUG_ON
+//							printf("[SUBUNIT]DMA ERROR\r\n");
+//#endif
+//						}
+//					} else {
+//						/*
+//						 * End of dataset
+//						 */
+//					}
+//					break;
+
 				default:
 #if DEBUG_ON
 					printf("[SUBUNIT]Sub-unit Default run trap\r\n");
@@ -443,14 +496,14 @@ void sub_unit_control_task() {
 				}
 			}
 
-			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
-			if (exec_error == OS_ERR_NONE) {
-				printf("[SUBUNIT]Data sent\r\n");
-			} else {
-#if DEBUG_ON
-				printf("[SUBUNIT]Sub-unit config queue error\r\n");
-#endif
-			}
+//			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
+//			if (exec_error == OS_ERR_NONE) {
+//				printf("[SUBUNIT]Data sent\r\n");
+//			} else {
+//#if DEBUG_ON
+//				printf("[SUBUNIT]Sub-unit config queue error\r\n");
+//#endif
+//			}
 			break;
 		default:
 			printf("[SUBUNIT]Sub-unit default error!\r\n");

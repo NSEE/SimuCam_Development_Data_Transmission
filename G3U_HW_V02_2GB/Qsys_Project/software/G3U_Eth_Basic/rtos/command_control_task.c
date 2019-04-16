@@ -591,6 +591,7 @@ void CommandManagementTask() {
 	xChA.xDataController.xIrqControl.bTxBeginEn = TRUE;
 	xChA.xDataController.xIrqControl.bTxEndEn = FALSE;
 	bDctrSetIrqControl(&(xChA.xDataController));
+	T_simucam.T_status.simucam_mode = simModeInit;
 
 	while (1) {
 
@@ -612,6 +613,8 @@ void CommandManagementTask() {
 			config_send_A.linkspeed = 3;
 
 			T_simucam.T_status.simucam_mode = simModetoConfig;
+			T_simucam.T_status.has_dma_1 = true;
+			T_simucam.T_status.has_dma_2 = true;
 			break;
 
 		case simModetoConfig:
@@ -832,7 +835,10 @@ void CommandManagementTask() {
 #if DEBUG_ON
 					printf("[CommandManagementTask]DMA1 Sched\r\n");
 #endif
-					if (T_simucam.T_status.has_dma_1) {
+					if (T_simucam.T_status.has_dma_1 == true) {
+#if DEBUG_ON
+					printf("[CommandManagementTask]Has DMA1\r\n");
+#endif
 						i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0],
 								1, &error_code);
 						if (error_code == OS_ERR_NONE) {
