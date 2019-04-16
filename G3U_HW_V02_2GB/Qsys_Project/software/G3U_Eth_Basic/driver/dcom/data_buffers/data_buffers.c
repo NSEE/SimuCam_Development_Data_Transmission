@@ -23,7 +23,7 @@ static ALT_INLINE alt_u32 ALT_ALWAYS_INLINE uliDatbGetRegField(alt_u32 uliRegVal
 //! [program memory public global variables]
 
 //! [data memory private global variables]
-const alt_u16 cuiDataBufferSize = 0;
+const alt_u16 cuiDataBufferSize = 16*1024; /* 16kB */
 //! [data memory private global variables]
 
 //! [program memory private global variables]
@@ -39,13 +39,41 @@ bool bDatbGetBuffersStatus(TDatbChannel *pxDatbCh){
 
 		pxDatbCh->xBufferStatus.bDataBufferFull  = bDatbGetRegFlag(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_FULL_MSK));
 		pxDatbCh->xBufferStatus.bDataBufferEmpty = bDatbGetRegFlag(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_EMPTY_MSK));
-		pxDatbCh->xBufferStatus.uiDataBufferUsed = (alt_u16)(uliDatbGetRegField(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_USED_MSK), 0));
+
+		/* If the buffer is full, the HW usedw goes to 0, so we need to check if the data buffer is already full */
+		/* TODO: fix the usedw in HW to be an extended usedw */
+		if (pxDatbCh->xBufferStatus.bDataBufferFull) {
+			pxDatbCh->xBufferStatus.uiDataBufferUsed = cuiDataBufferSize;
+		} else {
+			/* Used in HW is in range 0..2048, for 64b words. This value is converted in the range 0..16384, for 8b words */
+			/* TODO: convert in HW the value to 8b words */
+			pxDatbCh->xBufferStatus.uiDataBufferUsed = (alt_u16)((uliDatbGetRegField(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_USED_MSK), 0)) << 3);
+		}
 		pxDatbCh->xBufferStatus.uiDataBufferFree = cuiDataBufferSize - pxDatbCh->xBufferStatus.uiDataBufferUsed;
 
 		bStatus = TRUE;
 	}
 
 	return (bStatus);
+}
+
+alt_u16 uiDatbGetBuffersFreeSpace(TDatbChannel *pxDatbCh){
+	alt_u16 uiFreeSpace = 0;
+	volatile alt_u32 uliReg = 0;
+
+	if (pxDatbCh != NULL) {
+		uliReg = uliDatbReadReg(pxDatbCh->puliDatbChAddr, (alt_u32)(DCOM_DATA_BUFF_STAT_REG_OFST));
+
+		/* If the buffer is full, the HW usedw goes to 0, so we need to check if the data buffer is already full */
+		if (bDatbGetRegFlag(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_FULL_MSK))) {
+			uiFreeSpace = 0;
+		} else {
+			/* Used in HW is in range 0..2048, for 64b words. This value is converted in the range 0..16384, for 8b words */
+			uiFreeSpace = cuiDataBufferSize - (alt_u16)((uliDatbGetRegField(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_USED_MSK), 0)) << 3);
+		}
+	}
+
+	return (uiFreeSpace);
 }
 
 bool bDatbInitCh(TDatbChannel *pxDatbCh, alt_u8 ucDcomCh){
