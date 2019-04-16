@@ -213,7 +213,7 @@ void telemetry_manager_task() {
 //			send(conn.fd, p_telemetry->p_payload->data,
 //					p_telemetry->p_payload->size, 0);
 #if DEBUG_ON
-			printf("ACK_SENT\r\n");
+			printf("[TMGEN]ACK_SENT\r\n");
 #endif
 			break;
 

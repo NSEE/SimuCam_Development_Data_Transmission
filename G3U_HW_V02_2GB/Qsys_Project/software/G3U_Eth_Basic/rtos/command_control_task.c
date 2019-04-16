@@ -206,41 +206,45 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
  **/
 void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 
-	INT16U nb_id = i_id_accum;
-	INT16U nb_id_pkt = p_error_response->packet_id;
+	INT16U 	nb_id = i_id_accum;
+	INT16U 	nb_id_pkt = p_error_response->packet_id;
+	INT8U	ack_buffer[64];
+	INT32U  ack_size = 14;
 
-	p_error_response->data[0] = 2;
+	ack_buffer[0] = 2;
 
 	/*
 	 * Id to bytes
 	 */
-	p_error_response->data[2] = div(nb_id, 256).rem;
+	ack_buffer[2] = div(nb_id, 256).rem;
 	nb_id = div(nb_id, 256).quot;
-	p_error_response->data[1] = div(nb_id, 256).rem;
+	ack_buffer[1] = div(nb_id, 256).rem;
 
 //	p_error_response->data[1] = 0;
 //	p_error_response->data[2] = i_id_accum;
-	p_error_response->data[3] = 201;
-	p_error_response->data[4] = 0;
-	p_error_response->data[5] = 0;
-	p_error_response->data[6] = 0;
-	p_error_response->data[7] = 14;
+	ack_buffer[3] = 201;
+	ack_buffer[4] = 0;
+	ack_buffer[5] = 0;
+	ack_buffer[6] = 0;
+	ack_buffer[7] = 14;
 
 	/*
 	 * Packet id to bytes
 	 */
-	p_error_response->data[9] = div(nb_id_pkt, 256).rem;
+	ack_buffer[9] = div(nb_id_pkt, 256).rem;
 	nb_id_pkt = div(nb_id_pkt, 256).quot;
-	p_error_response->data[8] = div(nb_id_pkt, 256).rem;
+	ack_buffer[8] = div(nb_id_pkt, 256).rem;
 
 //	p_error_response->data[8] = 0;
 //	p_error_response->data[9] = p_error_response->packet_id;
 
-	p_error_response->data[10] = p_error_response->type;
-	p_error_response->data[11] = error_code;
-	p_error_response->data[12] = 0;
-	p_error_response->data[13] = 89;
-	p_error_response->size = 14;
+	ack_buffer[10] = p_error_response->type;
+	ack_buffer[11] = error_code;
+	ack_buffer[12] = 0;
+	ack_buffer[13] = 89;
+//	p_error_response->size = 14;
+
+	send(conn.fd, ack_buffer, ack_size, 0);
 
 	i_id_accum++;
 }
@@ -668,16 +672,6 @@ void CommandManagementTask() {
 
 				v_ack_creator(p_payload, ACK_OK);
 
-				x_telemetry_buffer.i_type = ACK_TYPE;
-				x_telemetry_buffer.error_code = ACK_OK;
-				x_telemetry_buffer.p_payload = p_payload;
-
-				error_code = (INT8U) OSQPost(p_telemetry_queue,
-						&x_telemetry_buffer);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
-
 				break;
 				/*
 				 * Delete Data
@@ -686,9 +680,6 @@ void CommandManagementTask() {
 			case 103:
 
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -699,9 +690,6 @@ void CommandManagementTask() {
 			case 104:
 
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -729,9 +717,6 @@ void CommandManagementTask() {
 
 				v_ack_creator(p_payload, ACK_OK);
 
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
-
 				break;
 
 				/*
@@ -743,9 +728,6 @@ void CommandManagementTask() {
 #endif
 
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -760,8 +742,6 @@ void CommandManagementTask() {
 
 				v_HK_creator(p_payload, i_channel_buffer);
 
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
 				break;
 
 				/*
@@ -782,9 +762,6 @@ void CommandManagementTask() {
 #endif
 				v_ack_creator(p_payload, ACK_OK);
 
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
-
 				break;
 
 				/*
@@ -796,9 +773,6 @@ void CommandManagementTask() {
 						(int) p_payload->type);
 #endif
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -814,9 +788,6 @@ void CommandManagementTask() {
 				} else {
 					v_ack_creator(p_payload, COMMAND_NOT_FOUND);
 				}
-
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
 
 				break;
 
@@ -851,9 +822,8 @@ void CommandManagementTask() {
 			if (p_payload->type == 106) {
 
 				bSyncCtrOneShot();
+
 				v_ack_creator(p_payload, ACK_OK);
-				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-				alt_SSSErrorHandler(error_code, 0);
 #if DEBUG_ON
 				printf("[CommandManagementTask]Starting timer\r\n");
 #endif
@@ -935,11 +905,6 @@ void CommandManagementTask() {
 					}
 
 					v_ack_creator(p_payload, ACK_OK);
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
-
 					break;
 
 					/*
@@ -976,9 +941,6 @@ void CommandManagementTask() {
 					bDschClrTimer(&(xChA.xDataScheduler));
 
 					v_ack_creator(p_payload, ACK_OK);
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
 					break;
 
 					/*
@@ -1003,10 +965,6 @@ void CommandManagementTask() {
 					printf("[CommandManagementTask]Get HK\r\n");
 #endif
 					v_HK_creator(p_payload, p_payload->data[0]);
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
 					break;
 
 				default:
@@ -1022,11 +980,6 @@ void CommandManagementTask() {
 					} else {
 						v_ack_creator(p_payload, COMMAND_NOT_FOUND);
 					}
-
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_payload);
-					alt_SSSErrorHandler(error_code, 0);
-
 					break;
 
 				}

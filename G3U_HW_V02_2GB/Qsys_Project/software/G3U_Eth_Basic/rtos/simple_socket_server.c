@@ -571,10 +571,10 @@ void sss_handle_receive(SSSConn* conn) {
 				printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
 #endif
 
-				OSQPend(p_simucam_command_q, 0, &error_code);
-				alt_SSSErrorHandler(error_code, 0);
-
-				send(conn->fd, payload.data, payload.size, 0);
+//				OSQPend(p_simucam_command_q, 0, &error_code);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				send(conn->fd, payload.data, payload.size, 0);
 			}
 //			printf("[sss_handle_receive DEBUG]Returned from function\n");
 		}
