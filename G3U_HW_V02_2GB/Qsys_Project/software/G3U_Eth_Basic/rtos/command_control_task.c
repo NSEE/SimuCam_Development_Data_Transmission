@@ -16,8 +16,8 @@
 
 #include "command_control_task.h"
 
-struct sub_config config_send_A;
-struct sub_config config_send_B;
+sub_config_t config_send_A;
+sub_config_t config_send_B;
 
 Timagette_control img_struct;
 Timagette_control *p_img_control;
@@ -204,7 +204,7 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
  * @param 	[in] 	*INT8U Data array
  * @retval INT32U size
  **/
-void v_ack_creator(struct x_ethernet_payload* p_error_response, int error_code) {
+void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 
 	INT16U nb_id = i_id_accum;
 	INT16U nb_id_pkt = p_error_response->packet_id;
@@ -271,12 +271,12 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[7] = 30;
 	p_HK->data[8] = chann_buff; /**channel*/
 	p_HK->data[9] = b_meb_status; /**meb mode*/
-	p_HK->data[10] = sub_config.linkstatus_running; /**Sub_config_enabled*/
-	p_HK->data[11] = sub_config.link_config; /**sub_config_linkstatus*/
-	p_HK->data[12] = sub_config.linkspeed; /**sub_config_linkspeed*/
+	p_HK->data[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
+	p_HK->data[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; /**sub_config_linkstatus*/
+	p_HK->data[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; /**sub_config_linkspeed*/
 //	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /**sub_status_linkrunning*/ // TODO
 	p_HK->data[14] = 1; /**link enabled*/
-	p_HK->data[15] = sub_config.sub_status_sending;
+	p_HK->data[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
 	p_HK->data[16] = 0; /**link errors*/
 	p_HK->data[17] = 0;
 	p_HK->data[18] = 0;
@@ -354,129 +354,128 @@ INT32U i_compute_size(INT8U *p_length) {
  * @retval int	9 if error, 1 if no error
  **/
 
-int v_parse_data_teste(struct x_ethernet_payload *p_payload,
-		Timagette_control *p_img_ctrl, x_imagette *dataset[MAX_IMAGETTES]) { //, struct x_imagette *dataset
-
-	INT32U i = 0;
-	INT32U o = DATA_SHIFT;
-	INT32U d = 0;
-	INT16U nb_imagettes;
-	INT32U error_verif = 0;
-
-	INT8U *p_imagette_byte;
-
-#if DEBUG_ON
-	printf(
-			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
-			p_payload->size, (char) p_payload->data[8],
-			(char) p_payload->data[9], (char) p_payload->data[10],
-			(char) p_payload->data[11], (char) p_payload->data[12],
-			(char) p_payload->data[13]);
-#endif
-
-	/*
-	 * Do not use first 2 bytes
-	 */
-
-	nb_imagettes = p_payload->data[3] + 256 * p_payload->data[2];
-	p_img_ctrl->nb_of_imagettes = nb_imagettes;
-#if DEBUG_ON
-	printf("[PARSER] Number of imagettes: %i\r\n", nb_imagettes);
-#endif
-
-	p_img_ctrl->tag[7] = p_payload->data[4];
-	p_img_ctrl->tag[6] = p_payload->data[5];
-	p_img_ctrl->tag[5] = p_payload->data[6];
-	p_img_ctrl->tag[4] = p_payload->data[7];
-	p_img_ctrl->tag[3] = p_payload->data[8];
-	p_img_ctrl->tag[2] = p_payload->data[9];
-	p_img_ctrl->tag[1] = p_payload->data[10];
-	p_img_ctrl->tag[0] = p_payload->data[11];
-#if DEBUG_ON
-	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n", p_img_ctrl->tag[7],
-			p_img_ctrl->tag[6], p_img_ctrl->tag[5], p_img_ctrl->tag[4],
-			p_img_ctrl->tag[3], p_img_ctrl->tag[2], p_img_ctrl->tag[1],
-			p_img_ctrl->tag[0]);
-
-	printf("[PARSER]Starting imagette addr %x\r\n", &(p_img_ctrl->dataset[0]));
-#endif
-
-	while (i < nb_imagettes) {
-		INT32U p = 0;
-#if DEBUG_ON
-		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
-				(INT32U) &(p_img_ctrl->dataset[i]));
-
-		printf("[PARSER]Offset bytes: %i %i %i %i\r\n", p_payload->data[o],
-				p_payload->data[o + 1], p_payload->data[o + 2],
-				256 * p_payload->data[o + 2], p_payload->data[o + 3]);
-
-#endif
-
-		dataset[i]->offset = (p_payload->data[o + 3]
-				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
-				+ 4294967296 * p_payload->data[o]);
-
-		dataset[i]->imagette_length = p_payload->data[o + 5]
-				+ 256 * p_payload->data[o + 4];
-
-#if DEBUG_ON
-		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
-				dataset[i]->offset, dataset[i]->imagette_length);
-#endif
-
-		dataset[i]->imagette_start = p_payload->data[o + DELAY_SIZE];
-//		p_imagette_byte = (INT8U *)dataset[i];
-		p_imagette_byte = (INT8U *) (dataset[i]) + DMA_OFFSET;
-//		p_imagette_byte = &((*dataset)[i].imagette_start);
-
-#if DEBUG_ON
-		printf("[PARSER] first byte addr %x = %x p_byte\r\n",
-				&(dataset[i]->imagette_start), p_imagette_byte);
-#endif
-
-		for (p = 1; p < dataset[i]->imagette_length; p++, d++) {
-			p_imagette_byte++;
-			*(p_imagette_byte) = p_payload->data[o + DELAY_SIZE + p];
-#if DEBUG_ON
-			printf("[PARSER] byte %i %i\r\n", p, *(p_imagette_byte));
-#endif
-		}
-#if DEBUG_ON
-		printf("[PARSER] first byte %i\r\n",
-				(INT8U) dataset[0]->imagette_start);
-		printf("[PARSER] last byte addr %x\r\n[PARSER] last byte %i\r\n",
-				p_imagette_byte, *(p_imagette_byte));
-#endif
-
-		/*
-		 * Align last imagette byte with
-		 * an 8 byte memory
-		 */
-		while ((INT32U) (p_imagette_byte) % 8) {
-			p_imagette_byte++;
-		}
-
-		o += DELAY_SIZE + dataset[i]->imagette_length;
-		p_img_ctrl->dataset[i] = dataset[i];
-		i++;
-		dataset[i] = (x_imagette *) (p_imagette_byte);
-	}
-
-	p_img_ctrl->size = d;
-	error_verif = o + DATA_SHIFT - 2;
-#if DEBUG_ON
-	printf("[PARSER]error_verif %i\r\n", error_verif);
-#endif
-	if (p_payload->size == error_verif) {
-#if DEBUG_ON
-		printf("[PARSER]OK...\r\n");
-#endif
-		return ACK_OK;
-	} else
-		return PARSER_ERROR;
-}
-
+//int v_parse_data_teste(struct x_ethernet_payload *p_payload_rcv,
+//		Timagette_control *p_img_ctrl, x_imagette *dataset[MAX_IMAGETTES]) { //, struct x_imagette *dataset
+//
+//	INT32U i = 0;
+//	INT32U o = DATA_SHIFT;
+//	INT32U d = 0;
+//	INT16U nb_imagettes;
+//	INT32U error_verif = 0;
+//
+//	INT8U *p_imagette_byte;
+//
+//#if DEBUG_ON
+//	printf(
+//			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
+//			p_payload_rcv->size, (char) p_payload_rcv->data[8],
+//			(char) p_payload_rcv->data[9], (char) p_payload_rcv->data[10],
+//			(char) p_payload_rcv->data[11], (char) p_payload_rcv->data[12],
+//			(char) p_payload_rcv->data[13]);
+//#endif
+//
+//	/*
+//	 * Do not use first 2 bytes
+//	 */
+//
+//	nb_imagettes = p_payload_rcv->data[3] + 256 * p_payload_rcv->data[2];
+//	p_img_ctrl->nb_of_imagettes = nb_imagettes;
+//#if DEBUG_ON
+//	printf("[PARSER] Number of imagettes: %i\r\n", nb_imagettes);
+//#endif
+//
+//	p_img_ctrl->tag[7] = p_payload_rcv->data[4];
+//	p_img_ctrl->tag[6] = p_payload_rcv->data[5];
+//	p_img_ctrl->tag[5] = p_payload_rcv->data[6];
+//	p_img_ctrl->tag[4] = p_payload_rcv->data[7];
+//	p_img_ctrl->tag[3] = p_payload_rcv->data[8];
+//	p_img_ctrl->tag[2] = p_payload_rcv->data[9];
+//	p_img_ctrl->tag[1] = p_payload_rcv->data[10];
+//	p_img_ctrl->tag[0] = p_payload_rcv->data[11];
+//#if DEBUG_ON
+//	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n", p_img_ctrl->tag[7],
+//			p_img_ctrl->tag[6], p_img_ctrl->tag[5], p_img_ctrl->tag[4],
+//			p_img_ctrl->tag[3], p_img_ctrl->tag[2], p_img_ctrl->tag[1],
+//			p_img_ctrl->tag[0]);
+//
+//	printf("[PARSER]Starting imagette addr %x\r\n", &(p_img_ctrl->dataset[0]));
+//#endif
+//
+//	while (i < nb_imagettes) {
+//		INT32U p = 0;
+//#if DEBUG_ON
+//		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
+//				(INT32U) &(p_img_ctrl->dataset[i]));
+//
+//		printf("[PARSER]Offset bytes: %i %i %i %i\r\n", p_payload_rcv->data[o],
+//				p_payload_rcv->data[o + 1], p_payload_rcv->data[o + 2],
+//				256 * p_payload_rcv->data[o + 2], p_payload_rcv->data[o + 3]);
+//
+//#endif
+//
+//		dataset[i]->offset = (p_payload->data[o + 3]
+//				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
+//				+ 4294967296 * p_payload->data[o]);
+//
+//		dataset[i]->imagette_length = p_payload->data[o + 5]
+//				+ 256 * p_payload->data[o + 4];
+//
+//#if DEBUG_ON
+//		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
+//				dataset[i]->offset, dataset[i]->imagette_length);
+//#endif
+//
+//		dataset[i]->imagette_start = p_payload->data[o + DELAY_SIZE];
+////		p_imagette_byte = (INT8U *)dataset[i];
+//		p_imagette_byte = (INT8U *) (dataset[i]) + DMA_OFFSET;
+////		p_imagette_byte = &((*dataset)[i].imagette_start);
+//
+//#if DEBUG_ON
+//		printf("[PARSER] first byte addr %x = %x p_byte\r\n",
+//				&(dataset[i]->imagette_start), p_imagette_byte);
+//#endif
+//
+//		for (p = 1; p < dataset[i]->imagette_length; p++, d++) {
+//			p_imagette_byte++;
+//			*(p_imagette_byte) = p_payload->data[o + DELAY_SIZE + p];
+//#if DEBUG_ON
+//			printf("[PARSER] byte %i %i\r\n", p, *(p_imagette_byte));
+//#endif
+//		}
+//#if DEBUG_ON
+//		printf("[PARSER] first byte %i\r\n",
+//				(INT8U) dataset[0]->imagette_start);
+//		printf("[PARSER] last byte addr %x\r\n[PARSER] last byte %i\r\n",
+//				p_imagette_byte, *(p_imagette_byte));
+//#endif
+//
+//		/*
+//		 * Align last imagette byte with
+//		 * an 8 byte memory
+//		 */
+//		while ((INT32U) (p_imagette_byte) % 8) {
+//			p_imagette_byte++;
+//		}
+//
+//		o += DELAY_SIZE + dataset[i]->imagette_length;
+//		p_img_ctrl->dataset[i] = dataset[i];
+//		i++;
+//		dataset[i] = (x_imagette *) (p_imagette_byte);
+//	}
+//
+//	p_img_ctrl->size = d;
+//	error_verif = o + DATA_SHIFT - 2;
+//#if DEBUG_ON
+//	printf("[PARSER]error_verif %i\r\n", error_verif);
+//#endif
+//	if (p_payload->size == error_verif) {
+//#if DEBUG_ON
+//		printf("[PARSER]OK...\r\n");
+//#endif
+//		return ACK_OK;
+//	} else
+//		return PARSER_ERROR;
+//}
 /*
  * Task used to parse and execute the commands received via ethernet. [yb]
  */
@@ -490,9 +489,9 @@ void CommandManagementTask() {
 //	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
 //	INT8U* cmd_char = cmd_char_buffer;
 
-	_ethernet_payload payload;
+	_ethernet_payload payload_command;
 
-	_ethernet_payload *p_payload = &payload;
+	_ethernet_payload *p_payload = &payload_command;
 
 	x_imagette *p_imagette_A[MAX_IMAGETTES];
 
@@ -538,7 +537,7 @@ void CommandManagementTask() {
 	/*
 	 * Declaring the sub-units initial status
 	 */
-	static struct sub_config *config_send;
+	static sub_config_t *config_send;
 	config_send = &config_send_A;
 
 	/*
@@ -630,16 +629,13 @@ void CommandManagementTask() {
 
 				/* Add a case for channel selection */
 
-				T_simucam.T_Sub[p_payload->data[0]].T_conf.link_config =
-						p_payload->data[1];
-				T_simucam.T_Sub[p_payload->data[0]].T_conf.linkspeed =
-						p_payload->data[2];
-				T_simucam.T_Sub[p_payload->data[0]].T_conf.linkstatus_running =
-						p_payload->data[3];
+				config_send->link_config = p_payload->data[1];
+				config_send->linkspeed = p_payload->data[2];
+				config_send->linkstatus_running = p_payload->data[3];
+				/*
+				 * TODO complete listing
+				 */
 
-//				config_send->link_config = p_payload->data[1];
-//				config_send->linkspeed = p_payload->data[2];
-//				config_send->linkstatus_running = p_payload->data[3];
 #if DEBUG_ON
 				printf(
 						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
@@ -748,7 +744,6 @@ void CommandManagementTask() {
 //
 //				}
 //				break;
-
 				/*
 				 * Delete Data
 				 * char: g
@@ -787,10 +782,10 @@ void CommandManagementTask() {
 				b_meb_status = p_payload->data[0];
 
 				if (b_meb_status == 1) {
-					config_send->mode = 1;
-
+					config_send_A.mode = subModetoRun;
+					printf("[CommandManagementTask]Before post\r\n");
 					error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-							config_send);
+							&(config_send_A));
 					alt_SSSErrorHandler(error_code, 0);
 				}
 
@@ -948,7 +943,9 @@ void CommandManagementTask() {
 			if (p_payload->type == 106) {
 
 				bSyncCtrOneShot();
-
+				v_ack_creator(p_payload, ACK_OK);
+				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+				alt_SSSErrorHandler(error_code, 0);
 #if DEBUG_ON
 				printf("[CommandManagementTask]Starting timer\r\n");
 #endif

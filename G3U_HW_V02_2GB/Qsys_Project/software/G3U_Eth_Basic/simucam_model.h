@@ -46,6 +46,7 @@ typedef struct T_Sub{
 typedef struct T_Simucam_conf{
 	INT8U	b_meb_status;
 	INT8U	echo_sent;
+	INT8U	i_forward_data;
 	INT8U	b_abort[8];
 }T_Simucam_conf;
 

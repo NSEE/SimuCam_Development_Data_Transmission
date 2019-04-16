@@ -50,7 +50,9 @@
  * beginning with "SSS" are declared and created in this file.
  */
 
-static struct x_ethernet_payload *p_payload;
+//_ethernet_payload payload;
+//_ethernet_payload *p_payload = &payload;
+//_ethernet_payload *p_payload;
 SSSConn conn;
 
 /*
@@ -63,14 +65,14 @@ struct x_ethernet_payload *p_simucam_command_q_table[3]; /*Storage for SimucamCo
 /*
  * Configuration of the sub-unit management task
  */
-#define SUB_UNIT_TASK_PRIORITY 7
+#define SUB_UNIT_TASK_PRIORITY 9
 OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam command management task[yb]
  */
 
-#define COMMAND_MANAGEMENT_TASK_PRIORITY 6
+#define COMMAND_MANAGEMENT_TASK_PRIORITY 8
 OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
 
 /*
@@ -88,6 +90,11 @@ OS_EVENT *SimucamDataQ;
 INT8U *SimucamDataQTbl[SSS_TX_BUF_SIZE]; /*Storage for SimucamCommandQ */
 
 INT8U *data_addr;
+
+/*
+ * DMA mutex
+ */
+OS_EVENT *xMutexDMA;
 
 /*
  * Create the Simucam command queue
@@ -166,29 +173,16 @@ void SSSCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
+	xMutexDMA = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
+	if (error_code != OS_ERR_NONE) {
+#if DEBUG_ON
+		printf("Error creating mutex\r\n");
+#endif
+	}
+
 #if DEBUG_ON
 	printf("Tasks created successfully\r\n");
 #endif
-}
-
-/**
- * @name v_parse_data
- * @brief Parses the payload to a struct useable to command
- * @ingroup UTIL
- *
- * This routine parses the payload to get the delay times and imagettes. It's used by the
- * command control and sub-units to prepare the SpW links. The imagette and delay sizes in
- * bytes can be changed accordingly in the header file.
- *
- * @param 	[in] 	*_ethernet_payload Payload Struct
- * @param	[in]	*_imagette_control Control struct to receive the data
- *
- * @retval int	9 if error, 1 if no error
- **/
-
-int v_parse_data(ethernet_buffer *p_ethernet_buffer, INT32U i_init_addr) {
-
-	return 0;
 }
 
 /*
@@ -282,6 +276,8 @@ void sss_handle_receive(SSSConn* conn) {
 	struct ethernet_buffer *p_ethernet_buffer;
 	p_ethernet_buffer = &buffer;
 
+	static _ethernet_payload payload;
+
 //	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
 
 	p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
@@ -341,26 +337,29 @@ void sss_handle_receive(SSSConn* conn) {
 					(int) p_ethernet_buffer->rx_buffer[4]);
 #endif
 
-			p_payload->header = p_ethernet_buffer->rx_buffer[0];
-			p_payload->packet_id = p_ethernet_buffer->rx_buffer[2]
+			payload.header = p_ethernet_buffer->rx_buffer[0];
+			payload.packet_id = p_ethernet_buffer->rx_buffer[2]
 					+ 256 * p_ethernet_buffer->rx_buffer[1];
-			p_payload->type = p_ethernet_buffer->rx_buffer[3];
+			payload.type = p_ethernet_buffer->rx_buffer[3];
 
-			p_payload->size = p_ethernet_buffer->rx_buffer[7]
+			payload.size = p_ethernet_buffer->rx_buffer[7]
 					+ 256 * p_ethernet_buffer->rx_buffer[6]
 					+ 65536 * p_ethernet_buffer->rx_buffer[5]
 					+ 4294967296 * p_ethernet_buffer->rx_buffer[4];
 
 #if DEBUG_ON
 			printf("[sss_handle_receive DEBUG] calculating size = %i\n",
-					(INT32U) p_payload->size);
+					(INT32U) payload.size);
 #endif
 
 			/*
 			 * Case for receiving data
 			 */
 
-			if (p_payload->type == 102) {
+			if (payload.type == 102) {
+#if DEBUG_ON
+				printf("[sss_handle_receive DEBUG]Entered parser\r\n");
+#endif
 				INT8U *p_imagette_byte;
 				INT16U i_nb_imag_ctrl = 0;
 
@@ -382,6 +381,7 @@ void sss_handle_receive(SSSConn* conn) {
 					 * Switch to the right memory stick
 					 */
 					bDdr2SwitchMemory(DDR2_M1_ID);
+					T_Imagette *p_imagette_buff;
 
 					p_imagette_byte =
 							(INT32U) T_simucam.T_Sub[0].T_data.addr_init;
@@ -418,18 +418,35 @@ void sss_handle_receive(SSSConn* conn) {
 					 */
 					while (i_nb_imag_ctrl
 							< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+
 						INT16U i_length;
-						rx_code = recv(conn->fd, (char* )p_imagette_byte, 6, 0);
+						p_imagette_buff = (T_Imagette *)p_imagette_byte;
+
+						rx_code = recv(conn->fd,
+								(char* )p_ethernet_buffer->rx_wr_pos, 6, 0);
 						if (rx_code > 0) {
-							p_imagette_byte += 4;
-							i_length = 256 * (INT8U) *(p_imagette_byte);
-							p_imagette_byte++;
-							i_length += (INT8U) *(p_imagette_byte);
-							p_imagette_byte++;
+							p_ethernet_buffer->rx_rd_pos += rx_code;
+
+							/* Zero terminate so we can use string functions */
+							*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 						}
 
+						p_imagette_buff->offset =
+								p_ethernet_buffer->rx_buffer[3]
+										+ 256 * p_ethernet_buffer->rx_buffer[2]
+										+ 65536
+												* p_ethernet_buffer->rx_buffer[1]
+										+ 4294967296
+												* p_ethernet_buffer->rx_buffer[0];
+
+						p_imagette_buff->imagette_length =
+								p_ethernet_buffer->rx_buffer[5]
+										+ 256 * p_ethernet_buffer->rx_buffer[4];
+
+						p_imagette_byte += 6;
+
 						rx_code = recv(conn->fd, (char* )p_imagette_byte,
-								i_length, 0);
+								p_imagette_buff->imagette_length, 0);
 						if (rx_code > 0) {
 							p_imagette_byte += rx_code;
 							if (((INT32U) p_imagette_byte % 8)) {
@@ -443,7 +460,7 @@ void sss_handle_receive(SSSConn* conn) {
 						INT8U* p_data = 0;
 						INT8U data;
 						INT32U i;
-						for (i = 0; i < (INT32U)p_imagette_byte; i++) {
+						for (i = 0; i < (INT32U) p_imagette_byte; i++) {
 							data = (*p_data);
 							p_data++;
 						}
@@ -451,15 +468,30 @@ void sss_handle_receive(SSSConn* conn) {
 						i_nb_imag_ctrl++;
 					}
 
+					rx_code = recv(conn->fd,
+							(char* )p_ethernet_buffer->rx_wr_pos, 2, 0);
+					if (rx_code > 0) {
+						p_ethernet_buffer->rx_rd_pos += rx_code;
+
+						/* Zero terminate so we can use string functions */
+						*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
+					}
+
+					payload.crc = p_ethernet_buffer->rx_buffer[1]
+							+ 256 * p_ethernet_buffer->rx_buffer[0];
+
 					/*
 					 * Prepare ACK statement
 					 */
-					send(conn->fd, p_payload->data, 2, 0); /* TODO parser ack*/
+					send(conn->fd, payload.data, 2, 0); /* TODO parser ack*/
 					break;
-				}
+				} /*Switch end*/
+#if DEBUG_ON
+				printf("[sss_handle_receive DEBUG]Exit parser\r\n");
+#endif
 			} else {
 				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
-						p_payload->size - 8, 0);
+						payload.size - 8, 0);
 
 				if (rx_code > 0) {
 					p_ethernet_buffer->rx_wr_pos += rx_code;
@@ -472,22 +504,25 @@ void sss_handle_receive(SSSConn* conn) {
 				 * Assign data in the payload struct to data in the buffer
 				 * change to 0
 				 */
-				if (p_payload->size > 10) {
-					for (i = 1; i <= p_payload->size - 10; i++) {
-						p_payload->data[i - 1] = p_ethernet_buffer->rx_buffer[i
-								- 1];
+				if (payload.size > 10) {
+					for (i = 1; i <= payload.size - 10; i++) {
+						payload.data[i - 1] =
+								p_ethernet_buffer->rx_buffer[i - 1];
 #if DEBUG_ON
-						printf("[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
-								(INT8U) p_payload->data[i - 1], (INT8U) i);
+						printf(
+								"[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
+								(INT8U) payload.data[i - 1], (INT8U) i);
 #endif
 
 					}
 				}
 
 #if DEBUG_ON
+				printf("[sss_handle_receive DEBUG]Payload %lu",
+						(INT32U) payload.size);
 				printf("[sss_handle_receive DEBUG]Printing buffer = ");
 #endif
-				for (int k = 0; k < p_payload->size - 8; k++) {
+				for (int k = 0; k < payload.size - 8; k++) {
 #if DEBUG_ON
 					printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
 #endif
@@ -496,23 +531,21 @@ void sss_handle_receive(SSSConn* conn) {
 				printf("\r\n");
 				printf(
 						"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
-						"Type: %i\r\n", (int) p_payload->header,
-						(int) p_payload->packet_id, (int) p_payload->type);
+								"Type: %i\r\n", (int) payload.header,
+						(int) payload.packet_id, (int) payload.type);
 
 #endif
 
-				p_payload->crc = p_ethernet_buffer->rx_buffer[p_payload->size]
-						+ 256
-								* p_ethernet_buffer->rx_buffer[p_payload->size
-										- 1];
+				payload.crc = p_ethernet_buffer->rx_buffer[payload.size]
+						+ 256 * p_ethernet_buffer->rx_buffer[payload.size - 1];
 
 #if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
-						(INT16U) p_payload->crc);
+						(INT16U) payload.crc);
 #endif
 
 				calculated_crc = crc16(p_ethernet_buffer->rx_buffer,
-						p_payload->size);
+						payload.size);
 
 #if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
@@ -526,17 +559,16 @@ void sss_handle_receive(SSSConn* conn) {
 				printf("[sss_handle_receive DEBUG]finished receiving\n");
 #endif
 
-				error_code = OSQPost(p_simucam_command_q, p_payload);
+				error_code = OSQPost(p_simucam_command_q, &payload);
 				alt_SSSErrorHandler(error_code, 0);
 #if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
 #endif
 
-				p_payload = (INT8U) OSQPend(p_simucam_command_q, 0,
-						&error_code);
+				OSQPend(p_simucam_command_q, 0, &error_code);
 				alt_SSSErrorHandler(error_code, 0);
 
-				send(conn->fd, p_payload->data, p_payload->size, 0);
+				send(conn->fd, payload.data, payload.size, 0);
 			}
 //			printf("[sss_handle_receive DEBUG]Returned from function\n");
 		}
@@ -553,10 +585,10 @@ void sss_handle_receive(SSSConn* conn) {
 
 		/* Manage buffer */
 
-		data_used = conn->rx_rd_pos - conn->rx_buffer;
-		p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
-		p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
-		memset(p_ethernet_buffer->rx_wr_pos, 0, p_payload->size);
+		//data_used = conn->rx_rd_pos - conn->rx_buffer;
+		p_ethernet_buffer->rx_rd_pos = &p_ethernet_buffer->rx_buffer[0];
+		p_ethernet_buffer->rx_wr_pos = &p_ethernet_buffer->rx_buffer[0];
+		memset(p_ethernet_buffer->rx_wr_pos, 0, BUFFER_SIZE);
 
 	}
 
@@ -636,7 +668,7 @@ void SSSSimpleSocketServerTask() {
 	sss_reset_connection(&conn);
 #if DEBUG_ON
 	printf("[sss_task] Simple Socket Server listening on port %d\n",
-			SSS_PORT);
+	SSS_PORT);
 #endif
 
 	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_ST_1_MASK);

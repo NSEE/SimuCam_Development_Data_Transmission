@@ -31,7 +31,7 @@
  ************************************************************************************************
  */
 
-#define DEBUG_ON 0
+#define DEBUG_ON 1
 
 #define ECHO_CMD_OVERHEAD	15
 
@@ -68,6 +68,15 @@
 #define PARSER_ERROR				9
 #define	ECHO_ERROR					10
 
+/*
+ * Priorities definitions
+ */
+
+#define PCP_MUTEX_DMA_QUEUE			7
+
+extern OS_EVENT *xMutexDMA;
+
+
 #ifndef bool
 	//typedef short int bool;
 	//typedef enum e_bool { false = 0, true = 1 } bool;
@@ -90,7 +99,7 @@
  * RMAP_handling: 0->none, 1->echoing, 2->logging
  * forward_data to ethernet link
  */
-struct sub_config {
+typedef struct sub_config {
 
 	INT8U mode;
 	//INT8U receive_data;
@@ -104,7 +113,7 @@ struct sub_config {
 	INT8U link_status;
 	struct Timagette_control *imagette;
 
-}sub_config;
+}sub_config_t;
 
 struct _sub_data {
 	INT8U p_data_addr[100];

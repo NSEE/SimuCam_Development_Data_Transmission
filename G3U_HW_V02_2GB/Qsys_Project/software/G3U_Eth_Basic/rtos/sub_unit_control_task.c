@@ -7,7 +7,7 @@
 
 #include "sub_unit_control_task.h"
 
-extern struct sub_config sub_config;
+//extern sub_config_t sub_config;
 INT16U i_imagette_number;
 INT16U i_imagette_counter;
 
@@ -15,7 +15,7 @@ INT16U i_imagette_counter;
  * Creation of the sub-unit communication queue [yb]
  */
 OS_EVENT *p_sub_unit_config_queue;
-struct sub_config *p_sub_unit_config_queue_tbl[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
 //struct _sub_config
 
 /*
@@ -189,8 +189,8 @@ void i_echo_dataset(Timagette_control* p_imagette, INT8U* tx_buffer) {
 
 	for (int k = 0;
 			k
-			< p_imagette->imagette_length[i_imagette_number]
-			+ ECHO_CMD_OVERHEAD; k++) {
+					< p_imagette->imagette_length[i_imagette_number]
+							+ ECHO_CMD_OVERHEAD; k++) {
 		printf("%i ", (INT8U) tx_buffer[k]);
 	}
 
@@ -210,8 +210,8 @@ void sub_unit_control_task() {
 
 	INT8U c_spw_channel = eIdmaCh1Buffer;
 
-	struct sub_config *p_config;
-	p_config = &sub_config;
+	sub_config_t *p_config;
+
 	Timagette_control imagette_buffer;
 	Timagette_control *p_imagette_buffer = &imagette_buffer;
 
@@ -225,17 +225,182 @@ void sub_unit_control_task() {
 //	p_config->linkstatus_running = 1;
 //	p_config->linkspeed = 3;
 
-	T_simucam.T_Sub[0].T_conf.mode = 0;
-	T_simucam.T_Sub[0].T_conf.RMAP_handling = 0;
-	T_simucam.T_Sub[0].T_conf.forward_data = 0;
-	T_simucam.T_Sub[0].T_conf.link_config = 0;
-	T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
-	T_simucam.T_Sub[0].T_conf.linkstatus_running = 1;
-	T_simucam.T_Sub[0].T_conf.linkspeed = 3;
-
 	int b_sub_status = 0;
 
 	struct x_ethernet_payload *p_sub_data;
+
+	T_simucam.T_Sub[0].T_conf.mode = subModeInit;
+
+	while (1) {
+		switch (T_simucam.T_Sub[0].T_conf.mode) {
+
+		case subModeInit:
+			printf("[SUBUNIT]Sub-unit init\r\n");
+			/*
+			 * Default subUnit config
+			 */
+			T_simucam.T_Sub[c_spw_channel].T_conf.RMAP_handling = 0;
+			T_simucam.T_Sub[c_spw_channel].T_conf.forward_data = 0;
+			T_simucam.T_Sub[c_spw_channel].T_conf.link_config = 0;
+			T_simucam.T_Sub[c_spw_channel].T_conf.sub_status_sending = 0;
+			T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running = 1;
+			T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed = 3;
+
+			T_simucam.T_Sub[0].T_conf.mode = subModetoConfig;
+			break;
+
+		case subModetoConfig:
+			printf("[SUBUNIT]Sub-unit toConfig\r\n");
+			/*
+			 * Disabling SpW channel
+			 */
+			bSpwcGetLink(&(xChA.xSpacewire));
+			xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
+			xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
+			xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
+			bSpwcSetLink(&(xChA.xSpacewire));
+
+			T_simucam.T_Sub[0].T_conf.mode = subModeConfig;
+			break;
+
+		case subModeConfig:
+			printf("[SUBUNIT]Sub-unit config\r\n");
+			p_config = (sub_config_t *) OSQPend(p_sub_unit_config_queue, 0,
+					&error_code);
+			if (error_code == OS_ERR_NONE) {
+				printf("[SUBUNIT]OK Pend\r\n");
+
+				T_simucam.T_Sub[c_spw_channel].T_conf.mode = p_config->mode;
+				T_simucam.T_Sub[c_spw_channel].T_conf.RMAP_handling =
+						p_config->RMAP_handling;
+				T_simucam.T_Sub[c_spw_channel].T_conf.forward_data =
+						p_config->forward_data;
+				T_simucam.T_Sub[c_spw_channel].T_conf.link_config =
+						p_config->link_config;
+				T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running =
+						p_config->linkstatus_running;
+				T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed =
+						p_config->linkspeed;
+
+			} else {
+#if DEBUG_ON
+				printf("[SUBUNIT]Sub-unit config queue error\r\n");
+#endif
+			}
+
+			break;
+
+		case subModetoRun:
+#if DEBUG_ON
+			printf("[SUBUNIT]Sub-unit toRun\r\n");
+#endif
+			/*
+			 * Set link interface status according to
+			 * link_config
+			 */
+			if (T_simucam.T_Sub[0].T_conf.linkstatus_running == 0) {
+#if DEBUG_ON
+				printf("[SUBUNIT]Channel disabled\r\n");
+#endif
+				T_simucam.T_Sub[0].T_conf.mode = subModetoConfig;
+			}
+
+			T_simucam.T_Sub[0].T_data.p_iterador = (T_Imagette *)T_simucam.T_Sub[0].T_data.addr_init;
+
+			while (i_dma_counter < T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+
+#if DEBUG_ON
+				printf("[SUBUNIT]Printinf offset %i & %x\r\n",
+						(INT32U)T_simucam.T_Sub[0].T_data.p_iterador->offset,
+						(INT32U)T_simucam.T_Sub[0].T_data.p_iterador);
+#endif
+
+				error_code = bIdmaDmaM1Transfer(
+						(INT32U*) (T_simucam.T_Sub[0].T_data.p_iterador),
+						T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+								+ DMA_OFFSET, 0);
+				if (error_code == TRUE) {
+					T_simucam.T_Sub[0].T_data.p_iterador +=
+							T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+									+ DMA_OFFSET;
+					i_dma_counter++;
+				} else {
+#if DEBUG_ON
+					printf("[SUBUNIT]DMA ERROR\r\n");
+#endif
+				}
+			}
+
+//			OSMutexPend(xMutexDMA, 0, &error_code);
+//			if (error_code != OS_NO_ERR) {
+//#if DEBUG_ON
+//				printf("[SUBUNIT] Mutex error.",exec_error);
+//#endif
+//			}
+//			OSMutexPost(xMutexDMA);
+
+			/*
+			 * init SpW links
+			 */
+			if (T_simucam.T_Sub[c_spw_channel].T_conf.link_config == 0) {
+
+				/*
+				 * Set link to autostart
+				 */
+#if DEBUG_ON
+				printf("[SUBUNIT]Channel autostart\r\n");
+#endif
+
+				bSpwcGetLink(&(xChA.xSpacewire));
+				xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
+				xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
+				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
+				bSpwcSetLink(&(xChA.xSpacewire));
+
+#if DEBUG_ON
+				printf("error_code: %i", exec_error);
+#endif
+
+			} else {
+
+				/*
+				 * Set link to start
+				 */
+#if DEBUG_ON
+				printf("[SUBUNIT]Channel start\r\n");
+#endif
+
+				bSpwcGetLink(&(xChA.xSpacewire));
+				xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
+				xChA.xSpacewire.xLinkConfig.bLinkStart = TRUE;
+				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
+				bSpwcSetLink(&(xChA.xSpacewire));
+#if DEBUG_ON
+				printf("error_code: %i", exec_error);
+#endif
+			}
+
+			T_simucam.T_Sub[0].T_conf.mode = subModeRun;
+			break;
+
+		case subModeRun:
+#if DEBUG_ON
+			printf("[SUBUNIT]Sub-unit Run\r\n");
+#endif
+			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
+			if (exec_error == OS_ERR_NONE) {
+				printf("[SUBUNIT]Data sent\r\n");
+			} else {
+#if DEBUG_ON
+				printf("[SUBUNIT]Sub-unit config queue error\r\n");
+#endif
+			}
+			break;
+		default:
+			printf("[SUBUNIT]Sub-unit default error!\r\n");
+			break;
+		}
+	}
 
 	while (T_simucam.T_Sub[0].T_conf.mode == 0) {
 #if DEBUG_ON
@@ -250,7 +415,6 @@ void sub_unit_control_task() {
 		xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
 		bSpwcSetLink(&(xChA.xSpacewire));
 
-		exec_error = Verif_Error(error_code);
 #if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit waiting config...\r\n");
 #endif
@@ -293,66 +457,6 @@ void sub_unit_control_task() {
 #if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit in running mode\r\n");
 #endif
-		/*
-		 * Set link interface status according to
-		 * link_config
-		 */
-		if (T_simucam.T_Sub[0].T_conf.linkstatus_running == 0) {
-#if DEBUG_ON
-			printf("[SUBUNIT]Channel disabled\r\n");
-#endif
-			//Testar ver se isso funciona
-
-			bSpwcGetLink(&(xChA.xSpacewire));
-			xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
-			xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
-			xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
-			bSpwcSetLink(&(xChA.xSpacewire));
-
-		} else {
-
-			switch (T_simucam.T_Sub[0].T_conf.link_config) {
-
-			/*
-			 * Set link to autostart
-			 */
-			case 0:
-#if DEBUG_ON
-				printf("[SUBUNIT]Channel autostart\r\n");
-#endif
-
-				bSpwcGetLink(&(xChA.xSpacewire));
-				xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
-				xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
-				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
-				bSpwcSetLink(&(xChA.xSpacewire));
-
-#if DEBUG_ON
-				printf("error_code: %i",exec_error);
-#endif
-
-				break;
-
-				/*
-				 * Set link to start
-				 */
-			case 1:
-#if DEBUG_ON
-				printf("[SUBUNIT]Channel start\r\n");
-#endif
-
-				bSpwcGetLink(&(xChA.xSpacewire));
-				xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
-				xChA.xSpacewire.xLinkConfig.bLinkStart = TRUE;
-				xChA.xSpacewire.xLinkConfig.bDisconnect = FALSE;
-				bSpwcSetLink(&(xChA.xSpacewire));
-#if DEBUG_ON
-				printf("error_code: %i",exec_error);
-#endif
-				break;
-			}
-
-		}
 
 //		set_spw_linkspeed(&(xChA.xSpacewire),T_simucam.T_Sub[0].T_conf.linkspeed);
 #if DEBUG_ON
@@ -451,8 +555,8 @@ void sub_unit_control_task() {
 					printf("[Echo in fct DEBUG]Printing buffer = ");
 					for (int k = 0;
 							k
-							< p_imagette_buffer->imagette_length[i_imagette_number]
-							+ ECHO_CMD_OVERHEAD; k++) {
+									< p_imagette_buffer->imagette_length[i_imagette_number]
+											+ ECHO_CMD_OVERHEAD; k++) {
 						printf("%i ", (INT8U) tx_buffer[k]);
 					}
 					printf("\r\n");
