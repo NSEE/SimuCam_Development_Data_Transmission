@@ -588,8 +588,8 @@ void CommandManagementTask() {
 
 	bDcomSetGlobalIrqEn(TRUE, eDcomSpwCh1);
 	bDctrGetIrqControl(&(xChA.xDataController));
-	xChA.xDataController.xIrqControl.bTxBeginEn = FALSE;
-	xChA.xDataController.xIrqControl.bTxEndEn = TRUE;
+	xChA.xDataController.xIrqControl.bTxBeginEn = TRUE;
+	xChA.xDataController.xIrqControl.bTxEndEn = FALSE;
 	bDctrSetIrqControl(&(xChA.xDataController));
 
 	while (1) {
