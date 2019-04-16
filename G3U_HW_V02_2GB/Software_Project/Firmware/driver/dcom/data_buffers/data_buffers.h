@@ -34,6 +34,8 @@ typedef struct DatbChannel {
 
 bool bDatbGetBuffersStatus(TDatbChannel *pxDatbCh);
 
+alt_u16 uiDatbGetBuffersFreeSpace(TDatbChannel *pxDatbCh);
+
 bool bDatbInitCh(TDatbChannel *pxDatbCh, alt_u8 ucDcomCh);
 //! [public function prototypes]
 
