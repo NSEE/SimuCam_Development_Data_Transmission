@@ -321,38 +321,38 @@ void sub_unit_control_task() {
 			 * Set link interface status according to
 			 * link_config
 			 */
-			if (T_simucam.T_Sub[0].T_conf.linkstatus_running == 0) {
+			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
 #if DEBUG_ON
 				printf("[SUBUNIT]Channel disabled\r\n");
 #endif
-				T_simucam.T_Sub[0].T_conf.mode = subModetoConfig;
+				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 			}
 
-			T_simucam.T_Sub[0].T_data.p_iterador =
-					(T_Imagette *) T_simucam.T_Sub[0].T_data.addr_init;
+			T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
+					(T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
 
-			while (i_dma_counter < T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+			while (i_dma_counter < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 
 #if DEBUG_ON
 				printf("[SUBUNIT]Printinf offset %i & %x\r\n",
-						(INT32U) T_simucam.T_Sub[0].T_data.p_iterador->offset,
-						(INT32U) T_simucam.T_Sub[0].T_data.p_iterador);
+						(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
+						(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
 
 				error_code = bIdmaDmaM1Transfer(
-						(INT32U*) (T_simucam.T_Sub[0].T_data.p_iterador),
-						T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+						(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+						T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 								+ DMA_OFFSET, 0);
 				if (error_code == TRUE) {
 					i_mem_pointer_buffer =
-							(INT32U) T_simucam.T_Sub[0].T_data.p_iterador
-									+ T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
+									+ T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 									+ DMA_OFFSET;
 					if ((i_mem_pointer_buffer % 8)) {
 						i_mem_pointer_buffer = ((((i_mem_pointer_buffer) >> 3)
 								+ 1) << 3);
 					}
-					T_simucam.T_Sub[0].T_data.p_iterador = (T_Imagette *)i_mem_pointer_buffer;
+					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *)i_mem_pointer_buffer;
 
 					i_dma_counter++;
 				} else {
@@ -411,7 +411,7 @@ void sub_unit_control_task() {
 #endif
 			}
 
-			T_simucam.T_Sub[0].T_conf.mode = subModeRun;
+			T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeRun;
 			break;
 
 		case subModeRun:
@@ -433,7 +433,7 @@ void sub_unit_control_task() {
 		}
 	}
 
-	while (T_simucam.T_Sub[0].T_conf.mode == 0) {
+	while (T_simucam.T_Sub[c_spw_channel].T_conf.mode == 0) {
 #if DEBUG_ON
 		printf("[SUBUNIT]Sub-unit in config mode\r\n");
 #endif
@@ -454,189 +454,21 @@ void sub_unit_control_task() {
 		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
 				(INT8U) p_config->mode);
 #endif
-		T_simucam.T_Sub[0].T_conf.mode = p_config->mode;
+		T_simucam.T_Sub[c_spw_channel].T_conf.mode = p_config->mode;
 
 		p_imagette_buffer = p_config->imagette;
 
-		while (i_dma_counter < T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+		while (i_dma_counter < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 
-			bIdmaDmaM1Transfer((INT32U*) (T_simucam.T_Sub[0].T_data.p_iterador),
-					T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+			bIdmaDmaM1Transfer((INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 							+ DMA_OFFSET, 0);
-			T_simucam.T_Sub[0].T_data.p_iterador +=
-					T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+			T_simucam.T_Sub[c_spw_channel].T_data.p_iterador +=
+					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 							+ DMA_OFFSET;
 			i_dma_counter++;
 
 		}
 
-	}
-
-	/*
-	 * Sub-Unit in running mode
-	 */
-	while (T_simucam.T_Sub[0].T_conf.mode == 1) {
-		INT8U error_code; /*uCOS error code*/
-
-		i_imagette_counter = 0;
-		i_imagette_number = 0;
-		i_command_control = 0;
-
-		int p;
-		INT16U nb_of_imagettes = p_imagette_buffer->nb_of_imagettes;
-		p++;
-#if DEBUG_ON
-		printf("[SUBUNIT]Sub-unit in running mode\r\n");
-#endif
-
-//		set_spw_linkspeed(&(xChA.xSpacewire),T_simucam.T_Sub[0].T_conf.linkspeed);
-#if DEBUG_ON
-		printf("[SUBUNIT]imagette counter and nb start: %i %i\r\n",
-				(int) i_imagette_counter, (int) i_imagette_number);
-#endif
-
-		while (i_imagette_number < nb_of_imagettes) {
-#if DEBUG_ON
-			printf("[SUBUNIT]Entered while\r\n");
-
-			printf("[SUBUNIT]Received imagette %i start byte: %i @ %x\r\n",
-					i_imagette_number,
-					p_imagette_buffer->imagette[i_imagette_counter],
-					&(p_imagette_buffer->imagette[i_imagette_counter]));
-#endif
-//			i_imagette_length =
-//					p_imagette_buffer->imagette_length[i_imagette_number];
-#if DEBUG_ON
-			printf(
-					"[SUBUNIT]imagette length var: %i, imagette length p_config %i\r\n",
-					(INT16U) i_imagette_length,
-					(INT16U) p_imagette_buffer->imagette_length[i_imagette_number]);
-
-			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
-#endif
-			printf("[SUBUNIT]Waiting unblocked sub_unit_command_semaphore\r\n");
-
-			T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
-
-			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
-			i_command_control = (int) OSQAccept(p_sub_unit_command_queue,
-					&error_code);
-
-			//printf("[SUBUNIT]command_control: %i\r\n", (int) i_command_control);
-
-			if (i_command_control != 0) {
-#if DEBUG_ON
-				printf("[SUBUNIT]Parsing command\r\n");
-#endif
-				switch (i_command_control) {
-				case 1:
-#if DEBUG_ON
-					printf("[SUBUNIT]Abort Flag received\r\n");
-#endif
-					printf("[SUBUNIT]Abort Flag received\r\n");
-					i_imagette_number = nb_of_imagettes;
-					break;
-
-				case 2:
-#if DEBUG_ON
-					printf("[SUBUNIT]Returning to config mode...\r\n");
-#endif
-					i_imagette_number = nb_of_imagettes;
-
-					/*
-					 * Disabling SpW channel
-					 */
-
-					bSpwcGetLink(&(xChA.xSpacewire));
-					xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
-					xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
-					xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
-					bSpwcSetLink(&(xChA.xSpacewire));
-
-#if DEBUG_ON
-					printf("[SUBUNIT]Sub-unit waiting config...\r\n");
-#endif
-					p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
-#if DEBUG_ON
-					printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
-							(INT8U) p_config->mode);
-#endif
-					b_sub_status = p_config->mode;
-					p_imagette_buffer = p_config->imagette;
-					break;
-				default:
-					break;
-				}
-
-			} else {
-
-#if DMA_DEV
-				while(buffer_space <= imagette_length) {
-					//carregar imagette i no buffer
-				}
-#endif
-
-				/*
-				 * Echo command statement
-				 */
-				if (T_simucam.T_Sub[0].T_conf.echo_sent == 1) {
-
-					i_echo_dataset(p_imagette_buffer, p_tx_buffer);
-#if DEBUG_ON
-					printf("[Echo in fct DEBUG]Printing buffer = ");
-					for (int k = 0;
-							k
-									< p_imagette_buffer->imagette_length[i_imagette_number]
-											+ ECHO_CMD_OVERHEAD; k++) {
-						printf("%i ", (INT8U) tx_buffer[k]);
-					}
-					printf("\r\n");
-#endif
-//					send(conn.fd, p_tx_buffer,
-//							p_imagette_buffer->imagette_length[i_imagette_number] + ECHO_CMD_OVERHEAD,
-//							0);
-				}
-
-//				i_imagette_counter += i_imagette_length;
-				i_imagette_number++;
-#if DEBUG_ON
-				printf("[SUBUNIT]imagette sent\r\n");
-				printf("[SUBUNIT]imagette counter %i\r\n",
-						(INT16U) i_imagette_counter);
-
-				printf("[SUBUNIT]imagette nb %i\r\n",
-						(INT16U) i_imagette_number);
-#endif
-
-				/*
-				 * Restarting the timer when the transmission ends
-				 */
-				if (i_imagette_number == nb_of_imagettes) {
-
-#if DEBUG_ON
-					("[SUBUNIT]EOT timer restart\r\n");
-#endif
-					p_sub_data->type = 5;
-					error_code = (INT8U) OSQPost(p_simucam_command_q,
-							p_sub_data);
-					alt_SSSErrorHandler(error_code, 0);
-
-					INT16U i_dma_counter = 0;
-					while (i_dma_counter < p_imagette_buffer->nb_of_imagettes) {
-
-						bIdmaDmaM1Transfer(
-								(INT32U*) (p_imagette_buffer->dataset[i_dma_counter]),
-								p_imagette_buffer->dataset[i_dma_counter]->imagette_length
-										+ DMA_OFFSET, 0);
-						i_dma_counter++;
-					}
-
-				}
-
-			}
-		}
-#if DEBUG_ON
-		//printf("[SUBUNIT]End of sending\r\n");
-#endif
 	}
 }
