@@ -94,7 +94,7 @@ INT8U *data_addr;
 /*
  * DMA mutex
  */
-OS_EVENT *xMutexDMA;
+OS_EVENT *xMutexDMA[2];
 
 /*
  * Create the Simucam command queue
@@ -173,12 +173,18 @@ void SSSCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
-	xMutexDMA = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
+	xMutexDMA[0] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
 	if (error_code != OS_ERR_NONE) {
 #if DEBUG_ON
 		printf("Error creating mutex\r\n");
 #endif
 	}
+	xMutexDMA[1] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
+		if (error_code != OS_ERR_NONE) {
+	#if DEBUG_ON
+			printf("Error creating mutex\r\n");
+	#endif
+		}
 
 #if DEBUG_ON
 	printf("Tasks created successfully\r\n");

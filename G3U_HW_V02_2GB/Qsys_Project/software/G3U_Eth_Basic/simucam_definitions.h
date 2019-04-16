@@ -74,7 +74,7 @@
 
 #define PCP_MUTEX_DMA_QUEUE			7
 
-extern OS_EVENT *xMutexDMA;
+extern OS_EVENT *xMutexDMA[2];
 
 
 #ifndef bool
@@ -128,22 +128,6 @@ typedef struct x_imagette {
 	INT16U imagette_length; /* length of N imagette */
 	INT8U imagette_start; /*Pointer to de DDR2 address*/
 }x_imagette;
-
-/*
- * Command + payload struct for the simucam ethernet control
- */
-
-typedef struct x_ethernet_payload {
-	INT8U header;		/* Command Header */
-	INT16U packet_id;	/* Unique identifier */
-	INT8U type;			/* Will be the command id */
-	INT8U sub_type;		/* Could carry the sub-unit id */
-	INT32U size;		/* Size pre-computed in function */
-	INT8U data[1500];	/* Data array */
-	INT16U crc;			/* We will use the CCITT-CRC, that is also used in the PUS protocol */
-
-
-}_ethernet_payload;
 
 typedef struct Timagette_control {
 #if DMA_DEV

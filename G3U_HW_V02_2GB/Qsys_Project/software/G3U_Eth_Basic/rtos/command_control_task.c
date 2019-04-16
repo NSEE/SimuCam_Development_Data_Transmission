@@ -497,6 +497,8 @@ void CommandManagementTask() {
 
 	x_imagette *p_imagette_B[MAX_IMAGETTES];
 
+	INT8U i_channel_buffer = 0;
+
 	/*
 	 * Initialize DMA
 	 */
@@ -588,33 +590,50 @@ void CommandManagementTask() {
 
 	while (1) {
 
-		/*
-		 * MEB in configuration mode.
-		 * It's the default state
-		 */
-		while (b_meb_status == 0) {
-
+		switch (T_simucam.T_status.simucam_mode) {
+		case simModeInit:
 #if DEBUG_ON
-			printf("[CommandManagementTask]MEB in config mode\n\r");
+			printf("[CommandManagementTask]Init\r\n");
+#endif
+
+			/*
+			 * Configuring done inside the sub-unit modules
+			 */
+			//			config_send_ch[0].mode = 0; //default starting mode is config
+			config_send_A.RMAP_handling = 0;
+			config_send_A.forward_data = 0;
+			config_send_A.link_config = 0;
+			config_send_A.sub_status_sending = 0;
+			config_send_A.linkstatus_running = 1;
+			config_send_A.linkspeed = 3;
+
+			T_simucam.T_status.simucam_mode = simModetoConfig;
+			break;
+
+		case simModetoConfig:
+#if DEBUG_ON
+			printf("[CommandManagementTask]Mode: toConfig\r\n");
 #endif
 			/*
-			 * Enter the receive command mode
+			 * Initialize Simucam Timer
 			 */
 
+			/*
+			 * Stop timer for ChA
+			 * NOT STARTING THE TIMER
+			 */
+			bDschStopTimer(&(xChA.xDataScheduler));
+			bDschClrTimer(&(xChA.xDataScheduler));
+
+			T_simucam.T_status.simucam_mode = simModeConfig;
+			break;
+
+		case simModeConfig:
+#if DEBUG_ON
+			printf("[CommandManagementTask]Mode: Config\r\n");
+#endif
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
-#if DEBUG_ON
-			//printf(
-//					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
-//					(INT8U) p_payload->type, (char) p_payload->data[0],
-//					(char) p_payload->data[1], (char) p_payload->data[2],
-//					(char) p_payload->data[3], (char) p_payload->data[4]);
-#endif
-			/*
-			 * Switch case to select from different command options.[yb]
-			 * Will be modified to suit IWF's needs
-			 */
-			int i_channel_buffer;
 
 			switch (p_payload->type) { /*Selector for commands and actions*/
 
@@ -629,9 +648,12 @@ void CommandManagementTask() {
 
 				/* Add a case for channel selection */
 
-				config_send->link_config = p_payload->data[1];
-				config_send->linkspeed = p_payload->data[2];
-				config_send->linkstatus_running = p_payload->data[3];
+				config_send_A.link_config =
+						p_payload->data[1];
+				config_send_A.linkspeed =
+						p_payload->data[2];
+				config_send_A.linkstatus_running =
+						p_payload->data[3];
 				/*
 				 * TODO complete listing
 				 */
@@ -639,111 +661,24 @@ void CommandManagementTask() {
 #if DEBUG_ON
 				printf(
 						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
-						(INT8U) config_send->link_config,
-						(INT8U) config_send->linkspeed,
-						(INT8U) config_send->linkstatus_running);
+						(INT8U) config_send_A.link_config,
+						(INT8U) config_send_A.linkspeed,
+						(INT8U) config_send_A.linkstatus_running);
 #endif
 
 				v_ack_creator(p_payload, ACK_OK);
 
-				p_telemetry_buffer->i_type = ACK_TYPE;
-				p_telemetry_buffer->error_code = ACK_OK;
-				p_telemetry_buffer->p_payload = p_payload;
+				x_telemetry_buffer.i_type = ACK_TYPE;
+				x_telemetry_buffer.error_code = ACK_OK;
+				x_telemetry_buffer.p_payload = p_payload;
 
 				error_code = (INT8U) OSQPost(p_telemetry_queue,
-						p_telemetry_buffer);
+						&x_telemetry_buffer);
 
 				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
 				alt_SSSErrorHandler(error_code, 0);
 
 				break;
-
-				/*
-				 * Receive and Parse data
-				 * DEPRECATED
-				 * char: f
-				 */
-//			case 102:
-//#if DEBUG_ON
-//				printf("[CommandManagementTask]Parse data\n\r");
-//				printf("[CommandManagementTask]p_imagette_A addr %x\n\r",
-//						p_imagette_A[0]);
-//#endif
-//				/*
-//				 * Selected Channel Switch
-//				 */
-//				switch (p_payload->data[1]) {
-//				INT16U i_dma_counter = 0;
-//
-//				/*
-//				 * Channel 0 loop
-//				 */
-//			case 0:
-//				exec_error = v_parse_data_teste(p_payload, p_img_control,
-//						p_imagette_A);
-//				//exec_error = v_parse_data(p_payload, p_img_control);
-//#if DEBUG_ON
-//				printf(
-//						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-//						(INT8U) p_img_control->dataset[0]->imagette_start,
-//						(INT32U) p_img_control->dataset[0]->offset,
-//						(INT32U) p_img_control->size);
-//
-//				printf("[CommandManagementTask]Data parsed\r\n");
-//#endif
-//
-//				while (i_dma_counter < p_img_control->nb_of_imagettes) {
-//
-//					bIdmaDmaM1Transfer(
-//							(INT32U*) (p_img_control->dataset[i_dma_counter]),
-//							p_img_control->dataset[i_dma_counter]->imagette_length
-//									+ DMA_OFFSET, 0);
-//					i_dma_counter++;
-//				}
-//				i_dma_counter = 0;
-//
-//				config_send->imagette = p_img_control;
-//
-//				v_ack_creator(p_payload, exec_error);
-//
-//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-//				alt_SSSErrorHandler(error_code, 0);
-//				break;
-//
-//			case 1:
-//				exec_error = v_parse_data_teste(p_payload, p_img_control,
-//						p_imagette_B);
-//				//exec_error = v_parse_data(p_payload, p_img_control);
-//#if DEBUG_ON
-//				printf(
-//						"[CommandManagementTask]Teste de parser byte: %i\n\r offset %i\r\nsize: %i\n\r",
-//						(INT8U) p_img_control->dataset[0]->imagette_start,
-//						(INT32U) p_img_control->dataset[0]->offset,
-//						(INT32U) p_img_control->size);
-//
-//				printf("[CommandManagementTask]Data parsed\r\n");
-//#endif
-//
-//				while (i_dma_counter < p_img_control->nb_of_imagettes) {
-//
-//					bIdmaDmaM1Transfer(
-//							(INT32U*) (p_img_control->dataset[i_dma_counter]),
-//							p_img_control->dataset[i_dma_counter]->imagette_length
-//									+ DMA_OFFSET, 1);
-//					i_dma_counter++;
-//				}
-//				i_dma_counter = 0;
-//
-//				config_send->imagette = p_img_control;
-//
-//				v_ack_creator(p_payload, exec_error);
-//
-//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
-//				alt_SSSErrorHandler(error_code, 0);
-//				break;
-//
-//				}
-//				break;
 				/*
 				 * Delete Data
 				 * char: g
@@ -779,13 +714,12 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]Change Mode\r\n");
 #endif
 
-				b_meb_status = p_payload->data[0];
-
-				if (b_meb_status == 1) {
+				if (p_payload->data[0] == 1) {
 					config_send_A.mode = subModetoRun;
+					T_simucam.T_status.simucam_mode = simModetoRun;
 					printf("[CommandManagementTask]Before post\r\n");
 					error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-							&(config_send_A));
+							config_send);
 					alt_SSSErrorHandler(error_code, 0);
 				}
 
@@ -835,14 +769,16 @@ void CommandManagementTask() {
 				 */
 			case 111:
 #if DEBUG_ON
-				printf("[CommandManagementTask]Clear RAM\r\n");
+				printf("[CommandManagementTask]Config MEB\r\n");
 #endif
-				i_forward_data = p_payload->data[0];
-				i_echo_sent_data = p_payload->data[1];
+
+				T_simucam.T_conf.i_forward_data = p_payload->data[0];
+				T_simucam.T_conf.echo_sent = p_payload->data[1];
 #if DEBUG_ON
 				printf(
 						"[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
-						(int) i_forward_data, (int) i_echo_sent_data);
+						(int) T_simucam.T_conf.i_forward_data,
+						(int) T_simucam.T_conf.echo_sent);
 #endif
 				v_ack_creator(p_payload, ACK_OK);
 
@@ -883,60 +819,32 @@ void CommandManagementTask() {
 				alt_SSSErrorHandler(error_code, 0);
 
 				break;
-			} //Switch fim
 
-			/*
-			 * Create a error management task and queue
-			 */
+			}
+			break;
 
-			exec_error = 0; /*restart error value*/
-
-		}
-
-		/*
-		 * MEB in running mode
-		 */
-		while (b_meb_status == 1) {
-			INT8U i_internal_error;
-			static INT8U b_timer_starter = 0;
-			exec_error = 0;
-
+		case simModetoRun:
+#if DEBUG_ON
+			printf("[CommandManagementTask RUNNING]Mode to RUN\r\n");
+#endif
 			/*
 			 * Start timer for ChA
 			 * NOT STARTING THE TIMER
 			 */
 			bDschStartTimer(&(xChA.xDataScheduler));
 
+			T_simucam.T_status.simucam_mode = simModeRun;
+			break;
+
+		case simModeRun:
 #if DEBUG_ON
-			printf("MEB in running mode\n\r");
+			printf("[CommandManagementTask RUNNING]Mode RUN\r\n");
 #endif
-//			if (b_timer_starter == 0) {
-//
-//				/*
-//				 * Initializing central control timer
-//				 */
-//				central_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
-//				OS_TMR_OPT_PERIODIC, central_timer_callback_function,
-//						(void *) 0, (INT8U*) "Central Timer",
-//						(INT8U*) &exec_error);
-//
-//				if (exec_error == OS_ERR_NONE) {
-//					b_timer_starter = 1;
-//
-//					/* Timer was created but NOT started */
-//#if DEBUG_ON
-//					printf(
-//							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
-//#endif
-//				}
-//
-//			}
+
 #if DEBUG_ON
 			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
 #endif
-			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
-			alt_uCOSIIErrorHandler(i_internal_error, 0);
-
+			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			/*
 			 * SYNC cmd
 			 */
@@ -953,9 +861,44 @@ void CommandManagementTask() {
 
 				switch (p_payload->type) {
 
-				/*
-				 * Change Simucam Mode
-				 */
+//				case simDMA1Sched:
+//					if (T_simucam.T_status.has_dma_1) {
+//						i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0],
+//								1, &i_internal_error);
+//						if (i_internal_error == OS_ERR_NONE) {
+//							config_send_ch[i_channel_buffer].mode =
+//									subAccessDMA1;
+//							error_code = (INT8U) OSQPost(
+//									p_sub_unit_config_queue,
+//									&config_send_ch[i_channel_buffer]);
+//							alt_SSSErrorHandler(error_code, 0);
+//							T_simucam.T_status.has_dma_1 = false;
+//						} else {
+//							alt_uCOSIIErrorHandler(i_internal_error, 0);
+//						}
+//						alt_uCOSIIErrorHandler(i_internal_error, 0);
+//					}
+//					break;
+//
+//				case simDMA1Back:
+//					T_simucam.T_status.has_dma_1 = true;
+//					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0], 1,
+//							&i_internal_error);
+//					if (i_internal_error == OS_ERR_NONE) {
+//						config_send_ch[i_channel_buffer].mode = subAccessDMA1;
+//						error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+//								&config_send_ch[i_channel_buffer]);
+//						alt_SSSErrorHandler(error_code, 0);
+//						T_simucam.T_status.has_dma_1 = false;
+//					} else {
+//						alt_uCOSIIErrorHandler(i_internal_error, 0);
+//					}
+//					alt_uCOSIIErrorHandler(i_internal_error, 0);
+//					break;
+
+					/*
+					 * Change Simucam Mode
+					 */
 				case 105:
 
 #if DEBUG_ON
@@ -963,14 +906,10 @@ void CommandManagementTask() {
 							(INT8U) p_payload->data[0]);
 #endif
 
-					b_meb_status = p_payload->data[0];
+					if (p_payload->data[0] == 0) {
+						T_simucam.T_status.simucam_running_time = 1;
+						T_simucam.T_status.simucam_mode = simModetoConfig;
 
-					if (b_meb_status == 0) {
-						i_central_timer_counter = 1;
-
-						/*
-						 * Send sub_units to config.
-						 */
 #if DEBUG_ON
 						printf(
 								"[CommandManagementTask]Sending change mode command...\r\n");
@@ -986,6 +925,9 @@ void CommandManagementTask() {
 						bDschStopTimer(&(xChA.xDataScheduler));
 						bDschClrTimer(&(xChA.xDataScheduler));
 
+						/*
+						 * Send sub_units to config.
+						 */
 						error_code = OSQPost(p_sub_unit_command_queue,
 								i_return_config_flag);
 						OSSemPost(sub_unit_command_semaphore);
@@ -1003,7 +945,7 @@ void CommandManagementTask() {
 					/*
 					 * End of dataset internal command
 					 */
-				case 5:
+				case 50:
 #if DEBUG_ON
 					printf(
 							"[CommandManagementTask]End of dataset, restarting\r\n");
@@ -1016,17 +958,8 @@ void CommandManagementTask() {
 					bDschStopTimer(&(xChA.xDataScheduler));
 					bDschClrTimer(&(xChA.xDataScheduler));
 
-//					INT16U i_dma_counter = 0;
-//					while (i_dma_counter < p_img_control->nb_of_imagettes) {
-//
-//						bIdmaDmaM1Transfer(
-//								(INT32U*) (p_imagette_A[i_dma_counter]),
-//								p_imagette_A[i_dma_counter]->imagette_length
-//										+ DMA_OFFSET, 0);
-//						i_dma_counter++;
-//					}
-
 					break;
+
 					/*
 					 * Abort Sending
 					 *
@@ -1099,6 +1032,443 @@ void CommandManagementTask() {
 				}
 
 			}
+
+			break;
+
+		default:
+#if DEBUG_ON
+			printf("[CommandManagementTask]MEB status error\n\r");
+#endif
+			break;
 		}
 	}
 }
+
+//		/*
+//		 * MEB in configuration mode.
+//		 * It's the default state
+//		 */
+//		while (b_meb_status == 0) {
+//
+//#if DEBUG_ON
+//			printf("[CommandManagementTask]MEB in config mode\n\r");
+//#endif
+//			/*
+//			 * Enter the receive command mode
+//			 */
+//
+//			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
+//			alt_uCOSIIErrorHandler(error_code, 0);
+//#if DEBUG_ON
+//			//printf(
+////					"[CommandManagementTask]teste do payload: %c,%c,%c,%c,%c,%c\n\r",
+////					(INT8U) p_payload->type, (char) p_payload->data[0],
+////					(char) p_payload->data[1], (char) p_payload->data[2],
+////					(char) p_payload->data[3], (char) p_payload->data[4]);
+//#endif
+//			/*
+//			 * Switch case to select from different command options.[yb]
+//			 * Will be modified to suit IWF's needs
+//			 */
+//			int i_channel_buffer;
+//
+//			switch (p_payload->type) { /*Selector for commands and actions*/
+//
+//			/*
+//			 * Sub-Unit config command
+//			 * char: e
+//			 */
+//			case 101:
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Configure Sub-Unit\r\n");
+//#endif
+//
+//				/* Add a case for channel selection */
+//
+//				config_send->link_config = p_payload->data[1];
+//				config_send->linkspeed = p_payload->data[2];
+//				config_send->linkstatus_running = p_payload->data[3];
+//				/*
+//				 * TODO complete listing
+//				 */
+//
+//#if DEBUG_ON
+//				printf(
+//						"[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
+//						(INT8U) config_send->link_config,
+//						(INT8U) config_send->linkspeed,
+//						(INT8U) config_send->linkstatus_running);
+//#endif
+//
+//				v_ack_creator(p_payload, ACK_OK);
+//
+//				p_telemetry_buffer->i_type = ACK_TYPE;
+//				p_telemetry_buffer->error_code = ACK_OK;
+//				p_telemetry_buffer->p_payload = p_payload;
+//
+//				error_code = (INT8U) OSQPost(p_telemetry_queue,
+//						p_telemetry_buffer);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//
+//				/*
+//				 * Delete Data
+//				 * char: g
+//				 */
+//			case 103:
+//
+//				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//
+//				/*
+//				 * Select data to send
+//				 * char: h
+//				 */
+//			case 104:
+//
+//				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//
+//				/*
+//				 * Change Simucam Modes
+//				 * char: i
+//				 */
+//			case 105:
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Change Mode\r\n");
+//#endif
+//
+//				b_meb_status = p_payload->data[0];
+//
+//				if (b_meb_status == 1) {
+//					config_send_A.mode = subModetoRun;
+//					printf("[CommandManagementTask]Before post\r\n");
+//					error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+//							&(config_send_A));
+//					alt_SSSErrorHandler(error_code, 0);
+//				}
+//
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Config sent to sub\n\r");
+//#endif
+//
+//				v_ack_creator(p_payload, ACK_OK);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//
+//				/*
+//				 * Clear RAM
+//				 */
+//			case 108:
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Clear RAM\r\n");
+//#endif
+//
+//				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//
+//				/*
+//				 * Get HK
+//				 */
+//			case 110:
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Get HK\r\n");
+//#endif
+//				i_channel_buffer = p_payload->data[0];
+//
+//				v_HK_creator(p_payload, i_channel_buffer);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//				break;
+//
+//				/*
+//				 * Config MEB
+//				 */
+//			case 111:
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Clear RAM\r\n");
+//#endif
+//				i_forward_data = p_payload->data[0];
+//				i_echo_sent_data = p_payload->data[1];
+//#if DEBUG_ON
+//				printf(
+//						"[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
+//						(int) i_forward_data, (int) i_echo_sent_data);
+//#endif
+//				v_ack_creator(p_payload, ACK_OK);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//
+//				/*
+//				 * Set Recording
+//				 */
+//			case 112:
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Selected command: %c\n\r",
+//						(int) p_payload->type);
+//#endif
+//				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//
+//			default:
+//#if DEBUG_ON
+//				printf(
+//						"[CommandManagementTask]Nenhum comando identificado\n\r");
+//#endif
+//
+//				if (p_payload->type == 106 || p_payload->type == 106
+//						|| p_payload->type == 107 || p_payload->type == 109) {
+//					v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+//				} else {
+//					v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+//				}
+//
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//
+//				break;
+//			} //Switch fim
+//
+//			/*
+//			 * Create a error management task and queue
+//			 */
+//
+//			exec_error = 0; /*restart error value*/
+//
+//		}
+//
+//		/*
+//		 * MEB in running mode
+//		 */
+//		while (b_meb_status == 1) {
+//			INT8U i_internal_error;
+//			static INT8U b_timer_starter = 0;
+//			exec_error = 0;
+//
+//			/*
+//			 * Start timer for ChA
+//			 * NOT STARTING THE TIMER
+//			 */
+//			bDschStartTimer(&(xChA.xDataScheduler));
+//
+//#if DEBUG_ON
+//			printf("MEB in running mode\n\r");
+//#endif
+////			if (b_timer_starter == 0) {
+////
+////				/*
+////				 * Initializing central control timer
+////				 */
+////				central_timer = OSTmrCreate(0, CENTRAL_TIMER_RESOLUTION,
+////				OS_TMR_OPT_PERIODIC, central_timer_callback_function,
+////						(void *) 0, (INT8U*) "Central Timer",
+////						(INT8U*) &exec_error);
+////
+////				if (exec_error == OS_ERR_NONE) {
+////					b_timer_starter = 1;
+////
+////					/* Timer was created but NOT started */
+////#if DEBUG_ON
+////					printf(
+////							"[CommandManagementTask]SWTimer1 was created but NOT started \n");
+////#endif
+////				}
+////
+////			}
+//#if DEBUG_ON
+//			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
+//#endif
+//			p_payload = OSQPend(p_simucam_command_q, 0, &i_internal_error);
+//			alt_uCOSIIErrorHandler(i_internal_error, 0);
+//
+//			/*
+//			 * SYNC cmd
+//			 */
+//			if (p_payload->type == 106) {
+//
+//				bSyncCtrOneShot();
+//				v_ack_creator(p_payload, ACK_OK);
+//				error_code = (INT8U) OSQPost(p_simucam_command_q, p_payload);
+//				alt_SSSErrorHandler(error_code, 0);
+//#if DEBUG_ON
+//				printf("[CommandManagementTask]Starting timer\r\n");
+//#endif
+//			} else {
+//
+//				switch (p_payload->type) {
+//
+//				/*
+//				 * Change Simucam Mode
+//				 */
+//				case 105:
+//
+//#if DEBUG_ON
+//					printf("[CommandManagementTask]MEB status to: %i\r\n",
+//							(INT8U) p_payload->data[0]);
+//#endif
+//
+//					b_meb_status = p_payload->data[0];
+//
+//					if (b_meb_status == 0) {
+//						i_central_timer_counter = 1;
+//
+//						/*
+//						 * Send sub_units to config.
+//						 */
+//#if DEBUG_ON
+//						printf(
+//								"[CommandManagementTask]Sending change mode command...\r\n");
+//#endif
+//
+//						/*
+//						 * Stop and restart running timer
+//						 */
+//
+//						/*
+//						 * Stop and clear ChA timer
+//						 */
+//						bDschStopTimer(&(xChA.xDataScheduler));
+//						bDschClrTimer(&(xChA.xDataScheduler));
+//
+//						error_code = OSQPost(p_sub_unit_command_queue,
+//								i_return_config_flag);
+//						OSSemPost(sub_unit_command_semaphore);
+//						alt_SSSErrorHandler(error_code, 0);
+//					}
+//
+//					v_ack_creator(p_payload, ACK_OK);
+//
+//					error_code = (INT8U) OSQPost(p_simucam_command_q,
+//							p_payload);
+//					alt_SSSErrorHandler(error_code, 0);
+//
+//					break;
+//
+//					/*
+//					 * End of dataset internal command
+//					 */
+//				case 5:
+//#if DEBUG_ON
+//					printf(
+//							"[CommandManagementTask]End of dataset, restarting\r\n");
+//#endif
+//					printf(
+//							"[CommandManagementTask]End of dataset, restarting\r\n");
+//					/*
+//					 * Stop and clear ChA timer
+//					 */
+//					bDschStopTimer(&(xChA.xDataScheduler));
+//					bDschClrTimer(&(xChA.xDataScheduler));
+//
+////					INT16U i_dma_counter = 0;
+////					while (i_dma_counter < p_img_control->nb_of_imagettes) {
+////
+////						bIdmaDmaM1Transfer(
+////								(INT32U*) (p_imagette_A[i_dma_counter]),
+////								p_imagette_A[i_dma_counter]->imagette_length
+////										+ DMA_OFFSET, 0);
+////						i_dma_counter++;
+////					}
+//
+//					break;
+//					/*
+//					 * Abort Sending
+//					 *
+//					 * Implement a abort queue
+//					 *
+//					 */
+//				case 107:
+//#if DEBUG_ON
+//					printf("[CommandManagementTask]Selected command: %i\n\r",
+//							(int) p_payload->type);
+//#endif
+//
+//					bDschStopTimer(&(xChA.xDataScheduler));
+//					bDschClrTimer(&(xChA.xDataScheduler));
+//
+//					v_ack_creator(p_payload, ACK_OK);
+//					error_code = (INT8U) OSQPost(p_simucam_command_q,
+//							p_payload);
+//					alt_SSSErrorHandler(error_code, 0);
+//					break;
+//
+//					/*
+//					 * Direct send
+//					 */
+//				case 109:
+//#if DEBUG_ON
+//					printf("[CommandManagementTask]Direct Send to %c\n\r",
+//							(char) (p_payload->data[0] + ASCII_A));
+//#endif
+//					/*
+//					 * Direct Send needs replaning
+//					 */
+//
+//					break;
+//
+//					/*
+//					 * Get HK
+//					 */
+//				case 110:
+//#if DEBUG_ON
+//					printf("[CommandManagementTask]Get HK\r\n");
+//#endif
+//					v_HK_creator(p_payload, p_payload->data[0]);
+//
+//					error_code = (INT8U) OSQPost(p_simucam_command_q,
+//							p_payload);
+//					alt_SSSErrorHandler(error_code, 0);
+//					break;
+//
+//				default:
+//#if DEBUG_ON
+//					printf(
+//							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
+//#endif
+//					if (p_payload->type == 101 || p_payload->type == 102
+//							|| p_payload->type == 103 || p_payload->type == 104
+//							|| p_payload->type == 108
+//							|| p_payload->type == 111) {
+//						v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+//					} else {
+//						v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+//					}
+//
+//					error_code = (INT8U) OSQPost(p_simucam_command_q,
+//							p_payload);
+//					alt_SSSErrorHandler(error_code, 0);
+//
+//					break;
+//
+//				}
+//
+//			}
+//		}
+//	}
+//}
