@@ -27,7 +27,6 @@ int *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
 INT8U tx_buffer[SSS_TX_BUF_SIZE];
 static INT8U *p_tx_buffer = &tx_buffer[0];
 
-
 /*
  * Creation of the schedullerQueue
  */
@@ -53,7 +52,7 @@ void sub_unit_create_os_data_structs(void) {
 	if (!DMA_sched_queue[1]) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create p_sub_unit_queue.\n");
-}
+	}
 
 	/*
 	 * Create the sub-unit config queue [yb]
@@ -284,6 +283,7 @@ void sub_unit_control_task() {
 			bSpwcSetLink(&(xChA.xSpacewire));
 
 			T_simucam.T_Sub[0].T_conf.mode = subModeConfig;
+			T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
 			break;
 
 		case subModeConfig:
@@ -317,6 +317,8 @@ void sub_unit_control_task() {
 #if DEBUG_ON
 			printf("[SUBUNIT]Sub-unit toRun\r\n");
 #endif
+			T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
+
 			/*
 			 * Set link interface status according to
 			 * link_config
@@ -326,12 +328,17 @@ void sub_unit_control_task() {
 				printf("[SUBUNIT]Channel disabled\r\n");
 #endif
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
+				break;
 			}
 
 			T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
 					(T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
 
-			while (i_dma_counter < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
+			/*
+			 * TODO change to append all of the buffer
+			 */
+			while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
+					< 2) {
 
 #if DEBUG_ON
 				printf("[SUBUNIT]Printinf offset %i & %x\r\n",
@@ -339,10 +346,11 @@ void sub_unit_control_task() {
 						(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
 
-				error_code = bIdmaDmaM1Transfer(
-						(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-						T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-								+ DMA_OFFSET, 0);
+				error_code =
+						bIdmaDmaM1Transfer(
+								(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+								T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+										+ DMA_OFFSET, 0);
 				if (error_code == TRUE) {
 					i_mem_pointer_buffer =
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
@@ -352,9 +360,10 @@ void sub_unit_control_task() {
 						i_mem_pointer_buffer = ((((i_mem_pointer_buffer) >> 3)
 								+ 1) << 3);
 					}
-					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *)i_mem_pointer_buffer;
+					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
+							(T_Imagette *) i_mem_pointer_buffer;
 
-					i_dma_counter++;
+					T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
 				} else {
 #if DEBUG_ON
 					printf("[SUBUNIT]DMA ERROR\r\n");
@@ -411,6 +420,9 @@ void sub_unit_control_task() {
 #endif
 			}
 
+			/*
+			 * Sub-Unit RUN
+			 */
 			T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeRun;
 			break;
 
@@ -431,44 +443,5 @@ void sub_unit_control_task() {
 			printf("[SUBUNIT]Sub-unit default error!\r\n");
 			break;
 		}
-	}
-
-	while (T_simucam.T_Sub[c_spw_channel].T_conf.mode == 0) {
-#if DEBUG_ON
-		printf("[SUBUNIT]Sub-unit in config mode\r\n");
-#endif
-		/*
-		 * Disabling SpW channel
-		 */
-		bSpwcGetLink(&(xChA.xSpacewire));
-		xChA.xSpacewire.xLinkConfig.bAutostart = FALSE;
-		xChA.xSpacewire.xLinkConfig.bLinkStart = FALSE;
-		xChA.xSpacewire.xLinkConfig.bDisconnect = TRUE;
-		bSpwcSetLink(&(xChA.xSpacewire));
-
-#if DEBUG_ON
-		printf("[SUBUNIT]Sub-unit waiting config...\r\n");
-#endif
-		p_config = OSQPend(p_sub_unit_config_queue, 0, &error_code);
-#if DEBUG_ON
-		printf("[SUBUNIT]Sub-unit mode change to: %i\n\r",
-				(INT8U) p_config->mode);
-#endif
-		T_simucam.T_Sub[c_spw_channel].T_conf.mode = p_config->mode;
-
-		p_imagette_buffer = p_config->imagette;
-
-		while (i_dma_counter < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
-
-			bIdmaDmaM1Transfer((INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-							+ DMA_OFFSET, 0);
-			T_simucam.T_Sub[c_spw_channel].T_data.p_iterador +=
-					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-							+ DMA_OFFSET;
-			i_dma_counter++;
-
-		}
-
 	}
 }
