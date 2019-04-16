@@ -206,10 +206,10 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
  **/
 void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 
-	INT16U 	nb_id = i_id_accum;
-	INT16U 	nb_id_pkt = p_error_response->packet_id;
-	INT8U	ack_buffer[64];
-	INT32U  ack_size = 14;
+	INT16U nb_id = i_id_accum;
+	INT16U nb_id_pkt = p_error_response->packet_id;
+	INT8U ack_buffer[64];
+	INT32U ack_size = 14;
 
 	ack_buffer[0] = 2;
 
@@ -652,12 +652,9 @@ void CommandManagementTask() {
 
 				/* Add a case for channel selection */
 
-				config_send_A.link_config =
-						p_payload->data[1];
-				config_send_A.linkspeed =
-						p_payload->data[2];
-				config_send_A.linkstatus_running =
-						p_payload->data[3];
+				config_send_A.link_config = p_payload->data[1];
+				config_send_A.linkspeed = p_payload->data[2];
+				config_send_A.linkstatus_running = p_payload->data[3];
 				/*
 				 * TODO complete listing
 				 */
@@ -831,40 +828,41 @@ void CommandManagementTask() {
 
 				switch (p_payload->type) {
 
-//				case simDMA1Sched:
-//					if (T_simucam.T_status.has_dma_1) {
-//						i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0],
-//								1, &i_internal_error);
-//						if (i_internal_error == OS_ERR_NONE) {
-//							config_send_ch[i_channel_buffer].mode =
-//									subAccessDMA1;
-//							error_code = (INT8U) OSQPost(
-//									p_sub_unit_config_queue,
-//									&config_send_ch[i_channel_buffer]);
-//							alt_SSSErrorHandler(error_code, 0);
-//							T_simucam.T_status.has_dma_1 = false;
-//						} else {
-//							alt_uCOSIIErrorHandler(i_internal_error, 0);
-//						}
-//						alt_uCOSIIErrorHandler(i_internal_error, 0);
-//					}
-//					break;
-//
-//				case simDMA1Back:
-//					T_simucam.T_status.has_dma_1 = true;
-//					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0], 1,
-//							&i_internal_error);
-//					if (i_internal_error == OS_ERR_NONE) {
-//						config_send_ch[i_channel_buffer].mode = subAccessDMA1;
-//						error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
-//								&config_send_ch[i_channel_buffer]);
-//						alt_SSSErrorHandler(error_code, 0);
-//						T_simucam.T_status.has_dma_1 = false;
-//					} else {
-//						alt_uCOSIIErrorHandler(i_internal_error, 0);
-//					}
-//					alt_uCOSIIErrorHandler(i_internal_error, 0);
-//					break;
+				case simDMA1Sched:
+#if DEBUG_ON
+					printf("[CommandManagementTask]DMA1 Sched\r\n");
+#endif
+					if (T_simucam.T_status.has_dma_1) {
+						i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0],
+								1, &error_code);
+						if (error_code == OS_ERR_NONE) {
+							config_send_A.mode = subAccessDMA1;
+							error_code = (INT8U) OSQPost(
+									p_sub_unit_config_queue, &config_send_A);
+							alt_SSSErrorHandler(error_code, 0);
+							T_simucam.T_status.has_dma_1 = false;
+						} else {
+							alt_uCOSIIErrorHandler(error_code, 0);
+						}
+						alt_uCOSIIErrorHandler(error_code, 0);
+					}
+					break;
+
+				case simDMA1Back:
+					T_simucam.T_status.has_dma_1 = true;
+					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0], 1,
+							&error_code);
+					if (error_code == OS_ERR_NONE) {
+						config_send_A.mode = subAccessDMA1;
+						error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+								&config_send_A);
+						alt_SSSErrorHandler(error_code, 0);
+						T_simucam.T_status.has_dma_1 = false;
+					} else {
+						alt_uCOSIIErrorHandler(error_code, 0);
+					}
+					alt_uCOSIIErrorHandler(error_code, 0);
+					break;
 
 					/*
 					 * Change Simucam Mode

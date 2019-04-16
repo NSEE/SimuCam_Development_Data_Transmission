@@ -337,8 +337,7 @@ void sub_unit_control_task() {
 			/*
 			 * TODO change to append all of the buffer
 			 */
-			while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
-					< 2) {
+			while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < 2) {
 
 #if DEBUG_ON
 				printf("[SUBUNIT]Printinf offset %i & %x\r\n",
@@ -430,6 +429,20 @@ void sub_unit_control_task() {
 #if DEBUG_ON
 			printf("[SUBUNIT]Sub-unit Run\r\n");
 #endif
+			p_config = (sub_config_t *) OSQPend(p_sub_unit_config_queue, 0,
+					&error_code);
+			if (error_code == OS_ERR_NONE) {
+
+				switch (p_config->mode) {
+
+				default:
+#if DEBUG_ON
+					printf("[SUBUNIT]Sub-unit Default run trap\r\n");
+#endif
+					break;
+				}
+			}
+
 			OSSemPend(sub_unit_command_semaphore, 0, &exec_error);
 			if (exec_error == OS_ERR_NONE) {
 				printf("[SUBUNIT]Data sent\r\n");
