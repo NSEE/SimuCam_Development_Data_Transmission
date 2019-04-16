@@ -41,7 +41,8 @@ static volatile int viCh6HoldContext;
 static volatile int viCh7HoldContext;
 static volatile int viCh8HoldContext;
 //! [data memory private global variables]
-static _ethernet_payload xTemp;
+static 	_ethernet_payload 	xTemp;
+static	sub_config_t		xSubTemp;
 //! [program memory private global variables]
 //! [program memory private global variables]
 
@@ -64,7 +65,11 @@ void vDctrCh1HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 
-		OSSemPost(sub_unit_command_semaphore);
+		if (T_simucam.T_Sub[0].T_data.i_imagette
+				== T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+			xSubTemp.mode = simAbort;
+			OSQPost(p_sub_unit_config_queue, &xSubTemp);
+		}
 
 		vDctrCh1IrqFlagClr(eTxEndFlag);
 	}
@@ -442,7 +447,7 @@ void vDctrCh1IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_1_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));
@@ -458,7 +463,7 @@ void vDctrCh2IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_2_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));
@@ -474,7 +479,7 @@ void vDctrCh3IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_3_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));
@@ -490,7 +495,7 @@ void vDctrCh4IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_4_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));
@@ -506,7 +511,7 @@ void vDctrCh5IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_5_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));
@@ -522,7 +527,7 @@ void vDctrCh6IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_6_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));
@@ -538,7 +543,7 @@ void vDctrCh7IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_7_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));
@@ -554,7 +559,7 @@ void vDctrCh8IrqFlag(bool *pbIrqFlags) {
 	if (pbIrqFlags != NULL) {
 
 		uliIrqFlagsReg = uliDctrReadReg((alt_u32*) DCOM_CH_8_BASE_ADDR,
-				DCOM_IRQ_FLAG_REG_OFST);
+		DCOM_IRQ_FLAG_REG_OFST);
 
 		pbIrqFlags[eTxEndFlag] = bDctrGetRegFlag(uliIrqFlagsReg,
 				(alt_u32) (DCOM_IRQ_FLG_TX_END_FLAG_MSK));

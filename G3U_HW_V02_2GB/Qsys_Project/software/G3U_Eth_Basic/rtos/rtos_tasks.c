@@ -27,14 +27,7 @@
 #include "../driver/dcom/dcom_channel.h"
 //#include "sub_unit_control_task.h"
 
-TDcomChannel xChA;
-TDcomChannel xChB;
-TDcomChannel xChC;
-TDcomChannel xChD;
-TDcomChannel xChE;
-TDcomChannel xChF;
-TDcomChannel xChG;
-TDcomChannel xChH;
+TDcomChannel xCh[8];
 
 /* OS Error Variables */
 alt_u8 error_code = 0;
@@ -94,11 +87,7 @@ void SPWATask(void *task_data) {
 	printf("Created \"spw a\" Task (Prio:%d) \n", SPW_A_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xChA, eDcomSpwCh1);
-
-	bSpwcGetLink(&(xChA.xSpacewire));
-	xChA.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChA.xSpacewire));
+	bDcomInitCh(&xCh[0], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('A');
@@ -112,11 +101,7 @@ void SPWBTask(void *task_data) {
 	printf("Created \"spw b\" Task (Prio:%d) \n", SPW_B_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xChB, eDcomSpwCh2);
-
-	bSpwcGetLink(&(xChB.xSpacewire));
-	xChB.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChB.xSpacewire));
+	bDcomInitCh(&xCh[1], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('B');
@@ -130,11 +115,7 @@ void SPWCTask(void *task_data) {
 	printf("Created \"spw c\" Task (Prio:%d) \n", SPW_C_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xChC, eDcomSpwCh3);
-
-	bSpwcGetLink(&(xChC.xSpacewire));
-	xChC.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChC.xSpacewire));
+	bDcomInitCh(&xCh[2], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('C');
@@ -148,11 +129,7 @@ void SPWDTask(void *task_data) {
 	printf("Created \"spw d\" Task (Prio:%d) \n", SPW_D_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xChD, eDcomSpwCh4);
-
-	bSpwcGetLink(&(xChD.xSpacewire));
-	xChD.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChD.xSpacewire));
+	bDcomInitCh(&xCh[3], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('D');
@@ -166,11 +143,7 @@ void SPWETask(void *task_data) {
 	printf("Created \"spw e\" Task (Prio:%d) \n", SPW_E_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xChE, eDcomSpwCh5);
-
-	bSpwcGetLink(&(xChE.xSpacewire));
-	xChE.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChE.xSpacewire));
+	bDcomInitCh(&xCh[4], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('E');
@@ -184,11 +157,7 @@ void SPWFTask(void *task_data) {
 	printf("Created \"spw f\" Task (Prio:%d) \n", SPW_F_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xChF, eDcomSpwCh6);
-
-	bSpwcGetLink(&(xChF.xSpacewire));
-	xChF.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChF.xSpacewire));
+	bDcomInitCh(&xCh[5], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('F');
@@ -202,11 +171,7 @@ void SPWGTask(void *task_data) {
 	printf("Created \"spw g\" Task (Prio:%d) \n", SPW_G_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xChG, eDcomSpwCh7);
-
-	bSpwcGetLink(&(xChG.xSpacewire));
-	xChG.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChG.xSpacewire));
+	bDcomInitCh(&xCh[6], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('G');
@@ -221,11 +186,7 @@ void SPWHTask(void *task_data) {
 #endif
 
 
-	bDcomInitCh(&xChH, eDcomSpwCh8);
-
-	bSpwcGetLink(&(xChH.xSpacewire));
-	xChH.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	bSpwcSetLink(&(xChH.xSpacewire));
+	bDcomInitCh(&xCh[7], eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('H');
@@ -366,47 +327,47 @@ void Init_Simucam_Tasks(void) {
 void Set_SpW_Led(char c_SpwID) {
 	alt_u32 ui_leds_mask_r = 0;
 	alt_u32 ui_leds_mask_g = 0;
-	TDcomChannel *pxChannel = &xChA;
+	TDcomChannel *pxChannel = &xCh[0];
 	switch (c_SpwID) {
 	case 'A':
 		ui_leds_mask_r = LEDS_1R_MASK;
 		ui_leds_mask_g = LEDS_1G_MASK;
-		pxChannel = &xChA;
+		pxChannel = &xCh[0];
 		break;
 	case 'B':
 		ui_leds_mask_r = LEDS_2R_MASK;
 		ui_leds_mask_g = LEDS_2G_MASK;
-		pxChannel = &xChB;
+		pxChannel = &xCh[1];
 		break;
 	case 'C':
 		ui_leds_mask_r = LEDS_3R_MASK;
 		ui_leds_mask_g = LEDS_3G_MASK;
-		pxChannel = &xChC;
+		pxChannel = &xCh[2];
 		break;
 	case 'D':
 		ui_leds_mask_r = LEDS_4R_MASK;
 		ui_leds_mask_g = LEDS_4G_MASK;
-		pxChannel = &xChD;
+		pxChannel = &xCh[3];
 		break;
 	case 'E':
 		ui_leds_mask_r = LEDS_5R_MASK;
 		ui_leds_mask_g = LEDS_5G_MASK;
-		pxChannel = &xChE;
+		pxChannel = &xCh[4];
 		break;
 	case 'F':
 		ui_leds_mask_r = LEDS_6R_MASK;
 		ui_leds_mask_g = LEDS_6G_MASK;
-		pxChannel = &xChF;
+		pxChannel = &xCh[5];
 		break;
 	case 'G':
 		ui_leds_mask_r = LEDS_7R_MASK;
 		ui_leds_mask_g = LEDS_7G_MASK;
-		pxChannel = &xChG;
+		pxChannel = &xCh[6];
 		break;
 	case 'H':
 		ui_leds_mask_r = LEDS_8R_MASK;
 		ui_leds_mask_g = LEDS_8G_MASK;
-		pxChannel = &xChH;
+		pxChannel = &xCh[7];
 		break;
 	}
 	bSpwcGetLink(&(pxChannel->xSpacewire));

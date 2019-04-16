@@ -11,9 +11,10 @@
 #include "../dcom.h"
 #include "../../../simucam_model.h"
 
-extern OS_EVENT *sub_unit_command_semaphore;
+extern OS_EVENT *p_sub_unit_config_queue;
 extern OS_EVENT *p_simucam_command_q;
 extern OS_EVENT *DMA_sched_queue[2];
+extern T_Simucam T_simucam;
 
 //! [constants definition]
 const alt_u8 cucDctrIrqFlagsQtd;

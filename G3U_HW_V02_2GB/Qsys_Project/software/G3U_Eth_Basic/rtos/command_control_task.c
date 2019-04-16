@@ -493,6 +493,8 @@ void CommandManagementTask() {
 //	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
 //	INT8U* cmd_char = cmd_char_buffer;
 
+	INT8U i_channel_for;
+
 	_ethernet_payload payload_command;
 
 	_ethernet_payload *p_payload = &payload_command;
@@ -567,32 +569,24 @@ void CommandManagementTask() {
 	bSyncCtrCh1OutEnable(TRUE);
 
 	/*
-	 * Stop timer for ChA
-	 * NOT STARTING THE TIMER
-	 */
-	bDschStopTimer(&(xChA.xDataScheduler));
-	bDschClrTimer(&(xChA.xDataScheduler));
-
-	/*
 	 * Initialize Simucam Timer
 	 */
 
-	/*
-	 * Initializing the timer
-	 * for channel A
-	 */
-	bDschGetTimerConfig(&(xChA.xDataScheduler));
-	xChA.xDataScheduler.xTimerConfig.bStartOnSync = TRUE;
-	xChA.xDataScheduler.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
-	bDschSetTimerConfig(&(xChA.xDataScheduler));
-
-	bDcomSetGlobalIrqEn(TRUE, eDcomSpwCh1);
-	bDctrGetIrqControl(&(xChA.xDataController));
-	xChA.xDataController.xIrqControl.bTxBeginEn = TRUE;
-	xChA.xDataController.xIrqControl.bTxEndEn = FALSE;
-	bDctrSetIrqControl(&(xChA.xDataController));
-	T_simucam.T_status.simucam_mode = simModeInit;
-
+//	/*
+//	 * Initializing the timer
+//	 * for channel A
+//	 */
+//	bDschGetTimerConfig(&(xChA.xDataScheduler));
+//	xChA.xDataScheduler.xTimerConfig.bStartOnSync = TRUE;
+//	xChA.xDataScheduler.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
+//	bDschSetTimerConfig(&(xChA.xDataScheduler));
+//
+//	bDcomSetGlobalIrqEn(TRUE, eDcomSpwCh1);
+//	bDctrGetIrqControl(&(xChA.xDataController));
+//	xChA.xDataController.xIrqControl.bTxBeginEn = TRUE;
+//	xChA.xDataController.xIrqControl.bTxEndEn = FALSE;
+//	bDctrSetIrqControl(&(xChA.xDataController));
+//	T_simucam.T_status.simucam_mode = simModeInit;
 	while (1) {
 
 		switch (T_simucam.T_status.simucam_mode) {
@@ -625,13 +619,11 @@ void CommandManagementTask() {
 			 * Initialize Simucam Timer
 			 */
 
-			/*
-			 * Stop timer for ChA
-			 * NOT STARTING THE TIMER
-			 */
-			bDschStopTimer(&(xChA.xDataScheduler));
-			bDschClrTimer(&(xChA.xDataScheduler));
-
+//			/*
+//			 * Stop timer for ChA
+//			 */
+//			bDschStopTimer(&(xChA.xDataScheduler));
+//			bDschClrTimer(&(xChA.xDataScheduler));
 			T_simucam.T_status.simucam_mode = simModeConfig;
 			break;
 
@@ -798,11 +790,11 @@ void CommandManagementTask() {
 #if DEBUG_ON
 			printf("[CommandManagementTask RUNNING]Mode to RUN\r\n");
 #endif
-			/*
-			 * Start timer for ChA
-			 * NOT STARTING THE TIMER
-			 */
-			bDschStartTimer(&(xChA.xDataScheduler));
+//			/*
+//			 * Start timer for ChA
+//			 * NOT STARTING THE TIMER
+//			 */
+//			bDschStartTimer(&(xChA.xDataScheduler));
 
 			T_simucam.T_status.simucam_mode = simModeRun;
 			break;
@@ -837,7 +829,7 @@ void CommandManagementTask() {
 #endif
 					if (T_simucam.T_status.has_dma_1 == true) {
 #if DEBUG_ON
-					printf("[CommandManagementTask]Has DMA1\r\n");
+						printf("[CommandManagementTask]Has DMA1\r\n");
 #endif
 						i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0],
 								1, &error_code);
@@ -896,38 +888,40 @@ void CommandManagementTask() {
 						/*
 						 * Stop and clear ChA timer
 						 */
-						bDschStopTimer(&(xChA.xDataScheduler));
-						bDschClrTimer(&(xChA.xDataScheduler));
+						for (i_channel_for = 0; i_channel_for < 8; i_channel_for++) {
 
+							bDschStopTimer(&(xCh[i_channel_for].xDataScheduler));
+							bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
+
+						}
 						/*
 						 * Send sub_units to config.
 						 */
-						error_code = OSQPost(p_sub_unit_command_queue,
-								i_return_config_flag);
-						OSSemPost(sub_unit_command_semaphore);
-						alt_SSSErrorHandler(error_code, 0);
+						config_send_A.mode = subChangeMode;
+						error_code = OSQPost(p_sub_unit_config_queue,
+								&config_send_A);
 					}
 
 					v_ack_creator(p_payload, ACK_OK);
 					break;
 
-					/*
-					 * End of dataset internal command
-					 */
-				case 50:
-#if DEBUG_ON
-					printf(
-							"[CommandManagementTask]End of dataset, restarting\r\n");
-#endif
-					printf(
-							"[CommandManagementTask]End of dataset, restarting\r\n");
-					/*
-					 * Stop and clear ChA timer
-					 */
-					bDschStopTimer(&(xChA.xDataScheduler));
-					bDschClrTimer(&(xChA.xDataScheduler));
-
-					break;
+//					/*
+//					 * End of dataset internal command
+//					 */
+//				case 50:
+//#if DEBUG_ON
+//					printf(
+//							"[CommandManagementTask]End of dataset, restarting\r\n");
+//#endif
+//					printf(
+//							"[CommandManagementTask]End of dataset, restarting\r\n");
+//					/*
+//					 * Stop and clear ChA timer
+//					 */
+//					bDschStopTimer(&(xChA.xDataScheduler));
+//					bDschClrTimer(&(xChA.xDataScheduler));
+//
+//					break;
 
 					/*
 					 * Abort Sending
@@ -941,8 +935,9 @@ void CommandManagementTask() {
 							(int) p_payload->type);
 #endif
 
-					bDschStopTimer(&(xChA.xDataScheduler));
-					bDschClrTimer(&(xChA.xDataScheduler));
+					config_send_A.mode = subAbort;
+					error_code = (INT8U) OSQPost(p_sub_unit_config_queue,
+							&config_send_A);
 
 					v_ack_creator(p_payload, ACK_OK);
 					break;

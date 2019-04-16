@@ -180,11 +180,11 @@ void SSSCreateTasks(void) {
 #endif
 	}
 	xMutexDMA[1] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
-		if (error_code != OS_ERR_NONE) {
-	#if DEBUG_ON
-			printf("Error creating mutex\r\n");
-	#endif
-		}
+	if (error_code != OS_ERR_NONE) {
+#if DEBUG_ON
+		printf("Error creating mutex\r\n");
+#endif
+	}
 
 #if DEBUG_ON
 	printf("Tasks created successfully\r\n");
@@ -283,6 +283,7 @@ void sss_handle_receive(SSSConn* conn) {
 	p_ethernet_buffer = &buffer;
 
 	static _ethernet_payload payload;
+	INT8U i_channel_wr = 0;
 
 //	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
 
@@ -377,105 +378,60 @@ void sss_handle_receive(SSSConn* conn) {
 					/* Zero terminate so we can use string functions */
 					*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 				}
+				i_channel_wr = p_ethernet_buffer->rx_buffer[1];
 
-				switch (p_ethernet_buffer->rx_buffer[1]) {
 				/*
-				 * Parse imagettes in the ChA memory space
+				 * Switch to the right memory stick
 				 */
-				case 0:
-					/*
-					 * Switch to the right memory stick
-					 */
+				if (((unsigned char) i_channel_wr / 4) == 0) {
 					bDdr2SwitchMemory(DDR2_M1_ID);
-					T_Imagette *p_imagette_buff;
+				} else {
+					bDdr2SwitchMemory(DDR2_M2_ID);
+				}
 
-					p_imagette_byte =
-							(INT32U) T_simucam.T_Sub[0].T_data.addr_init;
+				T_Imagette *p_imagette_buff;
 
-					/*
-					 * Parse nb of imagettes
-					 */
-					T_simucam.T_Sub[0].T_data.nb_of_imagettes =
-							p_ethernet_buffer->rx_buffer[3]
-									+ 256 * p_ethernet_buffer->rx_buffer[2];
+				p_imagette_byte =
+						(INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
 
-					/*
-					 * Parse TAG
-					 */
-					T_simucam.T_Sub[0].T_data.tag[7] =
-							p_ethernet_buffer->rx_buffer[4];
-					T_simucam.T_Sub[0].T_data.tag[6] =
-							p_ethernet_buffer->rx_buffer[5];
-					T_simucam.T_Sub[0].T_data.tag[5] =
-							p_ethernet_buffer->rx_buffer[6];
-					T_simucam.T_Sub[0].T_data.tag[4] =
-							p_ethernet_buffer->rx_buffer[7];
-					T_simucam.T_Sub[0].T_data.tag[3] =
-							p_ethernet_buffer->rx_buffer[8];
-					T_simucam.T_Sub[0].T_data.tag[2] =
-							p_ethernet_buffer->rx_buffer[9];
-					T_simucam.T_Sub[0].T_data.tag[1] =
-							p_ethernet_buffer->rx_buffer[10];
-					T_simucam.T_Sub[0].T_data.tag[0] =
-							p_ethernet_buffer->rx_buffer[11];
+				/*
+				 * Parse nb of imagettes
+				 */
+				T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes =
+						p_ethernet_buffer->rx_buffer[3]
+								+ 256 * p_ethernet_buffer->rx_buffer[2];
 
-					/*
-					 * Parse imagettes
-					 */
-					while (i_nb_imag_ctrl
-							< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+				/*
+				 * Parse TAG
+				 */
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[7] =
+						p_ethernet_buffer->rx_buffer[4];
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[6] =
+						p_ethernet_buffer->rx_buffer[5];
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[5] =
+						p_ethernet_buffer->rx_buffer[6];
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[4] =
+						p_ethernet_buffer->rx_buffer[7];
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[3] =
+						p_ethernet_buffer->rx_buffer[8];
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[2] =
+						p_ethernet_buffer->rx_buffer[9];
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[1] =
+						p_ethernet_buffer->rx_buffer[10];
+				T_simucam.T_Sub[i_channel_wr].T_data.tag[0] =
+						p_ethernet_buffer->rx_buffer[11];
 
-						INT16U i_length;
-						p_imagette_buff = (T_Imagette *)p_imagette_byte;
+				/*
+				 * Parse imagettes
+				 */
+				while (i_nb_imag_ctrl
+						< T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
 
-						rx_code = recv(conn->fd,
-								(char* )p_ethernet_buffer->rx_wr_pos, 6, 0);
-						if (rx_code > 0) {
-							p_ethernet_buffer->rx_rd_pos += rx_code;
-
-							/* Zero terminate so we can use string functions */
-							*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
-						}
-
-						p_imagette_buff->offset =
-								p_ethernet_buffer->rx_buffer[3]
-										+ 256 * p_ethernet_buffer->rx_buffer[2]
-										+ 65536
-												* p_ethernet_buffer->rx_buffer[1]
-										+ 4294967296
-												* p_ethernet_buffer->rx_buffer[0];
-
-						p_imagette_buff->imagette_length =
-								p_ethernet_buffer->rx_buffer[5]
-										+ 256 * p_ethernet_buffer->rx_buffer[4];
-
-						p_imagette_byte += 6;
-
-						rx_code = recv(conn->fd, (char* )p_imagette_byte,
-								p_imagette_buff->imagette_length, 0);
-						if (rx_code > 0) {
-							p_imagette_byte += rx_code;
-							if (((INT32U) p_imagette_byte % 8)) {
-								p_imagette_byte =
-										(INT8U *) (((((INT32U) p_imagette_byte)
-												>> 3) + 1) << 3);
-							}
-						}
-
-#if DEBUG_ON
-						INT8U* p_data = 0;
-						INT8U data;
-						INT32U i;
-						for (i = 0; i < (INT32U) p_imagette_byte; i++) {
-							data = (*p_data);
-							p_data++;
-						}
-#endif
-						i_nb_imag_ctrl++;
-					}
+					INT16U i_length;
+					p_imagette_buff = (T_Imagette *) p_imagette_byte;
 
 					rx_code = recv(conn->fd,
-							(char* )p_ethernet_buffer->rx_wr_pos, 2, 0);
+							(char* )p_ethernet_buffer->rx_wr_pos, 6, 0);
 					if (rx_code > 0) {
 						p_ethernet_buffer->rx_rd_pos += rx_code;
 
@@ -483,15 +439,60 @@ void sss_handle_receive(SSSConn* conn) {
 						*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 					}
 
-					payload.crc = p_ethernet_buffer->rx_buffer[1]
-							+ 256 * p_ethernet_buffer->rx_buffer[0];
+					p_imagette_buff->offset = p_ethernet_buffer->rx_buffer[3]
+							+ 256 * p_ethernet_buffer->rx_buffer[2]
+							+ 65536 * p_ethernet_buffer->rx_buffer[1]
+							+ 4294967296 * p_ethernet_buffer->rx_buffer[0];
 
-					/*
-					 * Prepare ACK statement
-					 */
-					send(conn->fd, payload.data, 2, 0); /* TODO parser ack*/
-					break;
-				} /*Switch end*/
+					p_imagette_buff->imagette_length =
+							p_ethernet_buffer->rx_buffer[5]
+									+ 256 * p_ethernet_buffer->rx_buffer[4];
+
+					p_imagette_byte += 6;
+
+					rx_code = recv(conn->fd, (char* )p_imagette_byte,
+							p_imagette_buff->imagette_length, 0);
+					if (rx_code > 0) {
+						/*
+						 * TODO prepare for fragmented receive
+						 */
+						p_imagette_byte += rx_code;
+						if (((INT32U) p_imagette_byte % 8)) {
+							p_imagette_byte =
+									(INT8U *) (((((INT32U) p_imagette_byte) >> 3)
+											+ 1) << 3);
+						}
+					}
+
+#if DEBUG_ON
+					INT8U* p_data = 0;
+					INT8U data;
+					INT32U i;
+					for (i = 0; i < (INT32U) p_imagette_byte; i++) {
+						data = (*p_data);
+						p_data++;
+					}
+#endif
+					i_nb_imag_ctrl++;
+				}
+
+				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
+						2, 0);
+				if (rx_code > 0) {
+					p_ethernet_buffer->rx_rd_pos += rx_code;
+
+					/* Zero terminate so we can use string functions */
+					*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
+				}
+
+				payload.crc = p_ethernet_buffer->rx_buffer[1]
+						+ 256 * p_ethernet_buffer->rx_buffer[0];
+
+				/*
+				 * Prepare ACK statement
+				 */
+				send(conn->fd, payload.data, 2, 0); /* TODO parser ack*/
+
 #if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]Exit parser\r\n");
 #endif
@@ -591,7 +592,7 @@ void sss_handle_receive(SSSConn* conn) {
 
 		/* Manage buffer */
 
-		//data_used = conn->rx_rd_pos - conn->rx_buffer;
+//data_used = conn->rx_rd_pos - conn->rx_buffer;
 		p_ethernet_buffer->rx_rd_pos = &p_ethernet_buffer->rx_buffer[0];
 		p_ethernet_buffer->rx_wr_pos = &p_ethernet_buffer->rx_buffer[0];
 		memset(p_ethernet_buffer->rx_wr_pos, 0, BUFFER_SIZE);
