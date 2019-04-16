@@ -207,6 +207,7 @@ void sub_unit_control_task() {
 	INT8U exec_error; /*Internal error code for the command module*/
 	INT16U i_imagette_length = 0;
 	INT16U i_dma_counter = 0;
+	INT32U i_mem_pointer_buffer;
 
 	INT8U c_spw_channel = eIdmaCh1Buffer;
 
@@ -305,14 +306,15 @@ void sub_unit_control_task() {
 				T_simucam.T_Sub[0].T_conf.mode = subModetoConfig;
 			}
 
-			T_simucam.T_Sub[0].T_data.p_iterador = (T_Imagette *)T_simucam.T_Sub[0].T_data.addr_init;
+			T_simucam.T_Sub[0].T_data.p_iterador =
+					(T_Imagette *) T_simucam.T_Sub[0].T_data.addr_init;
 
 			while (i_dma_counter < T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
 
 #if DEBUG_ON
 				printf("[SUBUNIT]Printinf offset %i & %x\r\n",
-						(INT32U)T_simucam.T_Sub[0].T_data.p_iterador->offset,
-						(INT32U)T_simucam.T_Sub[0].T_data.p_iterador);
+						(INT32U) T_simucam.T_Sub[0].T_data.p_iterador->offset,
+						(INT32U) T_simucam.T_Sub[0].T_data.p_iterador);
 #endif
 
 				error_code = bIdmaDmaM1Transfer(
@@ -320,9 +322,16 @@ void sub_unit_control_task() {
 						T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
 								+ DMA_OFFSET, 0);
 				if (error_code == TRUE) {
-					T_simucam.T_Sub[0].T_data.p_iterador +=
-							T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+					i_mem_pointer_buffer =
+							(INT32U) T_simucam.T_Sub[0].T_data.p_iterador
+									+ T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
 									+ DMA_OFFSET;
+					if ((i_mem_pointer_buffer % 8)) {
+						i_mem_pointer_buffer = ((((i_mem_pointer_buffer) >> 3)
+								+ 1) << 3);
+					}
+					T_simucam.T_Sub[0].T_data.p_iterador = (T_Imagette *)i_mem_pointer_buffer;
+
 					i_dma_counter++;
 				} else {
 #if DEBUG_ON
