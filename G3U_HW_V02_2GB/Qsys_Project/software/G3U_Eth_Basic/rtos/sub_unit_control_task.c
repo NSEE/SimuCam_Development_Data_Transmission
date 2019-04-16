@@ -27,11 +27,33 @@ int *p_sub_unit_command_queue_tbl[2]; /*Storage for sub_unit queue*/
 INT8U tx_buffer[SSS_TX_BUF_SIZE];
 static INT8U *p_tx_buffer = &tx_buffer[0];
 
+
+/*
+ * Creation of the schedullerQueue
+ */
+OS_EVENT *DMA_sched_queue[2];
+void *DMA1_sched_queue_tbl[DMA_SCHED_BUFFER]; /*Storage for sub_unit queue*/
+void *DMA2_sched_queue_tbl[DMA_SCHED_BUFFER]; /*Storage for sub_unit queue*/
+
 /*
  * Create the sub-unit defined data structures and queues
  */
 void sub_unit_create_os_data_structs(void) {
 	INT8U error_code;
+
+	DMA_sched_queue[0] = OSQCreate(&DMA1_sched_queue_tbl[0],
+	DMA_SCHED_BUFFER);
+	if (!DMA_sched_queue[0]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	DMA_sched_queue[1] = OSQCreate(&DMA2_sched_queue_tbl[0],
+	DMA_SCHED_BUFFER);
+	if (!DMA_sched_queue[1]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+}
 
 	/*
 	 * Create the sub-unit config queue [yb]

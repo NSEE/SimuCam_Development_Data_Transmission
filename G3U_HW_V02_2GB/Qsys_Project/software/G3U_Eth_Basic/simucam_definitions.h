@@ -36,6 +36,7 @@
 #define ECHO_CMD_OVERHEAD	15
 
 #define TELEMETRY_BUFFER_SIZE	300
+#define	DMA_SCHED_BUFFER		128
 
 #define ACK_TYPE				1
 #define ERROR_TYPE				2
