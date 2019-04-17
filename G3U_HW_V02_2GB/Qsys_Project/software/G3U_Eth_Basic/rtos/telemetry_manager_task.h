@@ -29,7 +29,7 @@
 //#include <ucos_ii.h>
 //#include "command_control_task.h"
 #include "sub_unit_control_task.h"
-//#include "simple_socket_server.h"
+#include "simple_socket_server.h"
 
 /*
  ************************************************************************************************

@@ -87,7 +87,7 @@ void SPWATask(void *task_data) {
 	printf("Created \"spw a\" Task (Prio:%d) \n", SPW_A_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xCh[0], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[0]), eDcomSpwCh1);
 
 	while (1) {
 		Set_SpW_Led('A');
@@ -101,7 +101,7 @@ void SPWBTask(void *task_data) {
 	printf("Created \"spw b\" Task (Prio:%d) \n", SPW_B_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xCh[1], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[1]), eDcomSpwCh2);
 
 	while (1) {
 		Set_SpW_Led('B');
@@ -115,7 +115,7 @@ void SPWCTask(void *task_data) {
 	printf("Created \"spw c\" Task (Prio:%d) \n", SPW_C_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xCh[2], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[2]), eDcomSpwCh3);
 
 	while (1) {
 		Set_SpW_Led('C');
@@ -129,7 +129,7 @@ void SPWDTask(void *task_data) {
 	printf("Created \"spw d\" Task (Prio:%d) \n", SPW_D_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xCh[3], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[3]), eDcomSpwCh4);
 
 	while (1) {
 		Set_SpW_Led('D');
@@ -143,7 +143,7 @@ void SPWETask(void *task_data) {
 	printf("Created \"spw e\" Task (Prio:%d) \n", SPW_E_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xCh[4], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[4]), eDcomSpwCh5);
 
 	while (1) {
 		Set_SpW_Led('E');
@@ -157,7 +157,7 @@ void SPWFTask(void *task_data) {
 	printf("Created \"spw f\" Task (Prio:%d) \n", SPW_F_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xCh[5], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[5]), eDcomSpwCh6);
 
 	while (1) {
 		Set_SpW_Led('F');
@@ -171,7 +171,7 @@ void SPWGTask(void *task_data) {
 	printf("Created \"spw g\" Task (Prio:%d) \n", SPW_G_TASK_PRIORITY);
 #endif
 
-	bDcomInitCh(&xCh[6], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[6]), eDcomSpwCh7);
 
 	while (1) {
 		Set_SpW_Led('G');
@@ -186,7 +186,7 @@ void SPWHTask(void *task_data) {
 #endif
 
 
-	bDcomInitCh(&xCh[7], eDcomSpwCh1);
+	bDcomInitCh(&(xCh[7]), eDcomSpwCh8);
 
 	while (1) {
 		Set_SpW_Led('H');
@@ -327,50 +327,50 @@ void Init_Simucam_Tasks(void) {
 void Set_SpW_Led(char c_SpwID) {
 	alt_u32 ui_leds_mask_r = 0;
 	alt_u32 ui_leds_mask_g = 0;
-	TDcomChannel *pxChannel = &xCh[0];
+	TDcomChannel *pxChannel = &(xCh[0]);
 	switch (c_SpwID) {
 	case 'A':
 		ui_leds_mask_r = LEDS_1R_MASK;
 		ui_leds_mask_g = LEDS_1G_MASK;
-		pxChannel = &xCh[0];
+		pxChannel = &(xCh[0]);
 		break;
 	case 'B':
 		ui_leds_mask_r = LEDS_2R_MASK;
 		ui_leds_mask_g = LEDS_2G_MASK;
-		pxChannel = &xCh[1];
+		pxChannel = &(xCh[1]);
 		break;
 	case 'C':
 		ui_leds_mask_r = LEDS_3R_MASK;
 		ui_leds_mask_g = LEDS_3G_MASK;
-		pxChannel = &xCh[2];
+		pxChannel = &(xCh[2]);
 		break;
 	case 'D':
 		ui_leds_mask_r = LEDS_4R_MASK;
 		ui_leds_mask_g = LEDS_4G_MASK;
-		pxChannel = &xCh[3];
+		pxChannel = &(xCh[3]);
 		break;
 	case 'E':
 		ui_leds_mask_r = LEDS_5R_MASK;
 		ui_leds_mask_g = LEDS_5G_MASK;
-		pxChannel = &xCh[4];
+		pxChannel = &(xCh[4]);
 		break;
 	case 'F':
 		ui_leds_mask_r = LEDS_6R_MASK;
 		ui_leds_mask_g = LEDS_6G_MASK;
-		pxChannel = &xCh[5];
+		pxChannel = &(xCh[5]);
 		break;
 	case 'G':
 		ui_leds_mask_r = LEDS_7R_MASK;
 		ui_leds_mask_g = LEDS_7G_MASK;
-		pxChannel = &xCh[6];
+		pxChannel = &(xCh[6]);
 		break;
 	case 'H':
 		ui_leds_mask_r = LEDS_8R_MASK;
 		ui_leds_mask_g = LEDS_8G_MASK;
-		pxChannel = &xCh[7];
+		pxChannel = &(xCh[7]);
 		break;
 	}
-	bSpwcGetLink(&(pxChannel->xSpacewire));
+	bSpwcGetLinkStatus(&(pxChannel->xSpacewire));
 	if (pxChannel->xSpacewire.xLinkStatus.bRunning) {
 		LEDS_PAINEL_DRIVE(LEDS_OFF, ui_leds_mask_r);
 		LEDS_PAINEL_DRIVE(LEDS_ON, ui_leds_mask_g);

@@ -28,6 +28,7 @@ typedef enum {
 	subAccessDMA1,
 	subAccessDMA2,
 	subAbort,
+	subEOT,
 	subChangeMode
 } TSubStates;
 
@@ -70,6 +71,8 @@ typedef struct T_Sub_conf {
 	INT8U echo_sent;
 	INT8U sub_status_sending;
 	INT8U link_status;
+	bool	b_abort;
+	INT16U	i_imagette_control;
 } T_Sub_conf;
 
 typedef struct T_Sub {
@@ -81,7 +84,6 @@ typedef struct T_Simucam_conf {
 	INT8U b_meb_status;
 	INT8U echo_sent;
 	INT8U i_forward_data;
-	INT8U b_abort[8];
 } T_Simucam_conf;
 
 typedef struct T_simucam_status {

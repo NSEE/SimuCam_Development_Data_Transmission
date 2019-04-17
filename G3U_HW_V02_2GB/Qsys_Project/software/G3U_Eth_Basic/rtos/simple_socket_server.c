@@ -50,6 +50,11 @@
  * beginning with "SSS" are declared and created in this file.
  */
 
+#if DEBUG_ON
+typedef struct teste_data {
+	INT8U data[500];
+}T_teste_data;
+#endif
 //_ethernet_payload payload;
 //_ethernet_payload *p_payload = &payload;
 //_ethernet_payload *p_payload;
@@ -67,6 +72,7 @@ struct x_ethernet_payload *p_simucam_command_q_table[3]; /*Storage for SimucamCo
  */
 #define SUB_UNIT_TASK_PRIORITY 9
 OS_STK sub_unit_task_stack[TASK_STACKSIZE];
+OS_STK sub_unit_task_stack_1[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam command management task[yb]
@@ -150,14 +156,28 @@ void SSSCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
+	 * Creating the sub_unit 0 management task [yb]
+	 */
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 0,
+			(void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
+			SUB_UNIT_TASK_PRIORITY,
+			SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
+			TASK_STACKSIZE,
+			NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
+	OSTimeDlyHMSM(0, 0, 1, 0);
+
+	/*
 	 * Creating the sub_unit 1 management task [yb]
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task,
-	NULL, (void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
-	SUB_UNIT_TASK_PRIORITY,
-	SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
-	TASK_STACKSIZE,
-	NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_1, (void *) 1,
+			(void *) &sub_unit_task_stack_1[TASK_STACKSIZE - 1],
+			SUB_UNIT_TASK_PRIORITY+1,
+			SUB_UNIT_TASK_PRIORITY+1, sub_unit_task_stack_1,
+			TASK_STACKSIZE,
+			NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
@@ -179,7 +199,7 @@ void SSSCreateTasks(void) {
 		printf("Error creating mutex\r\n");
 #endif
 	}
-	xMutexDMA[1] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
+	xMutexDMA[1] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE+1, &error_code);
 	if (error_code != OS_ERR_NONE) {
 #if DEBUG_ON
 		printf("Error creating mutex\r\n");
@@ -374,9 +394,6 @@ void sss_handle_receive(SSSConn* conn) {
 						12, 0);
 				if (rx_code > 0) {
 					p_ethernet_buffer->rx_rd_pos += rx_code;
-
-					/* Zero terminate so we can use string functions */
-					*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 				}
 				i_channel_wr = p_ethernet_buffer->rx_buffer[1];
 
@@ -436,7 +453,7 @@ void sss_handle_receive(SSSConn* conn) {
 						p_ethernet_buffer->rx_rd_pos += rx_code;
 
 						/* Zero terminate so we can use string functions */
-						*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
+//						*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 					}
 
 					p_imagette_buff->offset = p_ethernet_buffer->rx_buffer[3]
@@ -450,7 +467,7 @@ void sss_handle_receive(SSSConn* conn) {
 
 					p_imagette_byte += 6;
 
-					rx_code = recv(conn->fd, (char* )p_imagette_byte,
+					rx_code = recv(conn->fd, (void *)p_imagette_byte,
 							p_imagette_buff->imagette_length, 0);
 					if (rx_code > 0) {
 						/*
@@ -465,13 +482,15 @@ void sss_handle_receive(SSSConn* conn) {
 					}
 
 #if DEBUG_ON
-					INT8U* p_data = 0;
-					INT8U data;
-					INT32U i;
-					for (i = 0; i < (INT32U) p_imagette_byte; i++) {
-						data = (*p_data);
-						p_data++;
-					}
+//					INT8U* p_data = (INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
+					T_teste_data *pxTestData = (T_teste_data *)T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
+//					INT8U data[500];
+
+//					INT32U i;
+//					for (i = (INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init; i < (INT32U) p_imagette_byte; i++) {
+//						data = (*p_data);
+//						p_data++;
+//					}
 #endif
 					i_nb_imag_ctrl++;
 				}

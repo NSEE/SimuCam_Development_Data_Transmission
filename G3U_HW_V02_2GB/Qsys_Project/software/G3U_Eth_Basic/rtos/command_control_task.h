@@ -18,6 +18,7 @@
 #include "../simucam_definitions.h"
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/sync/sync.h"
+#include "simple_socket_server.h"
 /*
  * Include configurations for the communication modules [yb]
  */

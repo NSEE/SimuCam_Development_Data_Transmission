@@ -42,6 +42,8 @@
 #define ERROR_TYPE				2
 #define ECHO_TYPE				3
 
+#define NB_CHANNELS				2
+
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 
 #define DMA_OFFSET					6
@@ -73,7 +75,7 @@
  * Priorities definitions
  */
 
-#define PCP_MUTEX_DMA_QUEUE			7
+#define PCP_MUTEX_DMA_QUEUE			6
 
 extern OS_EVENT *xMutexDMA[2];
 

@@ -31,7 +31,6 @@
 //#include "os_cfg.h"
 //#include "os_cpu.h"
 #include "includes.h"
-#include "simple_socket_server.h"
 #include "../alt_error_handler.h"
 #include "../utils/util.h"
 #include "../api_drivers/ddr2/ddr2.h"
@@ -92,7 +91,7 @@ void sub_unit_create_queue(void);
  * SubUnit control queues handles
  */
 
-extern OS_EVENT *p_sub_unit_config_queue;
+//extern OS_EVENT *p_sub_unit_config_queue;
 extern OS_EVENT *p_sub_unit_command_queue;
 extern volatile INT32U i_central_timer_counter;
 extern volatile INT32U i_running_timer_counter;

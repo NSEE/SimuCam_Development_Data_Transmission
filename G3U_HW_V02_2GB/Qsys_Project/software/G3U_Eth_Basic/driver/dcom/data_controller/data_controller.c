@@ -41,8 +41,9 @@ static volatile int viCh6HoldContext;
 static volatile int viCh7HoldContext;
 static volatile int viCh8HoldContext;
 //! [data memory private global variables]
-static 	_ethernet_payload 	xTemp;
-static	sub_config_t		xSubTemp;
+static _ethernet_payload xTemp;
+static sub_config_t xSubTemp;
+
 //! [program memory private global variables]
 //! [program memory private global variables]
 
@@ -55,7 +56,6 @@ void vDctrCh1HandleIrq(void* pvContext) {
 	//*pviHoldContext = ...;
 	// if (*pviHoldContext == '0') {}...
 	// App logic sequence...
-
 	// Get Irq Flags
 	bool bIrqFlags[cucDctrIrqFlagsQtd];
 	vDctrCh1IrqFlag(bIrqFlags);
@@ -64,11 +64,12 @@ void vDctrCh1HandleIrq(void* pvContext) {
 	if (bIrqFlags[eTxEndFlag]) {
 
 		/* Action to perform when Tx end Irq ocurred */
+		T_simucam.T_Sub[0].T_conf.i_imagette_control++;
 
-		if (T_simucam.T_Sub[0].T_data.i_imagette
-				== T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
-			xSubTemp.mode = simAbort;
-			OSQPost(p_sub_unit_config_queue, &xSubTemp);
+		if (T_simucam.T_Sub[0].T_conf.i_imagette_control
+				>= T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+			xSubTemp.mode = subAbort;
+			OSQPost(p_sub_unit_config_queue[0], &xSubTemp);
 		}
 
 		vDctrCh1IrqFlagClr(eTxEndFlag);
@@ -76,10 +77,12 @@ void vDctrCh1HandleIrq(void* pvContext) {
 	if (bIrqFlags[eTxBeginFlag]) {
 
 		/* Action to perform when Tx begin Irq ocurred */
-
-		OSQPost(DMA_sched_queue[0], 0);
-		xTemp.type = simDMA1Sched;
-		OSQPost(p_simucam_command_q, &xTemp);
+		if (T_simucam.T_Sub[0].T_data.i_imagette
+				< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+			OSQPost(DMA_sched_queue[0], 0);
+			xTemp.type = simDMA1Sched;
+			OSQPost(p_simucam_command_q, &xTemp);
+		}
 
 		vDctrCh1IrqFlagClr(eTxBeginFlag);
 	}
@@ -94,7 +97,6 @@ void vDctrCh2HandleIrq(void* pvContext) {
 	//*pviHoldContext = ...;
 	// if (*pviHoldContext == '0') {}...
 	// App logic sequence...
-
 	// Get Irq Flags
 	bool bIrqFlags[cucDctrIrqFlagsQtd];
 	vDctrCh2IrqFlag(bIrqFlags);
@@ -104,11 +106,24 @@ void vDctrCh2HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 
+		T_simucam.T_Sub[1].T_conf.i_imagette_control++;
+		if (T_simucam.T_Sub[1].T_conf.i_imagette_control
+				>= T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
+			xSubTemp.mode = subAbort;
+			OSQPost(p_sub_unit_config_queue[1], &xSubTemp);
+			T_simucam.T_Sub[1].T_conf.i_imagette_control = 0;
+		}
 		vDctrCh2IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
 
 		/* Action to perform when Tx begin Irq ocurred */
+		if (T_simucam.T_Sub[1].T_data.i_imagette
+				< T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
+			OSQPost(DMA_sched_queue[0], 1);
+			xTemp.type = simDMA1Sched;
+			OSQPost(p_simucam_command_q, &xTemp);
+		}
 
 		vDctrCh2IrqFlagClr(eTxBeginFlag);
 	}
