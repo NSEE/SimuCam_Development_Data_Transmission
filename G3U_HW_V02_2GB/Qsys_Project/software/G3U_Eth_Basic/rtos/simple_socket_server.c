@@ -56,7 +56,7 @@
 #if DEBUG_ON
 typedef struct teste_data {
 	INT8U data[500];
-} T_teste_data;
+}T_teste_data;
 #endif
 //_ethernet_payload payload;
 //_ethernet_payload *p_payload = &payload;
@@ -78,6 +78,7 @@ OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_1[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_2[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_3[TASK_STACKSIZE];
+//OS_STK sub_unit_task_stack_4[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam command management task[yb]
@@ -211,6 +212,18 @@ void SSSCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
+	 * Creating the sub_unit 4 management task [yb]
+	 */
+//	error_code = OSTaskCreateExt(sub_unit_control_task_4, (void *) 4,
+//			(void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
+//			SUB_UNIT_TASK_PRIORITY + 4,
+//			SUB_UNIT_TASK_PRIORITY + 4, sub_unit_task_stack_4,
+//			TASK_STACKSIZE,
+//			NULL, 0);
+//
+//	alt_uCOSIIErrorHandler(error_code, 0);
+
+	/*
 	 * Creating the telemtry management task [yb]
 	 */
 	error_code = OSTaskCreateExt(telemetry_manager_task,
@@ -320,8 +333,7 @@ void sss_handle_accept(int listen_socket, SSSConn* conn) {
  * associated pointers.
  */
 void sss_handle_receive(SSSConn* conn) {
-	int data_used = 0, rx_code = 0;
-	char *lf_addr;
+	int rx_code = 0;
 
 	int i = 0;
 	INT8U error_code = 0;
@@ -334,12 +346,8 @@ void sss_handle_receive(SSSConn* conn) {
 	static _ethernet_payload payload;
 	INT8U i_channel_wr = 0;
 
-//	p_ethernet_buffer = (struct p_ethernet_buffer *) Ddr2Base_eth_buffer;
-
 	p_ethernet_buffer->rx_rd_pos = p_ethernet_buffer->rx_buffer;
 	p_ethernet_buffer->rx_wr_pos = p_ethernet_buffer->rx_buffer;
-
-//	static struct _ethernet_payload *p_payload;
 
 	conn->rx_rd_pos = conn->rx_buffer;
 	conn->rx_wr_pos = conn->rx_buffer;
@@ -349,10 +357,6 @@ void sss_handle_receive(SSSConn* conn) {
 #endif
 
 	while (conn->state != CLOSE) {
-
-//		printf(
-//				"[sss_handle_receive DEBUG]Comeco::rx_rd_pos: %x \r\nrx_wr_pos: %x\r\n",
-//				p_ethernet_buffer->rx_rd_pos, p_ethernet_buffer->rx_wr_pos);
 
 #if DEBUG_ON
 		printf("[sss_handle_receive DEBUG]Waiting transmission...\n");
@@ -473,16 +477,16 @@ void sss_handle_receive(SSSConn* conn) {
 				while (i_nb_imag_ctrl
 						< T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
 
-					INT16U i_length;
 					p_imagette_buff = (T_Imagette *) p_imagette_byte;
 
+					/*
+					 * Receive 6 bytes for offset and length
+					 */
 					rx_code = recv(conn->fd,
 							(char* )p_ethernet_buffer->rx_wr_pos, 6, 0);
 					if (rx_code > 0) {
 						p_ethernet_buffer->rx_rd_pos += rx_code;
 
-						/* Zero terminate so we can use string functions */
-//						*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 					}
 
 					p_imagette_buff->offset = p_ethernet_buffer->rx_buffer[3]
@@ -511,16 +515,8 @@ void sss_handle_receive(SSSConn* conn) {
 					}
 
 #if DEBUG_ON
-//					INT8U* p_data = (INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
 					T_teste_data *pxTestData =
-							(T_teste_data *) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
-//					INT8U data[500];
-
-//					INT32U i;
-//					for (i = (INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init; i < (INT32U) p_imagette_byte; i++) {
-//						data = (*p_data);
-//						p_data++;
-//					}
+					(T_teste_data *) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
 #endif
 					i_nb_imag_ctrl++;
 				}
@@ -539,8 +535,31 @@ void sss_handle_receive(SSSConn* conn) {
 
 				/*
 				 * Prepare ACK statement
+				 * TODO use ack function
 				 */
-				send(conn->fd, payload.data, 2, 0); /* TODO parser ack*/
+
+				INT8U ack[14];
+				INT8U nb_id = i_id_accum;
+				INT8U nb_id_pkt = payload.packet_id;
+
+				ack[0] = 2;
+				ack[2] = div(nb_id, 256).rem;
+				nb_id = div(nb_id, 256).quot;
+				ack[1] = div(nb_id, 256).rem;
+				ack[3] = 201;
+				ack[4] = 0;
+				ack[5] = 0;
+				ack[6] = 0;
+				ack[7] = 14;
+				ack[9] = div(nb_id_pkt, 256).rem;
+				nb_id_pkt = div(nb_id_pkt, 256).quot;
+				ack[8] = div(nb_id_pkt, 256).rem;
+				ack[10] = payload.type;
+				ack[11] = 0;
+				ack[12] = 0;
+				ack[13] = 89;
+
+				send(conn->fd, ack, 14, 0); /* TODO parser ack*/
 
 #if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]Exit parser\r\n");
@@ -587,7 +606,7 @@ void sss_handle_receive(SSSConn* conn) {
 				printf("\r\n");
 				printf(
 						"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
-								"Type: %i\r\n", (int) payload.header,
+						"Type: %i\r\n", (int) payload.header,
 						(int) payload.packet_id, (int) payload.type);
 
 #endif
@@ -606,12 +625,7 @@ void sss_handle_receive(SSSConn* conn) {
 #if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
 						(INT16U) calculated_crc);
-#endif
 
-//		printf("[sss_handle_receive DEBUG]Print received data bytes 0: %i\n",
-//				(INT8U) p_payload->data[0]);
-
-#if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]finished receiving\n");
 #endif
 
@@ -620,13 +634,7 @@ void sss_handle_receive(SSSConn* conn) {
 #if DEBUG_ON
 				printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
 #endif
-
-//				OSQPend(p_simucam_command_q, 0, &error_code);
-//				alt_SSSErrorHandler(error_code, 0);
-//
-//				send(conn->fd, payload.data, payload.size, 0);
 			}
-//			printf("[sss_handle_receive DEBUG]Returned from function\n");
 		}
 
 		/*
@@ -641,7 +649,6 @@ void sss_handle_receive(SSSConn* conn) {
 
 		/* Manage buffer */
 
-//data_used = conn->rx_rd_pos - conn->rx_buffer;
 		p_ethernet_buffer->rx_rd_pos = &p_ethernet_buffer->rx_buffer[0];
 		p_ethernet_buffer->rx_wr_pos = &p_ethernet_buffer->rx_buffer[0];
 		memset(p_ethernet_buffer->rx_wr_pos, 0, BUFFER_SIZE);

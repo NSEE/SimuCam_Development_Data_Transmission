@@ -178,19 +178,19 @@ bool vLoadDefaultETHConf( void ){
 	}
 	/* Load the default configuration if not successful in read the SDCard */
 	if ( bSuccess == FALSE ) {
-		xConfEth.siPort = 17000;
+		xConfEth.siPort = 30;
 		/*ucIP[0].ucIP[1].ucIP[2].ucIP[3]
 		 *192.168.0.5*/
-		xConfEth.ucIP[0] = 192;
-		xConfEth.ucIP[1] = 168;
-		xConfEth.ucIP[2] = 0;
-		xConfEth.ucIP[3] = 5;
+		xConfEth.ucIP[0] = 10;
+		xConfEth.ucIP[1] = 9;
+		xConfEth.ucIP[2] = 11;
+		xConfEth.ucIP[3] = 216;
 
 		/*ucGTW[0].ucGTW[1].ucGTW[2].ucGTW[3]
 		 *192.168.0.1*/
-		xConfEth.ucGTW[0] = 192;
-		xConfEth.ucGTW[1] = 168;
-		xConfEth.ucGTW[2] = 0;
+		xConfEth.ucGTW[0] = 10;
+		xConfEth.ucGTW[1] = 9;
+		xConfEth.ucGTW[2] = 11;
 		xConfEth.ucGTW[3] = 1;
 
 		/*ucSubNet[0].ucSubNet[1].ucSubNet[2].ucSubNet[3]

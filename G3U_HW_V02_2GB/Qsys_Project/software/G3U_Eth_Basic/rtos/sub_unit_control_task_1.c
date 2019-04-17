@@ -39,7 +39,6 @@ void sub_unit_control_task_1(void *task_data) {
 		switch (T_simucam.T_Sub[c_spw_channel].T_conf.mode) {
 
 		case subModeInit:
-			printf("[SUBUNIT]Sub-unit init\r\n");
 			/*
 			 * Default subUnit config
 			 */
@@ -69,7 +68,6 @@ void sub_unit_control_task_1(void *task_data) {
 			break;
 
 		case subModetoConfig:
-			printf("[SUBUNIT]Sub-unit toConfig\r\n");
 
 			/*
 			 * Stop timer for ChA
@@ -91,11 +89,9 @@ void sub_unit_control_task_1(void *task_data) {
 			break;
 
 		case subModeConfig:
-			printf("[SUBUNIT]Sub-unit config\r\n");
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
 			if (error_code == OS_ERR_NONE) {
-				printf("[SUBUNIT]OK Pend\r\n");
 
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = p_config->mode;
 				T_simucam.T_Sub[c_spw_channel].T_conf.RMAP_handling =
@@ -169,7 +165,7 @@ void sub_unit_control_task_1(void *task_data) {
 #endif
 					if (uiDatbGetBuffersFreeSpace(
 							&(xCh[c_spw_channel].xDataBuffer))
-							>= (T_simucam.T_Sub[0].T_data.p_iterador->imagette_length
+							>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 									+ DMA_OFFSET)) {
 						if (((unsigned char) c_spw_channel / 4) == 0) {
 							bDdr2SwitchMemory(DDR2_M1_ID);
@@ -395,7 +391,9 @@ void sub_unit_control_task_1(void *task_data) {
 			}
 			break;
 		default:
+#if DEBUG_ON
 			printf("[SUBUNIT]Sub-unit default error!\r\n");
+#endif
 			break;
 		}
 	}

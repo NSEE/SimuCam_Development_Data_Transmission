@@ -33,16 +33,16 @@
 
 #define DEBUG_ON 0
 
-#define ECHO_CMD_OVERHEAD	15
+#define ECHO_CMD_OVERHEAD			15
 
-#define TELEMETRY_BUFFER_SIZE	300
-#define	DMA_SCHED_BUFFER		128
+#define TELEMETRY_BUFFER_SIZE		300
+#define	DMA_SCHED_BUFFER			128
 
-#define ACK_TYPE				1
-#define ERROR_TYPE				2
-#define ECHO_TYPE				3
+#define ACK_TYPE					1
+#define ERROR_TYPE					2
+#define ECHO_TYPE					3
 
-#define NB_CHANNELS				4
+#define NB_CHANNELS					5
 
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 

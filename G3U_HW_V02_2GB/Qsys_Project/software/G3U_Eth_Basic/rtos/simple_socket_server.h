@@ -224,7 +224,7 @@ void SimucamCreateOSQ();
 extern OS_EVENT *SimucamDataQ;
 extern OS_EVENT *p_simucam_command_q;
 extern OS_EVENT *p_telemetry_queue;
-
+extern INT16U i_id_accum;
 extern SSSConn conn;
 extern T_Simucam T_simucam;
 
