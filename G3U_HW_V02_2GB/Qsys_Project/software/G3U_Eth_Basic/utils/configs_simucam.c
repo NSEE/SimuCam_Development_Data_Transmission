@@ -44,10 +44,8 @@ bool vLoadDefaultETHConf( void ){
 						break;
 					case -2: 	//EOF
 						#if DEBUG_ON
-						if ( xDefaults.usiDebugLevel <= dlCriticalOnly ) {
 							printf("SDCard: Problem with SDCard");
-						}
-						#endif
+							#endif
 						bEOF = TRUE;
 						break;
 					case 0x20: 	//ASCII: 0x20 = space
@@ -154,9 +152,7 @@ bool vLoadDefaultETHConf( void ){
 						close = siCloseFile(siFile);
 						if (close == FALSE){
 							#if DEBUG_ON
-							if ( xDefaults.usiDebugLevel <= dlCriticalOnly ) {
 								printf("SDCard: Can't close the file.\n");
-							}
 							#endif
 						}
 						/* End of Parser File */
@@ -165,25 +161,19 @@ bool vLoadDefaultETHConf( void ){
 						break;
 					default:
 						#if DEBUG_ON
-						if ( xDefaults.usiDebugLevel <= dlCriticalOnly ) {
 							printf("SDCard: Problem with the parser.\n");
-						}
 						#endif
 						break;
 				}
 			} while ( bEOF == FALSE );
 		} else {
 			#if DEBUG_ON
-			if ( xDefaults.usiDebugLevel <= dlCriticalOnly ) {
 				printf("SDCard: File not found.\n");
-			}
 			#endif
 		}
 	} else {
 		#if DEBUG_ON
-		if ( xDefaults.usiDebugLevel <= dlCriticalOnly ) {
 			printf("SDCard: No SDCard.\n");
-		}
 		#endif
 	}
 	/* Load the default configuration if not successful in read the SDCard */
@@ -237,8 +227,6 @@ bool vLoadDefaultETHConf( void ){
 		printf("GTW: %i . %i . %i . %i \n",xConfEth.ucGTW[0], xConfEth.ucGTW[1], xConfEth.ucGTW[2], xConfEth.ucGTW[3] );
 
 		printf("Sub: %i . %i . %i . %i \n",xConfEth.ucSubNet[0], xConfEth.ucSubNet[1], xConfEth.ucSubNet[2], xConfEth.ucSubNet[3] );
-
-		printf("DNS: %i . %i . %i . %i \n",xConfEth.ucDNS[0], xConfEth.ucDNS[1], xConfEth.ucDNS[2], xConfEth.ucDNS[3] );
 
 		printf("Server Port: %i\n", xConfEth.siPort );
 

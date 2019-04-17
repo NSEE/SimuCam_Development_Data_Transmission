@@ -38,7 +38,7 @@
 #include "rtos/default_configs.h"
 #include "rtos/rtos_tasks.h"
 
-#include "utils/configs_simucam.h"
+//#include "utils/configs_simucam.h"
 
 /* Definition of task stack for the initial task which will initialize the NicheStack
  * TCP/IP Stack and then initialize the rest of the Simple Socket Server example tasks. 
@@ -139,6 +139,7 @@ int main (int argc, char* argv[], char* envp[])
   /*
    * Load ETH Configurations from SD Card
    */
+  bInitializeSDCard();
   vLoadDefaultETHConf();
 
   /* SSSInitialTask will initialize the NicheStack
