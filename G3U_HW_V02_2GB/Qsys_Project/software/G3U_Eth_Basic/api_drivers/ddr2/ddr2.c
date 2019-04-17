@@ -508,7 +508,10 @@ bool bDdr2MemoryWriteTest(alt_u8 ucMemoryId) {
 	int iNProgressIndex = 0;
 	alt_u32 uliInitValue;
 	alt_u32 uliSZProgress[10];
+
+#if DEBUG_ON
 	int iTimeStart, iTimeElapsed = 0;
+#endif
 
 	for (iI = 0; iI < 10; iI++) {
 		uliSZProgress[iI] = uliByteLen / 10 * (iI + 1);
@@ -530,8 +533,8 @@ bool bDdr2MemoryWriteTest(alt_u8 ucMemoryId) {
 #if DEBUG_ON
 	sprintf(cDebugBuffer, "Writing data...\n");
 	//debug(fp, cDebugBuffer);
-#endif
 	iTimeStart = alt_nticks();
+#endif
 	pxDes = (TMyData *) uliDdr2Base;
 	iNAccessLen = sizeof(xSZData);
 	iNItemNum = iNAccessLen / ciMyDataSize;
@@ -557,23 +560,17 @@ bool bDdr2MemoryWriteTest(alt_u8 ucMemoryId) {
 #if DEBUG_ON
 	sprintf(cDebugBuffer, "\n");
 	//debug(fp, cDebugBuffer);
-#endif
 
 	iTimeElapsed = alt_nticks() - iTimeStart;
 	if (bSuccess) {
-#if DEBUG_ON
 		sprintf(cDebugBuffer,
 				"DDR2 write test pass, size=%lu bytes, %.3f sec\n", uliByteLen,
 				(float) iTimeElapsed / (float) alt_ticks_per_second());
 		//debug(fp, cDebugBuffer);
-#endif
 	} else {
-#if DEBUG_ON
 		sprintf(cDebugBuffer, "DDR2 write test fail\n");
 		//debug(fp, cDebugBuffer);
-#endif
 	}
-#if DEBUG_ON
 	sprintf(cDebugBuffer, "\n");
 	//debug(fp, cDebugBuffer);
 #endif
@@ -640,7 +637,9 @@ bool bDdr2MemoryReadTest(alt_u8 ucMemoryId) {
 	iNAccessLen = iNItemNum * ciMyDataSize;
 	int iNProgressIndex = 0;
 	alt_u32 uliSZProgress[10];
+#if DEBUG_ON
 	int iTimeStart, iTimeElapsed = 0;
+#endif
 
 	for (iI = 0; iI < 10; iI++) {
 		uliSZProgress[iI] = uliByteLen / 10 * (iI + 1);
@@ -650,8 +649,8 @@ bool bDdr2MemoryReadTest(alt_u8 ucMemoryId) {
 #if DEBUG_ON
 	sprintf(cDebugBuffer, "Reading/Verifying Data...\n");
 	//debug(fp, cDebugBuffer);
-#endif
 	iTimeStart = alt_nticks();
+#endif
 
 	pxSrc = (TMyData *) uliDdr2Base;
 	iNAccessLen = sizeof(xSZData);
@@ -688,23 +687,17 @@ bool bDdr2MemoryReadTest(alt_u8 ucMemoryId) {
 #if DEBUG_ON
 	sprintf(cDebugBuffer, "\n");
 	//debug(fp, cDebugBuffer);
-#endif
 
 	iTimeElapsed = alt_nticks() - iTimeStart;
 	if (bSuccess) {
-#if DEBUG_ON
 		sprintf(cDebugBuffer, "DDR2 read test pass, size=%ld bytes, %.3f sec\n",
 				uliByteLen,
 				(float) iTimeElapsed / (float) alt_ticks_per_second());
 		//debug(fp, cDebugBuffer);
-#endif
 	} else {
-#if DEBUG_ON
 		sprintf(cDebugBuffer, "DDR2 read test fail\n");
 		//debug(fp, cDebugBuffer);
-#endif
 	}
-#if DEBUG_ON
 	sprintf(cDebugBuffer, "\n");
 	//debug(fp, cDebugBuffer);
 #endif
@@ -786,9 +779,11 @@ bool bDdr2MemoryRandomWriteTest(alt_u8 ucMemoryId, bool bVerbose, bool bTime) {
 		//debug(fp, cDebugBuffer);
 #endif
 	}
+#if DEBUG_ON
 	int TimeStart, TimeElapsed = 0;
 
 	TimeStart = alt_nticks();
+#endif
 	for (puliDestination = (alt_u32*) uliDdr2Base;
 			(alt_u32) puliDestination < uliMemoryEndAddress;
 			puliDestination++) {
@@ -813,8 +808,8 @@ bool bDdr2MemoryRandomWriteTest(alt_u8 ucMemoryId, bool bVerbose, bool bTime) {
 
 	if (bSuccess) {
 		if (bTime == TRUE) {
-			TimeElapsed = alt_nticks() - TimeStart;
 #if DEBUG_ON
+			TimeElapsed = alt_nticks() - TimeStart;
 			sprintf(cDebugBuffer,
 					"DDR2 write test pass, size=%ld bytes, %.3f sec\n",
 					uliByteLen,
@@ -916,9 +911,11 @@ bool bDdr2MemoryRandomReadTest(alt_u8 ucMemoryId, bool bVerbose, bool bTime) {
 #endif
 	}
 
+#if DEBUG_ON
 	int TimeStart, TimeElapsed = 0;
 
 	TimeStart = alt_nticks();
+#endif
 	for (puliSource = (alt_u32*) uliDdr2Base;
 			(alt_u32) puliSource < uliMemoryEndAddress; puliSource++) {
 		if (uliXorshift32(&uliCurrentState) != *puliSource) {
@@ -950,8 +947,8 @@ bool bDdr2MemoryRandomReadTest(alt_u8 ucMemoryId, bool bVerbose, bool bTime) {
 
 	if (bSuccess) {
 		if (bTime == TRUE) {
-			TimeElapsed = alt_nticks() - TimeStart;
 #if DEBUG_ON
+			TimeElapsed = alt_nticks() - TimeStart;
 			sprintf(cDebugBuffer,
 					"DDR2 read test pass, size=%lu bytes, %.3f sec\n",
 					uliByteLen,

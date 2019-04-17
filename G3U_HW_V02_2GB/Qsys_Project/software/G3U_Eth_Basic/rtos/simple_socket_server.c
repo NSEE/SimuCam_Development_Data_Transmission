@@ -41,6 +41,9 @@
 
 #include "tasks_init.h"
 
+/* Include to get the ETH Configs from the SimuCam */
+#include "../utils/configs_simucam.h"
+
 /*sub-unit definitions*/
 //#include "sub_unit_control_task.h"
 /* Command control definitions*/
@@ -669,7 +672,7 @@ void SSSSimpleSocketServerTask() {
 	 * the port we're requesting.
 	 */
 	addr.sin_family = AF_INET;
-	addr.sin_port = htons(SSS_PORT);
+	addr.sin_port = htons(xConfEth.siPort);
 	addr.sin_addr.s_addr = INADDR_ANY;
 
 	if ((bind(fd_listen, (struct sockaddr * )&addr, sizeof(addr))) < 0) {
@@ -694,7 +697,7 @@ void SSSSimpleSocketServerTask() {
 	sss_reset_connection(&conn);
 #if DEBUG_ON
 	printf("[sss_task] Simple Socket Server listening on port %d\n",
-	SSS_PORT);
+			xConfEth.siPort);
 #endif
 
 	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_ST_1_MASK);

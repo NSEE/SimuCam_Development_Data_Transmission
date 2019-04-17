@@ -170,4 +170,6 @@ typedef enum { dlFullMessage = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorM
 //    extern FILE* fp;
 //#endif
 
+#define min_sim( x , y ) ((x < y) ? x : y)
+
 #endif /* SIMUCAM_DEFINITIONS_H_ */

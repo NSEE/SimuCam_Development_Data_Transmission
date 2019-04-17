@@ -33,8 +33,8 @@ TDcomChannel xCh[8];
 alt_u8 error_code = 0;
 
 /* Log Variables */
-alt_8 tempFPGA = 0;
-alt_8 tempBoard = 0;
+alt_u8 tempFPGA = 0;
+alt_u8 tempBoard = 0;
 
 /* DMA Variables*/
 alt_msgdma_dev *DMADev = NULL;
