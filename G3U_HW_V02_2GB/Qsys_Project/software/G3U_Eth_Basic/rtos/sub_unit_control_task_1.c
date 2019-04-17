@@ -157,7 +157,10 @@ void sub_unit_control_task_1(void *task_data) {
 				/*
 				 * TODO change to append all of the buffer
 				 */
-				while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < 2) {
+				OSMutexPend(xMutexDMA[(unsigned char) c_spw_channel / 4], 0,
+						&error_code);
+				while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
+						< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 
 #if DEBUG_ON
 					printf("[SUBUNIT]Printinf offset %i & %x\r\n",
@@ -173,11 +176,18 @@ void sub_unit_control_task_1(void *task_data) {
 						} else {
 							bDdr2SwitchMemory(DDR2_M2_ID);
 						}
+
+						if (error_code != OS_NO_ERR) {
+#if DEBUG_ON
+							printf("[SUBUNIT] Mutex error.");
+#endif
+						}
 						error_code =
 								bIdmaDmaM1Transfer(
 										(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
 										T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 												+ DMA_OFFSET, c_spw_channel);
+
 						if (error_code == TRUE) {
 							i_mem_pointer_buffer =
 									(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
@@ -205,6 +215,7 @@ void sub_unit_control_task_1(void *task_data) {
 					}
 
 				}
+				OSMutexPost(xMutexDMA[(unsigned char) c_spw_channel / 4]);
 
 				/*
 				 * init SpW links
@@ -287,6 +298,12 @@ void sub_unit_control_task_1(void *task_data) {
 								&(xCh[c_spw_channel].xDataBuffer))
 								>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 										+ DMA_OFFSET)) {
+							if (((unsigned char) c_spw_channel / 4) == 0) {
+								bDdr2SwitchMemory(DDR2_M1_ID);
+							} else {
+								bDdr2SwitchMemory(DDR2_M2_ID);
+							}
+
 							error_code =
 									bIdmaDmaM1Transfer(
 											(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
@@ -351,7 +368,7 @@ void sub_unit_control_task_1(void *task_data) {
 					 */
 				case subAbort:
 					T_simucam.T_Sub[c_spw_channel].T_conf.b_abort = false;
-					case subEOT:
+				case subEOT:
 #if DEBUG_ON
 					printf("[SUBUNIT]Sub Abort\r\n");
 #endif

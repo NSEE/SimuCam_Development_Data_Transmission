@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Sun Apr 14 10:48:01 BRT 2019
+ * Generated: Wed Apr 17 02:02:14 BRT 2019
  */
 
 /*
@@ -1620,7 +1620,7 @@
 #define OS_MAX_FLAGS 20
 #define OS_MAX_MEM_PART 60
 #define OS_MAX_QS 20
-#define OS_MAX_TASKS 20
+#define OS_MAX_TASKS 30
 #define OS_MBOX_ACCEPT_EN 1
 #define OS_MBOX_DEL_EN 1
 #define OS_MBOX_EN 1

@@ -176,6 +176,12 @@ C_SRCS += driver/dcom/data_scheduler/data_scheduler.c
 C_SRCS += driver/dcom/spw_controller/spw_controller.c
 C_SRCS += driver/sync/sync.c
 C_SRCS += rtos/sub_unit_control_task_1.c
+C_SRCS += rtos/sub_unit_control_task_2.c
+C_SRCS += rtos/sub_unit_control_task_3.c
+C_SRCS += rtos/sub_unit_control_task_4.c
+C_SRCS += rtos/sub_unit_control_task_5.c
+C_SRCS += rtos/sub_unit_control_task_6.c
+C_SRCS += rtos/sub_unit_control_task_7.c
 CXX_SRCS :=
 ASM_SRCS :=
 

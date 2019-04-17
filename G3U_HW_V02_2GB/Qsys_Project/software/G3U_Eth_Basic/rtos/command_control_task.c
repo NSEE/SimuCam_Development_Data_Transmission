@@ -529,6 +529,8 @@ void CommandManagementTask() {
 
 	T_simucam.T_Sub[0].T_data.addr_init = DDR2_BASE_ADDR_DATASET_1;
 	T_simucam.T_Sub[1].T_data.addr_init = DDR2_BASE_ADDR_DATASET_2;
+	T_simucam.T_Sub[2].T_data.addr_init = DDR2_BASE_ADDR_DATASET_3;
+	T_simucam.T_Sub[3].T_data.addr_init = DDR2_BASE_ADDR_DATASET_4;
 
 //	Ddr2Base = DDR2_BASE_ADDR_DATASET_1;
 //	p_imagette_A[0] = (struct x_imagette *) Ddr2Base;
@@ -558,6 +560,8 @@ void CommandManagementTask() {
 	bSyncCtrReset();
 	bSyncCtrCh1OutEnable(TRUE);
 	bSyncCtrCh2OutEnable(TRUE);
+	bSyncCtrCh3OutEnable(TRUE);
+	bSyncCtrCh4OutEnable(TRUE);
 
 	T_simucam.T_status.simucam_mode = simModeInit;
 	/*
@@ -692,14 +696,15 @@ void CommandManagementTask() {
 			if (p_payload->data[0] == 1) {
 
 				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+
 					sub_config_send[i_channel_for].mode = subModetoRun;
-					T_simucam.T_status.simucam_mode = simModetoRun;
 					printf("[CommandManagementTask]Before post\r\n");
 					error_code = (INT8U) OSQPost(
 							p_sub_unit_config_queue[i_channel_for],
 							&sub_config_send[i_channel_for]);
 					alt_SSSErrorHandler(error_code, 0);
 				}
+				T_simucam.T_status.simucam_mode = simModetoRun;
 			}
 
 #if DEBUG_ON

@@ -31,7 +31,7 @@
  ************************************************************************************************
  */
 
-#define DEBUG_ON 1
+#define DEBUG_ON 0
 
 #define ECHO_CMD_OVERHEAD	15
 
@@ -42,7 +42,7 @@
 #define ERROR_TYPE				2
 #define ECHO_TYPE				3
 
-#define NB_CHANNELS				2
+#define NB_CHANNELS				4
 
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 
@@ -56,8 +56,11 @@
 
 #define DMA_DEV						0
 
-#define DDR2_BASE_ADDR_DATASET_1	0x0
-#define DDR2_BASE_ADDR_DATASET_2	0x40000000	/* 1Gb space for dataset 1 */
+#define DDR2_BASE_ADDR_DATASET_1	0x00000000
+#define DDR2_BASE_ADDR_DATASET_2	0x20000000	/* 512Mb space for dataset 1 */
+#define	DDR2_BASE_ADDR_DATASET_3	0x40000000
+#define	DDR2_BASE_ADDR_DATASET_4	0x60000000
+
 #define TIMER_CLOCK_DIV_1MS			99999		/*Timer div for 1ms clock*/
 
 /*
