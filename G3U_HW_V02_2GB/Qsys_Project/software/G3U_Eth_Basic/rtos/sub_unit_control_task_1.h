@@ -74,12 +74,6 @@ INT16U i_imagette_number;
 
 void sub_unit_control_task_1(void *task_data);
 
-/*
- * Sub-Unit semaphores declaration
- */
-
-OS_EVENT *sub_unit_command_semaphore;
-
 extern T_Simucam T_simucam;
 
 #endif /* SUB_UNIT_CONTROL_TASK_1_H_ */

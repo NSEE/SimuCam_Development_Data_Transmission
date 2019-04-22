@@ -16,20 +16,10 @@
 
 #include "command_control_task.h"
 
-//sub_config_t config_send_A;
-//sub_config_t config_send_B;
-
 sub_config_t sub_config_send[8];
 
 Timagette_control img_struct;
 Timagette_control *p_img_control;
-
-INT8U b_meb_status = 0; //default starting mode is config
-INT8U i_forward_data = 0;
-INT8U i_echo_sent_data = 0;
-
-//INT32U i_imagette_counter_CC = 0;
-volatile INT32U i_total_imagette_counter = 0;
 
 INT8U data[MAX_IMAGETTES];
 INT8U *p_data_pos = &data[0];
@@ -41,8 +31,6 @@ INT8U exec_error;
 
 INT16U i_id_accum = 1;
 
-INT8U tx_buffer_CC[SSS_TX_BUF_SIZE];
-INT8U *p_tx_buffer = &tx_buffer_CC[0];
 
 int abort_flag = 1;
 int i_return_config_flag = 2;
@@ -110,10 +98,11 @@ T_Simucam T_simucam;
 //	printf("\r\n");
 //#endif
 //}
+
 /**
  * @name i_echo_dataset_direct_send
  * @brief Send direct-send echo
- * @ingroup UTIL
+ * @ingroup command_control_task
  *
  *
  * @param 	[in] 	x_ethernet_payload 	*Imagette
@@ -136,7 +125,7 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
 
 	tx_buffer[0] = 2;
 	tx_buffer[1] = 0;
-	tx_buffer[2] = i_id_accum;
+//	tx_buffer[2] = T_simucam.T_status.TM_id;
 	tx_buffer[3] = 203;
 
 //	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, p_buffer_size);
@@ -180,7 +169,7 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
 	crc = div(crc, 256).quot;
 	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc, 256).rem;
 
-	i_id_accum++;
+	T_simucam.T_status.TM_id++;
 
 #if DEBUG_ON
 	printf("[Echo DEBUG]Printing buffer = ");
@@ -208,7 +197,7 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
  **/
 void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 
-	INT16U nb_id = i_id_accum;
+	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_id_pkt = p_error_response->packet_id;
 	INT8U ack_buffer[64];
 	INT32U ack_size = 14;
@@ -248,18 +237,21 @@ void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 
 	send(conn.fd, ack_buffer, ack_size, 0);
 
-	i_id_accum++;
+	T_simucam.T_status.TM_id++;
 }
+/*
+ * TODO remove pointer ref
+ */
 
 void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
 	INT16U crc;
-	INT16U nb_id = i_id_accum;
-	INT16U nb_counter_total = i_total_imagette_counter;
-	INT16U nb_counter_current = i_imagette_counter;
-	INT16U nb_counter_left = p_img_control->nb_of_imagettes
-			- i_imagette_counter;
+	INT16U nb_id = T_simucam.T_status.TM_id;
+	INT16U nb_counter_total = T_simucam.T_status.simucam_total_imagettes_sent;
+	INT16U nb_counter_current =
+			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
+	INT16U nb_counter_left = nb_counter_total - nb_counter_current;
 
 	p_HK->data[0] = 2;
 
@@ -276,7 +268,7 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	p_HK->data[6] = 0;
 	p_HK->data[7] = 30;
 	p_HK->data[8] = chann_buff; /**channel*/
-	p_HK->data[9] = b_meb_status; /**meb mode*/
+	p_HK->data[9] = T_simucam.T_status.simucam_mode; /**meb mode*/
 	p_HK->data[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
 	p_HK->data[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; /**sub_config_linkstatus*/
 	p_HK->data[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; /**sub_config_linkspeed*/
@@ -322,6 +314,11 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	crc = div(crc, 256).quot;
 	p_HK->data[28] = div(crc, 256).rem;
 
+	/*
+	 * TODO ack
+	 */
+	T_simucam.T_status.TM_id++;
+
 }
 /**
  * @name i_compute_size
@@ -345,165 +342,19 @@ INT32U i_compute_size(INT8U *p_length) {
 	return size;
 }
 
-/**
- * @name v_parse_data
- * @brief Parses the payload to a struct useable to command
- * @ingroup UTIL
- *
- * This routine parses the payload to get the delay times and imagettes. It's used by the
- * command control and sub-units to prepare the SpW links. The imagette and delay sizes in
- * bytes can be changed accordingly in the header file.
- *
- * @param 	[in] 	*_ethernet_payload Payload Struct
- * @param	[in]	*_imagette_control Control struct to receive the data
- *
- * @retval int	9 if error, 1 if no error
- **/
-
-//int v_parse_data_teste(struct x_ethernet_payload *p_payload_rcv,
-//		Timagette_control *p_img_ctrl, x_imagette *dataset[MAX_IMAGETTES]) { //, struct x_imagette *dataset
-//
-//	INT32U i = 0;
-//	INT32U o = DATA_SHIFT;
-//	INT32U d = 0;
-//	INT16U nb_imagettes;
-//	INT32U error_verif = 0;
-//
-//	INT8U *p_imagette_byte;
-//
-//#if DEBUG_ON
-//	printf(
-//			"[PARSER]testando valores do payload:\r\nsize: %i\r\ndata_payload: %i,%i,%i,%i,%i,%i\r\n",
-//			p_payload_rcv->size, (char) p_payload_rcv->data[8],
-//			(char) p_payload_rcv->data[9], (char) p_payload_rcv->data[10],
-//			(char) p_payload_rcv->data[11], (char) p_payload_rcv->data[12],
-//			(char) p_payload_rcv->data[13]);
-//#endif
-//
-//	/*
-//	 * Do not use first 2 bytes
-//	 */
-//
-//	nb_imagettes = p_payload_rcv->data[3] + 256 * p_payload_rcv->data[2];
-//	p_img_ctrl->nb_of_imagettes = nb_imagettes;
-//#if DEBUG_ON
-//	printf("[PARSER] Number of imagettes: %i\r\n", nb_imagettes);
-//#endif
-//
-//	p_img_ctrl->tag[7] = p_payload_rcv->data[4];
-//	p_img_ctrl->tag[6] = p_payload_rcv->data[5];
-//	p_img_ctrl->tag[5] = p_payload_rcv->data[6];
-//	p_img_ctrl->tag[4] = p_payload_rcv->data[7];
-//	p_img_ctrl->tag[3] = p_payload_rcv->data[8];
-//	p_img_ctrl->tag[2] = p_payload_rcv->data[9];
-//	p_img_ctrl->tag[1] = p_payload_rcv->data[10];
-//	p_img_ctrl->tag[0] = p_payload_rcv->data[11];
-//#if DEBUG_ON
-//	printf("[PARSER]TAG: %i %i %i %i %i %i %i %i\r\n", p_img_ctrl->tag[7],
-//			p_img_ctrl->tag[6], p_img_ctrl->tag[5], p_img_ctrl->tag[4],
-//			p_img_ctrl->tag[3], p_img_ctrl->tag[2], p_img_ctrl->tag[1],
-//			p_img_ctrl->tag[0]);
-//
-//	printf("[PARSER]Starting imagette addr %x\r\n", &(p_img_ctrl->dataset[0]));
-//#endif
-//
-//	while (i < nb_imagettes) {
-//		INT32U p = 0;
-//#if DEBUG_ON
-//		printf("[PARSER] Imagette being parsed: %i to %x\r\n", (INT32U) i,
-//				(INT32U) &(p_img_ctrl->dataset[i]));
-//
-//		printf("[PARSER]Offset bytes: %i %i %i %i\r\n", p_payload_rcv->data[o],
-//				p_payload_rcv->data[o + 1], p_payload_rcv->data[o + 2],
-//				256 * p_payload_rcv->data[o + 2], p_payload_rcv->data[o + 3]);
-//
-//#endif
-//
-//		dataset[i]->offset = (p_payload->data[o + 3]
-//				+ 256 * p_payload->data[o + 2] + 65536 * p_payload->data[o + 1]
-//				+ 4294967296 * p_payload->data[o]);
-//
-//		dataset[i]->imagette_length = p_payload->data[o + 5]
-//				+ 256 * p_payload->data[o + 4];
-//
-//#if DEBUG_ON
-//		printf("[PARSER] offset: %i\r\n[PARSER] length: %i\r\n",
-//				dataset[i]->offset, dataset[i]->imagette_length);
-//#endif
-//
-//		dataset[i]->imagette_start = p_payload->data[o + DELAY_SIZE];
-////		p_imagette_byte = (INT8U *)dataset[i];
-//		p_imagette_byte = (INT8U *) (dataset[i]) + DMA_OFFSET;
-////		p_imagette_byte = &((*dataset)[i].imagette_start);
-//
-//#if DEBUG_ON
-//		printf("[PARSER] first byte addr %x = %x p_byte\r\n",
-//				&(dataset[i]->imagette_start), p_imagette_byte);
-//#endif
-//
-//		for (p = 1; p < dataset[i]->imagette_length; p++, d++) {
-//			p_imagette_byte++;
-//			*(p_imagette_byte) = p_payload->data[o + DELAY_SIZE + p];
-//#if DEBUG_ON
-//			printf("[PARSER] byte %i %i\r\n", p, *(p_imagette_byte));
-//#endif
-//		}
-//#if DEBUG_ON
-//		printf("[PARSER] first byte %i\r\n",
-//				(INT8U) dataset[0]->imagette_start);
-//		printf("[PARSER] last byte addr %x\r\n[PARSER] last byte %i\r\n",
-//				p_imagette_byte, *(p_imagette_byte));
-//#endif
-//
-//		/*
-//		 * Align last imagette byte with
-//		 * an 8 byte memory
-//		 */
-//		while ((INT32U) (p_imagette_byte) % 8) {
-//			p_imagette_byte++;
-//		}
-//
-//		o += DELAY_SIZE + dataset[i]->imagette_length;
-//		p_img_ctrl->dataset[i] = dataset[i];
-//		i++;
-//		dataset[i] = (x_imagette *) (p_imagette_byte);
-//	}
-//
-//	p_img_ctrl->size = d;
-//	error_verif = o + DATA_SHIFT - 2;
-//#if DEBUG_ON
-//	printf("[PARSER]error_verif %i\r\n", error_verif);
-//#endif
-//	if (p_payload->size == error_verif) {
-//#if DEBUG_ON
-//		printf("[PARSER]OK...\r\n");
-//#endif
-//		return ACK_OK;
-//	} else
-//		return PARSER_ERROR;
-//}
 /*
- * Task used to parse and execute the commands received via ethernet. [yb]
+ * Task body
  */
 
 void CommandManagementTask() {
 
 	INT8U error_code; /*uCOS error code*/
-	int exec_error = 0; /*Internal error code for the command module*/
-
-//	INT8U* cmd_pos;
-//	INT8U cmd_char_buffer[SSS_TX_BUF_SIZE];
-//	INT8U* cmd_char = cmd_char_buffer;
 
 	INT8U i_channel_for;
 
 	_ethernet_payload payload_command;
 
 	_ethernet_payload *p_payload = &payload_command;
-
-	x_imagette *p_imagette_A[MAX_IMAGETTES];
-
-	x_imagette *p_imagette_B[MAX_IMAGETTES];
 
 	INT8U i_channel_buffer = 0;
 
@@ -514,17 +365,10 @@ void CommandManagementTask() {
 	bIdmaInitM2Dma();
 
 	/*
-	 * Img control is now addressed in the primary memory, since the
-	 * dataset will be assigned in vector mode.
-	 */
-	p_img_control = &img_struct;
-//	p_payload = &payload;
-
-	/*
 	 * Assigning imagette struct to RAM
+	 * Maybe the switch is not needed here
 	 */
-	alt_u32 Ddr2Base;
-	//	alt_u32 ByteLen;
+
 	bDdr2SwitchMemory(DDR2_M1_ID);
 
 	T_simucam.T_Sub[0].T_data.addr_init = DDR2_BASE_ADDR_DATASET_1;
@@ -536,25 +380,13 @@ void CommandManagementTask() {
 	T_simucam.T_Sub[3].T_data.addr_init = DDR2_BASE_ADDR_DATASET_4;
 	T_simucam.T_Sub[7].T_data.addr_init = DDR2_BASE_ADDR_DATASET_4;
 
-//	Ddr2Base = DDR2_BASE_ADDR_DATASET_1;
-//	p_imagette_A[0] = (struct x_imagette *) Ddr2Base;
-//
-//	Ddr2Base = DDR2_BASE_ADDR_DATASET_2;
-//	p_imagette_B[0] = (struct x_imagette *) Ddr2Base;
-
 	struct x_telemetry x_telemetry_buffer;
-	struct x_telemetry *p_telemetry_buffer = &x_telemetry_buffer;
 
 #if DEBUG_ON
 	printf("[CommandManagementTask]p_imagette_A[0] addr %x\n\r",
 			p_imagette_A[0]);
 #endif
 
-	/*
-	 * Declaring the sub-units initial status
-	 */
-//	static sub_config_t *config_send;
-//	config_send = &config_send_A;
 	/*
 	 * Init and config of sync functionality
 	 */
@@ -571,26 +403,17 @@ void CommandManagementTask() {
 	T_simucam.T_status.simucam_mode = simModeInit;
 	/*
 	 * Initialize Simucam Timer
+	 * TODO
 	 */
 
-//	/*
-//	 * Initializing the timer
-//	 * for channel A
-//	 */
-//	bDschGetTimerConfig(&(xChA.xDataScheduler));
-//	xChA.xDataScheduler.xTimerConfig.bStartOnSync = TRUE;
-//	xChA.xDataScheduler.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
-//	bDschSetTimerConfig(&(xChA.xDataScheduler));
-//
-//	bDcomSetGlobalIrqEn(TRUE, eDcomSpwCh1);
-//	bDctrGetIrqControl(&(xChA.xDataController));
-//	xChA.xDataController.xIrqControl.bTxBeginEn = TRUE;
-//	xChA.xDataController.xIrqControl.bTxEndEn = FALSE;
-//	bDctrSetIrqControl(&(xChA.xDataController));
-//	T_simucam.T_status.simucam_mode = simModeInit;
 	while (1) {
 
 		switch (T_simucam.T_status.simucam_mode) {
+
+
+		/*
+		 * Initializing the system
+		 */
 		case simModeInit:
 #if DEBUG_ON
 			printf("[CommandManagementTask]Init\r\n");
@@ -598,9 +421,7 @@ void CommandManagementTask() {
 
 			/*
 			 * Configuring done inside the sub-unit modules
-			 * TODO change to 8 channels
 			 */
-			//			config_send_ch[0].mode = 0; //default starting mode is config
 			for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
 					i_channel_for++) {
 				sub_config_send[i_channel_for].RMAP_handling = 0;
@@ -622,16 +443,15 @@ void CommandManagementTask() {
 #endif
 			/*
 			 * Initialize Simucam Timer
+			 * TODO
 			 */
 
-//			/*
-//			 * Stop timer for ChA
-//			 */
-//			bDschStopTimer(&(xChA.xDataScheduler));
-//			bDschClrTimer(&(xChA.xDataScheduler));
 			T_simucam.T_status.simucam_mode = simModeConfig;
 			break;
 
+			/*
+			 * Config mode
+			 */
 		case simModeConfig:
 #if DEBUG_ON
 			printf("[CommandManagementTask]Mode: Config\r\n");
@@ -650,8 +470,9 @@ void CommandManagementTask() {
 				printf("[CommandManagementTask]Configure Sub-Unit\r\n");
 #endif
 
-				/* Add a case for channel selection */
-//			i_channel_for = p_payload->data[0];
+				/*
+				 * data[0] is the channel input
+				 */
 				sub_config_send[p_payload->data[0]].link_config =
 						p_payload->data[1];
 				sub_config_send[p_payload->data[0]].linkspeed =
@@ -672,8 +493,10 @@ void CommandManagementTask() {
 				v_ack_creator(p_payload, ACK_OK);
 
 				break;
+
 				/*
 				 * Delete Data
+				 * TODO
 				 * char: g
 				 */
 			case 103:
@@ -684,6 +507,8 @@ void CommandManagementTask() {
 
 				/*
 				 * Select data to send
+				 * TODO Assign the memory spaces to the data
+				 * instead of the sub
 				 * char: h
 				 */
 			case 104:
@@ -715,24 +540,23 @@ void CommandManagementTask() {
 					T_simucam.T_status.simucam_mode = simModetoRun;
 				}
 
-#if DEBUG_ON
-				printf("[CommandManagementTask]Config sent to sub\n\r");
-#endif
 
 				v_ack_creator(p_payload, ACK_OK);
 
+#if DEBUG_ON
+				printf("[CommandManagementTask]Config sent to sub\n\r");
+#endif
 				break;
 
 				/*
 				 * Clear RAM
 				 */
 			case 108:
+
+				v_ack_creator(p_payload, NOT_IMPLEMENTED);
 #if DEBUG_ON
 				printf("[CommandManagementTask]Clear RAM\r\n");
 #endif
-
-				v_ack_creator(p_payload, NOT_IMPLEMENTED);
-
 				break;
 
 				/*
@@ -758,13 +582,13 @@ void CommandManagementTask() {
 
 				T_simucam.T_conf.i_forward_data = p_payload->data[0];
 				T_simucam.T_conf.echo_sent = p_payload->data[1];
+
+				v_ack_creator(p_payload, ACK_OK);
 #if DEBUG_ON
 				printf("[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
 						(int) T_simucam.T_conf.i_forward_data,
 						(int) T_simucam.T_conf.echo_sent);
 #endif
-				v_ack_creator(p_payload, ACK_OK);
-
 				break;
 
 				/*
@@ -800,11 +624,11 @@ void CommandManagementTask() {
 #if DEBUG_ON
 			printf("[CommandManagementTask RUNNING]Mode to RUN\r\n");
 #endif
-//			/*
-//			 * Start timer for ChA
-//			 * NOT STARTING THE TIMER
-//			 */
-//			bDschStartTimer(&(xChA.xDataScheduler));
+
+			/*
+			 * TODO colocar accum de simucam timer
+			 * e zerar
+			 */
 
 			T_simucam.T_status.simucam_mode = simModeRun;
 			break;
@@ -875,6 +699,10 @@ void CommandManagementTask() {
 					alt_uCOSIIErrorHandler(error_code, 0);
 					break;
 
+
+					/*
+					 * TODO Verif DMA2 functions
+					 */
 				case simDMA2Sched:
 #if DEBUG_ON
 					printf("[CommandManagementTask]DMA2 Sched\r\n");

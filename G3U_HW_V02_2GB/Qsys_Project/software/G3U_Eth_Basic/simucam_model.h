@@ -88,10 +88,11 @@ typedef struct T_Simucam_conf {
 
 typedef struct T_simucam_status {
 	TSimStates simucam_mode;
-	INT32U simucam_total_imagettes_sent;
+	INT16U simucam_total_imagettes_sent;
 	INT32U simucam_running_time;
 	bool has_dma_1;
 	bool has_dma_2;
+	INT16U	TM_id;
 } T_simucam_status;
 
 typedef struct T_Simucam {
