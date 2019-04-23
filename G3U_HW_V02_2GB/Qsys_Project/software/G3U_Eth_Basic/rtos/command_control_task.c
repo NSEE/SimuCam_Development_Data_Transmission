@@ -253,70 +253,71 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
 	INT16U nb_counter_left = nb_counter_total - nb_counter_current;
 
-	p_HK->data[0] = 2;
+	INT8U hk_buffer[HK_SIZE];
+
+	hk_buffer[0] = 2;
 
 	/*
 	 * Id to bytes
 	 */
-	p_HK->data[2] = div(nb_id, 256).rem;
+	hk_buffer[2] = div(nb_id, 256).rem;
 	nb_id = div(nb_id, 256).quot;
-	p_HK->data[1] = div(nb_id, 256).rem;
+	hk_buffer[1] = div(nb_id, 256).rem;
 
-	p_HK->data[3] = 204;
-	p_HK->data[4] = 0;
-	p_HK->data[5] = 0;
-	p_HK->data[6] = 0;
-	p_HK->data[7] = 30;
-	p_HK->data[8] = chann_buff; /**channel*/
-	p_HK->data[9] = T_simucam.T_status.simucam_mode; /**meb mode*/
-	p_HK->data[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
-	p_HK->data[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; /**sub_config_linkstatus*/
-	p_HK->data[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; /**sub_config_linkspeed*/
-//	p_HK->data[13] = ul_SpaceWire_Interface_Link_Status_Read('A'); /**sub_status_linkrunning*/ // TODO
-	p_HK->data[14] = 1; /**link enabled*/
-	p_HK->data[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
-	p_HK->data[16] = 0; /**link errors*/
-	p_HK->data[17] = 0;
-	p_HK->data[18] = 0;
-	p_HK->data[19] = 0;
+	hk_buffer[3] = 204;
+	hk_buffer[4] = 0;
+	hk_buffer[5] = 0;
+	hk_buffer[6] = 0;
+	hk_buffer[7] = 30;
+	hk_buffer[8] = chann_buff; /**channel*/
+	hk_buffer[9] = T_simucam.T_status.simucam_mode; /**meb mode*/
+	hk_buffer[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; 	/**Sub_config_enabled*/
+	hk_buffer[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; 			/**sub_config_linkstatus*/
+	hk_buffer[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; 			/**sub_config_linkspeed*/
+	hk_buffer[13] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; 	/**sub_status_linkrunning*/ // TODO
+	hk_buffer[14] =  T_simucam.T_Sub[i_channel].T_conf.link_status;  		/**link enabled*/
+	hk_buffer[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
+	hk_buffer[16] = 0; /**TODO link errors*/
+	hk_buffer[17] = 0;
+	hk_buffer[18] = 0;
+	hk_buffer[19] = 0;
 
 	/*
 	 * Sent Packets
 	 */
-	p_HK->data[21] = div(nb_counter_total, 256).rem;
+	hk_buffer[21] = div(nb_counter_total, 256).rem;
 	nb_counter_total = div(nb_counter_total, 256).quot;
-	p_HK->data[20] = div(nb_counter_total, 256).rem;
+	hk_buffer[20] = div(nb_counter_total, 256).rem;
 
-	p_HK->data[22] = 0; /**Received packets 1*/
-	p_HK->data[23] = 0; /**Received packets 0*/
+	hk_buffer[22] = 0; /**Received packets 1*/
+	hk_buffer[23] = 0; /**Received packets 0*/
 
 	/**
 	 * Current packet nb
 	 */
-	p_HK->data[25] = div(nb_counter_current, 256).rem;
+	hk_buffer[25] = div(nb_counter_current, 256).rem;
 	nb_counter_current = div(nb_counter_current, 256).quot;
-	p_HK->data[24] = div(nb_counter_current, 256).rem;
+	hk_buffer[24] = div(nb_counter_current, 256).rem;
 
 	/**
 	 * Packets to send
 	 */
-	p_HK->data[26] = div(nb_counter_left, 256).rem;
+	hk_buffer[26] = div(nb_counter_left, 256).rem;
 	nb_counter_left = div(nb_counter_left, 256).quot;
-	p_HK->data[27] = div(nb_counter_left, 256).rem;
-	p_HK->size = 30;
+	hk_buffer[27] = div(nb_counter_left, 256).rem;
+	//p_HK->size = 30;
 
 	/**
 	 * Calculating CRC
 	 */
 	crc = crc16(p_HK->data, p_HK->size - 2);
 
-	p_HK->data[29] = div(crc, 256).rem;
+	hk_buffer[29] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;
-	p_HK->data[28] = div(crc, 256).rem;
+	hk_buffer[28] = div(crc, 256).rem;
 
-	/*
-	 * TODO ack
-	 */
+	send(conn.fd, hk_buffer, HK_SIZE, 0);
+
 	T_simucam.T_status.TM_id++;
 
 }

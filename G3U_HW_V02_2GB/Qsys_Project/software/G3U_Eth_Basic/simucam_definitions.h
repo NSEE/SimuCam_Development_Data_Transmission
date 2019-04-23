@@ -31,7 +31,7 @@
  ************************************************************************************************
  */
 
-#define DEBUG_ON 1
+#define DEBUG_ON 0
 
 #define ECHO_CMD_OVERHEAD			15
 
@@ -63,6 +63,7 @@
 
 #define TIMER_CLOCK_DIV_1MS			99999		/*Timer div for 1ms clock*/
 
+#define HK_SIZE						30			/* HK ack size */
 /*
  * Error codes definitions
  */

@@ -65,6 +65,7 @@ void vDctrCh1HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[0].T_conf.i_imagette_control++;
+		T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[0].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
@@ -75,7 +76,7 @@ void vDctrCh1HandleIrq(void* pvContext) {
 		vDctrCh1IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
-
+		T_simucam.T_Sub[0].T_conf.sub_status_sending = 1;
 		/* Action to perform when Tx begin Irq ocurred */
 		if (T_simucam.T_Sub[0].T_data.i_imagette
 				< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
@@ -107,6 +108,7 @@ void vDctrCh2HandleIrq(void* pvContext) {
 		/* Action to perform when Tx end Irq ocurred */
 
 		T_simucam.T_Sub[1].T_conf.i_imagette_control++;
+		T_simucam.T_Sub[1].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[1].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
@@ -116,7 +118,7 @@ void vDctrCh2HandleIrq(void* pvContext) {
 		vDctrCh2IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
-
+		T_simucam.T_Sub[1].T_conf.sub_status_sending = 1;
 		/* Action to perform when Tx begin Irq ocurred */
 		if (T_simucam.T_Sub[1].T_data.i_imagette
 				< T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
@@ -148,7 +150,7 @@ void vDctrCh3HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[2].T_conf.i_imagette_control++;
-
+		T_simucam.T_Sub[2].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[2].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
@@ -158,7 +160,7 @@ void vDctrCh3HandleIrq(void* pvContext) {
 		vDctrCh3IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
-
+		T_simucam.T_Sub[2].T_conf.sub_status_sending = 1;
 		/* Action to perform when Tx begin Irq ocurred */
 		if (T_simucam.T_Sub[2].T_data.i_imagette
 				< T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
@@ -190,7 +192,7 @@ void vDctrCh4HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[3].T_conf.i_imagette_control++;
-
+		T_simucam.T_Sub[3].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[3].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
@@ -200,7 +202,7 @@ void vDctrCh4HandleIrq(void* pvContext) {
 		vDctrCh4IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
-
+		T_simucam.T_Sub[3].T_conf.sub_status_sending = 1;
 		/* Action to perform when Tx begin Irq ocurred */
 		if (T_simucam.T_Sub[3].T_data.i_imagette
 				< T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
@@ -232,7 +234,7 @@ void vDctrCh5HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[4].T_conf.i_imagette_control++;
-
+		T_simucam.T_Sub[4].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[4].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
@@ -242,7 +244,7 @@ void vDctrCh5HandleIrq(void* pvContext) {
 		vDctrCh5IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
-
+		T_simucam.T_Sub[4].T_conf.sub_status_sending = 1;
 		/* Action to perform when Tx begin Irq ocurred */
 		if (T_simucam.T_Sub[4].T_data.i_imagette
 				< T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
@@ -274,7 +276,7 @@ void vDctrCh6HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[5].T_conf.i_imagette_control++;
-
+		T_simucam.T_Sub[5].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[5].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
@@ -284,7 +286,7 @@ void vDctrCh6HandleIrq(void* pvContext) {
 		vDctrCh6IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
-
+		T_simucam.T_Sub[5].T_conf.sub_status_sending = 1;
 		/* Action to perform when Tx begin Irq ocurred */
 		if (T_simucam.T_Sub[5].T_data.i_imagette
 				< T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
