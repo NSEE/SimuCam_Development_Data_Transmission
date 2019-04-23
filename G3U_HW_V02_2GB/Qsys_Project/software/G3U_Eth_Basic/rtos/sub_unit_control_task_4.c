@@ -233,10 +233,6 @@ void sub_unit_control_task_4(void *task_data) {
 					FALSE;
 					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
 
-#if DEBUG_ON
-					printf("error_code: %i", exec_error);
-#endif
-
 				} else {
 
 					/*
@@ -253,9 +249,7 @@ void sub_unit_control_task_4(void *task_data) {
 					xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect =
 					FALSE;
 					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
-#if DEBUG_ON
-					printf("error_code: %i", exec_error);
-#endif
+
 				}
 
 				/*

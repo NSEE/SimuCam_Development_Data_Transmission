@@ -135,8 +135,9 @@ void SSSCreateTasks();
 
 /*
  * IP Port(s) for our application(s)
+ * TODO port changed to 17000
  */
-#define SSS_PORT 30
+#define SSS_PORT 17000
 
 /* Definition of Task Stack size for tasks not using Nichestack */
 #define   TASK_STACKSIZE       2048

@@ -382,11 +382,6 @@ void CommandManagementTask() {
 
 	struct x_telemetry x_telemetry_buffer;
 
-#if DEBUG_ON
-	printf("[CommandManagementTask]p_imagette_A[0] addr %x\n\r",
-			p_imagette_A[0]);
-#endif
-
 	/*
 	 * Init and config of sync functionality
 	 */
