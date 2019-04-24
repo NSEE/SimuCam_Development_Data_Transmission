@@ -11,26 +11,16 @@
  */
 void sub_unit_control_task_2(void *task_data) {
 	INT8U error_code; /*uCOS error code*/
-	INT8U exec_error; /*Internal error code for the command module*/
-	INT16U i_imagette_length = 0;
-	INT16U i_dma_counter = 0;
 	INT32U i_mem_pointer_buffer;
 
+	/*
+	 * Assign channel code from task descriptor
+	 */
 	INT8U c_spw_channel = (INT8U) task_data;
 
 	sub_config_t *p_config;
 
-	Timagette_control imagette_buffer;
-	Timagette_control *p_imagette_buffer = &imagette_buffer;
 	static _ethernet_payload xTemp_sub;
-
-//	p_config->mode = 0;
-//	p_config->RMAP_handling = 0;
-//	p_config->forward_data = 0;
-//	p_config->link_config = 0;
-//	p_config->sub_status_sending = 0;
-//	p_config->linkstatus_running = 1;
-//	p_config->linkspeed = 3;
 
 	T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeInit;
 
@@ -67,7 +57,6 @@ void sub_unit_control_task_2(void *task_data) {
 			break;
 
 		case subModetoConfig:
-
 			/*
 			 * Stop timer for ChA
 			 */
@@ -87,6 +76,9 @@ void sub_unit_control_task_2(void *task_data) {
 			T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
 			break;
 
+			/*
+			 * Sub-Unit Config mode
+			 */
 		case subModeConfig:
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
@@ -112,7 +104,6 @@ void sub_unit_control_task_2(void *task_data) {
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 			}
-
 			break;
 
 		case subModetoRun:
@@ -125,7 +116,6 @@ void sub_unit_control_task_2(void *task_data) {
 			bDschStopTimer(&(xCh[c_spw_channel].xDataScheduler));
 			bDschClrTimer(&(xCh[c_spw_channel].xDataScheduler));
 			T_simucam.T_Sub[c_spw_channel].T_conf.i_imagette_control = 0;
-
 			/*
 			 * Start timer for ChA
 			 * NOT STARTING THE TIMER
@@ -152,65 +142,90 @@ void sub_unit_control_task_2(void *task_data) {
 				/*
 				 * TODO change to append all of the buffer
 				 */
+
 				OSMutexPend(xMutexDMA[(unsigned char) c_spw_channel / 4], 0,
 						&error_code);
-				while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
-						< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
+
+				if (error_code != OS_NO_ERR) {
+#if DEBUG_ON
+					printf("[SUBUNIT] Mutex error.");
+#endif
+				} else {
+					/*
+					 * TODO
+					 * NEW ELSE,verif
+					 */
+					while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
+							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 
 #if DEBUG_ON
-					printf("[SUBUNIT]Printinf offset %i & %x\r\n",
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
+						printf("[SUBUNIT]Printinf offset %i & %x\r\n",
+								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
+								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
-					if (uiDatbGetBuffersFreeSpace(
-							&(xCh[c_spw_channel].xDataBuffer))
-							>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-									+ DMA_OFFSET)) {
-						if (((unsigned char) c_spw_channel / 4) == 0) {
-							bDdr2SwitchMemory(DDR2_M1_ID);
-						} else {
-							bDdr2SwitchMemory(DDR2_M2_ID);
-						}
 
-						if (error_code != OS_NO_ERR) {
-#if DEBUG_ON
-							printf("[SUBUNIT] Mutex error.");
-#endif
-						}
-						error_code =
-								bIdmaDmaM1Transfer(
-										(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-										T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-												+ DMA_OFFSET, c_spw_channel);
+						/*
+						 * Verif that there is enough free space
+						 */
+						if (uiDatbGetBuffersFreeSpace(
+								&(xCh[c_spw_channel].xDataBuffer))
+								>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+										+ DMA_OFFSET)) {
 
-						if (error_code == TRUE) {
-							i_mem_pointer_buffer =
-									(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
-											+ T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-											+ DMA_OFFSET;
-							if ((i_mem_pointer_buffer % 8)) {
-								i_mem_pointer_buffer = ((((i_mem_pointer_buffer)
-										>> 3) + 1) << 3);
+							/*
+							 * Assign the correct memory access depending on ch
+							 */
+							if (((unsigned char) c_spw_channel / 4) == 0) {
+								bDdr2SwitchMemory(DDR2_M1_ID);
+								error_code =
+										bIdmaDmaM1Transfer(
+												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+														+ DMA_OFFSET,
+												c_spw_channel);
+							} else {
+								bDdr2SwitchMemory(DDR2_M2_ID);
+								error_code =
+										bIdmaDmaM2Transfer(
+												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+														+ DMA_OFFSET,
+												c_spw_channel);
 							}
-							T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
-									(T_Imagette *) i_mem_pointer_buffer;
 
-							T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
+							if (error_code == TRUE) {
+								/*Calculate next imagette addr*/
+								i_mem_pointer_buffer =
+										(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
+												+ T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+												+ DMA_OFFSET;
+								if ((i_mem_pointer_buffer % 8)) {
+									i_mem_pointer_buffer =
+											((((i_mem_pointer_buffer) >> 3) + 1)
+													<< 3);
+								}
+
+								/*Reassign the pointer to the next imagette addrs */
+
+								T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
+										(T_Imagette *) i_mem_pointer_buffer;
+
+								T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
+							} else {
+#if DEBUG_ON
+								printf("[SUBUNIT]DMA ERROR\r\n");
+#endif
+							}/* end error code DMA verif*/
 						} else {
 #if DEBUG_ON
-							printf("[SUBUNIT]DMA ERROR\r\n");
+							printf("[SUBUNIT]Buffer Fully scheduled\r\n");
 #endif
-						}
-					} else {
-#if DEBUG_ON
-						printf("[SUBUNIT]End of Dataset scheduling\r\n");
-#endif
-						xTemp_sub.type = simDMA1Back;
-						OSQPost(p_simucam_command_q, &xTemp_sub);
-					}
-
+						} /*end free space verif*/
+					}/*end while*/
 				}
 				OSMutexPost(xMutexDMA[(unsigned char) c_spw_channel / 4]);
+
+				set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
 
 				/*
 				 * init SpW links
@@ -232,9 +247,6 @@ void sub_unit_control_task_2(void *task_data) {
 					FALSE;
 					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
 
-#if DEBUG_ON
-					printf("error_code: %i", exec_error);
-#endif
 
 				} else {
 
@@ -252,9 +264,7 @@ void sub_unit_control_task_2(void *task_data) {
 					xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect =
 					FALSE;
 					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
-#if DEBUG_ON
-					printf("error_code: %i", exec_error);
-#endif
+
 				}
 
 				/*
@@ -268,9 +278,6 @@ void sub_unit_control_task_2(void *task_data) {
 #if DEBUG_ON
 			printf("[SUBUNIT]Sub-unit Run\r\n");
 #endif
-			/*
-			 * Err
-			 */
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
 			if (error_code == OS_ERR_NONE) {
@@ -283,9 +290,11 @@ void sub_unit_control_task_2(void *task_data) {
 #endif
 					if (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
+
 						OSMutexPend(
 								xMutexDMA[(unsigned char) c_spw_channel / 4], 0,
 								&error_code);
+
 						if (error_code != OS_NO_ERR) {
 #if DEBUG_ON
 							printf("[SUBUNIT] Mutex error.");
@@ -298,16 +307,21 @@ void sub_unit_control_task_2(void *task_data) {
 										+ DMA_OFFSET)) {
 							if (((unsigned char) c_spw_channel / 4) == 0) {
 								bDdr2SwitchMemory(DDR2_M1_ID);
+								error_code =
+										bIdmaDmaM1Transfer(
+												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+														+ DMA_OFFSET,
+												c_spw_channel);
 							} else {
 								bDdr2SwitchMemory(DDR2_M2_ID);
+								error_code =
+										bIdmaDmaM2Transfer(
+												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+														+ DMA_OFFSET,
+												c_spw_channel);
 							}
-
-							error_code =
-									bIdmaDmaM1Transfer(
-											(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-											T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-													+ DMA_OFFSET,
-											c_spw_channel);
 							OSMutexPost(
 									xMutexDMA[(unsigned char) c_spw_channel / 4]);
 							if (error_code == true) {
@@ -358,6 +372,11 @@ void sub_unit_control_task_2(void *task_data) {
 #if DEBUG_ON
 						printf("[SUBUNIT]End of Dataset scheduling\r\n");
 #endif
+						/*
+						 * Signal cmd that DMA is free
+						 */
+						xTemp_sub.type = simDMA1Back;
+						OSQPost(p_simucam_command_q, &xTemp_sub);
 					}
 					break;
 
@@ -400,4 +419,3 @@ void sub_unit_control_task_2(void *task_data) {
 		}
 	}
 }
-

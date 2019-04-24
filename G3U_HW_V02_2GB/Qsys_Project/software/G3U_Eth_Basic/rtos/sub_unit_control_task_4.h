@@ -14,29 +14,7 @@
  ************************************************************************************************
  */
 
-//#include <stdio.h>
-//#include <string.h>
-//#include <ctype.h>
-//#include <ucos_ii.h>
-//#include "os_cfg.h"
-//#include "os_cpu.h"
-//#include "includes.h"
-//#include "simple_socket_server.h"
-//#include "../alt_error_handler.h"
-//#include "../utils/util.h"
-//#include "../api_drivers/ddr2/ddr2.h"
-//#include "../api_drivers/iwf_simucam_dma/iwf_simucam_dma.h"
-//#include "../simucam_definitions.h"
-//#include "telemetry_manager_task.h"
-//#include "../driver/dcom/dcom_channel.h"
 #include "sub_unit_control_task.h"
-//#include "tasks_init.h"
-
-//#include "os_cfg.h"
-//#include "../utils/util.h"
-//#include "../alt_error_handler.h"
-//#include "simple_socket_server.h"
-//#include "command_control_task.h"
 
 /*
  * Include configurations for the SpW communication modules [yb]
