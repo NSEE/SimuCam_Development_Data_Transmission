@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>23/04/2019 15:24:33</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1556043873118</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>24/04/2019 16:07:44</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1556132864302</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>C:\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
@@ -1730,7 +1730,7 @@
                 <SettingName>altera_iniche.enable_dhcp_client</SettingName>
                 <Identifier>DHCP_CLIENT</Identifier>
                 <Type>BooleanDefineOnly</Type>
-                <Value>false</Value>
+                <Value>true</Value>
                 <DefaultValue>true</DefaultValue>
                 <DestinationFile>system_h_define</DestinationFile>
                 <Description>Use DHCP to automatically assign IP address</Description>

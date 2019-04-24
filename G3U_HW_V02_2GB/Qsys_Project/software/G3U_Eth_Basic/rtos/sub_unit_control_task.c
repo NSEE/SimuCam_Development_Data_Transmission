@@ -122,7 +122,7 @@ void sub_unit_create_os_data_structs(void) {
  * Set the linkspeed of specific SpW channel according to the
  * specified divider code
  *
- * @param 	[in] 	INT8U channel_code
+ * @param 	[in] 	TDcomChannel *x_channel
  * @param	[in]	INT8U linkspeed_code
  * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
  * 	ref_clock = 200M -> spw_clock = ref_clock/(div+1)
@@ -471,7 +471,7 @@ void sub_unit_control_task(void *task_data) {
 				}
 				OSMutexPost(xMutexDMA[(unsigned char) c_spw_channel / 4]);
 
-				set_spw_linkspeed(&(xCh[c_spw_channel].xSpacewire), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
+				set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
 
 				/*
 				 * init SpW links

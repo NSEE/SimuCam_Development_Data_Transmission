@@ -214,7 +214,7 @@ void sub_unit_control_task_1(void *task_data) {
 				OSMutexPost(xMutexDMA[(unsigned char) c_spw_channel / 4]);
 
 
-				set_spw_linkspeed(&(xCh[c_spw_channel].xSpacewire), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
+				set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
 
 				/*
 				 * init SpW links
