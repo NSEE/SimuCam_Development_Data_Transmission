@@ -789,9 +789,6 @@ void CommandManagementTask() {
 
 					/*
 					 * Abort Sending
-					 *
-					 * Implement a abort queue
-					 *
 					 */
 				case 107:
 #if DEBUG_ON
