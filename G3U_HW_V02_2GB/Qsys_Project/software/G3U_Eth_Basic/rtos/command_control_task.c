@@ -24,9 +24,9 @@ Timagette_control *p_img_control;
 INT8U data[MAX_IMAGETTES];
 INT8U *p_data_pos = &data[0];
 
-volatile INT32U i_running_timer_counter = 1;
+//volatile INT32U i_running_timer_counter = 1;
 
-volatile INT32U i_central_timer_counter = 1;
+//volatile INT32U i_central_timer_counter = 1;
 INT8U exec_error;
 
 INT16U i_id_accum = 1;
@@ -39,6 +39,8 @@ int i_return_config_flag = 2;
  */
 
 T_Simucam T_simucam;
+
+TDschChannel xSimucamTimer;
 
 /**
  * @name long_to_int
@@ -114,7 +116,7 @@ void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
 //	INT32U i_imagette_counter_echo = i_imagette_counter;
 //	INT32U k;
 	INT32U nb_size = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
-	INT32U nb_time = i_running_timer_counter;
+	INT32U nb_time = 0; /* Will be set with a uliDschGetTime() and sent via queue*/
 	INT16U crc;
 
 //	INT8U buffer_size[4];
@@ -252,16 +254,16 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	INT16U nb_counter_left = nb_counter_total - nb_counter_current;
 
 	INT8U hk_buffer[HK_SIZE];
-	bool	b_link_enabled = false;
+	bool b_link_enabled = false;
 	/*
 	 * Update SpW status flags
 	 */
 	bSpwcGetLinkStatus(&(xCh[chann_buff].xSpacewire));
 	bSpwcGetLinkError(&(xCh[chann_buff].xSpacewire));
 
-	if(T_simucam.T_Sub[i_channel].T_conf.mode == subModeRun){
+	if (T_simucam.T_Sub[i_channel].T_conf.mode == subModeRun) {
 		b_link_enabled = true;
-	}else{
+	} else {
 		b_link_enabled = false;
 	}
 
@@ -412,6 +414,18 @@ void CommandManagementTask() {
 	 * TODO
 	 */
 
+	/* Address */
+	xSimucamTimer.puliDschChAddr =
+			(TDschChannel *) DUMB_COMMUNICATION_MODULE_V1_TIMER_BASE;
+	/* Init */
+	bDschGetTimerConfig(&xSimucamTimer);
+	bDschGetTimerStatus(&xSimucamTimer);
+	bDschSetTime(&xSimucamTimer, 0);
+	/* Configs */
+	xSimucamTimer.xTimerConfig.bStartOnSync = false;
+	xSimucamTimer.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
+	bDschSetTimerConfig(&xSimucamTimer);
+
 	while (1) {
 
 		switch (T_simucam.T_status.simucam_mode) {
@@ -446,10 +460,6 @@ void CommandManagementTask() {
 #if DEBUG_ON
 			printf("[CommandManagementTask]Mode: toConfig\r\n");
 #endif
-			/*
-			 * Initialize Simucam Timer
-			 * TODO
-			 */
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
 			break;
@@ -630,9 +640,10 @@ void CommandManagementTask() {
 #endif
 
 			/*
-			 * TODO colocar accum de simucam timer
-			 * e zerar
+			 * Clear and start simucam timer
 			 */
+			bDschClrTimer(&xSimucamTimer);
+			bDschStartTimer(&xSimucamTimer);
 
 			T_simucam.T_status.simucam_mode = simModeRun;
 			break;
@@ -646,8 +657,9 @@ void CommandManagementTask() {
 			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
 #endif
 			/*
-			 * TODO start simucam timer
+			 * start simucam timer counting
 			 */
+			bDschRunTimer(&xSimucamTimer);
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			/*
@@ -772,8 +784,9 @@ void CommandManagementTask() {
 #endif
 
 						/*
-						 * Stop and restart running timer
+						 * Stop Simucam Timer
 						 */
+						bDschStopTimer(&xSimucamTimer);
 
 						/*
 						 * Stop and clear ChA timer
@@ -789,10 +802,6 @@ void CommandManagementTask() {
 									p_sub_unit_config_queue[i_channel_for],
 									&sub_config_send[i_channel_for]);
 						}
-						/*
-						 * Send sub_units to config.
-						 */
-
 					}
 
 					v_ack_creator(p_payload, ACK_OK);

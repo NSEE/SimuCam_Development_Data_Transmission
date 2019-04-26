@@ -223,7 +223,6 @@ void SSSCreateTasks(void) {
 //			NULL, 0);
 //
 //	alt_uCOSIIErrorHandler(error_code, 0);
-
 	/*
 	 * Creating the sub_unit 5 management task [yb]
 	 */
@@ -235,7 +234,6 @@ void SSSCreateTasks(void) {
 //			NULL, 0);
 //
 //	alt_uCOSIIErrorHandler(error_code, 0);
-
 	/*
 	 * Creating the telemtry management task [yb]
 	 */
@@ -351,6 +349,7 @@ void sss_handle_receive(SSSConn* conn) {
 	int i = 0;
 	INT8U error_code = 0;
 	INT16U calculated_crc = 0;
+	INT8U i_ack;
 
 	struct ethernet_buffer buffer;
 	struct ethernet_buffer *p_ethernet_buffer;
@@ -436,116 +435,144 @@ void sss_handle_receive(SSSConn* conn) {
 				INT8U *p_imagette_byte;
 				INT16U i_nb_imag_ctrl = 0;
 
-				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
-						12, 0);
-				if (rx_code > 0) {
-					p_ethernet_buffer->rx_rd_pos += rx_code;
-				}
-				i_channel_wr = p_ethernet_buffer->rx_buffer[1];
-
-				/*
-				 * Switch to the right memory stick
-				 */
-				if (((unsigned char) i_channel_wr / 4) == 0) {
-					bDdr2SwitchMemory(DDR2_M1_ID);
-				} else {
-					bDdr2SwitchMemory(DDR2_M2_ID);
-				}
-
-				T_Imagette *p_imagette_buff;
-
-				p_imagette_byte =
-						(INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
-
-				/*
-				 * Parse nb of imagettes
-				 */
-				T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes =
-						p_ethernet_buffer->rx_buffer[3]
-								+ 256 * p_ethernet_buffer->rx_buffer[2];
-
-				/*
-				 * Parse TAG
-				 */
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[7] =
-						p_ethernet_buffer->rx_buffer[4];
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[6] =
-						p_ethernet_buffer->rx_buffer[5];
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[5] =
-						p_ethernet_buffer->rx_buffer[6];
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[4] =
-						p_ethernet_buffer->rx_buffer[7];
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[3] =
-						p_ethernet_buffer->rx_buffer[8];
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[2] =
-						p_ethernet_buffer->rx_buffer[9];
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[1] =
-						p_ethernet_buffer->rx_buffer[10];
-				T_simucam.T_Sub[i_channel_wr].T_data.tag[0] =
-						p_ethernet_buffer->rx_buffer[11];
-
-				/*
-				 * Parse imagettes
-				 */
-				while (i_nb_imag_ctrl
-						< T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
-
-					p_imagette_buff = (T_Imagette *) p_imagette_byte;
+				if (T_simucam.T_status.simucam_mode == simModeConfig) {
+					rx_code = recv(conn->fd,
+							(char* )p_ethernet_buffer->rx_wr_pos, 12, 0);
+					if (rx_code > 0) {
+						p_ethernet_buffer->rx_rd_pos += rx_code;
+					}
+					i_channel_wr = p_ethernet_buffer->rx_buffer[1];
 
 					/*
-					 * Receive 6 bytes for offset and length
+					 * Switch to the right memory stick
 					 */
+					if (((unsigned char) i_channel_wr / 4) == 0) {
+						bDdr2SwitchMemory(DDR2_M1_ID);
+					} else {
+						bDdr2SwitchMemory(DDR2_M2_ID);
+					}
+
+					T_Imagette *p_imagette_buff;
+
+					p_imagette_byte =
+							(INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
+
+					/*
+					 * Parse nb of imagettes
+					 */
+					T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes =
+							p_ethernet_buffer->rx_buffer[3]
+									+ 256 * p_ethernet_buffer->rx_buffer[2];
+
+					/*
+					 * Parse TAG
+					 */
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[7] =
+							p_ethernet_buffer->rx_buffer[4];
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[6] =
+							p_ethernet_buffer->rx_buffer[5];
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[5] =
+							p_ethernet_buffer->rx_buffer[6];
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[4] =
+							p_ethernet_buffer->rx_buffer[7];
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[3] =
+							p_ethernet_buffer->rx_buffer[8];
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[2] =
+							p_ethernet_buffer->rx_buffer[9];
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[1] =
+							p_ethernet_buffer->rx_buffer[10];
+					T_simucam.T_Sub[i_channel_wr].T_data.tag[0] =
+							p_ethernet_buffer->rx_buffer[11];
+
+					/*
+					 * Parse imagettes
+					 */
+					while (i_nb_imag_ctrl
+							< T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
+
+						p_imagette_buff = (T_Imagette *) p_imagette_byte;
+
+						/*
+						 * Receive 6 bytes for offset and length
+						 */
+						rx_code = recv(conn->fd,
+								(char* )p_ethernet_buffer->rx_wr_pos, 6, 0);
+						if (rx_code > 0) {
+							p_ethernet_buffer->rx_rd_pos += rx_code;
+
+						}
+
+						p_imagette_buff->offset =
+								p_ethernet_buffer->rx_buffer[3]
+										+ 256 * p_ethernet_buffer->rx_buffer[2]
+										+ 65536
+												* p_ethernet_buffer->rx_buffer[1]
+										+ 4294967296
+												* p_ethernet_buffer->rx_buffer[0];
+
+						p_imagette_buff->imagette_length =
+								p_ethernet_buffer->rx_buffer[5]
+										+ 256 * p_ethernet_buffer->rx_buffer[4];
+
+						p_imagette_byte += 6;
+
+						rx_code = recv(conn->fd, (void * )p_imagette_byte,
+								p_imagette_buff->imagette_length, 0);
+						if (rx_code > 0) {
+							/*
+							 * TODO prepare for fragmented receive
+							 */
+							p_imagette_byte += rx_code;
+							if (((INT32U) p_imagette_byte % 8)) {
+								p_imagette_byte =
+										(INT8U *) (((((INT32U) p_imagette_byte)
+												>> 3) + 1) << 3);
+							}
+						}
+
+#if DEBUG_ON
+						T_teste_data *pxTestData =
+						(T_teste_data *) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
+#endif
+						i_nb_imag_ctrl++;
+					}
+
 					rx_code = recv(conn->fd,
-							(char* )p_ethernet_buffer->rx_wr_pos, 6, 0);
+							(char* )p_ethernet_buffer->rx_wr_pos, 2, 0);
 					if (rx_code > 0) {
 						p_ethernet_buffer->rx_rd_pos += rx_code;
 
+						/* Zero terminate so we can use string functions */
+						*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 					}
 
-					p_imagette_buff->offset = p_ethernet_buffer->rx_buffer[3]
-							+ 256 * p_ethernet_buffer->rx_buffer[2]
-							+ 65536 * p_ethernet_buffer->rx_buffer[1]
-							+ 4294967296 * p_ethernet_buffer->rx_buffer[0];
-
-					p_imagette_buff->imagette_length =
-							p_ethernet_buffer->rx_buffer[5]
-									+ 256 * p_ethernet_buffer->rx_buffer[4];
-
-					p_imagette_byte += 6;
-
-					rx_code = recv(conn->fd, (void * )p_imagette_byte,
-							p_imagette_buff->imagette_length, 0);
-					if (rx_code > 0) {
-						/*
-						 * TODO prepare for fragmented receive
-						 */
-						p_imagette_byte += rx_code;
-						if (((INT32U) p_imagette_byte % 8)) {
-							p_imagette_byte =
-									(INT8U *) (((((INT32U) p_imagette_byte) >> 3)
-											+ 1) << 3);
+					payload.crc = p_ethernet_buffer->rx_buffer[1]
+							+ 256 * p_ethernet_buffer->rx_buffer[0];
+					i_ack = ACK_OK;
+				} else {
+					/*
+					 * Empty the ethernet stack to avoid garbage
+					 */
+					if (payload.size < BUFFER_SIZE) {
+						rx_code = recv(conn->fd,
+								(char* )p_ethernet_buffer->rx_wr_pos,
+								payload.size, 0);
+						if (rx_code > 0) {
+							p_ethernet_buffer->rx_rd_pos += rx_code;
+						}
+					} else {
+						while (payload.size > BUFFER_SIZE) {
+							rx_code = recv(conn->fd,
+									(char* )p_ethernet_buffer->rx_wr_pos,
+									BUFFER_SIZE, 0);
+							if (rx_code > 0) {
+								p_ethernet_buffer->rx_rd_pos += rx_code;
+								payload.size -= BUFFER_SIZE;
+							}
 						}
 					}
-
-#if DEBUG_ON
-					T_teste_data *pxTestData =
-					(T_teste_data *) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
-#endif
-					i_nb_imag_ctrl++;
+					i_ack = COMMAND_NOT_ACCEPTED;
 				}
-
-				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
-						2, 0);
-				if (rx_code > 0) {
-					p_ethernet_buffer->rx_rd_pos += rx_code;
-
-					/* Zero terminate so we can use string functions */
-					*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
-				}
-
-				payload.crc = p_ethernet_buffer->rx_buffer[1]
-						+ 256 * p_ethernet_buffer->rx_buffer[0];
-
 				/*
 				 * Prepare ACK statement
 				 * TODO use ack function
@@ -568,7 +595,7 @@ void sss_handle_receive(SSSConn* conn) {
 				nb_id_pkt = div(nb_id_pkt, 256).quot;
 				ack[8] = div(nb_id_pkt, 256).rem;
 				ack[10] = payload.type;
-				ack[11] = 0;
+				ack[11] = i_ack;
 				ack[12] = 0;
 				ack[13] = 89;
 

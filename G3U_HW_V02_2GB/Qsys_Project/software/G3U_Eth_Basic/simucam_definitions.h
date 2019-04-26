@@ -65,7 +65,7 @@
 
 #define HK_SIZE						30			/* HK ack size */
 /*
- * Error codes definitions
+ * Error codes definitions transform into enum
  */
 #define ACK_OK						0
 #define COMMAND_NOT_ACCEPTED		4

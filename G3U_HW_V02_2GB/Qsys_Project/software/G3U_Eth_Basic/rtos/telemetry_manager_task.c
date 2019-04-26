@@ -94,7 +94,7 @@ void i_echo_dataset_telemetry(struct Timagette_control* p_imagette,
 	INT32U k;
 	INT32U nb_size = p_imagette->imagette_length[i_imagette_number]
 			+ ECHO_CMD_OVERHEAD;
-	INT32U nb_time = i_running_timer_counter;
+	INT32U nb_time = 0;
 	INT16U nb_id = i_id_accum;
 	INT16U crc;
 
