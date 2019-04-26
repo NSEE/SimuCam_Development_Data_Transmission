@@ -44,10 +44,6 @@
 /* Include to get the ETH Configs from the SimuCam */
 #include "../utils/configs_simucam.h"
 
-/*sub-unit definitions*/
-//#include "sub_unit_control_task.h"
-/* Command control definitions*/
-//#include "command_control_task.h"
 /*
  * Global handles (pointers) to our MicroC/OS-II resources. All of resources 
  * beginning with "SSS" are declared and created in this file.
@@ -58,9 +54,6 @@ typedef struct teste_data {
 	INT8U data[500];
 }T_teste_data;
 #endif
-//_ethernet_payload payload;
-//_ethernet_payload *p_payload = &payload;
-//_ethernet_payload *p_payload;
 SSSConn conn;
 
 /*
@@ -426,6 +419,7 @@ void sss_handle_receive(SSSConn* conn) {
 
 			/*
 			 * Case for receiving data
+			 * TODO Prepare a truncated receive mode
 			 */
 
 			if (payload.type == 102) {
