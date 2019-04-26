@@ -10,7 +10,7 @@
 					<folderInfo id="preference.org.eclipse.cdt.managedbuilder.core.configurationDataProvider.1123796237." name="/" resourcePath="">
 						<toolChain id="altera.nios2.mingw.gcc4.875428749" name="MinGW Nios II GCC4" superClass="altera.nios2.mingw.gcc4">
 							<targetPlatform id="altera.nios2.mingw.gcc4.468777381" name="Nios II" superClass="altera.nios2.mingw.gcc4"/>
-							<builder buildPath="${workspace_loc://G3U_Eth_Basic}" id="altera.tool.gnu.builder.mingw.181994471" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" superClass="altera.tool.gnu.builder.mingw"/>
+							<builder buildPath="${workspace_loc://G3U_Eth_Basic}" id="altera.tool.gnu.builder.mingw.181994471" keepEnvironmentInBuildfile="false" managedBuildOn="false" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="altera.tool.gnu.builder.mingw"/>
 							<tool id="altera.tool.gnu.c.compiler.mingw.584138683" name="Nios II GCC C Compiler" superClass="altera.tool.gnu.c.compiler.mingw">
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.231307331" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>

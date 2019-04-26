@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Wed Apr 24 16:07:27 BRT 2019
+ * Generated: Fri Apr 26 18:31:16 BRT 2019
  */
 
 /*
@@ -353,7 +353,6 @@
  *
  */
 
-#define DHCP_CLIENT
 #define INCLUDE_TCP
 #define INICHE_DEFAULT_IF "NOT_USED"
 #define IP_FRAGMENTS
