@@ -31,7 +31,6 @@ INT8U exec_error;
 
 INT16U i_id_accum = 1;
 
-
 int abort_flag = 1;
 int i_return_config_flag = 2;
 
@@ -98,7 +97,6 @@ T_Simucam T_simucam;
 //	printf("\r\n");
 //#endif
 //}
-
 /**
  * @name i_echo_dataset_direct_send
  * @brief Send direct-send echo
@@ -254,6 +252,18 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	INT16U nb_counter_left = nb_counter_total - nb_counter_current;
 
 	INT8U hk_buffer[HK_SIZE];
+	bool	b_link_enabled = false;
+	/*
+	 * Update SpW status flags
+	 */
+	bSpwcGetLinkStatus(&(xCh[chann_buff].xSpacewire));
+	bSpwcGetLinkError(&(xCh[chann_buff].xSpacewire));
+
+	if(T_simucam.T_Sub[i_channel].T_conf.mode == subModeRun){
+		b_link_enabled = true;
+	}else{
+		b_link_enabled = false;
+	}
 
 	hk_buffer[0] = 2;
 
@@ -264,8 +274,6 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	nb_id = div(nb_id, 256).quot;
 	hk_buffer[1] = div(nb_id, 256).rem;
 
-
-
 	hk_buffer[3] = 204;
 	hk_buffer[4] = 0;
 	hk_buffer[5] = 0;
@@ -273,11 +281,11 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	hk_buffer[7] = 30;
 	hk_buffer[8] = chann_buff; /**channel*/
 	hk_buffer[9] = T_simucam.T_status.simucam_mode; /**meb mode*/
-	hk_buffer[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; 	/**Sub_config_enabled*/
-	hk_buffer[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; 			/**sub_config_linkstatus*/
-	hk_buffer[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; 			/**sub_config_linkspeed*/
-	hk_buffer[13] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; 	/**sub_status_linkrunning*/ // TODO
-	hk_buffer[14] =  T_simucam.T_Sub[i_channel].T_conf.link_status;  		/**link enabled*/
+	hk_buffer[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
+	hk_buffer[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; /**sub_config_linkstatus*/
+	hk_buffer[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; /**sub_config_linkspeed*/
+	hk_buffer[13] = xCh[chann_buff].xSpacewire.xLinkStatus.bRunning; /**sub_status_linkrunning*/ // TODO
+	hk_buffer[14] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**link enabled*/
 	hk_buffer[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
 	hk_buffer[16] = 0; /**TODO link errors*/
 	hk_buffer[17] = 0;
@@ -408,7 +416,6 @@ void CommandManagementTask() {
 
 		switch (T_simucam.T_status.simucam_mode) {
 
-
 		/*
 		 * Initializing the system
 		 */
@@ -538,7 +545,6 @@ void CommandManagementTask() {
 					T_simucam.T_status.simucam_mode = simModetoRun;
 				}
 
-
 				v_ack_creator(p_payload, ACK_OK);
 
 #if DEBUG_ON
@@ -633,12 +639,16 @@ void CommandManagementTask() {
 
 		case simModeRun:
 #if DEBUG_ON
-			printf("[CommandManagementTask RUNNING]Mode RUN\r\n");
+			printf("[CommandManagementTask RUNNING]Mode RUN\\n");
 #endif
 
 #if DEBUG_ON
 			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
 #endif
+			/*
+			 * TODO start simucam timer
+			 */
+
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			/*
 			 * SYNC cmd
@@ -696,7 +706,6 @@ void CommandManagementTask() {
 					}
 					alt_uCOSIIErrorHandler(error_code, 0);
 					break;
-
 
 					/*
 					 * TODO Verif DMA2 functions
