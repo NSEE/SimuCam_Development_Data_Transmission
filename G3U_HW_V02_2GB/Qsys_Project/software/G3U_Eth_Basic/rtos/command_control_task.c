@@ -264,6 +264,8 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	nb_id = div(nb_id, 256).quot;
 	hk_buffer[1] = div(nb_id, 256).rem;
 
+
+
 	hk_buffer[3] = 204;
 	hk_buffer[4] = 0;
 	hk_buffer[5] = 0;

@@ -215,26 +215,26 @@ void SSSCreateTasks(void) {
 	/*
 	 * Creating the sub_unit 4 management task [yb]
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_4, (void *) 4,
-			(void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 4,
-			SUB_UNIT_TASK_PRIORITY + 4, sub_unit_task_stack_4,
-			TASK_STACKSIZE,
-			NULL, 0);
-
-	alt_uCOSIIErrorHandler(error_code, 0);
+//	error_code = OSTaskCreateExt(sub_unit_control_task_4, (void *) 4,
+//			(void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
+//			SUB_UNIT_TASK_PRIORITY + 4,
+//			SUB_UNIT_TASK_PRIORITY + 4, sub_unit_task_stack_4,
+//			TASK_STACKSIZE,
+//			NULL, 0);
+//
+//	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the sub_unit 5 management task [yb]
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_5, (void *) 5,
-			(void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 5,
-			SUB_UNIT_TASK_PRIORITY + 5, sub_unit_task_stack_5,
-			TASK_STACKSIZE,
-			NULL, 0);
-
-	alt_uCOSIIErrorHandler(error_code, 0);
+//	error_code = OSTaskCreateExt(sub_unit_control_task_5, (void *) 5,
+//			(void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
+//			SUB_UNIT_TASK_PRIORITY + 5,
+//			SUB_UNIT_TASK_PRIORITY + 5, sub_unit_task_stack_5,
+//			TASK_STACKSIZE,
+//			NULL, 0);
+//
+//	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the telemtry management task [yb]
