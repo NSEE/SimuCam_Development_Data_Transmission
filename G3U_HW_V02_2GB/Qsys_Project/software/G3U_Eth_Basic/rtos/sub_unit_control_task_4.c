@@ -58,9 +58,6 @@ void sub_unit_control_task_4(void *task_data) {
 			break;
 
 		case subModetoConfig:
-#if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit toConfig\r\n");
-#endif
 			/*
 			 * Stop timer for ChA
 			 */
@@ -84,9 +81,6 @@ void sub_unit_control_task_4(void *task_data) {
 			 * Sub-Unit Config mode
 			 */
 		case subModeConfig:
-#if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit Config\r\n");
-#endif
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
 			if (error_code == OS_ERR_NONE) {
@@ -105,7 +99,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 			} else {
 #if DEBUG_ON
-				printf("[SUBUNIT5]Sub-unit config queue error\r\n");
+				printf("[SUBUNIT]Sub-unit config queue error\r\n");
 #endif
 			}
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
@@ -115,7 +109,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModetoRun:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit toRun\r\n");
+			printf("[SUBUNIT]Sub-unit toRun\r\n");
 #endif
 			/*
 			 * Stop timer for ChA
@@ -137,7 +131,7 @@ void sub_unit_control_task_4(void *task_data) {
 			 */
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
 #if DEBUG_ON
-				printf("[SUBUNIT5]Channel disabled\r\n");
+				printf("[SUBUNIT]Channel disabled\r\n");
 #endif
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 				break;
@@ -155,7 +149,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				if (error_code != OS_NO_ERR) {
 #if DEBUG_ON
-					printf("[SUBUNIT5] Mutex error.");
+					printf("[SUBUNIT] Mutex error.");
 #endif
 				} else {
 					/*
@@ -166,7 +160,7 @@ void sub_unit_control_task_4(void *task_data) {
 							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 
 #if DEBUG_ON
-						printf("[SUBUNIT5]Printinf offset %i & %x\r\n",
+						printf("[SUBUNIT]Printinf offset %i & %x\r\n",
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
@@ -220,12 +214,12 @@ void sub_unit_control_task_4(void *task_data) {
 								T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
 							} else {
 #if DEBUG_ON
-								printf("[SUBUNIT5]DMA ERROR\r\n");
+								printf("[SUBUNIT]DMA ERROR\r\n");
 #endif
 							}/* end error code DMA verif*/
 						} else {
 #if DEBUG_ON
-							printf("[SUBUNIT5]Buffer Fully scheduled\r\n");
+							printf("[SUBUNIT]Buffer Fully scheduled\r\n");
 #endif
 						} /*end free space verif*/
 					}/*end while*/
@@ -243,7 +237,7 @@ void sub_unit_control_task_4(void *task_data) {
 					 * Set link to autostart
 					 */
 #if DEBUG_ON
-					printf("[SUBUNIT5]Channel autostart\r\n");
+					printf("[SUBUNIT]Channel autostart\r\n");
 #endif
 
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
@@ -261,7 +255,7 @@ void sub_unit_control_task_4(void *task_data) {
 					 * Set link to start
 					 */
 #if DEBUG_ON
-					printf("[SUBUNIT5]Channel start\r\n");
+					printf("[SUBUNIT]Channel start\r\n");
 #endif
 
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
@@ -283,7 +277,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModeRun:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit Run\r\n");
+			printf("[SUBUNIT]Sub-unit Run\r\n");
 #endif
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
@@ -293,7 +287,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				case subAccessDMA2:
 #if DEBUG_ON
-					printf("[SUBUNIT5] Access DMA\r\n");
+					printf("[SUBUNIT] Access DMA\r\n");
 #endif
 					if (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
@@ -304,7 +298,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 						if (error_code != OS_NO_ERR) {
 #if DEBUG_ON
-							printf("[SUBUNIT5] Mutex error.");
+							printf("[SUBUNIT] Mutex error.");
 #endif
 						}
 
@@ -352,12 +346,12 @@ void sub_unit_control_task_4(void *task_data) {
 								T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
 							} else {
 #if DEBUG_ON
-								printf("[SUBUNIT5]DMA ERROR\r\n");
+								printf("[SUBUNIT]DMA ERROR\r\n");
 #endif
 							}
 						} else {
 #if DEBUG_ON
-							printf("[SUBUNIT5]Buffer Full\r\n");
+							printf("[SUBUNIT]Buffer Full\r\n");
 #endif
 							/* Return Mutex */
 							OSMutexPost(
@@ -377,7 +371,7 @@ void sub_unit_control_task_4(void *task_data) {
 						 * End of dataset
 						 */
 #if DEBUG_ON
-						printf("[SUBUNIT5]End of Dataset scheduling\r\n");
+						printf("[SUBUNIT]End of Dataset scheduling\r\n");
 #endif
 						/*
 						 * Signal cmd that DMA is free
@@ -394,7 +388,7 @@ void sub_unit_control_task_4(void *task_data) {
 					T_simucam.T_Sub[c_spw_channel].T_conf.b_abort = false;
 				case subEOT:
 #if DEBUG_ON
-					printf("[SUBUNIT5]Sub Abort\r\n");
+					printf("[SUBUNIT]Sub Abort\r\n");
 #endif
 
 					T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
@@ -404,7 +398,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				case subChangeMode:
 #if DEBUG_ON
-					printf("[SUBUNIT5]Change mode\r\n");
+					printf("[SUBUNIT]Change mode\r\n");
 #endif
 					T_simucam.T_Sub[c_spw_channel].T_conf.mode =
 							subModetoConfig;
@@ -412,7 +406,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				default:
 #if DEBUG_ON
-					printf("[SUBUNIT5]Sub-unit Default run trap\r\n");
+					printf("[SUBUNIT]Sub-unit Default run trap\r\n");
 #endif
 					break;
 				}
@@ -420,7 +414,7 @@ void sub_unit_control_task_4(void *task_data) {
 			break;
 		default:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit default error!\r\n");
+			printf("[SUBUNIT]Sub-unit default error!\r\n");
 #endif
 			break;
 		}
