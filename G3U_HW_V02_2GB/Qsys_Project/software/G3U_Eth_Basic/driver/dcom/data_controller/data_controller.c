@@ -249,7 +249,7 @@ void vDctrCh5HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[4].T_data.i_imagette
 				< T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], 4);
-			xTemp.type = simDMA1Sched;
+			xTemp.type = simDMA2Sched;
 			OSQPost(p_simucam_command_q, &xTemp);
 		}
 
@@ -291,7 +291,7 @@ void vDctrCh6HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[5].T_data.i_imagette
 				< T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], 5);
-			xTemp.type = simDMA1Sched;
+			xTemp.type = simDMA2Sched;
 			OSQPost(p_simucam_command_q, &xTemp);
 		}
 
