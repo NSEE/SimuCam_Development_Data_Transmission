@@ -565,6 +565,7 @@ void sss_handle_receive(SSSConn* conn) {
 						/* Zero terminate so we can use string functions */
 						*(p_ethernet_buffer->rx_wr_pos + 1) = 0;
 					}
+					/* Verificar se chegou tudo */
 
 					payload.crc = p_ethernet_buffer->rx_buffer[1]
 							+ 256 * p_ethernet_buffer->rx_buffer[0];

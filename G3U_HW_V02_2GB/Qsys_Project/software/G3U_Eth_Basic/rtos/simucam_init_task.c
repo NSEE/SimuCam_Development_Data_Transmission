@@ -21,34 +21,34 @@ OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
 
 
-void SimucamCreateTasks(void) {
-	INT8U error_code;
-
-	/*
-	 * Creating the command management task [yb]
-	 */
-	error_code = OSTaskCreateExt(CommandManagementTask,
-	NULL, (void *) &CommandManagementTaskStk[TASK_STACKSIZE - 1],
-	COMMAND_MANAGEMENT_TASK_PRIORITY,
-	COMMAND_MANAGEMENT_TASK_PRIORITY, CommandManagementTaskStk,
-	TASK_STACKSIZE,
-	NULL, 0);
-
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	/*
-	 * Creating the sub_unit 1 management task [yb]
-	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task,
-	NULL, (void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
-	SUB_UNIT_TASK_PRIORITY,
-	SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
-	TASK_STACKSIZE,
-	NULL, 0);
-
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-#if DEBUG_ON
-	printf("Tasks created successfully\r\n");
-#endif
-}
+//void SimucamCreateTasks(void) {
+//	INT8U error_code;
+//
+//	/*
+//	 * Creating the command management task [yb]
+//	 */
+//	error_code = OSTaskCreateExt(CommandManagementTask,
+//	NULL, (void *) &CommandManagementTaskStk[TASK_STACKSIZE - 1],
+//	COMMAND_MANAGEMENT_TASK_PRIORITY,
+//	COMMAND_MANAGEMENT_TASK_PRIORITY, CommandManagementTaskStk,
+//	TASK_STACKSIZE,
+//	NULL, 0);
+//
+//	alt_uCOSIIErrorHandler(error_code, 0);
+//
+//	/*
+//	 * Creating the sub_unit 1 management task [yb]
+//	 */
+//	error_code = OSTaskCreateExt(sub_unit_control_task,
+//	NULL, (void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
+//	SUB_UNIT_TASK_PRIORITY,
+//	SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
+//	TASK_STACKSIZE,
+//	NULL, 0);
+//
+//	alt_uCOSIIErrorHandler(error_code, 0);
+//
+//#if DEBUG_ON
+//	printf("Tasks created successfully\r\n");
+//#endif
+//}
