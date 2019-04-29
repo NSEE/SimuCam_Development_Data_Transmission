@@ -409,7 +409,7 @@ void sub_unit_control_task(void *task_data) {
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
-
+						T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset;
 						/*
 						 * Verif that there is enough free space
 						 */

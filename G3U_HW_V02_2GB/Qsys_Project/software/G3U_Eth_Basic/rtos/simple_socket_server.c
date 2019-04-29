@@ -541,7 +541,11 @@ void sss_handle_receive(SSSConn* conn) {
 						if (rx_code > 0) {
 							/*
 							 * TODO prepare for fragmented receive
+							 * if rx_code < data to receive, receive again
 							 */
+							printf(
+									"[SSS] received bytes in imagette %i: %i\r\n",
+									i_nb_imag_ctrl, rx_code);
 							p_imagette_byte += rx_code;
 							if (((INT32U) p_imagette_byte % 8)) {
 								p_imagette_byte =
