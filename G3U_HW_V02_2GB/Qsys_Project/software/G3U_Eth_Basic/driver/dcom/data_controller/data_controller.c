@@ -286,8 +286,9 @@ void vDctrCh6HandleIrq(void* pvContext) {
 		vDctrCh6IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
-		T_simucam.T_Sub[5].T_conf.sub_status_sending = 1;
 		/* Action to perform when Tx begin Irq ocurred */
+
+		T_simucam.T_Sub[5].T_conf.sub_status_sending = 1;
 		if (T_simucam.T_Sub[5].T_data.i_imagette
 				< T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], 5);
@@ -317,12 +318,27 @@ void vDctrCh7HandleIrq(void* pvContext) {
 	if (bIrqFlags[eTxEndFlag]) {
 
 		/* Action to perform when Tx end Irq ocurred */
+		T_simucam.T_Sub[6].T_conf.i_imagette_control++;
+		T_simucam.T_Sub[6].T_conf.sub_status_sending = 0;
+		if (T_simucam.T_Sub[6].T_conf.i_imagette_control
+				>= T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
+			xSubTemp.mode = subAbort;
+			OSQPost(p_sub_unit_config_queue[6], &xSubTemp);
+		}
 
 		vDctrCh7IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
 
 		/* Action to perform when Tx begin Irq ocurred */
+
+		T_simucam.T_Sub[6].T_conf.sub_status_sending = 1;
+		if (T_simucam.T_Sub[6].T_data.i_imagette
+				< T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
+			OSQPost(DMA_sched_queue[1], 6);
+			xTemp.type = simDMA2Sched;
+			OSQPost(p_simucam_command_q, &xTemp);
+		}
 
 		vDctrCh7IrqFlagClr(eTxBeginFlag);
 	}
@@ -346,12 +362,26 @@ void vDctrCh8HandleIrq(void* pvContext) {
 	if (bIrqFlags[eTxEndFlag]) {
 
 		/* Action to perform when Tx end Irq ocurred */
+		T_simucam.T_Sub[7].T_conf.i_imagette_control++;
+		T_simucam.T_Sub[7].T_conf.sub_status_sending = 0;
+		if (T_simucam.T_Sub[7].T_conf.i_imagette_control
+				>= T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
+			xSubTemp.mode = subAbort;
+			OSQPost(p_sub_unit_config_queue[7], &xSubTemp);
+		}
 
 		vDctrCh8IrqFlagClr(eTxEndFlag);
 	}
 	if (bIrqFlags[eTxBeginFlag]) {
 
 		/* Action to perform when Tx begin Irq ocurred */
+		T_simucam.T_Sub[7].T_conf.sub_status_sending = 1;
+		if (T_simucam.T_Sub[7].T_data.i_imagette
+				< T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
+			OSQPost(DMA_sched_queue[1], 7);
+			xTemp.type = simDMA2Sched;
+			OSQPost(p_simucam_command_q, &xTemp);
+		}
 
 		vDctrCh8IrqFlagClr(eTxBeginFlag);
 	}
