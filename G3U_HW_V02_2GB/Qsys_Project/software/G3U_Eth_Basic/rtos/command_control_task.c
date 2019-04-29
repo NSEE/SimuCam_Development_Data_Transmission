@@ -407,6 +407,9 @@ void CommandManagementTask() {
 	bSyncCtrCh3OutEnable(TRUE);
 	bSyncCtrCh4OutEnable(TRUE);
 	bSyncCtrCh5OutEnable(TRUE);
+	bSyncCtrCh6OutEnable(TRUE);
+	bSyncCtrCh7OutEnable(TRUE);
+	bSyncCtrCh8OutEnable(TRUE);
 
 	T_simucam.T_status.simucam_mode = simModeInit;
 	/*
