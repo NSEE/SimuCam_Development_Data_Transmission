@@ -73,6 +73,8 @@ OS_STK sub_unit_task_stack_2[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_3[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_4[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_5[TASK_STACKSIZE];
+OS_STK sub_unit_task_stack_6[TASK_STACKSIZE];
+OS_STK sub_unit_task_stack_7[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam command management task[yb]
@@ -223,6 +225,30 @@ void SSSCreateTasks(void) {
 			(void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
 			SUB_UNIT_TASK_PRIORITY + 5,
 			SUB_UNIT_TASK_PRIORITY + 5, sub_unit_task_stack_5,
+			TASK_STACKSIZE,
+			NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
+	/*
+	 * Creating the sub_unit 6 management task [yb]
+	 */
+	error_code = OSTaskCreateExt(sub_unit_control_task_6, (void *) 6,
+			(void *) &sub_unit_task_stack_6[TASK_STACKSIZE - 1],
+			SUB_UNIT_TASK_PRIORITY + 6,
+			SUB_UNIT_TASK_PRIORITY + 6, sub_unit_task_stack_6,
+			TASK_STACKSIZE,
+			NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
+	/*
+	 * Creating the sub_unit 7 management task [yb]
+	 */
+	error_code = OSTaskCreateExt(sub_unit_control_task_7, (void *) 7,
+			(void *) &sub_unit_task_stack_7[TASK_STACKSIZE - 1],
+			SUB_UNIT_TASK_PRIORITY + 7,
+			SUB_UNIT_TASK_PRIORITY + 7, sub_unit_task_stack_7,
 			TASK_STACKSIZE,
 			NULL, 0);
 

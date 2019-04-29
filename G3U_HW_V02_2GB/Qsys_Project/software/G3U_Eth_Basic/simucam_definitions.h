@@ -42,7 +42,7 @@
 #define ERROR_TYPE					2
 #define ECHO_TYPE					3
 
-#define NB_CHANNELS					6
+#define NB_CHANNELS					8		/* nb of active channels (max 8)*/
 
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 
