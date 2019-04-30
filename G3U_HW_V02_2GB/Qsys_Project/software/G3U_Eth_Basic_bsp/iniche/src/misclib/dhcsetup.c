@@ -124,7 +124,7 @@ dhc_setup(void)
     * Altera Niche Stack Nios port modification:
     * Increase DHCP timeout to > 2 minutes 
     */
-   while (((cticks - dhcp_started) < (130*TPS)) &&
+   while (((cticks - dhcp_started) < (15*TPS)) &&
       (dhc_alldone() == FALSE))
    {
       /* let other tasks spin. This is required, since some systems
