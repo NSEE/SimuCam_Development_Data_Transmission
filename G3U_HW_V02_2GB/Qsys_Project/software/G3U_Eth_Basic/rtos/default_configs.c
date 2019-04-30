@@ -34,4 +34,8 @@ void Init_Simucam_Config(void){
 	enable_iso_drivers();
 	enable_lvds_board();
 
+	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_PAINEL_ALL_MASK);
+	usleep(500000);
+	LEDS_PAINEL_DRIVE(LEDS_OFF, LEDS_PAINEL_ALL_MASK);
+	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_POWER_MASK);
 }
