@@ -65,6 +65,7 @@ void vDctrCh1HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[0].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[0].T_conf.i_imagette_control
@@ -108,6 +109,7 @@ void vDctrCh2HandleIrq(void* pvContext) {
 		/* Action to perform when Tx end Irq ocurred */
 
 		T_simucam.T_Sub[1].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[1].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[1].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
@@ -150,6 +152,7 @@ void vDctrCh3HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[2].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[2].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[2].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
@@ -192,6 +195,7 @@ void vDctrCh4HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[3].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[3].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[3].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
@@ -234,6 +238,7 @@ void vDctrCh5HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[4].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[4].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[4].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
@@ -276,6 +281,7 @@ void vDctrCh6HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[5].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[5].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[5].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
@@ -319,6 +325,7 @@ void vDctrCh7HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[6].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[6].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[6].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
@@ -363,6 +370,7 @@ void vDctrCh8HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[7].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[7].T_conf.sub_status_sending = 0;
 		if (T_simucam.T_Sub[7].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
