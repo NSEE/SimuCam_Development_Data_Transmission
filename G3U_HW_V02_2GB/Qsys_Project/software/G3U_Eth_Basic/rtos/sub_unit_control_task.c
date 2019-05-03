@@ -440,8 +440,8 @@ void sub_unit_control_task(void *task_data) {
 					 * changed for testing
 					 */
 					while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
-							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
-
+							< 2) {
+						//T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes
 #if DEBUG_ON
 						printf("[SUBUNIT%i]Printinf offset %i & %x\r\n",(INT8U)c_spw_channel,
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
