@@ -67,6 +67,7 @@
 /* Nichestack definitions */
 #include "ipport.h"
 #include "tcpport.h"
+#include "../simucam_model.h"
 
 /*
  * Task Prototypes:
@@ -134,8 +135,9 @@ void SSSCreateTasks();
 
 /*
  * IP Port(s) for our application(s)
+ * TODO port changed to 17000
  */
-#define SSS_PORT 30
+#define SSS_PORT 17000
 
 /* Definition of Task Stack size for tasks not using Nichestack */
 #define   TASK_STACKSIZE       2048
@@ -190,7 +192,7 @@ typedef struct SSS_SOCKET
  * "SSS" are declared in file "simple_socket_server.c".
  */
 
-#define BUFFER_SIZE				2000000
+#define BUFFER_SIZE				2000
 #define EMPIRICAL_BUFFER_MIN 	21
 #define SSSBUFFER_ADDR			0x7FF0BDC0
 
@@ -202,11 +204,11 @@ typedef struct SSS_SOCKET
  */
 extern INT8U *data_addr;
 
-struct ethernet_buffer{
+typedef struct ethernet_buffer{
 	INT8U rx_buffer[BUFFER_SIZE];
 	INT8U *rx_rd_pos;
 	INT8U *rx_wr_pos;
-};
+}ethernet_buffer;
 
 
 /*
@@ -223,8 +225,9 @@ void SimucamCreateOSQ();
 extern OS_EVENT *SimucamDataQ;
 extern OS_EVENT *p_simucam_command_q;
 extern OS_EVENT *p_telemetry_queue;
-
+extern INT16U i_id_accum;
 extern SSSConn conn;
+extern T_Simucam T_simucam;
 
 #endif /* __SIMPLE_SOCKET_SERVER_H__ */
 

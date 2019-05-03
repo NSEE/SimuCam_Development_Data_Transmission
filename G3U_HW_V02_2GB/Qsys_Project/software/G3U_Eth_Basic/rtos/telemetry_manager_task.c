@@ -94,7 +94,7 @@ void i_echo_dataset_telemetry(struct Timagette_control* p_imagette,
 	INT32U k;
 	INT32U nb_size = p_imagette->imagette_length[i_imagette_number]
 			+ ECHO_CMD_OVERHEAD;
-	INT32U nb_time = i_running_timer_counter;
+	INT32U nb_time = 0;
 	INT16U nb_id = i_id_accum;
 	INT16U crc;
 
@@ -213,7 +213,7 @@ void telemetry_manager_task() {
 //			send(conn.fd, p_telemetry->p_payload->data,
 //					p_telemetry->p_payload->size, 0);
 #if DEBUG_ON
-			printf("ACK_SENT\r\n");
+			printf("[TMGEN]ACK_SENT\r\n");
 #endif
 			break;
 

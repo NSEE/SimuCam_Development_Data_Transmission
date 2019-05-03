@@ -23,6 +23,7 @@
 #include <sys/alt_irq.h>  // interrupt
 #include <priv/alt_legacy_irq.h>
 #include <priv/alt_busy_sleep.h>
+#include "simucam_model.h"
 
 /*
  ************************************************************************************************
@@ -30,15 +31,18 @@
  ************************************************************************************************
  */
 
-#define DEBUG_ON 0
+#define DEBUG_ON 					0
 
-#define ECHO_CMD_OVERHEAD	15
+#define ECHO_CMD_OVERHEAD			15
 
-#define TELEMETRY_BUFFER_SIZE	300
+#define TELEMETRY_BUFFER_SIZE		300
+#define	DMA_SCHED_BUFFER			128
 
-#define ACK_TYPE				1
-#define ERROR_TYPE				2
-#define ECHO_TYPE				3
+#define ACK_TYPE					1
+#define ERROR_TYPE					2
+#define ECHO_TYPE					3
+
+#define NB_CHANNELS					8		/* nb of active channels (max 8)*/
 
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 
@@ -52,12 +56,16 @@
 
 #define DMA_DEV						0
 
-#define DDR2_BASE_ADDR_DATASET_1	0x0
-#define DDR2_BASE_ADDR_DATASET_2	0x40000000	/* 1Gb space for dataset 1 */
+#define DDR2_BASE_ADDR_DATASET_1	0x00000000
+#define DDR2_BASE_ADDR_DATASET_2	0x20000000	/* 512Mb space for dataset 1 */
+#define	DDR2_BASE_ADDR_DATASET_3	0x40000000
+#define	DDR2_BASE_ADDR_DATASET_4	0x60000000
+
 #define TIMER_CLOCK_DIV_1MS			99999		/*Timer div for 1ms clock*/
 
+#define HK_SIZE						30			/* HK ack size */
 /*
- * Error codes definitions
+ * Error codes definitions transform into enum
  */
 #define ACK_OK						0
 #define COMMAND_NOT_ACCEPTED		4
@@ -66,6 +74,15 @@
 #define	TIMER_ERROR					8
 #define PARSER_ERROR				9
 #define	ECHO_ERROR					10
+
+/*
+ * Priorities definitions
+ */
+
+#define PCP_MUTEX_DMA_QUEUE			6
+
+extern OS_EVENT *xMutexDMA[2];
+
 
 #ifndef bool
 	//typedef short int bool;
@@ -89,7 +106,7 @@
  * RMAP_handling: 0->none, 1->echoing, 2->logging
  * forward_data to ethernet link
  */
-struct sub_config {
+typedef struct sub_config {
 
 	INT8U mode;
 	//INT8U receive_data;
@@ -103,7 +120,7 @@ struct sub_config {
 	INT8U link_status;
 	struct Timagette_control *imagette;
 
-}sub_config;
+}sub_config_t;
 
 struct _sub_data {
 	INT8U p_data_addr[100];
@@ -118,22 +135,6 @@ typedef struct x_imagette {
 	INT16U imagette_length; /* length of N imagette */
 	INT8U imagette_start; /*Pointer to de DDR2 address*/
 }x_imagette;
-
-/*
- * Command + payload struct for the simucam ethernet control
- */
-
-typedef struct x_ethernet_payload {
-	INT8U header;		/* Command Header */
-	INT16U packet_id;	/* Unique identifier */
-	INT8U type;			/* Will be the command id */
-	INT8U sub_type;		/* Could carry the sub-unit id */
-	INT32U size;		/* Size pre-computed in function */
-	INT8U data[1500];	/* Data array */
-	INT16U crc;			/* We will use the CCITT-CRC, that is also used in the PUS protocol */
-
-
-}_ethernet_payload;
 
 typedef struct Timagette_control {
 #if DMA_DEV
@@ -167,9 +168,12 @@ struct x_telemetry {
 
 typedef enum { dlFullMessage = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorMessage, dlCustom2, dlJustMajorProgress, dlCriticalOnly } tDebugLevel;
 
+
 /* Variable that will carry the debug JTAG device file descriptor*/
 //#if DEBUG_ON
 //    extern FILE* fp;
 //#endif
+
+#define min_sim( x , y ) ((x < y) ? x : y)
 
 #endif /* SIMUCAM_DEFINITIONS_H_ */

@@ -29,14 +29,7 @@ typedef struct DcomChannel {
 } TDcomChannel;
 //! [public module structs definition]
 
-extern TDcomChannel xChA;
-extern TDcomChannel xChB;
-extern TDcomChannel xChC;
-extern TDcomChannel xChD;
-extern TDcomChannel xChE;
-extern TDcomChannel xChF;
-extern TDcomChannel xChG;
-extern TDcomChannel xChH;
+extern TDcomChannel xCh[8];
 
 //! [public function prototypes]
 bool bDcomSetGlobalIrqEn(bool bGlobalIrqEnable, alt_u8 ucDcomCh);

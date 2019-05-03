@@ -10,25 +10,15 @@
  *                                        INCLUDE FILES
  ************************************************************************************************
  */
-//#include <stdio.h>
-//#include <string.h>
-//#include <ctype.h>
-//
-//#include <ucos_ii.h>
-//#include "os_cfg.h"
-//#include "os_cpu.h"
 #include "includes.h"
 #include "../alt_error_handler.h"
 #include "../utils/util.h"
-//#include "../logic/ddr2/ddr2.h"
-//#include "../simucam_definitions.h"
-//#include "telemetry_manager_task.h"
 #include "../driver/dcom/dcom_channel.h"
 #include "sub_unit_control_task.h"
 #include "../simucam_definitions.h"
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/sync/sync.h"
-//#include "telemetry_manager_task.h"
+#include "simple_socket_server.h"
 /*
  * Include configurations for the communication modules [yb]
  */
@@ -90,7 +80,6 @@ extern INT16U i_imagette_counter;
  ************************************************************************************************
  */
 
-int v_parse_data(struct x_ethernet_payload*,struct Timagette_control*);
 void v_ack_creator(struct x_ethernet_payload* p_error_response, int error_code);
 INT32U i_compute_size(INT8U*);
 void i_echo_dataset_direct_send(struct x_ethernet_payload*, INT8U*);
