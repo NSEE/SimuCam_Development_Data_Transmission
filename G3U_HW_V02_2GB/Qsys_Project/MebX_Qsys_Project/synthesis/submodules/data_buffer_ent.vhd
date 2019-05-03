@@ -18,7 +18,7 @@ entity data_buffer_ent is
 		dcrtl_dbuffer_rdreq_i  : in  std_logic;
 		dbuff_empty_o          : out std_logic;
 		dbuff_full_o           : out std_logic;
-		dbuff_usedw_o          : out std_logic_vector((c_AVS_BUFFER_USED_WIDTH - 1) downto 0);
+		dbuff_usedw_o          : out std_logic_vector((c_AVS_BUFFER_USED_WIDTH) downto 0);
 		avs_dbuffer_full_o     : out std_logic;
 		avs_bebuffer_full_o    : out std_logic;
 		dcrtl_dbuffer_rddata_o : out std_logic_vector((c_DCTRL_DBUFFER_DATA_WIDTH - 1) downto 0);
@@ -42,9 +42,10 @@ architecture RTL of data_buffer_ent is
 		STOPPED,                        -- Stopped, reset all internal signals
 		WAIT_AVS_FIFO,                  -- Wait state for the avs data and byte enable fifos to have available data
 		FETCH_AVS_DATA,                 -- Fetch data from the avs data and byte enable fifos
-		DELAY,                          -- Delay for data fetch
+		RD_DELAY,                       -- Delay for data fetch
 		WAITING_DCTRL_SPACE,            -- Wait state until thete is space in the dctrl data fifo
-		WRITE_DCTRL_DATA                -- Write data in the dctrl data fifo
+		WRITE_DCTRL_DATA,               -- Write data in the dctrl data fifo
+		WR_DELAY                        -- Delay for data write
 	);
 	signal s_data_buffer_state : t_data_buffer_fsm; -- current state
 
@@ -138,8 +139,8 @@ begin
 				when FETCH_AVS_DATA =>
 					-- Fetch data from the avs data and byte enable fifos
 					-- default state transition
-					s_data_buffer_state        <= DELAY;
-					v_data_buffer_state        := DELAY;
+					s_data_buffer_state        <= RD_DELAY;
+					v_data_buffer_state        := RD_DELAY;
 					-- default internal signal values
 					s_avs_dbuffer_fifo.rdreq   <= '1';
 					s_avs_dbuffer_fifo.sclr    <= '0';
@@ -152,7 +153,7 @@ begin
 					s_byte_counter             <= c_AVS_BEBUFFER_DATA_WIDTH - 1;
 				-- conditional state transition
 
-				when DELAY =>
+				when RD_DELAY =>
 					-- Delay for data fetch
 					-- default state transition
 					s_data_buffer_state        <= WAITING_DCTRL_SPACE;
@@ -194,8 +195,8 @@ begin
 				when WRITE_DCTRL_DATA =>
 					-- Write data in the dctrl data fifo
 					-- default state transition
-					s_data_buffer_state        <= WAITING_DCTRL_SPACE;
-					v_data_buffer_state        := WAITING_DCTRL_SPACE;
+					s_data_buffer_state        <= WR_DELAY;
+					v_data_buffer_state        := WR_DELAY;
 					-- default internal signal values
 					s_avs_dbuffer_fifo.rdreq   <= '0';
 					s_avs_dbuffer_fifo.sclr    <= '0';
@@ -223,6 +224,21 @@ begin
 						-- update byte counter (for next byte)
 						s_byte_counter <= s_byte_counter - 1;
 					end if;
+					
+				when WR_DELAY =>
+					-- Delay for data write
+					-- default state transition
+					s_data_buffer_state        <= WAITING_DCTRL_SPACE;
+					v_data_buffer_state        := WAITING_DCTRL_SPACE;
+					-- default internal signal values
+					s_avs_dbuffer_fifo.rdreq   <= '0';
+					s_avs_dbuffer_fifo.sclr    <= '0';
+					s_avs_bebuffer_fifo.rdreq  <= '0';
+					s_avs_bebuffer_fifo.sclr   <= '0';
+					s_dctrl_dbuffer_fifo.data  <= (others => '0');
+					s_dctrl_dbuffer_fifo.sclr  <= '0';
+					s_dctrl_dbuffer_fifo.wrreq <= '0';
+				-- conditional state transition
 
 			end case;
 
@@ -247,7 +263,7 @@ begin
 					-- conditional output signals
 					null;
 
-				when DELAY =>
+				when RD_DELAY =>
 					-- Delay for data fetch
 					-- default output signals
 					-- conditional output signals
@@ -261,6 +277,12 @@ begin
 
 				when WRITE_DCTRL_DATA =>
 					-- Write data in the dctrl data fifo
+					-- default output signals
+					-- conditional output signals
+					null;
+
+				when WR_DELAY =>
+					-- Delay for data write
 					-- default output signals
 					-- conditional output signals
 					null;
@@ -327,7 +349,8 @@ begin
 	-- Data Buffer In/Out Assignments
 	dbuff_empty_o <= s_avs_dbuffer_fifo.empty;
 	dbuff_full_o  <= s_avs_dbuffer_fifo.full;
-	dbuff_usedw_o <= s_avs_dbuffer_fifo.usedw;
+	dbuff_usedw_o(c_AVS_BUFFER_USED_WIDTH) <= s_avs_dbuffer_fifo.full;
+	dbuff_usedw_o((c_AVS_BUFFER_USED_WIDTH - 1) downto 0) <= s_avs_dbuffer_fifo.usedw;
 
 	-- Avalon Slave Data Buffer In/Out Assignments
 	s_avs_dbuffer_fifo.data  <= avs_dbuffer_wrdata_i;
