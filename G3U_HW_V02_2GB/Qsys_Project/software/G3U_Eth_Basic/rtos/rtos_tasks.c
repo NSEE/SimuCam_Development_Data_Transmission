@@ -27,6 +27,8 @@
 #include "../driver/dcom/dcom_channel.h"
 //#include "sub_unit_control_task.h"
 
+#include "../utils/configs_simucam.h"
+
 TDcomChannel xCh[8];
 
 /* OS Error Variables */
@@ -40,156 +42,34 @@ alt_u8 tempBoard = 0;
 alt_msgdma_dev *DMADev = NULL;
 
 /* OS Tasks Variables */
-OS_STK MemDMATaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWATaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWBTaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWCTaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWDTaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWETaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWFTaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWGTaskStk[SIMUCAM_TASK_STACKSIZE];
-OS_STK SPWHTaskStk[SIMUCAM_TASK_STACKSIZE];
+OS_STK SPWLinkTaskStk[SIMUCAM_TASK_STACKSIZE];
 OS_STK LogTaskStk[SIMUCAM_TASK_STACKSIZE];
 
 /* SpW Functions */
-void Set_SpW_Led(char c_SpwID);
+void Set_SpW_Led(INT8U c_SpwID);
 
 /* OS Tasks */
 
-/* Mem DMA Task, configure and manages the Memories DMA for use of the SpW Transparent Interface*/
-void MemDMATask(void *task_data) {
+/* SPW Link Task, configure and monitor the SpW channel for incoming connections to set the status leds, update rate of 10 ms */
+void SPWLinkTask(void *task_data) {
 #if DEBUG_ON
-	printf("Created \"mem dma\" Task (Prio:%d) \n", MEM_DMA_TASK_PRIORITY);
+	printf("Created \"spw link\" Task (Prio:%d) \n", SPW_LINK_TASK_PRIORITY);
 #endif
 
-//	/* Open DMA Device */
-//	if (DMA_OPEN_DEVICE(&DMADev, (char *)DMA_DDR_M_CSR_NAME) == FALSE){
-//		printf("Error Opening DMA Device");
-//	}
-//
-//	/* Reset DMA Device */
-//	if (DMA_DISPATCHER_RESET(DMADev, DMA_WAIT, DMA_DEFAULT_WAIT_PERIOD) == FALSE){
-//		printf("Error Reseting Dispatcher");
-//	}
+	INT8U ucSpwChCnt = 0;
 
-	/* read address - source address (data buffer) */
-	/* write address - destination address (transparent interface) */
-	/* transfer size bytes - number of bytes to be transfered */
-
-	while (1) {
-		OSTimeDlyHMSM(0, 1, 0, 0);
+	for (ucSpwChCnt = 0; ucSpwChCnt < 8; ucSpwChCnt++) {
+		bDcomInitCh(&(xCh[ucSpwChCnt]), ucSpwChCnt);
+		bDctrGetControllerConfig(&(xCh[ucSpwChCnt].xDataController));
+		xCh[ucSpwChCnt].xDataController.xControllerConfig.bSendEep = xDefaults.bSendEEP;
+		xCh[ucSpwChCnt].xDataController.xControllerConfig.bSendEop = xDefaults.bSendEOP;
+		bDctrSetControllerConfig(&(xCh[ucSpwChCnt].xDataController));
 	}
-}
-
-/* SPW A Task, configure and monitor the SpW A channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWATask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw a\" Task (Prio:%d) \n", SPW_A_TASK_PRIORITY);
-#endif
-
-	bDcomInitCh(&(xCh[0]), eDcomSpwCh1);
 
 	while (1) {
-		Set_SpW_Led('A');
-		OSTimeDlyHMSM(0, 0, 0, 10);
-	}
-}
-
-/* SPW B Task, configure and monitor the SpW B channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWBTask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw b\" Task (Prio:%d) \n", SPW_B_TASK_PRIORITY);
-#endif
-
-	bDcomInitCh(&(xCh[1]), eDcomSpwCh2);
-
-	while (1) {
-		Set_SpW_Led('B');
-		OSTimeDlyHMSM(0, 0, 0, 10);
-	}
-}
-
-/* SPW C Task, configure and monitor the SpW C channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWCTask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw c\" Task (Prio:%d) \n", SPW_C_TASK_PRIORITY);
-#endif
-
-	bDcomInitCh(&(xCh[2]), eDcomSpwCh3);
-
-	while (1) {
-		Set_SpW_Led('C');
-		OSTimeDlyHMSM(0, 0, 0, 10);
-	}
-}
-
-/* SPW D Task, configure and monitor the SpW D channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWDTask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw d\" Task (Prio:%d) \n", SPW_D_TASK_PRIORITY);
-#endif
-
-	bDcomInitCh(&(xCh[3]), eDcomSpwCh4);
-
-	while (1) {
-		Set_SpW_Led('D');
-		OSTimeDlyHMSM(0, 0, 0, 10);
-	}
-}
-
-/* SPW E Task, configure and monitor the SpW E channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWETask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw e\" Task (Prio:%d) \n", SPW_E_TASK_PRIORITY);
-#endif
-
-	bDcomInitCh(&(xCh[4]), eDcomSpwCh5);
-
-	while (1) {
-		Set_SpW_Led('E');
-		OSTimeDlyHMSM(0, 0, 0, 10);
-	}
-}
-
-/* SPW F Task, configure and monitor the SpW F channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWFTask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw f\" Task (Prio:%d) \n", SPW_F_TASK_PRIORITY);
-#endif
-
-	bDcomInitCh(&(xCh[5]), eDcomSpwCh6);
-
-	while (1) {
-		Set_SpW_Led('F');
-		OSTimeDlyHMSM(0, 0, 0, 10);
-	}
-}
-
-/* SPW G Task, configure and monitor the SpW G channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWGTask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw g\" Task (Prio:%d) \n", SPW_G_TASK_PRIORITY);
-#endif
-
-	bDcomInitCh(&(xCh[6]), eDcomSpwCh7);
-
-	while (1) {
-		Set_SpW_Led('G');
-		OSTimeDlyHMSM(0, 0, 0, 10);
-	}
-}
-
-/* SPW H Task, configure and monitor the SpW H channel for incoming connections to set the status leds, update rate of 10 ms */
-void SPWHTask(void *task_data) {
-#if DEBUG_ON
-	printf("Created \"spw h\" Task (Prio:%d) \n", SPW_H_TASK_PRIORITY);
-#endif
-
-
-	bDcomInitCh(&(xCh[7]), eDcomSpwCh8);
-
-	while (1) {
-		Set_SpW_Led('H');
+		for (ucSpwChCnt = 0; ucSpwChCnt < 8; ucSpwChCnt++) {
+			Set_SpW_Led(ucSpwChCnt);
+		}
 		OSTimeDlyHMSM(0, 0, 0, 10);
 	}
 }
@@ -209,74 +89,10 @@ void LogTask(void *task_data) {
 /* Initialize the SimuCam Tasks */
 void Init_Simucam_Tasks(void) {
 
-	error_code = OSTaskCreateExt(MemDMATask,
-	NULL, (void *) &MemDMATaskStk[SIMUCAM_TASK_STACKSIZE],
-	MEM_DMA_TASK_PRIORITY,
-	MEM_DMA_TASK_PRIORITY, MemDMATaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWATask,
-	NULL, (void *) &SPWATaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_A_TASK_PRIORITY,
-	SPW_A_TASK_PRIORITY, SPWATaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWBTask,
-	NULL, (void *) &SPWBTaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_B_TASK_PRIORITY,
-	SPW_B_TASK_PRIORITY, SPWBTaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWCTask,
-	NULL, (void *) &SPWCTaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_C_TASK_PRIORITY,
-	SPW_C_TASK_PRIORITY, SPWCTaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWDTask,
-	NULL, (void *) &SPWDTaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_D_TASK_PRIORITY,
-	SPW_D_TASK_PRIORITY, SPWDTaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWETask,
-	NULL, (void *) &SPWETaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_E_TASK_PRIORITY,
-	SPW_E_TASK_PRIORITY, SPWETaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWFTask,
-	NULL, (void *) &SPWFTaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_F_TASK_PRIORITY,
-	SPW_F_TASK_PRIORITY, SPWFTaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWGTask,
-	NULL, (void *) &SPWGTaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_G_TASK_PRIORITY,
-	SPW_G_TASK_PRIORITY, SPWGTaskStk,
-	SIMUCAM_TASK_STACKSIZE,
-	NULL, 0);
-	alt_uCOSIIErrorHandler(error_code, 0);
-
-	error_code = OSTaskCreateExt(SPWHTask,
-	NULL, (void *) &SPWHTaskStk[SIMUCAM_TASK_STACKSIZE],
-	SPW_H_TASK_PRIORITY,
-	SPW_H_TASK_PRIORITY, SPWHTaskStk,
+	error_code = OSTaskCreateExt(SPWLinkTask,
+	NULL, (void *) &SPWLinkTaskStk[SIMUCAM_TASK_STACKSIZE],
+	SPW_LINK_TASK_PRIORITY,
+	SPW_LINK_TASK_PRIORITY, SPWLinkTaskStk,
 	SIMUCAM_TASK_STACKSIZE,
 	NULL, 0);
 	alt_uCOSIIErrorHandler(error_code, 0);
@@ -291,80 +107,47 @@ void Init_Simucam_Tasks(void) {
 
 }
 
-//void Configure_SpW_Autostart(char c_SpwID) {
-//	// Configura DCOM
-//
-//	// Reseta TX e RX Fifo
-//	v_Transparent_Interface_RX_FIFO_Reset(c_SpwID);
-//	v_Transparent_Interface_TX_FIFO_Reset(c_SpwID);
-//	// Habilita a Interface Transparente
-//	v_Transparent_Interface_Enable_Control(c_SpwID, TRAN_REG_SET,
-//			TRAN_INTERFACE_ENABLE_CONTROL_BIT_MASK
-//					| TRAN_INTERFACE_TX_ENABLE_CONTROL_BIT_MASK
-//					| TRAN_INTERFACE_RX_ENABLE_CONTROL_BIT_MASK);
-//	// Reseta Codec
-//	v_SpaceWire_Interface_Force_Reset(c_SpwID);
-//	// Habilita a Interface SpaceWire
-//	b_SpaceWire_Interface_Enable_Control(c_SpwID, SPWC_REG_SET,
-//			SPWC_CODEC_ENABLE_CONTROL_BIT_MASK
-//					| SPWC_CODEC_TX_ENABLE_CONTROL_BIT_MASK
-//					| SPWC_CODEC_RX_ENABLE_CONTROL_BIT_MASK);
-//	// Coloca Codec no modo Normal
-////	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_NORMAL_MODE);
-//	b_SpaceWire_Interface_Mode_Control(c_SpwID, SPWC_INTERFACE_BACKDOOR_MODE);
-//	// Coloca Codec no link Disabled, funcao padrao para o IWF
-//	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_CLEAR,
-//	SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK | SPWC_LINK_START_CONTROL_BIT_MASK);
-//	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
-//			SPWC_LINK_DISCONNECT_CONTROL_BIT_MASK);
-////	v_SpaceWire_Interface_Link_Control(c_SpwID, SPWC_REG_SET,
-////	SPWC_AUTOSTART_CONTROL_BIT_MASK);
-//#if DEBUG_ON
-//	printf("SpaceWire %c configurado\n", c_SpwID);
-//#endif
-//}
-
-void Set_SpW_Led(char c_SpwID) {
+void Set_SpW_Led(INT8U c_SpwID) {
 	alt_u32 ui_leds_mask_r = 0;
 	alt_u32 ui_leds_mask_g = 0;
 	TDcomChannel *pxChannel = &(xCh[0]);
 	switch (c_SpwID) {
-	case 'A':
+	case 0:
 		ui_leds_mask_r = LEDS_1R_MASK;
 		ui_leds_mask_g = LEDS_1G_MASK;
 		pxChannel = &(xCh[0]);
 		break;
-	case 'B':
+	case 1:
 		ui_leds_mask_r = LEDS_2R_MASK;
 		ui_leds_mask_g = LEDS_2G_MASK;
 		pxChannel = &(xCh[1]);
 		break;
-	case 'C':
+	case 2:
 		ui_leds_mask_r = LEDS_3R_MASK;
 		ui_leds_mask_g = LEDS_3G_MASK;
 		pxChannel = &(xCh[2]);
 		break;
-	case 'D':
+	case 3:
 		ui_leds_mask_r = LEDS_4R_MASK;
 		ui_leds_mask_g = LEDS_4G_MASK;
 		pxChannel = &(xCh[3]);
 		break;
-	case 'E':
+	case 4:
 		ui_leds_mask_r = LEDS_5R_MASK;
 		ui_leds_mask_g = LEDS_5G_MASK;
 		pxChannel = &(xCh[4]);
 		break;
-	case 'F':
+	case 5:
 		ui_leds_mask_r = LEDS_6R_MASK;
 		ui_leds_mask_g = LEDS_6G_MASK;
 		pxChannel = &(xCh[5]);
 		break;
-	case 'G':
+	case 6:
 		ui_leds_mask_r = LEDS_7R_MASK;
 		ui_leds_mask_g = LEDS_7G_MASK;
 		pxChannel = &(xCh[6]);
 		break;
-	case 'H':
+	case 7:
 		ui_leds_mask_r = LEDS_8R_MASK;
 		ui_leds_mask_g = LEDS_8G_MASK;
 		pxChannel = &(xCh[7]);
