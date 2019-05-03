@@ -73,7 +73,7 @@ void dma1_scheduler_task(void *task_data) {
 	}
 }
 
-void dma1_scheduler_task_1(void *task_data) {
+void dma2_scheduler_task(void *task_data) {
 	INT8U error_code_dma_sched;
 	INT8U i_dma_sched_controller;
 	INT8U dma_nb = (INT8U) task_data;
@@ -92,7 +92,7 @@ void dma1_scheduler_task_1(void *task_data) {
 				i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[dma_nb], 1,
 						&error_code_dma_sched);
 				if (error_code_dma_sched == OS_ERR_NONE) {
-					sub_config_send[i_channel_buffer].mode = subAccessDMA1;
+					sub_config_send[i_channel_buffer].mode = subAccessDMA2;
 					error_code_dma_sched = (INT8U) OSQPost(
 							p_sub_unit_config_queue[i_channel_buffer],
 							&(sub_config_send[i_channel_buffer]));

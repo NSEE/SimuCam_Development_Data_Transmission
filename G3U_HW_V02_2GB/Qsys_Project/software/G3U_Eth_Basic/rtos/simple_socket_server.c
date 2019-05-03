@@ -278,7 +278,7 @@ void SSSCreateTasks(void) {
 	/*
 	 * Creating the DMA2 controller task [yb]
 	 */
-	error_code = OSTaskCreateExt(dma1_scheduler_task_1,(void *) 1,
+	error_code = OSTaskCreateExt(dma2_scheduler_task,(void *) 1,
 			(void *) &dma1_scheduler_task_stack_1[TASK_STACKSIZE - 1],
 			DMA_SCHEDULER_TASK_PRIORITY+1,
 			DMA_SCHEDULER_TASK_PRIORITY+1, dma1_scheduler_task_stack_1,

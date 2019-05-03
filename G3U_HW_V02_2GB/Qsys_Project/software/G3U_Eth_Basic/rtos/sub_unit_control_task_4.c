@@ -13,17 +13,16 @@
 void sub_unit_control_task_4(void *task_data) {
 	INT8U error_code; /*uCOS error code*/
 	INT32U i_mem_pointer_buffer;
-	INT8U	i_temp_sched;
 
 	/*
 	 * Assign channel code from task descriptor
 	 */
-	INT8U c_spw_channel = (INT8U) task_data;
+	volatile INT8U c_spw_channel = (INT8U) task_data;
 
 	sub_config_t *p_config;
 
 	static _ethernet_payload xTemp_sub;
-
+	INT8U i_temp_sched;
 	T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeInit;
 
 	while (1) {
@@ -31,7 +30,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModeInit:
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Sub-unit mode Init\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT5]Sub-unit Init\r\n");
 #endif
 			/*
 			 * Default subUnit config
@@ -63,7 +62,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModetoConfig:
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Sub-unit mode toConfig\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT5]Sub-unit toConfig\r\n");
 #endif
 			/*
 			 * Stop timer for ChA
@@ -89,7 +88,7 @@ void sub_unit_control_task_4(void *task_data) {
 			 */
 		case subModeConfig:
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Sub-unit mode Config\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT5]Sub-unit Config\r\n");
 #endif
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
@@ -109,7 +108,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 			} else {
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Sub-unit config queue error\r\n",(INT8U)c_spw_channel);
+				printf("[SUBUNIT5]Sub-unit config queue error\r\n");
 #endif
 			}
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
@@ -119,7 +118,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModetoRun:
 #if DEBUG_ON
-			printf("[SUBUNIT%i]Sub-unit toRun\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT5]Sub-unit toRun\r\n");
 #endif
 			/*
 			 * Stop timer for ChA
@@ -141,7 +140,7 @@ void sub_unit_control_task_4(void *task_data) {
 			 */
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Channel disabled\r\n",(INT8U)c_spw_channel);
+				printf("[SUBUNIT5]Channel disabled\r\n");
 #endif
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 				break;
@@ -159,21 +158,22 @@ void sub_unit_control_task_4(void *task_data) {
 
 				if (error_code != OS_NO_ERR) {
 #if DEBUG_ON
-					printf("[SUBUNIT%i] Mutex error.",(INT8U)c_spw_channel);
+					printf("[SUBUNIT5] Mutex error.\r\n");
 #endif
 				} else {
 					/*
 					 * TODO
-					 * changed for testing
+					 * NEW ELSE,verif
 					 */
 					while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 							< 2) {
 						//T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes
 #if DEBUG_ON
-						printf("[SUBUNIT%i]Printinf offset %i & %x\r\n",(INT8U)c_spw_channel,
+						printf("[SUBUNIT5]Printinf offset %i & %x\r\n",
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
+
 						/*
 						 * Verif that there is enough free space
 						 */
@@ -223,12 +223,12 @@ void sub_unit_control_task_4(void *task_data) {
 								T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
 							} else {
 #if DEBUG_ON
-								printf("[SUBUNIT%i]DMA ERROR\r\n",(INT8U)c_spw_channel);
+								printf("[SUBUNIT5]DMA ERROR\r\n");
 #endif
 							}/* end error code DMA verif*/
 						} else {
 #if DEBUG_ON
-							printf("[SUBUNIT%i]Buffer Fully scheduled\r\n",(INT8U)c_spw_channel);
+							printf("[SUBUNIT5]Buffer Fully scheduled\r\n");
 #endif
 						} /*end free space verif*/
 					}/*end while*/
@@ -247,7 +247,7 @@ void sub_unit_control_task_4(void *task_data) {
 					 * Set link to autostart
 					 */
 #if DEBUG_ON
-					printf("[SUBUNIT%i]Channel autostart\r\n",(INT8U)c_spw_channel);
+					printf("[SUBUNIT5]Channel autostart\r\n");
 #endif
 
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
@@ -264,7 +264,7 @@ void sub_unit_control_task_4(void *task_data) {
 					 * Set link to start
 					 */
 #if DEBUG_ON
-					printf("[SUBUNIT%i]Channel start\r\n",(INT8U)c_spw_channel);
+					printf("[SUBUNIT5]Channel start\r\n");
 #endif
 
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
@@ -286,7 +286,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModeRun:
 #if DEBUG_ON
-			printf("[SUBUNIT%i]Sub-unit Run\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT5]Sub-unit Run\r\n");
 #endif
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
@@ -339,7 +339,9 @@ void sub_unit_control_task_4(void *task_data) {
 								 * Signal cmd that DMA is free
 								 */
 								i_temp_sched = simDMA2Back;
-								OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
+								OSQPost(
+										p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel
+												/ 4], i_temp_sched);
 
 								i_mem_pointer_buffer =
 										(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
@@ -373,7 +375,9 @@ void sub_unit_control_task_4(void *task_data) {
 							 * Signal cmd that DMA is free
 							 */
 							i_temp_sched = simDMA2Back;
-							OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
+							OSQPost(
+									p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel
+											/ 4], i_temp_sched);
 						}
 					} else {
 						/*
@@ -386,7 +390,9 @@ void sub_unit_control_task_4(void *task_data) {
 						 * Signal cmd that DMA is free
 						 */
 						i_temp_sched = simDMA2Back;
-						OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
+						OSQPost(
+								p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel
+										/ 4], i_temp_sched);
 					}
 					break;
 
@@ -397,7 +403,7 @@ void sub_unit_control_task_4(void *task_data) {
 					T_simucam.T_Sub[c_spw_channel].T_conf.b_abort = false;
 				case subEOT:
 #if DEBUG_ON
-					printf("[SUBUNIT%i]Sub Abort\r\n",(INT8U)c_spw_channel);
+					printf("[SUBUNIT5]Sub Abort\r\n");
 #endif
 
 					T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
@@ -407,7 +413,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				case subChangeMode:
 #if DEBUG_ON
-					printf("[SUBUNIT%i]Change mode\r\n",(INT8U)c_spw_channel);
+					printf("[SUBUNIT5]Change mode\r\n");
 #endif
 					T_simucam.T_Sub[c_spw_channel].T_conf.mode =
 							subModetoConfig;
@@ -415,7 +421,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				default:
 #if DEBUG_ON
-					printf("[SUBUNIT%i]Sub-unit Default run trap\r\n",(INT8U)c_spw_channel);
+					printf("[SUBUNIT5]Sub-unit Default run trap\r\n");
 #endif
 					break;
 				}
@@ -423,7 +429,7 @@ void sub_unit_control_task_4(void *task_data) {
 			break;
 		default:
 #if DEBUG_ON
-			printf("[SUBUNIT%i]Sub-unit default error!\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT5]Sub-unit default error!\r\n");
 #endif
 			break;
 		}

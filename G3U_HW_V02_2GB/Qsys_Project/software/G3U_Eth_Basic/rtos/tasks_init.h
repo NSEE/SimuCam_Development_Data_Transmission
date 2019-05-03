@@ -18,7 +18,7 @@ void sub_unit_control_task_6	(void *task_data);
 void sub_unit_control_task_7	(void *task_data);
 void telemetry_manager_task();
 void dma1_scheduler_task		(void *task_data);
-void dma1_scheduler_task_1		(void *task_data);
+void dma2_scheduler_task		(void *task_data);
 
 
 
