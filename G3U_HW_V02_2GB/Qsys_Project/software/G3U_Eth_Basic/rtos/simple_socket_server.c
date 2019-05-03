@@ -266,12 +266,24 @@ void SSSCreateTasks(void) {
 	/*
 	 * Creating the DMA controller task [yb]
 	 */
-	error_code = OSTaskCreateExt(dma1_scheduler_task,
-	0, (void *) &dma1_scheduler_task_stack_0[TASK_STACKSIZE - 1],
-	DMA_SCHEDULER_TASK_PRIORITY,
-	DMA_SCHEDULER_TASK_PRIORITY, dma1_scheduler_task_stack_0,
-	TASK_STACKSIZE,
-	NULL, 0);
+	error_code = OSTaskCreateExt(dma1_scheduler_task,(void *) 0,
+			(void *) &dma1_scheduler_task_stack_0[TASK_STACKSIZE - 1],
+			DMA_SCHEDULER_TASK_PRIORITY,
+			DMA_SCHEDULER_TASK_PRIORITY, dma1_scheduler_task_stack_0,
+			TASK_STACKSIZE,
+			NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
+	/*
+	 * Creating the DMA2 controller task [yb]
+	 */
+	error_code = OSTaskCreateExt(dma1_scheduler_task_1,(void *) 1,
+			(void *) &dma1_scheduler_task_stack_1[TASK_STACKSIZE - 1],
+			DMA_SCHEDULER_TASK_PRIORITY+1,
+			DMA_SCHEDULER_TASK_PRIORITY+1, dma1_scheduler_task_stack_1,
+			TASK_STACKSIZE,
+			NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
