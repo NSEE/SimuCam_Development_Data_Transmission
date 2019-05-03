@@ -63,7 +63,7 @@ begin
 					avalon_mm_dcom_o.readdata(24)           <= dcom_read_registers_i.spw_timecode_rx_reg.timecode_rx_received;
 					avalon_mm_dcom_o.readdata(31 downto 25) <= (others => '0');
 				when (16#02#) =>
-					avalon_mm_dcom_o.readdata(10 downto 0)  <= dcom_read_registers_i.data_buffers_status_reg.data_buffer_used;
+					avalon_mm_dcom_o.readdata(11 downto 0)  <= dcom_read_registers_i.data_buffers_status_reg.data_buffer_used;
 					avalon_mm_dcom_o.readdata(15 downto 11) <= (others => '0');
 					avalon_mm_dcom_o.readdata(16)           <= dcom_read_registers_i.data_buffers_status_reg.data_buffer_empty;
 					avalon_mm_dcom_o.readdata(17)           <= dcom_read_registers_i.data_buffers_status_reg.data_buffer_full;

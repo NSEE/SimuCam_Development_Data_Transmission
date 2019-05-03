@@ -35,7 +35,7 @@ package avalon_mm_dcom_registers_pkg is
 	end record t_dcom_spw_timecode_tx_rxctrl_wr_reg;
 
 	type t_dcom_data_buffers_status_rd_reg is record
-		data_buffer_used  : std_logic_vector(10 downto 0);
+		data_buffer_used  : std_logic_vector(11 downto 0);
 		data_buffer_empty : std_logic;
 		data_buffer_full  : std_logic;
 	end record t_dcom_data_buffers_status_rd_reg;
