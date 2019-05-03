@@ -66,7 +66,6 @@ struct x_ethernet_payload *p_simucam_command_q_table[16]; /*Storage for SimucamC
 /*
  * Configuration of the sub-unit management task
  */
-#define SUB_UNIT_TASK_PRIORITY 9
 OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_1[TASK_STACKSIZE];
 OS_STK sub_unit_task_stack_2[TASK_STACKSIZE];
@@ -79,16 +78,15 @@ OS_STK sub_unit_task_stack_7[TASK_STACKSIZE];
 /*
  * Configuration of the simucam command management task[yb]
  */
-
-#define COMMAND_MANAGEMENT_TASK_PRIORITY 8
 OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam command management task[yb]
  */
-
-#define TELEMETRY_TASK_PRIORITY 30
 OS_STK telemetry_manager_task_stack[TASK_STACKSIZE];
+
+OS_STK dma1_scheduler_task_stack_0[TASK_STACKSIZE];
+OS_STK dma1_scheduler_task_stack_1[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam data queue[yb]
@@ -260,6 +258,18 @@ void SSSCreateTasks(void) {
 	NULL, (void *) &telemetry_manager_task_stack[TASK_STACKSIZE - 1],
 	TELEMETRY_TASK_PRIORITY,
 	TELEMETRY_TASK_PRIORITY, telemetry_manager_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
+	/*
+	 * Creating the DMA controller task [yb]
+	 */
+	error_code = OSTaskCreateExt(dma1_scheduler_task,
+	0, (void *) &dma1_scheduler_task_stack_0[TASK_STACKSIZE - 1],
+	DMA_SCHEDULER_TASK_PRIORITY,
+	DMA_SCHEDULER_TASK_PRIORITY, dma1_scheduler_task_stack_0,
 	TASK_STACKSIZE,
 	NULL, 0);
 

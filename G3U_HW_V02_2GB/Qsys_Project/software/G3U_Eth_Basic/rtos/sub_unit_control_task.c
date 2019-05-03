@@ -21,11 +21,18 @@ void *p_sub_unit_config_queue_tbl_6[SUBUNIT_BUFFER]; /*Storage for sub_unit queu
 void *p_sub_unit_config_queue_tbl_7[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
 
 /*
- * Creation of the schedullerQueue
+ * Creation of the schedulerQueue
  */
 OS_EVENT *DMA_sched_queue[2];
 void *DMA1_sched_queue_tbl[DMA_SCHED_BUFFER]; /*Storage for sub_unit queue*/
 void *DMA2_sched_queue_tbl[DMA_SCHED_BUFFER]; /*Storage for sub_unit queue*/
+
+/*
+ * Creation of the DMA scheduler controller
+ */
+OS_EVENT *p_dma_scheduler_controller_queue[2];
+void *p_dma_scheduler_controller_queue_tbl_0[SUBUNIT_BUFFER];
+void *p_dma_scheduler_controller_queue_tbl_1[SUBUNIT_BUFFER];
 
 /*
  * Create the sub-unit defined data structures and queues
@@ -111,6 +118,27 @@ void sub_unit_create_os_data_structs(void) {
 	if (!p_sub_unit_config_queue[7]) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_dma_scheduler_controller_queue[0] = OSQCreate(
+			&p_dma_scheduler_controller_queue_tbl_0[0],
+			SUBUNIT_BUFFER);
+
+	/*
+	 * Creation of the DMA scheduller queues
+	 */
+	if (!p_dma_scheduler_controller_queue[0]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_dma_scheduler_controller_queue 0.\n");
+	}
+
+	p_dma_scheduler_controller_queue[1] = OSQCreate(
+			&p_dma_scheduler_controller_queue_tbl_1[0],
+			SUBUNIT_BUFFER);
+
+	if (!p_dma_scheduler_controller_queue[1]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_dma_scheduler_controller_queue 1.\n");
 	}
 }
 
@@ -258,6 +286,7 @@ INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code) {
 void sub_unit_control_task(void *task_data) {
 	INT8U error_code; /*uCOS error code*/
 	INT32U i_mem_pointer_buffer;
+	INT8U	i_temp_sched;
 
 	/*
 	 * Assign channel code from task descriptor
@@ -399,17 +428,16 @@ void sub_unit_control_task(void *task_data) {
 				} else {
 					/*
 					 * TODO
-					 * NEW ELSE,verif
+					 * changed for testing
 					 */
 					while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
-							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
+							< 2) {
 
 #if DEBUG_ON
 						printf("[SUBUNIT]Printinf offset %i & %x\r\n",
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
-						T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset;
 						/*
 						 * Verif that there is enough free space
 						 */
@@ -471,7 +499,8 @@ void sub_unit_control_task(void *task_data) {
 				}
 				OSMutexPost(xMutexDMA[(unsigned char) c_spw_channel / 4]);
 
-				set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
+				set_spw_linkspeed(&(xCh[c_spw_channel]),
+						T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
 
 				/*
 				 * init SpW links
@@ -492,7 +521,6 @@ void sub_unit_control_task(void *task_data) {
 					xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect =
 					FALSE;
 					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
-
 
 				} else {
 
@@ -574,8 +602,8 @@ void sub_unit_control_task(void *task_data) {
 								/*
 								 * Signal cmd that DMA is free
 								 */
-								xTemp_sub.type = simDMA1Back;
-								OSQPost(p_simucam_command_q, &xTemp_sub);
+								i_temp_sched = simDMA1Back;
+								OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
 
 								i_mem_pointer_buffer =
 										(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
@@ -608,8 +636,8 @@ void sub_unit_control_task(void *task_data) {
 							/*
 							 * Signal cmd that DMA is free
 							 */
-							xTemp_sub.type = simDMA1Back;
-							OSQPost(p_simucam_command_q, &xTemp_sub);
+							i_temp_sched = simDMA1Back;
+							OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
 						}
 					} else {
 						/*
@@ -621,8 +649,8 @@ void sub_unit_control_task(void *task_data) {
 						/*
 						 * Signal cmd that DMA is free
 						 */
-						xTemp_sub.type = simDMA1Back;
-						OSQPost(p_simucam_command_q, &xTemp_sub);
+						i_temp_sched = simDMA1Back;
+						OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
 					}
 					break;
 

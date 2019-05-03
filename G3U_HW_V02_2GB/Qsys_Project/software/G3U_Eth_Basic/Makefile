@@ -182,6 +182,7 @@ C_SRCS += rtos/sub_unit_control_task_4.c
 C_SRCS += rtos/sub_unit_control_task_5.c
 C_SRCS += rtos/sub_unit_control_task_6.c
 C_SRCS += rtos/sub_unit_control_task_7.c
+C_SRCS += rtos/dma1_scheduler_task.c
 CXX_SRCS :=
 ASM_SRCS :=
 

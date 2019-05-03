@@ -79,8 +79,6 @@
  * Priorities definitions
  */
 
-#define PCP_MUTEX_DMA_QUEUE			6
-
 extern OS_EVENT *xMutexDMA[2];
 
 

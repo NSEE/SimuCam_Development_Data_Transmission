@@ -82,8 +82,7 @@ void vDctrCh1HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[0].T_data.i_imagette
 				< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], 0);
-			xTemp.type = simDMA1Sched;
-			OSQPost(p_simucam_command_q, &xTemp);
+			OSQPost(p_dma_scheduler_controller_queue[0], simDMA1Sched);
 		}
 
 		vDctrCh1IrqFlagClr(eTxBeginFlag);
