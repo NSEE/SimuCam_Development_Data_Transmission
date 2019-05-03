@@ -10,15 +10,15 @@
 /*
  * Configuration of the sub-unit management task
  */
-#define SUB_UNIT_TASK_PRIORITY 7
-OS_STK sub_unit_task_stack[TASK_STACKSIZE];
+//#define SUB_UNIT_TASK_PRIORITY 7
+//OS_STK sub_unit_task_stack[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam command management task[yb]
  */
-
-#define COMMAND_MANAGEMENT_TASK_PRIORITY 6
-OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
+//
+//#define COMMAND_MANAGEMENT_TASK_PRIORITY 6
+//OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
 
 
 //void SimucamCreateTasks(void) {
