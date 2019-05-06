@@ -30,7 +30,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModeInit:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit Init\r\n");
+			printf("[SUBUNIT%i]Sub-unit Init\r\n",(INT8U)c_spw_channel);
 #endif
 			/*
 			 * Default subUnit config
@@ -62,7 +62,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModetoConfig:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit toConfig\r\n");
+			printf("[SUBUNIT%i]Sub-unit toConfig\r\n",(INT8U)c_spw_channel);
 #endif
 			/*
 			 * Stop timer for ChA
@@ -88,7 +88,7 @@ void sub_unit_control_task_4(void *task_data) {
 			 */
 		case subModeConfig:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit Config\r\n");
+			printf("[SUBUNIT%i]Sub-unit Config\r\n",(INT8U)c_spw_channel);
 #endif
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
@@ -108,7 +108,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 			} else {
 #if DEBUG_ON
-				printf("[SUBUNIT5]Sub-unit config queue error\r\n");
+				printf("[SUBUNIT%i]Sub-unit config queue error\r\n",(INT8U)c_spw_channel);
 #endif
 			}
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
@@ -118,7 +118,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModetoRun:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit toRun\r\n");
+			printf("[SUBUNIT%i]Sub-unit toRun\r\n",(INT8U)c_spw_channel);
 #endif
 			/*
 			 * Stop timer for ChA
@@ -140,7 +140,7 @@ void sub_unit_control_task_4(void *task_data) {
 			 */
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
 #if DEBUG_ON
-				printf("[SUBUNIT5]Channel disabled\r\n");
+				printf("[SUBUNIT%i]Channel disabled\r\n",(INT8U)c_spw_channel);
 #endif
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 				break;
@@ -158,7 +158,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				if (error_code != OS_NO_ERR) {
 #if DEBUG_ON
-					printf("[SUBUNIT5] Mutex error.\r\n");
+					printf("[SUBUNIT%i] Mutex error.\r\n",(INT8U)c_spw_channel);
 #endif
 				} else {
 
@@ -234,7 +234,7 @@ void sub_unit_control_task_4(void *task_data) {
 					 * Set link to autostart
 					 */
 #if DEBUG_ON
-					printf("[SUBUNIT5]Channel autostart\r\n");
+					printf("[SUBUNIT%i]Channel autostart\r\n",(INT8U)c_spw_channel);
 #endif
 
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
@@ -251,7 +251,7 @@ void sub_unit_control_task_4(void *task_data) {
 					 * Set link to start
 					 */
 #if DEBUG_ON
-					printf("[SUBUNIT5]Channel start\r\n");
+					printf("[SUBUNIT%i]Channel start\r\n",(INT8U)c_spw_channel);
 #endif
 
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
@@ -273,7 +273,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 		case subModeRun:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit Run\r\n");
+			printf("[SUBUNIT%i]Sub-unit Run\r\n",(INT8U)c_spw_channel);
 #endif
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
@@ -394,7 +394,7 @@ void sub_unit_control_task_4(void *task_data) {
 					T_simucam.T_Sub[c_spw_channel].T_conf.b_abort = false;
 				case subEOT:
 #if DEBUG_ON
-					printf("[SUBUNIT5]Sub Abort\r\n");
+					printf("[SUBUNIT%i]Sub Abort\r\n",(INT8U)c_spw_channel);
 #endif
 
 					T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
@@ -404,7 +404,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				case subChangeMode:
 #if DEBUG_ON
-					printf("[SUBUNIT5]Change mode\r\n");
+					printf("[SUBUNIT%i]Change mode\r\n",(INT8U)c_spw_channel);
 #endif
 					T_simucam.T_Sub[c_spw_channel].T_conf.mode =
 							subModetoConfig;
@@ -412,7 +412,7 @@ void sub_unit_control_task_4(void *task_data) {
 
 				default:
 #if DEBUG_ON
-					printf("[SUBUNIT5]Sub-unit Default run trap\r\n");
+					printf("[SUBUNIT%i]Sub-unit Default run trap\r\n",(INT8U)c_spw_channel);
 #endif
 					break;
 				}
@@ -420,7 +420,7 @@ void sub_unit_control_task_4(void *task_data) {
 			break;
 		default:
 #if DEBUG_ON
-			printf("[SUBUNIT5]Sub-unit default error!\r\n");
+			printf("[SUBUNIT%i]Sub-unit default error!\r\n",(INT8U)c_spw_channel);
 #endif
 			break;
 		}

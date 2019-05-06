@@ -13,7 +13,7 @@
 void sub_unit_control_task_1(void *task_data) {
 	INT8U error_code; /*uCOS error code*/
 	INT32U i_mem_pointer_buffer;
-	INT8U	i_temp_sched;
+	INT8U i_temp_sched;
 
 	/*
 	 * Assign channel code from task descriptor
@@ -31,7 +31,7 @@ void sub_unit_control_task_1(void *task_data) {
 
 		case subModeInit:
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Sub-unit mode Init\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT%i]Sub-unit mode Init\r\n",(INT8U)c_spw_channel);
 #endif
 			/*
 			 * Default subUnit config
@@ -63,7 +63,7 @@ void sub_unit_control_task_1(void *task_data) {
 
 		case subModetoConfig:
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Sub-unit mode toConfig\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT%i]Sub-unit mode toConfig\r\n",(INT8U)c_spw_channel);
 #endif
 			/*
 			 * Stop timer for ChA
@@ -89,7 +89,7 @@ void sub_unit_control_task_1(void *task_data) {
 			 */
 		case subModeConfig:
 #if DEBUG_ON
-				printf("[SUBUNIT%i]Sub-unit mode Config\r\n",(INT8U)c_spw_channel);
+			printf("[SUBUNIT%i]Sub-unit mode Config\r\n",(INT8U)c_spw_channel);
 #endif
 			p_config = (sub_config_t *) OSQPend(
 					p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
@@ -166,22 +166,19 @@ void sub_unit_control_task_1(void *task_data) {
 					 * TODO
 					 * changed for testing
 					 */
-					while (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
-							< 2) {
+					bDdr2SwitchMemory((unsigned char) c_spw_channel / 4);
+
+					while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < 2)
+							&& (uiDatbGetBuffersFreeSpace(
+									&(xCh[c_spw_channel].xDataBuffer))
+									>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+											+ DMA_OFFSET))) {
 						//T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes
 #if DEBUG_ON
 						printf("[SUBUNIT%i]Printinf offset %i & %x\r\n",(INT8U)c_spw_channel,
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 #endif
-						/*
-						 * Verif that there is enough free space
-						 */
-						if (uiDatbGetBuffersFreeSpace(
-								&(xCh[c_spw_channel].xDataBuffer))
-								>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-										+ DMA_OFFSET)) {
-
 							/*
 							 * Assign the correct memory access depending on ch
 							 */
@@ -226,11 +223,6 @@ void sub_unit_control_task_1(void *task_data) {
 								printf("[SUBUNIT%i]DMA ERROR\r\n",(INT8U)c_spw_channel);
 #endif
 							}/* end error code DMA verif*/
-						} else {
-#if DEBUG_ON
-							printf("[SUBUNIT%i]Buffer Fully scheduled\r\n",(INT8U)c_spw_channel);
-#endif
-						} /*end free space verif*/
 					}/*end while*/
 				}
 				OSMutexPost(xMutexDMA[(unsigned char) c_spw_channel / 4]);
@@ -300,7 +292,11 @@ void sub_unit_control_task_1(void *task_data) {
 #endif
 					if (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
-
+						/*
+						 * Switch to the right RAM stick, to prevent
+						 * data crossover
+						 */
+						bDdr2SwitchMemory((unsigned char) c_spw_channel / 4);
 						OSMutexPend(
 								xMutexDMA[(unsigned char) c_spw_channel / 4], 0,
 								&error_code);
@@ -310,7 +306,6 @@ void sub_unit_control_task_1(void *task_data) {
 							printf("[SUBUNIT%i] Mutex error.",(INT8U)c_spw_channel);
 #endif
 						}
-
 						if (uiDatbGetBuffersFreeSpace(
 								&(xCh[c_spw_channel].xDataBuffer))
 								>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
@@ -339,7 +334,9 @@ void sub_unit_control_task_1(void *task_data) {
 								 * Signal cmd that DMA is free
 								 */
 								i_temp_sched = simDMA1Back;
-								OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
+								OSQPost(
+										p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel
+												/ 4], i_temp_sched);
 
 								i_mem_pointer_buffer =
 										(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
@@ -373,7 +370,9 @@ void sub_unit_control_task_1(void *task_data) {
 							 * Signal cmd that DMA is free
 							 */
 							i_temp_sched = simDMA1Back;
-							OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
+							OSQPost(
+									p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel
+											/ 4], i_temp_sched);
 						}
 					} else {
 						/*
@@ -386,7 +385,9 @@ void sub_unit_control_task_1(void *task_data) {
 						 * Signal cmd that DMA is free
 						 */
 						i_temp_sched = simDMA1Back;
-						OSQPost(p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel / 4], i_temp_sched);
+						OSQPost(
+								p_dma_scheduler_controller_queue[(unsigned char) c_spw_channel
+										/ 4], i_temp_sched);
 					}
 					break;
 
