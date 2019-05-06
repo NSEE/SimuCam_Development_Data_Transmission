@@ -301,7 +301,7 @@ bool vLoadDebugConfs(void) {
 					break;
 				case -2: 	//EOF
 #if DEBUG_ON
-					debug(fp,"SDCard: Problem with SDCard");
+					printf("SDCard: Problem with SDCard");
 #endif
 					bEOF = true;
 					break;
@@ -374,7 +374,7 @@ bool vLoadDebugConfs(void) {
 					close = siCloseFile(siFile);
 					if (close == false) {
 #if DEBUG_ON
-						debug(fp,"SDCard: Can't close the file.\n");
+						printf("SDCard: Can't close the file.\n");
 #endif
 					}
 					/* End of Parser File */
@@ -383,19 +383,19 @@ bool vLoadDebugConfs(void) {
 					break;
 				default:
 #if DEBUG_ON
-					fprintf(fp,"SDCard: Problem with the parser. (%hhu)\n",c);
+					printf("SDCard: Problem with the parser. (%hhu)\n",c);
 #endif
 					break;
 				}
 			} while (bEOF == false);
 		} else {
 #if DEBUG_ON
-			fprintf(fp,"SDCard: File not found.\n");
+			printf("SDCard: File not found.\n");
 #endif
 		}
 	} else {
 #if DEBUG_ON
-		fprintf(fp,"SDCard: No SDCard.\n");
+		printf("SDCard: No SDCard.\n");
 #endif
 	}
 	/* Load the default configuration if not successful in read the SDCard */

@@ -69,6 +69,7 @@ alt_u16 uiDatbGetBuffersFreeSpace(TDatbChannel *pxDatbCh){
 			uiFreeSpace = 0;
 		} else {
 			/* Used in HW is in range 0..2048, for 64b words. This value is converted in the range 0..16384, for 8b words */
+//			uiFreeSpace = cuiDataBufferSize - (alt_u16)((uliDatbGetRegField(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_USED_MSK), 0)) << 3);
 			uiFreeSpace = cuiDataBufferSize - (alt_u16)((uliDatbGetRegField(uliReg, (alt_u32)(DCOM_DATA_BUFF_STAT_USED_MSK), 0)) << 3);
 		}
 	}
