@@ -266,7 +266,7 @@ void SSSCreateTasks(void) {
 	/*
 	 * Creating the DMA controller task [yb]
 	 */
-	error_code = OSTaskCreateExt(dma1_scheduler_task,(void *) 0,
+	error_code = OSTaskCreateExt(dma1_scheduler_task, (void *) 0,
 			(void *) &dma1_scheduler_task_stack_0[TASK_STACKSIZE - 1],
 			DMA_SCHEDULER_TASK_PRIORITY,
 			DMA_SCHEDULER_TASK_PRIORITY, dma1_scheduler_task_stack_0,
@@ -278,10 +278,10 @@ void SSSCreateTasks(void) {
 	/*
 	 * Creating the DMA2 controller task [yb]
 	 */
-	error_code = OSTaskCreateExt(dma2_scheduler_task,(void *) 1,
+	error_code = OSTaskCreateExt(dma2_scheduler_task, (void *) 1,
 			(void *) &dma1_scheduler_task_stack_1[TASK_STACKSIZE - 1],
-			DMA_SCHEDULER_TASK_PRIORITY+1,
-			DMA_SCHEDULER_TASK_PRIORITY+1, dma1_scheduler_task_stack_1,
+			DMA_SCHEDULER_TASK_PRIORITY + 1,
+			DMA_SCHEDULER_TASK_PRIORITY + 1, dma1_scheduler_task_stack_1,
 			TASK_STACKSIZE,
 			NULL, 0);
 
@@ -390,6 +390,8 @@ void sss_handle_receive(SSSConn* conn) {
 	int i = 0;
 	INT8U error_code = 0;
 	INT16U calculated_crc = 0;
+	INT32U i_received_bytes = 0;
+	INT32U i_length_buff = 0;
 	INT8U i_ack;
 
 	struct ethernet_buffer buffer;
@@ -533,7 +535,6 @@ void sss_handle_receive(SSSConn* conn) {
 							< T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
 
 						p_imagette_buff = (T_Imagette *) p_imagette_byte;
-
 						/*
 						 * Receive 6 bytes for offset and length
 						 */
@@ -555,26 +556,32 @@ void sss_handle_receive(SSSConn* conn) {
 						p_imagette_buff->imagette_length =
 								p_ethernet_buffer->rx_buffer[5]
 										+ 256 * p_ethernet_buffer->rx_buffer[4];
-
-						p_imagette_byte += 6;
-
-						rx_code = recv(conn->fd, (void * )p_imagette_byte,
-								p_imagette_buff->imagette_length, 0);
-						if (rx_code > 0) {
-							/*
-							 * TODO prepare for fragmented receive
-							 * if rx_code < data to receive, receive again
-							 */
 #if DEBUG_ON
-							printf(
-									"[SSS] received bytes in imagette %i: %i\r\n",
-									i_nb_imag_ctrl, rx_code);
+						printf("[SSS]Imagette %i length: %i\r\n", i_nb_imag_ctrl,
+								p_imagette_buff->imagette_length);
 #endif
-							p_imagette_byte += rx_code;
-							if (((INT32U) p_imagette_byte % 8)) {
-								p_imagette_byte =
-										(INT8U *) (((((INT32U) p_imagette_byte)
-												>> 3) + 1) << 3);
+						p_imagette_byte += 6;
+						i_length_buff = p_imagette_buff->imagette_length;
+						while (i_length_buff > 0) {
+							rx_code = recv(conn->fd, (void * )p_imagette_byte,
+									i_length_buff, 0);
+							if (rx_code > 0) {
+								/*
+								 * TODO prepare for fragmented receive
+								 * if rx_code < data to receive, receive again
+								 */
+#if DEBUG_ON
+								printf(
+										"[SSS] received bytes in imagette %i: %i\r\n",
+										i_nb_imag_ctrl, rx_code);
+#endif
+								p_imagette_byte += rx_code;
+								i_length_buff -= rx_code;
+								if (((INT32U) p_imagette_byte % 8)) {
+									p_imagette_byte =
+											(INT8U *) (((((INT32U) p_imagette_byte)
+													>> 3) + 1) << 3);
+								}
 							}
 						}
 
