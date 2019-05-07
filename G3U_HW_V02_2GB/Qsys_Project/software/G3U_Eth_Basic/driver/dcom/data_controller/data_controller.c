@@ -41,8 +41,9 @@ static volatile int viCh6HoldContext;
 static volatile int viCh7HoldContext;
 static volatile int viCh8HoldContext;
 //! [data memory private global variables]
-static _ethernet_payload xTemp;
 static sub_config_t xSubTemp;
+static i_echo_buffer_ctr = 0;
+static x_echo x_echo_sent[ECHO_BUFFER];
 
 //! [program memory private global variables]
 //! [program memory private global variables]
@@ -62,11 +63,20 @@ void vDctrCh1HandleIrq(void* pvContext) {
 
 	// Check Irq Buffer Empty Flags
 	if (bIrqFlags[eTxEndFlag]) {
-
+		T_simucam.T_status.simucam_running_time = uliDschGetTime(&xSimucamTimer);
 		/* Action to perform when Tx end Irq ocurred */
 		T_simucam.T_Sub[0].T_conf.i_imagette_control++;
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
+		if (T_simucam.T_conf.echo_sent == 1) {
+			x_echo_sent[i_echo_buffer_ctr].channel = 0;
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
+					T_simucam.T_Sub[0].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time =
+					T_simucam.T_status.simucam_running_time;
+			OSQPost(p_echo_queue, &x_echo_sent);
+			i_echo_buffer_ctr++;
+		}
 
 		if (T_simucam.T_Sub[0].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[0].T_data.nb_of_imagettes) {

@@ -116,4 +116,10 @@ typedef struct x_ethernet_payload {
 
 }_ethernet_payload;
 
+typedef struct x_echo{
+	INT16U 	nb_imagette;
+	INT32U	simucam_time;
+	INT8U	channel;
+}x_echo;
+
 #endif /* SIMUCAM_MODEL_H_ */

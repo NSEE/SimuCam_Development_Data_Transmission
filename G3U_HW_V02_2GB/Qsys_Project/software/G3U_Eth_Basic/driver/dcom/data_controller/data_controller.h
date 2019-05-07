@@ -10,11 +10,14 @@
 
 #include "../dcom.h"
 #include "../../../simucam_model.h"
+#include "../data_scheduler/data_scheduler.h"
 
 extern OS_EVENT *p_sub_unit_config_queue[8];
 extern OS_EVENT *p_simucam_command_q;
 extern OS_EVENT *p_dma_scheduler_controller_queue[2];
 extern OS_EVENT *DMA_sched_queue[2];
+extern OS_EVENT *p_echo_queue;
+extern TDschChannel xSimucamTimer;
 extern T_Simucam T_simucam;
 
 //! [constants definition]

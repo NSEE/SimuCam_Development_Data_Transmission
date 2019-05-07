@@ -140,6 +140,18 @@ void sub_unit_create_os_data_structs(void) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
 				"Failed to create p_dma_scheduler_controller_queue 1.\n");
 	}
+
+	/*
+	 * Creation of echo queue
+	 */
+	p_echo_queue = OSQCreate(
+			&p_echo_queue_tbl[0],
+			ECHO_QUEUE_BUFFER);
+
+	if (!p_echo_queue) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_echo_queue.\n");
+	}
 }
 
 /**
@@ -193,92 +205,6 @@ INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code) {
 
 	return error_code;
 }
-
-/*
- * Echo data creation function
- */
-
-/*void i_echo_dataset(Timagette_control* p_imagette, INT8U* tx_buffer) {
- //	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
- INT8U i = 0;
- INT32U i_imagette_counter_echo = i_imagette_counter;
- INT32U k;
- INT32U nb_size = p_imagette->imagette_length[i_imagette_number]
- + ECHO_CMD_OVERHEAD;
- INT32U nb_time = i_running_timer_counter;
- INT16U nb_id = i_id_accum;
- INT16U crc;
-
- tx_buffer[0] = 2;
-
-
- * Id to bytes
-
- tx_buffer[2] = div(nb_id, 256).rem;
- nb_id = div(nb_id, 256).quot;
- tx_buffer[1] = div(nb_id, 256).rem;
-
-
- * Type
-
- tx_buffer[3] = 203;
-
-
- * size to bytes
-
- tx_buffer[7] = div(nb_size, 256).rem;
- nb_size = div(nb_size, 256).quot;
- tx_buffer[6] = div(nb_size, 256).rem;
- nb_size = div(nb_size, 256).quot;
- tx_buffer[5] = div(nb_size, 256).rem;
- nb_size = div(nb_size, 256).quot;
- tx_buffer[4] = div(nb_size, 256).rem;
-
-
- * Timer to bytes
-
- tx_buffer[11] = div(nb_time, 256).rem;
- nb_time = div(nb_time, 256).quot;
- tx_buffer[10] = div(nb_time, 256).rem;
- nb_time = div(nb_time, 256).quot;
- tx_buffer[9] = div(nb_time, 256).rem;
- nb_time = div(nb_time, 256).quot;
- tx_buffer[8] = div(nb_time, 256).rem;
-
- tx_buffer[12] = 0;
-
- while (i < p_imagette->imagette_length[i_imagette_number]) {
- tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] =
- p_imagette->imagette[i_imagette_counter_echo];
- i++;
- i_imagette_counter_echo++;
- }
-
- crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
-
- tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = div(crc, 256).rem;
- crc = div(crc, 256).quot;
- tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc, 256).rem;
-
- //	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = 0;	//crc
- //	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = 7;	//crc
-
- i_id_accum++;
-
- #if DEBUG_ON
- printf("[Echo DEBUG]Printing buffer = ");
-
- for (int k = 0;
- k
- < p_imagette->imagette_length[i_imagette_number]
- + ECHO_CMD_OVERHEAD; k++) {
- printf("%i ", (INT8U) tx_buffer[k]);
- }
-
- printf("\r\n");
- #endif
-
- }*/
 
 /*
  * Control task for sub-unit operation[yb]

@@ -109,78 +109,78 @@ TDschChannel xSimucamTimer;
  * @param	[in]	INT8U				*tx_buffer
  * @retval void
  **/
-void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
-		INT8U* tx_buffer) {
-//	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
-	INT8U i = 0;
-//	INT32U i_imagette_counter_echo = i_imagette_counter;
-//	INT32U k;
-	INT32U nb_size = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
-	INT32U nb_time = 0; /* Will be set with a uliDschGetTime() and sent via queue*/
-	INT16U crc;
-
-//	INT8U buffer_size[4];
-//	INT8U *p_buffer_size;
-//	p_buffer_size = &buffer_size[0];
-
-	tx_buffer[0] = 2;
-	tx_buffer[1] = 0;
-//	tx_buffer[2] = T_simucam.T_status.TM_id;
-	tx_buffer[3] = 203;
-
-//	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, p_buffer_size);
-	/*
-	 * size to bytes
-	 */
-	tx_buffer[7] = div(nb_size, 256).rem;
-	nb_size = div(nb_size, 256).quot;
-	tx_buffer[6] = div(nb_size, 256).rem;
-	nb_size = div(nb_size, 256).quot;
-	tx_buffer[5] = div(nb_size, 256).rem;
-	nb_size = div(nb_size, 256).quot;
-	tx_buffer[4] = div(nb_size, 256).rem;
-
-	/*
-	 * Timer to bytes
-	 */
-	tx_buffer[11] = div(nb_time, 256).rem;
-	nb_time = div(nb_time, 256).quot;
-	tx_buffer[10] = div(nb_time, 256).rem;
-	nb_time = div(nb_time, 256).quot;
-	tx_buffer[9] = div(nb_time, 256).rem;
-	nb_time = div(nb_time, 256).quot;
-	tx_buffer[8] = div(nb_time, 256).rem;
-
-//	tx_buffer[8] = 0;
-//	tx_buffer[9] = 0;
-//	tx_buffer[10] = 0;
-//	tx_buffer[11] = i_running_timer_counter;
-
-	tx_buffer[12] = 0;			//channel info
-
-	while (i < p_imagette->size - 11) {
-		tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = p_imagette->data[i + 1];
-		i++;
-	}
-
-	crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
-
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = div(crc, 256).rem;
-	crc = div(crc, 256).quot;
-	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc, 256).rem;
-
-	T_simucam.T_status.TM_id++;
-
-#if DEBUG_ON
-	printf("[Echo DEBUG]Printing buffer = ");
-	for (int k = 0; k < (p_imagette->size - 11) + ECHO_CMD_OVERHEAD; k++) {
-		printf("%i ", (INT8U) tx_buffer[k]);
-	}
-	printf("\r\n");
-#endif
-//	return *tx_buffer;
-
-}
+//void i_echo_dataset_direct_send(struct x_ethernet_payload* p_imagette,
+//		INT8U* tx_buffer) {
+////	static INT8U tx_buffer[SSS_TX_BUF_SIZE];
+//	INT8U i = 0;
+////	INT32U i_imagette_counter_echo = i_imagette_counter;
+////	INT32U k;
+//	INT32U nb_size = (p_imagette->size - 11) + ECHO_CMD_OVERHEAD;
+//	INT32U nb_time = 0; /* Will be set with a uliDschGetTime() and sent via queue*/
+//	INT16U crc;
+//
+////	INT8U buffer_size[4];
+////	INT8U *p_buffer_size;
+////	p_buffer_size = &buffer_size[0];
+//
+//	tx_buffer[0] = 2;
+//	tx_buffer[1] = 0;
+////	tx_buffer[2] = T_simucam.T_status.TM_id;
+//	tx_buffer[3] = 203;
+//
+////	long_to_int((p_imagette->size - 11) + ECHO_CMD_OVERHEAD, 4, p_buffer_size);
+//	/*
+//	 * size to bytes
+//	 */
+//	tx_buffer[7] = div(nb_size, 256).rem;
+//	nb_size = div(nb_size, 256).quot;
+//	tx_buffer[6] = div(nb_size, 256).rem;
+//	nb_size = div(nb_size, 256).quot;
+//	tx_buffer[5] = div(nb_size, 256).rem;
+//	nb_size = div(nb_size, 256).quot;
+//	tx_buffer[4] = div(nb_size, 256).rem;
+//
+//	/*
+//	 * Timer to bytes
+//	 */
+//	tx_buffer[11] = div(nb_time, 256).rem;
+//	nb_time = div(nb_time, 256).quot;
+//	tx_buffer[10] = div(nb_time, 256).rem;
+//	nb_time = div(nb_time, 256).quot;
+//	tx_buffer[9] = div(nb_time, 256).rem;
+//	nb_time = div(nb_time, 256).quot;
+//	tx_buffer[8] = div(nb_time, 256).rem;
+//
+////	tx_buffer[8] = 0;
+////	tx_buffer[9] = 0;
+////	tx_buffer[10] = 0;
+////	tx_buffer[11] = i_running_timer_counter;
+//
+//	tx_buffer[12] = 0;			//channel info
+//
+//	while (i < p_imagette->size - 11) {
+//		tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = p_imagette->data[i + 1];
+//		i++;
+//	}
+//
+//	crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
+//
+//	tx_buffer[i + (ECHO_CMD_OVERHEAD - 1)] = div(crc, 256).rem;
+//	crc = div(crc, 256).quot;
+//	tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] = div(crc, 256).rem;
+//
+//	T_simucam.T_status.TM_id++;
+//
+//#if DEBUG_ON
+//	printf("[Echo DEBUG]Printing buffer = ");
+//	for (int k = 0; k < (p_imagette->size - 11) + ECHO_CMD_OVERHEAD; k++) {
+//		printf("%i ", (INT8U) tx_buffer[k]);
+//	}
+//	printf("\r\n");
+//#endif
+////	return *tx_buffer;
+//
+//}
 
 /**
  * @name v_ack_creator
@@ -249,10 +249,15 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	INT16U crc;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_counter_total = T_simucam.T_status.simucam_total_imagettes_sent;
+	INT16U nb_imagettes_prepared = T_simucam.T_Sub[chann_buff].T_data.i_imagette
+			- T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
 	INT16U nb_counter_current =
 			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
 	INT16U nb_counter_left = nb_counter_total - nb_counter_current;
-
+	/*
+	 * TODO
+	 * Rearrange HK data, for the total amounts and etc
+	 */
 	INT8U hk_buffer[HK_SIZE];
 	bool b_link_enabled = false;
 	/*
@@ -314,9 +319,9 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	/**
 	 * Packets to send
 	 */
-	hk_buffer[26] = div(nb_counter_left, 256).rem;
-	nb_counter_left = div(nb_counter_left, 256).quot;
-	hk_buffer[27] = div(nb_counter_left, 256).rem;
+	hk_buffer[26] = div(nb_imagettes_prepared, 256).rem;
+	nb_imagettes_prepared = div(nb_imagettes_prepared, 256).quot;
+	hk_buffer[27] = div(nb_imagettes_prepared, 256).rem;
 	//p_HK->size = 30;
 
 	/**
@@ -767,9 +772,9 @@ void CommandManagementTask() {
 //					alt_uCOSIIErrorHandler(error_code, 0);
 //					break;
 
-					/*
-					 * Change Simucam Mode
-					 */
+				/*
+				 * Change Simucam Mode
+				 */
 				case 105:
 
 #if DEBUG_ON

@@ -81,7 +81,8 @@ extern INT8U i_echo_sent_data;
 extern INT16U i_id_accum;
 INT16U i_imagette_number;
 
-
+extern OS_EVENT *p_echo_queue;
+extern void *p_echo_queue_tbl[ECHO_QUEUE_BUFFER];
 extern T_Simucam T_simucam;
 
 

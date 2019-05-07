@@ -89,6 +89,11 @@ OS_STK dma1_scheduler_task_stack_0[TASK_STACKSIZE];
 OS_STK dma1_scheduler_task_stack_1[TASK_STACKSIZE];
 
 /*
+ * Echo task stack
+ */
+OS_STK echo_task_stack[TASK_STACKSIZE];
+
+/*
  * Configuration of the simucam data queue[yb]
  */
 
@@ -282,6 +287,18 @@ void SSSCreateTasks(void) {
 			(void *) &dma1_scheduler_task_stack_1[TASK_STACKSIZE - 1],
 			DMA_SCHEDULER_TASK_PRIORITY + 1,
 			DMA_SCHEDULER_TASK_PRIORITY + 1, dma1_scheduler_task_stack_1,
+			TASK_STACKSIZE,
+			NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
+	/*
+	 * Creating the Echo task [yb]
+	 */
+	error_code = OSTaskCreateExt(echo_task, NULL,
+			(void *) &echo_task_stack[TASK_STACKSIZE - 1],
+			ECHO_TASK_PRIORITY,
+			ECHO_TASK_PRIORITY, echo_task_stack,
 			TASK_STACKSIZE,
 			NULL, 0);
 
