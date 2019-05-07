@@ -37,8 +37,8 @@
 
 #define TELEMETRY_BUFFER_SIZE		256
 #define	DMA_SCHED_BUFFER			128
-#define ECHO_QUEUE_BUFFER			128
-#define ECHO_BUFFER					256
+#define ECHO_QUEUE_BUFFER			512
+#define ECHO_BUFFER					512
 
 #define ACK_TYPE					1
 #define ERROR_TYPE					2

@@ -42,8 +42,9 @@ static volatile int viCh7HoldContext;
 static volatile int viCh8HoldContext;
 //! [data memory private global variables]
 static sub_config_t xSubTemp;
-static i_echo_buffer_ctr = 0;
+static int i_echo_buffer_ctr = 0;
 static x_echo x_echo_sent[ECHO_BUFFER];
+INT8U queue_error;
 
 //! [program memory private global variables]
 //! [program memory private global variables]
@@ -75,8 +76,17 @@ void vDctrCh1HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[0].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[0].T_conf.i_imagette_control
@@ -130,8 +140,17 @@ void vDctrCh2HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[1].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[1].T_conf.i_imagette_control
@@ -185,8 +204,17 @@ void vDctrCh3HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[2].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[2].T_conf.i_imagette_control
@@ -240,8 +268,17 @@ void vDctrCh4HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[3].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[3].T_conf.i_imagette_control
@@ -295,8 +332,17 @@ void vDctrCh5HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[4].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[4].T_conf.i_imagette_control
@@ -350,8 +396,17 @@ void vDctrCh6HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[5].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[5].T_conf.i_imagette_control
@@ -406,8 +461,17 @@ void vDctrCh7HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[6].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[6].T_conf.i_imagette_control
@@ -463,8 +527,17 @@ void vDctrCh8HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[7].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			OSQPost(p_echo_queue, &x_echo_sent);
-			i_echo_buffer_ctr++;
+			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			if (queue_error == OS_ERR_NONE) {
+				i_echo_buffer_ctr++;
+				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+					i_echo_buffer_ctr = 0;
+				}
+			} else {
+#if DEBUG_ON
+				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+#endif
+			}
 		}
 
 		if (T_simucam.T_Sub[7].T_conf.i_imagette_control
