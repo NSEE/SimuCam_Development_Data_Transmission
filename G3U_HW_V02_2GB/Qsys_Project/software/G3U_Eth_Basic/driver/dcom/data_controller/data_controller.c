@@ -67,19 +67,25 @@ void vDctrCh1HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = uliDschGetTime(
 				&xSimucamTimer);
 		/* Action to perform when Tx end Irq ocurred */
-		T_simucam.T_Sub[0].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
+
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 0;
 			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
 					T_simucam.T_Sub[0].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
+#if DEBUG_ON
+				printf("[SCHEDULER]Next buffer nb %i.\r\n",
+						i_echo_buffer_ctr);
+#endif
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+#if DEBUG_ON
+					printf("[SCHEDULER]Buffer limit attaigned.\r\n");
+#endif
 					i_echo_buffer_ctr = 0;
 				}
 			} else {
@@ -89,10 +95,16 @@ void vDctrCh1HandleIrq(void* pvContext) {
 			}
 		}
 
+		T_simucam.T_Sub[0].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
+
 		if (T_simucam.T_Sub[0].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[0], &xSubTemp);
+		} else {
+
 		}
 
 		vDctrCh1IrqFlagClr(eTxEndFlag);
@@ -130,20 +142,24 @@ void vDctrCh2HandleIrq(void* pvContext) {
 
 		/* Action to perform when Tx end Irq ocurred */
 
-		T_simucam.T_Sub[1].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[1].T_conf.sub_status_sending = 0;
-
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 1;
 			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
 					T_simucam.T_Sub[1].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
+#if DEBUG_ON
+				printf("[SCHEDULER]Next buffer nb %i.\r\n",
+						i_echo_buffer_ctr);
+#endif
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
+#if DEBUG_ON
+					printf("[SCHEDULER]Buffer limit attaigned.\r\n");
+#endif
 					i_echo_buffer_ctr = 0;
 				}
 			} else {
@@ -152,6 +168,10 @@ void vDctrCh2HandleIrq(void* pvContext) {
 #endif
 			}
 		}
+
+		T_simucam.T_Sub[1].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[1].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[1].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
@@ -194,9 +214,6 @@ void vDctrCh3HandleIrq(void* pvContext) {
 				&xSimucamTimer);
 
 		/* Action to perform when Tx end Irq ocurred */
-		T_simucam.T_Sub[2].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[2].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 2;
@@ -204,7 +221,8 @@ void vDctrCh3HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[2].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -216,6 +234,10 @@ void vDctrCh3HandleIrq(void* pvContext) {
 #endif
 			}
 		}
+
+		T_simucam.T_Sub[2].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[2].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[2].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
@@ -258,9 +280,6 @@ void vDctrCh4HandleIrq(void* pvContext) {
 				&xSimucamTimer);
 
 		/* Action to perform when Tx end Irq ocurred */
-		T_simucam.T_Sub[3].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[3].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 3;
@@ -268,7 +287,8 @@ void vDctrCh4HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[3].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -280,6 +300,10 @@ void vDctrCh4HandleIrq(void* pvContext) {
 #endif
 			}
 		}
+
+		T_simucam.T_Sub[3].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[3].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[3].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
@@ -322,9 +346,6 @@ void vDctrCh5HandleIrq(void* pvContext) {
 				&xSimucamTimer);
 
 		/* Action to perform when Tx end Irq ocurred */
-		T_simucam.T_Sub[4].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[4].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 4;
@@ -332,7 +353,8 @@ void vDctrCh5HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[4].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -344,6 +366,10 @@ void vDctrCh5HandleIrq(void* pvContext) {
 #endif
 			}
 		}
+
+		T_simucam.T_Sub[4].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[4].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[4].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
@@ -386,9 +412,6 @@ void vDctrCh6HandleIrq(void* pvContext) {
 				&xSimucamTimer);
 
 		/* Action to perform when Tx end Irq ocurred */
-		T_simucam.T_Sub[5].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[5].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 5;
@@ -396,7 +419,8 @@ void vDctrCh6HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[5].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -408,6 +432,10 @@ void vDctrCh6HandleIrq(void* pvContext) {
 #endif
 			}
 		}
+
+		T_simucam.T_Sub[5].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[5].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[5].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
@@ -451,9 +479,6 @@ void vDctrCh7HandleIrq(void* pvContext) {
 				&xSimucamTimer);
 
 		/* Action to perform when Tx end Irq ocurred */
-		T_simucam.T_Sub[6].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[6].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 6;
@@ -461,7 +486,8 @@ void vDctrCh7HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[6].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -473,6 +499,10 @@ void vDctrCh7HandleIrq(void* pvContext) {
 #endif
 			}
 		}
+
+		T_simucam.T_Sub[6].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[6].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[6].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
@@ -517,9 +547,6 @@ void vDctrCh8HandleIrq(void* pvContext) {
 				&xSimucamTimer);
 
 		/* Action to perform when Tx end Irq ocurred */
-		T_simucam.T_Sub[7].T_conf.i_imagette_control++;
-		T_simucam.T_status.simucam_total_imagettes_sent++;
-		T_simucam.T_Sub[7].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_conf.echo_sent == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 7;
@@ -527,7 +554,8 @@ void vDctrCh8HandleIrq(void* pvContext) {
 					T_simucam.T_Sub[7].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time =
 					T_simucam.T_status.simucam_running_time;
-			queue_error = OSQPost(p_echo_queue, &x_echo_sent);
+			queue_error = OSQPost(p_echo_queue,
+					&(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -539,6 +567,10 @@ void vDctrCh8HandleIrq(void* pvContext) {
 #endif
 			}
 		}
+
+		T_simucam.T_Sub[7].T_conf.i_imagette_control++;
+		T_simucam.T_status.simucam_total_imagettes_sent++;
+		T_simucam.T_Sub[7].T_conf.sub_status_sending = 0;
 
 		if (T_simucam.T_Sub[7].T_conf.i_imagette_control
 				>= T_simucam.T_Sub[7].T_data.nb_of_imagettes) {

@@ -27,7 +27,9 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	 */
 	p_imagette_buffer =
 			(T_Imagette *) T_simucam.T_Sub[i_channel].T_data.addr_init;
-
+#if DEBUG_ON
+	printf("[ECHO] imagette nb %i\r\n", i_imagette_number);
+#endif
 	for (i = 0; i < i_imagette_number; i++) {
 
 		i_mem_pointer_buffer = (INT32U) p_imagette_buffer
@@ -38,6 +40,12 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 		}
 		p_imagette_buffer = (T_Imagette *) i_mem_pointer_buffer;
 	}
+
+#if DEBUG_ON
+	printf("[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
+			i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
+			p_imagette_buffer->imagette_start);
+#endif
 
 	nb_size = p_imagette_buffer->imagette_length + ECHO_CMD_OVERHEAD;
 
@@ -79,8 +87,8 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 //		i_imagette_counter_echo++;
 //	}
 
-	//crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
-	//crc is tx_buffer [13, 14]
+//crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
+//crc is tx_buffer [13, 14]
 	tx_buffer[14] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;
 	tx_buffer[13] = div(crc, 256).rem;
@@ -93,7 +101,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	send(conn.fd, &(p_imagette_buffer->imagette_start),
 			p_imagette_buffer->imagette_length, 0);
 	send(conn.fd, &(tx_buffer[13]), 2, 0);
-	//send CRC
+//send CRC
 
 	T_simucam.T_status.TM_id++;
 }
