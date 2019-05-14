@@ -22,6 +22,14 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	INT32U nb_time = i_sim_time;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U crc = 0;
+
+
+	/*
+	 * Select the apropriate RAM stick
+	 */
+
+	bDdr2SwitchMemory((unsigned char) i_channel / 4);
+
 	/*
 	 * go to the right addr
 	 */
@@ -98,6 +106,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	 */
 
 	send(conn.fd, &tx_buffer, 13, 0);
+	bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
 	send(conn.fd, &(p_imagette_buffer->imagette_start),
 			p_imagette_buffer->imagette_length, 0);
 	send(conn.fd, &(tx_buffer[13]), 2, 0);
