@@ -181,7 +181,6 @@ TDschChannel xSimucamTimer;
 ////	return *tx_buffer;
 //
 //}
-
 /**
  * @name v_ack_creator
  * @brief Computes the size of the payload
@@ -249,11 +248,10 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	INT16U crc;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_counter_total = T_simucam.T_status.simucam_total_imagettes_sent;
-	INT16U nb_imagettes_prepared = T_simucam.T_Sub[chann_buff].T_data.nb_of_imagettes;
-//			T_simucam.T_Sub[chann_buff].T_data.i_imagette
-//			- T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
-	INT16U nb_counter_current = T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
-			//T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
+	INT16U nb_imagettes_prepared = T_simucam.T_Sub[chann_buff].T_data.i_imagette
+			- T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
+	INT16U nb_counter_current =
+			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
 	INT16U nb_counter_left = nb_counter_total - nb_counter_current;
 	/*
 	 * TODO
