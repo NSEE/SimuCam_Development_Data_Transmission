@@ -248,11 +248,9 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	INT16U crc;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_counter_total = T_simucam.T_status.simucam_total_imagettes_sent;
-	INT16U nb_imagettes_prepared = T_simucam.T_Sub[chann_buff].T_data.i_imagette
-			- T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
 	INT16U nb_counter_current =
 			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
-	INT16U nb_counter_left = nb_counter_total - nb_counter_current;
+	INT16U imagettes_to_send = T_simucam.T_Sub[chann_buff].T_data.nb_of_imagettes;
 	/*
 	 * TODO
 	 * Rearrange HK data, for the total amounts and etc
@@ -318,9 +316,9 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	/**
 	 * Packets to send
 	 */
-	hk_buffer[26] = div(nb_imagettes_prepared, 256).rem;
-	nb_imagettes_prepared = div(nb_imagettes_prepared, 256).quot;
-	hk_buffer[27] = div(nb_imagettes_prepared, 256).rem;
+	hk_buffer[27] = div(imagettes_to_send, 256).rem;
+	imagettes_to_send = div(imagettes_to_send, 256).quot;
+	hk_buffer[26] = div(imagettes_to_send, 256).rem;
 	//p_HK->size = 30;
 
 	/**
