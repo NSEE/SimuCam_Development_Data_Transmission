@@ -298,6 +298,7 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 
 	/*
 	 * Sent Packets
+	 * TODO Verify that it's really working
 	 */
 	hk_buffer[21] = div(nb_counter_total, 256).rem;
 	nb_counter_total = div(nb_counter_total, 256).quot;
@@ -681,93 +682,6 @@ void CommandManagementTask() {
 			} else {
 
 				switch (p_payload->type) {
-
-//				case simDMA1Sched:
-//#if DEBUG_ON
-//					printf("[CommandManagementTask]DMA1 Sched\r\n");
-//#endif
-//					if (T_simucam.T_status.has_dma_1 == true) {
-//#if DEBUG_ON
-//						printf("[CommandManagementTask]Has DMA1\r\n");
-//#endif
-//						i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0],
-//								1, &error_code);
-//						if (error_code == OS_ERR_NONE) {
-//							sub_config_send[i_channel_buffer].mode =
-//									subAccessDMA1;
-//							error_code = (INT8U) OSQPost(
-//									p_sub_unit_config_queue[i_channel_buffer],
-//									&(sub_config_send[i_channel_buffer]));
-//							alt_SSSErrorHandler(error_code, 0);
-//							T_simucam.T_status.has_dma_1 = false;
-//						} else {
-//							alt_uCOSIIErrorHandler(error_code, 0);
-//						}
-//						alt_uCOSIIErrorHandler(error_code, 0);
-//					}
-//					break;
-//
-//				case simDMA1Back:
-//					T_simucam.T_status.has_dma_1 = true;
-//					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[0], 1,
-//							&error_code);
-//					if (error_code == OS_ERR_NONE) {
-//						sub_config_send[i_channel_buffer].mode = subAccessDMA1;
-//						error_code = (INT8U) OSQPost(
-//								p_sub_unit_config_queue[i_channel_buffer],
-//								&(sub_config_send[i_channel_buffer]));
-//						alt_SSSErrorHandler(error_code, 0);
-//						T_simucam.T_status.has_dma_1 = false;
-//					} else {
-//						alt_uCOSIIErrorHandler(error_code, 0);
-//					}
-//					alt_uCOSIIErrorHandler(error_code, 0);
-//					break;
-//
-//					/*
-//					 * TODO Verif DMA2 functions
-//					 */
-//				case simDMA2Sched:
-//#if DEBUG_ON
-//					printf("[CommandManagementTask]DMA2 Sched\r\n");
-//#endif
-//					if (T_simucam.T_status.has_dma_2 == true) {
-//#if DEBUG_ON
-//						printf("[CommandManagementTask]Has DMA2\r\n");
-//#endif
-//						i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[1],
-//								1, &error_code);
-//						if (error_code == OS_ERR_NONE) {
-//							sub_config_send[i_channel_buffer].mode =
-//									subAccessDMA2;
-//							error_code = (INT8U) OSQPost(
-//									p_sub_unit_config_queue[i_channel_buffer],
-//									&(sub_config_send[i_channel_buffer]));
-//							alt_SSSErrorHandler(error_code, 0);
-//							T_simucam.T_status.has_dma_2 = false;
-//						} else {
-//							alt_uCOSIIErrorHandler(error_code, 0);
-//						}
-//						alt_uCOSIIErrorHandler(error_code, 0);
-//					}
-//					break;
-//
-//				case simDMA2Back:
-//					T_simucam.T_status.has_dma_2 = true;
-//					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[1], 1,
-//							&error_code);
-//					if (error_code == OS_ERR_NONE) {
-//						sub_config_send[i_channel_buffer].mode = subAccessDMA2;
-//						error_code = (INT8U) OSQPost(
-//								p_sub_unit_config_queue[i_channel_buffer],
-//								&(sub_config_send[i_channel_buffer]));
-//						alt_SSSErrorHandler(error_code, 0);
-//						T_simucam.T_status.has_dma_2 = false;
-//					} else {
-//						alt_uCOSIIErrorHandler(error_code, 0);
-//					}
-//					alt_uCOSIIErrorHandler(error_code, 0);
-//					break;
 
 				/*
 				 * Change Simucam Mode
