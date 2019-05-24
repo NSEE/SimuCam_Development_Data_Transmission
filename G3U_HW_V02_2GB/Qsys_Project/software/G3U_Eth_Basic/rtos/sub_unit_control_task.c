@@ -363,10 +363,10 @@ void sub_unit_control_task(void *task_data) {
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 					INT16U teste_limit = uiDatbGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataBuffer));
 #endif
-					printf("[SUBUNIT%i]Printinf offset %i & %x\r\n",
-							(INT8U) c_spw_channel,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
+					/*
+					 * TODO verify why it works with this pause
+					 * */
+					usleep(10);
 					/*
 					 * Verify if there's still space in the DMA buffer
 					 */
@@ -534,7 +534,6 @@ void sub_unit_control_task(void *task_data) {
 #if DEBUG_ON
 					printf("[SUBUNIT%i] Access DMA\r\n",(INT8U)c_spw_channel);
 #endif
-					printf("[SUBUNIT%i] Access DMA\r\n", (INT8U) c_spw_channel);
 					if (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 						/*
@@ -604,8 +603,6 @@ void sub_unit_control_task(void *task_data) {
 #if DEBUG_ON
 							printf("[SUBUNIT%i]Buffer Full\r\n",(INT8U)c_spw_channel);
 #endif
-							printf("[SUBUNIT%i]Buffer Full\r\n",
-									(INT8U) c_spw_channel);
 							/* Return Mutex */
 							OSMutexPost(
 									xMutexDMA[(unsigned char) c_spw_channel / 4]);
