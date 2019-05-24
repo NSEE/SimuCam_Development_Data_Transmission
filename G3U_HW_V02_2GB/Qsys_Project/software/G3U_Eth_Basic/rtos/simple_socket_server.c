@@ -594,12 +594,12 @@ void sss_handle_receive(SSSConn* conn) {
 #endif
 								p_imagette_byte += rx_code;
 								i_length_buff -= rx_code;
-								if (((INT32U) p_imagette_byte % 8)) {
-									p_imagette_byte =
-											(INT8U *) (((((INT32U) p_imagette_byte)
-													>> 3) + 1) << 3);
-								}
 							}
+						}
+						if (((INT32U) p_imagette_byte % 8)) {
+							p_imagette_byte =
+									(INT8U *) (((((INT32U) p_imagette_byte) >> 3)
+											+ 1) << 3);
 						}
 
 #if DEBUG_ON
