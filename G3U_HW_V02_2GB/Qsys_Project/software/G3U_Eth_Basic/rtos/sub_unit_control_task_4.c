@@ -165,6 +165,11 @@ void sub_unit_control_task_4(void *task_data) {
 					INT16U teste_limit = uiDatbGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataBuffer));
 #endif
 					/*
+					 * TODO verify why it works with this pause
+					 * */
+					usleep(10);
+
+					/*
 					 * Verify if there's still space in the DMA buffer
 					 */
 					bDdr2SwitchMemory((unsigned char) c_spw_channel / 4);
