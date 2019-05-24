@@ -144,9 +144,8 @@ void sub_unit_create_os_data_structs(void) {
 	/*
 	 * Creation of echo queue
 	 */
-	p_echo_queue = OSQCreate(
-			&p_echo_queue_tbl[0],
-			ECHO_QUEUE_BUFFER);
+	p_echo_queue = OSQCreate(&p_echo_queue_tbl[0],
+	ECHO_QUEUE_BUFFER);
 
 	if (!p_echo_queue) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
@@ -364,6 +363,10 @@ void sub_unit_control_task(void *task_data) {
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 					INT16U teste_limit = uiDatbGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataBuffer));
 #endif
+					printf("[SUBUNIT%i]Printinf offset %i & %x\r\n",
+							(INT8U) c_spw_channel,
+							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
+							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
 					/*
 					 * Verify if there's still space in the DMA buffer
 					 */
@@ -460,8 +463,6 @@ void sub_unit_control_task(void *task_data) {
 						 * Exit while if buffer is full
 						 */
 						i_dma_flag = 0;
-						printf("[SUBUNIT%i]Buffer is full\r\n",
-								(INT8U) c_spw_channel);
 #if DEBUG_ON
 						printf("[SUBUNIT%i]Buffer is full\r\n",(INT8U)c_spw_channel);
 #endif
@@ -533,6 +534,7 @@ void sub_unit_control_task(void *task_data) {
 #if DEBUG_ON
 					printf("[SUBUNIT%i] Access DMA\r\n",(INT8U)c_spw_channel);
 #endif
+					printf("[SUBUNIT%i] Access DMA\r\n", (INT8U) c_spw_channel);
 					if (T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 							< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 						/*
@@ -602,6 +604,8 @@ void sub_unit_control_task(void *task_data) {
 #if DEBUG_ON
 							printf("[SUBUNIT%i]Buffer Full\r\n",(INT8U)c_spw_channel);
 #endif
+							printf("[SUBUNIT%i]Buffer Full\r\n",
+									(INT8U) c_spw_channel);
 							/* Return Mutex */
 							OSMutexPost(
 									xMutexDMA[(unsigned char) c_spw_channel / 4]);

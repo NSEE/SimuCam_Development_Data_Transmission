@@ -181,10 +181,6 @@ void sub_unit_control_task_7(void *task_data) {
 							printf("[SUBUNIT%i] Mutex error.\r\n",(INT8U)c_spw_channel);
 #endif
 						} else {
-							/*
-							 * TODO
-							 * changed for testing
-							 */
 #if DEBUG_ON
 							printf("[SUBUNIT%i] length antes while: %lu\r\n",
 									(INT8U) c_spw_channel,
