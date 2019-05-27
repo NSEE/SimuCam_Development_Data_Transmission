@@ -19,10 +19,10 @@ void sub_unit_control_task_4(void *task_data) {
 	 * Assign channel code from task descriptor
 	 */
 	volatile INT8U c_spw_channel = (INT8U) task_data;
+	unsigned char c_DMA_nb = c_spw_channel / 4;
 
 	sub_config_t *p_config;
 
-	static _ethernet_payload xTemp_sub;
 	INT8U i_temp_sched;
 	T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeInit;
 
@@ -153,7 +153,7 @@ void sub_unit_control_task_4(void *task_data) {
 				 * Reset DMA full flag and switch to the right memory
 				 */
 				i_dma_flag = 1;
-				bDdr2SwitchMemory((unsigned char) c_spw_channel / 4);
+				bDdr2SwitchMemory(c_DMA_nb);
 
 				while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 						< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes)
@@ -168,11 +168,10 @@ void sub_unit_control_task_4(void *task_data) {
 					 * TODO verify why it works with this pause
 					 * */
 					usleep(10);
-
 					/*
 					 * Verify if there's still space in the DMA buffer
 					 */
-					bDdr2SwitchMemory((unsigned char) c_spw_channel / 4);
+					bDdr2SwitchMemory(c_DMA_nb);
 					if (uiDatbGetBuffersFreeSpace(
 							&(xCh[c_spw_channel].xDataBuffer))
 							>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
@@ -180,11 +179,10 @@ void sub_unit_control_task_4(void *task_data) {
 						/*
 						 * Try to get the mutex
 						 */
-						OSMutexPend(
-								xMutexDMA[(unsigned char) c_spw_channel / 4], 0,
-								&error_code);
+						OSMutexPend(xMutexDMA[c_DMA_nb], 0, &error_code);
 
 						if (error_code != OS_NO_ERR) {
+							OSMutexPost(xMutexDMA[c_DMA_nb]);
 #if DEBUG_ON
 							printf("[SUBUNIT%i] Mutex error.\r\n",(INT8U)c_spw_channel);
 #endif
@@ -201,7 +199,7 @@ void sub_unit_control_task_4(void *task_data) {
 							/*
 							 * Assign the correct memory access depending on ch
 							 */
-							if (((unsigned char) c_spw_channel / 4) == 0) {
+							if (c_DMA_nb == 0) {
 								bDdr2SwitchMemory(DDR2_M1_ID);
 #if DEBUG_ON
 								printf(
@@ -224,8 +222,7 @@ void sub_unit_control_task_4(void *task_data) {
 														+ DMA_OFFSET,
 												c_spw_channel);
 							}
-							OSMutexPost(
-									xMutexDMA[(unsigned char) c_spw_channel / 4]);
+							OSMutexPost(xMutexDMA[c_DMA_nb]);
 
 							if (error_code == TRUE) {
 #if DEBUG_ON
@@ -265,8 +262,6 @@ void sub_unit_control_task_4(void *task_data) {
 						 * Exit while if buffer is full
 						 */
 						i_dma_flag = 0;
-						printf("[SUBUNIT%i]Buffer is full\r\n",
-								(INT8U) c_spw_channel);
 #if DEBUG_ON
 						printf("[SUBUNIT%i]Buffer is full\r\n",(INT8U)c_spw_channel);
 #endif
@@ -289,7 +284,8 @@ void sub_unit_control_task_4(void *task_data) {
 #endif
 
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bAutostart = TRUE;
+					xCh[c_spw_channel].xSpacewire.xLinkConfig.bAutostart =
+					TRUE;
 					xCh[c_spw_channel].xSpacewire.xLinkConfig.bLinkStart =
 					FALSE;
 					xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect =
@@ -308,7 +304,8 @@ void sub_unit_control_task_4(void *task_data) {
 					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
 					xCh[c_spw_channel].xSpacewire.xLinkConfig.bAutostart =
 					FALSE;
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bLinkStart = TRUE;
+					xCh[c_spw_channel].xSpacewire.xLinkConfig.bLinkStart =
+					TRUE;
 					xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect =
 					FALSE;
 					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
