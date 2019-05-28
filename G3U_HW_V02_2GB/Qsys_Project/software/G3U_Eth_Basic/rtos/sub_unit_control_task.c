@@ -346,7 +346,6 @@ void sub_unit_control_task(void *task_data) {
 
 				T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
 						(T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
-//				bDdr2SwitchMemory(c_DMA_nb);
 
 				/*
 				 * Acquire status and do manual space control

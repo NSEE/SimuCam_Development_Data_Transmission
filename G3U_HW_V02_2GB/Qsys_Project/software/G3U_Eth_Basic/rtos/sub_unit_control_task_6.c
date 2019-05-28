@@ -9,8 +9,7 @@
 void sub_unit_control_task_6(void *task_data) {
 	INT8U error_code; /*uCOS error code*/
 	INT32U i_mem_pointer_buffer;
-	INT8U i_dma_flag;
-
+	INT16U i_buffer_size = 0;
 	/*
 	 * Assign channel code from task descriptor
 	 */
@@ -146,14 +145,21 @@ void sub_unit_control_task_6(void *task_data) {
 				T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
 						(T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
 				/*
-				 * Reset DMA full flag and switch to the right memory
+				 * Acquire status and do manual space control
 				 */
-				i_dma_flag = 1;
+
+				i_buffer_size = uiDatbGetBuffersFreeSpace(
+						&(xCh[c_spw_channel].xDataBuffer));
 				bDdr2SwitchMemory(c_DMA_nb);
 
+				/*
+				 * Pre-schedule the buffer before simucam goes to running
+				 */
 				while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette
 						< T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes)
-						&& i_dma_flag) {
+						&& (i_buffer_size
+								> (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+										+ DMA_OFFSET))) {
 #if DEBUG_ON
 					printf("[SUBUNIT%i]Printinf offset %i & %x\r\n",(INT8U)c_spw_channel,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
@@ -161,107 +167,97 @@ void sub_unit_control_task_6(void *task_data) {
 					INT16U teste_limit = uiDatbGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataBuffer));
 #endif
 					/*
-					 * TODO verify why it works with this pause
-					 * */
-					usleep(10);
-					/*
-					 * Verify if there's still space in the DMA buffer
+					 * Try to get the mutex
 					 */
-					bDdr2SwitchMemory(c_DMA_nb);
-					if (uiDatbGetBuffersFreeSpace(
-							&(xCh[c_spw_channel].xDataBuffer))
-							>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-									+ DMA_OFFSET)) {
-						/*
-						 * Try to get the mutex
-						 */
-						OSMutexPend(xMutexDMA[c_DMA_nb], 0, &error_code);
+					OSMutexPend(xMutexDMA[c_DMA_nb], 0, &error_code);
 
-						if (error_code != OS_NO_ERR) {
-							OSMutexPost(xMutexDMA[c_DMA_nb]);
+					if (error_code != OS_NO_ERR) {
+						OSMutexPost(xMutexDMA[c_DMA_nb]);
 #if DEBUG_ON
-							printf("[SUBUNIT%i] Mutex error.\r\n",(INT8U)c_spw_channel);
+						printf("[SUBUNIT%i] Mutex error.\r\n",(INT8U)c_spw_channel);
 #endif
-						} else {
-							/*
-							 * TODO
-							 * changed for testing
-							 */
+					} else {
+						/*
+						 * TODO
+						 * changed for testing
+						 */
 #if DEBUG_ON
-							printf("[SUBUNIT%i] length antes while: %lu\r\n",
+						printf("[SUBUNIT%i] length antes while: %lu\r\n",
+								(INT8U) c_spw_channel,
+								T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
+#endif
+						/*
+						 * Assign the correct memory access depending on ch
+						 */
+						if (c_DMA_nb == 0) {
+							bDdr2SwitchMemory(DDR2_M1_ID);
+#if DEBUG_ON
+							printf(
+									"[SUBUNIT%i] length antes da transf.: %lu\r\n",
+									(INT8U) c_spw_channel,
+									T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
+#endif
+							error_code =
+									bIdmaDmaM1Transfer(
+											(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+											T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+													+ DMA_OFFSET,
+											c_spw_channel);
+						} else {
+							bDdr2SwitchMemory(DDR2_M2_ID);
+							error_code =
+									bIdmaDmaM2Transfer(
+											(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
+											T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+													+ DMA_OFFSET,
+											c_spw_channel);
+						}
+						OSMutexPost(xMutexDMA[c_DMA_nb]);
+
+						if (error_code == TRUE) {
+#if DEBUG_ON
+							printf(
+									"[SUBUNIT%i] length antes correcao de end: %lu\r\n",
 									(INT8U) c_spw_channel,
 									T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 #endif
 							/*
-							 * Assign the correct memory access depending on ch
+							 * Manually decrease free buffer size
 							 */
-							if (c_DMA_nb == 0) {
-								bDdr2SwitchMemory(DDR2_M1_ID);
+							i_buffer_size -=
+									T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+											+ DMA_OFFSET;
 #if DEBUG_ON
+							if (i_buffer_size =< 0) {
 								printf(
-										"[SUBUNIT%i] length antes da transf.: %lu\r\n",
-										(INT8U) c_spw_channel,
-										T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
-#endif
-								error_code =
-										bIdmaDmaM1Transfer(
-												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-														+ DMA_OFFSET,
-												c_spw_channel);
-							} else {
-								bDdr2SwitchMemory(DDR2_M2_ID);
-								error_code =
-										bIdmaDmaM2Transfer(
-												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-														+ DMA_OFFSET,
-												c_spw_channel);
+										"[SUBUNIT%i] Buffer fully scheduled\r\n",
+										(INT8U) c_spw_channel);
 							}
-							OSMutexPost(xMutexDMA[c_DMA_nb]);
-
-							if (error_code == TRUE) {
-#if DEBUG_ON
-								printf(
-										"[SUBUNIT%i] length antes correcao de end: %lu\r\n",
-										(INT8U) c_spw_channel,
-										T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 #endif
+							/*Calculate next imagette addr*/
+							i_mem_pointer_buffer =
+									(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
+											+ T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
+											+ DMA_OFFSET;
+							if ((i_mem_pointer_buffer % 8)) {
+								i_mem_pointer_buffer = ((((i_mem_pointer_buffer)
+										>> 3) + 1) << 3);
+							}
 
-								/*Calculate next imagette addr*/
-								i_mem_pointer_buffer =
-										(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
-												+ T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-												+ DMA_OFFSET;
-								if ((i_mem_pointer_buffer % 8)) {
-									i_mem_pointer_buffer =
-											((((i_mem_pointer_buffer) >> 3) + 1)
-													<< 3);
-								}
+							/*Reassign the pointer to the next imagette addrs */
 
-								/*Reassign the pointer to the next imagette addrs */
+							T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
+									(T_Imagette *) i_mem_pointer_buffer;
 
-								T_simucam.T_Sub[c_spw_channel].T_data.p_iterador =
-										(T_Imagette *) i_mem_pointer_buffer;
-
-								T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
-							} else {
+							T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
+						} else {
 #if DEBUG_ON
-								printf("[SUBUNIT%i]DMA ERROR\r\n",(INT8U)c_spw_channel);
+							printf("[SUBUNIT%i]DMA ERROR\r\n",(INT8U)c_spw_channel);
 #endif
-							}/* end error code DMA verif*/
+						}/* end error code DMA verif*/
 
-						}/*End of mutex pend*/
+					}/*End of mutex pend*/
 
-					} else {
-						/*
-						 * Exit while if buffer is full
-						 */
-						i_dma_flag = 0;
-#if DEBUG_ON
-						printf("[SUBUNIT%i]Buffer is full\r\n",(INT8U)c_spw_channel);
-#endif
-					}
 				}/*end while*/
 
 				set_spw_linkspeed(&(xCh[c_spw_channel]),
