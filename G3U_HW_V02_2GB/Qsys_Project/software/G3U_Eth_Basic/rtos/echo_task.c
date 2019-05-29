@@ -22,7 +22,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	INT32U nb_time = i_sim_time;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U crc = 0;
-
+	INT16U i_length_buffer = 0;
 
 	/*
 	 * Select the apropriate RAM stick
@@ -55,7 +55,8 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 			p_imagette_buffer->imagette_start);
 #endif
 
-	nb_size = p_imagette_buffer->imagette_length + ECHO_CMD_OVERHEAD;
+	i_length_buffer = p_imagette_buffer->imagette_length;
+	nb_size = i_length_buffer + ECHO_CMD_OVERHEAD;
 
 	tx_buffer[0] = 2;
 
@@ -88,13 +89,6 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 	tx_buffer[12] = i_channel;
 
-//	while (i < p_imagette->imagette_length[i_imagette_number]) {
-//		tx_buffer[i + (ECHO_CMD_OVERHEAD - 2)] =
-//				p_imagette->imagette[i_imagette_counter_echo];
-//		i++;
-//		i_imagette_counter_echo++;
-//	}
-
 //crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
 //crc is tx_buffer [13, 14]
 	tx_buffer[14] = div(crc, 256).rem;
@@ -106,9 +100,14 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	 */
 
 	send(conn.fd, &tx_buffer, 13, 0);
-	bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
-	send(conn.fd, &(p_imagette_buffer->imagette_start),
-			p_imagette_buffer->imagette_length, 0);
+	while (i_length_buffer > 0) {
+		bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
+		i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
+				i_length_buffer, 0);
+#if DEBUG_ON
+		printf("[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
+#endif
+	}
 	send(conn.fd, &(tx_buffer[13]), 2, 0);
 //send CRC
 
