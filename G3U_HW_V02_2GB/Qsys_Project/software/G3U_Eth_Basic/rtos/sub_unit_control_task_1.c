@@ -321,7 +321,7 @@ void sub_unit_control_task_1(void *task_data) {
 
 				switch (p_config->mode) {
 
-				case subAccessDMA1:
+				case subAccessDMA:
 #if DEBUG_ON
 					printf("[SUBUNIT%i] Access DMA\r\n",(INT8U)c_spw_channel);
 #endif
@@ -365,7 +365,7 @@ void sub_unit_control_task_1(void *task_data) {
 								/*
 								 * Signal cmd that DMA is free
 								 */
-								i_temp_sched = simDMA1Back;
+								i_temp_sched = simDMABack;
 								OSQPost(
 										p_dma_scheduler_controller_queue[c_DMA_nb],
 										i_temp_sched);
@@ -398,7 +398,7 @@ void sub_unit_control_task_1(void *task_data) {
 							/*
 							 * Signal cmd that DMA is free
 							 */
-							i_temp_sched = simDMA1Back;
+							i_temp_sched = simDMABack;
 							OSQPost(p_dma_scheduler_controller_queue[c_DMA_nb],
 									i_temp_sched);
 						}
@@ -412,7 +412,7 @@ void sub_unit_control_task_1(void *task_data) {
 						/*
 						 * Signal cmd that DMA is free
 						 */
-						i_temp_sched = simDMA1Back;
+						i_temp_sched = simDMABack;
 						OSQPost(p_dma_scheduler_controller_queue[c_DMA_nb],
 								i_temp_sched);
 					}
