@@ -78,7 +78,7 @@ bool bIdmaInitM2Dma(void) {
 	return bStatus;
 }
 
-bool bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
+alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
 	bool bStatus = FALSE;
 
 	alt_msgdma_extended_descriptor xDmaExtendedDescriptor;
@@ -183,12 +183,14 @@ bool bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeInByt
 					bStatus = TRUE;
 				}
 			}
+		} else{
+			usiRoundedTransferSizeInBytes = 0;
 		}
 	}
-	return bStatus;
+	return usiRoundedTransferSizeInBytes;
 }
 
-bool bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
+alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
 		alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
 	bool bStatus = FALSE;
 
@@ -293,9 +295,11 @@ bool bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
 					bStatus = TRUE;
 				}
 			}
+		} else{
+			usiRoundedTransferSizeInBytes = 0;
 		}
 	}
-	return bStatus;
+	return usiRoundedTransferSizeInBytes;
 }
 //! [public functions]
 

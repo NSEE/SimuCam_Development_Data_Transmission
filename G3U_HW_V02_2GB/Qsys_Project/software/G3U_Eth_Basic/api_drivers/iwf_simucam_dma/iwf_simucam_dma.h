@@ -73,8 +73,8 @@ enum IdmaChBufferId {
 //! [public function prototypes]
 bool bIdmaInitM1Dma(void);
 bool bIdmaInitM2Dma(void);
-bool bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId);
-bool bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId);
+alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId);
+alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId);
 //! [public function prototypes]
 
 //! [data memory public global variables - use extern]
