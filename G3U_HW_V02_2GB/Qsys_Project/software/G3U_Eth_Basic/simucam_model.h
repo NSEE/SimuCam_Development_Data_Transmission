@@ -29,7 +29,8 @@ typedef enum {
 	subAccessDMA2,
 	subAbort,
 	subEOT,
-	subChangeMode
+	subChangeMode,
+	subAccessDMA
 } TSubStates;
 
 /* MeB status enum */
@@ -43,7 +44,9 @@ typedef enum {
 	simDMA2Back,
 	simDMA1Sched,
 	simDMA2Sched,
-	simAbort
+	simAbort,
+	simDMASched,
+	simDMABack
 } TSimStates;
 
 typedef struct T_imagette {

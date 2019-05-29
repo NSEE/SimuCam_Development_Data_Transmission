@@ -115,7 +115,7 @@ void vDctrCh1HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[0].T_data.i_imagette
 				< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], 0);
-			OSQPost(p_dma_scheduler_controller_queue[0], simDMA1Sched);
+			OSQPost(p_dma_scheduler_controller_queue[0], simDMASched);
 		}
 
 		vDctrCh1IrqFlagClr(eTxBeginFlag);
@@ -187,7 +187,7 @@ void vDctrCh2HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[1].T_data.i_imagette
 				< T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], 1);
-			OSQPost(p_dma_scheduler_controller_queue[0], simDMA1Sched);
+			OSQPost(p_dma_scheduler_controller_queue[0], simDMASched);
 		}
 
 		vDctrCh2IrqFlagClr(eTxBeginFlag);
@@ -253,7 +253,7 @@ void vDctrCh3HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[2].T_data.i_imagette
 				< T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], 2);
-			OSQPost(p_dma_scheduler_controller_queue[0], simDMA1Sched);
+			OSQPost(p_dma_scheduler_controller_queue[0], simDMASched);
 		}
 
 		vDctrCh3IrqFlagClr(eTxBeginFlag);
@@ -319,7 +319,7 @@ void vDctrCh4HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[3].T_data.i_imagette
 				< T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], 3);
-			OSQPost(p_dma_scheduler_controller_queue[0], simDMA1Sched);
+			OSQPost(p_dma_scheduler_controller_queue[0], simDMASched);
 		}
 
 		vDctrCh4IrqFlagClr(eTxBeginFlag);
@@ -385,7 +385,7 @@ void vDctrCh5HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[4].T_data.i_imagette
 				< T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], 4);
-			OSQPost(p_dma_scheduler_controller_queue[1], simDMA2Sched);
+			OSQPost(p_dma_scheduler_controller_queue[1], simDMASched);
 		}
 
 		vDctrCh5IrqFlagClr(eTxBeginFlag);
@@ -452,7 +452,7 @@ void vDctrCh6HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[5].T_data.i_imagette
 				< T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], 5);
-			OSQPost(p_dma_scheduler_controller_queue[1], simDMA2Sched);
+			OSQPost(p_dma_scheduler_controller_queue[1], simDMASched);
 		}
 
 		vDctrCh6IrqFlagClr(eTxBeginFlag);
@@ -520,7 +520,7 @@ void vDctrCh7HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[6].T_data.i_imagette
 				< T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], 6);
-			OSQPost(p_dma_scheduler_controller_queue[1], simDMA2Sched);
+			OSQPost(p_dma_scheduler_controller_queue[1], simDMASched);
 		}
 
 		vDctrCh7IrqFlagClr(eTxBeginFlag);
@@ -587,7 +587,7 @@ void vDctrCh8HandleIrq(void* pvContext) {
 		if (T_simucam.T_Sub[7].T_data.i_imagette
 				< T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], 7);
-			OSQPost(p_dma_scheduler_controller_queue[1], simDMA2Sched);
+			OSQPost(p_dma_scheduler_controller_queue[1], simDMASched);
 		}
 
 		vDctrCh8IrqFlagClr(eTxBeginFlag);

@@ -23,12 +23,12 @@ void dma1_scheduler_task(void *task_data) {
 
 		if (error_code_dma_sched == OS_ERR_NONE) {
 			switch (i_dma_sched_controller) {
-			case simDMA1Back:
+			case simDMABack:
 				T_simucam.T_status.has_dma_1 = true;
 				i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[dma_nb], 1,
 						&error_code_dma_sched);
 				if (error_code_dma_sched == OS_ERR_NONE) {
-					sub_config_send[i_channel_buffer].mode = subAccessDMA1;
+					sub_config_send[i_channel_buffer].mode = subAccessDMA;
 					error_code_dma_sched = (INT8U) OSQPost(
 							p_sub_unit_config_queue[i_channel_buffer],
 							&(sub_config_send[i_channel_buffer]));
@@ -40,7 +40,7 @@ void dma1_scheduler_task(void *task_data) {
 				alt_uCOSIIErrorHandler(error_code_dma_sched, 0);
 				break;
 
-			case simDMA1Sched:
+			case simDMASched:
 #if DEBUG_ON
 				printf("[DMA1 Sched]DMA1 Sched\r\n");
 #endif
@@ -51,7 +51,7 @@ void dma1_scheduler_task(void *task_data) {
 					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[dma_nb], 1,
 							&error_code_dma_sched);
 					if (error_code_dma_sched == OS_ERR_NONE) {
-						sub_config_send[i_channel_buffer].mode = subAccessDMA1;
+						sub_config_send[i_channel_buffer].mode = subAccessDMA;
 						error_code_dma_sched = (INT8U) OSQPost(
 								p_sub_unit_config_queue[i_channel_buffer],
 								&(sub_config_send[i_channel_buffer]));
@@ -87,12 +87,12 @@ void dma2_scheduler_task(void *task_data) {
 
 		if (error_code_dma_sched == OS_ERR_NONE) {
 			switch (i_dma_sched_controller) {
-			case simDMA2Back:
+			case simDMABack:
 				T_simucam.T_status.has_dma_2 = true;
 				i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[dma_nb], 1,
 						&error_code_dma_sched);
 				if (error_code_dma_sched == OS_ERR_NONE) {
-					sub_config_send[i_channel_buffer].mode = subAccessDMA2;
+					sub_config_send[i_channel_buffer].mode = subAccessDMA;
 					error_code_dma_sched = (INT8U) OSQPost(
 							p_sub_unit_config_queue[i_channel_buffer],
 							&(sub_config_send[i_channel_buffer]));
@@ -104,7 +104,7 @@ void dma2_scheduler_task(void *task_data) {
 				alt_uCOSIIErrorHandler(error_code_dma_sched, 0);
 				break;
 
-			case simDMA2Sched:
+			case simDMASched:
 #if DEBUG_ON
 				printf("[DMA2 Sched]DMA2 Sched\r\n");
 #endif
@@ -115,7 +115,7 @@ void dma2_scheduler_task(void *task_data) {
 					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[dma_nb], 1,
 							&error_code_dma_sched);
 					if (error_code_dma_sched == OS_ERR_NONE) {
-						sub_config_send[i_channel_buffer].mode = subAccessDMA2;
+						sub_config_send[i_channel_buffer].mode = subAccessDMA;
 						error_code_dma_sched = (INT8U) OSQPost(
 								p_sub_unit_config_queue[i_channel_buffer],
 								&(sub_config_send[i_channel_buffer]));
