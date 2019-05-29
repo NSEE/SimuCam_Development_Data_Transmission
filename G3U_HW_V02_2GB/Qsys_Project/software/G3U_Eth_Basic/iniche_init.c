@@ -100,7 +100,6 @@ void SSSInitialTask(void *task_data)
    */
   SimucamCreateOSQ();
   DataCreateOSQ();
-  telemetry_manager_create_os_data_structs();
 
   /*create the sub-units data structures*/
   sub_unit_create_os_data_structs();

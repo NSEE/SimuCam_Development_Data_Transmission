@@ -83,7 +83,6 @@ OS_STK CommandManagementTaskStk[TASK_STACKSIZE];
 /*
  * Configuration of the simucam command management task[yb]
  */
-OS_STK telemetry_manager_task_stack[TASK_STACKSIZE];
 
 OS_STK dma1_scheduler_task_stack_0[TASK_STACKSIZE];
 OS_STK dma1_scheduler_task_stack_1[TASK_STACKSIZE];
@@ -254,17 +253,6 @@ void SSSCreateTasks(void) {
 			SUB_UNIT_TASK_PRIORITY + 7, sub_unit_task_stack_7,
 			TASK_STACKSIZE,
 			NULL, 0);
-
-	alt_uCOSIIErrorHandler(error_code, 0);
-	/*
-	 * Creating the telemtry management task [yb]
-	 */
-	error_code = OSTaskCreateExt(telemetry_manager_task,
-	NULL, (void *) &telemetry_manager_task_stack[TASK_STACKSIZE - 1],
-	TELEMETRY_TASK_PRIORITY,
-	TELEMETRY_TASK_PRIORITY, telemetry_manager_task_stack,
-	TASK_STACKSIZE,
-	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 

@@ -16,7 +16,6 @@ void sub_unit_control_task_4	(void *task_data);
 void sub_unit_control_task_5	(void *task_data);
 void sub_unit_control_task_6	(void *task_data);
 void sub_unit_control_task_7	(void *task_data);
-void telemetry_manager_task();
 void dma1_scheduler_task		(void *task_data);
 void dma2_scheduler_task		(void *task_data);
 void echo_task(void);
@@ -29,8 +28,7 @@ void echo_task(void);
 #define DMA_SCHEDULER_TASK_PRIORITY 8
 #define SUB_UNIT_TASK_PRIORITY 11
 #define COMMAND_MANAGEMENT_TASK_PRIORITY 10
-#define TELEMETRY_TASK_PRIORITY 30
-#define ECHO_TASK_PRIORITY		31
+#define ECHO_TASK_PRIORITY		30
 
 
 #endif /* TASKS_INIT_H_ */
