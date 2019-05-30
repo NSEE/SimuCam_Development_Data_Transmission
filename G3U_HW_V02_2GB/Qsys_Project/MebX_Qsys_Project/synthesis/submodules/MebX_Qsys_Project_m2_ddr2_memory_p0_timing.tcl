@@ -54,8 +54,8 @@ set t(DS) 0.453
 set t(DH) 0.362
 
 # DQS clock edge to DQ data edge (in same group)
-set t(DQSQ) [expr { 200 / 1000.0 }]
-set t(QHS) [expr { 300 / 1000.0 }]
+set t(DQSQ) [expr { 240 / 1000.0 }]
+set t(QHS) [expr { 340 / 1000.0 }]
 
 # Convert QH into time unit so that it's consistent with DQSQ
 set t(QH_time) [expr 0.5 * $t(CK) - $t(QHS) ]
@@ -85,8 +85,8 @@ set t(DCD) 0.0
 # Controller parameters
 #######################
 
-set t(RL) 4
-set t(WL) 3
+set t(RL) 5
+set t(WL) 4
 set t(DWIDTH_RATIO) [expr { 2 * 2 }]
 set t(rd_to_wr_turnaround_oct) 3
 
