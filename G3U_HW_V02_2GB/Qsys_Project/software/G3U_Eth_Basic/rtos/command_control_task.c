@@ -248,7 +248,7 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	/**
 	 * Calculating CRC
 	 */
-	crc = crc16(p_HK->data, p_HK->size - 2);
+	crc = crc16(p_HK->data, p_HK->size - 3);
 
 	hk_buffer[29] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;
