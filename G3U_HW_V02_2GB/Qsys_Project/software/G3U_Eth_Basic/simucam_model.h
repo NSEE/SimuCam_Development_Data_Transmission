@@ -1,13 +1,33 @@
 /*
- * simucam_model.h
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: 15/04/2019
- *      Author: root
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : simucam_model.h
+ * Programmer(s): Yuri Bunduki
+ * Created on: Apr 15, 2019
+ * Description  : Header file for the SimuCam modeling data types.
+ ************************************************************************************************
  */
+/*$PAGE*/
 
 #ifndef SIMUCAM_MODEL_H_
 #define SIMUCAM_MODEL_H_
+/*
+ ************************************************************************************************
+ *                                        INCLUDE FILES
+ ************************************************************************************************
+ */
 #include <altera_up_sd_card_avalon_interface.h>
+/*$PAGE*/
+/*
+ ************************************************************************************************
+ *                                            DATA TYPES
+ ************************************************************************************************
+ */
 
 #ifndef bool
 //typedef short int bool;
@@ -124,5 +144,6 @@ typedef struct x_echo{
 	INT32U	simucam_time;
 	INT8U	channel;
 }x_echo;
+/*$PAGE*/
 
 #endif /* SIMUCAM_MODEL_H_ */

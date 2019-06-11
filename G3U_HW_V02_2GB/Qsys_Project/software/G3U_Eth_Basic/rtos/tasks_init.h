@@ -1,13 +1,27 @@
 /*
- * tasks_init.h
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: 13/04/2019
- *      Author: root
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : tasks_init.h
+ * Programmer(s): Yuri Bunduki
+ * Created on: Apr 13, 2019
+ * Description  : Header file for the Simucam initialization tasks declaration.
+ ************************************************************************************************
  */
+/*$PAGE*/
 
 #ifndef TASKS_INIT_H_
 #define TASKS_INIT_H_
 
+/*
+ ************************************************************************************************
+ *                                        FUNCTION PROTOTYPES
+ ************************************************************************************************
+ */
 void sub_unit_control_task 		(void *task_data);
 void sub_unit_control_task_1 	(void *task_data);
 void sub_unit_control_task_2	(void *task_data);
@@ -19,7 +33,12 @@ void sub_unit_control_task_7	(void *task_data);
 void dma1_scheduler_task		(void *task_data);
 void dma2_scheduler_task		(void *task_data);
 void echo_task(void);
-
+/*$PAGE*/
+/*
+ ************************************************************************************************
+ *                                        CONSTANTS & MACROS
+ ************************************************************************************************
+ */
 
 /*
  * Tasks priorities definitions
@@ -29,6 +48,6 @@ void echo_task(void);
 #define SUB_UNIT_TASK_PRIORITY 11
 #define COMMAND_MANAGEMENT_TASK_PRIORITY 10
 #define ECHO_TASK_PRIORITY		30
-
+/*$PAGE*/
 
 #endif /* TASKS_INIT_H_ */

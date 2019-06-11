@@ -1,9 +1,20 @@
+
 /*
- * simucam_definitions.h
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: Mar 22, 2019
- *      Author: Yuri Bunduki
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : simucam_definitions.h
+ * Programmer(s): Yuri Bunduki
+ * Created on: Mar 22, 2019
+ * Description  : Header file for the Simucam definitions.
+ ************************************************************************************************
  */
+/*$PAGE*/
+
 
 #ifndef SIMUCAM_DEFINITIONS_H_
 #define SIMUCAM_DEFINITIONS_H_

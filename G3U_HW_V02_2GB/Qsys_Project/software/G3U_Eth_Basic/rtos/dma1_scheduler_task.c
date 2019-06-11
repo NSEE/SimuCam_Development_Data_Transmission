@@ -1,9 +1,18 @@
 /*
- * dma1_scheduler_task.c
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: 03/05/2019
- *      Author: root
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : dma1_scheduler_task.c
+ * Programmer(s): Yuri Bunduki
+ * Created on: May 03, 2019
+ * Description  : Source file for the DMA scheduler task.
+ ************************************************************************************************
  */
+/*$PAGE*/
 
 #include "dma1_scheduler_task.h"
 

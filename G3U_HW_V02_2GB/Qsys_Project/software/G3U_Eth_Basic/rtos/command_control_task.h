@@ -1,9 +1,18 @@
 /*
- * command_control.h
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: 21/11/2018
- *      Author: Yuri Bunduki
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : command_control_task.c
+ * Programmer(s): Yuri Bunduki
+ * Created on: Dec 21, 2018
+ * Description  : Header file for the command control management task.
+ ************************************************************************************************
  */
+/*$PAGE*/
 
 /*
  ************************************************************************************************
@@ -34,43 +43,8 @@
  ************************************************************************************************
  */
 
-///* Macro definitions */
-//#define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
-//#define MAX_IMAGETTE_SIZE 			400000 	/*Imagette size in bytes*/
-//#define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
-//#define CENTRAL_TIMER_RESOLUTION	1		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
-//#define MAX_IMAGETTES				500		/*Maximum number of imagettes */
-//#define DATA_SHIFT					12		/*Data header shift*/
-//#define ASCII_A						65
-//
-//#define DMA_DEV						0
-//
-//#define DDR2_BASE_ADDR_DATASET_1	0x0
-//
-///*
-// * Error codes definitions
-// */
-//#define ACK_OK						0
-//#define COMMAND_NOT_ACCEPTED		4
-//#define COMMAND_NOT_FOUND			5 	/*Command not found code*/
-//#define NOT_IMPLEMENTED				7	/*Command not implemented*/
-//#define	TIMER_ERROR					8
-//#define PARSER_ERROR				9
-//#define	ECHO_ERROR					10
-
 extern INT16U i_imagette_number;
 extern INT16U i_imagette_counter;
-
-/*$PAGE*/
-
-/*
- ************************************************************************************************
- *                                            DATA TYPES
- ************************************************************************************************
- */
-
-
-
 
 /*$PAGE*/
 

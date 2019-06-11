@@ -1,9 +1,19 @@
 /*
- * echo_task.c
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: 07/05/2019
- *      Author: root
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : echo_task.c
+ * Programmer(s): Yuri Bunduki
+ * Created on: May 07, 2019
+ * Description  : Source file for the echo function management task.
+ ************************************************************************************************
  */
+/*$PAGE*/
+
 #include "echo_task.h"
 
 /*

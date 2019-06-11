@@ -1,9 +1,18 @@
 /*
- * sub_unit_control.c
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: Oct 22, 2018
- *      Author: Yuri Bunduki
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : sub_unit_control.c
+ * Programmer(s): Yuri Bunduki
+ * Created on: Oct 22, 2018
+ * Description  : Source file for the sub-unit simulation and management task.
+ ************************************************************************************************
  */
+/*$PAGE*/
 
 #include "sub_unit_control_task.h"
 

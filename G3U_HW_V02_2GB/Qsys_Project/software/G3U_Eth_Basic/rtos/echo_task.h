@@ -1,9 +1,18 @@
 /*
- * echo_task.h
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: 07/05/2019
- *      Author: root
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : echo_task.h
+ * Programmer(s): Yuri Bunduki
+ * Created on: May 07, 2019
+ * Description  : Header file for the echo function management task.
+ ************************************************************************************************
  */
+/*$PAGE*/
 
 #ifndef ECHO_TASK_H_
 #define ECHO_TASK_H_

@@ -1,9 +1,18 @@
 /*
- * simucam_init_task.c
+ ************************************************************************************************
+ *                                              NSEE
+ *                                             Address
  *
- *  Created on: Mar 27, 2019
- *      Author: bndky
+ *                                       All Rights Reserved
+ *
+ *
+ * Filename     : simucam_init_task.c
+ * Programmer(s): Yuri Bunduki
+ * Created on: May 27, 2019
+ * Description  : Source file for the Simucam initialization task.
+ ************************************************************************************************
  */
+/*$PAGE*/
 
 #include "simucam_init_task.h"
 
