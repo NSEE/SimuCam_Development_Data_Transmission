@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"dma1_scheduler_task.h": "c"
+		}
+	}
+}

@@ -50,3 +50,6 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Nios WS directory removal
+/G3U_HW_V02_2GB/WS_PlatoNios/*

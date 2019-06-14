@@ -1,0 +1,13 @@
+﻿'Eth connection'
+'MAC default (if RTCC is not working)'
+M=84:16:236:96:66:121;
+'IP Address'
+I=10.9.11.216;
+'Default Gateway'
+G=10.9.11.1;
+'Subnet-Mask'
+S=255.255.255.0;
+'TCP port for eth commands'
+P=30;
+<<
+'Keep the "less than" (<) caracter, this is used in the parser'
