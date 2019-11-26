@@ -104,6 +104,16 @@ extern OS_EVENT *xMutexDMA[2];
 	#define TRUE    1
 #endif
 
+
+#if DEBUG_ON
+	#define debug( fp, mensage )    if ( DEBUG_ON ) { fprintf( fp, mensage ); }
+#endif
+
+/* Variable that will carry the debug JTAG device file descriptor*/
+#if DEBUG_ON
+    extern FILE* fp;
+#endif
+
 /*
 ************************************************************************************************
 *                                            DATA TYPES

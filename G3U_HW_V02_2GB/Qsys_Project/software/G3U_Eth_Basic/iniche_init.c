@@ -62,6 +62,11 @@ struct inet_taskinfo ssstask = {
       APP_STACK_SIZE,
 };
 
+/* Declaring file for JTAG debug */
+#if DEBUG_ON
+    FILE* fp;
+#endif
+
 /* SSSInitialTask will initialize the NicheStack
  * TCP/IP Stack and then initialize the rest of the Simple Socket Server example 
  * RTOS structures and tasks. 
@@ -125,6 +130,15 @@ int main (int argc, char* argv[], char* envp[])
 
   INT8U error_code;
 
+
+  /* Debug device initialization - JTAG USB */
+	#if DEBUG_ON
+  		fp = fopen(JTAG_UART_0_NAME, "r+");
+  	#endif
+
+  	#if DEBUG_ON
+  		debug(fp, "Main entry point.\n");
+  	#endif
   /* Clear the RTOS timer */
   OSTimeSet(0);
 
