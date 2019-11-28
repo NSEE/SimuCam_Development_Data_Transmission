@@ -58,6 +58,6 @@
 //	alt_uCOSIIErrorHandler(error_code, 0);
 //
 //#if DEBUG_ON
-//	printf("Tasks created successfully\r\n");
+//	fprintf(fp, "Tasks created successfully\r\n");
 //#endif
 //}

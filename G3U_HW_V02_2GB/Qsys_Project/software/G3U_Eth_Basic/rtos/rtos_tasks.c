@@ -53,7 +53,7 @@ void Set_SpW_Led(INT8U c_SpwID);
 /* SPW Link Task, configure and monitor the SpW channel for incoming connections to set the status leds, update rate of 10 ms */
 void SPWLinkTask(void *task_data) {
 #if DEBUG_ON
-	printf("Created \"spw link\" Task (Prio:%d) \n", SPW_LINK_TASK_PRIORITY);
+	fprintf(fp, "Created \"spw link\" Task (Prio:%d) \n", SPW_LINK_TASK_PRIORITY);
 #endif
 
 	INT8U ucSpwChCnt = 0;
@@ -77,7 +77,7 @@ void SPWLinkTask(void *task_data) {
 /* Log Task, show the FPGA core temperature in the seven segments display, update rate of 1 s */
 void LogTask(void *task_data) {
 #if DEBUG_ON
-	printf("Created \"log\" Task (Prio:%d) \n", LOG_TASK_PRIORITY);
+	fprintf(fp, "Created \"log\" Task (Prio:%d) \n", LOG_TASK_PRIORITY);
 #endif
 	while (1) {
 		TEMP_Read(&tempFPGA, &tempBoard);

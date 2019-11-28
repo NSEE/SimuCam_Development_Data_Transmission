@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include "os_cpu.h"
 #include <ctype.h>
+#include "../simucam_definitions.h"
 
 
 #define DEBUG_HIGH

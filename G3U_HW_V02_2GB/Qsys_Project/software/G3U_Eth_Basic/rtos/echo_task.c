@@ -46,7 +46,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	p_imagette_buffer =
 			(T_Imagette *) T_simucam.T_Sub[i_channel].T_data.addr_init;
 #if DEBUG_ON
-	printf("[ECHO] imagette nb %i\r\n", i_imagette_number);
+	fprintf(fp, "[ECHO] imagette nb %i\r\n", i_imagette_number);
 #endif
 	for (i = 0; i < i_imagette_number; i++) {
 
@@ -60,7 +60,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	}
 
 #if DEBUG_ON
-	printf("[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
+	fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
 			i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
 			p_imagette_buffer->imagette_start);
 #endif
@@ -115,7 +115,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 		i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
 				i_length_buffer, 0);
 #if DEBUG_ON
-		printf("[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
+		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
 #endif
 	}
 	send(conn.fd, &(tx_buffer[13]), 2, 0);
@@ -139,7 +139,7 @@ void echo_task(void) {
 					p_echo_rcvd->channel);
 		} else {
 #if DEBUG_ON
-			printf("[ECHO] Echo queue error.\r\n");
+			fprintf(fp, "[ECHO] Echo queue error.\r\n");
 #endif
 		}
 

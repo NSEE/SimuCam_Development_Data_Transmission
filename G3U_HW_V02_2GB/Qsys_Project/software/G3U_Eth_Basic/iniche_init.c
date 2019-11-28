@@ -38,6 +38,8 @@
 #include "rtos/default_configs.h"
 #include "rtos/rtos_tasks.h"
 
+#include "simucam_definitions.h"
+
 //#include "utils/configs_simucam.h"
 
 /* Definition of task stack for the initial task which will initialize the NicheStack
@@ -63,9 +65,9 @@ struct inet_taskinfo ssstask = {
 };
 
 /* Declaring file for JTAG debug */
-#if DEBUG_ON
+//#if DEBUG_ON
     FILE* fp;
-#endif
+//#endif
 
 /* SSSInitialTask will initialize the NicheStack
  * TCP/IP Stack and then initialize the rest of the Simple Socket Server example 
@@ -94,8 +96,9 @@ void SSSInitialTask(void *task_data)
   /* Now that the stack is running, perform the application initialization steps */
   
   /* Application Specific Task Launching Code Block Begin */
-
-  printf("\nSimple Socket Server starting up\n");
+#if DEBUG_ON
+  fprintf(fp, "\nSimple Socket Server starting up\n");
+#endif
 
   /* Create the main simple socket server task. */
   TK_NEWTASK(&ssstask);
@@ -137,8 +140,9 @@ int main (int argc, char* argv[], char* envp[])
   	#endif
 
   	#if DEBUG_ON
-  		debug(fp, "Main entry point.\n");
+  		fprintf(fp, "Main entry point.\n");
   	#endif
+
   /* Clear the RTOS timer */
   OSTimeSet(0);
 

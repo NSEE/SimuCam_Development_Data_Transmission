@@ -79,18 +79,18 @@ void vDctrCh1HandleIrq(void* pvContext) {
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 #if DEBUG_ON
-				printf("[SCHEDULER]Next buffer nb %i.\r\n",
+				fprintf(fp, "[SCHEDULER]Next buffer nb %i.\r\n",
 						i_echo_buffer_ctr);
 #endif
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
 #if DEBUG_ON
-					printf("[SCHEDULER]Buffer limit attaigned.\r\n");
+					fprintf(fp, "[SCHEDULER]Buffer limit attaigned.\r\n");
 #endif
 					i_echo_buffer_ctr = 0;
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}
@@ -153,18 +153,18 @@ void vDctrCh2HandleIrq(void* pvContext) {
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 #if DEBUG_ON
-				printf("[SCHEDULER]Next buffer nb %i.\r\n",
+				fprintf(fp, "[SCHEDULER]Next buffer nb %i.\r\n",
 						i_echo_buffer_ctr);
 #endif
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
 #if DEBUG_ON
-					printf("[SCHEDULER]Buffer limit attaigned.\r\n");
+					fprintf(fp, "[SCHEDULER]Buffer limit attaigned.\r\n");
 #endif
 					i_echo_buffer_ctr = 0;
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}
@@ -230,7 +230,7 @@ void vDctrCh3HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}
@@ -296,7 +296,7 @@ void vDctrCh4HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}
@@ -362,7 +362,7 @@ void vDctrCh5HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}
@@ -428,7 +428,7 @@ void vDctrCh6HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}
@@ -495,7 +495,7 @@ void vDctrCh7HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}
@@ -563,7 +563,7 @@ void vDctrCh8HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
-				printf("[SCHEDULER]Queue limit attaigned.\r\n");
+				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
 #endif
 			}
 		}

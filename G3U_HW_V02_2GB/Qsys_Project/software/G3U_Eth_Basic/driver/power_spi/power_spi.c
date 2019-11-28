@@ -69,7 +69,7 @@ bool POWER_SPI_RW(alt_u8 IcIndex, alt_u8 NextChannel, bool bEN, bool bSIGN, bool
     
     if (SPI_SDO){
         SPI_CS_N(IcIndex, 1);  // chip select: inactive
-//        printf("Timeout \r\n");
+//        fprintf(fp, "Timeout \r\n");
         return FALSE;
     }
     
@@ -148,7 +148,7 @@ bool POWER_SPI_RW(alt_u8 IcIndex, alt_u8 NextChannel, bool bEN, bool bSIGN, bool
     }
     bSuccess = (nZeroCnt&0x01)?FALSE:TRUE;
     if (!bSuccess){
-//        printf("Parity Check Error \r\n");
+//        fprintf(fp, "Parity Check Error \r\n");
         return FALSE;
     }        
     

@@ -68,7 +68,7 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 	INT32U i_buffer;
 	p_destination += nb_bytes;
 
-	printf("[longtoint]teste chegada: %i\r\n", (INT8U) *p_destination);
+	fprintf(fp, "[longtoint]teste chegada: %i\r\n", (INT8U) *p_destination);
 
 
 	while (p != 0) {
@@ -80,26 +80,26 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 		p--;
 	}
 #if DEBUG_ON
-	printf("[LongToInt]Final Bytes ");
+	fprintf(fp, "[LongToInt]Final Bytes ");
 #endif
 //	k = nb_bytes;
 //	while (k != 0) {
 //		*p_destination = byte_buffer[k];
 //#if DEBUG_ON
-//		printf("%i ",(INT8U) *p_destination);
+//		fprintf(fp, "%i ",(INT8U) *p_destination);
 //#endif
-//		printf("%i \r\n", (INT8U) *p_destination);
+//		fprintf(fp, "%i \r\n", (INT8U) *p_destination);
 //		p_destination++;
 //		k--;
 //	}
 #if DEBUG_ON
-	printf("\r\n");
+	fprintf(fp, "\r\n");
 
-	printf("[LongToInt]Byte buffer ");
+	fprintf(fp, "[LongToInt]Byte buffer ");
 	for (p = 0; p < nb_bytes; p++) {
-		printf("%i ", byte_buffer[p]);
+		fprintf(fp, "%i ", byte_buffer[p]);
 	}
-	printf("\r\n");
+	fprintf(fp, "\r\n");
 #endif
 }
 
@@ -364,12 +364,12 @@ void CommandManagementTask() {
 		 */
 		case simModeInit:
 #if DEBUG_ON
-			printf("[CommandManagementTask]Init\r\n");
+			fprintf(fp, "[CommandManagementTask]Init\r\n");
 #endif
 
 //			data[0] = 33;
 //			long_to_int(350, 2, &data);
-//			printf("[CommandManagementTask]test long to int: %i %i\r\n",
+//			fprintf(fp, "[CommandManagementTask]test long to int: %i %i\r\n",
 //					data[0], data[1]);
 
 			/*
@@ -392,7 +392,7 @@ void CommandManagementTask() {
 
 		case simModetoConfig:
 #if DEBUG_ON
-			printf("[CommandManagementTask]Mode: toConfig\r\n");
+			fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
 #endif
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
@@ -403,7 +403,7 @@ void CommandManagementTask() {
 			 */
 		case simModeConfig:
 #if DEBUG_ON
-			printf("[CommandManagementTask]Mode: Config\r\n");
+			fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
 #endif
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
@@ -416,7 +416,7 @@ void CommandManagementTask() {
 			 */
 			case 101:
 #if DEBUG_ON
-				printf("[CommandManagementTask]Configure Sub-Unit\r\n");
+				fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
 #endif
 
 				/*
@@ -433,7 +433,7 @@ void CommandManagementTask() {
 				 */
 
 #if DEBUG_ON
-				printf("[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
+				fprintf(fp, "[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
 						(INT8U) sub_config_send[p_payload->data[0]].link_config,
 						(INT8U) sub_config_send[p_payload->data[0]].linkspeed,
 						(INT8U) sub_config_send[p_payload->data[0]].linkstatus_running);
@@ -472,7 +472,7 @@ void CommandManagementTask() {
 				 */
 			case 105:
 #if DEBUG_ON
-				printf("[CommandManagementTask]Change Mode\r\n");
+				fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
 #endif
 
 				if (p_payload->data[0] == 1) {
@@ -492,7 +492,7 @@ void CommandManagementTask() {
 				v_ack_creator(p_payload, ACK_OK);
 
 #if DEBUG_ON
-				printf("[CommandManagementTask]Config sent to sub\n\r");
+				fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
 #endif
 				break;
 
@@ -503,7 +503,7 @@ void CommandManagementTask() {
 
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
 #if DEBUG_ON
-				printf("[CommandManagementTask]Clear RAM\r\n");
+				fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
 #endif
 				break;
 
@@ -512,7 +512,7 @@ void CommandManagementTask() {
 				 */
 			case 110:
 #if DEBUG_ON
-				printf("[CommandManagementTask]Get HK\r\n");
+				fprintf(fp, "[CommandManagementTask]Get HK\r\n");
 #endif
 				i_channel_buffer = p_payload->data[0];
 
@@ -525,7 +525,7 @@ void CommandManagementTask() {
 				 */
 			case 111:
 #if DEBUG_ON
-				printf("[CommandManagementTask]Config MEB\r\n");
+				fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
 #endif
 
 				T_simucam.T_conf.i_forward_data = p_payload->data[0];
@@ -533,7 +533,7 @@ void CommandManagementTask() {
 
 				v_ack_creator(p_payload, ACK_OK);
 #if DEBUG_ON
-				printf("[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
+				fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
 						(int) T_simucam.T_conf.i_forward_data,
 						(int) T_simucam.T_conf.echo_sent);
 #endif
@@ -544,7 +544,7 @@ void CommandManagementTask() {
 				 */
 			case 112:
 #if DEBUG_ON
-				printf("[CommandManagementTask]Selected command: %c\n\r",
+				fprintf(fp, "[CommandManagementTask]Selected command: %c\n\r",
 						(int) p_payload->type);
 #endif
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
@@ -553,7 +553,7 @@ void CommandManagementTask() {
 
 			default:
 #if DEBUG_ON
-				printf("[CommandManagementTask]Nenhum comando identificado\n\r");
+				fprintf(fp, "[CommandManagementTask]Nenhum comando identificado\n\r");
 #endif
 
 				if (p_payload->type == 106 || p_payload->type == 106
@@ -570,7 +570,7 @@ void CommandManagementTask() {
 
 		case simModetoRun:
 #if DEBUG_ON
-			printf("[CommandManagementTask RUNNING]Mode to RUN\r\n");
+			fprintf(fp, "[CommandManagementTask RUNNING]Mode to RUN\r\n");
 #endif
 
 			/*
@@ -584,11 +584,11 @@ void CommandManagementTask() {
 
 		case simModeRun:
 #if DEBUG_ON
-			printf("[CommandManagementTask RUNNING]Mode RUN\\n");
+			fprintf(fp, "[CommandManagementTask RUNNING]Mode RUN\\n");
 #endif
 
 #if DEBUG_ON
-			printf("[CommandManagementTask RUNNING]Waiting command...\r\n");
+			fprintf(fp, "[CommandManagementTask RUNNING]Waiting command...\r\n");
 #endif
 			/*
 			 * start simucam timer counting
@@ -605,7 +605,7 @@ void CommandManagementTask() {
 
 				v_ack_creator(p_payload, ACK_OK);
 #if DEBUG_ON
-				printf("[CommandManagementTask]Starting timer\r\n");
+				fprintf(fp, "[CommandManagementTask]Starting timer\r\n");
 #endif
 			} else {
 
@@ -617,7 +617,7 @@ void CommandManagementTask() {
 				case 105:
 
 #if DEBUG_ON
-					printf("[CommandManagementTask]MEB status to: %i\r\n",
+					fprintf(fp, "[CommandManagementTask]MEB status to: %i\r\n",
 							(INT8U) p_payload->data[0]);
 #endif
 
@@ -626,7 +626,7 @@ void CommandManagementTask() {
 						T_simucam.T_status.simucam_mode = simModetoConfig;
 
 #if DEBUG_ON
-						printf(
+						fprintf(fp, 
 								"[CommandManagementTask]Sending change mode command...\r\n");
 #endif
 
@@ -659,7 +659,7 @@ void CommandManagementTask() {
 					 */
 				case 107:
 #if DEBUG_ON
-					printf("[CommandManagementTask]Selected command: %i\n\r",
+					fprintf(fp, "[CommandManagementTask]Selected command: %i\n\r",
 							(int) p_payload->type);
 #endif
 
@@ -681,7 +681,7 @@ void CommandManagementTask() {
 					 */
 				case 109:
 #if DEBUG_ON
-					printf("[CommandManagementTask]Direct Send to %c\n\r",
+					fprintf(fp, "[CommandManagementTask]Direct Send to %c\n\r",
 							(char) (p_payload->data[0] + ASCII_A));
 #endif
 					/*
@@ -695,14 +695,14 @@ void CommandManagementTask() {
 					 */
 				case 110:
 #if DEBUG_ON
-					printf("[CommandManagementTask]Get HK\r\n");
+					fprintf(fp, "[CommandManagementTask]Get HK\r\n");
 #endif
 					v_HK_creator(p_payload, p_payload->data[0]);
 					break;
 
 				default:
 #if DEBUG_ON
-					printf(
+					fprintf(fp, 
 							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
 					if (p_payload->type == 101 || p_payload->type == 102
@@ -723,7 +723,7 @@ void CommandManagementTask() {
 
 		default:
 #if DEBUG_ON
-			printf("[CommandManagementTask]MEB status error\n\r");
+			fprintf(fp, "[CommandManagementTask]MEB status error\n\r");
 #endif
 			break;
 		}

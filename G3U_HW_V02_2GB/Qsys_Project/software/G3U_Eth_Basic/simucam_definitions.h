@@ -189,12 +189,6 @@ struct x_telemetry {
 
 typedef enum { dlFullMessage = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorMessage, dlCustom2, dlJustMajorProgress, dlCriticalOnly } tDebugLevel;
 
-
-/* Variable that will carry the debug JTAG device file descriptor*/
-//#if DEBUG_ON
-//    extern FILE* fp;
-//#endif
-
 #define min_sim( x , y ) ((x < y) ? x : y)
 
 #endif /* SIMUCAM_DEFINITIONS_H_ */

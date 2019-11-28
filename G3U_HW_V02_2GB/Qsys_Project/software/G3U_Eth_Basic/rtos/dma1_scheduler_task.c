@@ -51,11 +51,11 @@ void dma1_scheduler_task(void *task_data) {
 
 			case simDMASched:
 #if DEBUG_ON
-				printf("[DMA1 Sched]DMA1 Sched\r\n");
+				fprintf(fp, "[DMA1 Sched]DMA1 Sched\r\n");
 #endif
 				if (T_simucam.T_status.has_dma_1 == true) {
 #if DEBUG_ON
-					printf("[DMA1 Sched]Has DMA1\r\n");
+					fprintf(fp, "[DMA1 Sched]Has DMA1\r\n");
 #endif
 					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[dma_nb], 1,
 							&error_code_dma_sched);
@@ -76,7 +76,7 @@ void dma1_scheduler_task(void *task_data) {
 			}
 		} else {
 #if DEBUG_ON
-			printf("[DMA1 Sched]cmd error\r\n");
+			fprintf(fp, "[DMA1 Sched]cmd error\r\n");
 #endif
 		}
 	}
@@ -115,11 +115,11 @@ void dma2_scheduler_task(void *task_data) {
 
 			case simDMASched:
 #if DEBUG_ON
-				printf("[DMA2 Sched]DMA2 Sched\r\n");
+				fprintf(fp, "[DMA2 Sched]DMA2 Sched\r\n");
 #endif
 				if (T_simucam.T_status.has_dma_2 == true) {
 #if DEBUG_ON
-					printf("[DMA2 Sched]Has DMA2\r\n");
+					fprintf(fp, "[DMA2 Sched]Has DMA2\r\n");
 #endif
 					i_channel_buffer = (INT32U) OSQPend(DMA_sched_queue[dma_nb], 1,
 							&error_code_dma_sched);
@@ -140,7 +140,7 @@ void dma2_scheduler_task(void *task_data) {
 			}
 		} else {
 #if DEBUG_ON
-			printf("[DMA2 Sched]cmd error\r\n");
+			fprintf(fp, "[DMA2 Sched]cmd error\r\n");
 #endif
 		}
 	}

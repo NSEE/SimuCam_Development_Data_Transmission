@@ -119,7 +119,7 @@ void SimucamCreateOSQ(void) {
 				"Failed to create Simucam Command Queue.\n");
 	} else {
 #if DEBUG_ON
-		printf("Simucam Command Queue created successfully.\r\n");
+		fprintf(fp, "Simucam Command Queue created successfully.\r\n");
 #endif
 	}
 }
@@ -135,7 +135,7 @@ void DataCreateOSQ(void) {
 				"Failed to create SimucamDataQ.\n");
 	} else {
 #if DEBUG_ON
-		printf("SimucamDataQ created successfully.\r\n");
+		fprintf(fp, "SimucamDataQ created successfully.\r\n");
 #endif
 	}
 }
@@ -295,18 +295,18 @@ void SSSCreateTasks(void) {
 	xMutexDMA[0] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
 	if (error_code != OS_ERR_NONE) {
 #if DEBUG_ON
-		printf("Error creating mutex\r\n");
+		fprintf(fp, "Error creating mutex\r\n");
 #endif
 	}
 	xMutexDMA[1] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE + 1, &error_code);
 	if (error_code != OS_ERR_NONE) {
 #if DEBUG_ON
-		printf("Error creating mutex\r\n");
+		fprintf(fp, "Error creating mutex\r\n");
 #endif
 	}
 
 #if DEBUG_ON
-	printf("Tasks created successfully\r\n");
+	fprintf(fp, "Tasks created successfully\r\n");
 #endif
 }
 
@@ -354,13 +354,13 @@ void sss_handle_accept(int listen_socket, SSSConn* conn) {
 		} else {
 			(conn)->fd = socket;
 #if DEBUG_ON
-			printf("[sss_handle_accept] accepted connection request from %s\n",
+			fprintf(fp, "[sss_handle_accept] accepted connection request from %s\n",
 					inet_ntoa(incoming_addr.sin_addr));
 #endif
 		}
 	} else {
 #if DEBUG_ON
-		printf("[sss_handle_accept] rejected connection request from %s\n",
+		fprintf(fp, "[sss_handle_accept] rejected connection request from %s\n",
 				inet_ntoa(incoming_addr.sin_addr));
 #endif
 	}
@@ -413,13 +413,13 @@ void sss_handle_receive(SSSConn* conn) {
 	conn->rx_wr_pos = conn->rx_buffer;
 
 #if DEBUG_ON
-	printf("[sss_handle_receive] processing RX data\n");
+	fprintf(fp, "[sss_handle_receive] processing RX data\n");
 #endif
 
 	while (conn->state != CLOSE) {
 
 #if DEBUG_ON
-		printf("[sss_handle_receive DEBUG]Waiting transmission...\n");
+		fprintf(fp, "[sss_handle_receive DEBUG]Waiting transmission...\n");
 #endif
 
 		rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_rd_pos, 8, 0);
@@ -432,17 +432,17 @@ void sss_handle_receive(SSSConn* conn) {
 		}
 
 #if DEBUG_ON
-		printf("Printing all bytes: ");
+		fprintf(fp, "Printing all bytes: ");
 #endif
 
 		for (int j = 0; j < 8; j++) {
 #if DEBUG_ON
-			printf("%i ", (int) p_ethernet_buffer->rx_buffer[j]);
+			fprintf(fp, "%i ", (int) p_ethernet_buffer->rx_buffer[j]);
 #endif
 		}
 
 #if DEBUG_ON
-		printf("\n");
+		fprintf(fp, "\n");
 #endif
 
 		if (p_ethernet_buffer->rx_buffer[0] == EXIT_CODE) {
@@ -450,7 +450,7 @@ void sss_handle_receive(SSSConn* conn) {
 		} else {
 
 #if DEBUG_ON
-			printf("[sss_handle_receive DEBUG]Print size bytes: %i %i %i %i\n",
+			fprintf(fp, "[sss_handle_receive DEBUG]Print size bytes: %i %i %i %i\n",
 					(int) p_ethernet_buffer->rx_buffer[7],
 					(int) p_ethernet_buffer->rx_buffer[6],
 					(int) p_ethernet_buffer->rx_buffer[5],
@@ -468,7 +468,7 @@ void sss_handle_receive(SSSConn* conn) {
 					+ 4294967296 * p_ethernet_buffer->rx_buffer[4];
 
 #if DEBUG_ON
-			printf("[sss_handle_receive DEBUG] calculating size = %i\n",
+			fprintf(fp, "[sss_handle_receive DEBUG] calculating size = %i\n",
 					(INT32U) payload.size);
 #endif
 
@@ -479,7 +479,7 @@ void sss_handle_receive(SSSConn* conn) {
 
 			if (payload.type == 102) {
 #if DEBUG_ON
-				printf("[sss_handle_receive DEBUG]Entered parser\r\n");
+				fprintf(fp, "[sss_handle_receive DEBUG]Entered parser\r\n");
 #endif
 				INT8U *p_imagette_byte;
 				INT16U i_nb_imag_ctrl = 0;
@@ -562,7 +562,7 @@ void sss_handle_receive(SSSConn* conn) {
 								p_ethernet_buffer->rx_buffer[5]
 										+ 256 * p_ethernet_buffer->rx_buffer[4];
 #if DEBUG_ON
-						printf("[SSS]Imagette %i length: %i\r\n", i_nb_imag_ctrl,
+						fprintf(fp, "[SSS]Imagette %i length: %i\r\n", i_nb_imag_ctrl,
 								p_imagette_buff->imagette_length);
 #endif
 						p_imagette_byte += 6;
@@ -576,7 +576,7 @@ void sss_handle_receive(SSSConn* conn) {
 								 * if rx_code < data to receive, receive again
 								 */
 #if DEBUG_ON
-								printf(
+								fprintf(fp, 
 										"[SSS] received bytes in imagette %i: %i\r\n",
 										i_nb_imag_ctrl, rx_code);
 #endif
@@ -663,7 +663,7 @@ void sss_handle_receive(SSSConn* conn) {
 				send(conn->fd, ack, 14, 0); /* TODO parser ack*/
 
 #if DEBUG_ON
-				printf("[sss_handle_receive DEBUG]Exit parser\r\n");
+				fprintf(fp, "[sss_handle_receive DEBUG]Exit parser\r\n");
 #endif
 			} else {
 				rx_code = recv(conn->fd, (char* )p_ethernet_buffer->rx_wr_pos,
@@ -685,7 +685,7 @@ void sss_handle_receive(SSSConn* conn) {
 						payload.data[i - 1] =
 								p_ethernet_buffer->rx_buffer[i - 1];
 #if DEBUG_ON
-						printf(
+						fprintf(fp, 
 								"[sss_handle_receive DEBUG]data: %i\r\nPing %i\r\n",
 								(INT8U) payload.data[i - 1], (INT8U) i);
 #endif
@@ -694,18 +694,18 @@ void sss_handle_receive(SSSConn* conn) {
 				}
 
 #if DEBUG_ON
-				printf("[sss_handle_receive DEBUG]Payload %lu",
+				fprintf(fp, "[sss_handle_receive DEBUG]Payload %lu",
 						(INT32U) payload.size);
-				printf("[sss_handle_receive DEBUG]Printing buffer = ");
+				fprintf(fp, "[sss_handle_receive DEBUG]Printing buffer = ");
 #endif
 				for (int k = 0; k < payload.size - 8; k++) {
 #if DEBUG_ON
-					printf("%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
+					fprintf(fp, "%i ", (INT8U) p_ethernet_buffer->rx_buffer[k]);
 #endif
 				}
 #if DEBUG_ON
-				printf("\r\n");
-				printf(
+				fprintf(fp, "\r\n");
+				fprintf(fp, 
 						"[sss_handle_receive DEBUG]Print data types:\r\nHeader: %i\r\nID %i\r\n"
 						"Type: %i\r\n", (int) payload.header,
 						(int) payload.packet_id, (int) payload.type);
@@ -716,7 +716,7 @@ void sss_handle_receive(SSSConn* conn) {
 						+ 256 * p_ethernet_buffer->rx_buffer[payload.size - 1];
 
 #if DEBUG_ON
-				printf("[sss_handle_receive DEBUG]Received CRC = %i\n",
+				fprintf(fp, "[sss_handle_receive DEBUG]Received CRC = %i\n",
 						(INT16U) payload.crc);
 #endif
 
@@ -724,16 +724,16 @@ void sss_handle_receive(SSSConn* conn) {
 						payload.size);
 
 #if DEBUG_ON
-				printf("[sss_handle_receive DEBUG]Calculated CRC = %i\n",
+				fprintf(fp, "[sss_handle_receive DEBUG]Calculated CRC = %i\n",
 						(INT16U) calculated_crc);
 
-				printf("[sss_handle_receive DEBUG]finished receiving\n");
+				fprintf(fp, "[sss_handle_receive DEBUG]finished receiving\n");
 #endif
 
 				error_code = OSQPost(p_simucam_command_q, &payload);
 				alt_SSSErrorHandler(error_code, 0);
 #if DEBUG_ON
-				printf("[sss_handle_receive DEBUG]Waiting CC response...\n");
+				fprintf(fp, "[sss_handle_receive DEBUG]Waiting CC response...\n");
 #endif
 			}
 		}
@@ -745,7 +745,7 @@ void sss_handle_receive(SSSConn* conn) {
 		conn->state = conn->close ? CLOSE : READY;
 
 #if DEBUG_ON
-		printf("[sss_handle_receive DEBUG]connection state checked\n");
+		fprintf(fp, "[sss_handle_receive DEBUG]connection state checked\n");
 #endif
 
 		/* Manage buffer */
@@ -757,7 +757,7 @@ void sss_handle_receive(SSSConn* conn) {
 	}
 
 #if DEBUG_ON
-	printf("[sss_handle_receive] closing connection\n");
+	fprintf(fp, "[sss_handle_receive] closing connection\n");
 #endif
 	close(conn->fd);
 	sss_reset_connection(conn);
@@ -831,7 +831,7 @@ void SSSSimpleSocketServerTask() {
 	 */
 	sss_reset_connection(&conn);
 #if DEBUG_ON
-	printf("[sss_task] Simple Socket Server listening on port %d\n",
+	fprintf(fp, "[sss_task] Simple Socket Server listening on port %d\n",
 			xConfEth.siPort);
 #endif
 

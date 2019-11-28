@@ -1,8 +1,8 @@
 /**
  * @file   util.c
  * @Author Rafael Corsi (corsiferrao@gmail.com)
- * @date   Marrço, 2015
- * @brief  Definiçõeses para acesso aos módulos via Avalon
+ * @date   Marrï¿½o, 2015
+ * @brief  Definiï¿½ï¿½eses para acesso aos mï¿½dulos via Avalon
  *
  * tab = 4
  */
@@ -14,10 +14,10 @@
  * @brief   Escrita dos registradores de config. RMAP/SPW
  * @ingroup UTIL
  *
- * Acessa os registradores do módulos RMAP_SPW via acesso a memoria AVALON
+ * Acessa os registradores do mï¿½dulos RMAP_SPW via acesso a memoria AVALON
  *
- * @param [in] BASE_ADD Endereço base de acesso ao registrador
- * @param [in] REG_ADD  Endereço do registador (Offset)
+ * @param [in] BASE_ADD Endereï¿½o base de acesso ao registrador
+ * @param [in] REG_ADD  Endereï¿½o do registador (Offset)
  * @param [in] REG_DADO Dado a ser gravado no registrador
  *
  * @retval 1 : Sucesso 
@@ -36,10 +36,10 @@ alt_32 _reg_write(int BASE_ADD, alt_32 REG_ADD, alt_32 REG_Dado) {
  * @brief   Leitura dos registradores de config. RMAP/SPW
  * @ingroup UTIL
  *
- * Acessa os registradores do módulos RMAP_SPW via acesso a memoria AVALON
+ * Acessa os registradores do mï¿½dulos RMAP_SPW via acesso a memoria AVALON
  *
- * @param [in] BASE_ADD Endereço base de acesso ao registrador
- * @param [in] REG_ADD  Endereço do registador (Offset)
+ * @param [in] BASE_ADD Endereï¿½o base de acesso ao registrador
+ * @param [in] REG_ADD  Endereï¿½o do registador (Offset)
  * @param [in] REG_DADO Retorno do dado lido
  *
  * @retval 1 : Sucesso 
@@ -70,11 +70,11 @@ void _print_codec_status(int codec_status) {
 	int connecting = (int) ((codec_status >> 5) & 1);
 	int running = (int) ((codec_status >> 4) & 1);
 
-	printf("-------- link status \n");
-	printf("Link started    : %s \n", (started == 1) ? "S" : "N");
-	printf("Link connecting : %s \n", (connecting == 1) ? "S" : "N");
-	printf("Link running    : %s \n", (running == 1) ? "S" : "N");
-	printf("--------  \n");
+	fprintf(fp, "-------- link status \n");
+	fprintf(fp, "Link started    : %s \n", (started == 1) ? "S" : "N");
+	fprintf(fp, "Link connecting : %s \n", (connecting == 1) ? "S" : "N");
+	fprintf(fp, "Link running    : %s \n", (running == 1) ? "S" : "N");
+	fprintf(fp, "--------  \n");
 }
 
 /**
@@ -132,7 +132,7 @@ INT8U aatoh(INT8U *buffer) {
 
 INT8U Verif_Error(INT8U error_code) {
 	if (!error_code) {
-		printf("[VERIF ERROR]ERROR\n\r");
+		fprintf(fp, "[VERIF ERROR]ERROR\n\r");
 		return 0;
 	} else
 		return 1;

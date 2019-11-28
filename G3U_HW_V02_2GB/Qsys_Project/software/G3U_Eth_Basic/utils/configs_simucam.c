@@ -32,7 +32,7 @@ bool vLoadDefaultETHConf(void) {
 
 			do {
 				c = cGetNextChar(siFile);
-				//printf("%c \n", c);
+				//fprintf(fp, "%c \n", c);
 				switch (c) {
 				case 39: // single quote '
 					c = cGetNextChar(siFile);
@@ -45,7 +45,7 @@ bool vLoadDefaultETHConf(void) {
 					break;
 				case -2: 	//EOF
 #if DEBUG_ON
-					printf("SDCard: Problem with SDCard");
+					fprintf(fp, "SDCard: Problem with SDCard");
 #endif
 					bEOF = true;
 					break;
@@ -179,7 +179,7 @@ bool vLoadDefaultETHConf(void) {
 					close = siCloseFile(siFile);
 					if (close == false) {
 #if DEBUG_ON
-						printf("SDCard: Can't close the file.\n");
+						fprintf(fp, "SDCard: Can't close the file.\n");
 #endif
 					}
 					/* End of Parser File */
@@ -188,19 +188,19 @@ bool vLoadDefaultETHConf(void) {
 					break;
 				default:
 #if DEBUG_ON
-					printf("SDCard: Problem with the parser.\n");
+					fprintf(fp, "SDCard: Problem with the parser.\n");
 #endif
 					break;
 				}
 			} while (bEOF == false);
 		} else {
 #if DEBUG_ON
-			printf("SDCard: File not found.\n");
+			fprintf(fp, "SDCard: File not found.\n");
 #endif
 		}
 	} else {
 #if DEBUG_ON
-		printf("SDCard: No SDCard.\n");
+		fprintf(fp, "SDCard: No SDCard.\n");
 #endif
 	}
 	/* Load the default configuration if not successful in read the SDCard */
@@ -246,19 +246,19 @@ bool vLoadDefaultETHConf(void) {
 #if DEBUG_ON
 void vShowEthConfig( void ) {
 
-	printf("Ethernet loaded configuration.\n");
+	fprintf(fp, "Ethernet loaded configuration.\n");
 
-	printf("MAC: %x : %x : %x : %x : %x : %x \n", xConfEth.ucMAC[0], xConfEth.ucMAC[1], xConfEth.ucMAC[2], xConfEth.ucMAC[3], xConfEth.ucMAC[4], xConfEth.ucMAC[5]);
+	fprintf(fp, "MAC: %x : %x : %x : %x : %x : %x \n", xConfEth.ucMAC[0], xConfEth.ucMAC[1], xConfEth.ucMAC[2], xConfEth.ucMAC[3], xConfEth.ucMAC[4], xConfEth.ucMAC[5]);
 
-	printf("IP: %i . %i . %i . %i \n",xConfEth.ucIP[0], xConfEth.ucIP[1], xConfEth.ucIP[2], xConfEth.ucIP[3] );
+	fprintf(fp, "IP: %i . %i . %i . %i \n",xConfEth.ucIP[0], xConfEth.ucIP[1], xConfEth.ucIP[2], xConfEth.ucIP[3] );
 
-	printf("GTW: %i . %i . %i . %i \n",xConfEth.ucGTW[0], xConfEth.ucGTW[1], xConfEth.ucGTW[2], xConfEth.ucGTW[3] );
+	fprintf(fp, "GTW: %i . %i . %i . %i \n",xConfEth.ucGTW[0], xConfEth.ucGTW[1], xConfEth.ucGTW[2], xConfEth.ucGTW[3] );
 
-	printf("Sub: %i . %i . %i . %i \n",xConfEth.ucSubNet[0], xConfEth.ucSubNet[1], xConfEth.ucSubNet[2], xConfEth.ucSubNet[3] );
+	fprintf(fp, "Sub: %i . %i . %i . %i \n",xConfEth.ucSubNet[0], xConfEth.ucSubNet[1], xConfEth.ucSubNet[2], xConfEth.ucSubNet[3] );
 
-	printf("Server Port: %i\n", xConfEth.siPort );
+	fprintf(fp, "Server Port: %i\n", xConfEth.siPort );
 
-	printf("Use DHCP: %i\n", xConfEth.bDHCP );
+	fprintf(fp, "Use DHCP: %i\n", xConfEth.bDHCP );
 
 }
 #endif
@@ -288,7 +288,7 @@ bool vLoadDebugConfs(void) {
 
 			do {
 				c = cGetNextChar(siFile);
-				//printf("%c \n", c);
+				//fprintf(fp, "%c \n", c);
 				switch (c) {
 				case 39: // single quote '
 					c = cGetNextChar(siFile);
@@ -301,7 +301,7 @@ bool vLoadDebugConfs(void) {
 					break;
 				case -2: 	//EOF
 #if DEBUG_ON
-					printf("SDCard: Problem with SDCard");
+					fprintf(fp, "SDCard: Problem with SDCard");
 #endif
 					bEOF = true;
 					break;
@@ -374,7 +374,7 @@ bool vLoadDebugConfs(void) {
 					close = siCloseFile(siFile);
 					if (close == false) {
 #if DEBUG_ON
-						printf("SDCard: Can't close the file.\n");
+						fprintf(fp, "SDCard: Can't close the file.\n");
 #endif
 					}
 					/* End of Parser File */
@@ -383,19 +383,19 @@ bool vLoadDebugConfs(void) {
 					break;
 				default:
 #if DEBUG_ON
-					printf("SDCard: Problem with the parser. (%hhu)\n",c);
+					fprintf(fp, "SDCard: Problem with the parser. (%hhu)\n",c);
 #endif
 					break;
 				}
 			} while (bEOF == false);
 		} else {
 #if DEBUG_ON
-			printf("SDCard: File not found.\n");
+			fprintf(fp, "SDCard: File not found.\n");
 #endif
 		}
 	} else {
 #if DEBUG_ON
-		printf("SDCard: No SDCard.\n");
+		fprintf(fp, "SDCard: No SDCard.\n");
 #endif
 	}
 	/* Load the default configuration if not successful in read the SDCard */

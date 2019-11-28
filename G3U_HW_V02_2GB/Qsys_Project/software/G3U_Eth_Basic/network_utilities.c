@@ -49,7 +49,7 @@ int get_mac_addr(NET net, unsigned char mac_addr[6]) {
 	/* error = get_board_mac_addr(mac_addr); */
 	if (!RTCC_SPI_R_MAC(mac_addr)) {
 #if DEBUG_ON
-		printf("Failed to get RTCC EUI-48 MAC Address!! Using the SD Card Default MAC Address \n");
+		fprintf(fp, "Failed to get RTCC EUI-48 MAC Address!! Using the SD Card Default MAC Address \n");
 #endif
 		mac_addr[0] = xConfEth.ucMAC[0];
 		mac_addr[1] = xConfEth.ucMAC[1];
@@ -59,7 +59,7 @@ int get_mac_addr(NET net, unsigned char mac_addr[6]) {
 		mac_addr[5] = xConfEth.ucMAC[5];
 	}
 #if DEBUG_ON
-	printf("SimuCam MAC Address: 0x%02x:%02x:%02x:%02x:%02x:%02x \n", mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
+	fprintf(fp, "SimuCam MAC Address: 0x%02x:%02x:%02x:%02x:%02x:%02x \n", mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
 #endif
 
 	if (error) {
@@ -97,7 +97,7 @@ int get_ip_addr(alt_iniche_dev *p_dev, ip_addr* ipaddr, ip_addr* netmask,
 #else /* not DHCP_CLIENT */
 	*use_dhcp = 0;
 
-	printf("Static IP Address is %d.%d.%d.%d\n",
+	fprintf(fp, "Static IP Address is %d.%d.%d.%d\n",
 			ip4_addr1(*ipaddr),
 			ip4_addr2(*ipaddr),
 			ip4_addr3(*ipaddr),
@@ -125,11 +125,11 @@ alt_u32 get_serial_number(void) {
 	int i = 0;
 
 	while (!ser_num) {
-		printf(
+		fprintf(fp, 
 				"Please enter your 9-digit serial number. This is printed on a \n");
-		printf(
+		fprintf(fp, 
 				"label under your Nios dev. board. The first 3 digits of the \n");
-		printf("label are ASJ and the serial number follows this.\n -->");
+		fprintf(fp, "label are ASJ and the serial number follows this.\n -->");
 
 		for (i = 0; i < 9; i++) {
 			serial_number[i] = getchar();
@@ -140,7 +140,7 @@ alt_u32 get_serial_number(void) {
 				i--;
 			}
 		}
-		printf("\n");
+		fprintf(fp, "\n");
 
 		for (i = 0; i < 9; i++) {
 			if (isdigit(serial_number[i])) {
@@ -148,7 +148,7 @@ alt_u32 get_serial_number(void) {
 				ser_num += serial_number[i] - '0';
 			} else {
 				ser_num = 0;
-				printf(
+				fprintf(fp, 
 						"Serial number only contains decimal digits and is non-zero\n");
 				break;
 			}
@@ -188,10 +188,10 @@ error_t generate_and_store_mac_addr() {
 	char flash_content[32];
 	alt_flash_fd* flash_handle;
 
-	printf("Can't read the MAC address from your board (this probably means\n");
-	printf(
+	fprintf(fp, "Can't read the MAC address from your board (this probably means\n");
+	fprintf(fp, 
 			"that your flash was erased). We will assign you a MAC address and\n");
-	printf("static network settings\n\n");
+	fprintf(fp, "static network settings\n\n");
 
 	ser_num = get_serial_number();
 
@@ -275,9 +275,9 @@ error_t generate_mac_addr(unsigned char mac_addr[6]) {
 	error_t error = -1;
 	alt_u32 ser_num = 0;
 
-	printf(
+	fprintf(fp, 
 			"\nCan't read the MAC address from your board. We will assign you\n");
-	printf("a MAC address.\n\n");
+	fprintf(fp, "a MAC address.\n\n");
 
 	ser_num = get_serial_number();
 
@@ -292,7 +292,7 @@ error_t generate_mac_addr(unsigned char mac_addr[6]) {
 		mac_addr[4] = (ser_num & 0xff00) >> 8;
 		mac_addr[5] = ser_num & 0xff;
 
-		printf("Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
+		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
 				mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4],
 				mac_addr[5]);
 
@@ -338,7 +338,7 @@ error_t get_board_mac_addr(unsigned char mac_addr[6]) {
 		mac_addr[4] = IORD_8DIRECT(last_flash_sector, 8);
 		mac_addr[5] = IORD_8DIRECT(last_flash_sector, 9);
 
-		printf("Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
+		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
 				mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4],
 				mac_addr[5]);
 

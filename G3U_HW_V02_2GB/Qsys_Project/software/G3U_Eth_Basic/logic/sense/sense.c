@@ -23,22 +23,22 @@ bool POWER_Read(alt_u32 szVol[POWER_PORT_NUM]){
                 SGL = (Value32 >> 5 ) & 0x01;
 //                PARITY = Value32 & 0x01;
                 if (HEAD != 0){
-                    printf("[%d]Unexpected HEAD\r\n",i);
+                    fprintf(fp, "[%d]Unexpected HEAD\r\n",i);
                     bSuccess = FALSE;
                 }else if (Channel != i){
-                    printf("[%d]Unexpected Channel. Expected:%d, Read:%d\r\n", i, i, Channel);
+                    fprintf(fp, "[%d]Unexpected Channel. Expected:%d, Read:%d\r\n", i, i, Channel);
                     bSuccess = FALSE;
                 }else if (SIGN ^ bSIGN){
-                    printf("[%d]Unexpected SIGN\r\n",i);
+                    fprintf(fp, "[%d]Unexpected SIGN\r\n",i);
                     bSuccess = FALSE;
                 }else if (SGL ^ SGL){
-                    printf("[%d]Unexpected SGL\r\n",i);
+                    fprintf(fp, "[%d]Unexpected SGL\r\n",i);
                     bSuccess = FALSE;
                 }
                 if (bSuccess)
                     szVol[nPortIndex++] = Value32; //(Value32 >> 6) & 0xFFFFFF; // 24 bits
             }else{
-                printf("SPI Read Error\r\n");
+                fprintf(fp, "SPI Read Error\r\n");
             }
         } // for i
     } // for c
@@ -119,24 +119,24 @@ bool POWER_Read(alt_u32 szVol[POWER_PORT_NUM]){
  	                    fVolDrop = 0.0; //always be positive in schematic // -(float)(0x400000-RESULT)/(float)0x400000;
  	                if (SIG && MSB){
  	                    fVol = fRef*0.5;
- 	                    printf("[%s:%06XH,Over]\r\n  VolDrop:%f(V)\r\n", szName[i], (int)szVol[i], fVol);
+ 	                    fprintf(fp, "[%s:%06XH,Over]\r\n  VolDrop:%f(V)\r\n", szName[i], (int)szVol[i], fVol);
  	                }else if (SIG && !MSB){
  	                    fVol = fRef*0.5*fVolDrop;
  	                    fCurrent = fVolDrop / szRes[i];
  	                    fPower = szRefVol[i] * fCurrent;
- 	                    printf("[%s:%06XH,Pos]\r\n  VolDrop:%f(V), Current:%f(A), Power:%f(W)\r\n", szName[i], (int)szVol[i], fVolDrop, fCurrent, fPower);
+ 	                    fprintf(fp, "[%s:%06XH,Pos]\r\n  VolDrop:%f(V), Current:%f(A), Power:%f(W)\r\n", szName[i], (int)szVol[i], fVolDrop, fCurrent, fPower);
  	                }else if (!SIG && MSB){
  	                    fVol = fRef*0.5*fVolDrop;
  	                    fCurrent = fVolDrop / szRes[i];
  	                    fPower = szRefVol[i] * fCurrent;
- 	                    printf("[%s:%06XH,Neg]\r\n  VolDrop:%f(V), Current:%f(A), Power:%f(W)\r\n", szName[i], (int)szVol[i], fVolDrop, fCurrent, fPower);
+ 	                    fprintf(fp, "[%s:%06XH,Neg]\r\n  VolDrop:%f(V), Current:%f(A), Power:%f(W)\r\n", szName[i], (int)szVol[i], fVolDrop, fCurrent, fPower);
  	                }else if (!SIG && !MSB){
  	                    fVol = -fRef*0.5;
- 	                    printf("[%s:%06XH,Under]\r\n  VolDrop:%f(V)\r\n", szName[i], (int)szVol[i], fVol);
+ 	                    fprintf(fp, "[%s:%06XH,Under]\r\n  VolDrop:%f(V)\r\n", szName[i], (int)szVol[i], fVol);
  	                }
  	            }
- 	            printf("\r\n");
+ 	            fprintf(fp, "\r\n");
  	        }else{
- 	            printf("Error\r\n");
+ 	            fprintf(fp, "Error\r\n");
  	        }
  }
