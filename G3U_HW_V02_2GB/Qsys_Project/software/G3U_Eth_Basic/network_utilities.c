@@ -124,6 +124,7 @@ alt_u32 get_serial_number(void) {
 	char serial_number[9];
 	int i = 0;
 
+#if DEBUG_ON
 	while (!ser_num) {
 		fprintf(fp, 
 				"Please enter your 9-digit serial number. This is printed on a \n");
@@ -154,7 +155,7 @@ alt_u32 get_serial_number(void) {
 			}
 		}
 	}
-
+#endif
 	return ser_num;
 }
 
@@ -187,12 +188,12 @@ error_t generate_and_store_mac_addr() {
 	alt_u32 ser_num = 0;
 	char flash_content[32];
 	alt_flash_fd* flash_handle;
-
+#if DEBUG_ON
 	fprintf(fp, "Can't read the MAC address from your board (this probably means\n");
 	fprintf(fp, 
 			"that your flash was erased). We will assign you a MAC address and\n");
 	fprintf(fp, "static network settings\n\n");
-
+#endif
 	ser_num = get_serial_number();
 
 	if (ser_num) {
@@ -274,11 +275,11 @@ error_t generate_and_store_mac_addr() {
 error_t generate_mac_addr(unsigned char mac_addr[6]) {
 	error_t error = -1;
 	alt_u32 ser_num = 0;
-
+#if DEBUG_ON
 	fprintf(fp, 
 			"\nCan't read the MAC address from your board. We will assign you\n");
 	fprintf(fp, "a MAC address.\n\n");
-
+#endif
 	ser_num = get_serial_number();
 
 	if (ser_num) {
@@ -291,11 +292,11 @@ error_t generate_mac_addr(unsigned char mac_addr[6]) {
 		mac_addr[3] = 0xFF;
 		mac_addr[4] = (ser_num & 0xff00) >> 8;
 		mac_addr[5] = ser_num & 0xff;
-
+#if DEBUG_ON
 		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
 				mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4],
 				mac_addr[5]);
-
+#endif
 		error = 0;
 	}
 
@@ -337,11 +338,11 @@ error_t get_board_mac_addr(unsigned char mac_addr[6]) {
 		mac_addr[3] = IORD_8DIRECT(last_flash_sector, 7);
 		mac_addr[4] = IORD_8DIRECT(last_flash_sector, 8);
 		mac_addr[5] = IORD_8DIRECT(last_flash_sector, 9);
-
+#if DEBUG_ON
 		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
 				mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4],
 				mac_addr[5]);
-
+#endif
 	}
 
 	return error;

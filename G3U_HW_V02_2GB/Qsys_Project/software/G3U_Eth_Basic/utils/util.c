@@ -70,11 +70,13 @@ void _print_codec_status(int codec_status) {
 	int connecting = (int) ((codec_status >> 5) & 1);
 	int running = (int) ((codec_status >> 4) & 1);
 
+#if DEBUG_ON
 	fprintf(fp, "-------- link status \n");
 	fprintf(fp, "Link started    : %s \n", (started == 1) ? "S" : "N");
 	fprintf(fp, "Link connecting : %s \n", (connecting == 1) ? "S" : "N");
 	fprintf(fp, "Link running    : %s \n", (running == 1) ? "S" : "N");
 	fprintf(fp, "--------  \n");
+#endif
 }
 
 /**
@@ -132,7 +134,10 @@ INT8U aatoh(INT8U *buffer) {
 
 INT8U Verif_Error(INT8U error_code) {
 	if (!error_code) {
+
+#if DEBUG_ON
 		fprintf(fp, "[VERIF ERROR]ERROR\n\r");
+#endif
 		return 0;
 	} else
 		return 1;

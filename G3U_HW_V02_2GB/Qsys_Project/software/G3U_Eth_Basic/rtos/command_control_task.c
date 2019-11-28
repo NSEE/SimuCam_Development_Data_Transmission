@@ -68,8 +68,9 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
 	INT32U i_buffer;
 	p_destination += nb_bytes;
 
+#if DEBUG_ON
 	fprintf(fp, "[longtoint]teste chegada: %i\r\n", (INT8U) *p_destination);
-
+#endif
 
 	while (p != 0) {
 //		i_buffer = div(nb, 256).quot;
