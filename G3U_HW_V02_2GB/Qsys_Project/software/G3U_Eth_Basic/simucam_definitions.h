@@ -42,7 +42,7 @@
  ************************************************************************************************
  */
 
-#define DEBUG_ON 					0
+#define DEBUG_ON 					1
 
 #define ECHO_CMD_OVERHEAD			15
 
@@ -51,6 +51,9 @@
 #define ECHO_QUEUE_BUFFER			512
 #define ECHO_BUFFER					512
 
+/*
+ * Convert to enum
+ */
 #define ACK_TYPE					1
 #define ERROR_TYPE					2
 #define ECHO_TYPE					3
@@ -79,6 +82,7 @@
 #define HK_SIZE						30			/* HK ack size */
 /*
  * Error codes definitions transform into enum
+ * TODO: Convert to enum
  */
 #define ACK_OK						0
 #define COMMAND_NOT_ACCEPTED		4
@@ -105,14 +109,14 @@ extern OS_EVENT *xMutexDMA[2];
 #endif
 
 
-#if DEBUG_ON
+// #if DEBUG_ON
 	#define debug( fp, mensage )    if ( DEBUG_ON ) { fprintf( fp, mensage ); }
-#endif
+// #endif
 
 /* Variable that will carry the debug JTAG device file descriptor*/
-#if DEBUG_ON
+// #if DEBUG_ON
     extern FILE* fp;
-#endif
+// #endif
 
 /*
 ************************************************************************************************

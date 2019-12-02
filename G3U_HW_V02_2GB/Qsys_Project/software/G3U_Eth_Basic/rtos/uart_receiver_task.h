@@ -17,8 +17,28 @@
 #ifndef RTOS_UART_RECEIVER_TASK_H_
 #define RTOS_UART_RECEIVER_TASK_H_
 
+/*
+************************************************************************************************
+*                                        INCLUDE FILES
+************************************************************************************************
+*/
 
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
+#include "includes.h"
+#include "../simucam_model.h"
+#include "../simucam_definitions.h"
 
+/*
+************************************************************************************************
+*                                        CONSTANTS & MACROS
+************************************************************************************************
+*/
+#define PROTOCOL_OVERHEAD		7
+#define UART_BUFFER_SIZE        2000
+
+typedef enum { sRConfiguring = 0, sGetRxUart, sSendToParser, sSendToACKReceiver } tReaderStates;
 
 #endif /* RTOS_UART_RECEIVER_TASK_H_ */

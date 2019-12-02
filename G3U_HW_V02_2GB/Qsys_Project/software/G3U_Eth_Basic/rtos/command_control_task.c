@@ -367,7 +367,6 @@ void CommandManagementTask() {
 #if DEBUG_ON
 			fprintf(fp, "[CommandManagementTask]Init\r\n");
 #endif
-
 //			data[0] = 33;
 //			long_to_int(350, 2, &data);
 //			fprintf(fp, "[CommandManagementTask]test long to int: %i %i\r\n",

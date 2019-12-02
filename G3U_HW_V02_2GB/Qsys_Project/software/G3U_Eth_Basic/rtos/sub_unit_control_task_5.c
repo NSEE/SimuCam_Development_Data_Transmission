@@ -234,11 +234,11 @@ void sub_unit_control_task_5(void *task_data) {
 							 */
 							i_buffer_size -= i_transferred;
 #if DEBUG_ON
-							if (i_buffer_size =< 0) {
-								fprintf(fp, 
-										"[SUBUNIT%i] Buffer fully scheduled\r\n",
-										(INT8U) c_spw_channel);
-							}
+//							if (i_buffer_size =< 0) {
+//								fprintf(fp,
+//										"[SUBUNIT%i] Buffer fully scheduled\r\n",
+//										(INT8U) c_spw_channel);
+//							}
 #endif
 							/*Calculate next imagette addr*/
 							i_mem_pointer_buffer =

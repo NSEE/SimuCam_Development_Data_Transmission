@@ -135,13 +135,13 @@ int main (int argc, char* argv[], char* envp[])
 
 
   /* Debug device initialization - JTAG USB */
-	#if DEBUG_ON
+	// #if DEBUG_ON
   		fp = fopen(JTAG_UART_0_NAME, "r+");
-  	#endif
+  // #endif
 
-  	#if DEBUG_ON
+  	// #if DEBUG_ON
   		fprintf(fp, "Main entry point.\n");
-  	#endif
+  	// #endif
 
   /* Clear the RTOS timer */
   OSTimeSet(0);

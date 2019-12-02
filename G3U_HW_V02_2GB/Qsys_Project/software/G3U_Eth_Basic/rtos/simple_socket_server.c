@@ -93,6 +93,12 @@ OS_STK dma1_scheduler_task_stack_1[TASK_STACKSIZE];
 OS_STK echo_task_stack[TASK_STACKSIZE];
 
 /*
+ * Uart receiver task stack
+ */
+OS_STK uart_rcv_task_stack[TASK_STACKSIZE];
+
+
+/*
  * Configuration of the simucam data queue[yb]
  */
 
@@ -292,6 +298,18 @@ void SSSCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
+	/*
+	 * Creating the Echo task [yb]
+	 */
+	error_code = OSTaskCreateExt(uart_receiver_task, NULL,
+			(void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
+			UART_RCV_TASK_PRIORITY,
+			UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
+			TASK_STACKSIZE,
+			NULL, 0);
+
+	alt_uCOSIIErrorHandler(error_code, 0);
+
 	xMutexDMA[0] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
 	if (error_code != OS_ERR_NONE) {
 #if DEBUG_ON
@@ -304,7 +322,7 @@ void SSSCreateTasks(void) {
 		fprintf(fp, "Error creating mutex\r\n");
 #endif
 	}
-
+	fprintf(fp, "Tasks created successfully\r\n");
 #if DEBUG_ON
 	fprintf(fp, "Tasks created successfully\r\n");
 #endif
