@@ -28,8 +28,8 @@
 #include <ctype.h>
 
 #include "includes.h"
-#include "../simucam_model.h"
 #include "../simucam_definitions.h"
+#include "../api_drivers/ddr2/ddr2.h"
 
 /*
 ************************************************************************************************
@@ -39,6 +39,7 @@
 #define PROTOCOL_OVERHEAD		7
 #define HEADER_OVERHEAD         8
 #define PAYLOAD_OVERHEAD        10
+#define IMAGETTE_HEADER         12
 #define UART_BUFFER_SIZE        256
 
 typedef enum { sRConfiguring = 0, sGetHeader, sGetImagettes, sGetCommand, sSendToCmdCtrl, sSendToACKReceiver } tReaderStates;

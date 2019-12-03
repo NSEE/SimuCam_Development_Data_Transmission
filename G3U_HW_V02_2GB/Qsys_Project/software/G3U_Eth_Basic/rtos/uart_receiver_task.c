@@ -67,161 +67,165 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
      INT8U *p_imagette_byte;
      INT16U i_nb_imag_ctrl = 0;
      INT8U i_channel_wr = 0;
+     INT8U iHeaderBuff[IMAGETTE_HEADER];
+     INT8U iOffsetLengthBuff[6];
+     INT8U iCRCBuff[2];
+     INT16U usLengthBuff = 0;
 
  #if DEBUG_ON
      fprintf(fp, "[sss_handle_receive DEBUG]Entered parser\r\n");
  #endif
 
-//     if (T_simucam.T_status.simucam_mode == simModeConfig) {
-//         rx_code = recv(conn->fd,
-//                 (char* )p_ethernet_buffer->rx_wr_pos, 12, 0);
-//         if (rx_code > 0) {
-//             p_ethernet_buffer->rx_rd_pos += rx_code;
-//         }
-//         i_channel_wr = p_ethernet_buffer->rx_buffer[1];
-//
-//         /*
-//             * Switch to the right memory stick
-//             */
-//         if (((unsigned char) i_channel_wr / 4) == 0) {
-//             bDdr2SwitchMemory(DDR2_M1_ID);
-//         } else {
-//             bDdr2SwitchMemory(DDR2_M2_ID);
-//         }
-//
-//         T_Imagette *p_imagette_buff;
-//
-//         p_imagette_byte =
-//                 (INT32U) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
-//
-//         /*
-//             * Parse nb of imagettes
-//             */
-//         T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes =
-//                 p_ethernet_buffer->rx_buffer[3]
-//                         + 256 * p_ethernet_buffer->rx_buffer[2];
-//
-//         /*
-//             * Parse TAG
-//             */
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[7] =
-//                 p_ethernet_buffer->rx_buffer[4];
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[6] =
-//                 p_ethernet_buffer->rx_buffer[5];
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[5] =
-//                 p_ethernet_buffer->rx_buffer[6];
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[4] =
-//                 p_ethernet_buffer->rx_buffer[7];
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[3] =
-//                 p_ethernet_buffer->rx_buffer[8];
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[2] =
-//                 p_ethernet_buffer->rx_buffer[9];
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[1] =
-//                 p_ethernet_buffer->rx_buffer[10];
-//         T_simucam.T_Sub[i_channel_wr].T_data.tag[0] =
-//                 p_ethernet_buffer->rx_buffer[11];
-//
-//         /*
-//             * Parse imagettes
-//             */
-//         while (i_nb_imag_ctrl
-//                 < T_simucam.T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
-//
-//             p_imagette_buff = (T_Imagette *) p_imagette_byte;
-//             /*
-//                 * Receive 6 bytes for offset and length
-//                 */
-//             rx_code = recv(conn->fd,
-//                     (char* )p_ethernet_buffer->rx_wr_pos, 6, 0);
-//             if (rx_code > 0) {
-//                 p_ethernet_buffer->rx_rd_pos += rx_code;
-//
-//             }
-//
-//             p_imagette_buff->offset =
-//                     p_ethernet_buffer->rx_buffer[3]
-//                             + 256 * p_ethernet_buffer->rx_buffer[2]
-//                             + 65536
-//                                     * p_ethernet_buffer->rx_buffer[1]
-//                             + 4294967296
-//                                     * p_ethernet_buffer->rx_buffer[0];
-//
-//             p_imagette_buff->imagette_length =
-//                     p_ethernet_buffer->rx_buffer[5]
-//                             + 256 * p_ethernet_buffer->rx_buffer[4];
-// #if DEBUG_ON
-//             fprintf(fp, "[SSS]Imagette %i length: %i\r\n", i_nb_imag_ctrl,
-//                     p_imagette_buff->imagette_length);
-// #endif
-//             p_imagette_byte += 6;
-//             i_length_buff = p_imagette_buff->imagette_length;
-//             while (i_length_buff > 0) {
+        /* Get payload data from RS232 */                
+        fgets(iHeaderBuff, IMAGETTE_HEADER, stdin);
+
+
+        i_channel_wr = iHeaderBuff[1];
+
+        /*
+        * Switch to the right memory stick
+        */
+        if (((unsigned char) i_channel_wr / 4) == 0) {
+            bDdr2SwitchMemory(DDR2_M1_ID);
+        } else {
+            bDdr2SwitchMemory(DDR2_M2_ID);
+        }
+
+        T_Imagette *p_imagette_buff;
+
+        p_imagette_byte =
+                (INT32U) pSimucam->T_Sub[i_channel_wr].T_data.addr_init;
+
+        /*
+        * Parse nb of imagettes
+        */
+        pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes =
+                iHeaderBuff[3]
+                        + 256 * iHeaderBuff[2];
+
+        /*
+        * Parse TAG
+        */
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[7] =
+                iHeaderBuff[4];
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[6] =
+                iHeaderBuff[5];
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[5] =
+                iHeaderBuff[6];
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[4] =
+                iHeaderBuff[7];
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[3] =
+                iHeaderBuff[8];
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[2] =
+                iHeaderBuff[9];
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[1] =
+                iHeaderBuff[10];
+        pSimucam->T_Sub[i_channel_wr].T_data.tag[0] =
+                iHeaderBuff[11];
+
+        /*
+        * Parse imagettes
+        */
+        while (i_nb_imag_ctrl
+                < pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
+
+            p_imagette_buff = (T_Imagette *) p_imagette_byte;
+            /*
+            * Receive 6 bytes for offset and length
+            */           
+            fgets(iOffsetLengthBuff, 6, stdin);
+
+            p_imagette_buff->offset =
+                    iOffsetLengthBuff[3]
+                            + 256 * iOffsetLengthBuff[2]
+                            + 65536
+                                    * iOffsetLengthBuff[1]
+                            + 4294967296
+                                    * iOffsetLengthBuff[0];
+
+            p_imagette_buff->imagette_length =
+                    iOffsetLengthBuff[5]
+                            + 256 * iOffsetLengthBuff[4];
+#if DEBUG_ON
+            fprintf(fp, "[SSS]Imagette %i length: %i\r\n", i_nb_imag_ctrl,
+                    p_imagette_buff->imagette_length);
+#endif
+            /* Advance byte addr */
+            p_imagette_byte += 6;
+
+            usLengthBuff = p_imagette_buff->imagette_length;
+            
+//             while (usLengthBuff > 0) {
 //                 rx_code = recv(conn->fd, (void * )p_imagette_byte,
-//                         i_length_buff, 0);
+//                         usLengthBuff, 0);
 //                 if (rx_code > 0) {
-//                     /*
-//                         * TODO prepare for fragmented receive
-//                         * if rx_code < data to receive, receive again
-//                         */
+
 // #if DEBUG_ON
 //                     fprintf(fp,
 //                             "[SSS] received bytes in imagette %i: %i\r\n",
 //                             i_nb_imag_ctrl, rx_code);
 // #endif
 //                     p_imagette_byte += rx_code;
-//                     i_length_buff -= rx_code;
+//                     usLengthBuff -= rx_code;
 //                 }
 //             }
-//             if (((INT32U) p_imagette_byte % 8)) {
-//                 p_imagette_byte =
-//                         (INT8U *) (((((INT32U) p_imagette_byte) >> 3)
-//                                 + 1) << 3);
-//             }
-//
-// #if DEBUG_ON
-//             T_teste_data *pxTestData =
-//             (T_teste_data *) T_simucam.T_Sub[i_channel_wr].T_data.addr_init;
-// #endif
-//             i_nb_imag_ctrl++;
-//         }
-//
-//         rx_code = recv(conn->fd,
-//                 (char* )p_ethernet_buffer->rx_wr_pos, 2, 0);
-//         if (rx_code > 0) {
-//             p_ethernet_buffer->rx_rd_pos += rx_code;
-//
-//             /* Zero terminate so we can use string functions */
-//             *(p_ethernet_buffer->rx_wr_pos + 1) = 0;
-//         }
-//         /* Verificar se chegou tudo */
-//
-//         payload.crc = p_ethernet_buffer->rx_buffer[1]
-//                 + 256 * p_ethernet_buffer->rx_buffer[0];
-//         i_ack = ACK_OK;
-//     } else {
-//         /*
-//             * Empty the ethernet stack to avoid garbage
-//             */
-//         if (payload.size < BUFFER_SIZE) {
-//             rx_code = recv(conn->fd,
-//                     (char* )p_ethernet_buffer->rx_wr_pos,
-//                     payload.size, 0);
-//             if (rx_code > 0) {
-//                 p_ethernet_buffer->rx_rd_pos += rx_code;
-//             }
-//         } else {
-//             while (payload.size > BUFFER_SIZE) {
-//                 rx_code = recv(conn->fd,
-//                         (char* )p_ethernet_buffer->rx_wr_pos,
-//                         BUFFER_SIZE, 0);
-//                 if (rx_code > 0) {
-//                     p_ethernet_buffer->rx_rd_pos += rx_code;
-//                     payload.size -= BUFFER_SIZE;
-//                 }
-//             }
-//         }
-//         i_ack = COMMAND_NOT_ACCEPTED;
-//     }
+
+            /* Get data bytes from RS232 */
+            //TODO Verif if correct
+            fgets(*p_imagette_byte, usLengthBuff, stdin);
+
+            /* Sum memory positions */
+            p_imagette_byte += usLengthBuff;
+
+            /* Align memory */
+            if (((INT32U) p_imagette_byte % 8)) {
+                p_imagette_byte =
+                        (INT8U *) (((((INT32U) p_imagette_byte) >> 3)
+                                + 1) << 3);
+            }
+
+#if DEBUG_ON
+            // T_teste_data *pxTestData =
+            // (T_teste_data *) pSimucam->T_Sub[i_channel_wr].T_data.addr_init;
+#endif
+            i_nb_imag_ctrl++;
+        }
+        
+        /* receive CRC */
+        fgets(iCRCBuff, 2, stdin);
+
+        /* Verificar se chegou tudo */
+        /* Mock CRC */
+        pPayload->crc = iCRCBuff[1]
+                + 256 * iCRCBuff[0];
+        /* TODO Verif CRC */
+        i_ack = ACK_OK;
+    
+    //ACK for not config condition
+    // } else {
+    //     /*
+    //         * Empty the ethernet stack to avoid garbage
+    //         */
+    //     if (payload.size < BUFFER_SIZE) {
+    //         rx_code = recv(conn->fd,
+    //                 (char* )p_ethernet_buffer->rx_wr_pos,
+    //                 payload.size, 0);
+    //         if (rx_code > 0) {
+    //             p_ethernet_buffer->rx_rd_pos += rx_code;
+    //         }
+    //     } else {
+    //         while (payload.size > BUFFER_SIZE) {
+    //             rx_code = recv(conn->fd,
+    //                     (char* )p_ethernet_buffer->rx_wr_pos,
+    //                     BUFFER_SIZE, 0);
+    //             if (rx_code > 0) {
+    //                 p_ethernet_buffer->rx_rd_pos += rx_code;
+    //                 payload.size -= BUFFER_SIZE;
+    //             }
+    //         }
+    //     }
+    //     i_ack = COMMAND_NOT_ACCEPTED;
+    // }
 }
 
 /**
@@ -275,8 +279,8 @@ void vCmdParser(T_uart_payload *pUartPayload){
 
 void uart_receiver_task(void *task_data){
     bool bSuccess = FALSE;
-    char cReceiveBuffer[UART_BUFFER_SIZE];
-    char cReceive[UART_BUFFER_SIZE+64];
+    INT8U cReceiveBuffer[UART_BUFFER_SIZE];
+    INT8U cReceive[UART_BUFFER_SIZE+64];
     tReaderStates eReaderRXMode = sRConfiguring;
     static _ethernet_payload payload;
 
@@ -312,7 +316,8 @@ void uart_receiver_task(void *task_data){
                 }
                 break;
                 case sGetImagettes:
-                    vImagetteParser((T_Simucam *) &T_simucam);
+                    /* TODO Verify that the Simucam is in config mode */
+                    vImagetteParser((T_Simucam *) &T_simucam, (T_uart_payload *) &payload);
                     eReaderRXMode = sSendToACKReceiver;
                 break;
                 case sGetCommand:
