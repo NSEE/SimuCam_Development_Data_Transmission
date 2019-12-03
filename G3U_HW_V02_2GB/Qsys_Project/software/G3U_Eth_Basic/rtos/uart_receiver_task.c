@@ -16,6 +16,18 @@
 
 #include "uart_receiver_task.h"
 
+
+
+/**
+ * @name vHeaderParser
+ * @brief Parses header from buffer
+ * @ingroup rtos
+ *
+ * @param 	[in]	_ethernet_payload * 	Command structure
+ * @param	[in]	char * 	char buffer
+ *
+ * @retval void
+ **/
 void vHeaderParser(_ethernet_payload *pPayload, char *cReceiveBuffer){
 
 #if DEBUG_ON
@@ -40,7 +52,17 @@ void vHeaderParser(_ethernet_payload *pPayload, char *cReceiveBuffer){
 #endif
 }
 
-void vImagetteParser(T_Simucam *pSimucam){
+/**
+ * @name vCmdParser
+ * @brief Parses command from serial
+ * @ingroup rtos
+ *
+ * @param 	[in]	T_Simucam * 	    simucam model control structure
+ * @param 	[in]	T_uart_payload * 	payload structure
+ * 
+ * @retval void
+ **/
+void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
 
      INT8U *p_imagette_byte;
      INT16U i_nb_imag_ctrl = 0;
@@ -202,6 +224,15 @@ void vImagetteParser(T_Simucam *pSimucam){
 //     }
 }
 
+/**
+ * @name vCmdParser
+ * @brief Parses command from serial
+ * @ingroup rtos
+ *
+ * @param 	[in]	T_uart_payload * 	payload structure
+ *
+ * @retval void
+ **/
 void vCmdParser(T_uart_payload *pUartPayload){
     INT8U cBuff[UART_BUFFER_SIZE];
     int i = 0;
