@@ -37,8 +37,20 @@
 ************************************************************************************************
 */
 #define PROTOCOL_OVERHEAD		7
-#define UART_BUFFER_SIZE        2000
+#define HEADER_OVERHEAD         8
+#define PAYLOAD_OVERHEAD        10
+#define UART_BUFFER_SIZE        256
 
-typedef enum { sRConfiguring = 0, sGetRxUart, sSendToParser, sSendToACKReceiver } tReaderStates;
+typedef enum { sRConfiguring = 0, sGetHeader, sGetImagettes, sGetCommand, sSendToCmdCtrl, sSendToACKReceiver } tReaderStates;
+
+extern T_Simucam T_simucam;
+/*
+ * Handles to the SimuCam control data queues
+ */
+
+extern OS_EVENT *SimucamDataQ;
+extern OS_EVENT *p_simucam_command_q;
+extern OS_EVENT *p_telemetry_queue;
+extern INT16U i_id_accum;
 
 #endif /* RTOS_UART_RECEIVER_TASK_H_ */
