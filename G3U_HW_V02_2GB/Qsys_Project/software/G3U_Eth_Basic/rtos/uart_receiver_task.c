@@ -28,10 +28,10 @@
  *
  * @retval void
  **/
-void vHeaderParser(_ethernet_payload *pPayload, char *cReceiveBuffer){
+void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer){
 
 #if DEBUG_ON
-    printf("[UART HParser]Received Bytes: %u %u %u %u %u %u %u %u\n", 
+	fprintf(fp, "[UART HParser]Received Bytes: %u %u %u %u %u %u %u %u\n",
         cReceiveBuffer[0], cReceiveBuffer[1], cReceiveBuffer[2], cReceiveBuffer[3], cReceiveBuffer[4],
         cReceiveBuffer[5], cReceiveBuffer[6], cReceiveBuffer[7]);
 #endif
@@ -48,7 +48,7 @@ void vHeaderParser(_ethernet_payload *pPayload, char *cReceiveBuffer){
             + 65536 * cReceiveBuffer[5]
             + 4294967296 * cReceiveBuffer[4];
 #if DEBUG_ON
-    printf("[UART HParser]Parsed header %u, Parsed id: %u, parsed type %u, parsed size %lu\n", pPayload->header, pPayload->packet_id, pPayload->type, pPayload->size);
+    fprintf(fp, "[UART HParser]Parsed header %u, Parsed id: %u, parsed type %u, parsed size %lu\n", pPayload->header, pPayload->packet_id, pPayload->type, pPayload->size);
 #endif
 }
 
@@ -199,7 +199,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         pPayload->crc = iCRCBuff[1]
                 + 256 * iCRCBuff[0];
         /* TODO Verif CRC */
-        i_ack = ACK_OK;
+//        i_ack = ACK_OK;435
     
     //ACK for not config condition
     // } else {
@@ -243,6 +243,10 @@ void vCmdParser(T_uart_payload *pUartPayload){
 
     memset(pUartPayload->data, 0, pUartPayload->size - PAYLOAD_OVERHEAD + 1);
 
+#if DEBUG_ON
+    fprintf(fp, "[vCmdParser DEBUG]Command Parser Init\n");
+#endif
+
     /*
     * Assign data in the payload struct to data in the buffer
     * change to 0
@@ -282,7 +286,7 @@ void uart_receiver_task(void *task_data){
     INT8U cReceiveBuffer[UART_BUFFER_SIZE];
     INT8U cReceive[UART_BUFFER_SIZE+64];
     tReaderStates eReaderRXMode = sRConfiguring;
-    static _ethernet_payload payload;
+    static T_uart_payload payload;
 
     for(;;) {
 
@@ -296,23 +300,23 @@ void uart_receiver_task(void *task_data){
                 fprintf(fp, "[UART RCV] Waiting data\n");
             #endif
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
-                memset(cReceive, 0, UART_BUFFER_SIZE);
+//                memset(cReceive, 0, UART_BUFFER_SIZE);
                 
-                fgets(cReceive,9,stdin);
-                //memcpy(cReceiveBuffer, cReceive, (UART_BUFFER_SIZE -1) ); /* Make that there's a zero terminator */
+                fgets(cReceiveBuffer,9,stdin);
+//                memcpy(cReceiveBuffer, cReceive, (UART_BUFFER_SIZE -1) ); /* Make that there's a zero terminator */
                 
                 /* For testing only */
-                printf("[UART RCV]Received data: %s\n", cReceiveBuffer);
+                fprintf(fp, "[UART RCV]Received data: %s\n", cReceiveBuffer);
 
-                vHeaderParser((_ethernet_payload *) &payload,(char *) &cReceiveBuffer);
+                vHeaderParser((T_uart_payload *) &payload,(char *) &cReceiveBuffer);
                 
-                printf("[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", payload.packet_id, payload.type, payload.size);
-                
+                fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", payload.packet_id, payload.type, payload.size);
+
                 /* Send state to Imagette parser if type is correct */
                 if(payload.type == 102){
                     eReaderRXMode = sGetImagettes;
                 } else{
-                    eReaderRXMode = sGetCommand;
+//                    eReaderRXMode = sGetCommand;
                 }
                 break;
                 case sGetImagettes:
@@ -325,10 +329,10 @@ void uart_receiver_task(void *task_data){
                 	eReaderRXMode = sSendToCmdCtrl;
                 break;
                 case sSendToCmdCtrl:
-
+                	eReaderRXMode = sSendToACKReceiver;
 				break;
                 case sSendToACKReceiver:
-
+                	eReaderRXMode = sGetHeader;
 				break;
         }
 
