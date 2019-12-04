@@ -42,7 +42,7 @@
 #define IMAGETTE_HEADER         12
 #define UART_BUFFER_SIZE        256
 
-typedef enum { sRConfiguring = 0, sGetHeader, sGetImagettes, sGetCommand, sSendToCmdCtrl, sSendToACKReceiver } tReaderStates;
+typedef enum { sRConfiguring = 0, sGetHeader, sToGetImagettes, sGetImagettes, sToGetCommand, sGetCommand, sSendToCmdCtrl, sSendToACKReceiver } tReaderStates;
 
 extern T_Simucam T_simucam;
 /*

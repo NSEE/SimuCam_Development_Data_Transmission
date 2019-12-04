@@ -34,8 +34,10 @@
 //typedef enum e_bool { false = 0, true = 1 } bool;
 //#define false   0
 //#define true    1
-#define FALSE   0
-#define TRUE    1
+#define FALSE   			0
+#define TRUE    			1
+#define PAYLOAD_DATA_SIZE	512
+
 #endif
 
 /* Sub modes enum */
@@ -140,13 +142,13 @@ typedef struct x_ethernet_payload {
 }_ethernet_payload;
 
 typedef struct T_uart_payload {
-	INT8U header;		/* Command Header */
-	INT16U packet_id;	/* Unique identifier */
-	INT8U type;			/* Will be the command id */
-	INT8U sub_type;		/* Could carry the sub-unit id */
-	INT32U size;		/* Size pre-computed in function */
-	INT8U data[256];	/* Data array */
-	INT16U crc;			/* We will use the CCITT-CRC, that is also used in the PUS protocol */
+	INT8U header;					/* Command Header */
+	INT16U packet_id;				/* Unique identifier */
+	INT8U type;						/* Will be the command id */
+	INT8U sub_type;					/* Could carry the sub-unit id */
+	INT32U size;					/* Size pre-computed in function */
+	INT8U data[PAYLOAD_DATA_SIZE];	/* Data array */
+	INT16U crc;						/* We will use the CCITT-CRC, that is also used in the PUS protocol */
 
 
 }T_uart_payload;

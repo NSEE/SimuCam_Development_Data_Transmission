@@ -241,7 +241,7 @@ void vCmdParser(T_uart_payload *pUartPayload){
     INT8U cBuff[UART_BUFFER_SIZE];
     int i = 0;
 
-    memset(pUartPayload->data, 0, pUartPayload->size - PAYLOAD_OVERHEAD + 1);
+    memset(pUartPayload->data, 0, PAYLOAD_DATA_SIZE);
 
 #if DEBUG_ON
     fprintf(fp, "[vCmdParser DEBUG]Command Parser Init\n");
@@ -251,7 +251,7 @@ void vCmdParser(T_uart_payload *pUartPayload){
     * Assign data in the payload struct to data in the buffer
     * change to 0
     */
-    if (pUartPayload->size > PAYLOAD_OVERHEAD) {
+    if (pUartPayload->size > PAYLOAD_OVERHEAD && pUartPayload->size < PAYLOAD_DATA_SIZE ) {
         
         /* Get payload data from RS232 */                
         fgets(pUartPayload->data, pUartPayload->size - PAYLOAD_OVERHEAD, stdin);
@@ -263,22 +263,27 @@ void vCmdParser(T_uart_payload *pUartPayload){
                     (INT8U) pUartPayload->data[i - 1], (INT8U) i);
         }
 #endif
+        /* Get CRC from RS232 */
+        fgets(pUartPayload->crc, 2, stdin);
+
+#if DEBUG_ON
+        fprintf(fp, "[vCmdParser DEBUG]Received CRC = %i\n",
+                (INT16U) pUartPayload->crc);
+#endif
+        /* TODO ACK statement */
+        /* TODO Calculate CRC */
+
+#if DEBUG_ON
+        fprintf(fp, "[vCmdParser DEBUG]finished receiving\n");
+#endif
+    } else{
+        /* TODO Error reporting + NACK */
+#if DEBUG_ON
+        fprintf(fp, "[vCmdParser DEBUG]Invalid Data Size\n");
+#endif
     }
 
-    /* Get CRC from RS232 */
-    fgets(pUartPayload->crc, 2, stdin);
 
-#if DEBUG_ON
-    fprintf(fp, "[vCmdParser DEBUG]Received CRC = %i\n",
-            (INT16U) pUartPayload->crc);
-#endif
-    
-    // calculated_crc = crc16(p_ethernet_buffer->rx_buffer,
-    //         pUartPayload->size);
-
-#if DEBUG_ON
-    fprintf(fp, "[vCmdParser DEBUG]finished receiving\n");
-#endif
 }
 
 void uart_receiver_task(void *task_data){
@@ -308,21 +313,29 @@ void uart_receiver_task(void *task_data){
                 /* For testing only */
                 fprintf(fp, "[UART RCV]Received data: %s\n", cReceiveBuffer);
 
-                vHeaderParser((T_uart_payload *) &payload,(char *) &cReceiveBuffer);
+                vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
                 
                 fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", payload.packet_id, payload.type, payload.size);
+
+                vCmdParser((T_uart_payload *) &payload);
 
                 /* Send state to Imagette parser if type is correct */
                 if(payload.type == 102){
                     eReaderRXMode = sGetImagettes;
                 } else{
-//                    eReaderRXMode = sGetCommand;
+//                    eReaderRXMode = sToGetCommand;
                 }
+                break;
+                case sToGetImagettes:
+                    eReaderRXMode = sGetImagettes;
                 break;
                 case sGetImagettes:
                     /* TODO Verify that the Simucam is in config mode */
                     vImagetteParser((T_Simucam *) &T_simucam, (T_uart_payload *) &payload);
                     eReaderRXMode = sSendToACKReceiver;
+                break;
+                case sToGetCommand:
+                    eReaderRXMode = sGetCommand;
                 break;
                 case sGetCommand:
                 	vCmdParser((T_uart_payload *) &payload);
