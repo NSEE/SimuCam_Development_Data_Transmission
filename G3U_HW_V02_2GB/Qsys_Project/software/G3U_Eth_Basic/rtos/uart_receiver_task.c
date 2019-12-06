@@ -16,7 +16,25 @@
 
 #include "uart_receiver_task.h"
 
-
+/**
+ * @name luGetSerial
+ * @brief Receives a fixed number of chars from serial
+ * @ingroup rtos
+ *
+ * @param 	[in]	INT8U * Command structure
+ * @param	[in]	INT32U  Number of chars
+ *
+ * @retval unsigned long        number of chars read
+ **/
+unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
+        INT32U luReturn = 0;
+        while(luNbChars != 0){
+                fgets(pBuffer, 2, stdin);
+                pBuffer++;
+                luNbChars--;
+        }
+        return luReturn;
+}
 
 /**
  * @name vHeaderParser
@@ -53,8 +71,8 @@ void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer){
 }
 
 /**
- * @name vCmdParser
- * @brief Parses command from serial
+ * @name vImagetteParser
+ * @brief Parses imagette from serial
  * @ingroup rtos
  *
  * @param 	[in]	T_Simucam * 	    simucam model control structure
@@ -148,8 +166,8 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
 
             p_imagette_buff = (T_Imagette *) p_imagette_byte;
             /*
-            * Receive 6 bytes for offset and length
-            */
+             * Receive 6 bytes for offset and length
+             */
             memset(iOffsetLengthBuff, 0, 8);           
             fgets(iOffsetLengthBuff, 6 + 1, stdin); //Length offset + 1
 #if DEBUG_ON
@@ -267,10 +285,10 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
  * @retval void
  **/
 void vCmdParser(T_uart_payload *pUartPayload){
-    INT8U cBuff[8];
-    int i = 0;
+        INT8U cBuff[8];
+        int i = 0;
 
-    memset(pUartPayload->data, 0, PAYLOAD_DATA_SIZE);
+        memset(pUartPayload->data, 0, PAYLOAD_DATA_SIZE);
         memset(cBuff, 0, 8);       
 #if DEBUG_ON
     fprintf(fp, "[vCmdParser DEBUG]Command Parser Init\n");
@@ -283,7 +301,8 @@ void vCmdParser(T_uart_payload *pUartPayload){
     if (pUartPayload->size > PAYLOAD_OVERHEAD && pUartPayload->size < PAYLOAD_DATA_SIZE ) {
         
         /* Get payload data from RS232 */                
-        fgets(pUartPayload->data, pUartPayload->size - PAYLOAD_OVERHEAD + 1, stdin);
+        // fgets(pUartPayload->data, pUartPayload->size - PAYLOAD_OVERHEAD + 1, stdin);
+        luGetSerial((INT8U *)&pUartPayload->data, pUartPayload->size - PAYLOAD_OVERHEAD);
 
 #if DEBUG_ON
         for (i = 1; i <= pUartPayload->size - PAYLOAD_OVERHEAD; i++) {
@@ -293,7 +312,8 @@ void vCmdParser(T_uart_payload *pUartPayload){
         }
 #endif
         /* Get CRC from RS232 */
-        fgets(cBuff, 2 + 1, stdin);
+        // fgets(cBuff, 2 + 1, stdin);
+        luGetSerial((INT8U *)&cBuff, 2);
 
 #if DEBUG_ON
         fprintf(fp, "[vCmdParser DEBUG]Received CRC = %i %i\n",
@@ -336,9 +356,9 @@ void uart_receiver_task(void *task_data){
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
 //                memset(cReceive, 0, UART_BUFFER_SIZE);
                 
-                fgets(cReceiveBuffer,8 + 1,stdin);
+                // fgets(cReceiveBuffer,8 + 1,stdin);
 //                memcpy(cReceiveBuffer, cReceive, (UART_BUFFER_SIZE -1) ); /* Make that there's a zero terminator */
-                
+                luGetSerial((char *) &cReceiveBuffer, 8);
                 /* For testing only */
                 fprintf(fp, "[UART RCV]Received data: %s\n", cReceiveBuffer);
 
