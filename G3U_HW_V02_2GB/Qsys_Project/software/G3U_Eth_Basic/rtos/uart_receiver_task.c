@@ -242,7 +242,7 @@ void vCmdParser(T_uart_payload *pUartPayload){
     int i = 0;
 
     memset(pUartPayload->data, 0, PAYLOAD_DATA_SIZE);
-
+        memset(cBuff, 0, UART_BUFFER_SIZE);       
 #if DEBUG_ON
     fprintf(fp, "[vCmdParser DEBUG]Command Parser Init\n");
 #endif
@@ -254,7 +254,7 @@ void vCmdParser(T_uart_payload *pUartPayload){
     if (pUartPayload->size > PAYLOAD_OVERHEAD && pUartPayload->size < PAYLOAD_DATA_SIZE ) {
         
         /* Get payload data from RS232 */                
-        fgets(pUartPayload->data, pUartPayload->size - PAYLOAD_OVERHEAD, stdin);
+        fgets(pUartPayload->data, pUartPayload->size - PAYLOAD_OVERHEAD + 1, stdin);
 
 #if DEBUG_ON
         for (i = 1; i <= pUartPayload->size - PAYLOAD_OVERHEAD; i++) {
@@ -264,11 +264,11 @@ void vCmdParser(T_uart_payload *pUartPayload){
         }
 #endif
         /* Get CRC from RS232 */
-        fgets(pUartPayload->crc, 2, stdin);
+        fgets(cBuff, 2 + 1, stdin);
 
 #if DEBUG_ON
-        fprintf(fp, "[vCmdParser DEBUG]Received CRC = %i\n",
-                (INT16U) pUartPayload->crc);
+        fprintf(fp, "[vCmdParser DEBUG]Received CRC = %i %i\n",
+                (INT8U) cBuff[0],(INT8U) cBuff[1]);
 #endif
         /* TODO ACK statement */
         /* TODO Calculate CRC */
@@ -307,7 +307,7 @@ void uart_receiver_task(void *task_data){
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
 //                memset(cReceive, 0, UART_BUFFER_SIZE);
                 
-                fgets(cReceiveBuffer,9,stdin);
+                fgets(cReceiveBuffer,8 + 1,stdin);
 //                memcpy(cReceiveBuffer, cReceive, (UART_BUFFER_SIZE -1) ); /* Make that there's a zero terminator */
                 
                 /* For testing only */
@@ -317,13 +317,11 @@ void uart_receiver_task(void *task_data){
                 
                 fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", payload.packet_id, payload.type, payload.size);
 
-                vCmdParser((T_uart_payload *) &payload);
-
                 /* Send state to Imagette parser if type is correct */
                 if(payload.type == 102){
                     eReaderRXMode = sGetImagettes;
                 } else{
-//                    eReaderRXMode = sToGetCommand;
+                   eReaderRXMode = sToGetCommand;
                 }
                 break;
                 case sToGetImagettes:
