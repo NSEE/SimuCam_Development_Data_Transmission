@@ -28,11 +28,16 @@
  **/
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
+
         while(luNbChars != 0){
                 fgets(pBuffer, 2, stdin);
                 pBuffer++;
+                luReturn++;
                 luNbChars--;
         }
+#if DEBUG_ON
+        fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
+#endif
         return luReturn;
 }
 
@@ -95,7 +100,8 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
  #endif
         memset(iHeaderBuff, 0, 16);
         /* Get payload data from RS232 */                
-        fgets(iHeaderBuff, IMAGETTE_HEADER + 1, stdin);
+        // fgets(iHeaderBuff, IMAGETTE_HEADER + 1, stdin);
+        luGetSerial((INT8U *)&iHeaderBuff, IMAGETTE_HEADER);
 
 #if DEBUG_ON
         fprintf(fp, "[UART ImagetteParser DEBUG]iHeaderBuff Dump");
@@ -169,7 +175,8 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
              * Receive 6 bytes for offset and length
              */
             memset(iOffsetLengthBuff, 0, 8);           
-            fgets(iOffsetLengthBuff, 6 + 1, stdin); //Length offset + 1
+        //     fgets(iOffsetLengthBuff, 6 + 1, stdin); //Length offset + 1
+                luGetSerial((INT8U *)&iOffsetLengthBuff, 6);
 #if DEBUG_ON
         fprintf(fp, "[UART ImagetteParser DEBUG]iOffsetLengthBuff Dump");
         for(int w=0; w<6; w++){
@@ -214,8 +221,8 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
 
             /* Get data bytes from RS232 */
             //TODO Verif if correct
-            fgets(*p_imagette_byte, usLengthBuff + 1, stdin);
-
+        //     fgets(*p_imagette_byte, usLengthBuff + 1, stdin);
+                luGetSerial((INT8U *)p_imagette_byte, usLengthBuff);
             /* Sum memory positions */
             p_imagette_byte += usLengthBuff;
 
@@ -227,15 +234,17 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
             }
 
 #if DEBUG_ON
-            INT8U *pxTestData =
-            (INT8U *) pSimucam->T_Sub[i_channel_wr].T_data.addr_init;
+                INT8U *pxTestData =
+                (INT8U *) pSimucam->T_Sub[i_channel_wr].T_data.addr_init+6;
+                fprintf(fp, "[UART ImagetteParser DEBUG]First Bytes %i %i\r\n", pxTestData[0],
+                pxTestData[1]);
 #endif
             i_nb_imag_ctrl++;
         }
         
         /* receive CRC */
-        fgets(iCRCBuff, 2 + 1, stdin);  //Read size + 1
-
+        // fgets(iCRCBuff, 2 + 1, stdin);  //Read size + 1
+        luGetSerial((INT8U *)&iCRCBuff, 2);
         /* Verificar se chegou tudo */
         /* Mock CRC */
         pPayload->crc = iCRCBuff[1]
