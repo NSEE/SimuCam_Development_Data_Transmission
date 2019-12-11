@@ -91,5 +91,11 @@ void DataCreateOSQ(void);
 void SimucamCreateOSQ(void);
 
 
+/*
+ * Sub-Unit queues prototypes
+ */
+void sub_unit_create_os_data_structs();
+void sub_unit_create_queue(void);
+
 
 #endif /* SIMUCAM_INIT_TASK_H_ */

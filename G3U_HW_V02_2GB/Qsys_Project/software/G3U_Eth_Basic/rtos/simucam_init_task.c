@@ -106,6 +106,154 @@ void DataCreateOSQ(void) {
 	}
 }
 
+/* Sub unit dataqs */
+
+/*
+ * Creation of the sub-unit communication queue [yb]
+ */
+OS_EVENT *p_sub_unit_config_queue[8];
+void *p_sub_unit_config_queue_tbl_0[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl_1[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl_2[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl_3[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl_4[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl_5[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl_6[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+void *p_sub_unit_config_queue_tbl_7[SUBUNIT_BUFFER]; /*Storage for sub_unit queue*/
+
+/*
+ * Creation of the schedulerQueue
+ */
+OS_EVENT *DMA_sched_queue[2];
+void *DMA1_sched_queue_tbl[DMA_SCHED_BUFFER]; /*Storage for sub_unit queue*/
+void *DMA2_sched_queue_tbl[DMA_SCHED_BUFFER]; /*Storage for sub_unit queue*/
+
+/*
+ * Creation of the DMA scheduler controller
+ */
+OS_EVENT *p_dma_scheduler_controller_queue[2];
+void *p_dma_scheduler_controller_queue_tbl_0[SUBUNIT_BUFFER];
+void *p_dma_scheduler_controller_queue_tbl_1[SUBUNIT_BUFFER];
+
+/*
+ * Create the sub-unit defined data structures and queues
+ */
+void sub_unit_create_os_data_structs(void) {
+
+	DMA_sched_queue[0] = OSQCreate(&DMA1_sched_queue_tbl[0],
+	DMA_SCHED_BUFFER);
+	if (!DMA_sched_queue[0]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	DMA_sched_queue[1] = OSQCreate(&DMA2_sched_queue_tbl[0],
+	DMA_SCHED_BUFFER);
+	if (!DMA_sched_queue[1]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	/*
+	 * Create the sub-unit config queue [yb]
+	 */
+	p_sub_unit_config_queue[0] = OSQCreate(&p_sub_unit_config_queue_tbl_0[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[0]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_sub_unit_config_queue[1] = OSQCreate(&p_sub_unit_config_queue_tbl_1[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[1]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_sub_unit_config_queue[2] = OSQCreate(&p_sub_unit_config_queue_tbl_2[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[2]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_sub_unit_config_queue[3] = OSQCreate(&p_sub_unit_config_queue_tbl_3[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[3]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_sub_unit_config_queue[4] = OSQCreate(&p_sub_unit_config_queue_tbl_4[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[4]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_sub_unit_config_queue[5] = OSQCreate(&p_sub_unit_config_queue_tbl_5[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[5]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_sub_unit_config_queue[6] = OSQCreate(&p_sub_unit_config_queue_tbl_6[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[6]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_sub_unit_config_queue[7] = OSQCreate(&p_sub_unit_config_queue_tbl_7[0],
+	SUBUNIT_BUFFER);
+
+	if (!p_sub_unit_config_queue[7]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_sub_unit_queue.\n");
+	}
+
+	p_dma_scheduler_controller_queue[0] = OSQCreate(
+			&p_dma_scheduler_controller_queue_tbl_0[0],
+			SUBUNIT_BUFFER);
+
+	/*
+	 * Creation of the DMA scheduller queues
+	 */
+	if (!p_dma_scheduler_controller_queue[0]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_dma_scheduler_controller_queue 0.\n");
+	}
+
+	p_dma_scheduler_controller_queue[1] = OSQCreate(
+			&p_dma_scheduler_controller_queue_tbl_1[0],
+			SUBUNIT_BUFFER);
+
+	if (!p_dma_scheduler_controller_queue[1]) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_dma_scheduler_controller_queue 1.\n");
+	}
+
+	/*
+	 * Creation of echo queue
+	 */
+	p_echo_queue = OSQCreate(&p_echo_queue_tbl[0],
+	ECHO_QUEUE_BUFFER);
+
+	if (!p_echo_queue) {
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
+				"Failed to create p_echo_queue.\n");
+	}
+}
+
 
 /* TODO format
  * Function used to initialize all simucam tasks
@@ -262,14 +410,14 @@ void SimucamCreateTasks(void) {
 	 * Creating the UART receiver task
      * Initialized in the main task
 	 */
-	error_code = OSTaskCreateExt(uart_receiver_task, NULL,
-			(void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
-			UART_RCV_TASK_PRIORITY,
-			UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
-			TASK_STACKSIZE,
-			NULL, 0);
+	// error_code = OSTaskCreateExt(uart_receiver_task, NULL,
+	// 		(void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
+	// 		UART_RCV_TASK_PRIORITY,
+	// 		UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
+	// 		TASK_STACKSIZE,
+	// 		NULL, 0);
 
-	alt_uCOSIIErrorHandler(error_code, 0);
+	// alt_uCOSIIErrorHandler(error_code, 0);
 
 	xMutexDMA[0] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
 	if (error_code != OS_ERR_NONE) {
@@ -283,7 +431,6 @@ void SimucamCreateTasks(void) {
 		fprintf(fp, "Error creating mutex\r\n");
 #endif
 	}
-	fprintf(fp, "Tasks created successfully\r\n");
 #if DEBUG_ON
 	fprintf(fp, "Tasks created successfully\r\n");
 #endif
