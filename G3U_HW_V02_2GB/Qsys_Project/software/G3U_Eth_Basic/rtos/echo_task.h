@@ -19,7 +19,6 @@
 
 #include "tasks_init.h"
 #include "../simucam_definitions.h"
-#include "simple_socket_server.h"	/* Used in the conn/send op */
 
 extern T_Simucam T_simucam;
 
