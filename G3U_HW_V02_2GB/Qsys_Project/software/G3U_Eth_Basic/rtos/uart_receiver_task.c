@@ -30,7 +30,8 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
 
         while(luNbChars != 0){
-                fgets(pBuffer, 2, stdin);
+                // fgets(pBuffer, 2, stdin);
+                *pBuffer = getchar();
                 pBuffer++;
                 luReturn++;
                 luNbChars--;
@@ -348,6 +349,7 @@ void uart_receiver_task(void *task_data){
     bool bSuccess = FALSE;
     INT8U cReceiveBuffer[UART_BUFFER_SIZE];
     INT8U cReceive[UART_BUFFER_SIZE+64];
+    INT8U error_code = 0;
     tReaderStates eReaderRXMode = sRConfiguring;
     static T_uart_payload payload;
 
@@ -398,7 +400,9 @@ void uart_receiver_task(void *task_data){
                 	eReaderRXMode = sSendToCmdCtrl;
                 break;
                 case sSendToCmdCtrl:
-                	eReaderRXMode = sSendToACKReceiver;
+                	error_code = OSQPost(p_simucam_command_q, &payload);
+                					alt_SSSErrorHandler(error_code, 0);
+                	eReaderRXMode = sGetHeader;
 				break;
                 case sSendToACKReceiver:
                 	eReaderRXMode = sGetHeader;

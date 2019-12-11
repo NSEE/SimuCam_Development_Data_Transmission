@@ -124,6 +124,8 @@ void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 	INT8U ack_buffer[64];
 	INT32U ack_size = 14;
 
+	fprintf(fp, "Entered ack creator\r\n");
+
 	ack_buffer[0] = 2;
 
 	/*
@@ -157,7 +159,12 @@ void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 	ack_buffer[13] = 89;
 //	p_error_response->size = 14;
 
-	send(conn.fd, ack_buffer, ack_size, 0);
+	for (int f = 0; f < ack_size; f++){
+		printf("%c", ack_buffer[f]);
+	}
+//	send(conn.fd, ack_buffer, ack_size, 0);
+//	printf("%s", &ack_buffer);
+//	printf("ack");
 
 	T_simucam.T_status.TM_id++;
 }
@@ -574,7 +581,7 @@ void CommandManagementTask() {
 #endif
 
 			/*
-			 * Clear and start simucam timer
+			 * Clear and start simucam timer, NOT RUNNING
 			 */
 			bDschClrTimer(&xSimucamTimer);
 			bDschStartTimer(&xSimucamTimer);
@@ -591,11 +598,12 @@ void CommandManagementTask() {
 			fprintf(fp, "[CommandManagementTask RUNNING]Waiting command...\r\n");
 #endif
 			/*
-			 * start simucam timer counting
+			 * Start simucam timer counting
 			 */
 			bDschRunTimer(&xSimucamTimer);
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
+			
 			/*
 			 * SYNC cmd
 			 */
@@ -636,7 +644,7 @@ void CommandManagementTask() {
 						bDschStopTimer(&xSimucamTimer);
 
 						/*
-						 * Stop and clear ChA timer
+						 * Stop and clear channel timers
 						 */
 						for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
 								i_channel_for++) {

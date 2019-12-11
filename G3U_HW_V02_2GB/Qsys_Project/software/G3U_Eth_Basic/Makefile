@@ -143,7 +143,6 @@ ELF := G3U_Eth_Basic.elf
 
 # Paths to C, C++, and assembly source files.
 C_SRCS += alt_error_handler.c
-C_SRCS += iniche_init.c
 C_SRCS += network_utilities.c
 C_SRCS += tse_my_system.c
 C_SRCS += driver/i2c/i2c.c
@@ -184,6 +183,7 @@ C_SRCS += rtos/sub_unit_control_task_7.c
 C_SRCS += rtos/dma1_scheduler_task.c
 C_SRCS += rtos/echo_task.c
 C_SRCS += rtos/uart_receiver_task.c
+C_SRCS += simucam_init.c
 CXX_SRCS :=
 ASM_SRCS :=
 
