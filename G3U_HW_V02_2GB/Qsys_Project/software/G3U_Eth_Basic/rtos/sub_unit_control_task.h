@@ -78,11 +78,11 @@ extern T_Simucam T_simucam;
  */
 //INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code);
 
-/*
- * Sub-Unit queues prototypes
- */
-void sub_unit_create_os_data_structs();
-void sub_unit_create_queue(void);
+// /*
+//  * Sub-Unit queues prototypes
+//  */
+// void sub_unit_create_os_data_structs();
+// void sub_unit_create_queue(void);
 
 INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code);
 /*$PAGE*/

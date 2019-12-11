@@ -27,7 +27,7 @@
 #include "../simucam_definitions.h"
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/sync/sync.h"
-#include "simple_socket_server.h"			/* Used in the conn/send op */
+// #include "simple_socket_server.h"			/* Used in the conn/send op */
 /*
  * Include configurations for the communication modules [yb]
  */
@@ -39,7 +39,7 @@
 
 /*
  ************************************************************************************************
- *                                        CONSTANTS & MACROS
+ *                  SSS_TX_BUF_SIZE                      CONSTANTS & MACROS
  ************************************************************************************************
  */
 
@@ -54,13 +54,13 @@ extern INT16U i_imagette_counter;
  ************************************************************************************************
  */
 
-void v_ack_creator(struct x_ethernet_payload* p_error_response, int error_code);
+void v_ack_creator(struct T_uart_payload* p_error_response, int error_code);
 INT32U i_compute_size(INT8U*);
-void i_echo_dataset_direct_send(struct x_ethernet_payload*, INT8U*);
-void v_HK_creator(struct x_ethernet_payload*, INT8U);
+void i_echo_dataset_direct_send(struct T_uart_payload*, INT8U*);
+void v_HK_creator(struct T_uart_payload*, INT8U);
 void central_timer_callback_function(void *);
 void simucam_running_timer_callback_function(void *);
-int v_parse_data_teste(struct x_ethernet_payload *p_payload,
+int v_parse_data_teste(struct T_uart_payload *p_payload,
 		Timagette_control *p_img_ctrl, x_imagette *dataset[MAX_IMAGETTES]);
 
 /*$PAGE*/

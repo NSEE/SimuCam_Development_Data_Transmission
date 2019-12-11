@@ -183,7 +183,7 @@ struct x_telemetry {
 	INT8U i_type;
 	INT8U i_channel;
 	INT8U error_code;
-	struct x_ethernet_payload *p_payload;
+	struct T_uart_payload *p_payload;
 	struct Timagette_control *p_imagette;
 
 } x_telemetry;

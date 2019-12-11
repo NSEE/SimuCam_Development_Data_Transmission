@@ -107,18 +107,19 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 	/*
 	 * Send the compiled data
+     * TODO change to printf
 	 */
 
-	send(conn.fd, &tx_buffer, 13, 0);
-	while (i_length_buffer > 0) {
-		bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
-		i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
-				i_length_buffer, 0);
-#if DEBUG_ON
-		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
-#endif
-	}
-	send(conn.fd, &(tx_buffer[13]), 2, 0);
+	// send(conn.fd, &tx_buffer, 13, 0);
+//	 while (i_length_buffer > 0) {
+//	 	bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
+//	 	i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
+//	 			i_length_buffer, 0);
+//#if DEBUG_ON
+//		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
+//#endif
+//	}
+	// send(conn.fd, &(tx_buffer[13]), 2, 0);
 //send CRC
 
 	T_simucam.T_status.TM_id++;

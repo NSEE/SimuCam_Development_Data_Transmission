@@ -117,7 +117,7 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
  * @param 	[in] 	*INT8U Data array
  * @retval INT32U size
  **/
-void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
+void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
 
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_id_pkt = p_error_response->packet_id;
@@ -170,9 +170,11 @@ void v_ack_creator(_ethernet_payload* p_error_response, int error_code) {
 }
 /*
  * TODO remove pointer ref
+ * 
+ * adjust HK to serial
  */
 
-void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
+void v_HK_creator(struct T_uart_payload* p_HK, INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
 	INT16U crc;
@@ -261,8 +263,13 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	hk_buffer[29] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;
 	hk_buffer[28] = div(crc, 256).rem;
-
-	send(conn.fd, hk_buffer, HK_SIZE, 0);
+    
+    /*
+     * Send HK through serial
+     */
+    for (int f = 0; f < HK_SIZE; f++){
+		printf("%c", hk_buffer[f]);
+	}
 
 	T_simucam.T_status.TM_id++;
 
@@ -603,7 +610,7 @@ void CommandManagementTask() {
 			bDschRunTimer(&xSimucamTimer);
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
-			
+
 			/*
 			 * SYNC cmd
 			 */
