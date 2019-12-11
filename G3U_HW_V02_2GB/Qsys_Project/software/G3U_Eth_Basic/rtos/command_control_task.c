@@ -262,7 +262,7 @@ void v_HK_creator(struct x_ethernet_payload* p_HK, INT8U i_channel) {
 	crc = div(crc, 256).quot;
 	hk_buffer[28] = div(crc, 256).rem;
 
-	send(conn.fd, hk_buffer, HK_SIZE, 0);
+	// send(conn.fd, hk_buffer, HK_SIZE, 0);
 
 	T_simucam.T_status.TM_id++;
 
@@ -603,7 +603,7 @@ void CommandManagementTask() {
 			bDschRunTimer(&xSimucamTimer);
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
-			
+
 			/*
 			 * SYNC cmd
 			 */

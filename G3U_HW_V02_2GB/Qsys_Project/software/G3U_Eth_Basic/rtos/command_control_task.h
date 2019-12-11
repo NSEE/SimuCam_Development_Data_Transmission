@@ -27,7 +27,7 @@
 #include "../simucam_definitions.h"
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/sync/sync.h"
-#include "simple_socket_server.h"			/* Used in the conn/send op */
+// #include "simple_socket_server.h"			/* Used in the conn/send op */
 /*
  * Include configurations for the communication modules [yb]
  */
@@ -39,7 +39,7 @@
 
 /*
  ************************************************************************************************
- *                                        CONSTANTS & MACROS
+ *                  SSS_TX_BUF_SIZE                      CONSTANTS & MACROS
  ************************************************************************************************
  */
 

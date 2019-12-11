@@ -22,6 +22,8 @@
  *                                        FUNCTION PROTOTYPES
  ************************************************************************************************
  */
+
+void CommandManagementTask      ();
 void sub_unit_control_task 		(void *task_data);
 void sub_unit_control_task_1 	(void *task_data);
 void sub_unit_control_task_2	(void *task_data);
@@ -45,12 +47,14 @@ void uart_receiver_task			(void *task_data);
 /*
  * Tasks priorities definitions
  */
+#define UART_RCV_TASK_PRIORITY				4
+#define SIMUCAM_INITIAL_TASK_PRIORITY       5
 #define PCP_MUTEX_DMA_QUEUE					6
 #define DMA_SCHEDULER_TASK_PRIORITY 		8
 #define SUB_UNIT_TASK_PRIORITY 				11
 #define COMMAND_MANAGEMENT_TASK_PRIORITY 	10
 #define ECHO_TASK_PRIORITY					30
-#define UART_RCV_TASK_PRIORITY				29
+
 /*$PAGE*/
 
 #endif /* TASKS_INIT_H_ */

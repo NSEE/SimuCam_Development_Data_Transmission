@@ -6,7 +6,9 @@
 	],
 	"settings": {
 		"files.associations": {
-			"dma1_scheduler_task.h": "c"
-		}
+            "dma1_scheduler_task.h": "c",
+            "simucam_init_task.h": "c",
+            "command_control_task.h": "c"
+        }
 	}
 }
