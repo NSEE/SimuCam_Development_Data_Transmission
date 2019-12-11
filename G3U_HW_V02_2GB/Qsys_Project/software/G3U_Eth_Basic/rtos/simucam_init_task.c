@@ -21,7 +21,7 @@
  */
 
 OS_EVENT *p_simucam_command_q;
-struct x_ethernet_payload *p_simucam_command_q_table[16]; /*Storage for SimucamCommandQ */
+struct T_uart_payload *p_simucam_command_q_table[16]; /*Storage for SimucamCommandQ */
 
 /*
  * Configuration of the sub-unit management task
@@ -288,7 +288,7 @@ void SimucamCreateTasks(void) {
 	OSTimeDlyHMSM(0, 0, 1, 0);
 
 	/*
-	 * Creating the sub_unit 1 management task [yb]
+	 * Creating the sub_unit 1 management task [yb] TODO: Change to one .c
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task_1, (void *) 1,
 			(void *) &sub_unit_task_stack_1[TASK_STACKSIZE - 1],
@@ -300,7 +300,7 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 2 management task [yb]
+	 * Creating the sub_unit 2 management task [yb] TODO: Change to one .c
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task_2, (void *) 2,
 			(void *) &sub_unit_task_stack_2[TASK_STACKSIZE - 1],
@@ -312,7 +312,7 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 3 management task [yb]
+	 * Creating the sub_unit 3 management task [yb] TODO: Change to one .c
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task_3, (void *) 3,
 			(void *) &sub_unit_task_stack_3[TASK_STACKSIZE - 1],
@@ -324,7 +324,7 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 4 management task [yb]
+	 * Creating the sub_unit 4 management task [yb] TODO: Change to one .c
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task_4, (void *) 4,
 			(void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
@@ -335,7 +335,7 @@ void SimucamCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 	/*
-	 * Creating the sub_unit 5 management task [yb]
+	 * Creating the sub_unit 5 management task [yb] TODO: Change to one .c
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task_5, (void *) 5,
 			(void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
@@ -347,7 +347,7 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 6 management task [yb]
+	 * Creating the sub_unit 6 management task [yb] TODO: Change to one .c
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task_6, (void *) 6,
 			(void *) &sub_unit_task_stack_6[TASK_STACKSIZE - 1],
@@ -359,7 +359,7 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 7 management task [yb]
+	 * Creating the sub_unit 7 management task [yb] TODO: Change to one .c
 	 */
 	error_code = OSTaskCreateExt(sub_unit_control_task_7, (void *) 7,
 			(void *) &sub_unit_task_stack_7[TASK_STACKSIZE - 1],
@@ -408,16 +408,15 @@ void SimucamCreateTasks(void) {
 
 	/*
 	 * Creating the UART receiver task
-     * Initialized in the main task
 	 */
-	// error_code = OSTaskCreateExt(uart_receiver_task, NULL,
-	// 		(void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
-	// 		UART_RCV_TASK_PRIORITY,
-	// 		UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
-	// 		TASK_STACKSIZE,
-	// 		NULL, 0);
+	 error_code = OSTaskCreateExt(uart_receiver_task, NULL,
+	 		(void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
+	 		UART_RCV_TASK_PRIORITY,
+	 		UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
+	 		TASK_STACKSIZE,
+	 		NULL, 0);
 
-	// alt_uCOSIIErrorHandler(error_code, 0);
+	 alt_uCOSIIErrorHandler(error_code, 0);
 
 	xMutexDMA[0] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
 	if (error_code != OS_ERR_NONE) {
