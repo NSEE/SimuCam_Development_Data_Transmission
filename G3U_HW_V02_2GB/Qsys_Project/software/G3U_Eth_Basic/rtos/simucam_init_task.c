@@ -57,6 +57,10 @@ OS_STK echo_task_stack[TASK_STACKSIZE];
  */
 OS_STK uart_rcv_task_stack[TASK_STACKSIZE];
 
+/*
+ * Periodic HK task stack
+ */
+OS_STK periodic_HK_task_stack[TASK_STACKSIZE];
 
 /*
  * Configuration of the simucam data queue[yb]
@@ -413,6 +417,20 @@ void SimucamCreateTasks(void) {
 	 		(void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
 	 		UART_RCV_TASK_PRIORITY,
 	 		UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
+	 		TASK_STACKSIZE,
+	 		NULL, 0);
+
+	 alt_uCOSIIErrorHandler(error_code, 0);
+
+     
+
+     /*
+	 * Creating the periodic HK task
+	 */
+	 error_code = OSTaskCreateExt(periodic_HK_task, NULL,
+	 		(void *) &periodic_HK_task_stack[TASK_STACKSIZE - 1],
+	 		PERIODIC_HK_TASK_PRIORITY,
+	 		PERIODIC_HK_TASK_PRIORITY, periodic_HK_task,
 	 		TASK_STACKSIZE,
 	 		NULL, 0);
 

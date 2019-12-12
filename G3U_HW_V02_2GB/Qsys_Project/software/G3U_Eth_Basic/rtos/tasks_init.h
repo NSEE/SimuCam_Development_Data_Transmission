@@ -36,6 +36,7 @@ void dma1_scheduler_task		(void *task_data);
 void dma2_scheduler_task		(void *task_data);
 void echo_task					(void);
 void uart_receiver_task			(void *task_data);
+void periodic_HK_task(void *task_data);
 
 /*$PAGE*/
 /*
@@ -54,6 +55,7 @@ void uart_receiver_task			(void *task_data);
 #define SUB_UNIT_TASK_PRIORITY 				11
 #define COMMAND_MANAGEMENT_TASK_PRIORITY 	10
 #define ECHO_TASK_PRIORITY					30
+#define PERIODIC_HK_TASK_PRIORITY           20
 
 /*$PAGE*/
 

@@ -9,7 +9,10 @@
             "dma1_scheduler_task.h": "c",
             "simucam_init_task.h": "c",
             "command_control_task.h": "c",
-            "sub_unit_control_task.h": "c"
+            "sub_unit_control_task.h": "c",
+            "uart_receiver_task.h": "c",
+            "periodic_hk_task.h": "c",
+            "simucam_definitions.h": "c"
         }
 	}
 }
