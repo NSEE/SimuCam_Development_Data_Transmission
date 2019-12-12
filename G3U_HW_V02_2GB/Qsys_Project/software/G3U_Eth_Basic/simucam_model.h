@@ -71,6 +71,23 @@ typedef enum {
 	simDMABack
 } TSimStates;
 
+/* Command Types */
+typedef enum { // typeConfigureMeb,
+    typeConfigureSub = 101,
+    typeNewData,
+    typeDeleteData,
+    typeSelectDataToSend,
+    typeChangeSimucamMode,
+    typeStartSending,
+    typeAbortSending,
+    typeClearRam,
+    typeDirectSend,
+    typeGetHK,
+    typeConfigureMeb,
+    typeSetRecording,
+    typeSetPeriodicHK
+} TCmdTypes;
+
 typedef struct T_imagette {
 	INT32U offset; /* In miliseconds*/
 	INT16U imagette_length; /* length of N imagette */
@@ -109,6 +126,8 @@ typedef struct T_Simucam_conf {
 	INT8U b_meb_status;
 	INT8U echo_sent;
 	INT8U i_forward_data;
+    INT8U iPeriodicHK;
+    INT32U luHKPeriod;          /* HK Timer period in centiseconds, not activated if 0 */
 } T_Simucam_conf;
 
 typedef struct T_simucam_status {
@@ -126,20 +145,8 @@ typedef struct T_Simucam {
 	T_Sub T_Sub[8];
 } T_Simucam;
 /*
- * Command + payload struct for the simucam ethernet control
+ * Command + payload struct for the simucam uart control
  */
-
-typedef struct x_ethernet_payload {
-	INT8U header;		/* Command Header */
-	INT16U packet_id;	/* Unique identifier */
-	INT8U type;			/* Will be the command id */
-	INT8U sub_type;		/* Could carry the sub-unit id */
-	INT32U size;		/* Size pre-computed in function */
-	INT8U data[1500];	/* Data array */
-	INT16U crc;			/* We will use the CCITT-CRC, that is also used in the PUS protocol */
-
-
-}_ethernet_payload;
 
 typedef struct T_uart_payload {
 	INT8U header;					/* Command Header */

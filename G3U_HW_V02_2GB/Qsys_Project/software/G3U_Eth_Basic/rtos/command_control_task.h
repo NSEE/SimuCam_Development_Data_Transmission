@@ -57,7 +57,7 @@ extern INT16U i_imagette_counter;
 void v_ack_creator(struct T_uart_payload* p_error_response, int error_code);
 INT32U i_compute_size(INT8U*);
 void i_echo_dataset_direct_send(struct T_uart_payload*, INT8U*);
-void v_HK_creator(struct T_uart_payload*, INT8U);
+void v_HK_creator(INT8U);
 void central_timer_callback_function(void *);
 void simucam_running_timer_callback_function(void *);
 int v_parse_data_teste(struct T_uart_payload *p_payload,

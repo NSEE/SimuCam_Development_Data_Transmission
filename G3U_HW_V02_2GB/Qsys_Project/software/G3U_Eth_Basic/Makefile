@@ -183,6 +183,7 @@ C_SRCS += rtos/dma1_scheduler_task.c
 C_SRCS += rtos/echo_task.c
 C_SRCS += rtos/uart_receiver_task.c
 C_SRCS += simucam_init.c
+C_SRCS += rtos/periodic_HK_task.c
 CXX_SRCS :=
 ASM_SRCS :=
 

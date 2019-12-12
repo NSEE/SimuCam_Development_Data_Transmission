@@ -123,9 +123,9 @@ void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
 	INT16U nb_id_pkt = p_error_response->packet_id;
 	INT8U ack_buffer[64];
 	INT32U ack_size = 14;
-
-	fprintf(fp, "Entered ack creator\r\n");
-
+#if DEBUG_ON
+	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
+#endif
 	ack_buffer[0] = 2;
 
 	/*
@@ -168,13 +168,13 @@ void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
 
 	T_simucam.T_status.TM_id++;
 }
+
 /*
  * TODO remove pointer ref
  * 
  * adjust HK to serial
  */
-
-void v_HK_creator(struct T_uart_payload* p_HK, INT8U i_channel) {
+void v_HK_creator(INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
 	INT16U crc;
@@ -190,6 +190,12 @@ void v_HK_creator(struct T_uart_payload* p_HK, INT8U i_channel) {
 	 */
 	INT8U hk_buffer[HK_SIZE];
 	bool b_link_enabled = false;
+
+#if DEBUG_ON
+	fprintf(fp, "[HK CREATOR] Entered hk creator for channel %i.\r\n", (INT8U)chann_buff);
+#endif
+
+
 	/*
 	 * Update SpW status flags
 	 */
@@ -231,7 +237,6 @@ void v_HK_creator(struct T_uart_payload* p_HK, INT8U i_channel) {
 
 	/*
 	 * Sent Packets
-	 * TODO Verify that it's really working
 	 */
 	hk_buffer[21] = div(nb_counter_total, 256).rem;
 	nb_counter_total = div(nb_counter_total, 256).quot;
@@ -257,8 +262,9 @@ void v_HK_creator(struct T_uart_payload* p_HK, INT8U i_channel) {
 
 	/**
 	 * Calculating CRC
+     * TODO
 	 */
-	crc = crc16(p_HK->data, p_HK->size - 3);
+	crc = crc16(&hk_buffer, HK_SIZE);
 
 	hk_buffer[29] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;
@@ -306,9 +312,9 @@ void CommandManagementTask() {
 
 	INT8U i_channel_for;
 
-	_ethernet_payload payload_command;
+	T_uart_payload payload_command;
 
-	_ethernet_payload *p_payload = &payload_command;
+	T_uart_payload *p_payload = &payload_command;
 
 	INT8U i_channel_buffer = 0;
 
@@ -317,6 +323,9 @@ void CommandManagementTask() {
 	 */
 	bIdmaInitM1Dma();
 	bIdmaInitM2Dma();
+
+	/* Init HK period */
+	T_simucam.T_conf.luHKPeriod = 0;
 
 	/*
 	 * Assigning imagette struct to RAM
@@ -353,19 +362,15 @@ void CommandManagementTask() {
 	bSyncCtrCh8OutEnable(TRUE);
 
 	T_simucam.T_status.simucam_mode = simModeInit;
-	/*
-	 * Initialize Simucam Timer
-	 * TODO
-	 */
 
 	/* Address */
 	xSimucamTimer.puliDschChAddr =
 			(TDschChannel *) DUMB_COMMUNICATION_MODULE_V1_TIMER_BASE;
-	/* Init */
+	/* Init Simucam Timer */
 	bDschGetTimerConfig(&xSimucamTimer);
 	bDschGetTimerStatus(&xSimucamTimer);
 	bDschSetTime(&xSimucamTimer, 0);
-	/* Configs */
+	/* Config Simucam timer */
 	xSimucamTimer.xTimerConfig.bStartOnSync = false;
 	xSimucamTimer.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
 	bDschSetTimerConfig(&xSimucamTimer);
@@ -503,6 +508,7 @@ void CommandManagementTask() {
 					T_simucam.T_status.simucam_mode = simModetoRun;
 				}
 
+				/* Change to beggining of run */
 				v_ack_creator(p_payload, ACK_OK);
 
 #if DEBUG_ON
@@ -530,14 +536,14 @@ void CommandManagementTask() {
 #endif
 				i_channel_buffer = p_payload->data[0];
 
-				v_HK_creator(p_payload, i_channel_buffer);
+				v_HK_creator(i_channel_buffer);
 
 				break;
 
 				/*
 				 * Config MEB
 				 */
-			case 111:
+			case typeConfigureMeb:
 #if DEBUG_ON
 				fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
 #endif
@@ -556,7 +562,7 @@ void CommandManagementTask() {
 				/*
 				 * Set Recording
 				 */
-			case 112:
+			case typeSetRecording:
 #if DEBUG_ON
 				fprintf(fp, "[CommandManagementTask]Selected command: %c\n\r",
 						(int) p_payload->type);
@@ -564,6 +570,28 @@ void CommandManagementTask() {
 				v_ack_creator(p_payload, NOT_IMPLEMENTED);
 
 				break;
+
+                /**
+                 * Periodic HK
+                 */
+            case typeSetPeriodicHK:
+#if DEBUG_ON
+				fprintf(fp, "[CommandManagementTask]Selected command: %c\n\r",
+						(int) p_payload->type);
+#endif
+                T_simucam.T_conf.iPeriodicHK = p_payload->data[0];
+                if(T_simucam.T_conf.iPeriodicHK){
+
+                    T_simucam.T_conf.luHKPeriod = p_payload->data[4]
+                                                + 256 * p_payload->data[3]
+                                                + 65536 * p_payload->data[2]
+                                                + 4294967296 * p_payload->data[1];
+                
+                    OSTaskResume (PERIODIC_HK_TASK_PRIORITY);
+                } else{
+                    T_simucam.T_conf.luHKPeriod = 0;
+                }
+            break;
 
 			default:
 #if DEBUG_ON
@@ -598,7 +626,7 @@ void CommandManagementTask() {
 
 		case simModeRun:
 #if DEBUG_ON
-			fprintf(fp, "[CommandManagementTask RUNNING]Mode RUN\\n");
+			fprintf(fp, "[CommandManagementTask RUNNING]Mode RUN\r\n");
 #endif
 
 #if DEBUG_ON
@@ -619,6 +647,9 @@ void CommandManagementTask() {
 				bSyncCtrOneShot();
 
 				v_ack_creator(p_payload, ACK_OK);
+            /*
+             * TODO Start HK timer if needed
+             */
 #if DEBUG_ON
 				fprintf(fp, "[CommandManagementTask]Starting timer\r\n");
 #endif
@@ -712,7 +743,7 @@ void CommandManagementTask() {
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Get HK\r\n");
 #endif
-					v_HK_creator(p_payload, p_payload->data[0]);
+					v_HK_creator(p_payload->data[0]);
 					break;
 
 				default:

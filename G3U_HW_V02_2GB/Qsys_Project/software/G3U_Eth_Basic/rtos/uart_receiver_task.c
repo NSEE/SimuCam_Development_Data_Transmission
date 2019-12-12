@@ -47,7 +47,7 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
  * @brief Parses header from buffer
  * @ingroup rtos
  *
- * @param 	[in]	_ethernet_payload * 	Command structure
+ * @param 	[in]	T_uart_payload * 	Command structure
  * @param	[in]	char * 	char buffer
  *
  * @retval void
@@ -365,13 +365,8 @@ void uart_receiver_task(void *task_data){
                 fprintf(fp, "[UART RCV] Waiting data\n");
             #endif
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
-//                memset(cReceive, 0, UART_BUFFER_SIZE);
                 
-                // fgets(cReceiveBuffer,8 + 1,stdin);
-//                memcpy(cReceiveBuffer, cReceive, (UART_BUFFER_SIZE -1) ); /* Make that there's a zero terminator */
                 luGetSerial((char *) &cReceiveBuffer, 8);
-                /* For testing only */
-                fprintf(fp, "[UART RCV]Received data: %s\n", cReceiveBuffer);
 
                 vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
                 
