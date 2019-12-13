@@ -114,15 +114,16 @@ void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
  * offset to read the good values. It can be changed in the header file. All the
  * byte as supposed to be in ASCII form.
  *
- * @param 	[in] 	*INT8U Data array
+ * @param 	[in] 	T_uart_payload* payload Struct
+ * @param 	[in] 	INT8U error_code
  * @retval INT32U size
  **/
-void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
+void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_id_pkt = p_error_response->packet_id;
 	INT8U ack_buffer[64];
-	INT32U ack_size = 14;
+    INT16U luCRCBuffer = 0;
 #if DEBUG_ON
 	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
 #endif
@@ -135,8 +136,6 @@ void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
 	nb_id = div(nb_id, 256).quot;
 	ack_buffer[1] = div(nb_id, 256).rem;
 
-//	p_error_response->data[1] = 0;
-//	p_error_response->data[2] = i_id_accum;
 	ack_buffer[3] = 201;
 	ack_buffer[4] = 0;
 	ack_buffer[5] = 0;
@@ -150,21 +149,22 @@ void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
 	nb_id_pkt = div(nb_id_pkt, 256).quot;
 	ack_buffer[8] = div(nb_id_pkt, 256).rem;
 
-//	p_error_response->data[8] = 0;
-//	p_error_response->data[9] = p_error_response->packet_id;
-
 	ack_buffer[10] = p_error_response->type;
 	ack_buffer[11] = error_code;
-	ack_buffer[12] = 0;
-	ack_buffer[13] = 89;
-//	p_error_response->size = 14;
 
-	for (int f = 0; f < ack_size; f++){
+    /**
+     * Calculate the packet's CRC
+     */
+    luCRCBuffer = crc__CRC16CCITT(ack_buffer, ACK_SIZE);
+
+    /* Add to Ack */
+    ack_buffer[13] = div(luCRCBuffer, 256).rem;
+	luCRCBuffer = div(luCRCBuffer, 256).quot;
+	ack_buffer[12] = div(luCRCBuffer, 256).rem;
+
+	for (int f = 0; f < ACK_SIZE; f++){
 		printf("%c", ack_buffer[f]);
 	}
-//	send(conn.fd, ack_buffer, ack_size, 0);
-//	printf("%s", &ack_buffer);
-//	printf("ack");
 
 	T_simucam.T_status.TM_id++;
 }
@@ -258,13 +258,11 @@ void v_HK_creator(INT8U i_channel) {
 	hk_buffer[27] = div(imagettes_to_send, 256).rem;
 	imagettes_to_send = div(imagettes_to_send, 256).quot;
 	hk_buffer[26] = div(imagettes_to_send, 256).rem;
-	//p_HK->size = 30;
 
-	/**
-	 * Calculating CRC
-     * TODO
-	 */
-	crc = crc16(&hk_buffer, HK_SIZE);
+    /**
+     * Calculate the packet's CRC
+     */
+	crc = crc__CRC16CCITT(hk_buffer, HK_SIZE);
 
 	hk_buffer[29] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;

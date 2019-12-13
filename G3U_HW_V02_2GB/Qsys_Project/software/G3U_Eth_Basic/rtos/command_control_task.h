@@ -54,7 +54,7 @@ extern INT16U i_imagette_counter;
  ************************************************************************************************
  */
 
-void v_ack_creator(struct T_uart_payload* p_error_response, int error_code);
+void v_ack_creator(struct T_uart_payload* p_error_response, INT8U error_code);
 INT32U i_compute_size(INT8U*);
 void i_echo_dataset_direct_send(struct T_uart_payload*, INT8U*);
 void v_HK_creator(INT8U);
