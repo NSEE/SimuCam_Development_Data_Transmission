@@ -110,8 +110,9 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 	tx_buffer[12] = i_channel;
 
-//crc = crc16(tx_buffer, (p_imagette->size - 11) + ECHO_CMD_OVERHEAD);
-//crc is tx_buffer [13, 14]
+    /**
+     * TODO Refactor CRC
+     */
 	tx_buffer[14] = div(crc, 256).rem;
 	crc = div(crc, 256).quot;
 	tx_buffer[13] = div(crc, 256).rem;
@@ -146,18 +147,20 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 #endif
     }
      
-     
-//     while (i_length_buffer > 0) {
-// 	 	bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
-// 	 	i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
-// 	 			i_length_buffer, 0);
+/**
+ * For reference only     
+ *   while (i_length_buffer > 0) {
+ *	 	bDdr2SwitchMemory((unsigned char) i_channel / 4); 
+	 	i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
+	 			i_length_buffer, 0);
 
-// #if DEBUG_ON
-// 		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
-// #endif
-// 	}
-	// send(conn.fd, &(tx_buffer[13]), 2, 0);
-//send CRC
+#if DEBUG_ON
+		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
+#endif
+	}
+	send(conn.fd, &(tx_buffer[13]), 2, 0);
+send CRC
+*/
 
 	T_simucam.T_status.TM_id++;
 }
