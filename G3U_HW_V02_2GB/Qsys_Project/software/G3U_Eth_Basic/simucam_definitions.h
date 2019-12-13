@@ -95,7 +95,8 @@ typedef enum {
     xTimerError,
     xParserError,
     xEchoError,
-    xOSError
+    xOSError,
+    xCRCError
 } xErrorTypes;
 
 #define ACK_OK						0

@@ -159,7 +159,7 @@ typedef struct T_uart_payload {
 	INT32U size;					/* Size pre-computed in function */
 	INT8U data[PAYLOAD_DATA_SIZE];	/* Data array */
 	INT16U crc;						/* We will use the CCITT-CRC, that is also used in the PUS protocol */
-
+    INT16U luCRCPartial;            /* Buffer to calculate the CRC */
 
 }T_uart_payload;
 

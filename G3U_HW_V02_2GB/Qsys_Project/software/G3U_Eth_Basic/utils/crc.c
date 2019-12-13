@@ -280,6 +280,24 @@ unsigned short crc__CRC16CCITT(unsigned char const data[], unsigned long length)
 	return crc;
 }
 
+/**
+ * \brief Calculate CRC16-CCITT from a previous CRC
+ *
+ * \param data data to calculate CRC16-CCITT
+ * \param length length of data
+ * \param previous previously calculated crc
+ *
+ * \return unsigned short CRC16-CCITT for data
+ */
+unsigned short prev_crc__CRC16CCITT(unsigned char const data[], unsigned long length, unsigned short previous)
+{
+	unsigned short crc = previous;
+	for (unsigned long a = 0; a < length; a++)
+	{
+		crc = crc__CRC16CCITTU(crc, data[a]);
+	}
+	return crc;
+}
 
 /**
  * \brief Updates CRC32 check from a previously calculated CRC32

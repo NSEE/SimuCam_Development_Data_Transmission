@@ -71,6 +71,9 @@ void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer){
             + 256 * cReceiveBuffer[6]
             + 65536 * cReceiveBuffer[5]
             + 4294967296 * cReceiveBuffer[4];
+
+    pPayload->luCRCPartial = crc__CRC16CCITT(cReceiveBuffer, HEADER_OVERHEAD);
+
 #if DEBUG_ON
     fprintf(fp, "[UART HParser]Parsed header %u, Parsed id: %u, parsed type %u, parsed size %lu\n", pPayload->header, pPayload->packet_id, pPayload->type, pPayload->size);
 #endif
@@ -101,12 +104,12 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
  #endif
         memset(iHeaderBuff, 0, 16);
         /* Get payload data from RS232 */                
-        // fgets(iHeaderBuff, IMAGETTE_HEADER + 1, stdin);
-        luGetSerial((INT8U *)&iHeaderBuff, IMAGETTE_HEADER);
+        // fgets(iHeaderBuff, DATASET_HEADER + 1, stdin);
+        luGetSerial((INT8U *)&iHeaderBuff, DATASET_HEADER);
 
 #if DEBUG_ON
         fprintf(fp, "[UART ImagetteParser DEBUG]iHeaderBuff Dump");
-        for(int g=0; g<IMAGETTE_HEADER; g++){
+        for(int g=0; g<DATASET_HEADER; g++){
             fprintf(fp, " %i", iHeaderBuff[g]);
         }
         fprintf(fp, "\r\n");
@@ -155,6 +158,11 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         pSimucam->T_Sub[i_channel_wr].T_data.tag[0] =
                 iHeaderBuff[11];
 
+        /**
+         * Add do partial CRC
+         */
+        pPayload->luCRCPartial = prev_crc__CRC16CCITT(iHeaderBuff, DATASET_HEADER, pPayload->luCRCPartial);
+
 #if DEBUG_ON
     fprintf(fp, "[UART ImagetteParser DEBUG]Received nb Imagettes %lu\r\n", pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes);
     fprintf(fp, "[UART ImagetteParser DEBUG]Received TAG %i %i %i %i\r\n",
@@ -176,15 +184,26 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
              * Receive 6 bytes for offset and length
              */
             memset(iOffsetLengthBuff, 0, 8);           
-        //     fgets(iOffsetLengthBuff, 6 + 1, stdin); //Length offset + 1
-                luGetSerial((INT8U *)&iOffsetLengthBuff, 6);
+        //     fgets(iOffsetLengthBuff, IMAGETTE_HEADER + 1, stdin); //Length offset + 1
+            luGetSerial((INT8U *)&iOffsetLengthBuff, IMAGETTE_HEADER);
+
 #if DEBUG_ON
-        fprintf(fp, "[UART ImagetteParser DEBUG]iOffsetLengthBuff Dump");
-        for(int w=0; w<6; w++){
-            fprintf(fp, " %i", iOffsetLengthBuff[w]);
-        }
-        fprintf(fp, "\r\n");
+            fprintf(fp, "[UART ImagetteParser DEBUG]iOffsetLengthBuff Dump");
+            for(int w=0; w<IMAGETTE_HEADER; w++){
+                fprintf(fp, " %i", iOffsetLengthBuff[w]);
+            }
+            fprintf(fp, "\r\n");
 #endif
+
+            /*
+            * Switch to the right memory stick
+            */
+            if (((unsigned char) i_channel_wr / 4) == 0) {
+                bDdr2SwitchMemory(DDR2_M1_ID);
+            } else {
+                bDdr2SwitchMemory(DDR2_M2_ID);
+            }   
+
             p_imagette_buff->offset =
                     iOffsetLengthBuff[3]
                             + 256 * iOffsetLengthBuff[2]
@@ -196,34 +215,43 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
             p_imagette_buff->imagette_length =
                     iOffsetLengthBuff[5]
                             + 256 * iOffsetLengthBuff[4];
+
+
+
+                        
+            /**
+             * Add do partial CRC
+             */
+            pPayload->luCRCPartial = prev_crc__CRC16CCITT(iOffsetLengthBuff, 
+                            IMAGETTE_HEADER, pPayload->luCRCPartial);
+
 #if DEBUG_ON
             fprintf(fp, "[UART ImagetteParser DEBUG]Imagette %i length: %i\r\n", i_nb_imag_ctrl,
                     p_imagette_buff->imagette_length);
 #endif
-            /* Advance byte addr */
-            p_imagette_byte += 6;	//Length offset
+            /* Advance byte addr to point to the start to imagette data */
+            p_imagette_byte += IMAGETTE_HEADER;	//Length offset
 
             usLengthBuff = p_imagette_buff->imagette_length;
-            
-//             while (usLengthBuff > 0) {
-//                 rx_code = recv(conn->fd, (void * )p_imagette_byte,
-//                         usLengthBuff, 0);
-//                 if (rx_code > 0) {
 
-// #if DEBUG_ON
-//                     fprintf(fp,
-//                             "[SSS] received bytes in imagette %i: %i\r\n",
-//                             i_nb_imag_ctrl, rx_code);
-// #endif
-//                     p_imagette_byte += rx_code;
-//                     usLengthBuff -= rx_code;
-//                 }
-//             }
+            /*
+            * Switch to the right memory stick
+            */
+            if (((unsigned char) i_channel_wr / 4) == 0) {
+                bDdr2SwitchMemory(DDR2_M1_ID);
+            } else {
+                bDdr2SwitchMemory(DDR2_M2_ID);
+            }
 
             /* Get data bytes from RS232 */
-            //TODO Verif if correct
-        //     fgets(*p_imagette_byte, usLengthBuff + 1, stdin);
-                luGetSerial((INT8U *)p_imagette_byte, usLengthBuff);
+            luGetSerial((INT8U *)p_imagette_byte, usLengthBuff);
+            
+            /**
+             * Add do partial CRC
+             */
+            pPayload->luCRCPartial = prev_crc__CRC16CCITT((INT8U *)p_imagette_byte, 
+                            usLengthBuff, pPayload->luCRCPartial);
+
             /* Sum memory positions */
             p_imagette_byte += usLengthBuff;
 
@@ -240,49 +268,38 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
                 fprintf(fp, "[UART ImagetteParser DEBUG]First Bytes %i %i\r\n", pxTestData[0],
                 pxTestData[1]);
 #endif
+            
             i_nb_imag_ctrl++;
         }
         
         /* receive CRC */
-        // fgets(iCRCBuff, 2 + 1, stdin);  //Read size + 1
         luGetSerial((INT8U *)&iCRCBuff, 2);
-        /* Verificar se chegou tudo */
-        /* Mock CRC */
+        
         pPayload->crc = iCRCBuff[1]
                 + 256 * iCRCBuff[0];
+        
 #if DEBUG_ON
         fprintf(fp, "[UART ImagetteParser DEBUG]CRC bytes %i %i\r\n", iCRCBuff[0],
                 iCRCBuff[1]);
 #endif
 
-        /* TODO Verif CRC */
-//        i_ack = ACK_OK;435
-    
-    //ACK for not config condition
-    // } else {
-    //     /*
-    //         * Empty the ethernet stack to avoid garbage
-    //         */
-    //     if (payload.size < BUFFER_SIZE) {
-    //         rx_code = recv(conn->fd,
-    //                 (char* )p_ethernet_buffer->rx_wr_pos,
-    //                 payload.size, 0);
-    //         if (rx_code > 0) {
-    //             p_ethernet_buffer->rx_rd_pos += rx_code;
-    //         }
-    //     } else {
-    //         while (payload.size > BUFFER_SIZE) {
-    //             rx_code = recv(conn->fd,
-    //                     (char* )p_ethernet_buffer->rx_wr_pos,
-    //                     BUFFER_SIZE, 0);
-    //             if (rx_code > 0) {
-    //                 p_ethernet_buffer->rx_rd_pos += rx_code;
-    //                 payload.size -= BUFFER_SIZE;
-    //             }
-    //         }
-    //     }
-    //     i_ack = COMMAND_NOT_ACCEPTED;
-    // }
+        /* Check CRC */
+        if(pPayload->crc == pPayload->luCRCPartial){
+#if DEBUG_ON
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+            fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
+        }
+#endif
+            v_ack_creator(pPayload, xAckOk);
+        } else {
+
+#if DEBUG_ON
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
+            fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
+        }
+#endif
+            v_ack_creator(pPayload, xCRCError);
+        }
 }
 
 /**
@@ -321,28 +338,49 @@ void vCmdParser(T_uart_payload *pUartPayload){
                     (INT8U) pUartPayload->data[i - 1], (INT8U) i);
         }
 #endif
+        pUartPayload->luCRCPartial = prev_crc__CRC16CCITT(pUartPayload->data, 
+                    pUartPayload->size - PAYLOAD_OVERHEAD, 
+                    pUartPayload->luCRCPartial);
+
         /* Get CRC from RS232 */
-        // fgets(cBuff, 2 + 1, stdin);
         luGetSerial((INT8U *)&cBuff, 2);
+
+        pUartPayload->crc = cBuff[1] + 256 * cBuff[0];
 
 #if DEBUG_ON
         fprintf(fp, "[vCmdParser DEBUG]Received CRC = %i %i\n",
                 (INT8U) cBuff[0],(INT8U) cBuff[1]);
 #endif
-        /* TODO ACK statement */
-        /* TODO Calculate CRC */
+
+        /* Check CRC */
+        if(pUartPayload->crc == pUartPayload->luCRCPartial){
+#if DEBUG_ON
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+            fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
+        }
+#endif
+            v_ack_creator(pUartPayload, xAckOk);
+        } else {
 
 #if DEBUG_ON
-        fprintf(fp, "[vCmdParser DEBUG]finished receiving\n");
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
+            fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
+        }
+#endif
+            v_ack_creator(pUartPayload, xCRCError);
+        }
+
+#if DEBUG_ON
+        fprintf(fp, "[vCmdParser DEBUG]finished receiving.\n");
 #endif
     } else{
-        /* TODO Error reporting + NACK */
+        v_ack_creator(pUartPayload, xParserError);
 #if DEBUG_ON
-        fprintf(fp, "[vCmdParser DEBUG]Invalid Data Size\n");
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
+            fprintf(fp, "[vCmdParser DEBUG]Invalid data size.\n");
+        }
 #endif
     }
-
-
 }
 
 void uart_receiver_task(void *task_data){
