@@ -85,7 +85,8 @@ typedef enum { // typeConfigureMeb,
     typeGetHK,
     typeConfigureMeb,
     typeSetRecording,
-    typeSetPeriodicHK
+    typeSetPeriodicHK,
+    typeReset
 } TCmdTypes;
 
 typedef struct T_imagette {
@@ -128,6 +129,7 @@ typedef struct T_Simucam_conf {
 	INT8U i_forward_data;
     INT8U iPeriodicHK;
     INT32U luHKPeriod;          /* HK Timer period in centiseconds, not activated if 0 */
+    INT8U usiDebugLevels;
 } T_Simucam_conf;
 
 typedef struct T_simucam_status {

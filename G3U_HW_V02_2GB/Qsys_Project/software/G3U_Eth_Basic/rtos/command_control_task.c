@@ -384,7 +384,9 @@ void CommandManagementTask() {
 		 */
 		case simModeInit:
 #if DEBUG_ON
-			fprintf(fp, "[CommandManagementTask]Init\r\n");
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                fprintf(fp, "[CommandManagementTask]Init\r\n");
+            }
 #endif
 //			data[0] = 33;
 //			long_to_int(350, 2, &data);
@@ -411,7 +413,9 @@ void CommandManagementTask() {
 
 		case simModetoConfig:
 #if DEBUG_ON
-			fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor ) {
+                fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
+            }
 #endif
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
@@ -422,7 +426,9 @@ void CommandManagementTask() {
 			 */
 		case simModeConfig:
 #if DEBUG_ON
-			fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor ) {
+                fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
+            }
 #endif
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
@@ -435,7 +441,9 @@ void CommandManagementTask() {
 			 */
 			case 101:
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
+                }
 #endif
 
 				/*
@@ -452,24 +460,26 @@ void CommandManagementTask() {
 				 */
 
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+                    fprintf(fp, "[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
 						(INT8U) sub_config_send[p_payload->data[0]].link_config,
 						(INT8U) sub_config_send[p_payload->data[0]].linkspeed,
 						(INT8U) sub_config_send[p_payload->data[0]].linkstatus_running);
+                        }
 #endif
 
-				v_ack_creator(p_payload, ACK_OK);
+				v_ack_creator(p_payload, xAckOk);
 
 				break;
 
 				/*
 				 * Delete Data
-				 * TODO
+				 * NUC
 				 * char: g
 				 */
 			case 103:
 
-				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+				v_ack_creator(p_payload, xNotImplemented);
 
 				break;
 
@@ -481,7 +491,7 @@ void CommandManagementTask() {
 				 */
 			case 104:
 
-				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+				v_ack_creator(p_payload, xNotImplemented);
 
 				break;
 
@@ -491,7 +501,9 @@ void CommandManagementTask() {
 				 */
 			case 105:
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
+                }
 #endif
 
 				if (p_payload->data[0] == 1) {
@@ -509,10 +521,12 @@ void CommandManagementTask() {
 				}
 
 				/* Change to beggining of run */
-				v_ack_creator(p_payload, ACK_OK);
+				// v_ack_creator(p_payload, xAckOk);
 
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
+                }
 #endif
 				break;
 
@@ -521,9 +535,11 @@ void CommandManagementTask() {
 				 */
 			case 108:
 
-				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+				v_ack_creator(p_payload, xNotImplemented);
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                        fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
+                    }
 #endif
 				break;
 
@@ -532,12 +548,14 @@ void CommandManagementTask() {
 				 */
 			case 110:
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Get HK\r\n");
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Get HK\r\n");
+                }
 #endif
 				i_channel_buffer = p_payload->data[0];
 
 				v_HK_creator(i_channel_buffer);
-
+                v_ack_creator(p_payload, xAckOk);
 				break;
 
 				/*
@@ -545,29 +563,35 @@ void CommandManagementTask() {
 				 */
 			case typeConfigureMeb:
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
+                }
 #endif
 
 				T_simucam.T_conf.i_forward_data = p_payload->data[0];
 				T_simucam.T_conf.echo_sent = p_payload->data[1];
 
-				v_ack_creator(p_payload, ACK_OK);
+				v_ack_creator(p_payload, xAckOk);
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+                    fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
 						(int) T_simucam.T_conf.i_forward_data,
 						(int) T_simucam.T_conf.echo_sent);
+                        }
 #endif
 				break;
 
 				/*
 				 * Set Recording
+                 * TODO: Get details
 				 */
 			case typeSetRecording:
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Selected command: %c\n\r",
-						(int) p_payload->type);
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
+                }
 #endif
-				v_ack_creator(p_payload, NOT_IMPLEMENTED);
+				v_ack_creator(p_payload, xNotImplemented);
 
 				break;
 
@@ -576,8 +600,9 @@ void CommandManagementTask() {
                  */
             case typeSetPeriodicHK:
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Selected command: %c\n\r",
-						(int) p_payload->type);
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Set Periodic HK\n\r");
+                }
 #endif
                 T_simucam.T_conf.iPeriodicHK = p_payload->data[0];
                 
@@ -588,16 +613,33 @@ void CommandManagementTask() {
                                                 + 65536 * p_payload->data[2]
                                                 + 4294967296 * p_payload->data[1];
                 
-                    OSTaskResume (PERIODIC_HK_TASK_PRIORITY);
+                   error_code = OSTaskResume (PERIODIC_HK_TASK_PRIORITY);
                 } else{
-                    OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
+                    error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
                     T_simucam.T_conf.luHKPeriod = 0;
                 }
+                if(error_code == OS_NO_ERR){
+                    v_ack_creator(p_payload, xAckOk);
+                } else{
+                    v_ack_creator(p_payload, xOSError);
+                }
+                
+            break;
+
+            case typeReset:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
+                }
+#endif
+                v_ack_creator(p_payload, xNotImplemented);
             break;
 
 			default:
 #if DEBUG_ON
-				fprintf(fp, "[CommandManagementTask]Nenhum comando identificado\n\r");
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Command not identified...\n\r");
+                }
 #endif
 
 				if (p_payload->type == 106 || p_payload->type == 106
@@ -637,8 +679,14 @@ void CommandManagementTask() {
 			/*
 			 * Start simucam timer counting
 			 */
-			bDschRunTimer(&xSimucamTimer);
-
+			error_code = bDschRunTimer(&xSimucamTimer);
+            if(error_code == OS_NO_ERR){
+                v_ack_creator(p_payload, xAckOk);
+            } else
+            {
+                v_ack_creator(p_payload, xTimerError);
+            }
+            
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 
 			/*
@@ -648,7 +696,7 @@ void CommandManagementTask() {
 
 				bSyncCtrOneShot();
 
-				v_ack_creator(p_payload, ACK_OK);
+				v_ack_creator(p_payload, xAckOk);
             /*
              * TODO Start HK timer if needed
              */
@@ -681,25 +729,38 @@ void CommandManagementTask() {
 						/*
 						 * Stop Simucam Timer
 						 */
-						bDschStopTimer(&xSimucamTimer);
-
+						error_code = bDschStopTimer(&xSimucamTimer);
+                        if(error_code != OS_NO_ERR){
+                            v_ack_creator(p_payload, xTimerError);
+                        }
 						/*
 						 * Stop and clear channel timers
 						 */
 						for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
 								i_channel_for++) {
 
-							bDschStopTimer(
+							error_code = bDschStopTimer(
 									&(xCh[i_channel_for].xDataScheduler));
-							bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
-							sub_config_send[i_channel_for].mode = subChangeMode;
+                            if(error_code != OS_NO_ERR){
+                                v_ack_creator(p_payload, xTimerError);
+                            }
+							error_code = bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
+							if(error_code != OS_NO_ERR){
+                                v_ack_creator(p_payload, xTimerError);
+                            }
+                            sub_config_send[i_channel_for].mode = subChangeMode;
 							error_code = OSQPost(
 									p_sub_unit_config_queue[i_channel_for],
 									&sub_config_send[i_channel_for]);
-						}
-					}
+                            if(error_code != OS_NO_ERR){
+                                v_ack_creator(p_payload, xOSError);
+                            }
+                        }
 
-					v_ack_creator(p_payload, ACK_OK);
+					}
+					if (error_code == OS_NO_ERR){
+                        v_ack_creator(p_payload, xAckOk);
+                    }
 					break;
 
 					/*
@@ -720,8 +781,11 @@ void CommandManagementTask() {
 								p_sub_unit_config_queue[i_channel_for],
 								&sub_config_send[i_channel_for]);
 					}
-
-					v_ack_creator(p_payload, ACK_OK);
+                    if (error_code == OS_NO_ERR){
+                        v_ack_creator(p_payload, xAckOk);
+                    }else {
+                        v_ack_creator(p_payload, xOSError);
+                    }
 					break;
 
 					/*
@@ -735,7 +799,7 @@ void CommandManagementTask() {
 					/*
 					 * Direct Send needs replaning
 					 */
-
+                    v_ack_creator(p_payload, xCommandNotFound);
 					break;
 
 					/*

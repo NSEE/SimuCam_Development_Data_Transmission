@@ -84,6 +84,20 @@
  * Error codes definitions transform into enum
  * TODO: Convert to enum
  */
+typedef enum {
+    xAckOk = 0,
+    xPlcH1,
+    xPlcH2,
+    xPlcH3,
+    xCommandNotAccepted,
+    xCommandNotFound,
+    xNotImplemented,
+    xTimerError,
+    xParserError,
+    xEchoError,
+    xOSError
+} xErrorTypes;
+
 #define ACK_OK						0
 #define COMMAND_NOT_ACCEPTED		4
 #define COMMAND_NOT_FOUND			5 	/*Command not found code*/
@@ -109,14 +123,14 @@ extern OS_EVENT *xMutexDMA[2];
 #endif
 
 
-// #if DEBUG_ON
+#if DEBUG_ON
 	#define debug( fp, mensage )    if ( DEBUG_ON ) { fprintf( fp, mensage ); }
-// #endif
+#endif
 
 /* Variable that will carry the debug JTAG device file descriptor*/
-// #if DEBUG_ON
+#if DEBUG_ON
     extern FILE* fp;
-// #endif
+#endif
 
 /*
 ************************************************************************************************
@@ -188,6 +202,12 @@ struct x_telemetry {
 
 } x_telemetry;
 
+
+typedef enum {
+    xCritical,
+    xMajor,
+    xVerbose
+} debug_levels;
 
 /*$PAGE*/
 
