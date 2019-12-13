@@ -26,6 +26,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 	INT32U i_mem_pointer_buffer;
 	T_Imagette *p_imagette_buffer;
+    INT8U      *pDataPointer;
 
 	INT8U i = 0;
 	INT32U nb_size;
@@ -33,6 +34,12 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U crc = 0;
 	INT16U i_length_buffer = 0;
+
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor){
+        fprintf(fp, "[ECHO]Entered echo sender\r\n");
+    }
+#endif
 
 	/*
 	 * Select the apropriate RAM stick
@@ -46,7 +53,9 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	p_imagette_buffer =
 			(T_Imagette *) T_simucam.T_Sub[i_channel].T_data.addr_init;
 #if DEBUG_ON
-	fprintf(fp, "[ECHO] imagette nb %i\r\n", i_imagette_number);
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose){
+        fprintf(fp, "[ECHO] imagette nb %i\r\n", i_imagette_number);
+    }
 #endif
 	for (i = 0; i < i_imagette_number; i++) {
 
@@ -60,9 +69,11 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	}
 
 #if DEBUG_ON
-	fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
-			i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
-			p_imagette_buffer->imagette_start);
+	if(T_simucam.T_conf.usiDebugLevels <= xVerbose){
+        fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
+            i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
+            p_imagette_buffer->imagette_start);
+    }
 #endif
 
 	i_length_buffer = p_imagette_buffer->imagette_length;
@@ -110,15 +121,41 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
      * TODO change to printf
 	 */
 
-	// send(conn.fd, &tx_buffer, 13, 0);
-//	 while (i_length_buffer > 0) {
-//	 	bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
-//	 	i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
-//	 			i_length_buffer, 0);
-//#if DEBUG_ON
-//		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
-//#endif
-//	}
+    for (INT8U t = 0; t < 13; t++) {
+        printf("%i", tx_buffer[t]);
+    }
+    /**
+     * Assign the correct memory pointer to the 
+     * pointing buffer
+     */
+    pDataPointer = &(p_imagette_buffer->imagette_start);
+    
+    for (size_t i = 0; i < i_length_buffer; i++)
+    {   
+        /* Assure the right memory is in use */
+        bDdr2SwitchMemory((unsigned char) i_channel / 4);
+        /* Print imagette char */
+        printf("%i",(INT8U) *pDataPointer);
+        /* Advance the buffer pointer 1 byte */
+        pDataPointer++;
+
+#if DEBUG_ON
+        if(T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+            fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
+        }
+#endif
+    }
+     
+     
+//     while (i_length_buffer > 0) {
+// 	 	bDdr2SwitchMemory((unsigned char) i_channel / 4); /* Assure the right memory */
+// 	 	i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
+// 	 			i_length_buffer, 0);
+
+// #if DEBUG_ON
+// 		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
+// #endif
+// 	}
 	// send(conn.fd, &(tx_buffer[13]), 2, 0);
 //send CRC
 
@@ -132,6 +169,12 @@ void echo_task(void) {
 	INT8U echo_error;
 	x_echo *p_echo_rcvd;
 
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor){
+        fprintf(fp, "[ECHO]Initialized Echo Task\r\n");
+    }
+#endif
+
 	while (1) {
 
 		p_echo_rcvd = (x_echo *) OSQPend(p_echo_queue, 0, &echo_error);
@@ -140,7 +183,10 @@ void echo_task(void) {
 					p_echo_rcvd->channel);
 		} else {
 #if DEBUG_ON
-			fprintf(fp, "[ECHO] Echo queue error.\r\n");
+            /* Create ack */
+			if (T_simucam.T_conf.usiDebugLevels <= xCritical){
+                fprintf(fp, "[ECHO] Echo queue error.\r\n");
+            }
 #endif
 		}
 

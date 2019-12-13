@@ -5,6 +5,7 @@
 *.o
 *.ko
 *.obj
+*.objdump
 #*.elf
 
 # Linker output
@@ -53,4 +54,3 @@ dkms.conf
 
 # Elf and Object dump removal
 /G3U_HW_V02_2GB/Qsys_Project/software/G3U_Eth_Basic/G3U_Eth_Basic.elf
-/G3U_HW_V02_2GB/Qsys_Project/software/G3U_Eth_Basic/G3U_Eth_Basic.objdump
