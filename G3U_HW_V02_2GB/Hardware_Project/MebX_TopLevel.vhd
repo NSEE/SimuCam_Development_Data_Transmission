@@ -88,13 +88,13 @@ port(
 	 B_SD_CARD_DAT3  : inout std_logic;
 	 O_SD_CARD_CLOCK : out   std_logic;
 
-    -- Ethernet
-    ETH_MDC   : out std_logic_vector(3 downto 0);
-    ETH_INT_n : in  std_logic_vector(3 downto 0);  
-    ETH_MDIO  : inout  std_logic_vector(3 downto 0); 
-    ETH_RST_n : out std_logic;
-    ETH_RX_p  : in  std_logic_vector(3 downto 0); 
-    ETH_TX_p  : out std_logic_vector(3 downto 0); 
+--    -- Ethernet
+--    ETH_MDC   : out std_logic_vector(3 downto 0);
+--    ETH_INT_n : in  std_logic_vector(3 downto 0);  
+--    ETH_MDIO  : inout  std_logic_vector(3 downto 0); 
+--    ETH_RST_n : out std_logic;
+--    ETH_RX_p  : in  std_logic_vector(3 downto 0); 
+--    ETH_TX_p  : out std_logic_vector(3 downto 0); 
 
     -- DDR2 DIM2
     M2_DDR2_addr    : out   std_logic_vector(13 downto 0);      
@@ -255,9 +255,12 @@ port(
 		SYNC_OUT               : out   std_logic;
 	
 	-- RS232 UART	 
+	O_RS232_UART_TXD : out std_logic;
+	O_RS232_UART_CTS : out std_logic;
 	I_RS232_UART_RXD : in  std_logic;
-   O_RS232_UART_TXD : out std_logic
-
+	I_RS232_UART_RTS : in  std_logic
+	
+	
   );
 end entity;
 
@@ -404,20 +407,6 @@ signal spw_h_sync : std_logic;
             
             clk50_clk                : in    std_logic                     := 'X';             
 
-            ETH_rst_export                        : out   std_logic;
-            tse_clk_clk                           : in    std_logic;      
-            tse_mdio_mdc                          : out   std_logic;                                 
-            tse_mdio_mdio_in                      : in    std_logic;      
-            tse_mdio_mdio_out                     : out   std_logic;                                 
-            tse_mdio_mdio_oen                     : out   std_logic;                                 
-            tse_led_crs                           : out   std_logic;                                 
-            tse_led_link                          : out   std_logic;                                 
-            tse_led_col                           : out   std_logic;                                 
-            tse_led_an                            : out   std_logic;                                 
-            tse_led_char_err                      : out   std_logic;                                 
-            tse_led_disp_err                      : out   std_logic;                                 
-            tse_serial_txp                        : out   std_logic;                                 
-            tse_serial_rxp                        : in    std_logic;      
             tristate_conduit_tcm_address_out      : out   std_logic_vector(25 downto 0);             
             tristate_conduit_tcm_read_n_out       : out   std_logic_vector(0 downto 0);              
             tristate_conduit_tcm_write_n_out      : out   std_logic_vector(0 downto 0);              
@@ -513,8 +502,10 @@ signal spw_h_sync : std_logic;
             sd_card_ip_b_SD_dat3                                 : inout std_logic                     := 'X';             -- b_SD_dat3
             sd_card_ip_o_SD_clock                                : out   std_logic;                                        -- o_SD_clock
 				
-            rs232_uart_rxd                                       : in    std_logic                     := 'X';             -- rxd
-            rs232_uart_txd                                       : out   std_logic                                         -- txd
+            rs232_uart_rxd                                                          : in    std_logic                     := 'X';             -- rxd
+            rs232_uart_txd                                                          : out   std_logic;                                        -- txd
+            rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
+            rs232_uart_rts_n                                                        : out   std_logic                                        -- rts_n
         );
     end component MebX_Qsys_Project;
 
@@ -562,21 +553,6 @@ SOPC_INST : MebX_Qsys_Project
 	 
 	 ctrl_io_lvds_export	=> ctrl_io_lvds,
     
-    ETH_rst_export                         => rst_eth,
-    tse_led_an                             => open, 
-	tse_led_char_err                       => open, 
-	tse_led_col                            => open, 
-	tse_led_crs                            => open, 
-    tse_led_disp_err                       => open, 
-	tse_led_link                           => open, 
-    tse_mdio_mdc                           => enet_mdc,
-    tse_mdio_mdio_in                       => enet_mdio_in,
-    tse_mdio_mdio_oen                      => enet_mdio_oen,
-	tse_mdio_mdio_out                      => enet_mdio_out,
-    tse_clk_clk 						   => enet_refclk_125MHz,
-    tse_serial_rxp                         => lvds_rxp,
-	tse_serial_txp                         => lvds_txp,
-	
     tristate_conduit_tcm_address_out       => FSM_A(25 downto 0),
     tristate_conduit_tcm_data_out          => FSM_D,
     tristate_conduit_tcm_chipselect_n_out  => FLASH_CE_n, 
@@ -696,9 +672,11 @@ SOPC_INST : MebX_Qsys_Project
 	sd_card_ip_b_SD_dat    => B_SD_CARD_DAT,    --           .b_SD_dat
 	sd_card_ip_b_SD_dat3   => B_SD_CARD_DAT3,   --           .b_SD_dat3
 	sd_card_ip_o_SD_clock  => O_SD_CARD_CLOCK,  --           .o_SD_clock
-	
-	rs232_uart_rxd => I_RS232_UART_RXD, -- rs232_uart.rxd
-	rs232_uart_txd => O_RS232_UART_TXD  --           .txd
+		
+            rs232_uart_rxd                                                          => I_RS232_UART_RXD,                                                          --                                                  rs232_uart.rxd
+            rs232_uart_txd                                                          => O_RS232_UART_TXD,                                                          --                                                            .txd
+            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
+            rs232_uart_rts_n                                                        => O_RS232_UART_CTS                                                        --                                                            .rts_n
 	
  );
 
@@ -758,7 +736,7 @@ LED_PAINEL_LED_ST4   <= ('1') when (rst = '0') else (leds_p(20));
 -- eth
 --==========--
 
-ETH_RST_n <= (rst) and (rst_eth);
+--ETH_RST_n <= (rst) and (rst_eth);
 
 -- ETH0
 -- lvds_rxp     <= ETH_RX_p(0);
@@ -782,11 +760,11 @@ ETH_RST_n <= (rst) and (rst_eth);
 -- ETH_MDC(2)   <= enet_mdc;
 
 -- ETH3
-lvds_rxp     <= ETH_RX_p(3);
-ETH_TX_p(3)  <= lvds_txp;
-enet_mdio_in <= ETH_MDIO(3);
-ETH_MDIO(3)  <= (enet_mdio_out) when (enet_mdio_oen = '0') else ('Z');
-ETH_MDC(3)   <= enet_mdc;
+--lvds_rxp     <= ETH_RX_p(3);
+--ETH_TX_p(3)  <= lvds_txp;
+--enet_mdio_in <= ETH_MDIO(3);
+--ETH_MDIO(3)  <= (enet_mdio_out) when (enet_mdio_oen = '0') else ('Z');
+--ETH_MDC(3)   <= enet_mdc;
 
 --==========--
 -- Flash

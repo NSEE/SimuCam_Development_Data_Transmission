@@ -118,6 +118,8 @@
 			m2_ddr2_oct_rup                                                         : in    std_logic                     := 'X';             -- rup
 			rs232_uart_rxd                                                          : in    std_logic                     := 'X';             -- rxd
 			rs232_uart_txd                                                          : out   std_logic;                                        -- txd
+			rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
+			rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
 			rst_reset_n                                                             : in    std_logic                     := 'X';             -- reset_n
 			rtcc_alarm_export                                                       : in    std_logic                     := 'X';             -- export
 			rtcc_cs_n_export                                                        : out   std_logic;                                        -- export
@@ -149,36 +151,7 @@
 			tristate_conduit_tcm_read_n_out                                         : out   std_logic_vector(0 downto 0);                     -- tcm_read_n_out
 			tristate_conduit_tcm_write_n_out                                        : out   std_logic_vector(0 downto 0);                     -- tcm_write_n_out
 			tristate_conduit_tcm_data_out                                           : inout std_logic_vector(15 downto 0) := (others => 'X'); -- tcm_data_out
-			tristate_conduit_tcm_chipselect_n_out                                   : out   std_logic_vector(0 downto 0);                     -- tcm_chipselect_n_out
-			tse_clk_clk                                                             : in    std_logic                     := 'X';             -- clk
-			tse_led_crs                                                             : out   std_logic;                                        -- crs
-			tse_led_link                                                            : out   std_logic;                                        -- link
-			tse_led_panel_link                                                      : out   std_logic;                                        -- panel_link
-			tse_led_col                                                             : out   std_logic;                                        -- col
-			tse_led_an                                                              : out   std_logic;                                        -- an
-			tse_led_char_err                                                        : out   std_logic;                                        -- char_err
-			tse_led_disp_err                                                        : out   std_logic;                                        -- disp_err
-			tse_mac_mac_misc_connection_xon_gen                                     : in    std_logic                     := 'X';             -- xon_gen
-			tse_mac_mac_misc_connection_xoff_gen                                    : in    std_logic                     := 'X';             -- xoff_gen
-			tse_mac_mac_misc_connection_magic_wakeup                                : out   std_logic;                                        -- magic_wakeup
-			tse_mac_mac_misc_connection_magic_sleep_n                               : in    std_logic                     := 'X';             -- magic_sleep_n
-			tse_mac_mac_misc_connection_ff_tx_crc_fwd                               : in    std_logic                     := 'X';             -- ff_tx_crc_fwd
-			tse_mac_mac_misc_connection_ff_tx_septy                                 : out   std_logic;                                        -- ff_tx_septy
-			tse_mac_mac_misc_connection_tx_ff_uflow                                 : out   std_logic;                                        -- tx_ff_uflow
-			tse_mac_mac_misc_connection_ff_tx_a_full                                : out   std_logic;                                        -- ff_tx_a_full
-			tse_mac_mac_misc_connection_ff_tx_a_empty                               : out   std_logic;                                        -- ff_tx_a_empty
-			tse_mac_mac_misc_connection_rx_err_stat                                 : out   std_logic_vector(17 downto 0);                    -- rx_err_stat
-			tse_mac_mac_misc_connection_rx_frm_type                                 : out   std_logic_vector(3 downto 0);                     -- rx_frm_type
-			tse_mac_mac_misc_connection_ff_rx_dsav                                  : out   std_logic;                                        -- ff_rx_dsav
-			tse_mac_mac_misc_connection_ff_rx_a_full                                : out   std_logic;                                        -- ff_rx_a_full
-			tse_mac_mac_misc_connection_ff_rx_a_empty                               : out   std_logic;                                        -- ff_rx_a_empty
-			tse_mac_serdes_control_connection_export                                : out   std_logic;                                        -- export
-			tse_mdio_mdc                                                            : out   std_logic;                                        -- mdc
-			tse_mdio_mdio_in                                                        : in    std_logic                     := 'X';             -- mdio_in
-			tse_mdio_mdio_out                                                       : out   std_logic;                                        -- mdio_out
-			tse_mdio_mdio_oen                                                       : out   std_logic;                                        -- mdio_oen
-			tse_serial_txp                                                          : out   std_logic;                                        -- txp
-			tse_serial_rxp                                                          : in    std_logic                     := 'X'              -- rxp
+			tristate_conduit_tcm_chipselect_n_out                                   : out   std_logic_vector(0 downto 0)                      -- tcm_chipselect_n_out
 		);
 	end component MebX_Qsys_Project;
 
@@ -302,6 +275,8 @@
 			m2_ddr2_oct_rup                                                         => CONNECTED_TO_m2_ddr2_oct_rup,                                                         --                                                            .rup
 			rs232_uart_rxd                                                          => CONNECTED_TO_rs232_uart_rxd,                                                          --                                                  rs232_uart.rxd
 			rs232_uart_txd                                                          => CONNECTED_TO_rs232_uart_txd,                                                          --                                                            .txd
+			rs232_uart_cts_n                                                        => CONNECTED_TO_rs232_uart_cts_n,                                                        --                                                            .cts_n
+			rs232_uart_rts_n                                                        => CONNECTED_TO_rs232_uart_rts_n,                                                        --                                                            .rts_n
 			rst_reset_n                                                             => CONNECTED_TO_rst_reset_n,                                                             --                                                         rst.reset_n
 			rtcc_alarm_export                                                       => CONNECTED_TO_rtcc_alarm_export,                                                       --                                                  rtcc_alarm.export
 			rtcc_cs_n_export                                                        => CONNECTED_TO_rtcc_cs_n_export,                                                        --                                                   rtcc_cs_n.export
@@ -333,35 +308,6 @@
 			tristate_conduit_tcm_read_n_out                                         => CONNECTED_TO_tristate_conduit_tcm_read_n_out,                                         --                                                            .tcm_read_n_out
 			tristate_conduit_tcm_write_n_out                                        => CONNECTED_TO_tristate_conduit_tcm_write_n_out,                                        --                                                            .tcm_write_n_out
 			tristate_conduit_tcm_data_out                                           => CONNECTED_TO_tristate_conduit_tcm_data_out,                                           --                                                            .tcm_data_out
-			tristate_conduit_tcm_chipselect_n_out                                   => CONNECTED_TO_tristate_conduit_tcm_chipselect_n_out,                                   --                                                            .tcm_chipselect_n_out
-			tse_clk_clk                                                             => CONNECTED_TO_tse_clk_clk,                                                             --                                                     tse_clk.clk
-			tse_led_crs                                                             => CONNECTED_TO_tse_led_crs,                                                             --                                                     tse_led.crs
-			tse_led_link                                                            => CONNECTED_TO_tse_led_link,                                                            --                                                            .link
-			tse_led_panel_link                                                      => CONNECTED_TO_tse_led_panel_link,                                                      --                                                            .panel_link
-			tse_led_col                                                             => CONNECTED_TO_tse_led_col,                                                             --                                                            .col
-			tse_led_an                                                              => CONNECTED_TO_tse_led_an,                                                              --                                                            .an
-			tse_led_char_err                                                        => CONNECTED_TO_tse_led_char_err,                                                        --                                                            .char_err
-			tse_led_disp_err                                                        => CONNECTED_TO_tse_led_disp_err,                                                        --                                                            .disp_err
-			tse_mac_mac_misc_connection_xon_gen                                     => CONNECTED_TO_tse_mac_mac_misc_connection_xon_gen,                                     --                                 tse_mac_mac_misc_connection.xon_gen
-			tse_mac_mac_misc_connection_xoff_gen                                    => CONNECTED_TO_tse_mac_mac_misc_connection_xoff_gen,                                    --                                                            .xoff_gen
-			tse_mac_mac_misc_connection_magic_wakeup                                => CONNECTED_TO_tse_mac_mac_misc_connection_magic_wakeup,                                --                                                            .magic_wakeup
-			tse_mac_mac_misc_connection_magic_sleep_n                               => CONNECTED_TO_tse_mac_mac_misc_connection_magic_sleep_n,                               --                                                            .magic_sleep_n
-			tse_mac_mac_misc_connection_ff_tx_crc_fwd                               => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_crc_fwd,                               --                                                            .ff_tx_crc_fwd
-			tse_mac_mac_misc_connection_ff_tx_septy                                 => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_septy,                                 --                                                            .ff_tx_septy
-			tse_mac_mac_misc_connection_tx_ff_uflow                                 => CONNECTED_TO_tse_mac_mac_misc_connection_tx_ff_uflow,                                 --                                                            .tx_ff_uflow
-			tse_mac_mac_misc_connection_ff_tx_a_full                                => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_a_full,                                --                                                            .ff_tx_a_full
-			tse_mac_mac_misc_connection_ff_tx_a_empty                               => CONNECTED_TO_tse_mac_mac_misc_connection_ff_tx_a_empty,                               --                                                            .ff_tx_a_empty
-			tse_mac_mac_misc_connection_rx_err_stat                                 => CONNECTED_TO_tse_mac_mac_misc_connection_rx_err_stat,                                 --                                                            .rx_err_stat
-			tse_mac_mac_misc_connection_rx_frm_type                                 => CONNECTED_TO_tse_mac_mac_misc_connection_rx_frm_type,                                 --                                                            .rx_frm_type
-			tse_mac_mac_misc_connection_ff_rx_dsav                                  => CONNECTED_TO_tse_mac_mac_misc_connection_ff_rx_dsav,                                  --                                                            .ff_rx_dsav
-			tse_mac_mac_misc_connection_ff_rx_a_full                                => CONNECTED_TO_tse_mac_mac_misc_connection_ff_rx_a_full,                                --                                                            .ff_rx_a_full
-			tse_mac_mac_misc_connection_ff_rx_a_empty                               => CONNECTED_TO_tse_mac_mac_misc_connection_ff_rx_a_empty,                               --                                                            .ff_rx_a_empty
-			tse_mac_serdes_control_connection_export                                => CONNECTED_TO_tse_mac_serdes_control_connection_export,                                --                           tse_mac_serdes_control_connection.export
-			tse_mdio_mdc                                                            => CONNECTED_TO_tse_mdio_mdc,                                                            --                                                    tse_mdio.mdc
-			tse_mdio_mdio_in                                                        => CONNECTED_TO_tse_mdio_mdio_in,                                                        --                                                            .mdio_in
-			tse_mdio_mdio_out                                                       => CONNECTED_TO_tse_mdio_mdio_out,                                                       --                                                            .mdio_out
-			tse_mdio_mdio_oen                                                       => CONNECTED_TO_tse_mdio_mdio_oen,                                                       --                                                            .mdio_oen
-			tse_serial_txp                                                          => CONNECTED_TO_tse_serial_txp,                                                          --                                                  tse_serial.txp
-			tse_serial_rxp                                                          => CONNECTED_TO_tse_serial_rxp                                                           --                                                            .rxp
+			tristate_conduit_tcm_chipselect_n_out                                   => CONNECTED_TO_tristate_conduit_tcm_chipselect_n_out                                    --                                                            .tcm_chipselect_n_out
 		);
 
