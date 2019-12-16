@@ -1,0 +1,12 @@
+# Reading C:/intelFPGA/18.1/modelsim_ase/tcl/vsim/pref.tcl
+# OpenFile C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/UART_Module_Testbench.mpf
+# Loading project UART_Module_Testbench
+# Compile of avalon_mm_pkg.vhd was successful.
+# Compile of avalon_mm_registers_pkg.vhd was successful.
+# Compile of avalon_mm_read_ent.vhd was successful.
+# Compile of avalon_mm_write_ent.vhd was successful.
+# Compile of data_fifo_sc_fifo.vhd was successful.
+# Compile of uart_rx_ent.vhd was successful.
+# Compile of uart_tx_ent.vhd was successful.
+# Compile of uart_module_top.vhd was successful.
+# 8 compiles, 0 failed with no errors.

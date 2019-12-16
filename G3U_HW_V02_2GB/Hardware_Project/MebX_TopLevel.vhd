@@ -505,7 +505,13 @@ signal spw_h_sync : std_logic;
             rs232_uart_rxd                                                          : in    std_logic                     := 'X';             -- rxd
             rs232_uart_txd                                                          : out   std_logic;                                        -- txd
             rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
-            rs232_uart_rts_n                                                        : out   std_logic                                        -- rts_n
+            rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
+				
+				
+            uart_module_uart_txd_signal                                             : out   std_logic;                                        -- uart_txd_signal
+            uart_module_uart_rxd_signal                                             : in    std_logic                     := 'X';             -- uart_rxd_signal
+            uart_module_uart_rts_signal                                             : in    std_logic                     := 'X';             -- uart_rts_signal
+            uart_module_uart_cts_signal                                             : out   std_logic                                         -- uart_cts_signal
         );
     end component MebX_Qsys_Project;
 
@@ -673,10 +679,20 @@ SOPC_INST : MebX_Qsys_Project
 	sd_card_ip_b_SD_dat3   => B_SD_CARD_DAT3,   --           .b_SD_dat3
 	sd_card_ip_o_SD_clock  => O_SD_CARD_CLOCK,  --           .o_SD_clock
 		
-            rs232_uart_rxd                                                          => I_RS232_UART_RXD,                                                          --                                                  rs232_uart.rxd
-            rs232_uart_txd                                                          => O_RS232_UART_TXD,                                                          --                                                            .txd
-            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
-            rs232_uart_rts_n                                                        => O_RS232_UART_CTS                                                        --                                                            .rts_n
+--            rs232_uart_rxd                                                          => I_RS232_UART_RXD,                                                          --                                                  rs232_uart.rxd
+--            rs232_uart_txd                                                          => O_RS232_UART_TXD,                                                          --                                                            .txd
+--            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
+--            rs232_uart_rts_n                                                        => O_RS232_UART_CTS,                                                        --                                                            .rts_n
+
+            rs232_uart_rxd                                                          => '1',                                                          --                                                  rs232_uart.rxd
+            rs232_uart_txd                                                          => open,                                                          --                                                            .txd
+            rs232_uart_cts_n                                                        => '1',                                                        --                                                            .cts_n
+            rs232_uart_rts_n                                                        => open,                                                        --                                                            .rts_n
+				
+            uart_module_uart_txd_signal                                             => O_RS232_UART_TXD,                                             --                                                 uart_module.uart_txd_signal
+            uart_module_uart_rxd_signal                                             => I_RS232_UART_RXD,                                             --                                                            .uart_rxd_signal
+            uart_module_uart_rts_signal                                             => I_RS232_UART_RTS,                                             --                                                            .uart_rts_signal
+            uart_module_uart_cts_signal                                             => O_RS232_UART_CTS                                              --                                                            .uart_cts_signal
 	
  );
 

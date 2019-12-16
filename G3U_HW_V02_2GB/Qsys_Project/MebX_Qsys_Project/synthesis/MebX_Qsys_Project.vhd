@@ -159,7 +159,11 @@ entity MebX_Qsys_Project is
 		tristate_conduit_tcm_read_n_out                                         : out   std_logic_vector(0 downto 0);                     --                                                            .tcm_read_n_out
 		tristate_conduit_tcm_write_n_out                                        : out   std_logic_vector(0 downto 0);                     --                                                            .tcm_write_n_out
 		tristate_conduit_tcm_data_out                                           : inout std_logic_vector(15 downto 0) := (others => '0'); --                                                            .tcm_data_out
-		tristate_conduit_tcm_chipselect_n_out                                   : out   std_logic_vector(0 downto 0)                      --                                                            .tcm_chipselect_n_out
+		tristate_conduit_tcm_chipselect_n_out                                   : out   std_logic_vector(0 downto 0);                     --                                                            .tcm_chipselect_n_out
+		uart_module_uart_txd_signal                                             : out   std_logic;                                        --                                                 uart_module.uart_txd_signal
+		uart_module_uart_rxd_signal                                             : in    std_logic                     := '0';             --                                                            .uart_rxd_signal
+		uart_module_uart_rts_signal                                             : in    std_logic                     := '0';             --                                                            .uart_rts_signal
+		uart_module_uart_cts_signal                                             : out   std_logic                                         --                                                            .uart_cts_signal
 	);
 end entity MebX_Qsys_Project;
 
@@ -787,6 +791,23 @@ architecture rtl of MebX_Qsys_Project is
 		);
 	end component MebX_Qsys_Project_tristate_conduit_bridge_0;
 
+	component uart_module_top is
+		port (
+			reset_sink_reset         : in  std_logic                     := 'X';             -- reset
+			clock_sink_clk           : in  std_logic                     := 'X';             -- clk
+			uart_txd                 : out std_logic;                                        -- uart_txd_signal
+			uart_rxd                 : in  std_logic                     := 'X';             -- uart_rxd_signal
+			uart_rts                 : in  std_logic                     := 'X';             -- uart_rts_signal
+			uart_cts                 : out std_logic;                                        -- uart_cts_signal
+			avalon_slave_address     : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- address
+			avalon_slave_read        : in  std_logic                     := 'X';             -- read
+			avalon_slave_write       : in  std_logic                     := 'X';             -- write
+			avalon_slave_waitrequest : out std_logic;                                        -- waitrequest
+			avalon_slave_writedata   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			avalon_slave_readdata    : out std_logic_vector(31 downto 0)                     -- readdata
+		);
+	end component uart_module_top;
+
 	component MebX_Qsys_Project_mm_interconnect_0 is
 		port (
 			clk_100_clk_clk                                                         : in  std_logic                      := 'X';             -- clk
@@ -1206,7 +1227,13 @@ architecture rtl of MebX_Qsys_Project is
 			timer_1us_s1_write                                                     : out std_logic;                                        -- write
 			timer_1us_s1_readdata                                                  : in  std_logic_vector(15 downto 0) := (others => 'X'); -- readdata
 			timer_1us_s1_writedata                                                 : out std_logic_vector(15 downto 0);                    -- writedata
-			timer_1us_s1_chipselect                                                : out std_logic                                         -- chipselect
+			timer_1us_s1_chipselect                                                : out std_logic;                                        -- chipselect
+			uart_module_top_0_avalon_slave_address                                 : out std_logic_vector(7 downto 0);                     -- address
+			uart_module_top_0_avalon_slave_write                                   : out std_logic;                                        -- write
+			uart_module_top_0_avalon_slave_read                                    : out std_logic;                                        -- read
+			uart_module_top_0_avalon_slave_readdata                                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			uart_module_top_0_avalon_slave_writedata                               : out std_logic_vector(31 downto 0);                    -- writedata
+			uart_module_top_0_avalon_slave_waitrequest                             : in  std_logic                     := 'X'              -- waitrequest
 		);
 	end component MebX_Qsys_Project_mm_interconnect_1;
 
@@ -1903,6 +1930,12 @@ architecture rtl of MebX_Qsys_Project is
 	signal mm_interconnect_1_altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_byteenable   : std_logic_vector(3 downto 0);   -- mm_interconnect_1:Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_byteenable -> Altera_UP_SD_Card_Avalon_Interface_0:i_avalon_byteenable
 	signal mm_interconnect_1_altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_write        : std_logic;                      -- mm_interconnect_1:Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_write -> Altera_UP_SD_Card_Avalon_Interface_0:i_avalon_write
 	signal mm_interconnect_1_altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_writedata    : std_logic_vector(31 downto 0);  -- mm_interconnect_1:Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_writedata -> Altera_UP_SD_Card_Avalon_Interface_0:i_avalon_writedata
+	signal mm_interconnect_1_uart_module_top_0_avalon_slave_readdata                               : std_logic_vector(31 downto 0);  -- uart_module_top_0:avalon_slave_readdata -> mm_interconnect_1:uart_module_top_0_avalon_slave_readdata
+	signal mm_interconnect_1_uart_module_top_0_avalon_slave_waitrequest                            : std_logic;                      -- uart_module_top_0:avalon_slave_waitrequest -> mm_interconnect_1:uart_module_top_0_avalon_slave_waitrequest
+	signal mm_interconnect_1_uart_module_top_0_avalon_slave_address                                : std_logic_vector(7 downto 0);   -- mm_interconnect_1:uart_module_top_0_avalon_slave_address -> uart_module_top_0:avalon_slave_address
+	signal mm_interconnect_1_uart_module_top_0_avalon_slave_read                                   : std_logic;                      -- mm_interconnect_1:uart_module_top_0_avalon_slave_read -> uart_module_top_0:avalon_slave_read
+	signal mm_interconnect_1_uart_module_top_0_avalon_slave_write                                  : std_logic;                      -- mm_interconnect_1:uart_module_top_0_avalon_slave_write -> uart_module_top_0:avalon_slave_write
+	signal mm_interconnect_1_uart_module_top_0_avalon_slave_writedata                              : std_logic_vector(31 downto 0);  -- mm_interconnect_1:uart_module_top_0_avalon_slave_writedata -> uart_module_top_0:avalon_slave_writedata
 	signal mm_interconnect_1_m1_ddr2_i2c_sda_s1_chipselect                                         : std_logic;                      -- mm_interconnect_1:m1_ddr2_i2c_sda_s1_chipselect -> m1_ddr2_i2c_sda:chipselect
 	signal mm_interconnect_1_m1_ddr2_i2c_sda_s1_readdata                                           : std_logic_vector(31 downto 0);  -- m1_ddr2_i2c_sda:readdata -> mm_interconnect_1:m1_ddr2_i2c_sda_s1_readdata
 	signal mm_interconnect_1_m1_ddr2_i2c_sda_s1_address                                            : std_logic_vector(1 downto 0);   -- mm_interconnect_1:m1_ddr2_i2c_sda_s1_address -> m1_ddr2_i2c_sda:address
@@ -2097,7 +2130,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal rst_controller_018_reset_out_reset_req                                                  : std_logic;                      -- rst_controller_018:reset_req -> [nios2_gen2_0:reset_req, rst_translator_001:reset_req_in]
 	signal rst_controller_019_reset_out_reset                                                      : std_logic;                      -- rst_controller_019:reset_out -> [irq_synchronizer_004:receiver_reset, mm_interconnect_1:rs232_uart_reset_reset_bridge_in_reset_reset, rst_controller_019_reset_out_reset:in]
 	signal rst_controller_reset_source_rs232_reset                                                 : std_logic;                      -- rst_controller:reset_source_rs232_reset -> rst_controller_019:reset_in1
-	signal rst_controller_020_reset_out_reset                                                      : std_logic;                      -- rst_controller_020:reset_out -> [mm_interconnect_1:rst_controller_reset_sink_reset_bridge_in_reset_reset, rst_controller:reset_sink_reset]
+	signal rst_controller_020_reset_out_reset                                                      : std_logic;                      -- rst_controller_020:reset_out -> [mm_interconnect_1:rst_controller_reset_sink_reset_bridge_in_reset_reset, rst_controller:reset_sink_reset, uart_module_top_0:reset_sink_reset]
 	signal rst_controller_021_reset_out_reset                                                      : std_logic;                      -- rst_controller_021:reset_out -> [irq_synchronizer:receiver_reset, mm_interconnect_1:sync_reset_reset_bridge_in_reset_reset, sync:reset_sink_reset]
 	signal rst_controller_reset_source_sync_reset                                                  : std_logic;                      -- rst_controller:reset_source_sync_reset -> rst_controller_021:reset_in2
 	signal rst_controller_022_reset_out_reset                                                      : std_logic;                      -- rst_controller_022:reset_out -> [mm_interconnect_0:m2_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset, mm_interconnect_0:m2_ddr2_memory_soft_reset_reset_bridge_in_reset_reset]
@@ -3162,6 +3195,22 @@ begin
 			tcm_chipselect_n_out        => tristate_conduit_tcm_chipselect_n_out  --      .tcm_chipselect_n_out
 		);
 
+	uart_module_top_0 : component uart_module_top
+		port map (
+			reset_sink_reset         => rst_controller_020_reset_out_reset,                           --   reset_sink.reset
+			clock_sink_clk           => clk50_clk,                                                    --   clock_sink.clk
+			uart_txd                 => uart_module_uart_txd_signal,                                  --  conduit_end.uart_txd_signal
+			uart_rxd                 => uart_module_uart_rxd_signal,                                  --             .uart_rxd_signal
+			uart_rts                 => uart_module_uart_rts_signal,                                  --             .uart_rts_signal
+			uart_cts                 => uart_module_uart_cts_signal,                                  --             .uart_cts_signal
+			avalon_slave_address     => mm_interconnect_1_uart_module_top_0_avalon_slave_address,     -- avalon_slave.address
+			avalon_slave_read        => mm_interconnect_1_uart_module_top_0_avalon_slave_read,        --             .read
+			avalon_slave_write       => mm_interconnect_1_uart_module_top_0_avalon_slave_write,       --             .write
+			avalon_slave_waitrequest => mm_interconnect_1_uart_module_top_0_avalon_slave_waitrequest, --             .waitrequest
+			avalon_slave_writedata   => mm_interconnect_1_uart_module_top_0_avalon_slave_writedata,   --             .writedata
+			avalon_slave_readdata    => mm_interconnect_1_uart_module_top_0_avalon_slave_readdata     --             .readdata
+		);
+
 	mm_interconnect_0 : component MebX_Qsys_Project_mm_interconnect_0
 		port map (
 			clk_100_clk_clk                                                         => m2_ddr2_memory_afi_half_clk_clk,                                                         --                                                       clk_100_clk.clk
@@ -3580,7 +3629,13 @@ begin
 			timer_1us_s1_write                                                     => mm_interconnect_1_timer_1us_s1_write,                                                   --                                                                 .write
 			timer_1us_s1_readdata                                                  => mm_interconnect_1_timer_1us_s1_readdata,                                                --                                                                 .readdata
 			timer_1us_s1_writedata                                                 => mm_interconnect_1_timer_1us_s1_writedata,                                               --                                                                 .writedata
-			timer_1us_s1_chipselect                                                => mm_interconnect_1_timer_1us_s1_chipselect                                               --                                                                 .chipselect
+			timer_1us_s1_chipselect                                                => mm_interconnect_1_timer_1us_s1_chipselect,                                              --                                                                 .chipselect
+			uart_module_top_0_avalon_slave_address                                 => mm_interconnect_1_uart_module_top_0_avalon_slave_address,                               --                                   uart_module_top_0_avalon_slave.address
+			uart_module_top_0_avalon_slave_write                                   => mm_interconnect_1_uart_module_top_0_avalon_slave_write,                                 --                                                                 .write
+			uart_module_top_0_avalon_slave_read                                    => mm_interconnect_1_uart_module_top_0_avalon_slave_read,                                  --                                                                 .read
+			uart_module_top_0_avalon_slave_readdata                                => mm_interconnect_1_uart_module_top_0_avalon_slave_readdata,                              --                                                                 .readdata
+			uart_module_top_0_avalon_slave_writedata                               => mm_interconnect_1_uart_module_top_0_avalon_slave_writedata,                             --                                                                 .writedata
+			uart_module_top_0_avalon_slave_waitrequest                             => mm_interconnect_1_uart_module_top_0_avalon_slave_waitrequest                            --                                                                 .waitrequest
 		);
 
 	mm_interconnect_2 : component MebX_Qsys_Project_mm_interconnect_2

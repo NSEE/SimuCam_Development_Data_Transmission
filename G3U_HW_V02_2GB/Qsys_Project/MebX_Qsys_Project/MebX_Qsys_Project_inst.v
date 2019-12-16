@@ -150,6 +150,10 @@
 		.tristate_conduit_tcm_read_n_out                                         (<connected-to-tristate_conduit_tcm_read_n_out>),                                         //                                                            .tcm_read_n_out
 		.tristate_conduit_tcm_write_n_out                                        (<connected-to-tristate_conduit_tcm_write_n_out>),                                        //                                                            .tcm_write_n_out
 		.tristate_conduit_tcm_data_out                                           (<connected-to-tristate_conduit_tcm_data_out>),                                           //                                                            .tcm_data_out
-		.tristate_conduit_tcm_chipselect_n_out                                   (<connected-to-tristate_conduit_tcm_chipselect_n_out>)                                    //                                                            .tcm_chipselect_n_out
+		.tristate_conduit_tcm_chipselect_n_out                                   (<connected-to-tristate_conduit_tcm_chipselect_n_out>),                                   //                                                            .tcm_chipselect_n_out
+		.uart_module_uart_txd_signal                                             (<connected-to-uart_module_uart_txd_signal>),                                             //                                                 uart_module.uart_txd_signal
+		.uart_module_uart_rxd_signal                                             (<connected-to-uart_module_uart_rxd_signal>),                                             //                                                            .uart_rxd_signal
+		.uart_module_uart_rts_signal                                             (<connected-to-uart_module_uart_rts_signal>),                                             //                                                            .uart_rts_signal
+		.uart_module_uart_cts_signal                                             (<connected-to-uart_module_uart_cts_signal>)                                              //                                                            .uart_cts_signal
 	);
 
