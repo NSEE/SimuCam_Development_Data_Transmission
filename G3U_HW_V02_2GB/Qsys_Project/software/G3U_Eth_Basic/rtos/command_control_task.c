@@ -123,7 +123,10 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_id_pkt = p_error_response->packet_id;
 	INT8U ack_buffer[64];
-    INT16U luCRCBuffer = 0;
+	INT32U ack_size = 14;
+    INT16U usCRC = 0;
+
+    /* memset buffer */
 #if DEBUG_ON
 	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
 #endif
@@ -151,43 +154,34 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 
 	ack_buffer[10] = p_error_response->type;
 	ack_buffer[11] = error_code;
-
+	
     /**
-     * Calculate the packet's CRC
+     * Calculate and add CRC
      */
-    luCRCBuffer = crc__CRC16CCITT(ack_buffer, ACK_SIZE);
+    usCRC = crc__CRC16CCITT(ack_buffer);
 
-    /* Add to Ack */
-    ack_buffer[13] = div(luCRCBuffer, 256).rem;
-	luCRCBuffer = div(luCRCBuffer, 256).quot;
-	ack_buffer[12] = div(luCRCBuffer, 256).rem;
+    ack_buffer[13] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	ack_buffer[12] = div(usCRC, 256).rem;
 
-	for (int f = 0; f < ACK_SIZE; f++){
+	for (int f = 0; f < ack_size; f++){
 		printf("%c", ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
 }
 
-/*
- * TODO remove pointer ref
- * 
- * adjust HK to serial
- */
+
 void v_HK_creator(INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
-	INT16U crc;
+	INT16U usCRC;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_counter_total = T_simucam.T_status.simucam_total_imagettes_sent;
 	INT16U nb_counter_current =
 			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
 	INT16U imagettes_to_send =
 			T_simucam.T_Sub[chann_buff].T_data.nb_of_imagettes;
-	/*
-	 * TODO
-	 * Rearrange HK data, for the total amounts and etc
-	 */
 	INT8U hk_buffer[HK_SIZE];
 	bool b_link_enabled = false;
 
@@ -259,14 +253,15 @@ void v_HK_creator(INT8U i_channel) {
 	imagettes_to_send = div(imagettes_to_send, 256).quot;
 	hk_buffer[26] = div(imagettes_to_send, 256).rem;
 
-    /**
-     * Calculate the packet's CRC
-     */
-	crc = crc__CRC16CCITT(hk_buffer, HK_SIZE);
+	/**
+	 * Calculating CRC
+     * TODO
+	 */
+	usCRC = crc__CRC16CCITT(hk_buffer, HK_SIZE);
 
-	hk_buffer[29] = div(crc, 256).rem;
-	crc = div(crc, 256).quot;
-	hk_buffer[28] = div(crc, 256).rem;
+	hk_buffer[29] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	hk_buffer[28] = div(usCRC, 256).rem;
     
     /*
      * Send HK through serial

@@ -76,6 +76,7 @@ void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer){
 
 #if DEBUG_ON
     fprintf(fp, "[UART HParser]Parsed header %u, Parsed id: %u, parsed type %u, parsed size %lu\n", pPayload->header, pPayload->packet_id, pPayload->type, pPayload->size);
+    fprintf(fp, "[UART HParser]Print partial crc %lu\n", pPayload->luCRCPartial);
 #endif
 }
 
@@ -342,14 +343,19 @@ void vCmdParser(T_uart_payload *pUartPayload){
                     pUartPayload->size - PAYLOAD_OVERHEAD, 
                     pUartPayload->luCRCPartial);
 
+#if DEBUG_ON
+        fprintf(fp, "[vCmdParser DEBUG]Calculated CRC = %lu\n",
+                (INT16U) pUartPayload->luCRCPartial);
+#endif
+
         /* Get CRC from RS232 */
         luGetSerial((INT8U *)&cBuff, 2);
 
         pUartPayload->crc = cBuff[1] + 256 * cBuff[0];
 
 #if DEBUG_ON
-        fprintf(fp, "[vCmdParser DEBUG]Received CRC = %i %i\n",
-                (INT8U) cBuff[0],(INT8U) cBuff[1]);
+        fprintf(fp, "[vCmdParser DEBUG]Received CRC = %lu\n",
+                (INT16U) pUartPayload->crc);
 #endif
 
         /* Check CRC */

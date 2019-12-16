@@ -48,8 +48,10 @@ extern unsigned short	crc__CRC16			(unsigned char const data[], unsigned long le
 
 // CRC16/CCITT-FALSE
 // Check: 0x29B1 | Poly: 0x1021 | Init: 0xFFFF | RefIn: false | RefOut: false | XorOut: 0x0000
-extern unsigned short	crc__CRC16CCITTU	(unsigned short crc16ccitt, unsigned char value);
-extern unsigned short	crc__CRC16CCITT		(unsigned char const data[], unsigned long length);
+extern unsigned short	crc__CRC16CCITTU	    (unsigned short crc16ccitt, unsigned char value);
+extern unsigned short	crc__CRC16CCITT		    (unsigned char const data[], unsigned long length);
+extern unsigned short   prev_crc__CRC16CCITT    (unsigned char const data[], unsigned long length, 
+                                                    unsigned short previous);
 
 // CRC-32
 // Check: 0xCBF43926 | Poly: 0x04C11DB7 | Init: 0xFFFFFFFF | RefIn: true | RefOut: true | XorOut: 0xFFFFFFFF
