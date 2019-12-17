@@ -488,9 +488,6 @@ void CommandManagementTask() {
             }
 #endif
 
-            /* Send ETH settings to NUC */
-            vSendETHConfig(xConfEth);
-
 			/*
 			 * Configuring done inside the sub-unit modules
              * TODO Function
@@ -533,6 +530,19 @@ void CommandManagementTask() {
 			alt_uCOSIIErrorHandler(error_code, 0);
 
 			switch (p_payload->type) { /*Selector for commands and actions*/
+
+            /**
+             * Send Ethernet config to NUC when it is booted
+             */
+            case typeGetIP:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]NUC alive, sending Eth conf\r\n");
+                }
+#endif
+                /* Send ETH settings to NUC, no ACK expected */
+                vSendETHConfig(xConfEth);
+            break;
 
 			/*
 			 * Sub-Unit config command

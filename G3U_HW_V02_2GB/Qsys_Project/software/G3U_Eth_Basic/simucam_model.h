@@ -93,8 +93,8 @@ typedef enum {
 typedef enum {
     typeAckInt = 201,
     typeSentLog,
-    typeStaticIp
-
+    typeStaticIp,
+    typeGetIP
 } TCIntTypes;
 
 /* External Types */
