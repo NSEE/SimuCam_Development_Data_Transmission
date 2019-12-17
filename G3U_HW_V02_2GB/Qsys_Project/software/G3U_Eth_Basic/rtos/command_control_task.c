@@ -628,7 +628,6 @@ void CommandManagementTask() {
 
 				/*
 				 * Set Recording
-                 * TODO: Get details
 				 */
 			case typeSetRecording:
 #if DEBUG_ON
@@ -636,8 +635,8 @@ void CommandManagementTask() {
                     fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
                 }
 #endif
-				v_ack_creator(p_payload, xNotImplemented);
-
+                T_simucam.T_conf.iLog = p_payload->data[0];
+				v_ack_creator(p_payload, xAckOk);
 				break;
 
                 /**
