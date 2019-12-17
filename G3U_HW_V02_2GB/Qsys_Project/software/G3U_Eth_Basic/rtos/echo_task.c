@@ -125,6 +125,12 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	T_simucam.T_status.TM_id++;
 }
 
+void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
+		INT8U i_channel, INT8U iTAG[]){
+
+
+}
+
 OS_EVENT *p_echo_queue;
 void *p_echo_queue_tbl[ECHO_QUEUE_BUFFER]; /*Storage for sub_unit queue*/
 
@@ -136,8 +142,14 @@ void echo_task(void) {
 
 		p_echo_rcvd = (x_echo *) OSQPend(p_echo_queue, 0, &echo_error);
 		if (echo_error == OS_ERR_NONE) {
+            if(T_simucam.T_conf.echo_sent == 1){
 			i_echo_dataset(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette,
 					p_echo_rcvd->channel);
+                    }
+            if(T_simucam.T_conf.iLog == 1){
+                vLogSend(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette,
+					p_echo_rcvd->channel, p_echo_rcvd->iTag);
+            }
 		} else {
 #if DEBUG_ON
 			fprintf(fp, "[ECHO] Echo queue error.\r\n");

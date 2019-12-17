@@ -127,6 +127,7 @@ typedef struct T_Simucam_conf {
 	INT8U b_meb_status;
 	INT8U echo_sent;
 	INT8U i_forward_data;
+    INT8U iLog;
     INT8U iPeriodicHK;
     INT32U luHKPeriod;          /* HK Timer period in centiseconds, not activated if 0 */
     INT8U usiDebugLevels;
@@ -166,6 +167,7 @@ typedef struct x_echo{
 	INT16U 	nb_imagette;
 	INT32U	simucam_time;
 	INT8U	channel;
+    INT8U   iTag[8];
 }x_echo;
 /*$PAGE*/
 
