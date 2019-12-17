@@ -358,6 +358,49 @@ void vClearRam(void){
     }
 }
 
+/**
+ * @name iCompareTags
+ * @brief Clears the RAM
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	void
+ * @retval          void
+ **/
+INT8U iCompareTags(INT8U iTagA[], INT8U iTagB[]){
+    INT8U iRetVal = 1;
+    for (INT8U i = 0; i < 8; i++)
+    {
+        if(iTagA[i] != iTagB[i]){
+            iRetVal = 0;
+            break;
+        }
+    }
+    return iRetVal;
+}
+
+/**
+ * @name vClearRam
+ * @brief Clears the RAM
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	void
+ * @retval          void
+ **/
+void vDataSelector(T_uart_payload* pPayload){
+    
+    for (INT8U i = 0; i < NB_CHANNELS; i++)
+    {
+        if(iCompareTags(pPayload->data[10], T_simucam.T_Sub[i].T_data.tag) == 1){
+            
+        }
+    }
+    
+
+
+
+}
+
+
 /*
  * Task body
  */
