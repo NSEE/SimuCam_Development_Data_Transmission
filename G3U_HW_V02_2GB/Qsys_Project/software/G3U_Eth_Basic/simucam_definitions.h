@@ -82,6 +82,7 @@
 #define HK_SIZE						30			/* HK ack size */
 #define IP_CONFIG_SIZE              30          /* Internal IP config size */
 #define ACK_SIZE                    14          /* Ack size */
+#define LOG_SIZE                    25
 
 /*
  * Error codes definitions transform into enum

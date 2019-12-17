@@ -16,10 +16,16 @@
 
 #include "echo_task.h"
 
-/*
- * Echo data creation function
- */
-
+/**
+ * @name i_echo_dataset
+ * @brief Echo SpW data to NUC
+ *
+ * @param 	[in] 	INT32U i_sim_time
+ *          [in]    INT16U i_imagette_number
+ *          [in]    INT8U i_channel
+ * 
+ * @retval void
+ **/
 void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 		INT8U i_channel) {
 	static INT8U tx_buffer[15];	//change to macro later
@@ -146,6 +152,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
         }
 #endif
     }
+    printf("%i%i", 0,0); //mock CRC
      
 /**
  * For reference only     
@@ -165,20 +172,32 @@ send CRC
 	T_simucam.T_status.TM_id++;
 }
 
+/**
+ * @name vLogSend
+ * @brief Generates and sends log to NUC
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	INT32U i_sim_time
+ *          [in]    INT16U i_imagette_number
+ *          [in]    INT8U i_channel
+ *          [in]    INT8U iTAG[]
+ * 
+ * @retval void
+ **/
 void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
 		INT8U i_channel, INT8U iTAG[]){
-    static INT8U tx_buffer[15];	//change to macro later
-
+    
+    static INT8U tx_buffer[LOG_SIZE];
 	INT32U i_mem_pointer_buffer;
 	T_Imagette *p_imagette_buffer;
-
 	INT8U i = 0;
 	INT32U nb_size;
 	INT32U nb_time = i_sim_time;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U crc = 0;
 	INT16U i_length_buffer = 0;
-
+    INT16U iImagetteNbBuffer = i_imagette_number;
+    INT16U usCRC;
 	nb_size = 0;
 
 	tx_buffer[0] = 4;
@@ -187,8 +206,51 @@ void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
 	nb_id = div(nb_id, 256).quot;
 	tx_buffer[1] = div(nb_id, 256).rem;
 
-    tx_buffer[3] = 203;
+    tx_buffer[3] = typeSentLog;
 
+    tx_buffer[4] = 0;
+    tx_buffer[5] = 0;
+    tx_buffer[6] = 0;
+    tx_buffer[7] = LOG_SIZE;
+
+    /* Timer to bytes */
+	tx_buffer[11] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[10] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[9] = div(nb_time, 256).rem;
+	nb_time = div(nb_time, 256).quot;
+	tx_buffer[8] = div(nb_time, 256).rem;
+
+    /* Channel */
+	tx_buffer[12] = i_channel;
+
+    for (INT8U y = 0; y < 8; y++)
+    {
+        tx_buffer[13 + y] = iTAG[y];
+    }
+    
+    tx_buffer[22] = div(iImagetteNbBuffer, 256).rem;
+	iImagetteNbBuffer = div(iImagetteNbBuffer, 256).quot;
+	tx_buffer[21] = div(iImagetteNbBuffer, 256).rem;
+    
+    /**
+	 * Calculating CRC
+	 */
+	usCRC = crc__CRC16CCITT(tx_buffer, LOG_SIZE - 2);
+
+	tx_buffer[24] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	tx_buffer[23] = div(usCRC, 256).rem;
+
+    /*
+     * Send Log through serial
+     */
+    for (int f = 0; f < LOG_SIZE; f++){
+		printf("%c", tx_buffer[f]);
+	}
+
+	T_simucam.T_status.TM_id++;
 }
 
 OS_EVENT *p_echo_queue;
