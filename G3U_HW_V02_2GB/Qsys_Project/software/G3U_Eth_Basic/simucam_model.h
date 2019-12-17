@@ -72,7 +72,7 @@ typedef enum {
 } TSimStates;
 
 /* Command Types */
-typedef enum { // typeConfigureMeb,
+typedef enum {
     typeConfigureSub = 101,
     typeNewData,
     typeDeleteData,
@@ -88,6 +88,22 @@ typedef enum { // typeConfigureMeb,
     typeSetPeriodicHK,
     typeReset
 } TCmdTypes;
+
+/* Internal Types */
+typedef enum {
+    typeAckInt = 201,
+    typeSentLog,
+    typeStaticIp
+
+} TCIntTypes;
+
+/* External Types */
+typedef enum {
+    typeAckExt = 201,
+    typeUpload,
+    typeSentEcho,
+    typeHK
+} TCExtTypes;
 
 /* Pointer to the start of the imagette */
 typedef struct T_imagette {

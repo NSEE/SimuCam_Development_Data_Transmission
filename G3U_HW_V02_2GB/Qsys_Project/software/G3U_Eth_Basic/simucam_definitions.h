@@ -80,6 +80,7 @@
 #define TIMER_CLOCK_DIV_1MS			99999		/*Timer div for 1ms clock*/
 
 #define HK_SIZE						30			/* HK ack size */
+#define IP_CONFIG_SIZE              30          /* Internal IP config size */
 #define ACK_SIZE                    14          /* Ack size */
 
 /*
