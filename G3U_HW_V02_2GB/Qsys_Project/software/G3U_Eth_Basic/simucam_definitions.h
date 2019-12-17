@@ -80,9 +80,11 @@
 #define TIMER_CLOCK_DIV_1MS			99999		/*Timer div for 1ms clock*/
 
 #define HK_SIZE						30			/* HK ack size */
+#define IP_CONFIG_SIZE              30          /* Internal IP config size */
+#define ACK_SIZE                    14          /* Ack size */
+
 /*
  * Error codes definitions transform into enum
- * TODO: Convert to enum
  */
 typedef enum {
     xAckOk = 0,
@@ -95,7 +97,8 @@ typedef enum {
     xTimerError,
     xParserError,
     xEchoError,
-    xOSError
+    xOSError,
+    xCRCError
 } xErrorTypes;
 
 #define ACK_OK						0

@@ -72,7 +72,7 @@ typedef enum {
 } TSimStates;
 
 /* Command Types */
-typedef enum { // typeConfigureMeb,
+typedef enum {
     typeConfigureSub = 101,
     typeNewData,
     typeDeleteData,
@@ -89,10 +89,27 @@ typedef enum { // typeConfigureMeb,
     typeReset
 } TCmdTypes;
 
+/* Internal Types */
+typedef enum {
+    typeAckInt = 201,
+    typeSentLog,
+    typeStaticIp
+
+} TCIntTypes;
+
+/* External Types */
+typedef enum {
+    typeAckExt = 201,
+    typeUpload,
+    typeSentEcho,
+    typeHK
+} TCExtTypes;
+
+/* Pointer to the start of the imagette */
 typedef struct T_imagette {
 	INT32U offset; /* In miliseconds*/
 	INT16U imagette_length; /* length of N imagette */
-	INT8U imagette_start; /*Pointer to de DDR2 address*/
+	INT8U imagette_start; /* Value of the first byte in the imagette */
 } T_Imagette;
 
 typedef struct T_dataset {
@@ -159,7 +176,7 @@ typedef struct T_uart_payload {
 	INT32U size;					/* Size pre-computed in function */
 	INT8U data[PAYLOAD_DATA_SIZE];	/* Data array */
 	INT16U crc;						/* We will use the CCITT-CRC, that is also used in the PUS protocol */
-
+    INT16U luCRCPartial;            /* Buffer to calculate the CRC */
 
 }T_uart_payload;
 

@@ -40,89 +40,23 @@ T_Simucam T_simucam;
 TDschChannel xSimucamTimer;
 
 /**
- * @name long_to_int
- * @brief transforms an int to a byte array
- * @ingroup UTIL
- *
- * @param 	[in]	int 	number
- * @param	[in]	int 	number of bytes
- * @param	[in]	INT8U	*destination array
- *
- * @retval INT16U crc
- **/
-
-void long_to_int(int nb, int nb_bytes, INT8U* p_destination) {
-//	def long_to_bytes(nb,n_bytes):
-//	    p=0
-//	    size = []
-//	    while p < n_bytes:
-//	        buff = nb//256
-//	        size.append(nb%256)
-//	        nb = buff
-//	        p+=1
-//	    return size[::-1]
-
-	int p = nb_bytes;
-	int k = 0;
-	INT8U byte_buffer[nb_bytes];
-	INT32U i_buffer;
-	p_destination += nb_bytes;
-
-#if DEBUG_ON
-	fprintf(fp, "[longtoint]teste chegada: %i\r\n", (INT8U) *p_destination);
-#endif
-
-	while (p != 0) {
-//		i_buffer = div(nb, 256).quot;
-		*p_destination = div(nb, 256).rem;
-//		byte_buffer[p] = div(nb, 256).rem;
-		nb = div(nb, 256).quot;
-		p_destination--;
-		p--;
-	}
-#if DEBUG_ON
-	fprintf(fp, "[LongToInt]Final Bytes ");
-#endif
-//	k = nb_bytes;
-//	while (k != 0) {
-//		*p_destination = byte_buffer[k];
-//#if DEBUG_ON
-//		fprintf(fp, "%i ",(INT8U) *p_destination);
-//#endif
-//		fprintf(fp, "%i \r\n", (INT8U) *p_destination);
-//		p_destination++;
-//		k--;
-//	}
-#if DEBUG_ON
-	fprintf(fp, "\r\n");
-
-	fprintf(fp, "[LongToInt]Byte buffer ");
-	for (p = 0; p < nb_bytes; p++) {
-		fprintf(fp, "%i ", byte_buffer[p]);
-	}
-	fprintf(fp, "\r\n");
-#endif
-}
-
-/**
  * @name v_ack_creator
- * @brief Computes the size of the payload
+ * @brief External Comm ACK generator
  * @ingroup UTIL
  *
- * This routine computes the size of the payload based in the received
- * string via ethernet telnet. Depending on the command protocol, there is an
- * offset to read the good values. It can be changed in the header file. All the
- * byte as supposed to be in ASCII form.
- *
- * @param 	[in] 	*INT8U Data array
- * @retval INT32U size
+ * @param 	[in] 	T_uart_payload* payload Struct
+ * @param 	[in] 	INT8U error_code
+ * @retval  void
  **/
-void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
+void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_id_pkt = p_error_response->packet_id;
 	INT8U ack_buffer[64];
 	INT32U ack_size = 14;
+    INT16U usCRC = 0;
+
+    /* memset buffer */
 #if DEBUG_ON
 	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
 #endif
@@ -135,9 +69,7 @@ void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
 	nb_id = div(nb_id, 256).quot;
 	ack_buffer[1] = div(nb_id, 256).rem;
 
-//	p_error_response->data[1] = 0;
-//	p_error_response->data[2] = i_id_accum;
-	ack_buffer[3] = 201;
+	ack_buffer[3] = typeAckExt;
 	ack_buffer[4] = 0;
 	ack_buffer[5] = 0;
 	ack_buffer[6] = 0;
@@ -150,44 +82,109 @@ void v_ack_creator(T_uart_payload* p_error_response, int error_code) {
 	nb_id_pkt = div(nb_id_pkt, 256).quot;
 	ack_buffer[8] = div(nb_id_pkt, 256).rem;
 
-//	p_error_response->data[8] = 0;
-//	p_error_response->data[9] = p_error_response->packet_id;
-
 	ack_buffer[10] = p_error_response->type;
 	ack_buffer[11] = error_code;
-	ack_buffer[12] = 0;
-	ack_buffer[13] = 89;
-//	p_error_response->size = 14;
+	
+    /**
+     * Calculate and add CRC
+     */
+    usCRC = crc__CRC16CCITT(ack_buffer, 12);
+
+    ack_buffer[13] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	ack_buffer[12] = div(usCRC, 256).rem;
 
 	for (int f = 0; f < ack_size; f++){
 		printf("%c", ack_buffer[f]);
 	}
-//	send(conn.fd, ack_buffer, ack_size, 0);
-//	printf("%s", &ack_buffer);
-//	printf("ack");
 
 	T_simucam.T_status.TM_id++;
 }
 
-/*
- * TODO remove pointer ref
+
+/**
+ * @name v_ack_int
+ * @brief Internal Comm ACK generator
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	T_uart_payload* payload Struct
+ * @param 	[in] 	INT8U error_code
  * 
- * adjust HK to serial
- */
+ * @retval void
+ **/
+void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
+
+	INT16U nb_id = T_simucam.T_status.TM_id;
+	INT16U nb_id_pkt = p_error_response->packet_id;
+	INT8U ack_buffer[64];
+	INT32U ack_size = 14;
+    INT16U usCRC = 0;
+
+    /* memset buffer */
+#if DEBUG_ON
+	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
+#endif
+	ack_buffer[0] = 4;
+
+	/*
+	 * Id to bytes
+	 */
+	ack_buffer[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	ack_buffer[1] = div(nb_id, 256).rem;
+
+	ack_buffer[3] = typeAckInt;
+	ack_buffer[4] = 0;
+	ack_buffer[5] = 0;
+	ack_buffer[6] = 0;
+	ack_buffer[7] = 14;
+
+	/*
+	 * Packet id to bytes
+	 */
+	ack_buffer[9] = div(nb_id_pkt, 256).rem;
+	nb_id_pkt = div(nb_id_pkt, 256).quot;
+	ack_buffer[8] = div(nb_id_pkt, 256).rem;
+
+	ack_buffer[10] = p_error_response->type;
+	ack_buffer[11] = error_code;
+	
+    /**
+     * Calculate and add CRC
+     */
+    usCRC = crc__CRC16CCITT(ack_buffer, 12);
+
+    ack_buffer[13] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	ack_buffer[12] = div(usCRC, 256).rem;
+
+	for (int f = 0; f < ack_size; f++){
+		printf("%c", ack_buffer[f]);
+	}
+
+	T_simucam.T_status.TM_id++;
+}
+
+
+/**
+ * @name v_HK_creator
+ * @brief HK generator
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	INT8U Channel
+ * 
+ * @retval void
+ **/
 void v_HK_creator(INT8U i_channel) {
 
 	INT8U chann_buff = i_channel;
-	INT16U crc;
+	INT16U usCRC;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_counter_total = T_simucam.T_status.simucam_total_imagettes_sent;
 	INT16U nb_counter_current =
 			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
 	INT16U imagettes_to_send =
 			T_simucam.T_Sub[chann_buff].T_data.nb_of_imagettes;
-	/*
-	 * TODO
-	 * Rearrange HK data, for the total amounts and etc
-	 */
 	INT8U hk_buffer[HK_SIZE];
 	bool b_link_enabled = false;
 
@@ -217,11 +214,11 @@ void v_HK_creator(INT8U i_channel) {
 	nb_id = div(nb_id, 256).quot;
 	hk_buffer[1] = div(nb_id, 256).rem;
 
-	hk_buffer[3] = 204;
+	hk_buffer[3] = typeHK;
 	hk_buffer[4] = 0;
 	hk_buffer[5] = 0;
 	hk_buffer[6] = 0;
-	hk_buffer[7] = 30;
+	hk_buffer[7] = HK_SIZE;
 	hk_buffer[8] = chann_buff; /**channel*/
 	hk_buffer[9] = T_simucam.T_status.simucam_mode; /**meb mode*/
 	hk_buffer[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
@@ -258,17 +255,15 @@ void v_HK_creator(INT8U i_channel) {
 	hk_buffer[27] = div(imagettes_to_send, 256).rem;
 	imagettes_to_send = div(imagettes_to_send, 256).quot;
 	hk_buffer[26] = div(imagettes_to_send, 256).rem;
-	//p_HK->size = 30;
 
 	/**
 	 * Calculating CRC
-     * TODO
 	 */
-	crc = crc16(&hk_buffer, HK_SIZE);
+	usCRC = crc__CRC16CCITT(hk_buffer, HK_SIZE - 2);
 
-	hk_buffer[29] = div(crc, 256).rem;
-	crc = div(crc, 256).quot;
-	hk_buffer[28] = div(crc, 256).rem;
+	hk_buffer[29] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	hk_buffer[28] = div(usCRC, 256).rem;
     
     /*
      * Send HK through serial
@@ -280,26 +275,87 @@ void v_HK_creator(INT8U i_channel) {
 	T_simucam.T_status.TM_id++;
 
 }
+
 /**
- * @name i_compute_size
- * @brief Computes the size of the payload
+ * @name vSendETHConfig
+ * @brief Send the SD Card eth conf to NUC
  * @ingroup UTIL
  *
- * This routine computes the size of the payload based in the received
- * string via ethernet telnet. Depending on the command protocol, there is an
- * offset to read the good values. It can be changed in the header file. All the
- * byte as supposed to be in ASCII form.
- *
- * @param 	[in] 	*INT8U Data array
- * @retval INT32U size
+ * @param 	[in] 	TConfEth xEthConf
+ * @retval          void
  **/
-INT32U i_compute_size(INT8U *p_length) {
-	INT32U size = 0;
-	size = toInt(p_length[3 + LENGTH_OFFSET])
-			+ 256 * toInt(p_length[2 + LENGTH_OFFSET])
-			+ 65536 * toInt(p_length[1 + LENGTH_OFFSET])
-			+ 4294967296 * toInt(p_length[LENGTH_OFFSET]);
-	return size;
+void vSendETHConfig(TConfEth xEthConf){
+    INT8U iETHBuffer[32];
+    INT16U nb_id = T_simucam.T_status.TM_id;
+    INT16U usCRC;
+
+    /* Header */
+    iETHBuffer[0] = 4;
+    
+    /*
+	 * Id to bytes
+	 */
+	iETHBuffer[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	iETHBuffer[1] = div(nb_id, 256).rem;
+
+    iETHBuffer[3] = typeStaticIp;
+
+    /* Length */
+    iETHBuffer[4] = 0;
+	iETHBuffer[5] = 0;
+	iETHBuffer[6] = 0;
+	iETHBuffer[7] = IP_CONFIG_SIZE;
+
+    iETHBuffer[8] = 1;
+    iETHBuffer[9] = xEthConf.siPort;
+    for (INT8U h = 0; h < 4; h++)
+    {
+        iETHBuffer[10 + h] = xEthConf.ucIP[h];
+        iETHBuffer[14 + h] = xEthConf.ucGTW[h];
+        iETHBuffer[18 + h] = xEthConf.ucGTW[h];
+    }
+
+    for (INT8U f = 0; f < 6; f++)
+    {
+        iETHBuffer[22 + f] = xEthConf.ucMAC[f];
+    }
+    usCRC = crc__CRC16CCITT(iETHBuffer, IP_CONFIG_SIZE - 2);
+
+    iETHBuffer[29] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	iETHBuffer[28] = div(usCRC, 256).rem;
+
+    /*
+     * Send Eth Config through serial
+     */
+    for (int f = 0; f < IP_CONFIG_SIZE; f++){
+		printf("%c", iETHBuffer[f]);
+	}
+    T_simucam.T_status.TM_id++;
+}
+
+/**
+ * @name vClearRam
+ * @brief Clears the RAM
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	void
+ * @retval          void
+ **/
+void vClearRam(void){
+    for (INT8U s = 0; s < NB_CHANNELS; s++)
+    {
+        /*
+        * Switch to the right memory stick
+        */
+        if (((unsigned char) s / 4) == 0) {
+            bDdr2SwitchMemory(DDR2_M1_ID);
+        } else {
+            bDdr2SwitchMemory(DDR2_M2_ID);
+        }  
+        memset((INT32U) T_simucam.T_Sub[s].T_data.addr_init, 0, (0x20000000 - 1));
+    }
 }
 
 /*
@@ -388,13 +444,13 @@ void CommandManagementTask() {
                 fprintf(fp, "[CommandManagementTask]Init\r\n");
             }
 #endif
-//			data[0] = 33;
-//			long_to_int(350, 2, &data);
-//			fprintf(fp, "[CommandManagementTask]test long to int: %i %i\r\n",
-//					data[0], data[1]);
+
+            /* Send ETH settings to NUC */
+            vSendETHConfig(xConfEth);
 
 			/*
 			 * Configuring done inside the sub-unit modules
+             * TODO Function
 			 */
 			for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
 					i_channel_for++) {
@@ -439,7 +495,7 @@ void CommandManagementTask() {
 			 * Sub-Unit config command
 			 * char: e
 			 */
-			case 101:
+			case typeConfigureSub:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
@@ -473,23 +529,12 @@ void CommandManagementTask() {
 				break;
 
 				/*
-				 * Delete Data
-				 * NUC
-				 * char: g
-				 */
-			case 103:
-
-				v_ack_creator(p_payload, xNotImplemented);
-
-				break;
-
-				/*
 				 * Select data to send
 				 * TODO Assign the memory spaces to the data
 				 * instead of the sub
 				 * char: h
 				 */
-			case 104:
+			case typeSelectDataToSend:
 
 				v_ack_creator(p_payload, xNotImplemented);
 
@@ -499,7 +544,7 @@ void CommandManagementTask() {
 				 * Change Simucam Modes
 				 * char: i
 				 */
-			case 105:
+			case typeChangeSimucamMode:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
@@ -520,9 +565,6 @@ void CommandManagementTask() {
 					T_simucam.T_status.simucam_mode = simModetoRun;
 				}
 
-				/* Change to beggining of run */
-				// v_ack_creator(p_payload, xAckOk);
-
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
@@ -533,9 +575,12 @@ void CommandManagementTask() {
 				/*
 				 * Clear RAM
 				 */
-			case 108:
-
-				v_ack_creator(p_payload, xNotImplemented);
+			case typeClearRam:
+                if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                        fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
+                    }
+                vClearRam();
+				v_ack_creator(p_payload, xAckOk);
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                         fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
@@ -546,7 +591,7 @@ void CommandManagementTask() {
 				/*
 				 * Get HK
 				 */
-			case 110:
+			case typeGetHK:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Get HK\r\n");
@@ -641,12 +686,11 @@ void CommandManagementTask() {
                     fprintf(fp, "[CommandManagementTask]Command not identified...\n\r");
                 }
 #endif
-
-				if (p_payload->type == 106 || p_payload->type == 106
-						|| p_payload->type == 107 || p_payload->type == 109) {
-					v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+				if (p_payload->type == typeStartSending || p_payload->type == typeAbortSending 
+                            || p_payload->type == typeDirectSend) {
+					v_ack_creator(p_payload, xCommandNotAccepted);
 				} else {
-					v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+					v_ack_creator(p_payload, xCommandNotFound);
 				}
 
 				break;
@@ -692,7 +736,7 @@ void CommandManagementTask() {
 			/*
 			 * SYNC cmd
 			 */
-			if (p_payload->type == 106) {
+			if (p_payload->type == typeStartSending) {
 
 				bSyncCtrOneShot();
 
@@ -710,7 +754,7 @@ void CommandManagementTask() {
 				/*
 				 * Change Simucam Mode
 				 */
-				case 105:
+				case typeChangeSimucamMode:
 
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]MEB status to: %i\r\n",
@@ -766,7 +810,7 @@ void CommandManagementTask() {
 					/*
 					 * Abort Sending
 					 */
-				case 107:
+				case typeAbortSending:
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Selected command: %i\n\r",
 							(int) p_payload->type);
@@ -791,7 +835,7 @@ void CommandManagementTask() {
 					/*
 					 * Direct send
 					 */
-				case 109:
+				case typeDirectSend:
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Direct Send to %c\n\r",
 							(char) (p_payload->data[0] + ASCII_A));
@@ -799,13 +843,13 @@ void CommandManagementTask() {
 					/*
 					 * Direct Send needs replaning
 					 */
-                    v_ack_creator(p_payload, xCommandNotFound);
+                    v_ack_creator(p_payload, xNotImplemented);
 					break;
 
 					/*
 					 * Get HK
 					 */
-				case 110:
+				case typeGetHK:
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Get HK\r\n");
 #endif
@@ -817,13 +861,13 @@ void CommandManagementTask() {
 					fprintf(fp, 
 							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
-					if (p_payload->type == 101 || p_payload->type == 102
-							|| p_payload->type == 103 || p_payload->type == 104
-							|| p_payload->type == 108
-							|| p_payload->type == 111) {
-						v_ack_creator(p_payload, COMMAND_NOT_ACCEPTED);
+					if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData
+							|| p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
+							|| p_payload->type == typeClearRam
+							|| p_payload->type == typeConfigureMeb) {
+						v_ack_creator(p_payload, xCommandNotAccepted);
 					} else {
-						v_ack_creator(p_payload, COMMAND_NOT_FOUND);
+						v_ack_creator(p_payload, xCommandNotFound);
 					}
 					break;
 
