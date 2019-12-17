@@ -35,6 +35,8 @@ architecture RTL of uart_rx_ent is
 
 	signal s_uart_rx_delayed : std_logic;
 
+	signal s_receiving : std_logic;
+
 begin
 
 	p_uart_rx : process(clk_i, rst_i) is
@@ -49,6 +51,7 @@ begin
 			s_data_word_cnt       <= 0;
 			s_baud_rate_cnt       <= (others => '0');
 			s_uart_rx_delayed     <= '0';
+			s_receiving           <= '0';
 			-- outputs reset
 			uart_rx_fifo_wrreq_o  <= '0';
 			uart_rx_fifo_wrdata_o <= (others => '0');
@@ -61,7 +64,7 @@ begin
 				-- reset the baud rate counter
 				s_baud_rate_cnt <= (others => '0');
 			-- check if the baud rate counter is going to overflow 
-			elsif (s_baud_rate_cnt = c_UART_RX_BAUD_RATE_DIV) then
+			elsif (unsigned(s_baud_rate_cnt) = (unsigned(c_UART_RX_BAUD_RATE_DIV) - 1)) then
 				-- baud rate counter is going to overflow
 				-- reset the baud rate counter
 				s_baud_rate_cnt <= (others => '0');
@@ -86,14 +89,24 @@ begin
 					s_data_word     <= (others => '0');
 					s_data_word_cnt <= 0;
 					-- conditional state transition
-					-- check if it it data sampling time
-					if (unsigned(s_baud_rate_cnt) = unsigned(c_UART_RX_BAUD_RATE_DIV) / 2) then
-						-- data sampling time
-						-- check if a start bit was received
-						if (uart_rx_i = '0') then
-							-- start bit received, go to data bits processing
-							s_uart_tx_state <= DATA_BITS;
-							v_uart_tx_state := DATA_BITS;
+					-- check if in receiving
+					if (s_receiving = '0') then
+						-- not receiving, check is a start condition ocurred (falling edge)
+						if ((uart_rx_i = '0') and (s_uart_rx_delayed = '1')) then
+							-- enter in receiving
+							s_receiving <= '1';
+						end if;
+					else
+						-- receiving, check if it it data sampling time	
+						if (unsigned(s_baud_rate_cnt) = unsigned(c_UART_RX_BAUD_RATE_DIV) / 2) then
+							-- data sampling time
+							-- check if a start bit was received
+							if (uart_rx_i = '0') then
+								-- start bit received, go to data bits processing
+								s_uart_tx_state <= DATA_BITS;
+								v_uart_tx_state := DATA_BITS;
+								s_receiving           <= '0';
+							end if;
 						end if;
 					end if;
 
@@ -128,8 +141,10 @@ begin
 				when STOP_BIT =>
 					-- uart rx stop bit reception
 					-- default state transition
-					s_uart_tx_state <= START_BIT;
-					v_uart_tx_state := START_BIT;
+					s_uart_tx_state       <= START_BIT;
+					v_uart_tx_state       := START_BIT;
+					uart_rx_fifo_wrreq_o  <= '1';
+					uart_rx_fifo_wrdata_o <= s_data_word;
 					-- conditional state transition
 					-- check if it it data sampling time
 					if (unsigned(s_baud_rate_cnt) = (unsigned(c_UART_RX_BAUD_RATE_DIV) / 2)) then
@@ -172,8 +187,8 @@ begin
 				when STOP_BIT =>
 					-- uart rx stop bit reception
 					-- default output signals
-					uart_rx_fifo_wrreq_o  <= '1';
-					uart_rx_fifo_wrdata_o <= s_data_word;
+					--					uart_rx_fifo_wrreq_o  <= '1';
+					--					uart_rx_fifo_wrdata_o <= s_data_word;
 					-- conditional output signals
 
 			end case;

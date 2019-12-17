@@ -55,7 +55,7 @@ begin
 
 			-- Baud Rate generation
 			-- check if the baud rate counter is going to overflow 
-			if (s_baud_rate_cnt = c_UART_TX_BAUD_RATE_DIV) then
+			if (unsigned(s_baud_rate_cnt) = (unsigned(c_UART_TX_BAUD_RATE_DIV) - 1)) then
 				-- baud rate counter is going to overflow
 				-- reset the baud rate counter
 				s_baud_rate_cnt <= (others => '0');
@@ -77,7 +77,6 @@ begin
 					-- default internal signal values
 					uart_tx_o            <= '1';
 					uart_tx_fifo_rdreq_o <= '0';
-					s_data_word          <= (others => '0');
 					s_data_word_cnt      <= 0;
 					-- conditional state transition
 					-- check it is not in the middle of a transmission
@@ -101,7 +100,7 @@ begin
 						-- in the middle of a transmission
 						uart_tx_o <= '0';
 						-- check if it it data transmission time
-						if (s_baud_rate_cnt = c_UART_tx_BAUD_RATE_DIV) then
+						if (unsigned(s_baud_rate_cnt) = (unsigned(c_UART_TX_BAUD_RATE_DIV) - 1)) then
 							-- data transmission time
 							-- clear transmission
 							s_transmitting  <= '0';
@@ -122,7 +121,7 @@ begin
 					uart_tx_o            <= s_data_word(s_data_word_cnt);
 					-- conditional state transition
 					-- check if it it data transmission time
-					if (s_baud_rate_cnt = c_UART_tx_BAUD_RATE_DIV) then
+					if (unsigned(s_baud_rate_cnt) = (unsigned(c_UART_TX_BAUD_RATE_DIV) - 1)) then
 						-- data transmission time
 						-- check if the data word ended
 						if (s_data_word_cnt = (c_UART_tx_DATA_SIZE - 1)) then
@@ -145,11 +144,12 @@ begin
 					-- default state transition
 					s_uart_tx_state <= STOP_BIT;
 					v_uart_tx_state := STOP_BIT;
+					s_data_word     <= (others => '0');
 					-- send a stop bit
 					uart_tx_o       <= '1';
 					-- conditional state transition
 					-- check if it it data transmission time
-					if (s_baud_rate_cnt = c_UART_tx_BAUD_RATE_DIV) then
+					if (unsigned(s_baud_rate_cnt) = (unsigned(c_UART_TX_BAUD_RATE_DIV) - 1)) then
 						-- data transmission time
 						-- go to start bit
 						s_uart_tx_state <= START_BIT;
@@ -163,34 +163,34 @@ begin
 
 			end case;
 
---			-- Output generation FSM
---			case (v_uart_tx_state) is
---
---				-- state "START_BIT"
---				when START_BIT =>
---					-- uart tx waiting for start bit
---					-- default output signals
---					uart_tx_fifo_rdreq_o <= '0';
---					uart_tx_fifo_data_o  <= (others => '0');
---				-- conditional output signals
---
---				-- state "DATA_BITS"
---				when DATA_BITS =>
---					-- uart tx data bits reception
---					-- default output signals
---					uart_tx_fifo_rdreq_o <= '0';
---					uart_tx_fifo_data_o  <= (others => '0');
---				-- conditional output signals
---
---				-- state "STOP_BIT"
---				when STOP_BIT =>
---					-- uart tx stop bit reception
---					-- default output signals
---					uart_tx_fifo_rdreq_o <= '1';
---					uart_tx_fifo_data_o  <= s_data_word;
---					-- conditional output signals
---
---			end case;
+			--			-- Output generation FSM
+			--			case (v_uart_tx_state) is
+			--
+			--				-- state "START_BIT"
+			--				when START_BIT =>
+			--					-- uart tx waiting for start bit
+			--					-- default output signals
+			--					uart_tx_fifo_rdreq_o <= '0';
+			--					uart_tx_fifo_data_o  <= (others => '0');
+			--				-- conditional output signals
+			--
+			--				-- state "DATA_BITS"
+			--				when DATA_BITS =>
+			--					-- uart tx data bits reception
+			--					-- default output signals
+			--					uart_tx_fifo_rdreq_o <= '0';
+			--					uart_tx_fifo_data_o  <= (others => '0');
+			--				-- conditional output signals
+			--
+			--				-- state "STOP_BIT"
+			--				when STOP_BIT =>
+			--					-- uart tx stop bit reception
+			--					-- default output signals
+			--					uart_tx_fifo_rdreq_o <= '1';
+			--					uart_tx_fifo_data_o  <= s_data_word;
+			--					-- conditional output signals
+			--
+			--			end case;
 
 		end if;
 	end process p_uart_tx;

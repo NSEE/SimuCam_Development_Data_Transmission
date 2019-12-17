@@ -52,7 +52,7 @@ begin
 					avalon_mm_address_o   <= std_logic_vector(to_unsigned(16#01#, g_ADDRESS_WIDTH));
 					avalon_mm_write_o     <= '1';
 					avalon_mm_writedata_o <= (others => '0');
-					avalon_mm_writedata_o <= x"89ABCDEF";
+					avalon_mm_writedata_o <= x"AAAAAAAA";
 
 				when 350 to 351 =>
 					-- register write

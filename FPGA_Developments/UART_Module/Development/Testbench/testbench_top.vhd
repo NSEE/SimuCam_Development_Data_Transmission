@@ -12,6 +12,10 @@ architecture RTL of testbench_top is
 	signal rst   : std_logic := '1';
 
 	-- dut signals
+	signal br115200 : std_logic := '0';
+	signal brdelay1  : std_logic := '1';
+	signal brdelay2  : std_logic := '0';
+	signal brsignal : std_logic := '1';
 
 	-- config_avalon_stimuli signals
 	signal s_config_avalon_stimuli_mm_readdata    : std_logic_vector(31 downto 0); -- -- avalon_mm.readdata
@@ -25,6 +29,11 @@ begin
 
 	clk50 <= not clk50 after 10 ns;     -- 50 MHz
 	rst   <= '0' after 100 ns;
+
+	br115200 <= not br115200 after 8680.56 ns; -- 115200 bps
+	brdelay1  <= '0' after 34722240 ps;
+	brdelay2  <= '1' after 121527840 ps;
+	brsignal <= (br115200) or (brdelay1) or (brdelay2);
 
 	config_avalon_stimuli_inst : entity work.config_avalon_stimuli
 		generic map(
@@ -47,7 +56,7 @@ begin
 			reset_sink_reset         => rst,
 			clock_sink_clk           => clk50,
 			uart_txd                 => open,
-			uart_rxd                 => '1',
+			uart_rxd                 => brsignal,
 			uart_rts                 => '1',
 			uart_cts                 => open,
 			avalon_slave_address     => s_config_avalon_stimuli_mm_address,
