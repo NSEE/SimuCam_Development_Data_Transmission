@@ -127,7 +127,27 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
 		INT8U i_channel, INT8U iTAG[]){
+    static INT8U tx_buffer[15];	//change to macro later
 
+	INT32U i_mem_pointer_buffer;
+	T_Imagette *p_imagette_buffer;
+
+	INT8U i = 0;
+	INT32U nb_size;
+	INT32U nb_time = i_sim_time;
+	INT16U nb_id = T_simucam.T_status.TM_id;
+	INT16U crc = 0;
+	INT16U i_length_buffer = 0;
+
+	nb_size = 0;
+
+	tx_buffer[0] = 4;
+
+	tx_buffer[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	tx_buffer[1] = div(nb_id, 256).rem;
+
+    tx_buffer[3] = 203;
 
 }
 
