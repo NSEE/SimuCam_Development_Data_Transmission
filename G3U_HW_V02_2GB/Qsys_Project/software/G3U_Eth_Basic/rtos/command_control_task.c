@@ -827,6 +827,7 @@ void CommandManagementTask() {
 						 */
 						error_code = bDschStopTimer(&xSimucamTimer);
                         if(error_code != OS_NO_ERR){
+                        	printf("simucam timer prob \n");
                             v_ack_creator(p_payload, xTimerError);
                         }
 						/*
@@ -834,29 +835,33 @@ void CommandManagementTask() {
 						 */
 						for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
 								i_channel_for++) {
-
-							error_code = bDschStopTimer(
-									&(xCh[i_channel_for].xDataScheduler));
-                            if(error_code != OS_NO_ERR){
-                                v_ack_creator(p_payload, xTimerError);
-                            }
-							error_code = bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
-							if(error_code != OS_NO_ERR){
-                                v_ack_creator(p_payload, xTimerError);
-                            }
-                            sub_config_send[i_channel_for].mode = subChangeMode;
-							error_code = OSQPost(
-									p_sub_unit_config_queue[i_channel_for],
-									&sub_config_send[i_channel_for]);
-                            if(error_code != OS_NO_ERR){
-                                v_ack_creator(p_payload, xOSError);
-                            }
-                        }
-
+							if(T_simucam.T_Sub[i_channel_for].T_conf.mode == 1 ||
+									T_simucam.T_Sub[i_channel_for].T_conf.mode == 4){
+								error_code = bDschStopTimer(
+										&(xCh[i_channel_for].xDataScheduler));
+								if(error_code != OS_NO_ERR){
+									printf("problem sub %i\n", i_channel_for);
+									v_ack_creator(p_payload, xTimerError);
+								}
+								error_code = bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
+								if(error_code != OS_NO_ERR){
+									printf("problem sub %i\n", i_channel_for);
+									v_ack_creator(p_payload, xTimerError);
+								}
+								sub_config_send[i_channel_for].mode = subChangeMode;
+								error_code = OSQPost(
+										p_sub_unit_config_queue[i_channel_for],
+										&sub_config_send[i_channel_for]);
+								if(error_code != OS_NO_ERR){
+									printf("problem sub %i\n", i_channel_for);
+									v_ack_creator(p_payload, xOSError);
+								}
+							}
+						}
+						if (error_code == OS_NO_ERR){
+	                        v_ack_creator(p_payload, xAckOk);
+	                    }
 					}
-					if (error_code == OS_NO_ERR){
-                        v_ack_creator(p_payload, xAckOk);
-                    }
 					break;
 
 					/*

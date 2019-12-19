@@ -379,6 +379,39 @@ void vCmdParser(T_uart_payload *pUartPayload){
 #if DEBUG_ON
         fprintf(fp, "[vCmdParser DEBUG]finished receiving.\n");
 #endif
+
+    }else if(pUartPayload->size == PAYLOAD_OVERHEAD){
+
+        /* Get CRC from RS232 */
+        luGetSerial((INT8U *)&cBuff, 2);
+
+        pUartPayload->crc = cBuff[1] + 256 * cBuff[0];
+
+#if DEBUG_ON
+        fprintf(fp, "[vCmdParser DEBUG]Received CRC = %lu\n",
+                (INT16U) pUartPayload->crc);
+#endif
+        /* Check CRC */
+        if(pUartPayload->crc == pUartPayload->luCRCPartial){
+#if DEBUG_ON
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+            fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
+        }
+#endif
+            v_ack_creator(pUartPayload, xAckOk);
+        } else {
+
+#if DEBUG_ON
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
+            fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
+        }
+#endif
+            v_ack_creator(pUartPayload, xCRCError);
+        }
+
+#if DEBUG_ON
+        fprintf(fp, "[vCmdParser DEBUG]finished receiving.\n");
+#endif
     } else{
         v_ack_creator(pUartPayload, xParserError);
 #if DEBUG_ON
