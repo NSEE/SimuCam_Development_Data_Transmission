@@ -56,7 +56,7 @@ begin
 				when (16#01#) =>
 					write_registers_o.uart_tx_wrdata <= avalon_mm_i.writedata(7 downto 0);
 
-				when (16#03#) =>
+				when (16#04#) =>
 					write_registers_o.uart_rx_rdreq <= avalon_mm_i.writedata(0);
 
 				when others =>

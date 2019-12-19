@@ -716,7 +716,8 @@ FAN_CTRL <= '1';
 
 -- LEDs assumem estado diferente no rst.
 
-LED_DE4(0) <= ('1') when (rst = '0') else (leds_b(0));
+--LED_DE4(0) <= ('1') when (rst = '0') else (leds_b(0));
+LED_DE4(0) <= I_RS232_UART_RXD;
 LED_DE4(1) <= ('1') when (rst = '0') else (leds_b(1));
 LED_DE4(2) <= ('1') when (rst = '0') else (leds_b(2));
 LED_DE4(3) <= ('1') when (rst = '0') else (leds_b(3));

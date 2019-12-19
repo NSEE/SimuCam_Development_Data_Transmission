@@ -7,7 +7,7 @@ package avalon_mm_registers_pkg is
 
 	-- Allowed Addresses
 	constant c_AVALON_MM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-	constant c_AVALON_MM_MAX_ADDR : natural range 0 to 255 := 16#05#;
+	constant c_AVALON_MM_MAX_ADDR : natural range 0 to 255 := 16#07#;
 
 	-- Registers Types
 
@@ -23,8 +23,10 @@ package avalon_mm_registers_pkg is
 	-- Avalon MM Read-Only Registers
 	type t_read_registers is record
 		uart_tx_full   : std_logic;
+		uart_tx_usedw  : std_logic_vector(14 downto 0);
 		uart_rx_empty  : std_logic;
 		uart_rx_rddata : std_logic_vector(7 downto 0);
+		uart_rx_usedw  : std_logic_vector(14 downto 0);
 	end record t_read_registers;
 
 end package avalon_mm_registers_pkg;

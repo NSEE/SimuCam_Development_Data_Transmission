@@ -38,13 +38,19 @@ begin
 					avalon_mm_o.readdata(0) <= read_registers_i.uart_tx_full;
 
 				when (16#03#) =>
-					avalon_mm_o.readdata(0) <= write_registers_i.uart_rx_rdreq;
+					avalon_mm_o.readdata(14 downto 0) <= read_registers_i.uart_tx_usedw;
 
 				when (16#04#) =>
-					avalon_mm_o.readdata(0) <= read_registers_i.uart_rx_empty;
+					avalon_mm_o.readdata(0) <= write_registers_i.uart_rx_rdreq;
 
 				when (16#05#) =>
+					avalon_mm_o.readdata(0) <= read_registers_i.uart_rx_empty;
+
+				when (16#06#) =>
 					avalon_mm_o.readdata(7 downto 0) <= read_registers_i.uart_rx_rddata;
+
+				when (16#07#) =>
+					avalon_mm_o.readdata(14 downto 0) <= read_registers_i.uart_rx_usedw;
 
 				when others =>
 					-- No register associated to the address, return with 0x00000000

@@ -86,7 +86,7 @@ begin
 			empty => s_tx_data_fifo_empty,
 			full  => s_read_registers.uart_tx_full,
 			q     => s_tx_data_fifo_rddata,
-			usedw => open
+			usedw => s_read_registers.uart_tx_usedw
 		);
 
 	rx_data_fifo_sc_fifo_inst : entity work.data_fifo_sc_fifo
@@ -100,7 +100,7 @@ begin
 			empty => s_read_registers.uart_rx_empty,
 			full  => s_rx_data_fifo_full,
 			q     => s_read_registers.uart_rx_rddata,
-			usedw => open
+			usedw => s_read_registers.uart_rx_usedw
 		);
 
 	uart_tx_ent_inst : entity work.uart_tx_ent

@@ -30,10 +30,13 @@ begin
 	clk50 <= not clk50 after 10 ns;     -- 50 MHz
 	rst   <= '0' after 100 ns;
 
+--	br115200 <= not br115200 after 8680.56 * 0.55 ns; -- 115200 - 45% bps
 	br115200 <= not br115200 after 8680.56 ns; -- 115200 bps
+--	br115200 <= not br115200 after 8680.56 * 1.45 ns; -- 115200 + 45% bps
 	brdelay1  <= '0' after 34722240 ps;
 	brdelay2  <= '1' after 121527840 ps;
-	brsignal <= (br115200) or (brdelay1) or (brdelay2);
+--	brsignal <= (br115200) or (brdelay1) or (brdelay2);
+	brsignal <= (br115200) or (brdelay1);
 
 	config_avalon_stimuli_inst : entity work.config_avalon_stimuli
 		generic map(
