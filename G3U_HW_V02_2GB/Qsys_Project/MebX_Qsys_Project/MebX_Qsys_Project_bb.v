@@ -118,8 +118,6 @@ module MebX_Qsys_Project (
 	m2_ddr2_oct_rup,
 	rs232_uart_rxd,
 	rs232_uart_txd,
-	rs232_uart_cts_n,
-	rs232_uart_rts_n,
 	rst_reset_n,
 	rtcc_alarm_export,
 	rtcc_cs_n_export,
@@ -135,14 +133,6 @@ module MebX_Qsys_Project (
 	ssdp_ssdp1,
 	sync_in_conduit,
 	sync_out_conduit,
-	sync_spwa_conduit,
-	sync_spwb_conduit,
-	sync_spwc_conduit,
-	sync_spwd_conduit,
-	sync_spwe_conduit,
-	sync_spwf_conduit,
-	sync_spwg_conduit,
-	sync_spwh_conduit,
 	temp_scl_export,
 	temp_sda_export,
 	timer_1ms_external_port_export,
@@ -155,7 +145,17 @@ module MebX_Qsys_Project (
 	uart_module_uart_txd_signal,
 	uart_module_uart_rxd_signal,
 	uart_module_uart_rts_signal,
-	uart_module_uart_cts_signal);	
+	uart_module_uart_cts_signal,
+	rst_controller_conduit_simucam_reset_t_simucam_reset_signal,
+	rst_controller_conduit_reset_input_t_reset_input_signal,
+	sync_spw2_conduit,
+	sync_spw1_conduit,
+	sync_spw3_conduit,
+	sync_spw4_conduit,
+	sync_spw5_conduit,
+	sync_spw6_conduit,
+	sync_spw7_conduit,
+	sync_spw8_conduit);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -275,8 +275,6 @@ module MebX_Qsys_Project (
 	input		m2_ddr2_oct_rup;
 	input		rs232_uart_rxd;
 	output		rs232_uart_txd;
-	input		rs232_uart_cts_n;
-	output		rs232_uart_rts_n;
 	input		rst_reset_n;
 	input		rtcc_alarm_export;
 	output		rtcc_cs_n_export;
@@ -292,14 +290,6 @@ module MebX_Qsys_Project (
 	output	[7:0]	ssdp_ssdp1;
 	input		sync_in_conduit;
 	output		sync_out_conduit;
-	output		sync_spwa_conduit;
-	output		sync_spwb_conduit;
-	output		sync_spwc_conduit;
-	output		sync_spwd_conduit;
-	output		sync_spwe_conduit;
-	output		sync_spwf_conduit;
-	output		sync_spwg_conduit;
-	output		sync_spwh_conduit;
 	output		temp_scl_export;
 	inout		temp_sda_export;
 	output		timer_1ms_external_port_export;
@@ -313,4 +303,14 @@ module MebX_Qsys_Project (
 	input		uart_module_uart_rxd_signal;
 	input		uart_module_uart_rts_signal;
 	output		uart_module_uart_cts_signal;
+	output		rst_controller_conduit_simucam_reset_t_simucam_reset_signal;
+	input		rst_controller_conduit_reset_input_t_reset_input_signal;
+	output		sync_spw2_conduit;
+	output		sync_spw1_conduit;
+	output		sync_spw3_conduit;
+	output		sync_spw4_conduit;
+	output		sync_spw5_conduit;
+	output		sync_spw6_conduit;
+	output		sync_spw7_conduit;
+	output		sync_spw8_conduit;
 endmodule

@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Tue Dec 17 16:05:54 BRST 2019
+ * Generated: Fri Dec 20 11:23:57 BRST 2019
  */
 
 /*
@@ -159,7 +159,6 @@
 #define __ALTERA_AVALON_PIO
 #define __ALTERA_AVALON_SYSID_QSYS
 #define __ALTERA_AVALON_TIMER
-#define __ALTERA_AVALON_UART
 #define __ALTERA_GENERIC_TRISTATE_CONTROLLER
 #define __ALTERA_MSGDMA
 #define __ALTERA_NIOS2_GEN2
@@ -1057,31 +1056,6 @@
 
 
 /*
- * rs232_uart configuration
- *
- */
-
-#define ALT_MODULE_CLASS_rs232_uart altera_avalon_uart
-#define RS232_UART_BASE 0x82000840
-#define RS232_UART_BAUD 115200
-#define RS232_UART_DATA_BITS 8
-#define RS232_UART_FIXED_BAUD 0
-#define RS232_UART_FREQ 50000000
-#define RS232_UART_IRQ 7
-#define RS232_UART_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define RS232_UART_NAME "/dev/rs232_uart"
-#define RS232_UART_PARITY 'N'
-#define RS232_UART_SIM_CHAR_STREAM ""
-#define RS232_UART_SIM_TRUE_BAUD 0
-#define RS232_UART_SPAN 32
-#define RS232_UART_STOP_BITS 1
-#define RS232_UART_SYNC_REG_DEPTH 2
-#define RS232_UART_TYPE "altera_avalon_uart"
-#define RS232_UART_USE_CTS_RTS 1
-#define RS232_UART_USE_EOP_REGISTER 0
-
-
-/*
  * rst_controller configuration
  *
  */
@@ -1283,7 +1257,7 @@
 #define SYSID_QSYS_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_NAME "/dev/sysid_qsys"
 #define SYSID_QSYS_SPAN 8
-#define SYSID_QSYS_TIMESTAMP 1576603667
+#define SYSID_QSYS_TIMESTAMP 1576774012
 #define SYSID_QSYS_TYPE "altera_avalon_sysid_qsys"
 
 

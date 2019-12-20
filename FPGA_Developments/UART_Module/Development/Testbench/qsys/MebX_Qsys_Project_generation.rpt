@@ -1,0 +1,122 @@
+Info: Starting: Create simulation model
+Info: qsys-generate C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\MebX_Qsys_Project.qsys --simulation=VHDL --allow-mixed-language-simulation --output-directory=C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\UART_Module\Development\Testbench\qsys\simulation --family="Stratix IV" --part=EP4SGX530KH40C2
+Progress: Loading Qsys_Project/MebX_Qsys_Project.qsys
+Progress: Reading input file
+Progress: Adding clk_50 [clock_source 18.1]
+Progress: Parameterizing module clk_50
+Progress: Adding rs232_uart [altera_avalon_uart 18.1]
+Progress: Parameterizing module rs232_uart
+Progress: Adding uart_module_top_0 [uart_module_top 1.0]
+Progress: Parameterizing module uart_module_top_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: MebX_Qsys_Project: Generating MebX_Qsys_Project "MebX_Qsys_Project" for SIM_VHDL
+Info: Interconnect is inserted between master uart_module_top_0.avalon_master and slave rs232_uart.s1 because the master has address signal 6 bit wide, but the slave is 3 bit wide.
+Info: Interconnect is inserted between master uart_module_top_0.avalon_master and slave rs232_uart.s1 because the master has waitrequest signal 1 bit wide, but the slave is 0 bit wide.
+Info: rs232_uart: Starting RTL generation for module 'MebX_Qsys_Project_rs232_uart'
+Info: rs232_uart:   Generation command is [exec C:/intelfpga/18.1/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.1/quartus/bin64/perl/lib -I C:/intelfpga/18.1/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.1/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.1/quartus/sopc_builder/bin -I C:/intelfpga/18.1/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_uart -- C:/intelfpga/18.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_uart/generate_rtl.pl --name=MebX_Qsys_Project_rs232_uart --dir=C:/Users/rfranca/AppData/Local/Temp/alt8249_4255637928415490835.dir/0031_rs232_uart_gen/ --quartus_dir=C:/intelfpga/18.1/quartus --vhdl --config=C:/Users/rfranca/AppData/Local/Temp/alt8249_4255637928415490835.dir/0031_rs232_uart_gen//MebX_Qsys_Project_rs232_uart_component_configuration.pl  --do_build_sim=1    --sim_dir=C:/Users/rfranca/AppData/Local/Temp/alt8249_4255637928415490835.dir/0031_rs232_uart_gen/  ]
+Info: rs232_uart: Done RTL generation for module 'MebX_Qsys_Project_rs232_uart'
+Info: rs232_uart: "MebX_Qsys_Project" instantiated altera_avalon_uart "rs232_uart"
+Info: uart_module_top_0: "MebX_Qsys_Project" instantiated uart_module_top "uart_module_top_0"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "MebX_Qsys_Project" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: rst_controller: "MebX_Qsys_Project" instantiated altera_reset_controller "rst_controller"
+Info: uart_module_top_0_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "uart_module_top_0_avalon_master_translator"
+Info: rs232_uart_s1_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "rs232_uart_s1_translator"
+Info: uart_module_top_0_avalon_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "uart_module_top_0_avalon_master_agent"
+Info: rs232_uart_s1_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "rs232_uart_s1_agent"
+Info: rs232_uart_s1_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "rs232_uart_s1_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/submodules/altera_merlin_arbitrator.sv
+Info: rs232_uart_s1_cmd_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "rs232_uart_s1_cmd_width_adapter"
+Info: Reusing file C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/submodules/altera_merlin_burst_uncompressor.sv
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: MebX_Qsys_Project: Done "MebX_Qsys_Project" with 18 modules, 30 files
+Info: qsys-generate succeeded.
+Info: Finished: Create simulation model
+Info: Starting: Create Modelsim Project.
+Info: sim-script-gen --spd=C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\UART_Module\Development\Testbench\qsys\MebX_Qsys_Project.spd --output-directory=C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/ --use-relative-paths=true
+Info: Doing: ip-make-simscript --spd=C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\UART_Module\Development\Testbench\qsys\MebX_Qsys_Project.spd --output-directory=C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/ --use-relative-paths=true
+Info: Generating the following file(s) for MODELSIM simulator in C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/ directory:
+Info: 	mentor/msim_setup.tcl
+Info: Skipping VCS script generation since VHDL file $QUARTUS_INSTALL_DIR/eda/sim_lib/altera_syn_attributes.vhd is required for simulation
+Info: Generating the following file(s) for VCSMX simulator in C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/ directory:
+Info: 	synopsys/vcsmx/synopsys_sim.setup
+Info: 	synopsys/vcsmx/vcsmx_setup.sh
+Info: Generating the following file(s) for NCSIM simulator in C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/ directory:
+Info: 	cadence/cds.lib
+Info: 	cadence/hdl.var
+Info: 	cadence/ncsim_setup.sh
+Info: 	17 .cds.lib files in cadence/cds_libs/ directory
+Info: Generating the following file(s) for RIVIERA simulator in C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/ directory:
+Info: 	aldec/rivierapro_setup.tcl
+Info: For information on how to simulate your IP, see the explanatory comments in the simulator-specific subdirectories under C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/simulation/.
+Info: Regenerate these scripts whenever you make any change to any Quartus-generated IP in your project.
+Info: Finished: Create Modelsim Project.
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\MebX_Qsys_Project.qsys --block-symbol-file --output-directory=C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\UART_Module\Development\Testbench\qsys --family="Stratix IV" --part=EP4SGX530KH40C2
+Progress: Loading Qsys_Project/MebX_Qsys_Project.qsys
+Progress: Reading input file
+Progress: Adding clk_50 [clock_source 18.1]
+Progress: Parameterizing module clk_50
+Progress: Adding rs232_uart [altera_avalon_uart 18.1]
+Progress: Parameterizing module rs232_uart
+Progress: Adding uart_module_top_0 [uart_module_top 1.0]
+Progress: Parameterizing module uart_module_top_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\MebX_Qsys_Project.qsys --synthesis=VHDL --output-directory=C:\Users\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\UART_Module\Development\Testbench\qsys\synthesis --family="Stratix IV" --part=EP4SGX530KH40C2
+Progress: Loading Qsys_Project/MebX_Qsys_Project.qsys
+Progress: Reading input file
+Progress: Adding clk_50 [clock_source 18.1]
+Progress: Parameterizing module clk_50
+Progress: Adding rs232_uart [altera_avalon_uart 18.1]
+Progress: Parameterizing module rs232_uart
+Progress: Adding uart_module_top_0 [uart_module_top 1.0]
+Progress: Parameterizing module uart_module_top_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: MebX_Qsys_Project: Generating MebX_Qsys_Project "MebX_Qsys_Project" for QUARTUS_SYNTH
+Info: Interconnect is inserted between master uart_module_top_0.avalon_master and slave rs232_uart.s1 because the master has address signal 6 bit wide, but the slave is 3 bit wide.
+Info: Interconnect is inserted between master uart_module_top_0.avalon_master and slave rs232_uart.s1 because the master has waitrequest signal 1 bit wide, but the slave is 0 bit wide.
+Info: rs232_uart: Starting RTL generation for module 'MebX_Qsys_Project_rs232_uart'
+Info: rs232_uart:   Generation command is [exec C:/intelfpga/18.1/quartus/bin64/perl/bin/perl.exe -I C:/intelfpga/18.1/quartus/bin64/perl/lib -I C:/intelfpga/18.1/quartus/sopc_builder/bin/europa -I C:/intelfpga/18.1/quartus/sopc_builder/bin/perl_lib -I C:/intelfpga/18.1/quartus/sopc_builder/bin -I C:/intelfpga/18.1/quartus/../ip/altera/sopc_builder_ip/common -I C:/intelfpga/18.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_uart -- C:/intelfpga/18.1/quartus/../ip/altera/sopc_builder_ip/altera_avalon_uart/generate_rtl.pl --name=MebX_Qsys_Project_rs232_uart --dir=C:/Users/rfranca/AppData/Local/Temp/alt8249_4255637928415490835.dir/0047_rs232_uart_gen/ --quartus_dir=C:/intelfpga/18.1/quartus --verilog --config=C:/Users/rfranca/AppData/Local/Temp/alt8249_4255637928415490835.dir/0047_rs232_uart_gen//MebX_Qsys_Project_rs232_uart_component_configuration.pl  --do_build_sim=0  ]
+Info: rs232_uart: Done RTL generation for module 'MebX_Qsys_Project_rs232_uart'
+Info: rs232_uart: "MebX_Qsys_Project" instantiated altera_avalon_uart "rs232_uart"
+Info: uart_module_top_0: "MebX_Qsys_Project" instantiated uart_module_top "uart_module_top_0"
+Info: avalon_st_adapter: Inserting error_adapter: error_adapter_0
+Info: mm_interconnect_0: "MebX_Qsys_Project" instantiated altera_mm_interconnect "mm_interconnect_0"
+Info: rst_controller: "MebX_Qsys_Project" instantiated altera_reset_controller "rst_controller"
+Info: uart_module_top_0_avalon_master_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "uart_module_top_0_avalon_master_translator"
+Info: rs232_uart_s1_translator: "mm_interconnect_0" instantiated altera_merlin_slave_translator "rs232_uart_s1_translator"
+Info: uart_module_top_0_avalon_master_agent: "mm_interconnect_0" instantiated altera_merlin_master_agent "uart_module_top_0_avalon_master_agent"
+Info: rs232_uart_s1_agent: "mm_interconnect_0" instantiated altera_merlin_slave_agent "rs232_uart_s1_agent"
+Info: rs232_uart_s1_agent_rsp_fifo: "mm_interconnect_0" instantiated altera_avalon_sc_fifo "rs232_uart_s1_agent_rsp_fifo"
+Info: router: "mm_interconnect_0" instantiated altera_merlin_router "router"
+Info: router_001: "mm_interconnect_0" instantiated altera_merlin_router "router_001"
+Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
+Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
+Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux"
+Info: Reusing file C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/synthesis/submodules/altera_merlin_arbitrator.sv
+Info: rs232_uart_s1_cmd_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "rs232_uart_s1_cmd_width_adapter"
+Info: Reusing file C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/qsys/synthesis/submodules/altera_merlin_burst_uncompressor.sv
+Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter"
+Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
+Info: MebX_Qsys_Project: Done "MebX_Qsys_Project" with 18 modules, 30 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

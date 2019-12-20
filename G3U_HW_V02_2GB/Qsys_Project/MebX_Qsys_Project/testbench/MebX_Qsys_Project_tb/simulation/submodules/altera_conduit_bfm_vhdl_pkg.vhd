@@ -1,10 +1,10 @@
--- (C) 2001-2016 Intel Corporation. All rights reserved.
+-- (C) 2001-2018 Intel Corporation. All rights reserved.
 -- Your use of Intel Corporation's design tools, logic functions and other 
 -- software and tools, and its AMPP partner logic functions, and any output 
--- files any of the foregoing (including device programming or simulation 
+-- files from any of the foregoing (including device programming or simulation 
 -- files), and any associated documentation or information are expressly subject 
 -- to the terms and conditions of the Intel Program License Subscription 
--- Agreement, Intel MegaCore Function License Agreement, or other applicable 
+-- Agreement, Intel FPGA IP License Agreement, or other applicable 
 -- license agreement, including, without limitation, that your use is for the 
 -- sole purpose of programming logic devices manufactured by Intel and sold by 
 -- Intel or its authorized distributors.  Please refer to the applicable 
@@ -28,7 +28,7 @@
 -- This BFM's HDL is been generated through terp file in Qsys/SOPC Builder.
 -- Generation parameters:
 -- output_name:                  altera_conduit_bfm
--- role:width:direction:         export:4:output
+-- role:width:direction:         cts_n:1:output,rts_n:1:input,rxd:1:output,txd:1:input
 -- clocked                       0
 -------------------------------------------------------------------------------
 
@@ -39,35 +39,87 @@ library work;
 use work.all;
 
 
+
+
+
 package altera_conduit_bfm_vhdl_pkg is
 
    -- output signal register
    type altera_conduit_bfm_out_trans_t is record
-      sig_export_out     : std_logic_vector(3 downto 0);
+      sig_cts_n_out     : std_logic_vector(0 downto 0);
+      sig_rxd_out       : std_logic_vector(0 downto 0);
    end record;
    
    shared variable out_trans        : altera_conduit_bfm_out_trans_t;
 
    -- input signal register
+   signal sig_rts_n_in      : std_logic_vector(0 downto 0);
+   signal sig_txd_in        : std_logic_vector(0 downto 0);
 
    -- VHDL Procedure API
    
-   -- set export value
-   procedure set_export             (signal_value : in std_logic_vector(3 downto 0));
+   -- set cts_n value
+   procedure set_cts_n             (signal_value : in std_logic_vector(0 downto 0));
+   
+   -- get rts_n value
+   procedure get_rts_n             (signal_value : out std_logic_vector(0 downto 0));
+   
+   -- set rxd value
+   procedure set_rxd               (signal_value : in std_logic_vector(0 downto 0));
+   
+   -- get txd value
+   procedure get_txd               (signal_value : out std_logic_vector(0 downto 0));
    
    -- VHDL Event API
+
+   procedure event_rts_n_change;   
+
+   procedure event_txd_change;   
 
 end altera_conduit_bfm_vhdl_pkg;
 
 package body altera_conduit_bfm_vhdl_pkg is
    
-   procedure set_export             (signal_value : in std_logic_vector(3 downto 0)) is
+   procedure set_cts_n             (signal_value : in std_logic_vector(0 downto 0)) is
    begin
       
-      out_trans.sig_export_out := signal_value;
+      out_trans.sig_cts_n_out := signal_value;
       
-   end procedure set_export;
+   end procedure set_cts_n;
    
+   procedure get_rts_n             (signal_value : out std_logic_vector(0 downto 0)) is
+   begin
+
+      signal_value := sig_rts_n_in;
+   
+   end procedure get_rts_n;
+   
+   procedure set_rxd               (signal_value : in std_logic_vector(0 downto 0)) is
+   begin
+      
+      out_trans.sig_rxd_out := signal_value;
+      
+   end procedure set_rxd;
+   
+   procedure get_txd               (signal_value : out std_logic_vector(0 downto 0)) is
+   begin
+
+      signal_value := sig_txd_in;
+   
+   end procedure get_txd;
+   
+   procedure event_rts_n_change is
+   begin
+
+      wait until (sig_rts_n_in'event);
+
+   end event_rts_n_change;
+   procedure event_txd_change is
+   begin
+
+      wait until (sig_txd_in'event);
+
+   end event_txd_change;
 
 end altera_conduit_bfm_vhdl_pkg;
 

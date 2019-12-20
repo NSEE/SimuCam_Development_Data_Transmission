@@ -5,13 +5,13 @@
    path="simulation/mebx_qsys_project_rst_controller_001.vhd"
    type="VHDL" />
  <file
-   path="simulation/mebx_qsys_project_rst_controller_002.vhd"
-   type="VHDL" />
- <file
    path="simulation/mebx_qsys_project_rst_controller_010.vhd"
    type="VHDL" />
  <file
-   path="simulation/mebx_qsys_project_rst_controller_012.vhd"
+   path="simulation/mebx_qsys_project_rst_controller_011.vhd"
+   type="VHDL" />
+ <file
+   path="simulation/mebx_qsys_project_rst_controller_020.vhd"
    type="VHDL" />
  <file
    path="simulation/mebx_qsys_project_clock_bridge_afi_50.vhd"

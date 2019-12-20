@@ -98,10 +98,10 @@ begin
 					-- check if signal was already sampled or not
 					if (s_sampled = '0') then
 						-- signal already sampled, reset the baud rate counter
---						s_baud_rate_cnt <= (others => '0');
+						s_baud_rate_cnt <= (others => '0');
 					else
 						-- signal not sampled yet, set the baud rate counter to overflow
---						s_baud_rate_cnt <= std_logic_vector(unsigned(c_UART_RX_BAUD_RATE_DIV) - 1);
+						s_baud_rate_cnt <= std_logic_vector(unsigned(c_UART_RX_BAUD_RATE_DIV) - 1);
 					end if;
 					-- reset the baud rate counter
 					--					s_baud_rate_cnt <= (others => '0');

@@ -27,6 +27,8 @@
 #include <sys/alt_timestamp.h>
 #include <priv/alt_busy_sleep.h>
 
+#include "uart.h"
+
 #ifndef bool
 	//typedef short int bool;
 	//typedef enum e_bool { false = 0, true = 1 } bool;
@@ -36,25 +38,9 @@
 	#define TRUE    1
 #endif
 
-typedef struct UartModule {
-	alt_u32 bUartTxWrreq;
-	alt_u32 uliUartTxWrdata;
-	alt_u32    bUartTxFull;
-	alt_u32 uliUartTxUsedw;
-	alt_u32    bUartRxRdreq;
-	alt_u32    bUartRxEmpty;
-	alt_u32 uliUartRxRddata;
-	alt_u32 uliUartRxUsedw;
-} TUartModule;
-
 char cTxBuffer[64];
 char cRxBuffer[64];
 alt_u16 usiStringLength = 0;
-
-void vUartWriteChar(char cTxChar);
-void vUartWriteBuffer(char *pcTxBuffer, alt_u16 usiLength);
-char cUartReadChar();
-void vUartReadBuffer(char *pcRxBuffer, alt_u16 usiLength);
 
 int main()
 {
@@ -77,8 +63,8 @@ int main()
 	  usiStringLength = sprintf(cTxBuffer, "Hello from Nios II!\n");
 	  vUartWriteBuffer(cTxBuffer, usiStringLength);
 
-//	  vUartReadBuffer(cRxBuffer, 16);
-//	  printf("Incoming data: ");
+	  vUartReadBuffer(cRxBuffer, 16);
+	  printf("Incoming data: %s\n", cRxBuffer);
 //	  printf(" %c", cRxBuffer[0]);
 //	  printf(" %c", cRxBuffer[1]);
 //	  printf(" %c", cRxBuffer[2]);
@@ -97,12 +83,12 @@ int main()
 //
 //	  printf("\n");
 
-	  printf("Incoming data: ");
-	  while (vpxUartModule->uliUartRxUsedw > 0) {
-		  printf(" %c", cUartReadChar());
-		  usleep(100);
-	  }
-	  printf("\n");
+//	  printf("Incoming data: ");
+//	  while (vpxUartModule->uliUartRxUsedw > 0) {
+//		  printf(" %c", cUartReadChar());
+//		  usleep(100);
+//	  }
+//	  printf("\n");
 
 //	  if (!vpxUartModule->bUartRxEmpty){
 //		  printf("Incoming data: %c \n", (char)vpxUartModule->uliUartRxRddata);
@@ -130,38 +116,3 @@ int main()
 
   return 0;
 }
-
-void vUartWriteChar(char cTxChar){
-	volatile TUartModule *vpxUartModule = (TUartModule *)UART_MODULE_TOP_0_BASE;
-	vpxUartModule->uliUartTxWrdata = (alt_u32)cTxChar;
-	vpxUartModule->bUartTxWrreq = true;
-}
-
-void vUartWriteBuffer(char *pcTxBuffer, alt_u16 usiLength){
-	volatile TUartModule *vpxUartModule = (TUartModule *)UART_MODULE_TOP_0_BASE;
-	alt_u16 usiCnt = 0;
-	for (usiCnt = 0; usiCnt < usiLength; usiCnt++) {
-		vpxUartModule->uliUartTxWrdata = (alt_u32)(pcTxBuffer[usiCnt]);
-		vpxUartModule->bUartTxWrreq = true;
-	}
-}
-
-char cUartReadChar(){
-	volatile TUartModule *vpxUartModule = (TUartModule *)UART_MODULE_TOP_0_BASE;
-	char cRxChar;
-	while (vpxUartModule->bUartRxEmpty){}
-	cRxChar = (char)((vpxUartModule->uliUartRxRddata) & 0xFF);
-	vpxUartModule->bUartRxRdreq = true;
-	return cRxChar;
-}
-
-void vUartReadBuffer(char *pcRxBuffer, alt_u16 usiLength){
-	volatile TUartModule *vpxUartModule = (TUartModule *)UART_MODULE_TOP_0_BASE;
-	alt_u16 usiCnt = 0;
-	for (usiCnt = 0; usiCnt < usiLength; usiCnt++) {
-		while (vpxUartModule->bUartRxEmpty){}
-		pcRxBuffer[usiCnt] = (char)((vpxUartModule->uliUartRxRddata) & 0xFF);
-		vpxUartModule->bUartRxRdreq = true;
-	}
-}
-

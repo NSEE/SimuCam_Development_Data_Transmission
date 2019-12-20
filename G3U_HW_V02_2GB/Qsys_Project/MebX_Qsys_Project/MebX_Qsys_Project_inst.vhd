@@ -118,8 +118,6 @@
 			m2_ddr2_oct_rup                                                         : in    std_logic                     := 'X';             -- rup
 			rs232_uart_rxd                                                          : in    std_logic                     := 'X';             -- rxd
 			rs232_uart_txd                                                          : out   std_logic;                                        -- txd
-			rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
-			rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
 			rst_reset_n                                                             : in    std_logic                     := 'X';             -- reset_n
 			rtcc_alarm_export                                                       : in    std_logic                     := 'X';             -- export
 			rtcc_cs_n_export                                                        : out   std_logic;                                        -- export
@@ -135,14 +133,6 @@
 			ssdp_ssdp1                                                              : out   std_logic_vector(7 downto 0);                     -- ssdp1
 			sync_in_conduit                                                         : in    std_logic                     := 'X';             -- conduit
 			sync_out_conduit                                                        : out   std_logic;                                        -- conduit
-			sync_spwa_conduit                                                       : out   std_logic;                                        -- conduit
-			sync_spwb_conduit                                                       : out   std_logic;                                        -- conduit
-			sync_spwc_conduit                                                       : out   std_logic;                                        -- conduit
-			sync_spwd_conduit                                                       : out   std_logic;                                        -- conduit
-			sync_spwe_conduit                                                       : out   std_logic;                                        -- conduit
-			sync_spwf_conduit                                                       : out   std_logic;                                        -- conduit
-			sync_spwg_conduit                                                       : out   std_logic;                                        -- conduit
-			sync_spwh_conduit                                                       : out   std_logic;                                        -- conduit
 			temp_scl_export                                                         : out   std_logic;                                        -- export
 			temp_sda_export                                                         : inout std_logic                     := 'X';             -- export
 			timer_1ms_external_port_export                                          : out   std_logic;                                        -- export
@@ -155,7 +145,17 @@
 			uart_module_uart_txd_signal                                             : out   std_logic;                                        -- uart_txd_signal
 			uart_module_uart_rxd_signal                                             : in    std_logic                     := 'X';             -- uart_rxd_signal
 			uart_module_uart_rts_signal                                             : in    std_logic                     := 'X';             -- uart_rts_signal
-			uart_module_uart_cts_signal                                             : out   std_logic                                         -- uart_cts_signal
+			uart_module_uart_cts_signal                                             : out   std_logic;                                        -- uart_cts_signal
+			rst_controller_conduit_simucam_reset_t_simucam_reset_signal             : out   std_logic;                                        -- t_simucam_reset_signal
+			rst_controller_conduit_reset_input_t_reset_input_signal                 : in    std_logic                     := 'X';             -- t_reset_input_signal
+			sync_spw2_conduit                                                       : out   std_logic;                                        -- conduit
+			sync_spw1_conduit                                                       : out   std_logic;                                        -- conduit
+			sync_spw3_conduit                                                       : out   std_logic;                                        -- conduit
+			sync_spw4_conduit                                                       : out   std_logic;                                        -- conduit
+			sync_spw5_conduit                                                       : out   std_logic;                                        -- conduit
+			sync_spw6_conduit                                                       : out   std_logic;                                        -- conduit
+			sync_spw7_conduit                                                       : out   std_logic;                                        -- conduit
+			sync_spw8_conduit                                                       : out   std_logic                                         -- conduit
 		);
 	end component MebX_Qsys_Project;
 
@@ -279,8 +279,6 @@
 			m2_ddr2_oct_rup                                                         => CONNECTED_TO_m2_ddr2_oct_rup,                                                         --                                                            .rup
 			rs232_uart_rxd                                                          => CONNECTED_TO_rs232_uart_rxd,                                                          --                                                  rs232_uart.rxd
 			rs232_uart_txd                                                          => CONNECTED_TO_rs232_uart_txd,                                                          --                                                            .txd
-			rs232_uart_cts_n                                                        => CONNECTED_TO_rs232_uart_cts_n,                                                        --                                                            .cts_n
-			rs232_uart_rts_n                                                        => CONNECTED_TO_rs232_uart_rts_n,                                                        --                                                            .rts_n
 			rst_reset_n                                                             => CONNECTED_TO_rst_reset_n,                                                             --                                                         rst.reset_n
 			rtcc_alarm_export                                                       => CONNECTED_TO_rtcc_alarm_export,                                                       --                                                  rtcc_alarm.export
 			rtcc_cs_n_export                                                        => CONNECTED_TO_rtcc_cs_n_export,                                                        --                                                   rtcc_cs_n.export
@@ -296,14 +294,6 @@
 			ssdp_ssdp1                                                              => CONNECTED_TO_ssdp_ssdp1,                                                              --                                                            .ssdp1
 			sync_in_conduit                                                         => CONNECTED_TO_sync_in_conduit,                                                         --                                                     sync_in.conduit
 			sync_out_conduit                                                        => CONNECTED_TO_sync_out_conduit,                                                        --                                                    sync_out.conduit
-			sync_spwa_conduit                                                       => CONNECTED_TO_sync_spwa_conduit,                                                       --                                                   sync_spwa.conduit
-			sync_spwb_conduit                                                       => CONNECTED_TO_sync_spwb_conduit,                                                       --                                                   sync_spwb.conduit
-			sync_spwc_conduit                                                       => CONNECTED_TO_sync_spwc_conduit,                                                       --                                                   sync_spwc.conduit
-			sync_spwd_conduit                                                       => CONNECTED_TO_sync_spwd_conduit,                                                       --                                                   sync_spwd.conduit
-			sync_spwe_conduit                                                       => CONNECTED_TO_sync_spwe_conduit,                                                       --                                                   sync_spwe.conduit
-			sync_spwf_conduit                                                       => CONNECTED_TO_sync_spwf_conduit,                                                       --                                                   sync_spwf.conduit
-			sync_spwg_conduit                                                       => CONNECTED_TO_sync_spwg_conduit,                                                       --                                                   sync_spwg.conduit
-			sync_spwh_conduit                                                       => CONNECTED_TO_sync_spwh_conduit,                                                       --                                                   sync_spwh.conduit
 			temp_scl_export                                                         => CONNECTED_TO_temp_scl_export,                                                         --                                                    temp_scl.export
 			temp_sda_export                                                         => CONNECTED_TO_temp_sda_export,                                                         --                                                    temp_sda.export
 			timer_1ms_external_port_export                                          => CONNECTED_TO_timer_1ms_external_port_export,                                          --                                     timer_1ms_external_port.export
@@ -316,6 +306,16 @@
 			uart_module_uart_txd_signal                                             => CONNECTED_TO_uart_module_uart_txd_signal,                                             --                                                 uart_module.uart_txd_signal
 			uart_module_uart_rxd_signal                                             => CONNECTED_TO_uart_module_uart_rxd_signal,                                             --                                                            .uart_rxd_signal
 			uart_module_uart_rts_signal                                             => CONNECTED_TO_uart_module_uart_rts_signal,                                             --                                                            .uart_rts_signal
-			uart_module_uart_cts_signal                                             => CONNECTED_TO_uart_module_uart_cts_signal                                              --                                                            .uart_cts_signal
+			uart_module_uart_cts_signal                                             => CONNECTED_TO_uart_module_uart_cts_signal,                                             --                                                            .uart_cts_signal
+			rst_controller_conduit_simucam_reset_t_simucam_reset_signal             => CONNECTED_TO_rst_controller_conduit_simucam_reset_t_simucam_reset_signal,             --                        rst_controller_conduit_simucam_reset.t_simucam_reset_signal
+			rst_controller_conduit_reset_input_t_reset_input_signal                 => CONNECTED_TO_rst_controller_conduit_reset_input_t_reset_input_signal,                 --                          rst_controller_conduit_reset_input.t_reset_input_signal
+			sync_spw2_conduit                                                       => CONNECTED_TO_sync_spw2_conduit,                                                       --                                                   sync_spw2.conduit
+			sync_spw1_conduit                                                       => CONNECTED_TO_sync_spw1_conduit,                                                       --                                                   sync_spw1.conduit
+			sync_spw3_conduit                                                       => CONNECTED_TO_sync_spw3_conduit,                                                       --                                                   sync_spw3.conduit
+			sync_spw4_conduit                                                       => CONNECTED_TO_sync_spw4_conduit,                                                       --                                                   sync_spw4.conduit
+			sync_spw5_conduit                                                       => CONNECTED_TO_sync_spw5_conduit,                                                       --                                                   sync_spw5.conduit
+			sync_spw6_conduit                                                       => CONNECTED_TO_sync_spw6_conduit,                                                       --                                                   sync_spw6.conduit
+			sync_spw7_conduit                                                       => CONNECTED_TO_sync_spw7_conduit,                                                       --                                                   sync_spw7.conduit
+			sync_spw8_conduit                                                       => CONNECTED_TO_sync_spw8_conduit                                                        --                                                   sync_spw8.conduit
 		);
 

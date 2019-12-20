@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2019.12.17.15:27:49 -->
+ <!-- 2019.12.20.12:04:29 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1576603667</value>
+  <value>1576850668</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -13774,14 +13774,6 @@ parameters are a RESULT of the module parameters. -->
     <name>rtcc_cs_n.s1</name>
     <baseAddress>2240</baseAddress>
     <span>16</span>
-   </memoryBlock>
-   <memoryBlock>
-    <isBridge>false</isBridge>
-    <moduleName>rs232_uart</moduleName>
-    <slaveName>s1</slaveName>
-    <name>rs232_uart.s1</name>
-    <baseAddress>2112</baseAddress>
-    <span>32</span>
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
@@ -58188,7 +58180,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dataSlaveMapParam">
    <type>java.lang.String</type>
-   <value><![CDATA[<address-map><slave name='ddr2_address_span_extender.windowed_slave' start='0x0' end='0x80000000' type='altera_address_span_extender.windowed_slave' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x80000000' end='0x80000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='Dumb_Communication_Module_v1_Timer.avalon_slave_dcom' start='0x80000800' end='0x80000C00' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChH.avalon_slave_dcom' start='0x80000C00' end='0x80001000' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChG.avalon_slave_dcom' start='0x80001000' end='0x80001400' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChF.avalon_slave_dcom' start='0x80001400' end='0x80001800' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChE.avalon_slave_dcom' start='0x80001800' end='0x80001C00' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChD.avalon_slave_dcom' start='0x80001C00' end='0x80002000' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChC.avalon_slave_dcom' start='0x80002000' end='0x80002400' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChB.avalon_slave_dcom' start='0x80002400' end='0x80002800' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChA.avalon_slave_dcom' start='0x80002800' end='0x80002C00' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='dma_DDR_M2.descriptor_slave' start='0x80002C00' end='0x80002C20' type='altera_msgdma.descriptor_slave' /><slave name='dma_DDR_M1.descriptor_slave' start='0x80002C20' end='0x80002C40' type='altera_msgdma.descriptor_slave' /><slave name='dma_DDR_M2.csr' start='0x80002C40' end='0x80002C60' type='altera_msgdma.csr' /><slave name='dma_DDR_M1.csr' start='0x80002C60' end='0x80002C80' type='altera_msgdma.csr' /><slave name='sysid_qsys.control_slave' start='0x80002C80' end='0x80002C88' type='altera_avalon_sysid_qsys.control_slave' /><slave name='ddr2_address_span_extender.cntl' start='0x80002C88' end='0x80002C90' type='altera_address_span_extender.cntl' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x80002C90' end='0x80002C98' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='onchip_memory.s1' start='0x80200000' end='0x802E0000' type='altera_avalon_onchip_memory2.s1' /><slave name='Altera_UP_SD_Card_Avalon_Interface_0.avalon_sdcard_slave' start='0x82000000' end='0x82000400' type='Altera_UP_SD_Card_Avalon_Interface.avalon_sdcard_slave' /><slave name='sync.avalon_mm_slave' start='0x82000400' end='0x82000800' type='Sync.avalon_mm_slave' /><slave name='rst_controller.avalon_rst_controller_slave' start='0x82000800' end='0x82000840' type='rst_controller.avalon_rst_controller_slave' /><slave name='rs232_uart.s1' start='0x82000840' end='0x82000860' type='altera_avalon_uart.s1' /><slave name='timer_1us.s1' start='0x82000860' end='0x82000880' type='altera_avalon_timer.s1' /><slave name='timer_1ms.s1' start='0x82000880' end='0x820008A0' type='altera_avalon_timer.s1' /><slave name='pio_RST_ETH.s1' start='0x820008A0' end='0x820008B0' type='altera_avalon_pio.s1' /><slave name='pio_ctrl_io_lvds.s1' start='0x820008B0' end='0x820008C0' type='altera_avalon_pio.s1' /><slave name='rtcc_cs_n.s1' start='0x820008C0' end='0x820008D0' type='altera_avalon_pio.s1' /><slave name='rtcc_sck.s1' start='0x820008D0' end='0x820008E0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdi.s1' start='0x820008E0' end='0x820008F0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdo.s1' start='0x820008F0' end='0x82000900' type='altera_avalon_pio.s1' /><slave name='rtcc_alarm.s1' start='0x82000900' end='0x82000910' type='altera_avalon_pio.s1' /><slave name='pio_LED_painel.s1' start='0x82000910' end='0x82000920' type='altera_avalon_pio.s1' /><slave name='csense_adc_fo.s1' start='0x82000920' end='0x82000930' type='altera_avalon_pio.s1' /><slave name='csense_cs_n.s1' start='0x82000930' end='0x82000940' type='altera_avalon_pio.s1' /><slave name='csense_sck.s1' start='0x82000940' end='0x82000950' type='altera_avalon_pio.s1' /><slave name='csense_sdi.s1' start='0x82000950' end='0x82000960' type='altera_avalon_pio.s1' /><slave name='csense_sdo.s1' start='0x82000960' end='0x82000970' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_scl.s1' start='0x82000970' end='0x82000980' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_sda.s1' start='0x82000980' end='0x82000990' type='altera_avalon_pio.s1' /><slave name='temp_sda.s1' start='0x82000990' end='0x820009A0' type='altera_avalon_pio.s1' /><slave name='temp_scl.s1' start='0x820009A0' end='0x820009B0' type='altera_avalon_pio.s1' /><slave name='sd_card_wp_n.s1' start='0x820009B0' end='0x820009C0' type='altera_avalon_pio.s1' /><slave name='pio_EXT.s1' start='0x820009C0' end='0x820009D0' type='altera_avalon_pio.s1' /><slave name='pio_DIP.s1' start='0x820009D0' end='0x820009E0' type='altera_avalon_pio.s1' /><slave name='pio_LED.s1' start='0x820009E0' end='0x820009F0' type='altera_avalon_pio.s1' /><slave name='pio_BUTTON.s1' start='0x820009F0' end='0x82000A00' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_scl.s1' start='0x82000A00' end='0x82000A10' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_sda.s1' start='0x82000A10' end='0x82000A20' type='altera_avalon_pio.s1' /><slave name='SEVEN_SEGMENT_CONTROLLER_0.SSDP_avalon_slave' start='0x82000A20' end='0x82000A28' type='SEVEN_SEGMENT_CONTROLLER.SSDP_avalon_slave' /><slave name='uart_module_top_0.avalon_slave' start='0x82000C00' end='0x82001000' type='uart_module_top.avalon_slave' /><slave name='ext_flash.uas' start='0x84000000' end='0x88000000' type='altera_generic_tristate_controller.uas' /></address-map>]]></value>
+   <value><![CDATA[<address-map><slave name='ddr2_address_span_extender.windowed_slave' start='0x0' end='0x80000000' type='altera_address_span_extender.windowed_slave' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x80000000' end='0x80000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='Dumb_Communication_Module_v1_Timer.avalon_slave_dcom' start='0x80000800' end='0x80000C00' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChH.avalon_slave_dcom' start='0x80000C00' end='0x80001000' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChG.avalon_slave_dcom' start='0x80001000' end='0x80001400' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChF.avalon_slave_dcom' start='0x80001400' end='0x80001800' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChE.avalon_slave_dcom' start='0x80001800' end='0x80001C00' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChD.avalon_slave_dcom' start='0x80001C00' end='0x80002000' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChC.avalon_slave_dcom' start='0x80002000' end='0x80002400' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChB.avalon_slave_dcom' start='0x80002400' end='0x80002800' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v1_ChA.avalon_slave_dcom' start='0x80002800' end='0x80002C00' type='Dumb_Communication_Module_v1.avalon_slave_dcom' /><slave name='dma_DDR_M2.descriptor_slave' start='0x80002C00' end='0x80002C20' type='altera_msgdma.descriptor_slave' /><slave name='dma_DDR_M1.descriptor_slave' start='0x80002C20' end='0x80002C40' type='altera_msgdma.descriptor_slave' /><slave name='dma_DDR_M2.csr' start='0x80002C40' end='0x80002C60' type='altera_msgdma.csr' /><slave name='dma_DDR_M1.csr' start='0x80002C60' end='0x80002C80' type='altera_msgdma.csr' /><slave name='sysid_qsys.control_slave' start='0x80002C80' end='0x80002C88' type='altera_avalon_sysid_qsys.control_slave' /><slave name='ddr2_address_span_extender.cntl' start='0x80002C88' end='0x80002C90' type='altera_address_span_extender.cntl' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x80002C90' end='0x80002C98' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='onchip_memory.s1' start='0x80200000' end='0x802E0000' type='altera_avalon_onchip_memory2.s1' /><slave name='Altera_UP_SD_Card_Avalon_Interface_0.avalon_sdcard_slave' start='0x82000000' end='0x82000400' type='Altera_UP_SD_Card_Avalon_Interface.avalon_sdcard_slave' /><slave name='sync.avalon_mm_slave' start='0x82000400' end='0x82000800' type='Sync.avalon_mm_slave' /><slave name='rst_controller.avalon_rst_controller_slave' start='0x82000800' end='0x82000840' type='rst_controller.avalon_rst_controller_slave' /><slave name='timer_1us.s1' start='0x82000860' end='0x82000880' type='altera_avalon_timer.s1' /><slave name='timer_1ms.s1' start='0x82000880' end='0x820008A0' type='altera_avalon_timer.s1' /><slave name='pio_RST_ETH.s1' start='0x820008A0' end='0x820008B0' type='altera_avalon_pio.s1' /><slave name='pio_ctrl_io_lvds.s1' start='0x820008B0' end='0x820008C0' type='altera_avalon_pio.s1' /><slave name='rtcc_cs_n.s1' start='0x820008C0' end='0x820008D0' type='altera_avalon_pio.s1' /><slave name='rtcc_sck.s1' start='0x820008D0' end='0x820008E0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdi.s1' start='0x820008E0' end='0x820008F0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdo.s1' start='0x820008F0' end='0x82000900' type='altera_avalon_pio.s1' /><slave name='rtcc_alarm.s1' start='0x82000900' end='0x82000910' type='altera_avalon_pio.s1' /><slave name='pio_LED_painel.s1' start='0x82000910' end='0x82000920' type='altera_avalon_pio.s1' /><slave name='csense_adc_fo.s1' start='0x82000920' end='0x82000930' type='altera_avalon_pio.s1' /><slave name='csense_cs_n.s1' start='0x82000930' end='0x82000940' type='altera_avalon_pio.s1' /><slave name='csense_sck.s1' start='0x82000940' end='0x82000950' type='altera_avalon_pio.s1' /><slave name='csense_sdi.s1' start='0x82000950' end='0x82000960' type='altera_avalon_pio.s1' /><slave name='csense_sdo.s1' start='0x82000960' end='0x82000970' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_scl.s1' start='0x82000970' end='0x82000980' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_sda.s1' start='0x82000980' end='0x82000990' type='altera_avalon_pio.s1' /><slave name='temp_sda.s1' start='0x82000990' end='0x820009A0' type='altera_avalon_pio.s1' /><slave name='temp_scl.s1' start='0x820009A0' end='0x820009B0' type='altera_avalon_pio.s1' /><slave name='sd_card_wp_n.s1' start='0x820009B0' end='0x820009C0' type='altera_avalon_pio.s1' /><slave name='pio_EXT.s1' start='0x820009C0' end='0x820009D0' type='altera_avalon_pio.s1' /><slave name='pio_DIP.s1' start='0x820009D0' end='0x820009E0' type='altera_avalon_pio.s1' /><slave name='pio_LED.s1' start='0x820009E0' end='0x820009F0' type='altera_avalon_pio.s1' /><slave name='pio_BUTTON.s1' start='0x820009F0' end='0x82000A00' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_scl.s1' start='0x82000A00' end='0x82000A10' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_sda.s1' start='0x82000A10' end='0x82000A20' type='altera_avalon_pio.s1' /><slave name='SEVEN_SEGMENT_CONTROLLER_0.SSDP_avalon_slave' start='0x82000A20' end='0x82000A28' type='SEVEN_SEGMENT_CONTROLLER.SSDP_avalon_slave' /><slave name='uart_module_top_0.avalon_slave' start='0x82000C00' end='0x82001000' type='uart_module_top.avalon_slave' /><slave name='ext_flash.uas' start='0x84000000' end='0x88000000' type='altera_generic_tristate_controller.uas' /></address-map>]]></value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -58317,7 +58309,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="internalIrqMaskSystemInfo">
    <type>long</type>
-   <value>65535</value>
+   <value>131071</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -59232,14 +59224,6 @@ parameters are a RESULT of the module parameters. -->
    </memoryBlock>
    <memoryBlock>
     <isBridge>false</isBridge>
-    <moduleName>rs232_uart</moduleName>
-    <slaveName>s1</slaveName>
-    <name>rs232_uart.s1</name>
-    <baseAddress>2181040192</baseAddress>
-    <span>32</span>
-   </memoryBlock>
-   <memoryBlock>
-    <isBridge>false</isBridge>
     <moduleName>pio_ctrl_io_lvds</moduleName>
     <slaveName>s1</slaveName>
     <name>pio_ctrl_io_lvds.s1</name>
@@ -59686,13 +59670,6 @@ parameters are a RESULT of the module parameters. -->
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
-    <moduleName>sync</moduleName>
-    <slaveName>interrupt_sender</slaveName>
-    <name>sync.interrupt_sender</name>
-    <interruptNumber>2</interruptNumber>
-   </interrupt>
-   <interrupt>
-    <isBridge>false</isBridge>
     <moduleName>jtag_uart_0</moduleName>
     <slaveName>irq</slaveName>
     <name>jtag_uart_0.irq</name>
@@ -59725,6 +59702,20 @@ parameters are a RESULT of the module parameters. -->
     <slaveName>irq</slaveName>
     <name>rs232_uart.irq</name>
     <interruptNumber>7</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>sync</moduleName>
+    <slaveName>pre_sync_interrupt_sender</slaveName>
+    <name>sync.pre_sync_interrupt_sender</name>
+    <interruptNumber>16</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>sync</moduleName>
+    <slaveName>sync_interrupt_sender</slaveName>
+    <name>sync.sync_interrupt_sender</name>
+    <interruptNumber>2</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
@@ -66712,7 +66703,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.USE_CTS_RTS</name>
-   <value>1</value>
+   <value>0</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.USE_EOP_REGISTER</name>
@@ -66824,7 +66815,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="useCtsRts">
    <type>boolean</type>
-   <value>true</value>
+   <value>false</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -67421,18 +67412,6 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>export</role>
    </port>
-   <port>
-    <name>cts_n</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>export</role>
-   </port>
-   <port>
-    <name>rts_n</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>export</role>
-   </port>
   </interface>
   <interface name="irq" kind="interrupt_sender" version="18.1">
    <!-- The connection points exposed by a module instance for the
@@ -67515,7 +67494,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="rst_controller"
    kind="rst_controller"
-   version="1.4"
+   version="1.5"
    path="rst_controller">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -67641,7 +67620,7 @@ parameters are a RESULT of the module parameters. -->
     <role>reset</role>
    </port>
   </interface>
-  <interface name="reset_source_simucam" kind="reset_source" version="18.1">
+  <interface name="reset_source_ftdi" kind="reset_source" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -67696,7 +67675,7 @@ parameters are a RESULT of the module parameters. -->
    <type>reset</type>
    <isStart>true</isStart>
    <port>
-    <name>reset_source_simucam_reset</name>
+    <name>reset_source_ftdi_reset</name>
     <direction>Output</direction>
     <width>1</width>
     <role>reset</role>
@@ -68742,6 +68721,96 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>1</width>
     <role>waitrequest</role>
+   </port>
+  </interface>
+  <interface name="conduit_simucam_reset" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>simucam_reset_signal</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>t_simucam_reset_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_reset_input" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>reset_input_signal</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>t_reset_input_signal</role>
    </port>
   </interface>
  </module>
@@ -73359,9 +73428,25 @@ parameters are a RESULT of the module parameters. -->
    </port>
   </interface>
  </module>
- <module name="sync" kind="Sync" version="1.1" path="sync">
+ <module name="sync" kind="Sync" version="1.5" path="sync">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
+  <parameter name="g_SYNC_IRQ_NUMBER">
+   <type>int</type>
+   <value>2</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="g_PRE_SYNC_IRQ_NUMBER">
+   <type>int</type>
+   <value>16</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
   <parameter name="deviceFamily">
    <type>java.lang.String</type>
    <value>UNKNOWN</value>
@@ -73433,7 +73518,7 @@ parameters are a RESULT of the module parameters. -->
    <type>clock</type>
    <isStart>false</isStart>
    <port>
-    <name>clock_sink_clk</name>
+    <name>clock_sink_clk_i</name>
     <direction>Input</direction>
     <width>1</width>
     <role>clk</role>
@@ -73478,87 +73563,10 @@ parameters are a RESULT of the module parameters. -->
    <type>reset</type>
    <isStart>false</isStart>
    <port>
-    <name>reset_sink_reset</name>
+    <name>reset_sink_reset_i</name>
     <direction>Input</direction>
     <width>1</width>
     <role>reset</role>
-   </port>
-  </interface>
-  <interface name="interrupt_sender" kind="interrupt_sender" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedAddressablePoint">
-    <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>sync.avalon_mm_slave</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="bridgedReceiverOffset">
-    <type>java.lang.Integer</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="bridgesToReceiver">
-    <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="irqScheme">
-    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
-    <value>NONE</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>interrupt</type>
-   <isStart>false</isStart>
-   <port>
-    <name>interrupt_sender_irq</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>irq</role>
    </port>
   </interface>
   <interface name="avalon_mm_slave" kind="avalon_slave" version="18.1">
@@ -73896,37 +73904,43 @@ parameters are a RESULT of the module parameters. -->
    <type>avalon</type>
    <isStart>false</isStart>
    <port>
-    <name>avalon_slave_address</name>
+    <name>avalon_slave_address_i</name>
     <direction>Input</direction>
     <width>8</width>
     <role>address</role>
    </port>
    <port>
-    <name>avalon_slave_read</name>
+    <name>avalon_slave_read_i</name>
     <direction>Input</direction>
     <width>1</width>
     <role>read</role>
    </port>
    <port>
-    <name>avalon_slave_write</name>
+    <name>avalon_slave_write_i</name>
     <direction>Input</direction>
     <width>1</width>
     <role>write</role>
    </port>
    <port>
-    <name>avalon_slave_writedata</name>
+    <name>avalon_slave_writedata_i</name>
     <direction>Input</direction>
     <width>32</width>
     <role>writedata</role>
    </port>
    <port>
-    <name>avalon_slave_readdata</name>
+    <name>avalon_slave_byteenable_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>byteenable</role>
+   </port>
+   <port>
+    <name>avalon_slave_readdata_o</name>
     <direction>Output</direction>
     <width>32</width>
     <role>readdata</role>
    </port>
    <port>
-    <name>avalon_slave_waitrequest</name>
+    <name>avalon_slave_waitrequest_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>waitrequest</role>
@@ -73971,13 +73985,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_syncin</name>
+    <name>conduit_sync_signal_syncin_i</name>
     <direction>Input</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwa" kind="conduit_end" version="18.1">
+  <interface name="sync_spw1" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74016,13 +74030,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwa</name>
+    <name>conduit_sync_signal_spw1_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwb" kind="conduit_end" version="18.1">
+  <interface name="sync_spw2" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74061,13 +74075,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwb</name>
+    <name>conduit_sync_signal_spw2_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwc" kind="conduit_end" version="18.1">
+  <interface name="sync_spw3" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74106,13 +74120,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwc</name>
+    <name>conduit_sync_signal_spw3_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwd" kind="conduit_end" version="18.1">
+  <interface name="sync_spw4" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74151,13 +74165,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwd</name>
+    <name>conduit_sync_signal_spw4_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwe" kind="conduit_end" version="18.1">
+  <interface name="sync_spw5" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74196,13 +74210,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwe</name>
+    <name>conduit_sync_signal_spw5_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwf" kind="conduit_end" version="18.1">
+  <interface name="sync_spw6" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74241,13 +74255,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwf</name>
+    <name>conduit_sync_signal_spw6_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwg" kind="conduit_end" version="18.1">
+  <interface name="sync_spw7" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74286,13 +74300,13 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwg</name>
+    <name>conduit_sync_signal_spw7_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
    </port>
   </interface>
-  <interface name="sync_spwh" kind="conduit_end" version="18.1">
+  <interface name="sync_spw8" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -74331,7 +74345,7 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_spwh</name>
+    <name>conduit_sync_signal_spw8_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
@@ -74376,10 +74390,167 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>conduit_sync_signal_syncout</name>
+    <name>conduit_sync_signal_syncout_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>conduit</role>
+   </port>
+  </interface>
+  <interface name="sync_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>sync_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface
+     name="pre_sync_interrupt_sender"
+     kind="interrupt_sender"
+     version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>pre_sync_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
    </port>
   </interface>
  </module>
@@ -74396,7 +74567,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1576603667</value>
+   <value>1576850668</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -74416,7 +74587,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1576603667</value>
+   <value>1576850668</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -74432,7 +74603,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1576603667</value>
+   <value>1576850668</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -78932,7 +79103,365 @@ parameters are a RESULT of the module parameters. -->
     <role>readdata</role>
    </port>
   </interface>
+  <interface name="avalon_master" kind="avalon_master" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="adaptsTo">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="addressGroup">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="addressUnits">
+    <type>com.altera.sopcmodel.avalon.EAddrBurstUnits</type>
+    <value>SYMBOLS</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="alwaysBurstMaxBurst">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bitsPerSymbol">
+    <type>int</type>
+    <value>8</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="burstOnBurstBoundariesOnly">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="burstcountUnits">
+    <type>com.altera.sopcmodel.avalon.EAddrBurstUnits</type>
+    <value>WORDS</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="constantBurstBehavior">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="dBSBigEndian">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="doStreamReads">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="doStreamWrites">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="holdTime">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="interleaveBursts">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="isAsynchronous">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="isBigEndian">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="isReadable">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="isWriteable">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="linewrapBursts">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="maxAddressWidth">
+    <type>int</type>
+    <value>32</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="maximumPendingReadTransactions">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="maximumPendingWriteTransactions">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="readLatency">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="readWaitTime">
+    <type>int</type>
+    <value>1</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="registerIncomingSignals">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="registerOutgoingSignals">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="setupTime">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="timingUnits">
+    <type>com.altera.sopcmodel.avalon.TimingUnits</type>
+    <value>Cycles</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="writeWaitTime">
+    <type>int</type>
+    <value>0</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>avalon</type>
+   <isStart>true</isStart>
+   <port>
+    <name>avalon_master_address</name>
+    <direction>Output</direction>
+    <width>6</width>
+    <role>address</role>
+   </port>
+   <port>
+    <name>avalon_master_read</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>read</role>
+   </port>
+   <port>
+    <name>avalon_master_write</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>write</role>
+   </port>
+   <port>
+    <name>avalon_master_writedata</name>
+    <direction>Output</direction>
+    <width>16</width>
+    <role>writedata</role>
+   </port>
+   <port>
+    <name>avalon_master_readdata</name>
+    <direction>Input</direction>
+    <width>16</width>
+    <role>readdata</role>
+   </port>
+   <port>
+    <name>avalon_master_waitrequest</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>waitrequest</role>
+   </port>
+   <memoryBlock>
+    <isBridge>false</isBridge>
+    <moduleName>rs232_uart</moduleName>
+    <slaveName>s1</slaveName>
+    <name>rs232_uart.s1</name>
+    <baseAddress>0</baseAddress>
+    <span>32</span>
+   </memoryBlock>
+  </interface>
  </module>
+ <connection
+   name="uart_module_top_0.avalon_master/rs232_uart.s1"
+   kind="avalon"
+   version="18.1"
+   start="uart_module_top_0.avalon_master"
+   end="rs232_uart.s1">
+  <parameter name="arbitrationPriority">
+   <type>int</type>
+   <value>1</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="baseAddress">
+   <type>java.math.BigInteger</type>
+   <value>0x0000</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="defaultConnection">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>uart_module_top_0</startModule>
+  <startConnectionPoint>avalon_master</startConnectionPoint>
+  <endModule>rs232_uart</endModule>
+  <endConnectionPoint>s1</endConnectionPoint>
+ </connection>
  <connection
    name="nios2_gen2_0.data_master/jtag_uart_0.avalon_jtag_slave"
    kind="avalon"
@@ -81787,57 +82316,6 @@ parameters are a RESULT of the module parameters. -->
   <startModule>clock_bridge_afi_50</startModule>
   <startConnectionPoint>m0</startConnectionPoint>
   <endModule>rtcc_cs_n</endModule>
-  <endConnectionPoint>s1</endConnectionPoint>
- </connection>
- <connection
-   name="clock_bridge_afi_50.m0/rs232_uart.s1"
-   kind="avalon"
-   version="18.1"
-   start="clock_bridge_afi_50.m0"
-   end="rs232_uart.s1">
-  <parameter name="arbitrationPriority">
-   <type>int</type>
-   <value>1</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="baseAddress">
-   <type>java.math.BigInteger</type>
-   <value>0x0840</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="defaultConnection">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>clock_bridge_afi_50</startModule>
-  <startConnectionPoint>m0</startConnectionPoint>
-  <endModule>rs232_uart</endModule>
   <endConnectionPoint>s1</endConnectionPoint>
  </connection>
  <connection
@@ -84866,41 +85344,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>csr_irq</endConnectionPoint>
  </connection>
  <connection
-   name="nios2_gen2_0.irq/sync.interrupt_sender"
-   kind="interrupt"
-   version="18.1"
-   start="nios2_gen2_0.irq"
-   end="sync.interrupt_sender">
-  <parameter name="irqNumber">
-   <type>int</type>
-   <value>2</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>nios2_gen2_0</startModule>
-  <startConnectionPoint>irq</startConnectionPoint>
-  <endModule>sync</endModule>
-  <endConnectionPoint>interrupt_sender</endConnectionPoint>
- </connection>
- <connection
    name="nios2_gen2_0.irq/jtag_uart_0.irq"
    kind="interrupt"
    version="18.1"
@@ -85074,6 +85517,76 @@ parameters are a RESULT of the module parameters. -->
   <startConnectionPoint>irq</startConnectionPoint>
   <endModule>rs232_uart</endModule>
   <endConnectionPoint>irq</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/sync.pre_sync_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="sync.pre_sync_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>16</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>sync</endModule>
+  <endConnectionPoint>pre_sync_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/sync.sync_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="sync.sync_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>2</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>sync</endModule>
+  <endConnectionPoint>sync_interrupt_sender</endConnectionPoint>
  </connection>
  <connection
    name="nios2_gen2_0.irq/Dumb_Communication_Module_v1_ChA.tx_interrupt_sender"
@@ -87300,1518 +87813,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>reset</endConnectionPoint>
  </connection>
  <connection
-   name="rst_controller.reset_source_simucam/SEVEN_SEGMENT_CONTROLLER_0.SSDP_RST"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="SEVEN_SEGMENT_CONTROLLER_0.SSDP_RST">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>SEVEN_SEGMENT_CONTROLLER_0</endModule>
-  <endConnectionPoint>SSDP_RST</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m2_ddr2_memory.global_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m2_ddr2_memory.global_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m2_ddr2_memory</endModule>
-  <endConnectionPoint>global_reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m1_ddr2_memory.global_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m1_ddr2_memory.global_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m1_ddr2_memory</endModule>
-  <endConnectionPoint>global_reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/clock_bridge_afi_50.m0_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="clock_bridge_afi_50.m0_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>clock_bridge_afi_50</endModule>
-  <endConnectionPoint>m0_reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m1_clock_bridge.m0_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m1_clock_bridge.m0_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m1_clock_bridge</endModule>
-  <endConnectionPoint>m0_reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/sync.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="sync.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>sync</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/pio_ctrl_io_lvds.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="pio_ctrl_io_lvds.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>pio_ctrl_io_lvds</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/rs232_uart.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="rs232_uart.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>rs232_uart</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/rtcc_sdo.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="rtcc_sdo.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>rtcc_sdo</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/rtcc_sdi.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="rtcc_sdi.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>rtcc_sdi</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/rtcc_sck.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="rtcc_sck.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>rtcc_sck</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/rtcc_cs_n.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="rtcc_cs_n.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>rtcc_cs_n</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/rtcc_alarm.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="rtcc_alarm.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>rtcc_alarm</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/csense_sdo.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="csense_sdo.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>csense_sdo</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/csense_sdi.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="csense_sdi.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>csense_sdi</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/csense_sck.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="csense_sck.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>csense_sck</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/csense_cs_n.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="csense_cs_n.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>csense_cs_n</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/csense_adc_fo.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="csense_adc_fo.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>csense_adc_fo</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/temp_sda.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="temp_sda.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>temp_sda</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/temp_scl.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="temp_scl.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>temp_scl</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Altera_UP_SD_Card_Avalon_Interface_0.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Altera_UP_SD_Card_Avalon_Interface_0.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Altera_UP_SD_Card_Avalon_Interface_0</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/sd_card_wp_n.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="sd_card_wp_n.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>sd_card_wp_n</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m2_ddr2_i2c_sda.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m2_ddr2_i2c_sda.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m2_ddr2_i2c_sda</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m2_ddr2_i2c_scl.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m2_ddr2_i2c_scl.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m2_ddr2_i2c_scl</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m1_ddr2_i2c_sda.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m1_ddr2_i2c_sda.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m1_ddr2_i2c_sda</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m1_ddr2_i2c_scl.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m1_ddr2_i2c_scl.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m1_ddr2_i2c_scl</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/pio_LED_painel.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="pio_LED_painel.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>pio_LED_painel</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/pio_LED.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="pio_LED.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>pio_LED</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/pio_EXT.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="pio_EXT.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>pio_EXT</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/pio_DIP.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="pio_DIP.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>pio_DIP</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/pio_BUTTON.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="pio_BUTTON.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>pio_BUTTON</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/timer_1us.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="timer_1us.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>timer_1us</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/timer_1ms.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="timer_1ms.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>timer_1ms</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/sysid_qsys.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="sysid_qsys.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>sysid_qsys</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/ddr2_address_span_extender.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="ddr2_address_span_extender.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>ddr2_address_span_extender</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/jtag_uart_0.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="jtag_uart_0.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>jtag_uart_0</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/ext_flash.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="ext_flash.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>ext_flash</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/nios2_gen2_0.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="nios2_gen2_0.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>nios2_gen2_0</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/tristate_conduit_bridge_0.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="tristate_conduit_bridge_0.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>tristate_conduit_bridge_0</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/pio_RST_ETH.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="pio_RST_ETH.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>pio_RST_ETH</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/onchip_memory.reset1"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="onchip_memory.reset1">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>onchip_memory</endModule>
-  <endConnectionPoint>reset1</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/dma_DDR_M2.reset_n"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="dma_DDR_M2.reset_n">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>dma_DDR_M2</endModule>
-  <endConnectionPoint>reset_n</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/dma_DDR_M1.reset_n"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="dma_DDR_M1.reset_n">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>dma_DDR_M1</endModule>
-  <endConnectionPoint>reset_n</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_Timer.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_Timer.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_Timer</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChH.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChH.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChH</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChG.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChG.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChG</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChF.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChF.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChF</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChE.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChE.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChE</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChD.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChD.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChD</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChC.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChC.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChC</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChB.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChB.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChB</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/Dumb_Communication_Module_v1_ChA.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="Dumb_Communication_Module_v1_ChA.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v1_ChA</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/clock_bridge_afi_50.s0_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="clock_bridge_afi_50.s0_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>clock_bridge_afi_50</endModule>
-  <endConnectionPoint>s0_reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m1_clock_bridge.s0_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m1_clock_bridge.s0_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m1_clock_bridge</endModule>
-  <endConnectionPoint>s0_reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m2_ddr2_memory.soft_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m2_ddr2_memory.soft_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m2_ddr2_memory</endModule>
-  <endConnectionPoint>soft_reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_simucam/m1_ddr2_memory.soft_reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_simucam"
-   end="m1_ddr2_memory.soft_reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_simucam</startConnectionPoint>
-  <endModule>m1_ddr2_memory</endModule>
-  <endConnectionPoint>soft_reset</endConnectionPoint>
- </connection>
- <connection
    name="rst_controller.reset_source_sync/sync.reset"
    kind="reset"
    version="18.1"
@@ -88898,7 +87899,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>67</instanceCount>
+  <instanceCount>69</instanceCount>
   <name>conduit_end</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -88914,7 +87915,7 @@ parameters are a RESULT of the module parameters. -->
   <version>1</version>
  </plugin>
  <plugin>
-  <instanceCount>17</instanceCount>
+  <instanceCount>18</instanceCount>
   <name>interrupt_sender</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -88978,7 +87979,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>9</instanceCount>
+  <instanceCount>10</instanceCount>
   <name>avalon_master</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -89103,7 +88104,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>rst_controller</displayName>
-  <version>1.4</version>
+  <version>1.5</version>
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -89111,7 +88112,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>Sync</displayName>
-  <version>1.1</version>
+  <version>1.5</version>
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -89170,7 +88171,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>16</instanceCount>
+  <instanceCount>17</instanceCount>
   <name>interrupt</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IConnection</subtype>
@@ -89178,7 +88179,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>129</instanceCount>
+  <instanceCount>73</instanceCount>
   <name>reset</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IConnection</subtype>

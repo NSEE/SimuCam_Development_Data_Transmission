@@ -135,22 +135,6 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling package body avalon_mm_registers_pkg
 -- Loading package avalon_mm_registers_pkg
 
-} {} {}} ../UART_Module/uart_module_top.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package avalon_mm_pkg
--- Loading package avalon_mm_registers_pkg
--- Compiling entity uart_module_top
--- Compiling architecture rtl of uart_module_top
--- Loading entity avalon_mm_write_ent
--- Loading entity avalon_mm_read_ent
--- Loading entity data_fifo_sc_fifo
--- Loading entity uart_tx_ent
--- Loading entity uart_rx_ent
-
 } {} {}} ../UART_Module/AVALON/avalon_mm_read_ent.vhd {1 {vcom -work work -2002 -explicit -stats=none C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_read_ent.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
