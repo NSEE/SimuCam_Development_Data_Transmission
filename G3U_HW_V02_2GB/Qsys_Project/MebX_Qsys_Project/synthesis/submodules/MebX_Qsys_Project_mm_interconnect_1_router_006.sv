@@ -1,10 +1,10 @@
-// (C) 2001-2016 Intel Corporation. All rights reserved.
+// (C) 2001-2018 Intel Corporation. All rights reserved.
 // Your use of Intel Corporation's design tools, logic functions and other 
 // software and tools, and its AMPP partner logic functions, and any output 
-// files any of the foregoing (including device programming or simulation 
+// files from any of the foregoing (including device programming or simulation 
 // files), and any associated documentation or information are expressly subject 
 // to the terms and conditions of the Intel Program License Subscription 
-// Agreement, Intel MegaCore Function License Agreement, or other applicable 
+// Agreement, Intel FPGA IP License Agreement, or other applicable 
 // license agreement, including, without limitation, that your use is for the 
 // sole purpose of programming logic devices manufactured by Intel and sold by 
 // Intel or its authorized distributors.  Please refer to the applicable 
@@ -24,10 +24,10 @@
 // agreement for further details.
 
 
-// $Id: //acds/rel/16.1/ip/merlin/altera_merlin_router/altera_merlin_router.sv.terp#1 $
+// $Id: //acds/rel/18.1std/ip/merlin/altera_merlin_router/altera_merlin_router.sv.terp#1 $
 // $Revision: #1 $
-// $Date: 2016/08/07 $
-// $Author: swbranch $
+// $Date: 2018/07/18 $
+// $Author: psgswbuild $
 
 // -------------------------------------------------------
 // Merlin Router
@@ -47,23 +47,23 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006_default_decode
      parameter DEFAULT_CHANNEL = 0,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 0 
+               DEFAULT_DESTID = 27 
    )
-  (output [138 - 136 : 0] default_destination_id,
-   output [5-1 : 0] default_wr_channel,
-   output [5-1 : 0] default_rd_channel,
-   output [5-1 : 0] default_src_channel
+  (output [148 - 144 : 0] default_destination_id,
+   output [31-1 : 0] default_wr_channel,
+   output [31-1 : 0] default_rd_channel,
+   output [31-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
-    DEFAULT_DESTID[138 - 136 : 0];
+    DEFAULT_DESTID[148 - 144 : 0];
 
   generate
     if (DEFAULT_CHANNEL == -1) begin : no_default_channel_assignment
       assign default_src_channel = '0;
     end
     else begin : default_channel_assignment
-      assign default_src_channel = 5'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 31'b1 << DEFAULT_CHANNEL;
     end
   endgenerate
 
@@ -73,8 +73,8 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006_default_decode
       assign default_rd_channel = '0;
     end
     else begin : default_rw_channel_assignment
-      assign default_wr_channel = 5'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 5'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 31'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 31'b1 << DEFAULT_RD_CHANNEL;
     end
   endgenerate
 
@@ -93,7 +93,7 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006
     // Command Sink (Input)
     // -------------------
     input                       sink_valid,
-    input  [152-1 : 0]    sink_data,
+    input  [162-1 : 0]    sink_data,
     input                       sink_startofpacket,
     input                       sink_endofpacket,
     output                      sink_ready,
@@ -102,8 +102,8 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006
     // Command Source (Output)
     // -------------------
     output                          src_valid,
-    output reg [152-1    : 0] src_data,
-    output reg [5-1 : 0] src_channel,
+    output reg [162-1    : 0] src_data,
+    output reg [31-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -112,18 +112,18 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006
     // -------------------------------------------------------
     // Local parameters and variables
     // -------------------------------------------------------
-    localparam PKT_ADDR_H = 103;
+    localparam PKT_ADDR_H = 104;
     localparam PKT_ADDR_L = 72;
-    localparam PKT_DEST_ID_H = 138;
-    localparam PKT_DEST_ID_L = 136;
-    localparam PKT_PROTECTION_H = 142;
-    localparam PKT_PROTECTION_L = 140;
-    localparam ST_DATA_W = 152;
-    localparam ST_CHANNEL_W = 5;
-    localparam DECODER_TYPE = 1;
+    localparam PKT_DEST_ID_H = 148;
+    localparam PKT_DEST_ID_L = 144;
+    localparam PKT_PROTECTION_H = 152;
+    localparam PKT_PROTECTION_L = 150;
+    localparam ST_DATA_W = 162;
+    localparam ST_CHANNEL_W = 31;
+    localparam DECODER_TYPE = 0;
 
-    localparam PKT_TRANS_WRITE = 106;
-    localparam PKT_TRANS_READ  = 107;
+    localparam PKT_TRANS_WRITE = 107;
+    localparam PKT_TRANS_READ  = 108;
 
     localparam PKT_ADDR_W = PKT_ADDR_H-PKT_ADDR_L + 1;
     localparam PKT_DEST_ID_W = PKT_DEST_ID_H-PKT_DEST_ID_L + 1;
@@ -134,12 +134,13 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006
     // Figure out the number of bits to mask off for each slave span
     // during address decoding
     // -------------------------------------------------------
+    localparam PAD0 = log2ceil(64'h100000000 - 64'h80000000); 
     // -------------------------------------------------------
     // Work out which address bits are significant based on the
     // address range of the slaves. If the required width is too
     // large or too small, we use the address field width instead.
     // -------------------------------------------------------
-    localparam ADDR_RANGE = 64'h0;
+    localparam ADDR_RANGE = 64'h100000000;
     localparam RANGE_ADDR_WIDTH = log2ceil(ADDR_RANGE);
     localparam OPTIMIZED_ADDR_H = (RANGE_ADDR_WIDTH > PKT_ADDR_W) ||
                                   (RANGE_ADDR_WIDTH == 0) ?
@@ -149,7 +150,6 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006
     localparam RG = RANGE_ADDR_WIDTH;
     localparam REAL_ADDRESS_RANGE = OPTIMIZED_ADDR_H - PKT_ADDR_L;
 
-    reg [PKT_DEST_ID_W-1 : 0] destid;
 
     // -------------------------------------------------------
     // Pass almost everything through, untouched
@@ -158,22 +158,16 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006
     assign src_valid         = sink_valid;
     assign src_startofpacket = sink_startofpacket;
     assign src_endofpacket   = sink_endofpacket;
-    wire [5-1 : 0] default_src_channel;
+    wire [PKT_DEST_ID_W-1:0] default_destid;
+    wire [31-1 : 0] default_src_channel;
 
 
 
 
-    // -------------------------------------------------------
-    // Write and read transaction signals
-    // -------------------------------------------------------
-    wire write_transaction;
-    assign write_transaction = sink_data[PKT_TRANS_WRITE];
-    wire read_transaction;
-    assign read_transaction  = sink_data[PKT_TRANS_READ];
 
 
     MebX_Qsys_Project_mm_interconnect_1_router_006_default_decode the_default_decode(
-      .default_destination_id (),
+      .default_destination_id (default_destid),
       .default_wr_channel   (),
       .default_rd_channel   (),
       .default_src_channel  (default_src_channel)
@@ -182,27 +176,19 @@ module MebX_Qsys_Project_mm_interconnect_1_router_006
     always @* begin
         src_data    = sink_data;
         src_channel = default_src_channel;
+        src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = default_destid;
 
         // --------------------------------------------------
-        // DestinationID Decoder
-        // Sets the channel based on the destination ID.
+        // Address Decoder
+        // Sets the channel and destination ID based on the address
         // --------------------------------------------------
-        destid      = sink_data[PKT_DEST_ID_H : PKT_DEST_ID_L];
-
-
-
-        if (destid == 0 ) begin
-            src_channel = 5'b001;
-        end
-
-        if (destid == 1  && read_transaction) begin
-            src_channel = 5'b010;
-        end
-
-        if (destid == 4  && write_transaction) begin
-            src_channel = 5'b100;
-        end
-
+           
+         
+          // ( 80000000 .. 100000000 )
+          src_channel = 31'b1;
+          src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 27;
+	     
+        
 
 end
 

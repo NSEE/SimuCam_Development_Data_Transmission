@@ -1,10 +1,10 @@
--- (C) 2001-2016 Intel Corporation. All rights reserved.
+-- (C) 2001-2018 Intel Corporation. All rights reserved.
 -- Your use of Intel Corporation's design tools, logic functions and other 
 -- software and tools, and its AMPP partner logic functions, and any output 
--- files any of the foregoing (including device programming or simulation 
+-- files from any of the foregoing (including device programming or simulation 
 -- files), and any associated documentation or information are expressly subject 
 -- to the terms and conditions of the Intel Program License Subscription 
--- Agreement, Intel MegaCore Function License Agreement, or other applicable 
+-- Agreement, Intel FPGA IP License Agreement, or other applicable 
 -- license agreement, including, without limitation, that your use is for the 
 -- sole purpose of programming logic devices manufactured by Intel and sold by 
 -- Intel or its authorized distributors.  Please refer to the applicable 
@@ -28,8 +28,8 @@
 -- This BFM's HDL is been generated through terp file in Qsys/SOPC Builder.
 -- Generation parameters:
 -- output_name:                  altera_conduit_bfm_0002
--- role:width:direction:         export:1:input
--- clocked                       0
+-- role:width:direction:         uart_cts_signal:1:input,uart_rts_signal:1:output,uart_rxd_signal:1:output,uart_txd_signal:1:input
+-- clocked                       1
 -------------------------------------------------------------------------------
 
 library ieee;
@@ -39,38 +39,95 @@ library work;
 use work.all;
 
 
+
+
+
 package altera_conduit_bfm_0002_vhdl_pkg is
 
+   -- output signal register
+   type altera_conduit_bfm_0002_out_trans_t is record
+      sig_uart_rts_signal_out     : std_logic_vector(0 downto 0);
+      sig_uart_rxd_signal_out     : std_logic_vector(0 downto 0);
+   end record;
+   
+   shared variable out_trans        : altera_conduit_bfm_0002_out_trans_t;
 
    -- input signal register
-   signal sig_export_in      : std_logic_vector(0 downto 0);
+   signal reset_in                    : std_logic;
+   signal sig_uart_cts_signal_in      : std_logic_vector(0 downto 0);
+   signal sig_uart_txd_signal_in      : std_logic_vector(0 downto 0);
 
    -- VHDL Procedure API
    
-   -- get export value
-   procedure get_export             (signal_value : out std_logic_vector(0 downto 0));
+   -- get uart_cts_signal value
+   procedure get_uart_cts_signal             (signal_value : out std_logic_vector(0 downto 0));
+   
+   -- set uart_rts_signal value
+   procedure set_uart_rts_signal             (signal_value : in std_logic_vector(0 downto 0));
+   
+   -- set uart_rxd_signal value
+   procedure set_uart_rxd_signal             (signal_value : in std_logic_vector(0 downto 0));
+   
+   -- get uart_txd_signal value
+   procedure get_uart_txd_signal             (signal_value : out std_logic_vector(0 downto 0));
    
    -- VHDL Event API
+   procedure event_reset_asserted;
 
-   procedure event_export_change;   
+   procedure event_uart_cts_signal_change;   
+
+   procedure event_uart_txd_signal_change;   
 
 end altera_conduit_bfm_0002_vhdl_pkg;
 
 package body altera_conduit_bfm_0002_vhdl_pkg is
    
-   procedure get_export             (signal_value : out std_logic_vector(0 downto 0)) is
+   procedure get_uart_cts_signal             (signal_value : out std_logic_vector(0 downto 0)) is
    begin
 
-      signal_value := sig_export_in;
+      signal_value := sig_uart_cts_signal_in;
    
-   end procedure get_export;
+   end procedure get_uart_cts_signal;
    
-   procedure event_export_change is
+   procedure set_uart_rts_signal             (signal_value : in std_logic_vector(0 downto 0)) is
+   begin
+      
+      out_trans.sig_uart_rts_signal_out := signal_value;
+      
+   end procedure set_uart_rts_signal;
+   
+   procedure set_uart_rxd_signal             (signal_value : in std_logic_vector(0 downto 0)) is
+   begin
+      
+      out_trans.sig_uart_rxd_signal_out := signal_value;
+      
+   end procedure set_uart_rxd_signal;
+   
+   procedure get_uart_txd_signal             (signal_value : out std_logic_vector(0 downto 0)) is
    begin
 
-      wait until (sig_export_in'event);
+      signal_value := sig_uart_txd_signal_in;
+   
+   end procedure get_uart_txd_signal;
+   
+   procedure event_reset_asserted is
+   begin
+   
+      wait until (reset_in'event and reset_in = '1');
+      
+   end event_reset_asserted;
+   procedure event_uart_cts_signal_change is
+   begin
 
-   end event_export_change;
+      wait until (sig_uart_cts_signal_in'event);
+
+   end event_uart_cts_signal_change;
+   procedure event_uart_txd_signal_change is
+   begin
+
+      wait until (sig_uart_txd_signal_in'event);
+
+   end event_uart_txd_signal_change;
 
 end altera_conduit_bfm_0002_vhdl_pkg;
 

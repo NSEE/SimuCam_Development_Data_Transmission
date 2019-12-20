@@ -1,19 +1,19 @@
-# system info MebX_Qsys_Project on 2019.04.13.00:44:32
+# system info MebX_Qsys_Project on 2019.12.19.14:38:32
 system_info:
 name,value
-DEVICE,EP4SGX230KF40C2
+DEVICE,EP4SGX530KH40C2
 DEVICE_FAMILY,Stratix IV
-GENERATION_ID,1555127031
+GENERATION_ID,1576773490
 #
 #
-# Files generated for MebX_Qsys_Project on 2019.04.13.00:44:32
+# Files generated for MebX_Qsys_Project on 2019.12.19.14:38:32
 files:
 filepath,kind,attributes,module,is_top
 simulation/MebX_Qsys_Project.vhd,VHDL,,MebX_Qsys_Project,true
 simulation/mebx_qsys_project_rst_controller_001.vhd,VHDL,,MebX_Qsys_Project,false
-simulation/mebx_qsys_project_rst_controller_002.vhd,VHDL,,MebX_Qsys_Project,false
 simulation/mebx_qsys_project_rst_controller_010.vhd,VHDL,,MebX_Qsys_Project,false
-simulation/mebx_qsys_project_rst_controller_012.vhd,VHDL,,MebX_Qsys_Project,false
+simulation/mebx_qsys_project_rst_controller_011.vhd,VHDL,,MebX_Qsys_Project,false
+simulation/mebx_qsys_project_rst_controller_020.vhd,VHDL,,MebX_Qsys_Project,false
 simulation/mebx_qsys_project_clock_bridge_afi_50.vhd,VHDL,,MebX_Qsys_Project,false
 simulation/mebx_qsys_project_m1_clock_bridge.vhd,VHDL,,MebX_Qsys_Project,false
 #
@@ -40,6 +40,7 @@ MebX_Qsys_Project.csense_sck,MebX_Qsys_Project_csense_adc_fo
 MebX_Qsys_Project.csense_sdi,MebX_Qsys_Project_csense_adc_fo
 MebX_Qsys_Project.m1_ddr2_i2c_scl,MebX_Qsys_Project_csense_adc_fo
 MebX_Qsys_Project.m2_ddr2_i2c_scl,MebX_Qsys_Project_csense_adc_fo
+MebX_Qsys_Project.pio_RST_ETH,MebX_Qsys_Project_csense_adc_fo
 MebX_Qsys_Project.rtcc_cs_n,MebX_Qsys_Project_csense_adc_fo
 MebX_Qsys_Project.rtcc_sck,MebX_Qsys_Project_csense_adc_fo
 MebX_Qsys_Project.rtcc_sdi,MebX_Qsys_Project_csense_adc_fo
@@ -74,9 +75,11 @@ MebX_Qsys_Project.sysid_qsys,MebX_Qsys_Project_sysid_qsys
 MebX_Qsys_Project.timer_1ms,MebX_Qsys_Project_timer_1ms
 MebX_Qsys_Project.timer_1us,MebX_Qsys_Project_timer_1us
 MebX_Qsys_Project.tristate_conduit_bridge_0,MebX_Qsys_Project_tristate_conduit_bridge_0
+MebX_Qsys_Project.uart_module_top_0,uart_module_top
 MebX_Qsys_Project.mm_interconnect_0,MebX_Qsys_Project_mm_interconnect_0
 MebX_Qsys_Project.mm_interconnect_1,MebX_Qsys_Project_mm_interconnect_1
 MebX_Qsys_Project.mm_interconnect_2,MebX_Qsys_Project_mm_interconnect_2
+MebX_Qsys_Project.mm_interconnect_3,MebX_Qsys_Project_mm_interconnect_3
 MebX_Qsys_Project.irq_mapper,MebX_Qsys_Project_irq_mapper
 MebX_Qsys_Project.irq_synchronizer,altera_irq_clock_crosser
 MebX_Qsys_Project.irq_synchronizer_001,altera_irq_clock_crosser
@@ -106,8 +109,7 @@ MebX_Qsys_Project.rst_controller_020,altera_reset_controller
 MebX_Qsys_Project.rst_controller_021,altera_reset_controller
 MebX_Qsys_Project.rst_controller_022,altera_reset_controller
 MebX_Qsys_Project.rst_controller_023,altera_reset_controller
-MebX_Qsys_Project.rst_controller_024,altera_reset_controller
 MebX_Qsys_Project.rst_controller_001,altera_reset_controller
-MebX_Qsys_Project.rst_controller_002,altera_reset_controller
 MebX_Qsys_Project.rst_controller_010,altera_reset_controller
-MebX_Qsys_Project.rst_controller_012,altera_reset_controller
+MebX_Qsys_Project.rst_controller_011,altera_reset_controller
+MebX_Qsys_Project.rst_controller_020,altera_reset_controller

@@ -1,0 +1,22 @@
+	component MebX_Qsys_Project is
+		port (
+			clk50_clk                                  : in  std_logic                     := 'X';             -- clk
+			rs232_uart_rxd                             : in  std_logic                     := 'X';             -- rxd
+			rs232_uart_txd                             : out std_logic;                                        -- txd
+			rs232_uart_cts_n                           : in  std_logic                     := 'X';             -- cts_n
+			rs232_uart_rts_n                           : out std_logic;                                        -- rts_n
+			rs232_uart_irq_irq                         : out std_logic;                                        -- irq
+			rst_reset_n                                : in  std_logic                     := 'X';             -- reset_n
+			uart_module_uart_txd_signal                : out std_logic;                                        -- uart_txd_signal
+			uart_module_uart_rxd_signal                : in  std_logic                     := 'X';             -- uart_rxd_signal
+			uart_module_uart_rts_signal                : in  std_logic                     := 'X';             -- uart_rts_signal
+			uart_module_uart_cts_signal                : out std_logic;                                        -- uart_cts_signal
+			uart_module_top_0_avalon_slave_address     : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- address
+			uart_module_top_0_avalon_slave_read        : in  std_logic                     := 'X';             -- read
+			uart_module_top_0_avalon_slave_write       : in  std_logic                     := 'X';             -- write
+			uart_module_top_0_avalon_slave_waitrequest : out std_logic;                                        -- waitrequest
+			uart_module_top_0_avalon_slave_writedata   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			uart_module_top_0_avalon_slave_readdata    : out std_logic_vector(31 downto 0)                     -- readdata
+		);
+	end component MebX_Qsys_Project;
+

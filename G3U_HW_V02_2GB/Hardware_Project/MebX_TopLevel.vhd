@@ -39,7 +39,7 @@ port(
     OSC_50_BANK4 : in std_logic;
     OSC_50_BANK3 : in std_logic;
 
-    -- RST
+    -- rst_n
     CPU_RESET_n	 : in std_logic;
     RESET_PAINEL_n : in std_logic;  -- painel GPIO1
 
@@ -88,13 +88,13 @@ port(
 	 B_SD_CARD_DAT3  : inout std_logic;
 	 O_SD_CARD_CLOCK : out   std_logic;
 
-    -- Ethernet
-    ETH_MDC   : out std_logic_vector(3 downto 0);
-    ETH_INT_n : in  std_logic_vector(3 downto 0);  
-    ETH_MDIO  : inout  std_logic_vector(3 downto 0); 
-    ETH_RST_n : out std_logic;
-    ETH_RX_p  : in  std_logic_vector(3 downto 0); 
-    ETH_TX_p  : out std_logic_vector(3 downto 0); 
+--    -- Ethernet
+--    ETH_MDC   : out std_logic_vector(3 downto 0);
+--    ETH_INT_n : in  std_logic_vector(3 downto 0);  
+--    ETH_MDIO  : inout  std_logic_vector(3 downto 0); 
+--    ETH_RST_n : out std_logic;
+--    ETH_RX_p  : in  std_logic_vector(3 downto 0); 
+--    ETH_TX_p  : out std_logic_vector(3 downto 0); 
 
     -- DDR2 DIM2
     M2_DDR2_addr    : out   std_logic_vector(13 downto 0);      
@@ -255,9 +255,12 @@ port(
 		SYNC_OUT               : out   std_logic;
 	
 	-- RS232 UART	 
+	O_RS232_UART_TXD : out std_logic;
+	O_RS232_UART_CTS : out std_logic;
 	I_RS232_UART_RXD : in  std_logic;
-   O_RS232_UART_TXD : out std_logic
-
+	I_RS232_UART_RTS : in  std_logic
+	
+	
   );
 end entity;
 
@@ -270,6 +273,9 @@ signal clk125, clk100, clk80 : std_logic;
 
 signal forceIntRst_n : std_logic := '0';
 
+signal rst_ctrl_input : std_logic := '0';
+	signal simucam_rst    : std_logic := '0';
+	
 attribute KEEP: boolean;
 attribute KEEP of clk100: signal is true;
 attribute KEEP of clk80: signal is true;
@@ -300,9 +306,9 @@ signal leds_p : std_logic_vector(20 downto 0);
 signal ctrl_io_lvds : std_logic_vector(3 downto 0);
 
 -----------------------------------------
--- RST CPU
+-- rst_n CPU
 -----------------------------------------
-signal rst : std_logic;
+signal rst_n : std_logic;
 
 
 signal pll_locked : std_logic;
@@ -367,6 +373,9 @@ signal spw_h_sync : std_logic;
 
             rst_reset_n             : in    std_logic;
 
+			rst_controller_conduit_reset_input_t_reset_input_signal     : in    std_logic                     := 'X'; --          -- t_reset_input_signal
+			rst_controller_conduit_simucam_reset_t_simucam_reset_signal : out   std_logic; --                                     -- t_simucam_reset_signal
+				
             m2_ddr2_memory_mem_a             : out   std_logic_vector(13 downto 0);                    
             m2_ddr2_memory_mem_ba            : out   std_logic_vector(2 downto 0);                     
             m2_ddr2_memory_mem_ck            : out   std_logic_vector(1 downto 0);                     
@@ -404,20 +413,6 @@ signal spw_h_sync : std_logic;
             
             clk50_clk                : in    std_logic                     := 'X';             
 
-            ETH_rst_export                        : out   std_logic;
-            tse_clk_clk                           : in    std_logic;      
-            tse_mdio_mdc                          : out   std_logic;                                 
-            tse_mdio_mdio_in                      : in    std_logic;      
-            tse_mdio_mdio_out                     : out   std_logic;                                 
-            tse_mdio_mdio_oen                     : out   std_logic;                                 
-            tse_led_crs                           : out   std_logic;                                 
-            tse_led_link                          : out   std_logic;                                 
-            tse_led_col                           : out   std_logic;                                 
-            tse_led_an                            : out   std_logic;                                 
-            tse_led_char_err                      : out   std_logic;                                 
-            tse_led_disp_err                      : out   std_logic;                                 
-            tse_serial_txp                        : out   std_logic;                                 
-            tse_serial_rxp                        : in    std_logic;      
             tristate_conduit_tcm_address_out      : out   std_logic_vector(25 downto 0);             
             tristate_conduit_tcm_read_n_out       : out   std_logic_vector(0 downto 0);              
             tristate_conduit_tcm_write_n_out      : out   std_logic_vector(0 downto 0);              
@@ -498,14 +493,14 @@ signal spw_h_sync : std_logic;
 				
 			sync_in_conduit                       : in    std_logic                     := 'X';
 			sync_out_conduit                      : out   std_logic;
-			sync_spwa_conduit                     : out   std_logic;
-			sync_spwb_conduit                     : out   std_logic;
-			sync_spwc_conduit                     : out   std_logic;
-			sync_spwd_conduit                     : out   std_logic;
-			sync_spwe_conduit                     : out   std_logic;
-			sync_spwf_conduit                     : out   std_logic;
-			sync_spwg_conduit                     : out   std_logic;
-			sync_spwh_conduit                     : out   std_logic;
+			sync_spw1_conduit                     : out   std_logic;
+			sync_spw2_conduit                     : out   std_logic;
+			sync_spw3_conduit                     : out   std_logic;
+			sync_spw4_conduit                     : out   std_logic;
+			sync_spw5_conduit                     : out   std_logic;
+			sync_spw6_conduit                     : out   std_logic;
+			sync_spw7_conduit                     : out   std_logic;
+			sync_spw8_conduit                     : out   std_logic;
 				
 				sd_card_wp_n_io_export                               : in    std_logic                     := 'X';             -- export
             sd_card_ip_b_SD_cmd                                  : inout std_logic                     := 'X';             -- b_SD_cmd
@@ -513,8 +508,16 @@ signal spw_h_sync : std_logic;
             sd_card_ip_b_SD_dat3                                 : inout std_logic                     := 'X';             -- b_SD_dat3
             sd_card_ip_o_SD_clock                                : out   std_logic;                                        -- o_SD_clock
 				
-            rs232_uart_rxd                                       : in    std_logic                     := 'X';             -- rxd
-            rs232_uart_txd                                       : out   std_logic                                         -- txd
+            rs232_uart_rxd                                                          : in    std_logic                     := 'X';             -- rxd
+            rs232_uart_txd                                                          : out   std_logic;                                        -- txd
+--            rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
+--            rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
+				
+				
+            uart_module_uart_txd_signal                                             : out   std_logic;                                        -- uart_txd_signal
+            uart_module_uart_rxd_signal                                             : in    std_logic                     := 'X';             -- uart_rxd_signal
+            uart_module_uart_rts_signal                                             : in    std_logic                     := 'X';             -- uart_rts_signal
+            uart_module_uart_cts_signal                                             : out   std_logic                                         -- uart_cts_signal
         );
     end component MebX_Qsys_Project;
 
@@ -548,7 +551,10 @@ SOPC_INST : MebX_Qsys_Project
 	port map (
 
     clk50_clk	 => OSC_50_Bank4,
-    rst_reset_n => rst,
+    rst_reset_n => rst_n,
+	 
+			rst_controller_conduit_reset_input_t_reset_input_signal     => rst_ctrl_input, --              --   rst_controller_conduit_reset_input.t_reset_input_signal
+			rst_controller_conduit_simucam_reset_t_simucam_reset_signal => simucam_rst, --                 -- rst_controller_conduit_simucam_reset.t_simucam_reset_signal
 
     led_de4_export    => leds_b,
     led_painel_export => leds_p,
@@ -562,21 +568,6 @@ SOPC_INST : MebX_Qsys_Project
 	 
 	 ctrl_io_lvds_export	=> ctrl_io_lvds,
     
-    ETH_rst_export                         => rst_eth,
-    tse_led_an                             => open, 
-	tse_led_char_err                       => open, 
-	tse_led_col                            => open, 
-	tse_led_crs                            => open, 
-    tse_led_disp_err                       => open, 
-	tse_led_link                           => open, 
-    tse_mdio_mdc                           => enet_mdc,
-    tse_mdio_mdio_in                       => enet_mdio_in,
-    tse_mdio_mdio_oen                      => enet_mdio_oen,
-	tse_mdio_mdio_out                      => enet_mdio_out,
-    tse_clk_clk 						   => enet_refclk_125MHz,
-    tse_serial_rxp                         => lvds_rxp,
-	tse_serial_txp                         => lvds_txp,
-	
     tristate_conduit_tcm_address_out       => FSM_A(25 downto 0),
     tristate_conduit_tcm_data_out          => FSM_D,
     tristate_conduit_tcm_chipselect_n_out  => FLASH_CE_n, 
@@ -682,31 +673,49 @@ SOPC_INST : MebX_Qsys_Project
 	
 			sync_in_conduit                       => s_sync_in, --SYNC_IN,
 			sync_out_conduit                      => s_sync_out, --SYNC_OUT,
-			sync_spwa_conduit                     => spw_a_sync,
-			sync_spwb_conduit                     => spw_b_sync,
-			sync_spwc_conduit                     => spw_c_sync,
-			sync_spwd_conduit                     => spw_d_sync,
-			sync_spwe_conduit                     => spw_e_sync,
-			sync_spwf_conduit                     => spw_f_sync,
-			sync_spwg_conduit                     => spw_g_sync,
-			sync_spwh_conduit                     => spw_h_sync,
+			sync_spw1_conduit                     => spw_a_sync,
+			sync_spw2_conduit                     => spw_b_sync,
+			sync_spw3_conduit                     => spw_c_sync,
+			sync_spw4_conduit                     => spw_d_sync,
+			sync_spw5_conduit                     => spw_e_sync,
+			sync_spw6_conduit                     => spw_f_sync,
+			sync_spw7_conduit                     => spw_g_sync,
+			sync_spw8_conduit                     => spw_h_sync,
 	
 	sd_card_wp_n_io_export => I_SD_CARD_WP_n,   -- sd_card_wp_n_io.export
 	sd_card_ip_b_SD_cmd    => B_SD_CARD_CMD,    -- sd_card_ip.b_SD_cmd
 	sd_card_ip_b_SD_dat    => B_SD_CARD_DAT,    --           .b_SD_dat
 	sd_card_ip_b_SD_dat3   => B_SD_CARD_DAT3,   --           .b_SD_dat3
 	sd_card_ip_o_SD_clock  => O_SD_CARD_CLOCK,  --           .o_SD_clock
-	
-	rs232_uart_rxd => I_RS232_UART_RXD, -- rs232_uart.rxd
-	rs232_uart_txd => O_RS232_UART_TXD  --           .txd
+		
+            rs232_uart_rxd                                                          => I_RS232_UART_RXD,                                                          --                                                  rs232_uart.rxd
+            rs232_uart_txd                                                          => O_RS232_UART_TXD,                                                          --                                                            .txd
+--            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
+--            rs232_uart_rts_n                                                        => O_RS232_UART_CTS,                                                        --                                                            .rts_n
+
+--            rs232_uart_rxd                                                          => '1',                                                          --                                                  rs232_uart.rxd
+--            rs232_uart_txd                                                          => open,                                                          --                                                            .txd
+--            rs232_uart_cts_n                                                        => '1',                                                        --                                                            .cts_n
+--            rs232_uart_rts_n                                                        => open,                                                        --                                                            .rts_n
+				
+--            uart_module_uart_txd_signal                                             => O_RS232_UART_TXD,                                             --                                                 uart_module.uart_txd_signal
+--            uart_module_uart_rxd_signal                                             => I_RS232_UART_RXD,                                             --                                                            .uart_rxd_signal
+--            uart_module_uart_rts_signal                                             => I_RS232_UART_RTS,                                             --                                                            .uart_rts_signal
+--            uart_module_uart_cts_signal                                             => O_RS232_UART_CTS                                              --                                                            .uart_cts_signal
+				
+            uart_module_uart_txd_signal                                             => open,                                             --                                                 uart_module.uart_txd_signal
+            uart_module_uart_rxd_signal                                             => '1',                                             --                                                            .uart_rxd_signal
+            uart_module_uart_rts_signal                                             => I_RS232_UART_RTS,                                             --                                                            .uart_rts_signal
+            uart_module_uart_cts_signal                                             => O_RS232_UART_CTS                                              --                                                            .uart_cts_signal
 	
  );
 
 --==========--
--- rst
+-- rst_n
 --==========--
 
-rst <= CPU_RESET_n AND RESET_PAINEL_n;
+	rst_ctrl_input <= not (CPU_RESET_n and RESET_PAINEL_n);
+	rst_n          <= not (simucam_rst);
  
 --==========--
 -- I/Os
@@ -720,45 +729,45 @@ rst <= CPU_RESET_n AND RESET_PAINEL_n;
 -- Ativa ventoinha
 FAN_CTRL <= '1';
 
--- LEDs assumem estado diferente no rst.
+-- LEDs assumem estado diferente no rst_n.
 
-LED_DE4(0) <= ('1') when (rst = '0') else (leds_b(0));
-LED_DE4(1) <= ('1') when (rst = '0') else (leds_b(1));
-LED_DE4(2) <= ('1') when (rst = '0') else (leds_b(2));
-LED_DE4(3) <= ('1') when (rst = '0') else (leds_b(3));
-LED_DE4(4) <= ('1') when (rst = '0') else (leds_b(4));
-LED_DE4(5) <= ('1') when (rst = '0') else (leds_b(5));
-LED_DE4(6) <= ('1') when (rst = '0') else (leds_b(6));
-LED_DE4(7) <= ('1') when (rst = '0') else (leds_b(7));
+LED_DE4(0) <= ('1') when (rst_n = '0') else (leds_b(0));
+LED_DE4(1) <= ('1') when (rst_n = '0') else (leds_b(1));
+LED_DE4(2) <= ('1') when (rst_n = '0') else (leds_b(2));
+LED_DE4(3) <= ('1') when (rst_n = '0') else (leds_b(3));
+LED_DE4(4) <= ('1') when (rst_n = '0') else (leds_b(4));
+LED_DE4(5) <= ('1') when (rst_n = '0') else (leds_b(5));
+LED_DE4(6) <= ('1') when (rst_n = '0') else (leds_b(6));
+LED_DE4(7) <= ('1') when (rst_n = '0') else (leds_b(7));
 
 				  
-LED_PAINEL_LED_1G    <= ('1') when (rst = '0') else (leds_p(0));
-LED_PAINEL_LED_1R    <= ('1') when (rst = '0') else (leds_p(1));
-LED_PAINEL_LED_2G    <= ('1') when (rst = '0') else (leds_p(2));
-LED_PAINEL_LED_2R    <= ('1') when (rst = '0') else (leds_p(3));
-LED_PAINEL_LED_3G    <= ('1') when (rst = '0') else (leds_p(4));
-LED_PAINEL_LED_3R    <= ('1') when (rst = '0') else (leds_p(5));
-LED_PAINEL_LED_4G    <= ('1') when (rst = '0') else (leds_p(6));
-LED_PAINEL_LED_4R    <= ('1') when (rst = '0') else (leds_p(7));
-LED_PAINEL_LED_5G    <= ('1') when (rst = '0') else (leds_p(8));
-LED_PAINEL_LED_5R    <= ('1') when (rst = '0') else (leds_p(9));
-LED_PAINEL_LED_6G    <= ('1') when (rst = '0') else (leds_p(10));
-LED_PAINEL_LED_6R    <= ('1') when (rst = '0') else (leds_p(11));
-LED_PAINEL_LED_7G    <= ('1') when (rst = '0') else (leds_p(12));
-LED_PAINEL_LED_7R    <= ('1') when (rst = '0') else (leds_p(13));
-LED_PAINEL_LED_8G    <= ('1') when (rst = '0') else (leds_p(14));
-LED_PAINEL_LED_8R    <= ('1') when (rst = '0') else (leds_p(15));
-LED_PAINEL_LED_POWER <= ('1') when (rst = '0') else (leds_p(16));
-LED_PAINEL_LED_ST1   <= ('1') when (rst = '0') else (leds_p(17));
-LED_PAINEL_LED_ST2   <= ('1') when (rst = '0') else (leds_p(18));
-LED_PAINEL_LED_ST3   <= ('1') when (rst = '0') else (leds_p(19));
-LED_PAINEL_LED_ST4   <= ('1') when (rst = '0') else (leds_p(20));
+LED_PAINEL_LED_1G    <= ('1') when (rst_n = '0') else (leds_p(0));
+LED_PAINEL_LED_1R    <= ('1') when (rst_n = '0') else (leds_p(1));
+LED_PAINEL_LED_2G    <= ('1') when (rst_n = '0') else (leds_p(2));
+LED_PAINEL_LED_2R    <= ('1') when (rst_n = '0') else (leds_p(3));
+LED_PAINEL_LED_3G    <= ('1') when (rst_n = '0') else (leds_p(4));
+LED_PAINEL_LED_3R    <= ('1') when (rst_n = '0') else (leds_p(5));
+LED_PAINEL_LED_4G    <= ('1') when (rst_n = '0') else (leds_p(6));
+LED_PAINEL_LED_4R    <= ('1') when (rst_n = '0') else (leds_p(7));
+LED_PAINEL_LED_5G    <= ('1') when (rst_n = '0') else (leds_p(8));
+LED_PAINEL_LED_5R    <= ('1') when (rst_n = '0') else (leds_p(9));
+LED_PAINEL_LED_6G    <= ('1') when (rst_n = '0') else (leds_p(10));
+LED_PAINEL_LED_6R    <= ('1') when (rst_n = '0') else (leds_p(11));
+LED_PAINEL_LED_7G    <= ('1') when (rst_n = '0') else (leds_p(12));
+LED_PAINEL_LED_7R    <= ('1') when (rst_n = '0') else (leds_p(13));
+LED_PAINEL_LED_8G    <= ('1') when (rst_n = '0') else (leds_p(14));
+LED_PAINEL_LED_8R    <= ('1') when (rst_n = '0') else (leds_p(15));
+LED_PAINEL_LED_POWER <= ('1') when (rst_n = '0') else (leds_p(16));
+LED_PAINEL_LED_ST1   <= ('1') when (rst_n = '0') else (leds_p(17));
+LED_PAINEL_LED_ST2   <= ('1') when (rst_n = '0') else (leds_p(18));
+LED_PAINEL_LED_ST3   <= ('1') when (rst_n = '0') else (leds_p(19));
+LED_PAINEL_LED_ST4   <= ('1') when (rst_n = '0') else (leds_p(20));
 				  
 --==========--
 -- eth
 --==========--
 
-ETH_RST_n <= (rst) and (rst_eth);
+--ETH_RST_n <= (rst_n) and (rst_eth);
 
 -- ETH0
 -- lvds_rxp     <= ETH_RX_p(0);
@@ -782,17 +791,17 @@ ETH_RST_n <= (rst) and (rst_eth);
 -- ETH_MDC(2)   <= enet_mdc;
 
 -- ETH3
-lvds_rxp     <= ETH_RX_p(3);
-ETH_TX_p(3)  <= lvds_txp;
-enet_mdio_in <= ETH_MDIO(3);
-ETH_MDIO(3)  <= (enet_mdio_out) when (enet_mdio_oen = '0') else ('Z');
-ETH_MDC(3)   <= enet_mdc;
+--lvds_rxp     <= ETH_RX_p(3);
+--ETH_TX_p(3)  <= lvds_txp;
+--enet_mdio_in <= ETH_MDIO(3);
+--ETH_MDIO(3)  <= (enet_mdio_out) when (enet_mdio_oen = '0') else ('Z');
+--ETH_MDC(3)   <= enet_mdc;
 
 --==========--
 -- Flash
 --==========--
 
-FLASH_RESET_n <= rst;
+FLASH_RESET_n <= rst_n;
 FLASH_CLK     <= '0';
 FLASH_ADV_n   <= '0';
 

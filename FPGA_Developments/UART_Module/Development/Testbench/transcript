@@ -1,0 +1,71 @@
+# Reading C:/intelFPGA/18.1/modelsim_ase/tcl/vsim/pref.tcl
+# OpenFile D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/UART_Module_Testbench.mpf
+# Loading project UART_Module_Testbench
+# Compile of avalon_mm_pkg.vhd was successful.
+# Compile of avalon_mm_registers_pkg.vhd was successful.
+# Compile of avalon_mm_read_ent.vhd was successful.
+# Compile of avalon_mm_write_ent.vhd was successful.
+# Compile of data_fifo_sc_fifo.vhd was successful.
+# Compile of uart_rx_ent.vhd was successful.
+# Compile of uart_tx_ent.vhd was successful.
+# Compile of uart_module_top.vhd was successful.
+# Compile of config_avalon_stimuli.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 10 compiles, 0 failed with no errors.
+vsim work.testbench_top
+# vsim work.testbench_top 
+# Start time: 23:00:33 on Dec 16,2019
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.avalon_mm_registers_pkg(body)
+# Loading work.avalon_mm_pkg
+# Loading work.testbench_top(rtl)
+# Loading work.config_avalon_stimuli(rtl)
+# Loading work.uart_module_top(rtl)
+# Loading work.avalon_mm_write_ent(rtl)
+# Loading work.avalon_mm_read_ent(rtl)
+# Loading work.data_fifo_sc_fifo(syn)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading altera_mf.altera_device_families(body)
+# Loading altera_mf.scfifo(behavior)
+# Loading work.uart_tx_ent(rtl)
+# Loading work.uart_rx_ent(rtl)
+add wave -position insertpoint sim:/testbench_top/*
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: rfranca  Hostname: NSEE-H125-01  ProcessID: 15588
+#           Attempting to use alternate WLF file "./wlft937hdi".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft937hdi
+restart
+run
+# Compile of testbench_top.vhd was successful.
+restart
+# Loading work.testbench_top(rtl)
+run
+# Compile of testbench_top.vhd was successful.
+restart
+# Loading work.testbench_top(rtl)
+run
+do D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/wave.do
+restart
+# Compile of testbench_top.vhd was successful.
+restart
+# Loading work.testbench_top(rtl)
+run
+# Compile of config_avalon_stimuli.vhd was successful.
+restart
+# Loading work.config_avalon_stimuli(rtl)
+run
+# Compile of testbench_top.vhd was successful.
+restart
+# Loading work.testbench_top(rtl)
+run
+run
+# Compile of testbench_top.vhd was successful.
+restart
+# Loading work.testbench_top(rtl)
+run
+run

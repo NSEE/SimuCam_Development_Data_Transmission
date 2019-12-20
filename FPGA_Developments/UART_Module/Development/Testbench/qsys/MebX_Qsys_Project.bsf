@@ -1,0 +1,191 @@
+/*
+WARNING: Do NOT edit the input and output ports in this file in a text
+editor if you plan to continue editing the block that represents it in
+the Block Editor! File corruption is VERY likely to occur.
+*/
+/*
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+*/
+(header "symbol" (version "1.1"))
+(symbol
+	(rect 0 0 608 440)
+	(text "MebX_Qsys_Project" (rect 244 -1 328 11)(font "Arial" (font_size 10)))
+	(text "inst" (rect 8 424 20 436)(font "Arial" ))
+	(port
+		(pt 0 72)
+		(input)
+		(text "clk50_clk" (rect 0 0 36 12)(font "Arial" (font_size 8)))
+		(text "clk50_clk" (rect 4 61 58 72)(font "Arial" (font_size 8)))
+		(line (pt 0 72)(pt 256 72)(line_width 1))
+	)
+	(port
+		(pt 0 112)
+		(input)
+		(text "rs232_uart_rxd" (rect 0 0 62 12)(font "Arial" (font_size 8)))
+		(text "rs232_uart_rxd" (rect 4 101 88 112)(font "Arial" (font_size 8)))
+		(line (pt 0 112)(pt 256 112)(line_width 1))
+	)
+	(port
+		(pt 0 144)
+		(input)
+		(text "rs232_uart_cts_n" (rect 0 0 71 12)(font "Arial" (font_size 8)))
+		(text "rs232_uart_cts_n" (rect 4 133 100 144)(font "Arial" (font_size 8)))
+		(line (pt 0 144)(pt 256 144)(line_width 1))
+	)
+	(port
+		(pt 0 200)
+		(input)
+		(text "rst_reset_n" (rect 0 0 47 12)(font "Arial" (font_size 8)))
+		(text "rst_reset_n" (rect 4 189 70 200)(font "Arial" (font_size 8)))
+		(line (pt 0 200)(pt 256 200)(line_width 1))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "uart_module_uart_rxd_signal" (rect 0 0 116 12)(font "Arial" (font_size 8)))
+		(text "uart_module_uart_rxd_signal" (rect 4 245 166 256)(font "Arial" (font_size 8)))
+		(line (pt 0 256)(pt 256 256)(line_width 1))
+	)
+	(port
+		(pt 0 272)
+		(input)
+		(text "uart_module_uart_rts_signal" (rect 0 0 114 12)(font "Arial" (font_size 8)))
+		(text "uart_module_uart_rts_signal" (rect 4 261 166 272)(font "Arial" (font_size 8)))
+		(line (pt 0 272)(pt 256 272)(line_width 1))
+	)
+	(port
+		(pt 0 328)
+		(input)
+		(text "uart_module_top_0_avalon_slave_address[7..0]" (rect 0 0 194 12)(font "Arial" (font_size 8)))
+		(text "uart_module_top_0_avalon_slave_address[7..0]" (rect 4 317 268 328)(font "Arial" (font_size 8)))
+		(line (pt 0 328)(pt 256 328)(line_width 3))
+	)
+	(port
+		(pt 0 344)
+		(input)
+		(text "uart_module_top_0_avalon_slave_read" (rect 0 0 160 12)(font "Arial" (font_size 8)))
+		(text "uart_module_top_0_avalon_slave_read" (rect 4 333 214 344)(font "Arial" (font_size 8)))
+		(line (pt 0 344)(pt 256 344)(line_width 1))
+	)
+	(port
+		(pt 0 360)
+		(input)
+		(text "uart_module_top_0_avalon_slave_write" (rect 0 0 160 12)(font "Arial" (font_size 8)))
+		(text "uart_module_top_0_avalon_slave_write" (rect 4 349 220 360)(font "Arial" (font_size 8)))
+		(line (pt 0 360)(pt 256 360)(line_width 1))
+	)
+	(port
+		(pt 0 392)
+		(input)
+		(text "uart_module_top_0_avalon_slave_writedata[31..0]" (rect 0 0 200 12)(font "Arial" (font_size 8)))
+		(text "uart_module_top_0_avalon_slave_writedata[31..0]" (rect 4 381 286 392)(font "Arial" (font_size 8)))
+		(line (pt 0 392)(pt 256 392)(line_width 3))
+	)
+	(port
+		(pt 0 128)
+		(output)
+		(text "rs232_uart_txd" (rect 0 0 61 12)(font "Arial" (font_size 8)))
+		(text "rs232_uart_txd" (rect 4 117 88 128)(font "Arial" (font_size 8)))
+		(line (pt 0 128)(pt 256 128)(line_width 1))
+	)
+	(port
+		(pt 0 160)
+		(output)
+		(text "rs232_uart_rts_n" (rect 0 0 70 12)(font "Arial" (font_size 8)))
+		(text "rs232_uart_rts_n" (rect 4 149 100 160)(font "Arial" (font_size 8)))
+		(line (pt 0 160)(pt 256 160)(line_width 1))
+	)
+	(port
+		(pt 608 72)
+		(output)
+		(text "rs232_uart_irq_irq" (rect 0 0 74 12)(font "Arial" (font_size 8)))
+		(text "rs232_uart_irq_irq" (rect 514 61 622 72)(font "Arial" (font_size 8)))
+		(line (pt 608 72)(pt 352 72)(line_width 1))
+	)
+	(port
+		(pt 0 240)
+		(output)
+		(text "uart_module_uart_txd_signal" (rect 0 0 115 12)(font "Arial" (font_size 8)))
+		(text "uart_module_uart_txd_signal" (rect 4 229 166 240)(font "Arial" (font_size 8)))
+		(line (pt 0 240)(pt 256 240)(line_width 1))
+	)
+	(port
+		(pt 0 288)
+		(output)
+		(text "uart_module_uart_cts_signal" (rect 0 0 115 12)(font "Arial" (font_size 8)))
+		(text "uart_module_uart_cts_signal" (rect 4 277 166 288)(font "Arial" (font_size 8)))
+		(line (pt 0 288)(pt 256 288)(line_width 1))
+	)
+	(port
+		(pt 0 376)
+		(output)
+		(text "uart_module_top_0_avalon_slave_waitrequest" (rect 0 0 186 12)(font "Arial" (font_size 8)))
+		(text "uart_module_top_0_avalon_slave_waitrequest" (rect 4 365 256 376)(font "Arial" (font_size 8)))
+		(line (pt 0 376)(pt 256 376)(line_width 1))
+	)
+	(port
+		(pt 0 408)
+		(output)
+		(text "uart_module_top_0_avalon_slave_readdata[31..0]" (rect 0 0 200 12)(font "Arial" (font_size 8)))
+		(text "uart_module_top_0_avalon_slave_readdata[31..0]" (rect 4 397 280 408)(font "Arial" (font_size 8)))
+		(line (pt 0 408)(pt 256 408)(line_width 3))
+	)
+	(drawing
+		(text "clk50" (rect 227 43 484 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "clk" (rect 261 67 540 144)(font "Arial" (color 0 0 0)))
+		(text "rs232_uart" (rect 193 83 446 179)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "rxd" (rect 261 107 540 224)(font "Arial" (color 0 0 0)))
+		(text "txd" (rect 261 123 540 256)(font "Arial" (color 0 0 0)))
+		(text "cts_n" (rect 261 139 552 288)(font "Arial" (color 0 0 0)))
+		(text "rts_n" (rect 261 155 552 320)(font "Arial" (color 0 0 0)))
+		(text "rs232_uart_irq" (rect 353 43 790 99)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "irq" (rect 338 67 694 144)(font "Arial" (color 0 0 0)))
+		(text "rst" (rect 241 171 500 355)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "reset_n" (rect 261 195 564 400)(font "Arial" (color 0 0 0)))
+		(text "uart_module" (rect 184 211 434 435)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "uart_txd_signal" (rect 261 235 612 480)(font "Arial" (color 0 0 0)))
+		(text "uart_rxd_signal" (rect 261 251 612 512)(font "Arial" (color 0 0 0)))
+		(text "uart_rts_signal" (rect 261 267 612 544)(font "Arial" (color 0 0 0)))
+		(text "uart_cts_signal" (rect 261 283 612 576)(font "Arial" (color 0 0 0)))
+		(text "uart_module_top_0_avalon_slave" (rect 60 299 300 611)(font "Arial" (color 128 0 0)(font_size 9)))
+		(text "address" (rect 261 323 564 656)(font "Arial" (color 0 0 0)))
+		(text "read" (rect 261 339 546 688)(font "Arial" (color 0 0 0)))
+		(text "write" (rect 261 355 552 720)(font "Arial" (color 0 0 0)))
+		(text "waitrequest" (rect 261 371 588 752)(font "Arial" (color 0 0 0)))
+		(text "writedata" (rect 261 387 576 784)(font "Arial" (color 0 0 0)))
+		(text "readdata" (rect 261 403 570 816)(font "Arial" (color 0 0 0)))
+		(text " MebX_Qsys_Project " (rect 516 424 1146 858)(font "Arial" ))
+		(line (pt 256 32)(pt 352 32)(line_width 1))
+		(line (pt 352 32)(pt 352 424)(line_width 1))
+		(line (pt 256 424)(pt 352 424)(line_width 1))
+		(line (pt 256 32)(pt 256 424)(line_width 1))
+		(line (pt 257 52)(pt 257 76)(line_width 1))
+		(line (pt 258 52)(pt 258 76)(line_width 1))
+		(line (pt 257 92)(pt 257 164)(line_width 1))
+		(line (pt 258 92)(pt 258 164)(line_width 1))
+		(line (pt 351 52)(pt 351 76)(line_width 1))
+		(line (pt 350 52)(pt 350 76)(line_width 1))
+		(line (pt 257 180)(pt 257 204)(line_width 1))
+		(line (pt 258 180)(pt 258 204)(line_width 1))
+		(line (pt 257 220)(pt 257 292)(line_width 1))
+		(line (pt 258 220)(pt 258 292)(line_width 1))
+		(line (pt 257 308)(pt 257 412)(line_width 1))
+		(line (pt 258 308)(pt 258 412)(line_width 1))
+		(line (pt 0 0)(pt 608 0)(line_width 1))
+		(line (pt 608 0)(pt 608 440)(line_width 1))
+		(line (pt 0 440)(pt 608 440)(line_width 1))
+		(line (pt 0 0)(pt 0 440)(line_width 1))
+	)
+)
