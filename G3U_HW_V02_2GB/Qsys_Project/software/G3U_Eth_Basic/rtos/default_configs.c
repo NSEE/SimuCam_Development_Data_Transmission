@@ -39,7 +39,7 @@ void Init_Simucam_Config(void){
 	LEDS_PAINEL_DRIVE(LEDS_OFF, LEDS_PAINEL_ALL_MASK);
 	LEDS_PAINEL_DRIVE(LEDS_ON, LEDS_POWER_MASK);
 
-	volatile alt_u16 *vpusiUartAddr = (alt_u16 *)RS232_UART_BASE;
+	volatile alt_u16 *vpusiUartAddr = (alt_u16 *)UART_MODULE_TOP_0_BASE;
 	vpusiUartAddr[4] = ((vpusiUartAddr[4] - 1) * 12) + 1;
 //	fprintf(fp, "baud: %u \n", vpusiUartAddr[4]);
 

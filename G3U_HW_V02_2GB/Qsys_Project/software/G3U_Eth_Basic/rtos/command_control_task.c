@@ -94,8 +94,10 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 	usCRC = div(usCRC, 256).quot;
 	ack_buffer[12] = div(usCRC, 256).rem;
 
+//	vUartWriteBuffer(ack_buffer, ack_size);
 	for (int f = 0; f < ack_size; f++){
-		printf("%c", ack_buffer[f]);
+//		printf("%c", ack_buffer[f]);
+		vUartWriteChar(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -159,7 +161,8 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 	ack_buffer[12] = div(usCRC, 256).rem;
 
 	for (int f = 0; f < ack_size; f++){
-		printf("%c", ack_buffer[f]);
+//		printf("%c", ack_buffer[f]);
+		vUartWriteChar(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -269,7 +272,8 @@ void v_HK_creator(INT8U i_channel) {
      * Send HK through serial
      */
     for (int f = 0; f < HK_SIZE; f++){
-		printf("%c", hk_buffer[f]);
+//		printf("%c", hk_buffer[f]);
+		vUartWriteChar(hk_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -330,7 +334,8 @@ void vSendETHConfig(TConfEth xEthConf){
      * Send Eth Config through serial
      */
     for (int f = 0; f < IP_CONFIG_SIZE; f++){
-		printf("%c", iETHBuffer[f]);
+//		printf("%c", iETHBuffer[f]);
+		vUartWriteChar(iETHBuffer[f]);
 	}
     T_simucam.T_status.TM_id++;
 }
@@ -449,7 +454,7 @@ void CommandManagementTask() {
 	 */
 	bSyncSetOst(25e6);
 	bSyncSetPolarity(FALSE);
-	bSyncCtrExtnIrq(TRUE);
+	bSyncCtrIntern(TRUE);
 	bSyncCtrReset();
 	bSyncCtrCh1OutEnable(TRUE);
 	bSyncCtrCh2OutEnable(TRUE);

@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Sat Apr 13 12:18:57 BRT 2019
+ * Generated: Fri Dec 20 15:21:03 BRST 2019
  */
 
 /*
@@ -52,7 +52,6 @@ MEMORY
 {
     onchip_memory_BEFORE_EXCEPTION : ORIGIN = 0x80200000, LENGTH = 32
     onchip_memory : ORIGIN = 0x80200020, LENGTH = 917472
-    descriptor_memory : ORIGIN = 0x81200800, LENGTH = 2048
     ext_flash_BEFORE_RESET : ORIGIN = 0x84000000, LENGTH = 33685504
     reset : ORIGIN = 0x86020000, LENGTH = 32
     ext_flash : ORIGIN = 0x86020020, LENGTH = 33423328
@@ -60,7 +59,6 @@ MEMORY
 
 /* Define symbols for each memory base-address */
 __alt_mem_onchip_memory = 0x80200000;
-__alt_mem_descriptor_memory = 0x81200800;
 __alt_mem_ext_flash = 0x84000000;
 
 OUTPUT_FORMAT( "elf32-littlenios2",
@@ -292,16 +290,6 @@ SECTIONS
     } > onchip_memory
 
     PROVIDE (_alt_partition_onchip_memory_load_addr = LOADADDR(.onchip_memory));
-
-    .descriptor_memory :
-    {
-        PROVIDE (_alt_partition_descriptor_memory_start = ABSOLUTE(.));
-        *(.descriptor_memory .descriptor_memory. descriptor_memory.*)
-        . = ALIGN(4);
-        PROVIDE (_alt_partition_descriptor_memory_end = ABSOLUTE(.));
-    } > descriptor_memory
-
-    PROVIDE (_alt_partition_descriptor_memory_load_addr = LOADADDR(.descriptor_memory));
 
     .ext_flash :
     {

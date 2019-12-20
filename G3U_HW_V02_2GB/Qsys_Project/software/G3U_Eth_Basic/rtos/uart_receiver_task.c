@@ -31,7 +31,8 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
 
         while(luNbChars != 0){
                 // fgets(pBuffer, 2, stdin);
-                *pBuffer = getchar();
+//                *pBuffer = getchar();
+                *pBuffer = cUartReadChar();
                 pBuffer++;
                 luReturn++;
                 luNbChars--;

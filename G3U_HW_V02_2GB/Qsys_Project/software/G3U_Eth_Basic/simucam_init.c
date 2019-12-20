@@ -28,6 +28,7 @@ int main (int argc, char* argv[], char* envp[])
 {
   INT8U error_code;
 
+  vRstcReleaseSimucamReset(0);
 
   /* Debug device initialization - JTAG USB */
 #if DEBUG_ON

@@ -30,6 +30,7 @@
 #include "includes.h"
 #include "../simucam_definitions.h"
 #include "../api_drivers/ddr2/ddr2.h"
+#include "../driver/uart/uart.h"
 
 /*
 ************************************************************************************************
