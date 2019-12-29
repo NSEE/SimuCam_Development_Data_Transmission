@@ -542,7 +542,6 @@ void CommandManagementTask() {
 
 			/*
 			 * Sub-Unit config command
-			 * char: e
 			 */
 			case typeConfigureSub:
 #if DEBUG_ON
@@ -579,8 +578,7 @@ void CommandManagementTask() {
 
 				/*
 				 * Select data to send
-				 * TODO Assign the memory spaces to the data
-				 * instead of the sub
+				 * TODO Will be done in the MEB
 				 * char: h
 				 */
 			case typeSelectDataToSend:
@@ -725,6 +723,9 @@ void CommandManagementTask() {
                     fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
                 }
 #endif
+				/**
+				 * Todo: Add new reset function
+				 */
                 v_ack_creator(p_payload, xNotImplemented);
             break;
 
@@ -894,7 +895,7 @@ void CommandManagementTask() {
 							(char) (p_payload->data[0] + ASCII_A));
 #endif
 					/*
-					 * Direct Send needs replaning
+					 * todo: Direct Send needs replaning
 					 */
                     v_ack_creator(p_payload, xNotImplemented);
 					break;

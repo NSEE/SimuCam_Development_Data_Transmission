@@ -160,29 +160,15 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
         }
 #endif
     }
+
 	/**
 	 * Sending CRC
 	 */
-
 	tx_buffer[14] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
 	tx_buffer[13] = div(usCRC, 256).rem;
     printf("%i%i", tx_buffer[13], tx_buffer[14]); //mock CRC
      
-/**
- * For reference only     
- *   while (i_length_buffer > 0) {
- *	 	bDdr2SwitchMemory((unsigned char) i_channel / 4); 
-	 	i_length_buffer -= send(conn.fd, &(p_imagette_buffer->imagette_start),
-	 			i_length_buffer, 0);
-
-#if DEBUG_ON
-		fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
-#endif
-	}
-	send(conn.fd, &(tx_buffer[13]), 2, 0);
-send CRC
-*/
 
 	T_simucam.T_status.TM_id++;
 }
@@ -203,17 +189,10 @@ void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
 		INT8U i_channel, INT8U iTAG[]){
     
     static INT8U tx_buffer[LOG_SIZE];
-	INT32U i_mem_pointer_buffer;
-	T_Imagette *p_imagette_buffer;
-	INT8U i = 0;
-	INT32U nb_size;
 	INT32U nb_time = i_sim_time;
 	INT16U nb_id = T_simucam.T_status.TM_id;
-	INT16U crc = 0;
-	INT16U i_length_buffer = 0;
     INT16U iImagetteNbBuffer = i_imagette_number;
     INT16U usCRC;
-	nb_size = 0;
 
 	tx_buffer[0] = 4;
 
