@@ -394,10 +394,6 @@ void vDataSelector(T_uart_payload* pPayload){
             
         }
     }
-    
-
-
-
 }
 
 

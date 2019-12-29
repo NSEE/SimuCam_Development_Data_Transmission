@@ -38,7 +38,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	INT32U nb_size;
 	INT32U nb_time = i_sim_time;
 	INT16U nb_id = T_simucam.T_status.TM_id;
-	INT16U crc = 0;
+	INT16U usCRC = 0;
 	INT16U i_length_buffer = 0;
 
 #if DEBUG_ON
@@ -116,12 +116,10 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 	tx_buffer[12] = i_channel;
 
-    /**
-     * TODO Refactor CRC
-     */
-	tx_buffer[14] = div(crc, 256).rem;
-	crc = div(crc, 256).quot;
-	tx_buffer[13] = div(crc, 256).rem;
+	/**
+	 * Partial Calculating CRC
+	 */
+	usCRC = crc__CRC16CCITT(tx_buffer, 13);
 
 	/*
 	 * Send the compiled data
@@ -131,12 +129,22 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
     for (INT8U t = 0; t < 13; t++) {
         printf("%i", tx_buffer[t]);
     }
+
     /**
      * Assign the correct memory pointer to the 
      * pointing buffer
      */
     pDataPointer = &(p_imagette_buffer->imagette_start);
     
+	/**
+	 *  Calculating CRC
+	 */
+
+	usCRC = prev_crc__CRC16CCITT(pDataPointer, i_length_buffer, usCRC);
+
+	/**
+	 * Sending data
+	 */
     for (size_t i = 0; i < i_length_buffer; i++)
     {   
         /* Assure the right memory is in use */
@@ -152,7 +160,14 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
         }
 #endif
     }
-    printf("%i%i", 0,0); //mock CRC
+	/**
+	 * Sending CRC
+	 */
+
+	tx_buffer[14] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	tx_buffer[13] = div(usCRC, 256).rem;
+    printf("%i%i", tx_buffer[13], tx_buffer[14]); //mock CRC
      
 /**
  * For reference only     
