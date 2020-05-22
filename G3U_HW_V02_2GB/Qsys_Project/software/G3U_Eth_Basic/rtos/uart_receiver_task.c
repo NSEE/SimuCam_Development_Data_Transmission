@@ -329,7 +329,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
  *
  * @retval void
  **/
-void vCmdParser(T_uart_payload *pUartPayload){
+INT8U vCmdParser(T_uart_payload *pUartPayload){
         INT8U cBuff[8];
         int i = 0;
 
@@ -389,7 +389,8 @@ void vCmdParser(T_uart_payload *pUartPayload){
             fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
         }
 #endif
-            v_ack_creator(pUartPayload, xAckOk);
+//            v_ack_creator(pUartPayload, xAckOk);
+                return 0;
         } else {
 
 #if DEBUG_ON
@@ -398,13 +399,14 @@ void vCmdParser(T_uart_payload *pUartPayload){
         }
 #endif
             v_ack_creator(pUartPayload, xCRCError);
+            return 1;
         }
 
 #if DEBUG_ON
         fprintf(fp, "[vCmdParser DEBUG]finished receiving.\n");
 #endif
 
-    }else if(pUartPayload->size == PAYLOAD_OVERHEAD){
+    } else if(pUartPayload->size == PAYLOAD_OVERHEAD){
 
         /* Get CRC from RS232 */
         luGetSerial((INT8U *)&cBuff, 2);
@@ -424,7 +426,9 @@ void vCmdParser(T_uart_payload *pUartPayload){
             fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
         }
 #endif
-            v_ack_creator(pUartPayload, xAckOk);
+        /* Ack is created further down the line */
+        return 0;
+//            v_ack_creator(pUartPayload, xAckOk);
         } else {
 
 #if DEBUG_ON
@@ -433,18 +437,20 @@ void vCmdParser(T_uart_payload *pUartPayload){
         }
 #endif
             v_ack_creator(pUartPayload, xCRCError);
+            return 1;
         }
 
 #if DEBUG_ON
         fprintf(fp, "[vCmdParser DEBUG]finished receiving.\n");
 #endif
     } else{
-        v_ack_creator(pUartPayload, xParserError);
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
             fprintf(fp, "[vCmdParser DEBUG]Invalid data size.\n");
         }
 #endif
+        v_ack_creator(pUartPayload, xParserError);
+        return 1;
     }
 }
 
@@ -513,8 +519,13 @@ void uart_receiver_task(void *task_data){
                 break;
 
                 case sGetCommand:
-                	vCmdParser((T_uart_payload *) &payload);
-                	eReaderRXMode = sSendToCmdCtrl;
+                	error_code = vCmdParser((T_uart_payload *) &payload);
+                	if (error_code == 0){
+                                eReaderRXMode = sSendToCmdCtrl;
+                        } else {
+                                eReaderRXMode = sRConfiguring;
+                        }
+                        
                 break;
 
                 case sSendToCmdCtrl:
