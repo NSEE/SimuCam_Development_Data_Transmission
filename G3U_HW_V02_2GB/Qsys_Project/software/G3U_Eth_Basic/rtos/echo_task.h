@@ -19,6 +19,7 @@
 
 #include "tasks_init.h"
 #include "../simucam_definitions.h"
+#include "../utils/crc.h"
 
 extern T_Simucam T_simucam;
 

@@ -292,6 +292,7 @@ void vSendETHConfig(TConfEth xEthConf){
     INT8U iETHBuffer[32];
     INT16U nb_id = T_simucam.T_status.TM_id;
     INT16U usCRC;
+	INT16U portNb = xEthConf.siPort;
 
     /* Header */
     iETHBuffer[0] = 4;
@@ -312,31 +313,52 @@ void vSendETHConfig(TConfEth xEthConf){
 	iETHBuffer[7] = IP_CONFIG_SIZE;
 
     iETHBuffer[8] = 1;
-    iETHBuffer[9] = xEthConf.siPort;
+	iETHBuffer[9] = div(portNb, 256).rem;
+	portNb = div(portNb, 256).quot;
+	iETHBuffer[10] = div(portNb, 256).rem;
+
+#if DEBUG_ON
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                fprintf(fp, "SDCard IP:");
+            }
+#endif
+
     for (INT8U h = 0; h < 4; h++)
     {
-        iETHBuffer[10 + h] = xEthConf.ucIP[h];
-        iETHBuffer[14 + h] = xEthConf.ucGTW[h];
-        iETHBuffer[18 + h] = xEthConf.ucGTW[h];
+        iETHBuffer[11 + h] = xEthConf.ucIP[h];
+        iETHBuffer[15 + h] = xEthConf.ucGTW[h];
+        iETHBuffer[19 + h] = xEthConf.ucGTW[h];
+#if DEBUG_ON
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                fprintf(fp, " %i", xEthConf.ucIP[h]);
+            }
+#endif
     }
+#if DEBUG_ON
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                fprintf(fp, "\r\n");
+            }
+#endif
 
     for (INT8U f = 0; f < 6; f++)
     {
-        iETHBuffer[22 + f] = xEthConf.ucMAC[f];
+        iETHBuffer[23 + f] = xEthConf.ucMAC[f];
     }
     usCRC = crc__CRC16CCITT(iETHBuffer, IP_CONFIG_SIZE - 2);
 
-    iETHBuffer[29] = div(usCRC, 256).rem;
+    iETHBuffer[30] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
-	iETHBuffer[28] = div(usCRC, 256).rem;
+	iETHBuffer[29] = div(usCRC, 256).rem;
 
     /*
      * Send Eth Config through serial
      */
+	fprintf(fp, "alive cmd:");
     for (int f = 0; f < IP_CONFIG_SIZE; f++){
 //		printf("%c", iETHBuffer[f]);
 		vUartWriteChar(iETHBuffer[f]);
 	}
+    fprintf(fp, "\r\n");
     T_simucam.T_status.TM_id++;
 }
 
@@ -399,10 +421,6 @@ void vDataSelector(T_uart_payload* pPayload){
             
         }
     }
-    
-
-
-
 }
 
 
@@ -551,7 +569,6 @@ void CommandManagementTask() {
 
 			/*
 			 * Sub-Unit config command
-			 * char: e
 			 */
 			case typeConfigureSub:
 #if DEBUG_ON
@@ -588,8 +605,7 @@ void CommandManagementTask() {
 
 				/*
 				 * Select data to send
-				 * TODO Assign the memory spaces to the data
-				 * instead of the sub
+				 * TODO Will be done in the MEB
 				 * char: h
 				 */
 			case typeSelectDataToSend:
@@ -734,6 +750,9 @@ void CommandManagementTask() {
                     fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
                 }
 #endif
+				/**
+				 * Todo: Add new reset function
+				 */
                 v_ack_creator(p_payload, xNotImplemented);
             break;
 
@@ -903,7 +922,7 @@ void CommandManagementTask() {
 							(char) (p_payload->data[0] + ASCII_A));
 #endif
 					/*
-					 * Direct Send needs replaning
+					 * todo: Direct Send needs replaning
 					 */
                     v_ack_creator(p_payload, xNotImplemented);
 					break;
