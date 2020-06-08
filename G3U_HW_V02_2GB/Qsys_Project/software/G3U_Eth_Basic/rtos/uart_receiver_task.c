@@ -391,7 +391,6 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
             fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
         }
 #endif
-//            v_ack_creator(pUartPayload, xAckOk);
                 return 0;
         } else {
 
@@ -430,16 +429,17 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
 #endif
         /* Ack is created further down the line */
         return 0;
-//            v_ack_creator(pUartPayload, xAckOk);
         } else {
 
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
-            fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
+            fprintf(fp, "[vCmdParser DEBUG]CRC ERROR, but that's ok.\n");
         }
 #endif
-            v_ack_creator(pUartPayload, xCRCError);
-            return 1;
+        /* Temporary fix, TODO: Remove */
+        //     v_ack_creator(pUartPayload, xCRCError);
+        //     return 1;
+                return 0;
         }
 
 #if DEBUG_ON

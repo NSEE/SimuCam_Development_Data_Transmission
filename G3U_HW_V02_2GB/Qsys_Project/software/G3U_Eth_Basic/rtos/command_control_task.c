@@ -497,6 +497,14 @@ void CommandManagementTask() {
 	xSimucamTimer.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
 	bDschSetTimerConfig(&xSimucamTimer);
 
+	/* Load debug configs */
+	vLoadDebugConfs();
+	T_simucam.T_conf.usiDebugLevels = xDefaults.usiDebugLevel;
+#if DEBUG_ON
+		fprintf(fp, "[CommandManagementTask]Debug level: %i\r\n", T_simucam.T_conf.usiDebugLevels);
+#endif
+
+
 	while (1) {
 
 		switch (T_simucam.T_status.simucam_mode) {
