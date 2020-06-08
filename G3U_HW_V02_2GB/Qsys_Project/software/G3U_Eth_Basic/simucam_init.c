@@ -69,8 +69,15 @@ int main (int argc, char* argv[], char* envp[])
    */
   bInitializeSDCard();
   vLoadDefaultETHConf();
-
-    /* TODO:  Create send SDcard configs to NUC */
+  /* 
+   * Load debug configs 
+   */
+	// vLoadDebugConfs();
+//  T_simucam.T_conf.usiDebugLevels = 2;
+// 	T_simucam.T_conf.usiDebugLevels = xDefaults.usiDebugLevel;
+// #if DEBUG_ON
+// 		fprintf(fp, "[CommandManagementTask]Debug level: %i\r\n", T_simucam.T_conf.usiDebugLevels);
+// #endif
 
   /*
    * Start the OS

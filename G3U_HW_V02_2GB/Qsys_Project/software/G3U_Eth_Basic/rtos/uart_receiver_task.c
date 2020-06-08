@@ -533,7 +533,7 @@ void uart_receiver_task(void *task_data){
                 case sSendToCmdCtrl:
                 	error_code = OSQPost(p_simucam_command_q, &payload);
                 					alt_SSSErrorHandler(error_code, 0);
-                        v_ack_creator(payload, xAckOk);
+                        // v_ack_creator(payload, xAckOk);
                 	eReaderRXMode = sRConfiguring;
 				break;
         }

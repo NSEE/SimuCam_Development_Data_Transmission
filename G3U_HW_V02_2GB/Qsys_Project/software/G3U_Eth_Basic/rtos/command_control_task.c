@@ -439,7 +439,9 @@ void CommandManagementTask() {
 	T_uart_payload *p_payload = &payload_command;
 
 	INT8U i_channel_buffer = 0;
-
+	/* TODO: remove or encapsulate */
+	fprintf(fp, "[CommandManagementTask]Task init\r\n");
+	T_simucam.T_conf.usiDebugLevels = 2;
 	/*
 	 * Initialize DMA
 	 */
@@ -496,14 +498,6 @@ void CommandManagementTask() {
 	xSimucamTimer.xTimerConfig.bStartOnSync = false;
 	xSimucamTimer.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
 	bDschSetTimerConfig(&xSimucamTimer);
-
-	/* Load debug configs */
-	vLoadDebugConfs();
-	T_simucam.T_conf.usiDebugLevels = xDefaults.usiDebugLevel;
-#if DEBUG_ON
-		fprintf(fp, "[CommandManagementTask]Debug level: %i\r\n", T_simucam.T_conf.usiDebugLevels);
-#endif
-
 
 	while (1) {
 
