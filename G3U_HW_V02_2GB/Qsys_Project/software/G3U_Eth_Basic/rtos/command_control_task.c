@@ -318,7 +318,7 @@ void vSendETHConfig(TConfEth xEthConf){
 	iETHBuffer[10] = div(portNb, 256).rem;
 
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+			if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                 fprintf(fp, "SDCard IP:");
             }
 #endif
@@ -329,13 +329,13 @@ void vSendETHConfig(TConfEth xEthConf){
         iETHBuffer[15 + h] = xEthConf.ucGTW[h];
         iETHBuffer[19 + h] = xEthConf.ucGTW[h];
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+			if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                 fprintf(fp, " %i", xEthConf.ucIP[h]);
             }
 #endif
     }
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+			if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                 fprintf(fp, "\r\n");
             }
 #endif
@@ -355,7 +355,7 @@ void vSendETHConfig(TConfEth xEthConf){
      */
 	fprintf(fp, "alive cmd:");
     for (int f = 0; f < IP_CONFIG_SIZE; f++){
-//		printf("%c", iETHBuffer[f]);
+		printf(" %i", iETHBuffer[f]);
 		vUartWriteChar(iETHBuffer[f]);
 	}
     fprintf(fp, "\r\n");
@@ -508,7 +508,7 @@ void CommandManagementTask() {
 		 */
 		case simModeInit:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+			if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                 fprintf(fp, "[CommandManagementTask]Init\r\n");
             }
 #endif
@@ -534,7 +534,7 @@ void CommandManagementTask() {
 
 		case simModetoConfig:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ) {
+			if (T_simucam.T_conf.usiDebugLevels >= xMajor ) {
                 fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
             }
 #endif
@@ -547,7 +547,7 @@ void CommandManagementTask() {
 			 */
 		case simModeConfig:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ) {
+			if (T_simucam.T_conf.usiDebugLevels >= xMajor ) {
                 fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
             }
 #endif
@@ -561,7 +561,7 @@ void CommandManagementTask() {
              */
             case typeGetIP:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]NUC alive, sending Eth conf\r\n");
                 }
 #endif
@@ -574,7 +574,7 @@ void CommandManagementTask() {
 			 */
 			case typeConfigureSub:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
                 }
 #endif
@@ -593,7 +593,7 @@ void CommandManagementTask() {
 				 */
 
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+				if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
                     fprintf(fp, "[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
 						(INT8U) sub_config_send[p_payload->data[0]].link_config,
 						(INT8U) sub_config_send[p_payload->data[0]].linkspeed,
@@ -622,7 +622,7 @@ void CommandManagementTask() {
 				 */
 			case typeChangeSimucamMode:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
                 }
 #endif
@@ -642,7 +642,7 @@ void CommandManagementTask() {
 				}
 
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
                 }
 #endif
@@ -652,13 +652,13 @@ void CommandManagementTask() {
 				 * Clear RAM
 				 */
 			case typeClearRam:
-                if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                         fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
                     }
                 vClearRam();
 				v_ack_creator(p_payload, xAckOk);
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                         fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
                     }
 #endif
@@ -669,7 +669,7 @@ void CommandManagementTask() {
 				 */
 			case typeGetHK:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Get HK\r\n");
                 }
 #endif
@@ -684,7 +684,7 @@ void CommandManagementTask() {
 				 */
 			case typeConfigureMeb:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
                 }
 #endif
@@ -694,7 +694,7 @@ void CommandManagementTask() {
 
 				v_ack_creator(p_payload, xAckOk);
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+				if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
                     fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
 						(int) T_simucam.T_conf.i_forward_data,
 						(int) T_simucam.T_conf.echo_sent);
@@ -707,7 +707,7 @@ void CommandManagementTask() {
 				 */
 			case typeSetRecording:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
                 }
 #endif
@@ -720,7 +720,7 @@ void CommandManagementTask() {
                  */
             case typeSetPeriodicHK:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Set Periodic HK\n\r");
                 }
 #endif
@@ -748,7 +748,7 @@ void CommandManagementTask() {
 
             case typeReset:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
                 }
 #endif
@@ -760,7 +760,7 @@ void CommandManagementTask() {
 
 			default:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
                     fprintf(fp, "[CommandManagementTask]Command not identified...\n\r");
                 }
 #endif
