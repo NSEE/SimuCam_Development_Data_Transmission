@@ -15,7 +15,7 @@
 /*$PAGE*/
 
 #include "uart_receiver_task.h"
-
+#include "../driver/uart/uart.h"
 /**
  * @name luGetSerial
  * @brief Receives a fixed number of chars from serial
@@ -29,7 +29,7 @@
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
 
-        if (!iUartEmpty) {
+        if ( !iUartEmpty() ) {
                 while(luNbChars != 0){
                         // fgets(pBuffer, 2, stdin);
                         //*pBuffer = getchar();
