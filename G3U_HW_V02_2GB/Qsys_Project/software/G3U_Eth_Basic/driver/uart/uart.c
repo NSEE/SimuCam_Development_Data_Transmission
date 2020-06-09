@@ -43,6 +43,10 @@ void vUartReadBuffer(char *pcRxBuffer, alt_u16 usiLength){
 	}
 }
 
+/**
+ * Queries the UART buffer to see if data is present
+ * return 1 when empty
+ */
 int iUartEmpty(){
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
 	return	vpxUartModule->bUartRxEmpty;
