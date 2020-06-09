@@ -29,13 +29,17 @@
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
 
-        while(luNbChars != 0){
-                // fgets(pBuffer, 2, stdin);
-//                *pBuffer = getchar();
-                *pBuffer = cUartReadChar();
-                pBuffer++;
-                luReturn++;
-                luNbChars--;
+        if (!iUartEmpty) {
+                while(luNbChars != 0){
+                        // fgets(pBuffer, 2, stdin);
+                        //*pBuffer = getchar();
+                        *pBuffer = cUartReadChar();
+                        pBuffer++;
+                        luReturn++;
+                        luNbChars--;
+                }
+        } else {
+                luReturn = 0;
         }
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
@@ -484,20 +488,23 @@ void uart_receiver_task(void *task_data){
 #endif
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
                 
-                luGetSerial((char *) &cReceiveBuffer, 8);
+                if( luGetSerial((char *) &cReceiveBuffer, 8) ){
 
-                vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
-#if DEBUG_ON
-                if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                        fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", 
-                        payload.packet_id, payload.type, payload.size);
-                }
-#endif
-                /* Send state to Imagette parser if type is correct */
-                if(payload.type == 102){
-                    eReaderRXMode = sGetImagettes;
-                } else{
-                   eReaderRXMode = sToGetCommand;
+                        vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
+        #if DEBUG_ON
+                        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                                fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", 
+                                payload.packet_id, payload.type, payload.size);
+                        }
+        #endif
+                        /* Send state to Imagette parser if type is correct */
+                        if(payload.type == 102){
+                        eReaderRXMode = sGetImagettes;
+                        } else {
+                        eReaderRXMode = sToGetCommand;
+                        }
+                } else {
+                        eReaderRXMode = sGetHeader;
                 }
                 break;
 

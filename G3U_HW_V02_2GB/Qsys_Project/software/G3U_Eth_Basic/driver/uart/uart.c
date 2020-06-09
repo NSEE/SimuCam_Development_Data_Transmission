@@ -42,3 +42,8 @@ void vUartReadBuffer(char *pcRxBuffer, alt_u16 usiLength){
 		vpxUartModule->bUartRxRdreq = true;
 	}
 }
+
+int iUartEmpty(){
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+	return	vpxUartModule->bUartRxEmpty;
+}

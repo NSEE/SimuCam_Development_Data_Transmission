@@ -27,5 +27,6 @@ void vUartWriteChar(char cTxChar);
 void vUartWriteBuffer(char *pcTxBuffer, alt_u16 usiLength);
 char cUartReadChar();
 void vUartReadBuffer(char *pcRxBuffer, alt_u16 usiLength);
+int iUartEmpty();
 
 #endif /* UART_H_ */
