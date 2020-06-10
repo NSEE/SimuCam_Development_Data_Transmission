@@ -29,7 +29,7 @@
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
 
-        if ( !iUartEmpty() ) {
+        // if ( !iUartEmpty() ) {
                 while(luNbChars != 0){
                         // fgets(pBuffer, 2, stdin);
                         //*pBuffer = getchar();
@@ -38,14 +38,14 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
                         luReturn++;
                         luNbChars--;
                 }
-        } else {
-                luReturn = 0;
-        }
-//#if DEBUG_ON
-//        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
-//                fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
-//        }
-//#endif
+        // } else {
+        //         luReturn = 0;
+        // }
+#if DEBUG_ON
+       if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+               fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
+       }
+#endif
         return luReturn;
 }
 
@@ -488,8 +488,8 @@ void uart_receiver_task(void *task_data){
 //#endif
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
                 
-                if( luGetSerial((char *) &cReceiveBuffer, 8) ){
-
+                // if( luGetSerial((char *) &cReceiveBuffer, 8) ){
+                        luGetSerial((char *) &cReceiveBuffer, 8);
                         vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
         #if DEBUG_ON
                         if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
@@ -503,9 +503,9 @@ void uart_receiver_task(void *task_data){
                         } else {
                         eReaderRXMode = sToGetCommand;
                         }
-                } else {
-                        eReaderRXMode = sGetHeader;
-                }
+                // } else {
+                //         eReaderRXMode = sGetHeader;
+                // }
                 break;
 
                 case sToGetImagettes:
