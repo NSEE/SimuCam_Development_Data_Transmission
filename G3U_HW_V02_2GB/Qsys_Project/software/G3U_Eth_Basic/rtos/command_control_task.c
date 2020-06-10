@@ -313,9 +313,9 @@ void vSendETHConfig(TConfEth xEthConf){
 	iETHBuffer[7] = IP_CONFIG_SIZE;
 
     iETHBuffer[8] = 1;
-	iETHBuffer[9] = div(portNb, 256).rem;
-	portNb = div(portNb, 256).quot;
 	iETHBuffer[10] = div(portNb, 256).rem;
+	portNb = div(portNb, 256).quot;
+	iETHBuffer[9] = div(portNb, 256).rem;
 
 #if DEBUG_ON
 			if (T_simucam.T_conf.usiDebugLevels >= xMajor ){

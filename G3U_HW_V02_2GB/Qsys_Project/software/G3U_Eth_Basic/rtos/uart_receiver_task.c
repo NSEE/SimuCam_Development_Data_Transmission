@@ -41,11 +41,11 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         } else {
                 luReturn = 0;
         }
-#if DEBUG_ON
-       if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
-               fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
-       }
-#endif
+//#if DEBUG_ON
+//       if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+//               fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
+//       }
+//#endif
         return luReturn;
 }
 
