@@ -20,80 +20,17 @@
 #define DCOM_CH_6_TX_IRQ                14
 #define DCOM_CH_7_TX_IRQ                13
 #define DCOM_CH_8_TX_IRQ                15
+
 // address
-#define DCOM_CH_1_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHA_BASE
-#define DCOM_CH_2_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHB_BASE
-#define DCOM_CH_3_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHC_BASE
-#define DCOM_CH_4_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHD_BASE
-#define DCOM_CH_5_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHE_BASE
-#define DCOM_CH_6_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHF_BASE
-#define DCOM_CH_7_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHG_BASE
-#define DCOM_CH_8_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V1_CHH_BASE
-// address offset
-#define DCOM_LINK_CFG_STAT_REG_OFST      0x00
-#define DCOM_TIMECODE_REG_OFST           0x01
-#define DCOM_DATA_BUFF_STAT_REG_OFST     0x02
-#define DCOM_DATA_CRTLR_CFG_REG_OFST     0x03
-#define DCOM_DATA_SCHTMR_CFG_REG_OFST    0x04
-#define DCOM_DATA_SCHTMR_CLKDIV_REG_OFST 0x05
-#define DCOM_DATA_SCHTMR_STAT_REG_OFST   0x06
-#define DCOM_DATA_SCHTMR_TIME_REG_OFST   0x07
-#define DCOM_DATA_SCHTMR_CTRL_REG_OFST   0x08
-#define DCOM_IRQ_CTRL_REG_OFST           0x09
-#define DCOM_IRQ_FLAG_REG_OFST           0x0A
-#define DCOM_IRQ_FLAG_CLR_REG_OFST       0x0B
-// bit masks
-#define DCOM_SPW_LNKCFG_DISCONNECT_MSK   (1 << 0)
-#define DCOM_SPW_LNKCFG_LINKSTART_MSK    (1 << 1)
-#define DCOM_SPW_LNKCFG_AUTOSTART_MSK    (1 << 2)
-#define DCOM_SPW_LNKSTAT_RUNNING_MSK     (1 << 8)
-#define DCOM_SPW_LNKSTAT_CONNECTING_MSK  (1 << 9)
-#define DCOM_SPW_LNKSTAT_STARTED_MSK     (1 << 10)
-#define DCOM_SPW_LNKERR_DISCONNECT_MSK   (1 << 16)
-#define DCOM_SPW_LNKERR_PARITY_MSK       (1 << 17)
-#define DCOM_SPW_LNKERR_ESCAPE_MSK       (1 << 18)
-#define DCOM_SPW_LNKERR_CREDIT_MSK       (1 << 19)
-#define DCOM_SPW_LNKCFG_TXDIVCNT_MSK     (0xFF << 24)
+#define DCOM_CH_1_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_1_BASE
+#define DCOM_CH_2_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_2_BASE
+#define DCOM_CH_3_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_3_BASE
+#define DCOM_CH_4_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_4_BASE
+#define DCOM_CH_5_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_5_BASE
+#define DCOM_CH_6_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_6_BASE
+#define DCOM_CH_7_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_7_BASE
+#define DCOM_CH_8_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_8_BASE
 
-#define DCOM_TC_TX_TIME_MSK              (0b111111 << 0)
-#define DCOM_TC_TX_CONTROL_MSK           (0b11 << 6)
-#define DCOM_TC_TX_SEND_MSK              (1 << 8)
-#define DCOM_TC_RX_TIME_MSK              (0b111111 << 16)
-#define DCOM_TC_RX_CONTROL_MSK           (0b11 << 22)
-#define DCOM_TC_RX_RECEIVED_MSK          (1 << 24)
-
-#define DCOM_DATA_BUFF_STAT_USED_MSK     (0xFFFF << 0)
-#define DCOM_DATA_BUFF_STAT_EMPTY_MSK    (1 << 16)
-#define DCOM_DATA_BUFF_STAT_FULL_MSK     (1 << 17)
-
-#define DCOM_DATA_CTRLR_CFG_SEND_EOP_MSK (1 << 0)
-#define DCOM_DATA_CTRLR_CFG_SEND_EEP_MSK (1 << 1)
-
-#define DCOM_DATA_SCHTMR_CFG_STSYNC_MSK  (1 << 0)
-
-#define DCOM_DATA_SCHTMR_CLKDIV_MSK      (0xFFFFFFFF << 0)
-
-#define DCOM_DATA_SCHTMR_ST_STOPPED_MSK  (1 << 0)
-#define DCOM_DATA_SCHTMR_ST_STARTED_MSK  (1 << 1)
-#define DCOM_DATA_SCHTMR_ST_RUNNING_MSK  (1 << 2)
-#define DCOM_DATA_SCHTMR_ST_CLEARED_MSK  (1 << 3)
-
-#define DCOM_DATA_SCHTMR_TIME_MSK        (0xFFFFFFFF << 0)
-
-#define DCOM_DATA_SCHTMR_CTRL_START_MSK  (1 << 0)
-#define DCOM_DATA_SCHTMR_CTRL_RUN_MSK    (1 << 1)
-#define DCOM_DATA_SCHTMR_CTRL_STOP_MSK   (1 << 2)
-#define DCOM_DATA_SCHTMR_CTRL_CLR_MSK    (1 << 3)
-
-#define DCOM_IRQ_CTRL_TX_END_EN_MSK      (1 << 0)
-#define DCOM_IRQ_CTRL_TX_BEGIN_EN_MSK    (1 << 1)
-#define DCOM_IRQ_CTRL_GLOBAL_EN_MSK      (1 << 8)
-
-#define DCOM_IRQ_FLG_TX_END_FLAG_MSK     (1 << 0)
-#define DCOM_IRQ_FLG_TX_BEGIN_FLAG_MSK   (1 << 1)
-
-#define DCOM_IRQ_FC_TX_END_FLG_CLR_MSK   (1 << 0)
-#define DCOM_IRQ_FC_TX_BEGIN_FLG_CLR_MSK (1 << 1)
 //! [constants definition]
 
 //! [public module structs definition]
@@ -107,6 +44,199 @@ enum DcomSpwCh {
 	eDcomSpwCh7,
 	eDcomSpwCh8
 } EDcomSpwCh;
+
+/* Dcom Device Address Register Struct */
+typedef struct DcomDevAddr {
+	alt_u32 uliDevBaseAddr; /* Dcom Device Base Address */
+} TDcomDevAddr;
+
+/* Dcom IRQ Control Register Struct */
+typedef struct DcomIrqControl {
+	bool bGlobalIrqEn; /* Dcom Global IRQ Enable */
+} TDcomIrqControl;
+
+/* SpaceWire Device Address Register Struct */
+typedef struct SpwcDevAddr {
+	alt_u32 uliSpwcBaseAddr; /* SpaceWire Device Base Address */
+} TSpwcDevAddr;
+
+/* SpaceWire Link Config Register Struct */
+typedef struct SpwcLinkConfig {
+	bool bDisconnect; /* SpaceWire Link Config Disconnect */
+	bool bLinkStart; /* SpaceWire Link Config Linkstart */
+	bool bAutostart; /* SpaceWire Link Config Autostart */
+	alt_u8 ucTxDivCnt; /* SpaceWire Link Config TxDivCnt */
+} TSpwcLinkConfig;
+
+/* SpaceWire Link Status Register Struct */
+typedef struct SpwcLinkStatus {
+	bool bRunning; /* SpaceWire Link Running */
+	bool bConnecting; /* SpaceWire Link Connecting */
+	bool bStarted; /* SpaceWire Link Started */
+} TSpwcLinkStatus;
+
+/* SpaceWire Link Status Register Struct */
+typedef struct SpwcLinkError {
+	bool bDisconnect; /* SpaceWire Error Disconnect */
+	bool bParity; /* SpaceWire Error Parity */
+	bool bEscape; /* SpaceWire Error Escape */
+	bool bCredit; /* SpaceWire Error Credit */
+} TSpwcLinkError;
+
+/* SpaceWire Timecode Control Register Struct */
+typedef struct SpwcTimecodeControl {
+	alt_u8 ucTxTime; /* SpaceWire Timecode Tx Time */
+	alt_u8 ucTxControl; /* SpaceWire Timecode Tx Control */
+	bool bTxSend; /* SpaceWire Timecode Tx Send */
+	bool bRxReceivedClr; /* SpaceWire Timecode Rx Received Clear */
+} TSpwcTimecodeControl;
+
+/* SpaceWire Timecode Status Register Struct */
+typedef struct SpwcTimecodeStatus {
+	alt_u8 ucRxTime; /* SpaceWire Timecode Rx Time */
+	alt_u8 ucRxControl; /* SpaceWire Timecode Rx Control */
+	bool bRxReceived; /* SpaceWire Timecode Rx Received */
+} TSpwcTimecodeStatus;
+
+/* Data Scheduler Device Address Register Struct */
+typedef struct DschDevAddr {
+	alt_u32 uliDschBaseAddr; /* Data Scheduler Device Base Address */
+} TDschDevAddr;
+
+/* Data Scheduler Timer Control Register Struct */
+typedef struct DschTimerControl {
+	bool bStart; /* Data Scheduler Timer Start */
+	bool bRun; /* Data Scheduler Timer Run */
+	bool bStop; /* Data Scheduler Timer Stop */
+	bool bClear; /* Data Scheduler Timer Clear */
+} TDschTimerControl;
+
+/* Data Scheduler Timer Config Register Struct */
+typedef struct DschTimerConfig {
+	bool bStartOnSync; /* Data Scheduler Timer Start on Sync */
+	alt_u32 uliClockDiv; /* Data Scheduler Timer Clock Div */
+	alt_u32 uliStartTime; /* Data Scheduler Timer Start Time */
+} TDschTimerConfig;
+
+/* Data Scheduler Timer Status Register Struct */
+typedef struct DschTimerStatus {
+	bool bStopped; /* Data Scheduler Timer Stopped */
+	bool bStarted; /* Data Scheduler Timer Started */
+	bool bRunning; /* Data Scheduler Timer Running */
+	bool bCleared; /* Data Scheduler Timer Cleared */
+	alt_u32 uliCurrentTime; /* Data Scheduler Timer Time */
+} TDschTimerStatus;
+
+/* Data Scheduler Packet Config Register Struct */
+typedef struct DschPacketConfig {
+	bool bSendEop; /* Data Scheduler Send EOP with Packet */
+	bool bSendEep; /* Data Scheduler Send EEP with Packet */
+} TDschPacketConfig;
+
+/* Data Scheduler Buffer Status Register Struct */
+typedef struct DschBufferStatus {
+	alt_u16 usiUsedBytes; /* Data Scheduler Buffer Used [Bytes] */
+	bool bEmpty; /* Data Scheduler Buffer Empty */
+	bool bFull; /* Data Scheduler Buffer Full */
+} TDschBufferStatus;
+
+/* Data Scheduler IRQ Control Register Struct */
+typedef struct DschIrqControl {
+	bool bTxEndEn; /* Data Scheduler Tx End IRQ Enable */
+	bool bTxBeginEn; /* Data Scheduler Tx Begin IRQ Enable */
+} TDschIrqControl;
+
+/* Data Scheduler IRQ Flags Register Struct */
+typedef struct DschIrqFlag {
+	bool bTxEndFlag; /* Data Scheduler Tx End IRQ Flag */
+	bool bTxBeginFlag; /* Data Scheduler Tx Begin IRQ Flag */
+} TDschIrqFlag;
+
+/* Data Scheduler IRQ Flags Clear Register Struct */
+typedef struct DschIrqFlagClr {
+	bool bTxEndFlagClr; /* Data Scheduler Tx End IRQ Flag Clear */
+	bool bTxBeginFlagClr; /* Data Scheduler Tx Begin IRQ Flag Clear */
+} TDschIrqFlagClr;
+
+/* RMAP Device Address Register Struct */
+typedef struct RmapDevAddr {
+	alt_u32 uliRmapBaseAddr; /* RMAP Device Base Address */
+} TRmapDevAddr;
+
+/* RMAP Codec Config Register Struct */
+typedef struct RmapCodecConfig {
+	alt_u8 ucLogicalAddress; /* RMAP Target Logical Address */
+	alt_u8 ucKey; /* RMAP Target Key */
+} TRmapCodecConfig;
+
+/* RMAP Codec Status Register Struct */
+typedef struct RmapCodecStatus {
+	bool bCommandReceived; /* RMAP Status Command Received */
+	bool bWriteRequested; /* RMAP Status Write Requested */
+	bool bWriteAuthorized; /* RMAP Status Write Authorized */
+	bool bReadRequested; /* RMAP Status Read Requested */
+	bool bReadAuthorized; /* RMAP Status Read Authorized */
+	bool bReplySended; /* RMAP Status Reply Sended */
+	bool bDiscardedPackage; /* RMAP Status Discarded Package */
+} TRmapCodecStatus;
+
+/* RMAP Codec Status Register Struct */
+typedef struct RmapCodecError {
+	bool bEarlyEop; /* RMAP Error Early EOP */
+	bool bEep; /* RMAP Error EEP */
+	bool bHeaderCRC; /* RMAP Error Header CRC */
+	bool bUnusedPacketType; /* RMAP Error Unused Packet Type */
+	bool bInvalidCommandCode; /* RMAP Error Invalid Command Code */
+	bool bTooMuchData; /* RMAP Error Too Much Data */
+	bool bInvalidDataCrc; /* RMAP Error Invalid Data CRC */
+} TRmapCodecError;
+
+/* RMAP Memory Area Config Struct */
+typedef struct RmapMemAreaConfig {
+	alt_u32 uliAddrOffset; /* RMAP Memory Area Address Offset */
+} TRmapMemAreaConfig;
+
+/* General Struct for SpW Channel Registers Access */
+typedef struct SpwcChannel {
+	TSpwcDevAddr xSpwcDevAddr;
+	TSpwcLinkConfig xSpwcLinkConfig;
+	TSpwcLinkStatus xSpwcLinkStatus;
+	TSpwcLinkError xSpwcLinkError;
+	TSpwcTimecodeControl xSpwcTimecodeControl;
+	TSpwcTimecodeStatus xSpwcTimecodeStatus;
+} TSpwcChannel;
+
+/* General Struct for Data Scheduler Registers Access */
+typedef struct DschChannel {
+	TDschDevAddr xDschDevAddr;
+	TDschTimerControl xDschTimerControl;
+	TDschTimerConfig xDschTimerConfig;
+	TDschTimerStatus xDschTimerStatus;
+	TDschPacketConfig xDschPacketConfig;
+	TDschBufferStatus xDschBufferStatus;
+	TDschIrqControl xDschIrqControl;
+	TDschIrqFlag xDschIrqFlag;
+	TDschIrqFlagClr xDschIrqFlagClr;
+} TDschChannel;
+
+/* General Struct for RMAP Registers Access */
+typedef struct RmapChannel {
+	TRmapDevAddr xRmapDevAddr;
+	TRmapCodecConfig xRmapCodecConfig;
+	TRmapCodecStatus xRmapCodecStatus;
+	TRmapCodecError xRmapCodecError;
+	TRmapMemAreaConfig xRmapMemAreaConfig;
+} TRmapChannel;
+
+/* General Struct for Communication Module Registers Access */
+typedef struct DcomChannel {
+	TDcomDevAddr xDcomDevAddr;
+	TDcomIrqControl xDcomIrqControl;
+	TSpwcChannel xSpacewire;
+	TDschChannel xDataScheduler;
+	TRmapChannel xRmap;
+} TDcomChannel;
+
 //! [public module structs definition]
 
 //! [public function prototypes]

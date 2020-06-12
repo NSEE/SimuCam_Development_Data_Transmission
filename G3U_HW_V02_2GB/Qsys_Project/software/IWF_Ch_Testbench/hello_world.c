@@ -21,6 +21,9 @@
 #include "api_driver/ddr2/ddr2.h"
 #include "driver/ctrl_io_lvds/ctrl_io_lvds.h"
 #include "driver/reset/reset.h"
+#include "utils/initialization_simucam.h"
+#include "utils/test_module_simucam.h"
+
 
 alt_u32 uliReadReg(alt_u32 *puliBaseAddr, alt_u32 uliRegOffset);
 
@@ -35,7 +38,45 @@ typedef struct Data {
 //} TData;
 
 int main() {
-	printf("Hello from Nios II!\n");
+
+	#if DEBUG_ON
+		printf("Main entry point.\n");
+	#endif
+
+	/* Initialization of core HW */
+	if (bInitSimucamCoreHW()){
+#if DEBUG_ON
+		printf("\n");
+		printf("SimuCam Release: %s\n", SIMUCAM_RELEASE);
+		printf("SimuCam HW Version: %s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION);
+		printf("SimuCam FW Version: %s.%s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION, SIMUCAM_FW_VERSION);
+		printf("\n");
+#endif
+	} else {
+#if DEBUG_ON
+		printf("\n");
+		printf("CRITICAL HW FAILURE: Hardware TimeStamp or System ID does not match the expected! SimuCam will be halted.\n");
+		printf("CRITICAL HW FAILURE: Expected HW release: %s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION);
+		printf("CRITICAL HW FAILURE: SimuCam will be halted.\n");
+		printf("\n");
+#endif
+		while (1) {}
+	}
+
+	/* Test of some critical IPCores HW interfaces in the Simucam */
+	if (!bTestSimucamCriticalHW()) {
+		printf("CRITICAL HW FAILURE: SimuCam will be halted.\n");
+		printf("\n");
+		while (1) {}
+	}
+
+	/* Initialization of basic HW */
+	vInitSimucamBasicHW();
+
+//	bInitSync();
+
+	bSetPainelLeds( LEDS_OFF , LEDS_ST_ALL_MASK );
+	bSetPainelLeds( LEDS_ON , LEDS_POWER_MASK );
 
 	printf("Starting Channel\n");
 
@@ -45,19 +86,30 @@ int main() {
 //	printf("Waiting 10s... \n");
 //	usleep(10000000);
 
-	TDcomChannel xChannelH;
-	if (bDcomInitCh(&xChannelH, eDcomSpwCh8)) {
-		printf("Channel Initializated \n");
+	TDcomChannel xChannelA;
+
+	if (bDcomInitCh(&xChannelA, eDcomSpwCh1)){
+		printf("Channel A Initializated \n");
 	}
+	bSpwcGetLinkConfig(&(xChannelA.xSpacewire));
+	xChannelA.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelA.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelA.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelA.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelA.xSpacewire));
 
-	bSpwcGetLink(&(xChannelH.xSpacewire));
-	xChannelH.xSpacewire.xLinkConfig.bAutostart = TRUE;
-	xChannelH.xSpacewire.xLinkConfig.bLinkStart = TRUE;
-	xChannelH.xSpacewire.xLinkConfig.bDisconnect = FALSE;
-	xChannelH.xSpacewire.xLinkConfig.ucTxDivCnt = 1;
-	bSpwcSetLink(&(xChannelH.xSpacewire));
+	TDcomChannel xChannelH;
+	if (bDcomInitCh(&xChannelH, eDcomSpwCh8)){
+		printf("Channel H Initializated \n");
+	}
+	bSpwcGetLinkConfig(&(xChannelH.xSpacewire));
+	xChannelH.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelH.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelH.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelH.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelH.xSpacewire));
 
-	bDschStartTimer(&(xChannelH.xDataScheduler));
+	while (1) {}
 
 	printf("Waiting 10s... \n");
 	usleep(10000000);
