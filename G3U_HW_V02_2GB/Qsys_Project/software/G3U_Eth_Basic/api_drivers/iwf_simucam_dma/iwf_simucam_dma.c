@@ -28,10 +28,8 @@ bool bIdmaInitM1Dma(void) {
 	if (pxDmaM1Dev != NULL) {
 		// device opened
 		// reset the dispatcher
-		IOWR_ALTERA_MSGDMA_CSR_CONTROL(pxDmaM1Dev->csr_base,
-				ALTERA_MSGDMA_CSR_RESET_MASK);
-		while (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM1Dev->csr_base)
-				& ALTERA_MSGDMA_CSR_RESET_STATE_MASK) {
+		IOWR_ALTERA_MSGDMA_CSR_CONTROL(pxDmaM1Dev->csr_base, ALTERA_MSGDMA_CSR_RESET_MASK);
+		while (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM1Dev->csr_base) & ALTERA_MSGDMA_CSR_RESET_STATE_MASK) {
 			usleep(1);
 			usiCounter++;
 			if (5000 <= usiCounter) { //wait at most 5ms for the device to be reseted
@@ -55,16 +53,11 @@ bool bIdmaInitM2Dma(void) {
 	pxDmaM2Dev = alt_msgdma_open((char *) IDMA_DMA_M2_NAME);
 
 	// check if the device was opened
-	if (pxDmaM2Dev == NULL) {
-		// device not opened
-		bStatus = FALSE;
-	} else {
+	if (pxDmaM2Dev != NULL) {
 		// device opened
 		// reset the dispatcher
-		IOWR_ALTERA_MSGDMA_CSR_CONTROL(pxDmaM2Dev->csr_base,
-				ALTERA_MSGDMA_CSR_RESET_MASK);
-		while (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM2Dev->csr_base)
-				& ALTERA_MSGDMA_CSR_RESET_STATE_MASK) {
+		IOWR_ALTERA_MSGDMA_CSR_CONTROL(pxDmaM2Dev->csr_base, ALTERA_MSGDMA_CSR_RESET_MASK);
+		while (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM2Dev->csr_base) & ALTERA_MSGDMA_CSR_RESET_STATE_MASK) {
 			usleep(1);
 			usiCounter++;
 			if (5000 <= usiCounter) { //wait at most 5ms for the device to be reseted
@@ -75,11 +68,12 @@ bool bIdmaInitM2Dma(void) {
 		if (bFailDispatcher == FALSE)
 			bStatus = TRUE;
 	}
+
 	return bStatus;
 }
 
-alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
-	bool bStatus = FALSE;
+alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
+//	bool bStatus = FALSE;
 
 	alt_msgdma_extended_descriptor xDmaExtendedDescriptor;
 
@@ -96,7 +90,7 @@ alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeIn
 	alt_u16 usiRoundedTransferSizeInBytes = 0;
 
 	/* Assuming that the channel selected exist, change to FALSE if doesn't */
-	bStatus = FALSE;
+//	bStatus = FALSE;
 	switch (ucChBufferId) {
 	case eIdmaCh1Buffer:
 		uliDestAddrLow = (alt_u32) IDMA_CH_1_BUFF_BASE_ADDR_LOW;
@@ -143,8 +137,7 @@ alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeIn
 		break;
 	}
 
-	uliSrcAddrLow = (alt_u32) IDMA_M1_BASE_ADDR_LOW
-			+ (alt_u32) uliDdrInitialAddr;
+	uliSrcAddrLow = (alt_u32) IDMA_M1_BASE_ADDR_LOW + (alt_u32) uliDdrInitialAddr;
 	uliSrcAddrHigh = (alt_u32) IDMA_M1_BASE_ADDR_HIGH;
 
 	// Rounding up the size to the nearest multiple of 8 (8 bytes = 64b = size of memory access)
@@ -164,12 +157,9 @@ alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeIn
 	}
 
 	if ((bChannelFlag) && (bAddressFlag)) {
+		if (pxDmaM2Dev != NULL) {
 
-		if (pxDmaM1Dev != NULL) {
-			// hold transfers for descriptor fifo space
-			while (0
-					!= (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM1Dev->csr_base)
-							& ALTERA_MSGDMA_CSR_DESCRIPTOR_BUFFER_FULL_MASK)) {
+			while (0 != (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM1Dev->csr_base) & ALTERA_MSGDMA_CSR_DESCRIPTOR_BUFFER_FULL_MASK)) {
 				alt_busy_sleep(1); /* delay 1us */
 			}
 			/* Success = 0 */
@@ -178,9 +168,8 @@ alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeIn
 							usiRoundedTransferSizeInBytes, uliControlBits, (alt_u32 *) uliSrcAddrHigh,
 							(alt_u32 *) uliDestAddrHigh, 1, 1, 1, 1, 1)) {
 				/* Success = 0 */
-				if (0 == iMsgdmaExtendedDescriptorAsyncTransfer(pxDmaM1Dev,
-								&xDmaExtendedDescriptor)) {
-					bStatus = TRUE;
+				if (0 == iMsgdmaExtendedDescriptorAsyncTransfer(pxDmaM1Dev, &xDmaExtendedDescriptor)) {
+//					bStatus = TRUE;
 				}
 			}
 		} else{
@@ -190,9 +179,8 @@ alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr,	alt_u16 usiTransferSizeIn
 	return usiRoundedTransferSizeInBytes;
 }
 
-alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
-		alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
-	bool bStatus = FALSE;
+alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
+//	bool bStatus = FALSE;
 
 	alt_msgdma_extended_descriptor xDmaExtendedDescriptor;
 
@@ -209,7 +197,7 @@ alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
 	alt_u16 usiRoundedTransferSizeInBytes = 0;
 
 	/* Assuming that the channel selected exist, change to FALSE if doesn't */
-	bStatus = FALSE;
+//	bStatus = FALSE;
 	switch (ucChBufferId) {
 	case eIdmaCh1Buffer:
 		uliDestAddrLow = (alt_u32) IDMA_CH_1_BUFF_BASE_ADDR_LOW;
@@ -256,8 +244,7 @@ alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
 		break;
 	}
 
-	uliSrcAddrLow = (alt_u32) IDMA_M2_BASE_ADDR_LOW
-			+ (alt_u32) uliDdrInitialAddr;
+	uliSrcAddrLow = (alt_u32) IDMA_M2_BASE_ADDR_LOW + (alt_u32) uliDdrInitialAddr;
 	uliSrcAddrHigh = (alt_u32) IDMA_M2_BASE_ADDR_HIGH;
 
 	// Rounding up the size to the nearest multiple of 8 (8 bytes = 64b = size of memory access)
@@ -279,9 +266,7 @@ alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
 	if ((bChannelFlag) && (bAddressFlag)) {
 		if (pxDmaM2Dev != NULL) {
 
-			while (0
-					!= (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM2Dev->csr_base)
-							& ALTERA_MSGDMA_CSR_DESCRIPTOR_BUFFER_FULL_MASK)) {
+			while (0 != (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM2Dev->csr_base) & ALTERA_MSGDMA_CSR_DESCRIPTOR_BUFFER_FULL_MASK)) {
 				alt_busy_sleep(1); /* delay 1us */
 			}
 			/* Success = 0 */
@@ -290,9 +275,8 @@ alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
 							usiRoundedTransferSizeInBytes, uliControlBits, (alt_u32 *) uliSrcAddrHigh,
 							(alt_u32 *) uliDestAddrHigh, 1, 1, 1, 1, 1)) {
 				/* Success = 0 */
-				if (0 == iMsgdmaExtendedDescriptorSyncTransfer(pxDmaM2Dev,
-								&xDmaExtendedDescriptor)) {
-					bStatus = TRUE;
+				if (0 == iMsgdmaExtendedDescriptorAsyncTransfer(pxDmaM2Dev, &xDmaExtendedDescriptor)) {
+//					bStatus = TRUE;
 				}
 			}
 		} else{
@@ -301,6 +285,7 @@ alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr,
 	}
 	return usiRoundedTransferSizeInBytes;
 }
+
 //! [public functions]
 
 //! [private functions]

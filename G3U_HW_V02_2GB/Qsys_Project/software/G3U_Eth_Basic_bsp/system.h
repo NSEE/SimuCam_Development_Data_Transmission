@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Fri Dec 20 15:21:03 BRST 2019
+ * Generated: Fri Jun 12 02:34:25 BRT 2020
  */
 
 /*
@@ -163,7 +163,7 @@
 #define __ALTERA_MSGDMA
 #define __ALTERA_NIOS2_GEN2
 #define __ALTERA_UP_SD_CARD_AVALON_INTERFACE
-#define __DUMB_COMMUNICATION_MODULE_V1
+#define __DUMB_COMMUNICATION_MODULE_V2
 #define __RST_CONTROLLER
 #define __SEVEN_SEGMENT_CONTROLLER
 #define __SYNC
@@ -171,129 +171,129 @@
 
 
 /*
- * Dumb_Communication_Module_v1_ChA configuration
+ * Dumb_Communication_Module_v2_1 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChA Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHA_BASE 0x80002800
-#define DUMB_COMMUNICATION_MODULE_V1_CHA_IRQ 8
-#define DUMB_COMMUNICATION_MODULE_V1_CHA_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHA_NAME "/dev/Dumb_Communication_Module_v1_ChA"
-#define DUMB_COMMUNICATION_MODULE_V1_CHA_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHA_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_1 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_1_BASE 0x80002800
+#define DUMB_COMMUNICATION_MODULE_V2_1_IRQ 8
+#define DUMB_COMMUNICATION_MODULE_V2_1_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_1_NAME "/dev/Dumb_Communication_Module_v2_1"
+#define DUMB_COMMUNICATION_MODULE_V2_1_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_1_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_ChB configuration
+ * Dumb_Communication_Module_v2_2 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChB Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHB_BASE 0x80002400
-#define DUMB_COMMUNICATION_MODULE_V1_CHB_IRQ 9
-#define DUMB_COMMUNICATION_MODULE_V1_CHB_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHB_NAME "/dev/Dumb_Communication_Module_v1_ChB"
-#define DUMB_COMMUNICATION_MODULE_V1_CHB_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHB_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_2 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_2_BASE 0x80002400
+#define DUMB_COMMUNICATION_MODULE_V2_2_IRQ 9
+#define DUMB_COMMUNICATION_MODULE_V2_2_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_2_NAME "/dev/Dumb_Communication_Module_v2_2"
+#define DUMB_COMMUNICATION_MODULE_V2_2_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_2_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_ChC configuration
+ * Dumb_Communication_Module_v2_3 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChC Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHC_BASE 0x80002000
-#define DUMB_COMMUNICATION_MODULE_V1_CHC_IRQ 11
-#define DUMB_COMMUNICATION_MODULE_V1_CHC_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHC_NAME "/dev/Dumb_Communication_Module_v1_ChC"
-#define DUMB_COMMUNICATION_MODULE_V1_CHC_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHC_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_3 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_3_BASE 0x80002000
+#define DUMB_COMMUNICATION_MODULE_V2_3_IRQ 11
+#define DUMB_COMMUNICATION_MODULE_V2_3_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_3_NAME "/dev/Dumb_Communication_Module_v2_3"
+#define DUMB_COMMUNICATION_MODULE_V2_3_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_3_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_ChD configuration
+ * Dumb_Communication_Module_v2_4 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChD Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHD_BASE 0x80001c00
-#define DUMB_COMMUNICATION_MODULE_V1_CHD_IRQ 10
-#define DUMB_COMMUNICATION_MODULE_V1_CHD_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHD_NAME "/dev/Dumb_Communication_Module_v1_ChD"
-#define DUMB_COMMUNICATION_MODULE_V1_CHD_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHD_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_4 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_4_BASE 0x80001c00
+#define DUMB_COMMUNICATION_MODULE_V2_4_IRQ 10
+#define DUMB_COMMUNICATION_MODULE_V2_4_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_4_NAME "/dev/Dumb_Communication_Module_v2_4"
+#define DUMB_COMMUNICATION_MODULE_V2_4_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_4_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_ChE configuration
+ * Dumb_Communication_Module_v2_5 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChE Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHE_BASE 0x80001800
-#define DUMB_COMMUNICATION_MODULE_V1_CHE_IRQ 12
-#define DUMB_COMMUNICATION_MODULE_V1_CHE_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHE_NAME "/dev/Dumb_Communication_Module_v1_ChE"
-#define DUMB_COMMUNICATION_MODULE_V1_CHE_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHE_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_5 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_5_BASE 0x80001800
+#define DUMB_COMMUNICATION_MODULE_V2_5_IRQ 12
+#define DUMB_COMMUNICATION_MODULE_V2_5_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_5_NAME "/dev/Dumb_Communication_Module_v2_5"
+#define DUMB_COMMUNICATION_MODULE_V2_5_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_5_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_ChF configuration
+ * Dumb_Communication_Module_v2_6 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChF Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHF_BASE 0x80001400
-#define DUMB_COMMUNICATION_MODULE_V1_CHF_IRQ 14
-#define DUMB_COMMUNICATION_MODULE_V1_CHF_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHF_NAME "/dev/Dumb_Communication_Module_v1_ChF"
-#define DUMB_COMMUNICATION_MODULE_V1_CHF_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHF_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_6 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_6_BASE 0x80001400
+#define DUMB_COMMUNICATION_MODULE_V2_6_IRQ 14
+#define DUMB_COMMUNICATION_MODULE_V2_6_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_6_NAME "/dev/Dumb_Communication_Module_v2_6"
+#define DUMB_COMMUNICATION_MODULE_V2_6_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_6_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_ChG configuration
+ * Dumb_Communication_Module_v2_7 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChG Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHG_BASE 0x80001000
-#define DUMB_COMMUNICATION_MODULE_V1_CHG_IRQ 13
-#define DUMB_COMMUNICATION_MODULE_V1_CHG_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHG_NAME "/dev/Dumb_Communication_Module_v1_ChG"
-#define DUMB_COMMUNICATION_MODULE_V1_CHG_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHG_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_7 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_7_BASE 0x80001000
+#define DUMB_COMMUNICATION_MODULE_V2_7_IRQ 13
+#define DUMB_COMMUNICATION_MODULE_V2_7_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_7_NAME "/dev/Dumb_Communication_Module_v2_7"
+#define DUMB_COMMUNICATION_MODULE_V2_7_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_7_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_ChH configuration
+ * Dumb_Communication_Module_v2_8 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_ChH Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_CHH_BASE 0x80000c00
-#define DUMB_COMMUNICATION_MODULE_V1_CHH_IRQ 15
-#define DUMB_COMMUNICATION_MODULE_V1_CHH_IRQ_INTERRUPT_CONTROLLER_ID 0
-#define DUMB_COMMUNICATION_MODULE_V1_CHH_NAME "/dev/Dumb_Communication_Module_v1_ChH"
-#define DUMB_COMMUNICATION_MODULE_V1_CHH_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_CHH_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_8 Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_8_BASE 0x80000c00
+#define DUMB_COMMUNICATION_MODULE_V2_8_IRQ 15
+#define DUMB_COMMUNICATION_MODULE_V2_8_IRQ_INTERRUPT_CONTROLLER_ID 0
+#define DUMB_COMMUNICATION_MODULE_V2_8_NAME "/dev/Dumb_Communication_Module_v2_8"
+#define DUMB_COMMUNICATION_MODULE_V2_8_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_8_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
- * Dumb_Communication_Module_v1_Timer configuration
+ * Dumb_Communication_Module_v2_Timer configuration
  *
  */
 
-#define ALT_MODULE_CLASS_Dumb_Communication_Module_v1_Timer Dumb_Communication_Module_v1
-#define DUMB_COMMUNICATION_MODULE_V1_TIMER_BASE 0x80000800
-#define DUMB_COMMUNICATION_MODULE_V1_TIMER_IRQ -1
-#define DUMB_COMMUNICATION_MODULE_V1_TIMER_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define DUMB_COMMUNICATION_MODULE_V1_TIMER_NAME "/dev/Dumb_Communication_Module_v1_Timer"
-#define DUMB_COMMUNICATION_MODULE_V1_TIMER_SPAN 1024
-#define DUMB_COMMUNICATION_MODULE_V1_TIMER_TYPE "Dumb_Communication_Module_v1"
+#define ALT_MODULE_CLASS_Dumb_Communication_Module_v2_Timer Dumb_Communication_Module_v2
+#define DUMB_COMMUNICATION_MODULE_V2_TIMER_BASE 0x80000800
+#define DUMB_COMMUNICATION_MODULE_V2_TIMER_IRQ -1
+#define DUMB_COMMUNICATION_MODULE_V2_TIMER_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define DUMB_COMMUNICATION_MODULE_V2_TIMER_NAME "/dev/Dumb_Communication_Module_v2_Timer"
+#define DUMB_COMMUNICATION_MODULE_V2_TIMER_SPAN 1024
+#define DUMB_COMMUNICATION_MODULE_V2_TIMER_TYPE "Dumb_Communication_Module_v2"
 
 
 /*
@@ -1268,7 +1268,7 @@
 #define SYSID_QSYS_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_NAME "/dev/sysid_qsys"
 #define SYSID_QSYS_SPAN 8
-#define SYSID_QSYS_TIMESTAMP 1576850668
+#define SYSID_QSYS_TIMESTAMP 1591853511
 #define SYSID_QSYS_TYPE "altera_avalon_sysid_qsys"
 
 

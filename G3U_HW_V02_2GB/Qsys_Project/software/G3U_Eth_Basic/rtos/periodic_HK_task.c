@@ -4,7 +4,7 @@
  *  Created on: Dec 12, 2019
  *      Author: yuribunduki
  */
-#include "periodic_HK_task.h";
+#include "periodic_HK_task.h"
 
 
 void periodic_HK_task(void *task_data){

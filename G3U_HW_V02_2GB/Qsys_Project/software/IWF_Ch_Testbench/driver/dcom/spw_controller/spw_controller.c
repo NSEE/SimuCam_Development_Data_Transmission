@@ -5,7 +5,7 @@
  *      Author: rfranca
  */
 
-#include "../../dcom/spw_controller/spw_controller.h"
+#include "spw_controller.h"
 
 //! [private function prototypes]
 //! [private function prototypes]

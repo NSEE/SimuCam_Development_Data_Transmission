@@ -19,8 +19,8 @@
 #include "../driver/rtcc_spi/rtcc_spi.h"
 #include "../driver/seven_seg/seven_seg.h"
 
-#include "../logic/dma/dma.h"
-#include "../logic/sense/sense.h"
+#include "../api_drivers/dma/dma.h"
+#include "../api_drivers/sense/sense.h"
 #include "../api_drivers/ddr2/ddr2.h"
 
 //#include "../driver/dcom/dcom_channel.h"
@@ -60,10 +60,10 @@ void SPWLinkTask(void *task_data) {
 
 	for (ucSpwChCnt = 0; ucSpwChCnt < 8; ucSpwChCnt++) {
 		bDcomInitCh(&(xCh[ucSpwChCnt]), ucSpwChCnt);
-		bDctrGetControllerConfig(&(xCh[ucSpwChCnt].xDataController));
-		xCh[ucSpwChCnt].xDataController.xControllerConfig.bSendEep = xDefaults.bSendEEP;
-		xCh[ucSpwChCnt].xDataController.xControllerConfig.bSendEop = xDefaults.bSendEOP;
-		bDctrSetControllerConfig(&(xCh[ucSpwChCnt].xDataController));
+		bDschGetPacketConfig(&(xCh[ucSpwChCnt].xDataScheduler));
+		xCh[ucSpwChCnt].xDataScheduler.xDschPacketConfig.bSendEep = xDefaults.bSendEEP;
+		xCh[ucSpwChCnt].xDataScheduler.xDschPacketConfig.bSendEop = xDefaults.bSendEOP;
+		bDschSetPacketConfig(&(xCh[ucSpwChCnt].xDataScheduler));
 	}
 
 	while (1) {
@@ -80,8 +80,8 @@ void LogTask(void *task_data) {
 	fprintf(fp, "Created \"log\" Task (Prio:%d) \n", LOG_TASK_PRIORITY);
 #endif
 	while (1) {
-		TEMP_Read(&tempFPGA, &tempBoard);
-		SSDP_UPDATE(tempFPGA);
+		TEMP_Read((alt_8 *)&tempFPGA, (alt_8 *)&tempBoard);
+		bSSDisplayUpdate(tempFPGA);
 		OSTimeDlyHMSM(0, 0, 1, 0);
 	}
 }
@@ -154,11 +154,11 @@ void Set_SpW_Led(INT8U c_SpwID) {
 		break;
 	}
 	bSpwcGetLinkStatus(&(pxChannel->xSpacewire));
-	if (pxChannel->xSpacewire.xLinkStatus.bRunning) {
-		LEDS_PAINEL_DRIVE(LEDS_OFF, ui_leds_mask_r);
-		LEDS_PAINEL_DRIVE(LEDS_ON, ui_leds_mask_g);
+	if (pxChannel->xSpacewire.xSpwcLinkStatus.bRunning) {
+		bSetPainelLeds(LEDS_OFF, ui_leds_mask_r);
+		bSetPainelLeds(LEDS_ON, ui_leds_mask_g);
 	} else {
-		LEDS_PAINEL_DRIVE(LEDS_OFF, ui_leds_mask_g);
-		LEDS_PAINEL_DRIVE(LEDS_ON, ui_leds_mask_r);
+		bSetPainelLeds(LEDS_OFF, ui_leds_mask_g);
+		bSetPainelLeds(LEDS_ON, ui_leds_mask_r);
 	}
 }

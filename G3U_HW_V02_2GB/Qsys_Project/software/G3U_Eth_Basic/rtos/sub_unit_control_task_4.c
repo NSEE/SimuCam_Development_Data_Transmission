@@ -56,16 +56,16 @@ void sub_unit_control_task_4(void *task_data) {
 			 * Initializing the timer
 			 */
 			bDschGetTimerConfig(&(xCh[c_spw_channel].xDataScheduler));
-			xCh[c_spw_channel].xDataScheduler.xTimerConfig.bStartOnSync = TRUE;
-			xCh[c_spw_channel].xDataScheduler.xTimerConfig.uliTimerDiv =
+			xCh[c_spw_channel].xDataScheduler.xDschTimerConfig.bStartOnSync = TRUE;
+			xCh[c_spw_channel].xDataScheduler.xDschTimerConfig.uliClockDiv =
 			TIMER_CLOCK_DIV_1MS;
 			bDschSetTimerConfig(&(xCh[c_spw_channel].xDataScheduler));
 
 			bDcomSetGlobalIrqEn(TRUE, c_spw_channel);
-			bDctrGetIrqControl(&(xCh[c_spw_channel].xDataController));
-			xCh[c_spw_channel].xDataController.xIrqControl.bTxBeginEn = TRUE;
-			xCh[c_spw_channel].xDataController.xIrqControl.bTxEndEn = TRUE;
-			bDctrSetIrqControl(&(xCh[c_spw_channel].xDataController));
+			bDschGetIrqControl(&(xCh[c_spw_channel].xDataScheduler));
+			xCh[c_spw_channel].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
+			xCh[c_spw_channel].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;
+			bDschSetIrqControl(&(xCh[c_spw_channel].xDataScheduler));
 
 			T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 			break;
@@ -83,11 +83,11 @@ void sub_unit_control_task_4(void *task_data) {
 			/*
 			 * Disabling SpW channel
 			 */
-			bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
-			xCh[c_spw_channel].xSpacewire.xLinkConfig.bAutostart = FALSE;
-			xCh[c_spw_channel].xSpacewire.xLinkConfig.bLinkStart = FALSE;
-			xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect = TRUE;
-			bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
+			bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+			xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = FALSE;
+			xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = FALSE;
+			xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = TRUE;
+			bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
 
 			T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeConfig;
 			T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
@@ -163,8 +163,7 @@ void sub_unit_control_task_4(void *task_data) {
 				 * Acquire status and do manual space control
 				 */
 
-				i_buffer_size = uiDatbGetBuffersFreeSpace(
-						&(xCh[c_spw_channel].xDataBuffer));
+				i_buffer_size = usiDschGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataScheduler));
 				bDdr2SwitchMemory(c_DMA_nb);
 
 				/*
@@ -179,7 +178,7 @@ void sub_unit_control_task_4(void *task_data) {
 					fprintf(fp, "[SUBUNIT%i]Printinf offset %i & %x\r\n",(INT8U)c_spw_channel,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
-					INT16U teste_limit = uiDatbGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataBuffer));
+					INT16U teste_limit = usiDschGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataScheduler));
 #endif
 					/*
 					 * Try to get the mutex
@@ -284,14 +283,11 @@ void sub_unit_control_task_4(void *task_data) {
 					fprintf(fp, "[SUBUNIT%i]Channel autostart\r\n",(INT8U)c_spw_channel);
 #endif
 
-					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bAutostart =
-					TRUE;
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bLinkStart =
-					FALSE;
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect =
-					FALSE;
-					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
+					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = FALSE;
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+					bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
 
 				} else {
 
@@ -302,14 +298,11 @@ void sub_unit_control_task_4(void *task_data) {
 					fprintf(fp, "[SUBUNIT%i]Channel start\r\n",(INT8U)c_spw_channel);
 #endif
 
-					bSpwcGetLink(&(xCh[c_spw_channel].xSpacewire));
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bAutostart =
-					FALSE;
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bLinkStart =
-					TRUE;
-					xCh[c_spw_channel].xSpacewire.xLinkConfig.bDisconnect =
-					FALSE;
-					bSpwcSetLink(&(xCh[c_spw_channel].xSpacewire));
+					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = FALSE;
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+					bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
 
 				}
 
@@ -348,8 +341,7 @@ void sub_unit_control_task_4(void *task_data) {
 							fprintf(fp, "[SUBUNIT%i] Mutex error.",(INT8U)c_spw_channel);
 #endif
 						}
-						if (uiDatbGetBuffersFreeSpace(
-								&(xCh[c_spw_channel].xDataBuffer))
+						if (usiDschGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataScheduler))
 								>= (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 										+ DMA_OFFSET)) {
 							if (c_DMA_nb == 0) {

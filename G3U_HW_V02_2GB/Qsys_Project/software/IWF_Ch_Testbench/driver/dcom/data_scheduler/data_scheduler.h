@@ -8,7 +8,7 @@
 #ifndef DATA_SCHEDULER_H_
 #define DATA_SCHEDULER_H_
 
-#include "../../dcom/dcom.h"
+#include "../dcom.h"
 
 //! [constants definition]
 //! [constants definition]

@@ -32,13 +32,14 @@
 #define __MSGDMA_H__
 
 #include <altera_msgdma.h>
-//#include "../../simucam_definitions.h"
-//#include "../../utils/configs_simucam.h"
+#include "../../simucam_definitions.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif /* __cplusplus */
+
+extern T_Simucam T_simucam;
 
 /*******************************************************************************
  *  Public API

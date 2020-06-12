@@ -5,7 +5,7 @@
  *      Author: rfranca
  */
 
-#include "../../dcom/rmap/rmap.h"
+#include "rmap.h"
 
 //! [private function prototypes]
 //! [private function prototypes]

@@ -8,7 +8,7 @@
 #ifndef RMAP_H_
 #define RMAP_H_
 
-#include "../../dcom/dcom.h"
+#include "../dcom.h"
 
 //! [constants definition]
 //! [constants definition]

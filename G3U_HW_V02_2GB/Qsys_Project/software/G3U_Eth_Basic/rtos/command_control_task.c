@@ -96,7 +96,7 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 
 //	vUartWriteBuffer(ack_buffer, ack_size);
 	for (int f = 0; f < ack_size; f++){
-//		printf("%c", ack_buffer[f]);
+//		fprintf(fp, "%c", ack_buffer[f]);
 		vUartWriteChar(ack_buffer[f]);
 	}
 
@@ -161,7 +161,7 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 	ack_buffer[12] = div(usCRC, 256).rem;
 
 	for (int f = 0; f < ack_size; f++){
-//		printf("%c", ack_buffer[f]);
+//		fprintf(fp, "%c", ack_buffer[f]);
 		vUartWriteChar(ack_buffer[f]);
 	}
 
@@ -227,7 +227,7 @@ void v_HK_creator(INT8U i_channel) {
 	hk_buffer[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
 	hk_buffer[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; /**sub_config_linkstatus*/
 	hk_buffer[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; /**sub_config_linkspeed*/
-	hk_buffer[13] = xCh[chann_buff].xSpacewire.xLinkStatus.bRunning; /**sub_status_linkrunning*/ // TODO
+	hk_buffer[13] = xCh[chann_buff].xSpacewire.xSpwcLinkStatus.bRunning; /**sub_status_linkrunning*/ // TODO
 	hk_buffer[14] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**link enabled*/
 	hk_buffer[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
 	hk_buffer[16] = 0; /**TODO link errors*/
@@ -272,7 +272,7 @@ void v_HK_creator(INT8U i_channel) {
      * Send HK through serial
      */
     for (int f = 0; f < HK_SIZE; f++){
-//		printf("%c", hk_buffer[f]);
+//		fprintf(fp, "%c", hk_buffer[f]);
 		vUartWriteChar(hk_buffer[f]);
 	}
 
@@ -355,7 +355,7 @@ void vSendETHConfig(TConfEth xEthConf){
      */
 	fprintf(fp, "alive cmd:");
     for (int f = 0; f < IP_CONFIG_SIZE; f++){
-		printf(" %i", iETHBuffer[f]);
+    	fprintf(fp, " %i", iETHBuffer[f]);
 		vUartWriteChar(iETHBuffer[f]);
 	}
     fprintf(fp, "\r\n");
@@ -488,15 +488,15 @@ void CommandManagementTask() {
 	T_simucam.T_status.simucam_mode = simModeInit;
 
 	/* Address */
-	xSimucamTimer.puliDschChAddr =
-			(TDschChannel *) DUMB_COMMUNICATION_MODULE_V1_TIMER_BASE;
+	xSimucamTimer.xDschDevAddr.uliDschBaseAddr = (alt_u32) DUMB_COMMUNICATION_MODULE_V2_TIMER_BASE;
 	/* Init Simucam Timer */
+	bDschGetTimerControl(&xSimucamTimer);
 	bDschGetTimerConfig(&xSimucamTimer);
 	bDschGetTimerStatus(&xSimucamTimer);
-	bDschSetTime(&xSimucamTimer, 0);
 	/* Config Simucam timer */
-	xSimucamTimer.xTimerConfig.bStartOnSync = false;
-	xSimucamTimer.xTimerConfig.uliTimerDiv = TIMER_CLOCK_DIV_1MS;
+	xSimucamTimer.xDschTimerConfig.uliStartTime = 0;
+	xSimucamTimer.xDschTimerConfig.bStartOnSync = FALSE;
+	xSimucamTimer.xDschTimerConfig.uliClockDiv = TIMER_CLOCK_DIV_1MS;
 	bDschSetTimerConfig(&xSimucamTimer);
 
 	while (1) {
@@ -853,7 +853,7 @@ void CommandManagementTask() {
 						 */
 						error_code = bDschStopTimer(&xSimucamTimer);
                         if(error_code != OS_NO_ERR){
-                        	printf("simucam timer prob \n");
+                        	fprintf(fp, "simucam timer prob \n");
                             v_ack_creator(p_payload, xTimerError);
                         }
 						/*
@@ -866,12 +866,12 @@ void CommandManagementTask() {
 								error_code = bDschStopTimer(
 										&(xCh[i_channel_for].xDataScheduler));
 								if(error_code != OS_NO_ERR){
-									printf("problem sub %i\n", i_channel_for);
+									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xTimerError);
 								}
 								error_code = bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
 								if(error_code != OS_NO_ERR){
-									printf("problem sub %i\n", i_channel_for);
+									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xTimerError);
 								}
 								sub_config_send[i_channel_for].mode = subChangeMode;
@@ -879,7 +879,7 @@ void CommandManagementTask() {
 										p_sub_unit_config_queue[i_channel_for],
 										&sub_config_send[i_channel_for]);
 								if(error_code != OS_NO_ERR){
-									printf("problem sub %i\n", i_channel_for);
+									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xOSError);
 								}
 							}

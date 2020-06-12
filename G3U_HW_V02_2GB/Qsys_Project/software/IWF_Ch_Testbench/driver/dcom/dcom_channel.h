@@ -8,10 +8,10 @@
 #ifndef DCOM_CHANNEL_H_
 #define DCOM_CHANNEL_H_
 
-#include "../dcom/data_scheduler/data_scheduler.h"
-#include "../dcom/dcom.h"
-#include "../dcom/rmap/rmap.h"
-#include "../dcom/spw_controller/spw_controller.h"
+#include "dcom.h"
+#include "spw_controller/spw_controller.h"
+#include "data_scheduler/data_scheduler.h"
+#include "rmap/rmap.h"
 
 //! [constants definition]
 //! [constants definition]

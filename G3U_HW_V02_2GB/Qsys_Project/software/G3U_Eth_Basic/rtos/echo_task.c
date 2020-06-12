@@ -127,7 +127,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	 */
 
     for (INT8U t = 0; t < 13; t++) {
-        printf("%i", tx_buffer[t]);
+    	fprintf(fp, "%i", tx_buffer[t]);
     }
 
     /**
@@ -150,7 +150,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
         /* Assure the right memory is in use */
         bDdr2SwitchMemory((unsigned char) i_channel / 4);
         /* Print imagette char */
-        printf("%i",(INT8U) *pDataPointer);
+        fprintf(fp, "%i",(INT8U) *pDataPointer);
         /* Advance the buffer pointer 1 byte */
         pDataPointer++;
 
@@ -167,7 +167,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	tx_buffer[14] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
 	tx_buffer[13] = div(usCRC, 256).rem;
-    printf("%i%i", tx_buffer[13], tx_buffer[14]); //mock CRC
+	fprintf(fp, "%i%i", tx_buffer[13], tx_buffer[14]); //mock CRC
      
 
 	T_simucam.T_status.TM_id++;
@@ -241,7 +241,7 @@ void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
      * Send Log through serial
      */
     for (int f = 0; f < LOG_SIZE; f++){
-		printf("%c", tx_buffer[f]);
+    	fprintf(fp, "%c", tx_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;

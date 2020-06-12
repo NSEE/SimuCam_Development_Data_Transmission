@@ -10,7 +10,7 @@
 
 #include <math.h>
 
-#include "../../dcom/dcom.h"
+#include "../dcom.h"
 
 //! [constants definition]
 //! [constants definition]

@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jun 10, 2020 7:42:50 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1591810970925</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>C:\iwf\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>Jun 12, 2020 2:34:24 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1591940064476</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>.\</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
@@ -1817,55 +1817,55 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_Timer</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_Timer</slaveDescriptor>
                 <addressRange>0x80000800 - 0x80000BFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChH</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_8</slaveDescriptor>
                 <addressRange>0x80000C00 - 0x80000FFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChG</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_7</slaveDescriptor>
                 <addressRange>0x80001000 - 0x800013FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChF</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_6</slaveDescriptor>
                 <addressRange>0x80001400 - 0x800017FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChE</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_5</slaveDescriptor>
                 <addressRange>0x80001800 - 0x80001BFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChD</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_4</slaveDescriptor>
                 <addressRange>0x80001C00 - 0x80001FFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChC</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_3</slaveDescriptor>
                 <addressRange>0x80002000 - 0x800023FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChB</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_2</slaveDescriptor>
                 <addressRange>0x80002400 - 0x800027FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v1_ChA</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_1</slaveDescriptor>
                 <addressRange>0x80002800 - 0x80002BFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>

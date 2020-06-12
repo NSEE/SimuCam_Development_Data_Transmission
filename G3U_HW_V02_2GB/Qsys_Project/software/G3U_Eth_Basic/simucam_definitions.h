@@ -51,6 +51,11 @@
 #define ECHO_QUEUE_BUFFER			512
 #define ECHO_BUFFER					512
 
+/* HW and FW release version */
+#define SIMUCAM_RELEASE                 "I2dev"
+#define SIMUCAM_HW_VERSION              "0.0"
+#define SIMUCAM_FW_VERSION              "0.0"
+
 /*
  * Convert to enum
  */

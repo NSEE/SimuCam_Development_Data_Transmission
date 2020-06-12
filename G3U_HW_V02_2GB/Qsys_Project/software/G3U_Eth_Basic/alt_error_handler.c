@@ -98,6 +98,7 @@
 #include <errno.h>
 #include "includes.h"
 #include "alt_error_handler.h"
+#include "simucam_definitions.h"
  
 void alt_uCOSIIErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
 {
@@ -168,13 +169,11 @@ void alt_uCOSIIErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
          break;
       case EXPANDED_DIAGNOSIS_CODE:      
          fault_level = SYSTEM;
-         printf(
-"\n[MicroC/OS-II]: See STDERR for expanded diagnosis translation.");    
-         fprintf(stderr, "\n[MicroC/OS-II]: Expanded Diagnosis: %s.", 
-                 (char *)expanded_diagnosis_ptr);
+         fprintf(fp, "\n[MicroC/OS-II]: See STDERR for expanded diagnosis translation.");
+         fprintf(stderr, "\n[MicroC/OS-II]: Expanded Diagnosis: %s.", (char *)expanded_diagnosis_ptr);
          break;           
       default:
-         printf("\n[MicroC/OS-II]: (Not a MicroC/OS-II error) See STDERR.\n");    
+         fprintf(fp, "\n[MicroC/OS-II]: (Not a MicroC/OS-II error) See STDERR.\n");
          fprintf(stderr, "\n[MicroC/OS-II]:");
          fprintf(stderr, "\nError_code %d.\n", error_code);
          perror("\n[MicroC/OS-II]: (Not a MicroC/OS-II error), ERRNO: ");
@@ -187,7 +186,7 @@ void alt_uCOSIIErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
    switch (fault_level) {
       case TASK:
          /* Error can be isolated by killing the task */
-         printf("\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is TASK).");
+         fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is TASK).");
          fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is TASK");
          fprintf(stderr, "\n[MicroC/OS-II]: Task is being deleted.\n");
          OSSchedUnlock(); /* Reenable Task Switching */
@@ -198,7 +197,7 @@ void alt_uCOSIIErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
          break;
       case SYSTEM:
          /* Total System Failure, Restart Required */
-         printf("\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is SYSTEM).");    
+         fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is SYSTEM).");
          fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is SYSTEM");
          fprintf(stderr, "\n[MicroC/OS-II]: FATAL Error, Restart required.");
          fprintf(stderr, "\n[MicroC/OS-II]: Locking scheduler - endless loop.\n");
@@ -213,7 +212,7 @@ void alt_uCOSIIErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
          return;   
          break;      
       default:
-         printf("\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is Unknown).\n");
+         fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is Unknown).\n");
          fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is unknown!?!\n");
    }
    while(1); /* Correct Program Flow never gets here. */
@@ -234,7 +233,7 @@ void alt_NetworkErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
    if (error_code == EXPANDED_DIAGNOSIS_CODE) 
    {
       fault_level = SYSTEM;
-      printf("\n[Network]: See STDERR for expanded diagnosis translation.");    
+      fprintf(fp, "\n[Network]: See STDERR for expanded diagnosis translation.");
       fprintf(stderr, "\n[Network]: %s", (char *)expanded_diagnosis_ptr);
       /* Check errno also in case it has been set. */
       perror("\n[Network]:  ERRNO: ");
@@ -242,7 +241,7 @@ void alt_NetworkErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
    else 
    {
       fault_level = TASK;
-      printf("\n[Network]: See STDERR.\n");    
+      fprintf(fp, "\n[Network]: See STDERR.\n");
       fprintf(stderr, "\n[Network]: Error_code %d!\n", error_code);        
       perror("\n[Network]:  ERRNO: ");
    }
@@ -252,7 +251,7 @@ void alt_NetworkErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
    {
       case TASK:
          /* Error can be isolated by killing the task */
-         printf("\n[Network]: See STDERR (FAULT_LEVEL is TASK).");
+         fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is TASK).");
          fprintf(stderr, "\n[Network]: FAULT_LEVEL is TASK");
          fprintf(stderr, "\n[Network]: Task is being deleted.\n");
          OSSchedUnlock(); /* Reenable Task Switching */
@@ -263,7 +262,7 @@ void alt_NetworkErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
          break;
       case SYSTEM:
          /* Total System Failure, Restart Required */
-         printf("\n[Network]: See STDERR (FAULT_LEVEL is SYSTEM).");    
+         fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is SYSTEM).");
          fprintf(stderr, "\n[Network]: FAULT_LEVEL is SYSTEM.");
          fprintf(stderr, "\n[Network]: FATAL Error, Restart required.");
          fprintf(stderr, "\n[Network]: Locking scheduler - endless loop.\n");
@@ -279,7 +278,7 @@ void alt_NetworkErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
          return;
          break;         
       default:
-         printf("\n[Network]: See STDERR (FAULT_LEVEL is unknown).\n");    
+         fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is unknown).\n");
          fprintf(stderr, "\n[Network] FAULT_LEVEL is unknown !?!\n");
    }
    while(1); /* Correct Program Flow never gets here. */
@@ -303,7 +302,7 @@ void alt_SSSErrorHandler(INT8U error_code,
    {
       case EXPANDED_DIAGNOSIS_CODE:      
          fault_level = SYSTEM;
-         printf("\n[SSS]: See STDERR for expanded diagnosis translation.");    
+         fprintf(fp, "\n[SSS]: See STDERR for expanded diagnosis translation.");
          fprintf(stderr, "\n[SSS]: %s", (char *)expanded_diagnosis_ptr);
          break;
          
@@ -314,7 +313,7 @@ void alt_SSSErrorHandler(INT8U error_code,
       
       default:
          fault_level = SYSTEM;
-         printf("\n[SSS]: See STDERR.\n");    
+         fprintf(fp, "\n[SSS]: See STDERR.\n");
          fprintf(stderr, "\n[SSS]: Error_code %d!", error_code);        
          perror("\n[SSS]:  ERRNO: ");
    }
@@ -325,7 +324,7 @@ void alt_SSSErrorHandler(INT8U error_code,
    {
       case TASK:
          /* Error can be isolated by killing the task */
-         printf("\n[SSS]: See STDERR (FAULT_LEVEL is TASK).");
+         fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is TASK).");
          fprintf(stderr, "\n[SSS]: FAULT_LEVEL is TASK");
          fprintf(stderr, "\n[SSS]: Task is being deleted.\n");
          OSSchedUnlock(); /* Reenable Task Switching */
@@ -336,7 +335,7 @@ void alt_SSSErrorHandler(INT8U error_code,
          break;
       case SYSTEM:
           /* Total System Failure, Restart Required */
-         printf("\n[SSS]: See STDERR (FAULT_LEVEL is SYSTEM).");    
+         fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is SYSTEM).");
          fprintf(stderr, "\n[SSS]: FAULT_LEVEL is SYSTEM.");
          fprintf(stderr, "\n[SSS]: FATAL Error, Restart required.");
          fprintf(stderr, "\n[SSS]: Locking scheduler - endless loop.\n");
@@ -352,7 +351,7 @@ void alt_SSSErrorHandler(INT8U error_code,
          return;         
          break;
       default:
-         printf("\n[SSS]: See STDERR (FAULT_LEVEL is Unknown).\n");
+         fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is Unknown).\n");
          fprintf(stderr, "\n[SSS] FAULT_LEVEL is unknown!?!\n");
    }
    while(1); /* Correct Program Flow never gets here. */

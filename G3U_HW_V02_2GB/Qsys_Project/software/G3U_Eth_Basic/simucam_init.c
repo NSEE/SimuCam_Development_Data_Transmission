@@ -15,6 +15,9 @@
 /*$PAGE*/
   
 #include "rtos/simucam_init_task.h"
+#include "simucam_definitions.h"
+#include "utils/initialization_simucam.h"
+#include "utils/test_module_simucam.h"
 
 /* Declaring file for JTAG debug */
 #if DEBUG_ON
@@ -39,6 +42,36 @@ int main (int argc, char* argv[], char* envp[])
     fprintf(fp, "Main entry point.\n");
 #endif
 
+	/* Initialization of core HW */
+	if (bInitSimucamCoreHW()){
+#if DEBUG_ON
+		fprintf(fp, "\n");
+		fprintf(fp, "SimuCam Release: %s\n", SIMUCAM_RELEASE);
+		fprintf(fp, "SimuCam HW Version: %s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION);
+		fprintf(fp, "SimuCam FW Version: %s.%s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION, SIMUCAM_FW_VERSION);
+		fprintf(fp, "\n");
+#endif
+	} else {
+#if DEBUG_ON
+		fprintf(fp, "\n");
+		fprintf(fp, "CRITICAL HW FAILURE: Hardware TimeStamp or System ID does not match the expected! SimuCam will be halted.\n");
+		fprintf(fp, "CRITICAL HW FAILURE: Expected HW release: %s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION);
+		fprintf(fp, "CRITICAL HW FAILURE: SimuCam will be halted.\n");
+		fprintf(fp, "\n");
+#endif
+		while (1) {}
+	}
+
+	/* Test of some critical IPCores HW interfaces in the Simucam */
+	if (!bTestSimucamCriticalHW()) {
+		fprintf(fp, "CRITICAL HW FAILURE: SimuCam will be halted.\n");
+		fprintf(fp, "\n");
+		while (1) {}
+	}
+
+	/* Initialization of basic HW */
+	vInitSimucamBasicHW();
+
     /* Clear the RTOS timer */
     OSTimeSet(0);
 
@@ -48,8 +81,8 @@ int main (int argc, char* argv[], char* envp[])
   /*
    * Simucam physical Inicialization
    */
-    Init_Simucam_Config();
-    Init_Simucam_Tasks();
+//    Init_Simucam_Config();
+//    Init_Simucam_Tasks();
 
      /* *
         * Create os data structures

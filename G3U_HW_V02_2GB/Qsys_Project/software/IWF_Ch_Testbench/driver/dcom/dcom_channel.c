@@ -1,4 +1,11 @@
-#include "../dcom/dcom_channel.h"
+/*
+ * dcom_channel.c
+ *
+ *  Created on: 31/03/2019
+ *      Author: rfranca
+ */
+
+#include "dcom_channel.h"
 
 //! [private function prototypes]
 //! [private function prototypes]
