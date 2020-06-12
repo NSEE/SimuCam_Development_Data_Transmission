@@ -676,7 +676,7 @@ void CommandManagementTask() {
 				i_channel_buffer = p_payload->data[0];
 
 				v_HK_creator(i_channel_buffer);
-                v_ack_creator(p_payload, xAckOk);
+                // v_ack_creator(p_payload, xAckOk);
 				break;
 
 				/*

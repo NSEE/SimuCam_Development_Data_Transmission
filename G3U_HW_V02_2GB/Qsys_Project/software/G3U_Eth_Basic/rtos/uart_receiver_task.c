@@ -512,10 +512,9 @@ void uart_receiver_task(void *task_data){
                     eReaderRXMode = sGetImagettes;
                 break;
                 case sGetImagettes:
-                    /* TODO Verify that the Simucam is in config mode */
                     if(T_simucam.T_status.simucam_mode == simModeConfig){
                         vImagetteParser((T_Simucam *) &T_simucam, (T_uart_payload *) &payload);
-                        eReaderRXMode = sSendToCmdCtrl;
+                        eReaderRXMode = sGetHeader;
                     } else{
                         eReaderRXMode = sRConfiguring;
                         v_ack_creator(payload, xCommandNotAccepted);
@@ -540,7 +539,9 @@ void uart_receiver_task(void *task_data){
                 case sSendToCmdCtrl:
                 	error_code = OSQPost(p_simucam_command_q, &payload);
                 					alt_SSSErrorHandler(error_code, 0);
-                        // v_ack_creator(payload, xAckOk);
+                        if(error_code != OS_NO_ERR){
+                                v_ack_creator(payload, xOSError);
+                        }
                 	eReaderRXMode = sRConfiguring;
 				break;
         }
