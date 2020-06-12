@@ -676,7 +676,7 @@ void CommandManagementTask() {
 				i_channel_buffer = p_payload->data[0];
 
 				v_HK_creator(i_channel_buffer);
-                v_ack_creator(p_payload, xAckOk);
+                // v_ack_creator(p_payload, xAckOk);
 				break;
 
 				/*
@@ -804,8 +804,7 @@ void CommandManagementTask() {
 			error_code = bDschRunTimer(&xSimucamTimer);
             if(error_code == OS_NO_ERR){
                 v_ack_creator(p_payload, xAckOk);
-            } else
-            {
+            } else {
                 v_ack_creator(p_payload, xTimerError);
             }
             
