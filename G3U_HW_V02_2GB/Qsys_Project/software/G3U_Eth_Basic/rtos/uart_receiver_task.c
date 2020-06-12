@@ -42,9 +42,9 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
                 luReturn = 0;
         }
 //#if DEBUG_ON
-//        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
-//                fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
-//        }
+//       if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+//               fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
+//       }
 //#endif
         return luReturn;
 }
@@ -489,7 +489,7 @@ void uart_receiver_task(void *task_data){
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
                 
                 if( luGetSerial((char *) &cReceiveBuffer, 8) ){
-
+                        luGetSerial((char *) &cReceiveBuffer, 8);
                         vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
         #if DEBUG_ON
                         if (T_simucam.T_conf.usiDebugLevels >= xMajor ){

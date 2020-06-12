@@ -48,7 +48,7 @@ void periodic_HK_task(void *task_data);
 /*
  * Tasks priorities definitions
  */
-#define UART_RCV_TASK_PRIORITY				4
+#define UART_RCV_TASK_PRIORITY				21 //4
 #define SIMUCAM_INITIAL_TASK_PRIORITY       5
 #define PCP_MUTEX_DMA_QUEUE					6
 #define DMA_SCHEDULER_TASK_PRIORITY 		8
