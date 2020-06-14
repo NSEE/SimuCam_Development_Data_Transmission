@@ -17,27 +17,24 @@
 #include <stdio.h>
 #include "simucam_definitions.h"
 #include "driver/dcom/dcom_channel.h"
+#include "driver/sync/sync.h"
 #include "api_driver/iwf_simucam_dma/iwf_simucam_dma.h"
 #include "api_driver/ddr2/ddr2.h"
-#include "driver/ctrl_io_lvds/ctrl_io_lvds.h"
-#include "driver/reset/reset.h"
 #include "utils/initialization_simucam.h"
 #include "utils/test_module_simucam.h"
-
-
-alt_u32 uliReadReg(alt_u32 *puliBaseAddr, alt_u32 uliRegOffset);
 
 typedef struct Data {
 	alt_u32 uliTime;
 	alt_u16 uiLength;
-	alt_u8 ucData[58];
+	alt_u8 ucData[25];
 } TData;
 
-//typedef struct Data {
-//	alt_u8 ucData[640];
-//} TData;
-
 int main() {
+
+	/* Debug device initialization - JTAG USB */
+	#if DEBUG_ON
+	    fp = fopen(JTAG_UART_0_NAME, "r+");
+	#endif
 
 	#if DEBUG_ON
 		printf("Main entry point.\n");
@@ -73,23 +70,17 @@ int main() {
 	/* Initialization of basic HW */
 	vInitSimucamBasicHW();
 
-//	bInitSync();
-
 	bSetPainelLeds( LEDS_OFF , LEDS_ST_ALL_MASK );
 	bSetPainelLeds( LEDS_ON , LEDS_POWER_MASK );
 
-	printf("Starting Channel\n");
+	printf("Starting Channels...\n");
 
 	bEnableIsoDrivers();
 	bEnableLvdsBoard();
 
-//	printf("Waiting 10s... \n");
-//	usleep(10000000);
-
 	TDcomChannel xChannelA;
-
 	if (bDcomInitCh(&xChannelA, eDcomSpwCh1)){
-		printf("Channel A Initializated \n");
+		printf("Channel A initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelA.xSpacewire));
 	xChannelA.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
@@ -97,10 +88,83 @@ int main() {
 	xChannelA.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
 	xChannelA.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
 	bSpwcSetLinkConfig(&(xChannelA.xSpacewire));
+	bDschStartTimer(&(xChannelA.xDataScheduler));
+
+	TDcomChannel xChannelB;
+	if (bDcomInitCh(&xChannelB, eDcomSpwCh2)){
+		printf("Channel B initialized.\n");
+	}
+	bSpwcGetLinkConfig(&(xChannelB.xSpacewire));
+	xChannelB.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelB.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelB.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelB.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelB.xSpacewire));
+	bDschStartTimer(&(xChannelB.xDataScheduler));
+
+	TDcomChannel xChannelC;
+	if (bDcomInitCh(&xChannelC, eDcomSpwCh3)){
+		printf("Channel C initialized.\n");
+	}
+	bSpwcGetLinkConfig(&(xChannelC.xSpacewire));
+	xChannelC.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelC.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelC.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelC.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelC.xSpacewire));
+	bDschStartTimer(&(xChannelC.xDataScheduler));
+
+	TDcomChannel xChannelD;
+	if (bDcomInitCh(&xChannelD, eDcomSpwCh4)){
+		printf("Channel D initialized.\n");
+	}
+	bSpwcGetLinkConfig(&(xChannelD.xSpacewire));
+	xChannelD.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelD.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelD.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelD.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelD.xSpacewire));
+	bDschStartTimer(&(xChannelD.xDataScheduler));
+
+	TDcomChannel xChannelE;
+	if (bDcomInitCh(&xChannelE, eDcomSpwCh5)){
+		printf("Channel E initialized.\n");
+	}
+	bSpwcGetLinkConfig(&(xChannelE.xSpacewire));
+	xChannelE.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelE.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelE.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelE.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelE.xSpacewire));
+	bDschStartTimer(&(xChannelE.xDataScheduler));
+
+	TDcomChannel xChannelF;
+	if (bDcomInitCh(&xChannelF, eDcomSpwCh6)){
+		printf("Channel F initialized.\n");
+	}
+	bSpwcGetLinkConfig(&(xChannelF.xSpacewire));
+	xChannelF.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelF.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelF.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelF.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelF.xSpacewire));
+	bDschStartTimer(&(xChannelF.xDataScheduler));
+
+	TDcomChannel xChannelG;
+	if (bDcomInitCh(&xChannelG, eDcomSpwCh7)){
+		printf("Channel G initialized.\n");
+	}
+	bSpwcGetLinkConfig(&(xChannelG.xSpacewire));
+	xChannelG.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+	xChannelG.xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+	xChannelG.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+	xChannelG.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
+	bSpwcSetLinkConfig(&(xChannelG.xSpacewire));
+	bDschStartTimer(&(xChannelG.xDataScheduler));
 
 	TDcomChannel xChannelH;
 	if (bDcomInitCh(&xChannelH, eDcomSpwCh8)){
-		printf("Channel H Initializated \n");
+		printf("Channel H initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelH.xSpacewire));
 	xChannelH.xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
@@ -108,69 +172,216 @@ int main() {
 	xChannelH.xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
 	xChannelH.xSpacewire.xSpwcLinkConfig.ucTxDivCnt = 1;
 	bSpwcSetLinkConfig(&(xChannelH.xSpacewire));
+	bDschStartTimer(&(xChannelH.xDataScheduler));
+
+	printf("\n");
+	printf("Initiating Data for M1... ");
+	bDdr2SwitchMemory(DDR2_M1_ID);
+	TData *xData = (TData *) DDR2_EXT_ADDR_WINDOWED_BASE;
+	xData->uliTime = 0;
+	xData->uiLength = 25;
+	xData->ucData[0] ='H';
+	xData->ucData[1] ='E';
+	xData->ucData[2] ='L';
+	xData->ucData[3] ='L';
+	xData->ucData[4] ='O';
+	xData->ucData[5] ='_';
+	xData->ucData[6] ='W';
+	xData->ucData[7] ='O';
+	xData->ucData[8] ='R';
+	xData->ucData[9] ='L';
+	xData->ucData[10] ='D';
+	xData->ucData[11] ='_';
+	xData->ucData[12] ='F';
+	xData->ucData[13] ='R';
+	xData->ucData[14] ='O';
+	xData->ucData[15] ='M';
+	xData->ucData[16] ='_';
+	xData->ucData[17] ='S';
+	xData->ucData[18] ='I';
+	xData->ucData[19] ='M';
+	xData->ucData[20] ='U';
+	xData->ucData[21] ='C';
+	xData->ucData[22] ='A';
+	xData->ucData[23] ='M';
+	xData->ucData[24] ='\0';
+	printf("Data for M1 initialized !!\n");
+
+	printf("Transferring Data from M1 to Channel A... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel A Complete!! \n");
+	} else {
+		printf("Transfer for Channel A Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M1 to Channel B... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel B Complete!! \n");
+	} else {
+		printf("Transfer for Channel B Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M1 to Channel C... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel C Complete!! \n");
+	} else {
+		printf("Transfer for Channel C Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M1 to Channel D... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel D Complete!! \n");
+	} else {
+		printf("Transfer for Channel D Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M1 to Channel E... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel E Complete!! \n");
+	} else {
+		printf("Transfer for Channel E Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M1 to Channel F... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel F Complete!! \n");
+	} else {
+		printf("Transfer for Channel F Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M1 to Channel G... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel G Complete!! \n");
+	} else {
+		printf("Transfer for Channel G Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M1 to Channel H... ");
+	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel H Complete!! \n");
+	} else {
+		printf("Transfer for Channel H Failed!! ERROR!! \n");
+	}
+
+	printf("\n");
+	printf("Initiating Data for M2... ");
+	bDdr2SwitchMemory(DDR2_M2_ID);
+	xData = (TData *) DDR2_EXT_ADDR_WINDOWED_BASE;
+	xData->uliTime = 0;
+	xData->uiLength = 25;
+	xData->ucData[0] ='H';
+	xData->ucData[1] ='E';
+	xData->ucData[2] ='L';
+	xData->ucData[3] ='L';
+	xData->ucData[4] ='O';
+	xData->ucData[5] ='_';
+	xData->ucData[6] ='W';
+	xData->ucData[7] ='O';
+	xData->ucData[8] ='R';
+	xData->ucData[9] ='L';
+	xData->ucData[10] ='D';
+	xData->ucData[11] ='_';
+	xData->ucData[12] ='F';
+	xData->ucData[13] ='R';
+	xData->ucData[14] ='O';
+	xData->ucData[15] ='M';
+	xData->ucData[16] ='_';
+	xData->ucData[17] ='S';
+	xData->ucData[18] ='I';
+	xData->ucData[19] ='M';
+	xData->ucData[20] ='U';
+	xData->ucData[21] ='C';
+	xData->ucData[22] ='A';
+	xData->ucData[23] ='M';
+	xData->ucData[24] ='\0';
+	printf("Data for M2 initialized !!\n");
+
+	printf("Transferring Data from M2 to Channel A... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel A Complete!! \n");
+	} else {
+		printf("Transfer for Channel A Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M2 to Channel B... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel B Complete!! \n");
+	} else {
+		printf("Transfer for Channel B Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M2 to Channel C... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel C Complete!! \n");
+	} else {
+		printf("Transfer for Channel C Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M2 to Channel D... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel D Complete!! \n");
+	} else {
+		printf("Transfer for Channel D Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M2 to Channel E... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel E Complete!! \n");
+	} else {
+		printf("Transfer for Channel E Failed!! ERROR!! \n");
+	}
+
+	usleep(1000000);
+	printf("Transferring Data from M2 to Channel F... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel F Complete!! \n");
+	} else {
+		printf("Transfer for Channel F Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M2 to Channel G... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel G Complete!! \n");
+	} else {
+		printf("Transfer for Channel G Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("Transferring Data from M2 to Channel H... ");
+	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64, eIdmaCh1Buffer)) {
+		printf("Transfer for Channel H Complete!! \n");
+	} else {
+		printf("Transfer for Channel H Failed!! ERROR!! \n");
+	}
+	usleep(1000000);
+
+	printf("\n");
+	printf("Configuring Sync OneShot for Subunits... ");
+	if (bSyncConfigOstSubunits(SYNC_DEFAULT_SUBUNIT_OST)) {
+		printf("Subunit Sync configured!! \n");
+		printf("Sending OneShot command to start transmission on all Subunits. \n");
+		bSyncCtrOneShot();
+	} else {
+		printf("Subunit Sync not configured!! ERROR!! \n");
+		printf("Will not send OneShot command to Subunits. \n");
+	}
+
+	printf("\n");
+	printf("Finished Testbench, S2\n");
 
 	while (1) {}
 
-	printf("Waiting 10s... \n");
-	usleep(10000000);
-
-	printf("Initiating DMA... \n");
-	bIdmaInitM1Dma();
-
-	printf("Initiating Data... \n");
-	bDdr2SwitchMemory(DDR2_M1_ID);
-	TData *xData = (TData *) DDR2_EXT_ADDR_WINDOWED_BASE;
-
-//	int j = 0;
-//	for (j = 0; j < 640; j++){
-//		xData->ucData[j] = 0;
-//	}
-//
-//	printf("Clear Data... \n");
-//	if (bIdmaDmaM1Transfer((alt_u32 *) DDR2_EXT_ADDR_WINDOWED_BASE, 640, eIdmaCh8Buffer)){
-//		printf("Clear Complete!! \n");
-//	} else {
-//		printf("Clear Failed!! \n");
-//	}
-//
-//	for (j = 0; j < 640; j++){
-//		xData->ucData[j] = (alt_u8)(j & 0x00FF);
-//	}
-
-	xData->uliTime = 0;
-	xData->uiLength = 58;
-	int j = 0;
-	for (j = 0; j < 58; j++) {
-		xData->ucData[j] = (alt_u8) (j & 0x00FF);
-	}
-
-	printf("Transferring Data... \n");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 64,
-			eIdmaCh8Buffer)) {
-		printf("Transfer Complete!! \n");
-	} else {
-		printf("Transfer Failed!! \n");
-	}
-
-//	printf("Starting Avalon Dump... \n");
-//
-//	int i = 0;
-//
-//	for (i = 0; i < 255; i++) {
-//		printf("Avalon reg [%d] = 0x%08lX \n", i,
-//				uliReadReg(xChannelH.xSpacewire.puliSpwcChAddr, i));
-//	}
-//	printf("Avalon Dump Finished!! \n");
-
-	while (1) {
-	}
-
 	return 0;
-}
-
-alt_u32 uliReadReg(alt_u32 *puliBaseAddr, alt_u32 uliRegOffset) {
-	volatile alt_u32 uliRegValue;
-
-	uliRegValue = *(puliBaseAddr + uliRegOffset);
-	return uliRegValue;
 }

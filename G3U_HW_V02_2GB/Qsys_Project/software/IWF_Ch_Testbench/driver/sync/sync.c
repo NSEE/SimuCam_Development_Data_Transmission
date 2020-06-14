@@ -9,24 +9,9 @@
 #include "sync.h"
 
 //! [data memory public global variables]
-volatile alt_u8 vucN;
 //! [data memory public global variables]
 
 //! [program memory public global variables]
-
-/* Master blank time = 400 ms */
-const alt_u16 cusiSyncNFeeMasterBlankTimeMs = 400;
-/* Normal blank time = 200 ms */
-const alt_u16 cusiSyncNFeeNormalBlankTimeMs = 200;
-/* Sync Period = 25 s */
-const alt_u16 cusiSyncNFeeSyncPeriodMs = 25000;
-/* One shot time = 500 ms */
-const alt_u16 cusiSyncNFeeOneShotTimeMs = 500;
-/* Blank level polarity = '1' */
-const bool cbSyncNFeePulsePolarity = TRUE;
-/* Number of pulses = 4 */
-const alt_u8 cusiSyncNFeeNumberOfPulses = 4;
-
 //! [program memory public global variables]
 
 //! [data memory private global variables]
@@ -119,12 +104,6 @@ void vSyncPreHandleIrq(void* pvContext) {
 		/* Pre-Sync Blank Pulse IRQ routine */
 	}
 
-}
-
-void vSyncClearCounter(void) {
-	// Recast the viHoldContext pointer to match the alt_irq_register() function
-	// prototype.
-	vucN = 0;
 }
 
 /**
@@ -1183,37 +1162,53 @@ bool bSyncPreIrqFlagLastPulse(void) {
 	return bResult;
 }
 
-/* Configure the entire Sync Period for a N-FEE (default: 25.0 s) */
-bool bSyncConfigNFeeSyncPeriod(alt_u16 usiSyncPeriodMs) {
-	bool bSuccess;
-	volatile TSyncModule *vpxSyncModule = (TSyncModule *)SYNC_BASE_ADDR;
+/* Configure the entire Sync for all Subunits */
+bool bSyncConfigOstSubunits(alt_u32 uliOstValue) {
+	bool bStatus = FALSE;
+	bool bInitFail = FALSE;
 
-	const alt_u16 cusiPulsePeriodMs = usiSyncPeriodMs / cusiSyncNFeeNumberOfPulses;
-	vpxSyncModule->xSyncGeneralConfig.ucNumberOfCycles = cusiSyncNFeeNumberOfPulses;
-	vpxSyncModule->xSyncGeneralConfig.bSignalPolarity = cbSyncNFeePulsePolarity;
-	vpxSyncModule->xSyncConfig.uliPreBlankTime = uliPerCalcPeriodMs( 100 );
-	vpxSyncModule->xSyncConfig.uliMasterBlankTime = uliPerCalcPeriodMs( cusiPulsePeriodMs - cusiSyncNFeeMasterBlankTimeMs );
-	vpxSyncModule->xSyncConfig.uliBlankTime = uliPerCalcPeriodMs( cusiPulsePeriodMs - cusiSyncNFeeNormalBlankTimeMs );
-	vpxSyncModule->xSyncConfig.uliPeriod = uliPerCalcPeriodMs( cusiPulsePeriodMs );
-	vpxSyncModule->xSyncConfig.uliOneShotTime = uliPerCalcPeriodMs( cusiSyncNFeeOneShotTimeMs );
+	if (!bSyncSetOst(uliOstValue)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncSetPolarity(FALSE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrIntern(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrReset()) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh1OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh2OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh3OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh4OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh5OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh6OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh7OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
+	if (!bSyncCtrCh8OutEnable(TRUE)) {
+		bInitFail = TRUE;
+	}
 
-//#if DEBUG_ON
-//if ( xDefaults.usiDebugLevel <= dlCriticalOnly ) {
-	printf("\nSync Module Configuration:\n");
-	printf("xSyncModule.ucNumberOfCycles = %u \n", vpxSyncModule->xSyncGeneralConfig.ucNumberOfCycles);
-	printf("xSyncModule.bSignalPolarity = %u \n", vpxSyncModule->xSyncGeneralConfig.bSignalPolarity);
-	printf("xSyncModule.uliPreBlankTime = %u ms \n", usiRegCalcTimeMs( vpxSyncModule->xSyncConfig.uliPreBlankTime ));
-	printf("xSyncModule.uliMasterBlankTime = %u ms \n", usiRegCalcTimeMs( vpxSyncModule->xSyncConfig.uliPeriod - vpxSyncModule->xSyncConfig.uliMasterBlankTime ));
-	printf("xSyncModule.uliBlankTime = %u ms \n", usiRegCalcTimeMs( vpxSyncModule->xSyncConfig.uliPeriod - vpxSyncModule->xSyncConfig.uliBlankTime ));
-	printf("xSyncModule.uliPeriod = %u ms \n", usiRegCalcTimeMs( vpxSyncModule->xSyncConfig.uliPeriod ));
-	printf("xSyncModule.uliOneShotTime = %u ms \n", usiRegCalcTimeMs( vpxSyncModule->xSyncConfig.uliOneShotTime ));
-	printf("\n");
-//}
-//#endif
+	if (!bInitFail) {
+		bStatus = TRUE;
+	}
 
-	bSuccess = TRUE;
-
-	return bSuccess;
+	return (bStatus);
 }
 
 //! [private functions]

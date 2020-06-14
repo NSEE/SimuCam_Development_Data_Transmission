@@ -60,7 +60,7 @@ begin
 			-- Data Scheduler Timer Control Register : Data Scheduler Timer Clear
 			dcom_write_registers_o.data_scheduler_tmr_control_reg.timer_clear                 <= '0';
 			-- Data Scheduler Timer Config Register : Data Scheduler Timer Start on Sync
-			dcom_write_registers_o.data_scheduler_tmr_config_reg.timer_start_on_sync          <= '1';
+			dcom_write_registers_o.data_scheduler_tmr_config_reg.timer_run_on_sync            <= '1';
 			-- Data Scheduler Timer Config Register : Data Scheduler Timer Clock Div
 			dcom_write_registers_o.data_scheduler_tmr_config_reg.timer_clk_div                <= (others => '0');
 			-- Data Scheduler Timer Config Register : Data Scheduler Timer Start Time
@@ -83,8 +83,10 @@ begin
 			dcom_write_registers_o.rmap_codec_config_reg.rmap_target_logical_addr             <= x"00";
 			-- RMAP Codec Config Register : RMAP Target Key
 			dcom_write_registers_o.rmap_codec_config_reg.rmap_target_key                      <= x"00";
-			-- RMAP Memory Area Config : RMAP Memory Area Address Offset
+			-- RMAP Memory Area Config Register : RMAP Memory Area Address Offset
 			dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset         <= (others => '0');
+			-- RMAP Memory Area Pointer Register : RMAP Memory Area Pointer
+			dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr                    <= (others => '0');
 
 		end procedure p_reset_registers;
 
@@ -243,7 +245,7 @@ begin
 				when (16#18#) =>
 					-- Data Scheduler Timer Config Register : Data Scheduler Timer Start on Sync
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
-						dcom_write_registers_o.data_scheduler_tmr_config_reg.timer_start_on_sync <= avalon_mm_dcom_i.writedata(0);
+						dcom_write_registers_o.data_scheduler_tmr_config_reg.timer_run_on_sync <= avalon_mm_dcom_i.writedata(0);
 					end if;
 
 				when (16#19#) =>
@@ -338,7 +340,7 @@ begin
 					end if;
 
 				when (16#3B#) =>
-					-- RMAP Memory Area Config : RMAP Memory Area Address Offset
+					-- RMAP Memory Area Config Register : RMAP Memory Area Address Offset
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
 					end if;
@@ -350,6 +352,21 @@ begin
 					end if;
 					if (avalon_mm_dcom_i.byteenable(3) = '1') then
 						dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
+					end if;
+
+				when (16#3C#) =>
+					-- RMAP Memory Area Pointer Register : RMAP Memory Area Pointer
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(1) = '1') then
+						dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(2) = '1') then
+						dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(3) = '1') then
+						dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
 					end if;
 
 				when others =>

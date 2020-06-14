@@ -53,52 +53,60 @@ begin
 
 				when (500) =>
 					-- rmap write
-					fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#00000000#, g_ADDRESS_WIDTH));
+					--					fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#ABCDF001#, g_ADDRESS_WIDTH));
+					fee_0_rmap_wr_address_o <= x"ABCDF001";
 					fee_0_rmap_write_o      <= '1';
 					fee_0_rmap_writedata_o  <= x"CD";
 
 				when (500 + 1) =>
 					if (fee_0_rmap_wr_waitrequest_i = '1') then
-						fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#00000000#, g_ADDRESS_WIDTH));
+						--						fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#ABCDF001#, g_ADDRESS_WIDTH));
+						fee_0_rmap_wr_address_o <= x"ABCDF001";
 						fee_0_rmap_write_o      <= '1';
 						fee_0_rmap_writedata_o  <= x"CD";
 						s_counter               <= 500 + 1;
 					end if;
 
 				when (1000) =>
-					-- register read
-					fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#00000000#, g_ADDRESS_WIDTH));
-					fee_0_rmap_read_o       <= '1';
+					-- rmap write
+					--					fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#ABCDF00A#, g_ADDRESS_WIDTH));
+					fee_0_rmap_wr_address_o <= x"ABCDF00A";
+					fee_0_rmap_write_o      <= '1';
+					fee_0_rmap_writedata_o  <= x"AB";
 
 				when (1000 + 1) =>
-					if (fee_0_rmap_rd_waitrequest_i = '1') then
-						fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#00000000#, g_ADDRESS_WIDTH));
-						fee_0_rmap_read_o       <= '1';
+					if (fee_0_rmap_wr_waitrequest_i = '1') then
+						--						fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#ABCDF00A#, g_ADDRESS_WIDTH));
+						fee_0_rmap_wr_address_o <= x"ABCDF00A";
+						fee_0_rmap_write_o      <= '1';
+						fee_0_rmap_writedata_o  <= x"AB";
 						s_counter               <= 1000 + 1;
 					end if;
 
 				when (1500) =>
-					-- rmap write
-					fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#00800000#, g_ADDRESS_WIDTH));
-					fee_0_rmap_write_o      <= '1';
-					fee_0_rmap_writedata_o  <= x"AB";
+					-- register read
+					--					fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#ABCDF001#, g_ADDRESS_WIDTH));
+					fee_0_rmap_rd_address_o <= x"ABCDF001";
+					fee_0_rmap_read_o       <= '1';
 
 				when (1500 + 1) =>
-					if (fee_0_rmap_wr_waitrequest_i = '1') then
-						fee_0_rmap_wr_address_o <= std_logic_vector(to_unsigned(16#008000AA#, g_ADDRESS_WIDTH));
-						fee_0_rmap_write_o      <= '1';
-						fee_0_rmap_writedata_o  <= x"AB";
+					if (fee_0_rmap_rd_waitrequest_i = '1') then
+						--						fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#ABCDF001#, g_ADDRESS_WIDTH));
+						fee_0_rmap_rd_address_o <= x"ABCDF001";
+						fee_0_rmap_read_o       <= '1';
 						s_counter               <= 1500 + 1;
 					end if;
 
 				when (2000) =>
 					-- register read
-					fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#00800000#, g_ADDRESS_WIDTH));
+					--					fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#ABCDF00A#, g_ADDRESS_WIDTH));
+					fee_0_rmap_rd_address_o <= x"ABCDF00A";
 					fee_0_rmap_read_o       <= '1';
 
 				when (2000 + 1) =>
 					if (fee_0_rmap_rd_waitrequest_i = '1') then
-						fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#008000AA#, g_ADDRESS_WIDTH));
+						--						fee_0_rmap_rd_address_o <= std_logic_vector(to_unsigned(16#ABCDF00A#, g_ADDRESS_WIDTH));
+						fee_0_rmap_rd_address_o <= x"ABCDF00A";
 						fee_0_rmap_read_o       <= '1';
 						s_counter               <= 2000 + 1;
 					end if;

@@ -8,7 +8,8 @@ package srme_avalon_mm_rmap_subunit_pkg is
 	constant c_SRME_AVALON_MM_RMAP_SUBUNIT_DATA_SIZE   : natural := 32;
 	constant c_SRME_AVALON_MM_RMAP_SUBUNIT_SYMBOL_SIZE : natural := 8;
 
-	subtype t_srme_avalon_mm_rmap_subunit_address is natural range 0 to ((2 ** c_SRME_AVALON_MM_RMAP_SUBUNIT_ADRESS_SIZE) - 1);
+	--	subtype t_srme_avalon_mm_rmap_subunit_address is natural range 0 to ((2 ** c_SRME_AVALON_MM_RMAP_SUBUNIT_ADRESS_SIZE) - 1);
+	subtype t_srme_avalon_mm_rmap_subunit_address is std_logic_vector((c_SRME_AVALON_MM_RMAP_SUBUNIT_ADRESS_SIZE - 1) downto 0);
 
 	type t_srme_avalon_mm_rmap_subunit_read_in is record
 		address    : std_logic_vector((c_SRME_AVALON_MM_RMAP_SUBUNIT_ADRESS_SIZE - 1) downto 0);

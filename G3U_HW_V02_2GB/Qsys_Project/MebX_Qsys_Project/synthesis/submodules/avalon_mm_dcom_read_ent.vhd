@@ -461,7 +461,7 @@ begin
 					end if;
 
 				when (16#3B#) =>
-					-- RMAP Memory Area Config : RMAP Memory Area Address Offset
+					-- RMAP Memory Area Config Register : RMAP Memory Area Address Offset
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(7 downto 0);
 					end if;
@@ -473,6 +473,21 @@ begin
 					end if;
 					if (avalon_mm_dcom_i.byteenable(3) = '1') then
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(31 downto 24);
+					end if;
+
+				when (16#3C#) =>
+					-- RMAP Memory Area Pointer Register : RMAP Memory Area Pointer
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(7 downto 0);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(1) = '1') then
+						avalon_mm_dcom_o.readdata(15 downto 8) <= dcom_write_registers_i.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(15 downto 8);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(2) = '1') then
+						avalon_mm_dcom_o.readdata(23 downto 16) <= dcom_write_registers_i.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(23 downto 16);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(3) = '1') then
+						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(31 downto 24);
 					end if;
 
 				when others =>

@@ -85,7 +85,7 @@ begin
 					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#04#, g_ADDRESS_WIDTH));
 					avalon_mm_write_o        <= '1';
 					avalon_mm_writedata_o    <= (others => '0');
-					avalon_mm_writedata_o(0) <= '1'; -- timer_start_on_sync 
+					avalon_mm_writedata_o(0) <= '1'; -- timer_run_on_sync 
 					avalon_mm_read_o         <= '0';
 
 				-- data_scheduler_timer_clkdiv_reg

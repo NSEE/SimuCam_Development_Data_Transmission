@@ -19,6 +19,7 @@ architecture RTL of testbench_top is
 	signal s_rmap_avalon_stimuli_mm_readdata    : std_logic_vector(31 downto 0);
 	signal s_rmap_avalon_stimuli_mm_waitrequest : std_logic;
 	signal s_rmap_avalon_stimuli_mm_address     : std_logic_vector(11 downto 0);
+	signal s_rmap_avalon_stimuli_mm_byteenable  : std_logic_vector(3 downto 0);
 	signal s_rmap_avalon_stimuli_mm_write       : std_logic;
 	signal s_rmap_avalon_stimuli_mm_writedata   : std_logic_vector(31 downto 0);
 	signal s_rmap_avalon_stimuli_mm_read        : std_logic;
@@ -53,7 +54,8 @@ begin
 	rmap_avalon_stimuli_inst : entity work.rmap_avalon_stimuli
 		generic map(
 			g_ADDRESS_WIDTH => 12,
-			g_DATA_WIDTH    => 32
+			g_DATA_WIDTH    => 32,
+			g_SYMBOL_WIDTH  => 8
 		)
 		port map(
 			clk_i                   => clk100,
@@ -61,6 +63,7 @@ begin
 			avalon_mm_readdata_i    => s_rmap_avalon_stimuli_mm_readdata,
 			avalon_mm_waitrequest_i => s_rmap_avalon_stimuli_mm_waitrequest,
 			avalon_mm_address_o     => s_rmap_avalon_stimuli_mm_address,
+			avalon_mm_byteenable_o  => s_rmap_avalon_stimuli_mm_byteenable,
 			avalon_mm_write_o       => s_rmap_avalon_stimuli_mm_write,
 			avalon_mm_writedata_o   => s_rmap_avalon_stimuli_mm_writedata,
 			avalon_mm_read_o        => s_rmap_avalon_stimuli_mm_read
@@ -88,6 +91,13 @@ begin
 		port map(
 			reset_i                         => rst,
 			clk_100_i                       => clk100,
+			avs_0_rmap_address_i            => s_rmap_avalon_stimuli_mm_address,
+			avs_0_rmap_byteenable_i         => s_rmap_avalon_stimuli_mm_byteenable,
+			avs_0_rmap_write_i              => s_rmap_avalon_stimuli_mm_write,
+			avs_0_rmap_writedata_i          => s_rmap_avalon_stimuli_mm_writedata,
+			avs_0_rmap_read_i               => s_rmap_avalon_stimuli_mm_read,
+			avs_0_rmap_readdata_o           => s_rmap_avalon_stimuli_mm_readdata,
+			avs_0_rmap_waitrequest_o        => s_rmap_avalon_stimuli_mm_waitrequest,
 			subunit_0_rmap_wr_address_i     => s_fee_0_rmap_stimuli_wr_address,
 			subunit_0_rmap_write_i          => s_fee_0_rmap_stimuli_write,
 			subunit_0_rmap_writedata_i      => s_fee_0_rmap_stimuli_writedata,
@@ -96,7 +106,7 @@ begin
 			subunit_0_rmap_wr_waitrequest_o => s_fee_0_rmap_stimuli_wr_waitrequest,
 			subunit_0_rmap_readdata_o       => s_fee_0_rmap_stimuli_readdata,
 			subunit_0_rmap_rd_waitrequest_o => s_fee_0_rmap_stimuli_rd_waitrequest,
-			rmap_mem_addr_offset_i          => (others => '0')
+			rmap_mem_addr_offset_i          => x"ABCDF000"
 		);
 
 	srme_tb_avs_read_ent_inst : entity work.srme_tb_avs_read_ent

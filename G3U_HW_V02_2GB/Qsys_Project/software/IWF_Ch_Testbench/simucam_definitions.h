@@ -15,8 +15,8 @@
 
 /* HW and FW release version */
 #define SIMUCAM_RELEASE                 "I2dev"
-#define SIMUCAM_HW_VERSION              "0.0"
-#define SIMUCAM_FW_VERSION              "0.0"
+#define SIMUCAM_HW_VERSION              "0.1"
+#define SIMUCAM_FW_VERSION              "0.0.testbench"
 
 #ifndef bool
 	//typedef short int bool;
@@ -51,11 +51,9 @@ typedef enum { dlFullMessage  = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajor
 #include "driver/seven_seg/seven_seg.h"
 /*---------------------------------*/
 
-
-
 /* Variable that will carry the debug JTAG device file descriptor*/
 #if DEBUG_ON
-    extern FILE* fp;
+    FILE* fp;
 #endif
 
 #define min_sim( x , y ) ((x < y) ? x : y)

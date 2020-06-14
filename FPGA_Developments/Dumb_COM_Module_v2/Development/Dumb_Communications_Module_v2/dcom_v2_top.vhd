@@ -295,7 +295,7 @@ begin
 		port map(
 			clk_i             => a_avs_clock,
 			rst_i             => a_reset,
-			tmr_run_on_sync_i => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_start_on_sync,
+			tmr_run_on_sync_i => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_run_on_sync,
 			tmr_clk_div_i     => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_clk_div,
 			tmr_time_in_i     => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_start_time,
 			tmr_clear_i       => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_clear,

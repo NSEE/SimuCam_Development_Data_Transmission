@@ -31,6 +31,11 @@ bool bRmapGetCodecError(TRmapChannel *pxRmapCh);
 bool bRmapGetMemAreaConfig(TRmapChannel *pxRmapCh);
 bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh);
 
+bool bRmapGetRmapMemArea(TRmapChannel *pxRmapCh);
+bool bRmapSetRmapMemArea(TRmapChannel *pxRmapCh);
+
+bool bRmapClearMemArea(TRmapChannel *pxRmapCh);
+
 bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh);
 
 //! [public function prototypes]

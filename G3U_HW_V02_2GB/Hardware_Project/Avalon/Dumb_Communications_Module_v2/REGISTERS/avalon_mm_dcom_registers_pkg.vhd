@@ -8,7 +8,7 @@ package avalon_mm_dcom_registers_pkg is
 
 	-- Allowed Addresses
 	constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#3B#;
+	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#3C#;
 
 	-- Registers Types
 
@@ -150,10 +150,15 @@ package avalon_mm_dcom_registers_pkg is
 		rmap_err_invalid_data_crc     : std_logic; -- RMAP Error Invalid Data CRC
 	end record t_dcom_rmap_codec_status_rd_reg;
 
-	-- RMAP Memory Area Config
+	-- RMAP Memory Area Config Register
 	type t_dcom_rmap_mem_area_config_wr_reg is record
 		rmap_mem_area_addr_offset : std_logic_vector(31 downto 0); -- RMAP Memory Area Address Offset
 	end record t_dcom_rmap_mem_area_config_wr_reg;
+
+	-- RMAP Memory Area Pointer Register
+	type t_dcom_rmap_mem_area_ptr_wr_reg is record
+		rmap_mem_area_ptr : std_logic_vector(31 downto 0); -- RMAP Memory Area Pointer
+	end record t_dcom_rmap_mem_area_ptr_wr_reg;
 
 	-- Avalon MM Types
 
@@ -172,7 +177,8 @@ package avalon_mm_dcom_registers_pkg is
 		data_scheduler_irq_flags_clear_reg : t_dcom_data_scheduler_irq_flags_clear_wr_reg; -- Data Scheduler IRQ Flags Clear Register
 		rmap_dev_addr_reg                  : t_dcom_rmap_dev_addr_wr_reg; -- RMAP Device Address Register
 		rmap_codec_config_reg              : t_dcom_rmap_codec_config_wr_reg; -- RMAP Codec Config Register
-		rmap_mem_area_config_reg           : t_dcom_rmap_mem_area_config_wr_reg; -- RMAP Memory Area Config
+		rmap_mem_area_config_reg           : t_dcom_rmap_mem_area_config_wr_reg; -- RMAP Memory Area Config Register
+		rmap_mem_area_ptr_reg              : t_dcom_rmap_mem_area_ptr_wr_reg; -- RMAP Memory Area Pointer Register
 	end record t_dcom_write_registers;
 
 	-- Avalon MM Read-Only Registers

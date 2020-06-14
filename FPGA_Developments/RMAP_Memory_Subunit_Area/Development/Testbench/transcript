@@ -4,102 +4,339 @@
 # Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful with warnings.
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
+# Compile of srme_mem_area_altsyncram.vhd was successful.
+# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
+# Compile of rmap_avalon_stimuli.vhd was successful.
+# Compile of srme_tb_avs_write_ent.vhd was successful.
+# Compile of srme_tb_avs_pkg.vhd was successful.
+# Compile of srme_tb_avs_read_ent.vhd was successful.
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 13 compiles, 0 failed with no errors.
+vsim work.testbench_top
+# vsim work.testbench_top 
+# Start time: 02:55:16 on Jun 13,2020
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.srme_tb_avs_pkg
+# Loading work.nrme_avalon_mm_rmap_nfee_pkg
+# Loading work.srme_avalon_mm_rmap_subunit_pkg
+# Loading work.srme_rmap_mem_area_subunit_pkg(body)
+# Loading work.testbench_top(rtl)
+# Loading work.rmap_avalon_stimuli(rtl)
+# Loading work.fee_0_rmap_stimuli(rtl)
+# Loading altera_mf.altera_mf_components
+# Loading work.srme_rmap_memory_subunit_area_top(rtl)
+# Loading work.srme_mem_area_altsyncram(syn)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading altera_mf.altera_common_conversion(body)
+# Loading altera_mf.altera_device_families(body)
+# Loading altera_mf.altsyncram(translated)
+# Loading work.srme_rmap_mem_area_subunit_arbiter_ent(rtl)
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+# Loading work.srme_rmap_mem_area_subunit_write_ent(rtl)
+# Loading work.srme_tb_avs_read_ent(rtl)
+# Loading work.srme_tb_avs_write_ent(rtl)
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+add wave -position insertpoint sim:/testbench_top/fee_0_rmap_stimuli_inst/*
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: rfranca  Hostname: ACER-AN5-RF  ProcessID: 41340
+#           Attempting to use alternate WLF file "./wlftdx80em".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlftdx80em
+add wave -position insertpoint sim:/testbench_top/srme_rmap_memory_subunit_area_top_inst/*
+add wave -position insertpoint sim:/testbench_top/srme_rmap_memory_subunit_area_top_inst/srme_rmap_mem_area_subunit_write_ent_inst/*
+add wave -position insertpoint sim:/testbench_top/srme_rmap_memory_subunit_area_top_inst/srme_rmap_mem_area_subunit_read_ent_inst/*
+restart
+# Loading work.fee_0_rmap_stimuli(rtl)
+run
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+restart
+# Loading work.fee_0_rmap_stimuli(rtl)
+run
+add wave -position insertpoint sim:/testbench_top/srme_rmap_memory_subunit_area_top_inst/srme_rmap_mem_area_subunit_arbiter_ent_inst/*
+restart
+run
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+restart
+# Loading work.fee_0_rmap_stimuli(rtl)
+run
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+restart
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+run
+restart
+restart
+run
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+restart
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+run
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+restart
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+run
+add wave -position insertpoint sim:/testbench_top/srme_rmap_memory_subunit_area_top_inst/srme_rmap_mem_area_subunit_read_ent_inst/*
+restart
+run
+# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+# 2 compiles, 0 failed with no errors.
+restart
+# Loading work.fee_0_rmap_stimuli(rtl)
+# Loading work.srme_rmap_memory_subunit_area_top(rtl)
+run
+add wave -position insertpoint sim:/testbench_top/rmap_avalon_stimuli_inst/*
+restart
+run
+# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
+# Compile of rmap_avalon_stimuli.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 3 compiles, 0 failed with no errors.
+# Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
+# Compile of srme_mem_area_altsyncram.vhd was successful.
+# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
+# Compile of rmap_avalon_stimuli.vhd was successful.
+# Compile of srme_tb_avs_write_ent.vhd was successful.
+# Compile of srme_tb_avs_pkg.vhd was successful.
+# Compile of srme_tb_avs_read_ent.vhd was successful.
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 13 compiles, 0 failed with no errors.
+restart
+# Loading work.srme_tb_avs_pkg
+# Loading work.srme_avalon_mm_rmap_subunit_pkg
+# Loading work.srme_rmap_mem_area_subunit_pkg(body)
+# Loading work.testbench_top(rtl)
+# Loading work.rmap_avalon_stimuli(rtl)
+# Loading work.fee_0_rmap_stimuli(rtl)
+# Loading work.srme_rmap_memory_subunit_area_top(rtl)
+# Loading work.srme_mem_area_altsyncram(syn)
+# Loading work.srme_rmap_mem_area_subunit_arbiter_ent(rtl)
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+# Loading work.srme_rmap_mem_area_subunit_write_ent(rtl)
+# Loading work.srme_tb_avs_read_ent(rtl)
+# Loading work.srme_tb_avs_write_ent(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# ** Fatal: (vsim-3420) Array lengths do not match. Left is 12 (11 downto 0). Right is 40 (11 downto -28).
+#    Time: 5105 ns  Iteration: 0  Process: /testbench_top/rmap_avalon_stimuli_inst/p_rmap_avalon_stimuli File: D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/RMAP_Memory_Subunit_Area/Development/Testbench/rmap_avalon_stimuli.vhd
+# Fatal error in Process p_rmap_avalon_stimuli at D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/RMAP_Memory_Subunit_Area/Development/Testbench/rmap_avalon_stimuli.vhd line 57
+# 
+# HDL call sequence:
+# Stopped at D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/RMAP_Memory_Subunit_Area/Development/Testbench/rmap_avalon_stimuli.vhd 57 Process p_rmap_avalon_stimuli
+# 
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd failed with 3 errors.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd failed with 5 errors.
+# 3 compiles, 2 failed with 8 errors.
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd failed with 3 errors.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd failed with 3 errors.
+# 2 compiles, 2 failed with 6 errors.
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd failed with 2 errors.
 # Compile of srme_rmap_mem_area_subunit_write_ent.vhd failed with 2 errors.
-# Compile of srme_rmap_memory_subunit_area_top.vhd failed with 4 errors.
-# Compile of rmap_avalon_stimuli.vhd was successful.
-# Compile of fee_0_rmap_stimuli.vhd was successful.
-# Compile of testbench_top.vhd failed with 6 errors.
-# 9 compiles, 6 failed with 12 errors.
+# 2 compiles, 2 failed with 4 errors.
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful with warnings.
+# 2 compiles, 0 failed with no errors.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
+restart
+# Loading work.srme_avalon_mm_rmap_subunit_pkg
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+# Loading work.srme_rmap_mem_area_subunit_write_ent(rtl)
+run
+restart
+# ** Fatal: (vsim-3982) Invalid record element size 1163155525.
+#    Time: 0 ps  Iteration: 0  Instance: /testbench_top/srme_rmap_memory_subunit_area_top_inst File: D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/RMAP_Memory_Subunit_Area/Development/RMAP_Memory_Subunit_Area/srme_rmap_memory_subunit_area_top.vhd Line: 64
+# FATAL ERROR while loading design
 # Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful with warnings.
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
+# Compile of srme_mem_area_altsyncram.vhd was successful.
+# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
+# Compile of rmap_avalon_stimuli.vhd was successful.
+# Compile of srme_tb_avs_write_ent.vhd was successful.
+# Compile of srme_tb_avs_pkg.vhd was successful.
+# Compile of srme_tb_avs_read_ent.vhd was successful.
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 13 compiles, 0 failed with no errors.
+vsim work.testbench_top
+# vsim work.testbench_top 
+# Start time: 02:55:16 on Jun 13,2020
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.srme_tb_avs_pkg
+# Loading work.nrme_avalon_mm_rmap_nfee_pkg
+# Loading work.srme_avalon_mm_rmap_subunit_pkg
+# Loading work.srme_rmap_mem_area_subunit_pkg(body)
+# Loading work.testbench_top(rtl)
+# Loading work.rmap_avalon_stimuli(rtl)
+# Loading work.fee_0_rmap_stimuli(rtl)
+# Loading altera_mf.altera_mf_components
+# Loading work.srme_rmap_memory_subunit_area_top(rtl)
+# Loading work.srme_mem_area_altsyncram(syn)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading altera_mf.altera_common_conversion(body)
+# Loading altera_mf.altera_device_families(body)
+# Loading altera_mf.altsyncram(translated)
+# Loading work.srme_rmap_mem_area_subunit_arbiter_ent(rtl)
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+# Loading work.srme_rmap_mem_area_subunit_write_ent(rtl)
+# Loading work.srme_tb_avs_read_ent(rtl)
+# Loading work.srme_tb_avs_write_ent(rtl)
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: rfranca  Hostname: ACER-AN5-RF  ProcessID: 41340
+#           Attempting to use alternate WLF file "./wlft31jwiw".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlft31jwiw
+restart
+run
 # Compile of srme_rmap_mem_area_subunit_write_ent.vhd failed with 2 errors.
-# Compile of srme_rmap_memory_subunit_area_top.vhd failed with 4 errors.
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd failed with 2 errors.
 # Compile of rmap_avalon_stimuli.vhd was successful.
-# Compile of srme_tb_avs_write_ent.vhd was successful.
-# Compile of srme_tb_avs_pkg.vhd was successful.
-# Compile of srme_tb_avs_read_ent.vhd was successful.
-# Compile of fee_0_rmap_stimuli.vhd was successful.
-# Compile of testbench_top.vhd failed with 6 errors.
-# 12 compiles, 3 failed with 12 errors.
+# 2 compiles, 1 failed with 2 errors.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of srme_rmap_mem_area_subunit_write_ent.vhd failed with 2 errors.
 # Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
-# Compile of srme_rmap_memory_subunit_area_top.vhd failed with 4 errors.
-# Compile of testbench_top.vhd failed with 6 errors.
-# 3 compiles, 2 failed with 10 errors.
-# Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful with warnings.
-# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
-# Compile of srme_rmap_memory_subunit_area_top.vhd failed with 4 errors.
+restart
+# Loading work.srme_rmap_mem_area_subunit_write_ent(rtl)
+run
 # Compile of rmap_avalon_stimuli.vhd was successful.
-# Compile of srme_tb_avs_write_ent.vhd was successful.
-# Compile of srme_tb_avs_pkg.vhd was successful.
-# Compile of srme_tb_avs_read_ent.vhd was successful.
-# Compile of fee_0_rmap_stimuli.vhd was successful.
-# Compile of testbench_top.vhd failed with 6 errors.
-# 12 compiles, 2 failed with 10 errors.
-# Compile of srme_rmap_memory_subunit_area_top.vhd failed with 5 errors.
-# Compile of testbench_top.vhd failed with 6 errors.
-# 2 compiles, 2 failed with 11 errors.
-# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
-# Compile of testbench_top.vhd failed with 6 errors.
-# 2 compiles, 1 failed with 6 errors.
-# Compile of testbench_top.vhd was successful.
-# Compile of srme_tb_avs_write_ent.vhd failed with 4 errors.
-# Compile of srme_tb_avs_pkg.vhd was successful.
-# Compile of srme_tb_avs_read_ent.vhd was successful.
-# Compile of testbench_top.vhd failed with 6 errors.
-# 4 compiles, 2 failed with 10 errors.
-# Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful with warnings.
-# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
-# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd failed with 2 errors.
 # Compile of rmap_avalon_stimuli.vhd was successful.
-# Compile of srme_tb_avs_write_ent.vhd was successful.
-# Compile of srme_tb_avs_pkg.vhd was successful.
-# Compile of srme_tb_avs_read_ent.vhd was successful.
-# Compile of fee_0_rmap_stimuli.vhd was successful.
-# Compile of testbench_top.vhd failed with 5 errors.
-# 12 compiles, 1 failed with 5 errors.
-# Compile of testbench_top.vhd failed with 4 errors.
-# Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful with warnings.
-# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
-# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
-# Compile of rmap_avalon_stimuli.vhd was successful.
-# Compile of srme_tb_avs_write_ent.vhd was successful.
-# Compile of srme_tb_avs_pkg.vhd was successful.
-# Compile of srme_tb_avs_read_ent.vhd was successful.
-# Compile of fee_0_rmap_stimuli.vhd was successful.
-# Compile of testbench_top.vhd failed with 4 errors.
-# 12 compiles, 1 failed with 4 errors.
-# Compile of testbench_top.vhd was successful.
-# Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful with warnings.
-# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
-# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
-# Compile of rmap_avalon_stimuli.vhd was successful.
-# Compile of srme_tb_avs_write_ent.vhd was successful.
-# Compile of srme_tb_avs_pkg.vhd was successful.
-# Compile of srme_tb_avs_read_ent.vhd was successful.
-# Compile of fee_0_rmap_stimuli.vhd was successful.
-# Compile of testbench_top.vhd was successful.
-# 12 compiles, 0 failed with no errors.
+# 2 compiles, 1 failed with 2 errors.
 # Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+run
+add wave -position insertpoint  \
+sim:/testbench_top/rmap_avalon_stimuli_inst/avalon_mm_byteenable_o
+restart
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+restart
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+run
+restart
+run
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+restart
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
+restart
+# Loading work.srme_rmap_mem_area_subunit_read_ent(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+run
+# Compile of rmap_avalon_stimuli.vhd was successful.
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+# 2 compiles, 0 failed with no errors.
+restart
+# Loading work.rmap_avalon_stimuli(rtl)
+# Loading work.fee_0_rmap_stimuli(rtl)
+run
+run
+restart
+run
+# Compile of testbench_top.vhd was successful.
+restart
+# Loading work.testbench_top(rtl)
+run
+# Compile of fee_0_rmap_stimuli.vhd was successful with warnings.
+restart
+# Loading work.fee_0_rmap_stimuli(rtl)
+run
+# ** Fatal: (vsim-3738) (vcom-1144) Value -1412567039 (of type std.STANDARD.NATURAL) is out of range 0 to 2147483647.
+#    Time: 5105 ns  Iteration: 0  Process: /testbench_top/fee_0_rmap_stimuli_inst/p_fee_0_rmap_stimuli File: D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/RMAP_Memory_Subunit_Area/Development/Testbench/fee_0_rmap_stimuli.vhd Line: 56
+# Fatal error in Process p_fee_0_rmap_stimuli at D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/RMAP_Memory_Subunit_Area/Development/Testbench/fee_0_rmap_stimuli.vhd line 56
+# 
+# HDL call sequence:
+# Stopped at D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/RMAP_Memory_Subunit_Area/Development/Testbench/fee_0_rmap_stimuli.vhd 56 Process p_fee_0_rmap_stimuli
+# 
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+restart
+# Loading work.fee_0_rmap_stimuli(rtl)
+run
+# WARNING: No extended dataflow license exists
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Error: invalid command name "::.main_pane.dataflow.interior.cs.body.pw.df.c"
+# Compile of fee_0_rmap_stimuli.vhd was successful.
+restart
+# Loading work.fee_0_rmap_stimuli(rtl)
+run
 # Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
 # Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
+# Compile of srme_mem_area_altsyncram.vhd was successful.
 # Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
 # Compile of rmap_avalon_stimuli.vhd was successful.
 # Compile of srme_tb_avs_write_ent.vhd was successful.
@@ -107,17 +344,6 @@
 # Compile of srme_tb_avs_read_ent.vhd was successful.
 # Compile of fee_0_rmap_stimuli.vhd was successful.
 # Compile of testbench_top.vhd was successful.
-# 12 compiles, 0 failed with no errors.
-# Compile of srme_avalon_mm_rmap_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_pkg.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_arbiter_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_read_ent.vhd was successful.
-# Compile of srme_rmap_mem_area_subunit_write_ent.vhd was successful.
-# Compile of srme_rmap_memory_subunit_area_top.vhd was successful.
-# Compile of rmap_avalon_stimuli.vhd was successful.
-# Compile of srme_tb_avs_write_ent.vhd was successful.
-# Compile of srme_tb_avs_pkg.vhd was successful.
-# Compile of srme_tb_avs_read_ent.vhd was successful.
-# Compile of fee_0_rmap_stimuli.vhd was successful.
-# Compile of testbench_top.vhd was successful.
-# 12 compiles, 0 failed with no errors.
+# 13 compiles, 0 failed with no errors.
+# End time: 00:28:25 on Jun 14,2020, Elapsed time: 21:33:09
+# Errors: 15, Warnings: 5

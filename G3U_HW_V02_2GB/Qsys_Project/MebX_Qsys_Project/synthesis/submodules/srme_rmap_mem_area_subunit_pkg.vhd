@@ -48,27 +48,26 @@ package srme_rmap_mem_area_subunit_pkg is
 		waitrequest => '1'
 	);
 
-	-- Address Constants
-	constant c_SRME_SUBUNIT_MEMORY_AREA_WIDTH : natural := 8; -- 2**8 = 256 bytes of memory area
+	--
+	constant c_SRME_SUBUNIT_MEMORY_AREA_WIDTH     : natural                                                            := 12; -- 2**12 = 4096 bytes of memory area
+	constant c_SRME_SUBUNIT_MEMORY_AREA_LENGTH    : natural                                                            := 2**c_SRME_SUBUNIT_MEMORY_AREA_WIDTH; -- 2**12 = 4096 bytes of memory area
 	constant c_SRME_SUBUNIT_MEMORY_AREA_ADDR_MASK : std_logic_vector((31 - c_SRME_SUBUNIT_MEMORY_AREA_WIDTH) downto 0) := (others => '0');
 
-	-- Allowed Addresses
+	constant c_SRME_SUBUNIT_MEMORY_AREA_RD_DELAY : natural := 2; -- necessary clock cicles to ensure read value is valid after an address change
 
-	-- Registers Types
+	type t_rmap_memory_area_wr_control is record
+		wr_address : std_logic_vector((c_SRME_SUBUNIT_MEMORY_AREA_WIDTH - 1) downto 0);
+		wr_data    : std_logic_vector(7 downto 0);
+		write      : std_logic;
+	end record t_rmap_memory_area_wr_control;
 
-	-- RMAP Area Subunit Register
-	type t_subunit_area_wr_reg is array (0 to ((2**c_SRME_SUBUNIT_MEMORY_AREA_WIDTH) - 1)) of std_logic_vector(7 downto 0); -- Subunit Area Array
+	type t_rmap_memory_area_rd_control is record
+		rd_address : std_logic_vector((c_SRME_SUBUNIT_MEMORY_AREA_WIDTH - 1) downto 0);
+	end record t_rmap_memory_area_rd_control;
 
-	-- RMAP Read/Write Registers
-	type t_rmap_memory_wr_area is record
-		reg_subunit_area : t_subunit_area_wr_reg; -- RMAP Area Register
-
-	end record t_rmap_memory_wr_area;
-
-	-- Avalon MM Read-Only Registers
-	type t_rmap_memory_rd_area is record
-		reg_dummy : std_logic;          -- Dummy Register
-	end record t_rmap_memory_rd_area;
+	type t_rmap_memory_area_rd_status is record
+		rd_data : std_logic_vector(7 downto 0);
+	end record t_rmap_memory_area_rd_status;
 
 end package srme_rmap_mem_area_subunit_pkg;
 
