@@ -9,17 +9,18 @@
 #define DCOM_H_
 
 #include "../../simucam_definitions.h"
+#include "rmap/rmap_mem_area.h"
 
 //! [constants definition]
 // irq numbers
-#define DCOM_CH_1_TX_IRQ                8
-#define DCOM_CH_2_TX_IRQ                9
-#define DCOM_CH_3_TX_IRQ                11
-#define DCOM_CH_4_TX_IRQ                10
-#define DCOM_CH_5_TX_IRQ                12
-#define DCOM_CH_6_TX_IRQ                14
-#define DCOM_CH_7_TX_IRQ                13
-#define DCOM_CH_8_TX_IRQ                15
+#define DCOM_CH_1_TX_IRQ                 8
+#define DCOM_CH_2_TX_IRQ                 9
+#define DCOM_CH_3_TX_IRQ                 11
+#define DCOM_CH_4_TX_IRQ                 10
+#define DCOM_CH_5_TX_IRQ                 12
+#define DCOM_CH_6_TX_IRQ                 14
+#define DCOM_CH_7_TX_IRQ                 13
+#define DCOM_CH_8_TX_IRQ                 15
 
 // address
 #define DCOM_CH_1_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_1_BASE
@@ -30,6 +31,14 @@
 #define DCOM_CH_6_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_6_BASE
 #define DCOM_CH_7_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_7_BASE
 #define DCOM_CH_8_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_8_BASE
+#define DCOM_RMAP_MEM_1_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_1_BASE
+#define DCOM_RMAP_MEM_2_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_2_BASE
+#define DCOM_RMAP_MEM_3_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_3_BASE
+#define DCOM_RMAP_MEM_4_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_4_BASE
+#define DCOM_RMAP_MEM_5_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_5_BASE
+#define DCOM_RMAP_MEM_6_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_6_BASE
+#define DCOM_RMAP_MEM_7_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_7_BASE
+#define DCOM_RMAP_MEM_8_BASE_ADDR        RMAP_MEMORY_SUBUNIT_AREA_8_BASE
 
 //! [constants definition]
 
@@ -113,7 +122,7 @@ typedef struct DschTimerControl {
 
 /* Data Scheduler Timer Config Register Struct */
 typedef struct DschTimerConfig {
-	bool bStartOnSync; /* Data Scheduler Timer Start on Sync */
+	bool bRunOnSync; /* Data Scheduler Timer Run on Sync */
 	alt_u32 uliClockDiv; /* Data Scheduler Timer Clock Div */
 	alt_u32 uliStartTime; /* Data Scheduler Timer Start Time */
 } TDschTimerConfig;
@@ -191,10 +200,15 @@ typedef struct RmapCodecError {
 	bool bInvalidDataCrc; /* RMAP Error Invalid Data CRC */
 } TRmapCodecError;
 
-/* RMAP Memory Area Config Struct */
+ /* RMAP Memory Area Config Register Struct */
 typedef struct RmapMemAreaConfig {
 	alt_u32 uliAddrOffset; /* RMAP Memory Area Address Offset */
 } TRmapMemAreaConfig;
+
+ /* RMAP Memory Area Pointer Register Struct */
+typedef struct RmapMemAreaPrt {
+	TRmapMemArea *puliRmapAreaPrt; /* RMAP Memory Area Pointer */
+} TRmapMemAreaPrt;
 
 /* General Struct for SpW Channel Registers Access */
 typedef struct SpwcChannel {
@@ -226,6 +240,7 @@ typedef struct RmapChannel {
 	TRmapCodecStatus xRmapCodecStatus;
 	TRmapCodecError xRmapCodecError;
 	TRmapMemAreaConfig xRmapMemAreaConfig;
+	TRmapMemAreaPrt xRmapMemAreaPrt;
 } TRmapChannel;
 
 /* General Struct for Communication Module Registers Access */

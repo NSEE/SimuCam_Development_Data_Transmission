@@ -271,6 +271,9 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 			if (!bRmapGetMemAreaConfig(pxRmapCh)) {
 				bInitFail = TRUE;
 			}
+			if (!bRmapGetRmapMemArea(pxRmapCh)) {
+				bInitFail = TRUE;
+			}
 			if (!bRmapClearMemArea(pxRmapCh)) {
 				bInitFail = TRUE;
 			}

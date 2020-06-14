@@ -54,6 +54,8 @@ bool bDschRunTimer(TDschChannel *pxDschCh);
 bool bDschStopTimer(TDschChannel *pxDschCh);
 bool bDschClrTimer(TDschChannel *pxDschCh);
 
+alt_u16 usiDschGetBuffersFreeSpace(TDschChannel *pxDschCh);
+
 bool bDschInitCh(TDschChannel *pxDschCh, alt_u8 ucDcomCh);
 
 //! [public function prototypes]

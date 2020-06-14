@@ -445,8 +445,8 @@ void CommandManagementTask() {
 	/*
 	 * Initialize DMA
 	 */
-	bIdmaInitM1Dma();
-	bIdmaInitM2Dma();
+//	bIdmaInitM1Dma();
+//	bIdmaInitM2Dma();
 
 	/* Init HK period */
 	T_simucam.T_conf.luHKPeriod = 0;
@@ -472,18 +472,7 @@ void CommandManagementTask() {
 	/*
 	 * Init and config of sync functionality
 	 */
-	bSyncSetOst(25e6);
-	bSyncSetPolarity(FALSE);
-	bSyncCtrIntern(TRUE);
-	bSyncCtrReset();
-	bSyncCtrCh1OutEnable(TRUE);
-	bSyncCtrCh2OutEnable(TRUE);
-	bSyncCtrCh3OutEnable(TRUE);
-	bSyncCtrCh4OutEnable(TRUE);
-	bSyncCtrCh5OutEnable(TRUE);
-	bSyncCtrCh6OutEnable(TRUE);
-	bSyncCtrCh7OutEnable(TRUE);
-	bSyncCtrCh8OutEnable(TRUE);
+	bSyncConfigOstSubunits(SYNC_DEFAULT_SUBUNIT_OST);
 
 	T_simucam.T_status.simucam_mode = simModeInit;
 
@@ -495,7 +484,7 @@ void CommandManagementTask() {
 	bDschGetTimerStatus(&xSimucamTimer);
 	/* Config Simucam timer */
 	xSimucamTimer.xDschTimerConfig.uliStartTime = 0;
-	xSimucamTimer.xDschTimerConfig.bStartOnSync = FALSE;
+	xSimucamTimer.xDschTimerConfig.bRunOnSync = FALSE;
 	xSimucamTimer.xDschTimerConfig.uliClockDiv = TIMER_CLOCK_DIV_1MS;
 	bDschSetTimerConfig(&xSimucamTimer);
 

@@ -26,6 +26,8 @@ static volatile int viCh5HoldContext;
 static volatile int viCh6HoldContext;
 static volatile int viCh7HoldContext;
 static volatile int viCh8HoldContext;
+
+const alt_u16 cusiDataBufferSize = 16*1024; /* 16kB */
 //! [data memory private global variables]
 
 //! [program memory private global variables]
@@ -617,6 +619,28 @@ bool bDschClrTimer(TDschChannel *pxDschCh) {
 	}
 
 	return bStatus;
+}
+
+alt_u16 usiDschGetBuffersFreeSpace(TDschChannel *pxDschCh){
+	alt_u16 usiFreeSpace = 0;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		/* If the buffer is full, the HW usedw goes to 0, so we need to check if the data buffer is already full */
+		if (vpxDcomChannel->xDataScheduler.xDschBufferStatus.bFull) {
+			/* Buufer is full, free space is zero*/
+			usiFreeSpace = 0;
+		} else {
+			/* Used in HW is in range 0..2048, for 64b words. This value is converted in the range 0..16384, for 8b words */
+			usiFreeSpace = cusiDataBufferSize - (alt_u16)(vpxDcomChannel->xDataScheduler.xDschBufferStatus.usiUsedBytes << 3);
+		}
+
+	}
+
+	return (usiFreeSpace);
 }
 
 bool bDschInitCh(TDschChannel *pxDschCh, alt_u8 ucDcomCh) {

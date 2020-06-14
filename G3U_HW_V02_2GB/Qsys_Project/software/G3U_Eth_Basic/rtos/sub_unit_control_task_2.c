@@ -55,7 +55,7 @@ void sub_unit_control_task_2(void *task_data) {
 			 * Initializing the timer
 			 */
 			bDschGetTimerConfig(&(xCh[c_spw_channel].xDataScheduler));
-			xCh[c_spw_channel].xDataScheduler.xDschTimerConfig.bStartOnSync = TRUE;
+			xCh[c_spw_channel].xDataScheduler.xDschTimerConfig.bRunOnSync = TRUE;
 			xCh[c_spw_channel].xDataScheduler.xDschTimerConfig.uliClockDiv =
 			TIMER_CLOCK_DIV_1MS;
 			bDschSetTimerConfig(&(xCh[c_spw_channel].xDataScheduler));
