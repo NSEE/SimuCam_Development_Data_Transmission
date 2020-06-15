@@ -42,6 +42,16 @@ void sub_unit_control_task_4(void *task_data) {
 #if DEBUG_ON
 			fprintf(fp, "[SUBUNIT%i]Sub-unit mode Init\r\n",(INT8U)c_spw_channel);
 #endif
+
+			/*
+			 * Channel initialization
+			 */
+			bDcomInitCh(&(xCh[c_spw_channel]), c_spw_channel);
+			bDschGetPacketConfig(&(xCh[c_spw_channel].xDataScheduler));
+			xCh[c_spw_channel].xDataScheduler.xDschPacketConfig.bSendEep = xDefaults.bSendEEP;
+			xCh[c_spw_channel].xDataScheduler.xDschPacketConfig.bSendEop = xDefaults.bSendEOP;
+			bDschSetPacketConfig(&(xCh[c_spw_channel].xDataScheduler));
+
 			/*
 			 * Default subUnit config
 			 */
