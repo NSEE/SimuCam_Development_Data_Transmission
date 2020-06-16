@@ -37,7 +37,7 @@ int i_return_config_flag = 2;
 
 T_Simucam T_simucam;
 
-TDschChannel xSimucamTimer;
+TDschChannel xSimucamTimer;	// It's a general timer used in echo and HK
 
 /**
  * @name v_ack_creator
@@ -791,7 +791,7 @@ void CommandManagementTask() {
 			 * Start simucam timer counting
 			 */
 			error_code = bDschRunTimer(&xSimucamTimer);
-            if(error_code == OS_NO_ERR){
+            if(error_code == TRUE){
                 v_ack_creator(p_payload, xAckOk);
             } else {
                 v_ack_creator(p_payload, xTimerError);
