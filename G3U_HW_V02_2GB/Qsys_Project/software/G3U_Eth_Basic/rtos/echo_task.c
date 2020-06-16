@@ -42,7 +42,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	INT16U i_length_buffer = 0;
 
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels >= xMajor){
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor){
         fprintf(fp, "[ECHO]Entered echo sender\r\n");
     }
 #endif
@@ -59,7 +59,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	p_imagette_buffer =
 			(T_Imagette *) T_simucam.T_Sub[i_channel].T_data.addr_init;
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels >= xVerbose){
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose){
         fprintf(fp, "[ECHO] imagette nb %i\r\n", i_imagette_number);
     }
 #endif
@@ -75,7 +75,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	}
 
 #if DEBUG_ON
-	if(T_simucam.T_conf.usiDebugLevels >= xVerbose){
+	if(T_simucam.T_conf.usiDebugLevels <= xVerbose){
         fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
             i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
             p_imagette_buffer->imagette_start);
@@ -155,7 +155,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
         pDataPointer++;
 
 #if DEBUG_ON
-        if(T_simucam.T_conf.usiDebugLevels >= xVerbose) {
+        if(T_simucam.T_conf.usiDebugLevels <= xVerbose) {
             fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
         }
 #endif
@@ -255,7 +255,7 @@ void echo_task(void) {
 	x_echo *p_echo_rcvd;
 
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels >= xMajor){
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor){
         fprintf(fp, "[ECHO]Initialized Echo Task\r\n");
     }
 #endif
@@ -275,7 +275,7 @@ void echo_task(void) {
 		} else {
 #if DEBUG_ON
             /* Create ack */
-			if (T_simucam.T_conf.usiDebugLevels >= xCritical){
+			if (T_simucam.T_conf.usiDebugLevels <= xCritical){
                 fprintf(fp, "[ECHO] Echo queue error.\r\n");
             }
 #endif

@@ -29,9 +29,7 @@
  */
 int main (int argc, char* argv[], char* envp[])
 {
-  INT8U error_code;
-
-  vRstcReleaseSimucamReset(0);
+//  INT8U error_code;
 
   /* Debug device initialization - JTAG USB */
 #if DEBUG_ON
@@ -72,21 +70,39 @@ int main (int argc, char* argv[], char* envp[])
 	/* Initialization of basic HW */
 	vInitSimucamBasicHW();
 
+	/* Initialize SD Card */
+	bInitializeSDCard();
+
+	/* Load DEBUG Configurations from SD Card */
+	bLoadDefaultDebugConf();
+
+	/* Load RMAP Configurations from SD Card */
+	bLoadDefaultRmapConf();
+
+	/* Load ETH Configurations from SD Card */
+	bLoadDefaultEthConf();
+
+	/* Show loaded configurations from SD Card */
+#if DEBUG_ON
+if ( xConfDebug.usiDebugLevel <= xMajor ) {
+	vShowDebugConfig();
+	vShowRmapConfig();
+	vShowEthConfig();
+}
+#endif
+
     /* Clear the RTOS timer */
     OSTimeSet(0);
 
 #if DEBUG_ON
-    fprintf(fp, "\nSimucam Tasks initializing\n");
+    if ( xConfDebug.usiDebugLevel <= xMajor ) {
+    	fprintf(fp, "\nSimucam Tasks initializing\n");
+    }
 #endif
-  /*
-   * Simucam physical Inicialization
-   */
-//    Init_Simucam_Config();
-//    Init_Simucam_Tasks();
 
-     /* *
-        * Create os data structures
-        */
+    /*
+     * Create os data structures
+     */
     SimucamCreateOSQ();
     DataCreateOSQ();
 
@@ -96,26 +112,10 @@ int main (int argc, char* argv[], char* envp[])
     /* create the Simucam tasks */
     SimucamCreateTasks();
     
-
-  /*
-   * Load ETH Configurations from SD Card
-   */
-  bInitializeSDCard();
-  vLoadDefaultETHConf();
-  /* 
-   * Load debug configs 
-   */
-	// vLoadDebugConfs();
-//  T_simucam.T_conf.usiDebugLevels = 2;
-// 	T_simucam.T_conf.usiDebugLevels = xDefaults.usiDebugLevel;
-// #if DEBUG_ON
-// 		fprintf(fp, "[CommandManagementTask]Debug level: %i\r\n", T_simucam.T_conf.usiDebugLevels);
-// #endif
-
-  /*
-   * Start the OS
-   */
-  OSStart();
+    /*
+     * Start the OS
+     */
+    OSStart();
 
   
   while(1); /* Correct Program Flow never gets here. */

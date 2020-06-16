@@ -44,10 +44,25 @@ void sub_unit_control_task_6(void *task_data) {
 			 * Channel initialization
 			 */
 			bDcomInitCh(&(xCh[c_spw_channel]), c_spw_channel);
+
+			/*
+			 * Debug Configuration
+			 */
 			bDschGetPacketConfig(&(xCh[c_spw_channel].xDataScheduler));
-			xCh[c_spw_channel].xDataScheduler.xDschPacketConfig.bSendEep = xDefaults.bSendEEP;
-			xCh[c_spw_channel].xDataScheduler.xDschPacketConfig.bSendEop = xDefaults.bSendEOP;
+			xCh[c_spw_channel].xDataScheduler.xDschPacketConfig.bSendEep = xConfDebug.bSendEEP;
+			xCh[c_spw_channel].xDataScheduler.xDschPacketConfig.bSendEop = xConfDebug.bSendEOP;
 			bDschSetPacketConfig(&(xCh[c_spw_channel].xDataScheduler));
+
+			/*
+			 * RMAP Configuration
+			 */
+			bRmapGetCodecConfig(&(xCh[c_spw_channel].xRmap));
+			xCh[c_spw_channel].xRmap.xRmapCodecConfig.ucLogicalAddress = xConfRmap.ucLogicalAddr[c_spw_channel];
+			xCh[c_spw_channel].xRmap.xRmapCodecConfig.ucKey = xConfRmap.ucKey[c_spw_channel];
+			bRmapSetCodecConfig(&(xCh[c_spw_channel].xRmap));
+			bRmapGetMemAreaConfig(&(xCh[c_spw_channel].xRmap));
+			xCh[c_spw_channel].xRmap.xRmapMemAreaConfig.uliAddrOffset = xConfRmap.uliAddrOffset[c_spw_channel];
+			bRmapSetMemAreaConfig(&(xCh[c_spw_channel].xRmap));
 
 			/*
 			 * Default subUnit config

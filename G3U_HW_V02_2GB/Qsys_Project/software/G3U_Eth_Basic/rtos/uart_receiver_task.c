@@ -42,7 +42,7 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
                 luReturn = 0;
         }
 //#if DEBUG_ON
-//       if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+//       if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
 //               fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
 //       }
 //#endif
@@ -62,7 +62,7 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
 void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer){
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[UART HParser]Received Bytes: %u %u %u %u %u %u %u %u\n",
                 cReceiveBuffer[0], cReceiveBuffer[1], cReceiveBuffer[2], cReceiveBuffer[3], cReceiveBuffer[4],
                 cReceiveBuffer[5], cReceiveBuffer[6], cReceiveBuffer[7]);
@@ -84,7 +84,7 @@ void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer){
     pPayload->luCRCPartial = crc__CRC16CCITT(cReceiveBuffer, HEADER_OVERHEAD);
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
         fprintf(fp, "[UART HParser]Parsed header %u, Parsed id: %u, parsed type %u, parsed size %lu\n", pPayload->header, pPayload->packet_id, pPayload->type, pPayload->size);
         fprintf(fp, "[UART HParser]Print partial crc %lu\n", pPayload->luCRCPartial);
         }
@@ -112,7 +112,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
      INT16U usLengthBuff = 0;
 
  #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                 fprintf(fp, "[UART ImagetteParser DEBUG]Entered parser\r\n");
         }
  #endif
@@ -121,7 +121,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         luGetSerial((INT8U *)&iHeaderBuff, DATASET_HEADER);
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[UART ImagetteParser DEBUG]iHeaderBuff Dump");
                 for(int g=0; g<DATASET_HEADER; g++){
                 fprintf(fp, " %i", iHeaderBuff[g]);
@@ -179,7 +179,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         pPayload->luCRCPartial = prev_crc__CRC16CCITT(iHeaderBuff, DATASET_HEADER, pPayload->luCRCPartial);
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[UART ImagetteParser DEBUG]Received nb Imagettes %lu\r\n", pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes);
                 fprintf(fp, "[UART ImagetteParser DEBUG]Received TAG %i %i %i %i\r\n",
                 (INT8U) pSimucam->T_Sub[i_channel_wr].T_data.tag[0],
@@ -204,7 +204,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
             luGetSerial((INT8U *)&iOffsetLengthBuff, IMAGETTE_HEADER);
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[UART ImagetteParser DEBUG]iOffsetLengthBuff Dump");
                 for(int w=0; w<IMAGETTE_HEADER; w++){
                 fprintf(fp, " %i", iOffsetLengthBuff[w]);
@@ -244,7 +244,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
                             IMAGETTE_HEADER, pPayload->luCRCPartial);
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
             fprintf(fp, "[UART ImagetteParser DEBUG]Imagette %i length: %i\r\n", i_nb_imag_ctrl,
                     p_imagette_buff->imagette_length);
         }
@@ -283,7 +283,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
             }
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 INT8U *pxTestData =
                 (INT8U *) pSimucam->T_Sub[i_channel_wr].T_data.addr_init+6;
                 fprintf(fp, "[UART ImagetteParser DEBUG]First Bytes %i %i\r\n", pxTestData[0],
@@ -301,7 +301,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
                 + 256 * iCRCBuff[0];
         
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[UART ImagetteParser DEBUG]CRC bytes %i %i\r\n", iCRCBuff[0],
                         iCRCBuff[1]);
         }
@@ -310,7 +310,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         /* Check CRC */
         if(pPayload->crc == pPayload->luCRCPartial){
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
             fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
         }
 #endif
@@ -318,7 +318,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         } else {
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xCritical ){
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
             fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
         }
 #endif
@@ -342,7 +342,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         memset(pUartPayload->data, 0, PAYLOAD_DATA_SIZE);
         memset(cBuff, 0, 8);       
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
         fprintf(fp, "[vCmdParser DEBUG]Command Parser Init\n");
         }
 #endif
@@ -357,7 +357,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         luGetSerial((INT8U *)&pUartPayload->data, pUartPayload->size - PAYLOAD_OVERHEAD);
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 for (i = 1; i <= pUartPayload->size - PAYLOAD_OVERHEAD; i++) {
                 fprintf(fp, 
                         "[vCmdParser DEBUG]data: %i\r\nPing %i\r\n",
@@ -370,7 +370,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
                     pUartPayload->luCRCPartial);
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[vCmdParser DEBUG]Calculated CRC = %lu\n",
                         (INT16U) pUartPayload->luCRCPartial);
         }
@@ -382,7 +382,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         pUartPayload->crc = cBuff[1] + 256 * cBuff[0];
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[vCmdParser DEBUG]Received CRC = %lu\n",
                         (INT16U) pUartPayload->crc);
         }
@@ -391,7 +391,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         /* Check CRC */
         if(pUartPayload->crc == pUartPayload->luCRCPartial){
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
             fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
         }
 #endif
@@ -399,7 +399,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         } else {
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xCritical ){
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
             fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
         }
 #endif
@@ -419,7 +419,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         pUartPayload->crc = cBuff[1] + 256 * cBuff[0];
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xVerbose ){
+        if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 fprintf(fp, "[vCmdParser DEBUG]Received CRC = %lu\n",
                         (INT16U) pUartPayload->crc);
         }
@@ -427,7 +427,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         /* Check CRC */
         if(pUartPayload->crc == pUartPayload->luCRCPartial){
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
             fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
         }
 #endif
@@ -436,7 +436,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
         } else {
 
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xCritical ){
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
             fprintf(fp, "[vCmdParser DEBUG]CRC ERROR, but that's ok.\n");
         }
 #endif
@@ -451,7 +451,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
 #endif
     } else{
 #if DEBUG_ON
-        if (T_simucam.T_conf.usiDebugLevels >= xCritical ){
+        if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
             fprintf(fp, "[vCmdParser DEBUG]Invalid data size.\n");
         }
 #endif
@@ -473,7 +473,7 @@ void uart_receiver_task(void *task_data){
         switch (eReaderRXMode){
             case sRConfiguring:
 #if DEBUG_ON
-                if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+                if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                         fprintf(fp, "[UART RCV] Uart receiver init\n");
                 }
 #endif
@@ -482,7 +482,7 @@ void uart_receiver_task(void *task_data){
                 
             case sGetHeader:
 //#if DEBUG_ON
-//                if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+//                if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
 //                        fprintf(fp, "[UART RCV] Waiting data\n");
 //                }
 //#endif
@@ -492,7 +492,7 @@ void uart_receiver_task(void *task_data){
                         luGetSerial((char *) &cReceiveBuffer, 8);
                         vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
         #if DEBUG_ON
-                        if (T_simucam.T_conf.usiDebugLevels >= xMajor ){
+                        if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
                                 fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", 
                                 payload.packet_id, payload.type, payload.size);
                         }

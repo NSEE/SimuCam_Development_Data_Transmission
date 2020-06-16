@@ -15,32 +15,24 @@ bool bTestSimucamCriticalHW( void ) {
 	bSuccess = bIdmaInitM1Dma();
 	if ( FALSE == bSuccess ) {
 		#if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xCritical ) {
 			fprintf(fp, "SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DDR2 Memory 1!\n");
-		}
 		#endif
 		return (bSuccess);
 	} else {
 		#if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xCritical ) {
 			fprintf(fp, "SimuCam Critical HW Test: DMA for DDR2 Memory 1 initiated.\n");
-		}
 		#endif
 	}
 
 	bSuccess = bIdmaInitM2Dma();
 	if ( FALSE == bSuccess ) {
 		#if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xCritical ) {
 			fprintf(fp, "SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DDR2 Memory 2!\n");
-		}
 		#endif
 		return (bSuccess);
 	} else {
 		#if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xCritical ) {
 			fprintf(fp, "SimuCam Critical HW Test: DMA for DDR2 Memory 2 initiated.\n");
-		}
 		#endif
 	}
 
@@ -57,19 +49,9 @@ bool bDdr2MemoryFastTest ( void ) {
 
 	/* Write data into ddr2 memory 1 and ddr2 memory 2 to check if they are working*/
 
-	/*
-#if DEBUG_ON
-	if ( T_simucam.T_conf.usiDebugLevels >= xMajor ) {
-	fprintf(fp, "SimuCam Critical HW Test: Starting DDR2 Memories test (fast):\n");
-	}
-#endif
-	 */
-
 	/* Ddr2 Memory 1 */
 #if DEBUG_ON
-	if ( T_simucam.T_conf.usiDebugLevels >= xMajor ) {
 		fprintf(fp, "SimuCam Critical HW Test: Testing DDR2 Memory 1... ");
-	}
 #endif
 	usleep(1000000);
 	bDdr2SwitchMemory(DDR2_M1_ID);
@@ -97,23 +79,17 @@ bool bDdr2MemoryFastTest ( void ) {
 		bM1Success = TRUE;
 		vRstcReleaseSimucamReset(0); /* Release SimuCam Reset Signal - Disable "Watchdog"*/
 #if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xMajor ) {
 			fprintf(fp, "DDR2 Memory 1 Passed!\n");
-		}
 #endif
 	} else {
 #if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xCritical ) {
 			fprintf(fp, "CRITICAL! DDR2 Memory 1 Failure!\n");
-		}
 #endif
 	}
 
 	/* Ddr2 Memory 2 */
 #if DEBUG_ON
-	if ( T_simucam.T_conf.usiDebugLevels >= xMajor ) {
 		fprintf(fp, "SimuCam Critical HW Test: Testing DDR2 Memory 2... ");
-	}
 #endif
 	usleep(1000000);
 	bDdr2SwitchMemory(DDR2_M2_ID);
@@ -141,15 +117,11 @@ bool bDdr2MemoryFastTest ( void ) {
 		bM2Success = TRUE;
 		vRstcReleaseSimucamReset(0); /* Release SimuCam Reset Signal - Disable "Watchdog"*/
 #if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xMajor ) {
 			fprintf(fp, "DDR2 Memory 2 Passed!\n\n");
-		}
 #endif
 	} else {
 #if DEBUG_ON
-		if ( T_simucam.T_conf.usiDebugLevels >= xCritical ) {
 			fprintf(fp, "CRITICAL! DDR2 Memory 2 Failure!\n\n");
-		}
 #endif
 	}
 

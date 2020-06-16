@@ -46,15 +46,11 @@ void vInitSimucamBasicHW(void)
 	bEnableIsoDrivers();
 	bEnableLvdsBoard();
 
-
 	/* Turn on all Panel Leds */
 	bSetPainelLeds( LEDS_ON, LEDS_PAINEL_ALL_MASK );
 	usleep(5000000);
 	/* initial values for the Leds */
 	bSetPainelLeds( LEDS_OFF, LEDS_PAINEL_ALL_MASK );
 	bSetPainelLeds( LEDS_ON, LEDS_POWER_MASK );
-
-//	volatile alt_u16 *vpusiUartAddr = (alt_u16 *)UART_MODULE_TOP_0_BASE;
-//	vpusiUartAddr[4] = ((vpusiUartAddr[4] - 1) * 12) + 1;
 
 }
