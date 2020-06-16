@@ -61,8 +61,8 @@ void SPWLinkTask(void *task_data) {
 	for (ucSpwChCnt = 0; ucSpwChCnt < 8; ucSpwChCnt++) {
 		bDcomInitCh(&(xCh[ucSpwChCnt]), ucSpwChCnt);
 		bDschGetPacketConfig(&(xCh[ucSpwChCnt].xDataScheduler));
-		xCh[ucSpwChCnt].xDataScheduler.xDschPacketConfig.bSendEep = xDefaults.bSendEEP;
-		xCh[ucSpwChCnt].xDataScheduler.xDschPacketConfig.bSendEop = xDefaults.bSendEOP;
+		xCh[ucSpwChCnt].xDataScheduler.xDschPacketConfig.bSendEep = xConfDebug.bSendEEP;
+		xCh[ucSpwChCnt].xDataScheduler.xDschPacketConfig.bSendEop = xConfDebug.bSendEOP;
 		bDschSetPacketConfig(&(xCh[ucSpwChCnt].xDataScheduler));
 	}
 
