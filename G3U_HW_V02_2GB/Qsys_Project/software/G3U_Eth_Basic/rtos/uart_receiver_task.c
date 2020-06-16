@@ -311,7 +311,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         if(pPayload->crc == pPayload->luCRCPartial){
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-            fprintf(fp, "[vCmdParser DEBUG]CRC OK.\n");
+            fprintf(fp, "[UART ImagetteParser DEBUG]CRC OK.\n");
         }
 #endif
             v_ack_creator(pPayload, xAckOk);
@@ -319,10 +319,12 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
 
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xCritical ){
-            fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
+            fprintf(fp, "[UART ImagetteParser DEBUG]CRC ERROR.\n");
         }
 #endif
-            v_ack_creator(pPayload, xCRCError);
+        /* CRC removed for testing */
+        //     v_ack_creator(pPayload, xCRCError);
+        v_ack_creator(pPayload, xAckOk);
         }
 }
 

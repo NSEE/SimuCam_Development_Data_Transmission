@@ -212,9 +212,9 @@ struct x_telemetry {
 } x_telemetry;
 
 typedef enum {
-	xVerbose = 0,
+	xCritical = 0,
     xMajor,
-	xCritical
+	xVerbose
 } debug_levels;
 
 /*$PAGE*/
