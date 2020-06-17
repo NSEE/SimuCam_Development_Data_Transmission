@@ -853,12 +853,12 @@ void CommandManagementTask() {
 									T_simucam.T_Sub[i_channel_for].T_conf.mode == 4){
 								error_code = bDschStopTimer(
 										&(xCh[i_channel_for].xDataScheduler));
-								if(error_code != OS_NO_ERR){
+								if(error_code != TRUE){
 									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xTimerError);
 								}
 								error_code = bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
-								if(error_code != OS_NO_ERR){
+								if(error_code != TRUE){
 									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xTimerError);
 								}
@@ -872,7 +872,7 @@ void CommandManagementTask() {
 								}
 							}
 						}
-						if (error_code == OS_NO_ERR){
+						if (error_code == TRUE){
 	                        v_ack_creator(p_payload, xAckOk);
 	                    }
 					}
