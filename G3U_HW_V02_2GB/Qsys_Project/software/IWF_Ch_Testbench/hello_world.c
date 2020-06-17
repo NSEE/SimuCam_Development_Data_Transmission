@@ -18,6 +18,7 @@
 #include "simucam_definitions.h"
 #include "driver/dcom/dcom_channel.h"
 #include "driver/sync/sync.h"
+#include "driver/uart/uart.h"
 #include "api_driver/iwf_simucam_dma/iwf_simucam_dma.h"
 #include "api_driver/ddr2/ddr2.h"
 #include "utils/initialization_simucam.h"
@@ -72,6 +73,23 @@ int main() {
 
 	bSetPainelLeds( LEDS_OFF , LEDS_ST_ALL_MASK );
 	bSetPainelLeds( LEDS_ON , LEDS_POWER_MASK );
+
+	printf("Waiting 10s...\n");
+	usleep(10000000);
+
+	printf("%d\n", bUartWriteCharNonBlocking('H'));
+	printf("%d\n", bUartWriteCharNonBlocking('e'));
+	printf("%d\n", bUartWriteCharNonBlocking('l'));
+	printf("%d\n", bUartWriteCharNonBlocking('l'));
+	printf("%d\n", bUartWriteCharNonBlocking('o'));
+
+	printf("Received: %c\n", cUartReadCharBlocking());
+	printf("Received: %c\n", cUartReadCharBlocking());
+	printf("Received: %c\n", cUartReadCharBlocking());
+	printf("Received: %c\n", cUartReadCharBlocking());
+	printf("Received: %c\n", cUartReadCharBlocking());
+
+	while(1) {}
 
 	printf("Starting Channels...\n");
 

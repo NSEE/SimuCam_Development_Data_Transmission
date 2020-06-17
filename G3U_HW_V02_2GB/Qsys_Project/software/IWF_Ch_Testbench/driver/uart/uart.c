@@ -7,47 +7,158 @@
 
 #include "uart.h"
 
-void vUartWriteChar(char cTxChar){
+//! [private function prototypes]
+//! [private function prototypes]
+
+//! [data memory public global variables]
+//! [data memory public global variables]
+
+//! [program memory public global variables]
+//! [program memory public global variables]
+
+//! [data memory private global variables]
+//! [data memory private global variables]
+
+//! [program memory private global variables]
+//! [program memory private global variables]
+
+//! [public functions]
+
+bool bUartTxBufferFull(){
+	bool bFull;
+
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
-	while (vpxUartModule->bUartTxFull){}
-	vpxUartModule->uliUartTxWrdata = (alt_u32)cTxChar;
-	vpxUartModule->bUartTxWrreq = true;
+
+	bFull = vpxUartModule->xUartTxBufferStatus.bFull;
+
+	return (bFull);
 }
 
-void vUartWriteBuffer(char *pcTxBuffer, alt_u16 usiLength){
+bool bUartRxBufferEmpty(){
+	bool bEmpty;
+
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	bEmpty = vpxUartModule->xUartRxBufferStatus.bEmpty;
+
+	return (bEmpty);
+}
+
+void vUartWriteCharBlocking(char cTxChar){
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	while (vpxUartModule->xUartTxBufferStatus.bFull){}
+	vpxUartModule->xUartTxBufferControl.ucWrData = (alt_u8)cTxChar;
+	vpxUartModule->xUartTxBufferControl.bWrReq = TRUE;
+
+}
+
+void vUartWriteBufferBlocking(char *pcTxBuffer, alt_u16 usiLength){
 	alt_u16 usiCnt = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
 	for (usiCnt = 0; usiCnt < usiLength; usiCnt++) {
-		while (vpxUartModule->bUartTxFull){}
-		vpxUartModule->uliUartTxWrdata = (alt_u32)(pcTxBuffer[usiCnt]);
-		vpxUartModule->bUartTxWrreq = true;
+		while (vpxUartModule->xUartTxBufferStatus.bFull){}
+		vpxUartModule->xUartTxBufferControl.ucWrData = (alt_u8)(pcTxBuffer[usiCnt]);
+		vpxUartModule->xUartTxBufferControl.bWrReq = TRUE;
 	}
+
 }
 
-char cUartReadChar(){
-	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+char cUartReadCharBlocking(){
 	char cRxChar;
-	while (vpxUartModule->bUartRxEmpty){}
-	cRxChar = (char)((vpxUartModule->uliUartRxRddata) & 0xFF);
-	vpxUartModule->bUartRxRdreq = true;
-	return cRxChar;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	while (vpxUartModule->xUartRxBufferStatus.bEmpty){}
+	cRxChar = (char)(vpxUartModule->xUartRxBufferStatus.ucRdData);
+	vpxUartModule->xUartRxBufferControl.bRdReq = TRUE;
+
+	return (cRxChar);
 }
 
-void vUartReadBuffer(char *pcRxBuffer, alt_u16 usiLength){
-	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+void vUartReadBufferBlocking(char *pcRxBuffer, alt_u16 usiLength){
 	alt_u16 usiCnt = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
 	for (usiCnt = 0; usiCnt < usiLength; usiCnt++) {
-		while (vpxUartModule->bUartRxEmpty){}
-		pcRxBuffer[usiCnt] = (char)((vpxUartModule->uliUartRxRddata) & 0xFF);
-		vpxUartModule->bUartRxRdreq = true;
+		while (vpxUartModule->xUartRxBufferStatus.bEmpty){}
+		pcRxBuffer[usiCnt] = (char)(vpxUartModule->xUartRxBufferStatus.ucRdData);
+		vpxUartModule->xUartRxBufferControl.bRdReq = TRUE;
 	}
+
 }
 
-/**
- * Queries the UART buffer to see if data is present
- * return 1 when empty
- */
-int iUartEmpty(){
+bool bUartWriteCharNonBlocking(char cTxChar){
+	bool bSuccess = FALSE;
+
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
-	return	vpxUartModule->bUartRxEmpty;
+
+	if (!vpxUartModule->xUartTxBufferStatus.bFull) {
+		vpxUartModule->xUartTxBufferControl.ucWrData = (alt_u8)cTxChar;
+		vpxUartModule->xUartTxBufferControl.bWrReq = TRUE;
+		bSuccess = TRUE;
+	}
+
+	return (bSuccess);
 }
+
+alt_u16 usiUartWriteBufferNonBlocking(char *pcTxBuffer, alt_u16 usiLength){
+	alt_u16 usiWrittenChars = 0;
+	alt_u16 usiCnt = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	for (usiCnt = 0; usiCnt < usiLength; usiCnt++) {
+		if (!vpxUartModule->xUartTxBufferStatus.bFull) {
+			vpxUartModule->xUartTxBufferControl.ucWrData = (alt_u8)(pcTxBuffer[usiCnt]);
+			vpxUartModule->xUartTxBufferControl.bWrReq = TRUE;
+			usiWrittenChars++;
+		} else {
+			break;
+		}
+	}
+
+	return (usiWrittenChars);
+}
+
+bool bUartReadCharNonBlocking(char *pcTxChar){
+	bool bSuccess = FALSE;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	if (!vpxUartModule->xUartRxBufferStatus.bEmpty) {
+		*pcTxChar = (char)(vpxUartModule->xUartRxBufferStatus.ucRdData);
+		vpxUartModule->xUartRxBufferControl.bRdReq = TRUE;
+		bSuccess = TRUE;
+	}
+
+	return (bSuccess);
+}
+
+alt_u16 usiUartReadBufferNonBlocking(char *pcRxBuffer, alt_u16 usiLength){
+	alt_u16 usiReadChars = 0;
+	alt_u16 usiCnt = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	for (usiCnt = 0; usiCnt < usiLength; usiCnt++) {
+		if (!vpxUartModule->xUartRxBufferStatus.bEmpty) {
+			pcRxBuffer[usiCnt] = (char)(vpxUartModule->xUartRxBufferStatus.ucRdData);
+			vpxUartModule->xUartRxBufferControl.bRdReq = TRUE;
+			usiReadChars++;
+		} else {
+			break;
+		}
+	}
+
+	return (usiReadChars);
+}
+
+//! [public functions]
+
+//! [private functions]
+//! [private functions]

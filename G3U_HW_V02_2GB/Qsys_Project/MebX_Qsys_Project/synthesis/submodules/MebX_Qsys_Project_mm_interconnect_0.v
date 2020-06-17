@@ -7,15 +7,14 @@
 
 `timescale 1 ps / 1 ps
 module MebX_Qsys_Project_mm_interconnect_0 (
-		input  wire        clk_50_clk_clk,                                           //                                         clk_50_clk.clk
-		input  wire        rs232_uart_reset_reset_bridge_in_reset_reset,             //             rs232_uart_reset_reset_bridge_in_reset.reset
+		input  wire        clk_100_clk_clk,                                          //                                        clk_100_clk.clk
 		input  wire        uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, // uart_module_top_0_reset_sink_reset_bridge_in_reset.reset
-		input  wire [5:0]  uart_module_top_0_avalon_master_address,                  //                    uart_module_top_0_avalon_master.address
-		output wire        uart_module_top_0_avalon_master_waitrequest,              //                                                   .waitrequest
-		input  wire        uart_module_top_0_avalon_master_read,                     //                                                   .read
-		output wire [15:0] uart_module_top_0_avalon_master_readdata,                 //                                                   .readdata
-		input  wire        uart_module_top_0_avalon_master_write,                    //                                                   .write
-		input  wire [15:0] uart_module_top_0_avalon_master_writedata,                //                                                   .writedata
+		input  wire [5:0]  uart_module_top_0_avalon_master_rs232_address,            //              uart_module_top_0_avalon_master_rs232.address
+		output wire        uart_module_top_0_avalon_master_rs232_waitrequest,        //                                                   .waitrequest
+		input  wire        uart_module_top_0_avalon_master_rs232_read,               //                                                   .read
+		output wire [15:0] uart_module_top_0_avalon_master_rs232_readdata,           //                                                   .readdata
+		input  wire        uart_module_top_0_avalon_master_rs232_write,              //                                                   .write
+		input  wire [15:0] uart_module_top_0_avalon_master_rs232_writedata,          //                                                   .writedata
 		output wire [2:0]  rs232_uart_s1_address,                                    //                                      rs232_uart_s1.address
 		output wire        rs232_uart_s1_write,                                      //                                                   .write
 		output wire        rs232_uart_s1_read,                                       //                                                   .read
@@ -25,103 +24,103 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		output wire        rs232_uart_s1_chipselect                                  //                                                   .chipselect
 	);
 
-	wire         uart_module_top_0_avalon_master_translator_avalon_universal_master_0_waitrequest;   // uart_module_top_0_avalon_master_agent:av_waitrequest -> uart_module_top_0_avalon_master_translator:uav_waitrequest
-	wire  [15:0] uart_module_top_0_avalon_master_translator_avalon_universal_master_0_readdata;      // uart_module_top_0_avalon_master_agent:av_readdata -> uart_module_top_0_avalon_master_translator:uav_readdata
-	wire         uart_module_top_0_avalon_master_translator_avalon_universal_master_0_debugaccess;   // uart_module_top_0_avalon_master_translator:uav_debugaccess -> uart_module_top_0_avalon_master_agent:av_debugaccess
-	wire   [5:0] uart_module_top_0_avalon_master_translator_avalon_universal_master_0_address;       // uart_module_top_0_avalon_master_translator:uav_address -> uart_module_top_0_avalon_master_agent:av_address
-	wire         uart_module_top_0_avalon_master_translator_avalon_universal_master_0_read;          // uart_module_top_0_avalon_master_translator:uav_read -> uart_module_top_0_avalon_master_agent:av_read
-	wire   [1:0] uart_module_top_0_avalon_master_translator_avalon_universal_master_0_byteenable;    // uart_module_top_0_avalon_master_translator:uav_byteenable -> uart_module_top_0_avalon_master_agent:av_byteenable
-	wire         uart_module_top_0_avalon_master_translator_avalon_universal_master_0_readdatavalid; // uart_module_top_0_avalon_master_agent:av_readdatavalid -> uart_module_top_0_avalon_master_translator:uav_readdatavalid
-	wire         uart_module_top_0_avalon_master_translator_avalon_universal_master_0_lock;          // uart_module_top_0_avalon_master_translator:uav_lock -> uart_module_top_0_avalon_master_agent:av_lock
-	wire         uart_module_top_0_avalon_master_translator_avalon_universal_master_0_write;         // uart_module_top_0_avalon_master_translator:uav_write -> uart_module_top_0_avalon_master_agent:av_write
-	wire  [15:0] uart_module_top_0_avalon_master_translator_avalon_universal_master_0_writedata;     // uart_module_top_0_avalon_master_translator:uav_writedata -> uart_module_top_0_avalon_master_agent:av_writedata
-	wire   [1:0] uart_module_top_0_avalon_master_translator_avalon_universal_master_0_burstcount;    // uart_module_top_0_avalon_master_translator:uav_burstcount -> uart_module_top_0_avalon_master_agent:av_burstcount
-	wire         rsp_mux_src_valid;                                                                  // rsp_mux:src_valid -> uart_module_top_0_avalon_master_agent:rp_valid
-	wire  [57:0] rsp_mux_src_data;                                                                   // rsp_mux:src_data -> uart_module_top_0_avalon_master_agent:rp_data
-	wire         rsp_mux_src_ready;                                                                  // uart_module_top_0_avalon_master_agent:rp_ready -> rsp_mux:src_ready
-	wire   [0:0] rsp_mux_src_channel;                                                                // rsp_mux:src_channel -> uart_module_top_0_avalon_master_agent:rp_channel
-	wire         rsp_mux_src_startofpacket;                                                          // rsp_mux:src_startofpacket -> uart_module_top_0_avalon_master_agent:rp_startofpacket
-	wire         rsp_mux_src_endofpacket;                                                            // rsp_mux:src_endofpacket -> uart_module_top_0_avalon_master_agent:rp_endofpacket
-	wire  [31:0] rs232_uart_s1_agent_m0_readdata;                                                    // rs232_uart_s1_translator:uav_readdata -> rs232_uart_s1_agent:m0_readdata
-	wire         rs232_uart_s1_agent_m0_waitrequest;                                                 // rs232_uart_s1_translator:uav_waitrequest -> rs232_uart_s1_agent:m0_waitrequest
-	wire         rs232_uart_s1_agent_m0_debugaccess;                                                 // rs232_uart_s1_agent:m0_debugaccess -> rs232_uart_s1_translator:uav_debugaccess
-	wire   [5:0] rs232_uart_s1_agent_m0_address;                                                     // rs232_uart_s1_agent:m0_address -> rs232_uart_s1_translator:uav_address
-	wire   [3:0] rs232_uart_s1_agent_m0_byteenable;                                                  // rs232_uart_s1_agent:m0_byteenable -> rs232_uart_s1_translator:uav_byteenable
-	wire         rs232_uart_s1_agent_m0_read;                                                        // rs232_uart_s1_agent:m0_read -> rs232_uart_s1_translator:uav_read
-	wire         rs232_uart_s1_agent_m0_readdatavalid;                                               // rs232_uart_s1_translator:uav_readdatavalid -> rs232_uart_s1_agent:m0_readdatavalid
-	wire         rs232_uart_s1_agent_m0_lock;                                                        // rs232_uart_s1_agent:m0_lock -> rs232_uart_s1_translator:uav_lock
-	wire  [31:0] rs232_uart_s1_agent_m0_writedata;                                                   // rs232_uart_s1_agent:m0_writedata -> rs232_uart_s1_translator:uav_writedata
-	wire         rs232_uart_s1_agent_m0_write;                                                       // rs232_uart_s1_agent:m0_write -> rs232_uart_s1_translator:uav_write
-	wire   [2:0] rs232_uart_s1_agent_m0_burstcount;                                                  // rs232_uart_s1_agent:m0_burstcount -> rs232_uart_s1_translator:uav_burstcount
-	wire         rs232_uart_s1_agent_rf_source_valid;                                                // rs232_uart_s1_agent:rf_source_valid -> rs232_uart_s1_agent_rsp_fifo:in_valid
-	wire  [76:0] rs232_uart_s1_agent_rf_source_data;                                                 // rs232_uart_s1_agent:rf_source_data -> rs232_uart_s1_agent_rsp_fifo:in_data
-	wire         rs232_uart_s1_agent_rf_source_ready;                                                // rs232_uart_s1_agent_rsp_fifo:in_ready -> rs232_uart_s1_agent:rf_source_ready
-	wire         rs232_uart_s1_agent_rf_source_startofpacket;                                        // rs232_uart_s1_agent:rf_source_startofpacket -> rs232_uart_s1_agent_rsp_fifo:in_startofpacket
-	wire         rs232_uart_s1_agent_rf_source_endofpacket;                                          // rs232_uart_s1_agent:rf_source_endofpacket -> rs232_uart_s1_agent_rsp_fifo:in_endofpacket
-	wire         rs232_uart_s1_agent_rsp_fifo_out_valid;                                             // rs232_uart_s1_agent_rsp_fifo:out_valid -> rs232_uart_s1_agent:rf_sink_valid
-	wire  [76:0] rs232_uart_s1_agent_rsp_fifo_out_data;                                              // rs232_uart_s1_agent_rsp_fifo:out_data -> rs232_uart_s1_agent:rf_sink_data
-	wire         rs232_uart_s1_agent_rsp_fifo_out_ready;                                             // rs232_uart_s1_agent:rf_sink_ready -> rs232_uart_s1_agent_rsp_fifo:out_ready
-	wire         rs232_uart_s1_agent_rsp_fifo_out_startofpacket;                                     // rs232_uart_s1_agent_rsp_fifo:out_startofpacket -> rs232_uart_s1_agent:rf_sink_startofpacket
-	wire         rs232_uart_s1_agent_rsp_fifo_out_endofpacket;                                       // rs232_uart_s1_agent_rsp_fifo:out_endofpacket -> rs232_uart_s1_agent:rf_sink_endofpacket
-	wire         uart_module_top_0_avalon_master_agent_cp_valid;                                     // uart_module_top_0_avalon_master_agent:cp_valid -> router:sink_valid
-	wire  [57:0] uart_module_top_0_avalon_master_agent_cp_data;                                      // uart_module_top_0_avalon_master_agent:cp_data -> router:sink_data
-	wire         uart_module_top_0_avalon_master_agent_cp_ready;                                     // router:sink_ready -> uart_module_top_0_avalon_master_agent:cp_ready
-	wire         uart_module_top_0_avalon_master_agent_cp_startofpacket;                             // uart_module_top_0_avalon_master_agent:cp_startofpacket -> router:sink_startofpacket
-	wire         uart_module_top_0_avalon_master_agent_cp_endofpacket;                               // uart_module_top_0_avalon_master_agent:cp_endofpacket -> router:sink_endofpacket
-	wire         router_src_valid;                                                                   // router:src_valid -> cmd_demux:sink_valid
-	wire  [57:0] router_src_data;                                                                    // router:src_data -> cmd_demux:sink_data
-	wire         router_src_ready;                                                                   // cmd_demux:sink_ready -> router:src_ready
-	wire   [0:0] router_src_channel;                                                                 // router:src_channel -> cmd_demux:sink_channel
-	wire         router_src_startofpacket;                                                           // router:src_startofpacket -> cmd_demux:sink_startofpacket
-	wire         router_src_endofpacket;                                                             // router:src_endofpacket -> cmd_demux:sink_endofpacket
-	wire         rs232_uart_s1_agent_rp_valid;                                                       // rs232_uart_s1_agent:rp_valid -> router_001:sink_valid
-	wire  [75:0] rs232_uart_s1_agent_rp_data;                                                        // rs232_uart_s1_agent:rp_data -> router_001:sink_data
-	wire         rs232_uart_s1_agent_rp_ready;                                                       // router_001:sink_ready -> rs232_uart_s1_agent:rp_ready
-	wire         rs232_uart_s1_agent_rp_startofpacket;                                               // rs232_uart_s1_agent:rp_startofpacket -> router_001:sink_startofpacket
-	wire         rs232_uart_s1_agent_rp_endofpacket;                                                 // rs232_uart_s1_agent:rp_endofpacket -> router_001:sink_endofpacket
-	wire         cmd_demux_src0_valid;                                                               // cmd_demux:src0_valid -> cmd_mux:sink0_valid
-	wire  [57:0] cmd_demux_src0_data;                                                                // cmd_demux:src0_data -> cmd_mux:sink0_data
-	wire         cmd_demux_src0_ready;                                                               // cmd_mux:sink0_ready -> cmd_demux:src0_ready
-	wire   [0:0] cmd_demux_src0_channel;                                                             // cmd_demux:src0_channel -> cmd_mux:sink0_channel
-	wire         cmd_demux_src0_startofpacket;                                                       // cmd_demux:src0_startofpacket -> cmd_mux:sink0_startofpacket
-	wire         cmd_demux_src0_endofpacket;                                                         // cmd_demux:src0_endofpacket -> cmd_mux:sink0_endofpacket
-	wire         rsp_demux_src0_valid;                                                               // rsp_demux:src0_valid -> rsp_mux:sink0_valid
-	wire  [57:0] rsp_demux_src0_data;                                                                // rsp_demux:src0_data -> rsp_mux:sink0_data
-	wire         rsp_demux_src0_ready;                                                               // rsp_mux:sink0_ready -> rsp_demux:src0_ready
-	wire   [0:0] rsp_demux_src0_channel;                                                             // rsp_demux:src0_channel -> rsp_mux:sink0_channel
-	wire         rsp_demux_src0_startofpacket;                                                       // rsp_demux:src0_startofpacket -> rsp_mux:sink0_startofpacket
-	wire         rsp_demux_src0_endofpacket;                                                         // rsp_demux:src0_endofpacket -> rsp_mux:sink0_endofpacket
-	wire         cmd_mux_src_valid;                                                                  // cmd_mux:src_valid -> rs232_uart_s1_cmd_width_adapter:in_valid
-	wire  [57:0] cmd_mux_src_data;                                                                   // cmd_mux:src_data -> rs232_uart_s1_cmd_width_adapter:in_data
-	wire         cmd_mux_src_ready;                                                                  // rs232_uart_s1_cmd_width_adapter:in_ready -> cmd_mux:src_ready
-	wire   [0:0] cmd_mux_src_channel;                                                                // cmd_mux:src_channel -> rs232_uart_s1_cmd_width_adapter:in_channel
-	wire         cmd_mux_src_startofpacket;                                                          // cmd_mux:src_startofpacket -> rs232_uart_s1_cmd_width_adapter:in_startofpacket
-	wire         cmd_mux_src_endofpacket;                                                            // cmd_mux:src_endofpacket -> rs232_uart_s1_cmd_width_adapter:in_endofpacket
-	wire         rs232_uart_s1_cmd_width_adapter_src_valid;                                          // rs232_uart_s1_cmd_width_adapter:out_valid -> rs232_uart_s1_agent:cp_valid
-	wire  [75:0] rs232_uart_s1_cmd_width_adapter_src_data;                                           // rs232_uart_s1_cmd_width_adapter:out_data -> rs232_uart_s1_agent:cp_data
-	wire         rs232_uart_s1_cmd_width_adapter_src_ready;                                          // rs232_uart_s1_agent:cp_ready -> rs232_uart_s1_cmd_width_adapter:out_ready
-	wire   [0:0] rs232_uart_s1_cmd_width_adapter_src_channel;                                        // rs232_uart_s1_cmd_width_adapter:out_channel -> rs232_uart_s1_agent:cp_channel
-	wire         rs232_uart_s1_cmd_width_adapter_src_startofpacket;                                  // rs232_uart_s1_cmd_width_adapter:out_startofpacket -> rs232_uart_s1_agent:cp_startofpacket
-	wire         rs232_uart_s1_cmd_width_adapter_src_endofpacket;                                    // rs232_uart_s1_cmd_width_adapter:out_endofpacket -> rs232_uart_s1_agent:cp_endofpacket
-	wire         router_001_src_valid;                                                               // router_001:src_valid -> rs232_uart_s1_rsp_width_adapter:in_valid
-	wire  [75:0] router_001_src_data;                                                                // router_001:src_data -> rs232_uart_s1_rsp_width_adapter:in_data
-	wire         router_001_src_ready;                                                               // rs232_uart_s1_rsp_width_adapter:in_ready -> router_001:src_ready
-	wire   [0:0] router_001_src_channel;                                                             // router_001:src_channel -> rs232_uart_s1_rsp_width_adapter:in_channel
-	wire         router_001_src_startofpacket;                                                       // router_001:src_startofpacket -> rs232_uart_s1_rsp_width_adapter:in_startofpacket
-	wire         router_001_src_endofpacket;                                                         // router_001:src_endofpacket -> rs232_uart_s1_rsp_width_adapter:in_endofpacket
-	wire         rs232_uart_s1_rsp_width_adapter_src_valid;                                          // rs232_uart_s1_rsp_width_adapter:out_valid -> rsp_demux:sink_valid
-	wire  [57:0] rs232_uart_s1_rsp_width_adapter_src_data;                                           // rs232_uart_s1_rsp_width_adapter:out_data -> rsp_demux:sink_data
-	wire         rs232_uart_s1_rsp_width_adapter_src_ready;                                          // rsp_demux:sink_ready -> rs232_uart_s1_rsp_width_adapter:out_ready
-	wire   [0:0] rs232_uart_s1_rsp_width_adapter_src_channel;                                        // rs232_uart_s1_rsp_width_adapter:out_channel -> rsp_demux:sink_channel
-	wire         rs232_uart_s1_rsp_width_adapter_src_startofpacket;                                  // rs232_uart_s1_rsp_width_adapter:out_startofpacket -> rsp_demux:sink_startofpacket
-	wire         rs232_uart_s1_rsp_width_adapter_src_endofpacket;                                    // rs232_uart_s1_rsp_width_adapter:out_endofpacket -> rsp_demux:sink_endofpacket
-	wire         rs232_uart_s1_agent_rdata_fifo_src_valid;                                           // rs232_uart_s1_agent:rdata_fifo_src_valid -> avalon_st_adapter:in_0_valid
-	wire  [33:0] rs232_uart_s1_agent_rdata_fifo_src_data;                                            // rs232_uart_s1_agent:rdata_fifo_src_data -> avalon_st_adapter:in_0_data
-	wire         rs232_uart_s1_agent_rdata_fifo_src_ready;                                           // avalon_st_adapter:in_0_ready -> rs232_uart_s1_agent:rdata_fifo_src_ready
-	wire         avalon_st_adapter_out_0_valid;                                                      // avalon_st_adapter:out_0_valid -> rs232_uart_s1_agent:rdata_fifo_sink_valid
-	wire  [33:0] avalon_st_adapter_out_0_data;                                                       // avalon_st_adapter:out_0_data -> rs232_uart_s1_agent:rdata_fifo_sink_data
-	wire         avalon_st_adapter_out_0_ready;                                                      // rs232_uart_s1_agent:rdata_fifo_sink_ready -> avalon_st_adapter:out_0_ready
-	wire   [0:0] avalon_st_adapter_out_0_error;                                                      // avalon_st_adapter:out_0_error -> rs232_uart_s1_agent:rdata_fifo_sink_error
+	wire         uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_waitrequest;   // uart_module_top_0_avalon_master_rs232_agent:av_waitrequest -> uart_module_top_0_avalon_master_rs232_translator:uav_waitrequest
+	wire  [15:0] uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_readdata;      // uart_module_top_0_avalon_master_rs232_agent:av_readdata -> uart_module_top_0_avalon_master_rs232_translator:uav_readdata
+	wire         uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_debugaccess;   // uart_module_top_0_avalon_master_rs232_translator:uav_debugaccess -> uart_module_top_0_avalon_master_rs232_agent:av_debugaccess
+	wire   [5:0] uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_address;       // uart_module_top_0_avalon_master_rs232_translator:uav_address -> uart_module_top_0_avalon_master_rs232_agent:av_address
+	wire         uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_read;          // uart_module_top_0_avalon_master_rs232_translator:uav_read -> uart_module_top_0_avalon_master_rs232_agent:av_read
+	wire   [1:0] uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_byteenable;    // uart_module_top_0_avalon_master_rs232_translator:uav_byteenable -> uart_module_top_0_avalon_master_rs232_agent:av_byteenable
+	wire         uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_readdatavalid; // uart_module_top_0_avalon_master_rs232_agent:av_readdatavalid -> uart_module_top_0_avalon_master_rs232_translator:uav_readdatavalid
+	wire         uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_lock;          // uart_module_top_0_avalon_master_rs232_translator:uav_lock -> uart_module_top_0_avalon_master_rs232_agent:av_lock
+	wire         uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_write;         // uart_module_top_0_avalon_master_rs232_translator:uav_write -> uart_module_top_0_avalon_master_rs232_agent:av_write
+	wire  [15:0] uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_writedata;     // uart_module_top_0_avalon_master_rs232_translator:uav_writedata -> uart_module_top_0_avalon_master_rs232_agent:av_writedata
+	wire   [1:0] uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_burstcount;    // uart_module_top_0_avalon_master_rs232_translator:uav_burstcount -> uart_module_top_0_avalon_master_rs232_agent:av_burstcount
+	wire         rsp_mux_src_valid;                                                                        // rsp_mux:src_valid -> uart_module_top_0_avalon_master_rs232_agent:rp_valid
+	wire  [57:0] rsp_mux_src_data;                                                                         // rsp_mux:src_data -> uart_module_top_0_avalon_master_rs232_agent:rp_data
+	wire         rsp_mux_src_ready;                                                                        // uart_module_top_0_avalon_master_rs232_agent:rp_ready -> rsp_mux:src_ready
+	wire   [0:0] rsp_mux_src_channel;                                                                      // rsp_mux:src_channel -> uart_module_top_0_avalon_master_rs232_agent:rp_channel
+	wire         rsp_mux_src_startofpacket;                                                                // rsp_mux:src_startofpacket -> uart_module_top_0_avalon_master_rs232_agent:rp_startofpacket
+	wire         rsp_mux_src_endofpacket;                                                                  // rsp_mux:src_endofpacket -> uart_module_top_0_avalon_master_rs232_agent:rp_endofpacket
+	wire  [31:0] rs232_uart_s1_agent_m0_readdata;                                                          // rs232_uart_s1_translator:uav_readdata -> rs232_uart_s1_agent:m0_readdata
+	wire         rs232_uart_s1_agent_m0_waitrequest;                                                       // rs232_uart_s1_translator:uav_waitrequest -> rs232_uart_s1_agent:m0_waitrequest
+	wire         rs232_uart_s1_agent_m0_debugaccess;                                                       // rs232_uart_s1_agent:m0_debugaccess -> rs232_uart_s1_translator:uav_debugaccess
+	wire   [5:0] rs232_uart_s1_agent_m0_address;                                                           // rs232_uart_s1_agent:m0_address -> rs232_uart_s1_translator:uav_address
+	wire   [3:0] rs232_uart_s1_agent_m0_byteenable;                                                        // rs232_uart_s1_agent:m0_byteenable -> rs232_uart_s1_translator:uav_byteenable
+	wire         rs232_uart_s1_agent_m0_read;                                                              // rs232_uart_s1_agent:m0_read -> rs232_uart_s1_translator:uav_read
+	wire         rs232_uart_s1_agent_m0_readdatavalid;                                                     // rs232_uart_s1_translator:uav_readdatavalid -> rs232_uart_s1_agent:m0_readdatavalid
+	wire         rs232_uart_s1_agent_m0_lock;                                                              // rs232_uart_s1_agent:m0_lock -> rs232_uart_s1_translator:uav_lock
+	wire  [31:0] rs232_uart_s1_agent_m0_writedata;                                                         // rs232_uart_s1_agent:m0_writedata -> rs232_uart_s1_translator:uav_writedata
+	wire         rs232_uart_s1_agent_m0_write;                                                             // rs232_uart_s1_agent:m0_write -> rs232_uart_s1_translator:uav_write
+	wire   [2:0] rs232_uart_s1_agent_m0_burstcount;                                                        // rs232_uart_s1_agent:m0_burstcount -> rs232_uart_s1_translator:uav_burstcount
+	wire         rs232_uart_s1_agent_rf_source_valid;                                                      // rs232_uart_s1_agent:rf_source_valid -> rs232_uart_s1_agent_rsp_fifo:in_valid
+	wire  [76:0] rs232_uart_s1_agent_rf_source_data;                                                       // rs232_uart_s1_agent:rf_source_data -> rs232_uart_s1_agent_rsp_fifo:in_data
+	wire         rs232_uart_s1_agent_rf_source_ready;                                                      // rs232_uart_s1_agent_rsp_fifo:in_ready -> rs232_uart_s1_agent:rf_source_ready
+	wire         rs232_uart_s1_agent_rf_source_startofpacket;                                              // rs232_uart_s1_agent:rf_source_startofpacket -> rs232_uart_s1_agent_rsp_fifo:in_startofpacket
+	wire         rs232_uart_s1_agent_rf_source_endofpacket;                                                // rs232_uart_s1_agent:rf_source_endofpacket -> rs232_uart_s1_agent_rsp_fifo:in_endofpacket
+	wire         rs232_uart_s1_agent_rsp_fifo_out_valid;                                                   // rs232_uart_s1_agent_rsp_fifo:out_valid -> rs232_uart_s1_agent:rf_sink_valid
+	wire  [76:0] rs232_uart_s1_agent_rsp_fifo_out_data;                                                    // rs232_uart_s1_agent_rsp_fifo:out_data -> rs232_uart_s1_agent:rf_sink_data
+	wire         rs232_uart_s1_agent_rsp_fifo_out_ready;                                                   // rs232_uart_s1_agent:rf_sink_ready -> rs232_uart_s1_agent_rsp_fifo:out_ready
+	wire         rs232_uart_s1_agent_rsp_fifo_out_startofpacket;                                           // rs232_uart_s1_agent_rsp_fifo:out_startofpacket -> rs232_uart_s1_agent:rf_sink_startofpacket
+	wire         rs232_uart_s1_agent_rsp_fifo_out_endofpacket;                                             // rs232_uart_s1_agent_rsp_fifo:out_endofpacket -> rs232_uart_s1_agent:rf_sink_endofpacket
+	wire         uart_module_top_0_avalon_master_rs232_agent_cp_valid;                                     // uart_module_top_0_avalon_master_rs232_agent:cp_valid -> router:sink_valid
+	wire  [57:0] uart_module_top_0_avalon_master_rs232_agent_cp_data;                                      // uart_module_top_0_avalon_master_rs232_agent:cp_data -> router:sink_data
+	wire         uart_module_top_0_avalon_master_rs232_agent_cp_ready;                                     // router:sink_ready -> uart_module_top_0_avalon_master_rs232_agent:cp_ready
+	wire         uart_module_top_0_avalon_master_rs232_agent_cp_startofpacket;                             // uart_module_top_0_avalon_master_rs232_agent:cp_startofpacket -> router:sink_startofpacket
+	wire         uart_module_top_0_avalon_master_rs232_agent_cp_endofpacket;                               // uart_module_top_0_avalon_master_rs232_agent:cp_endofpacket -> router:sink_endofpacket
+	wire         router_src_valid;                                                                         // router:src_valid -> cmd_demux:sink_valid
+	wire  [57:0] router_src_data;                                                                          // router:src_data -> cmd_demux:sink_data
+	wire         router_src_ready;                                                                         // cmd_demux:sink_ready -> router:src_ready
+	wire   [0:0] router_src_channel;                                                                       // router:src_channel -> cmd_demux:sink_channel
+	wire         router_src_startofpacket;                                                                 // router:src_startofpacket -> cmd_demux:sink_startofpacket
+	wire         router_src_endofpacket;                                                                   // router:src_endofpacket -> cmd_demux:sink_endofpacket
+	wire         rs232_uart_s1_agent_rp_valid;                                                             // rs232_uart_s1_agent:rp_valid -> router_001:sink_valid
+	wire  [75:0] rs232_uart_s1_agent_rp_data;                                                              // rs232_uart_s1_agent:rp_data -> router_001:sink_data
+	wire         rs232_uart_s1_agent_rp_ready;                                                             // router_001:sink_ready -> rs232_uart_s1_agent:rp_ready
+	wire         rs232_uart_s1_agent_rp_startofpacket;                                                     // rs232_uart_s1_agent:rp_startofpacket -> router_001:sink_startofpacket
+	wire         rs232_uart_s1_agent_rp_endofpacket;                                                       // rs232_uart_s1_agent:rp_endofpacket -> router_001:sink_endofpacket
+	wire         cmd_demux_src0_valid;                                                                     // cmd_demux:src0_valid -> cmd_mux:sink0_valid
+	wire  [57:0] cmd_demux_src0_data;                                                                      // cmd_demux:src0_data -> cmd_mux:sink0_data
+	wire         cmd_demux_src0_ready;                                                                     // cmd_mux:sink0_ready -> cmd_demux:src0_ready
+	wire   [0:0] cmd_demux_src0_channel;                                                                   // cmd_demux:src0_channel -> cmd_mux:sink0_channel
+	wire         cmd_demux_src0_startofpacket;                                                             // cmd_demux:src0_startofpacket -> cmd_mux:sink0_startofpacket
+	wire         cmd_demux_src0_endofpacket;                                                               // cmd_demux:src0_endofpacket -> cmd_mux:sink0_endofpacket
+	wire         rsp_demux_src0_valid;                                                                     // rsp_demux:src0_valid -> rsp_mux:sink0_valid
+	wire  [57:0] rsp_demux_src0_data;                                                                      // rsp_demux:src0_data -> rsp_mux:sink0_data
+	wire         rsp_demux_src0_ready;                                                                     // rsp_mux:sink0_ready -> rsp_demux:src0_ready
+	wire   [0:0] rsp_demux_src0_channel;                                                                   // rsp_demux:src0_channel -> rsp_mux:sink0_channel
+	wire         rsp_demux_src0_startofpacket;                                                             // rsp_demux:src0_startofpacket -> rsp_mux:sink0_startofpacket
+	wire         rsp_demux_src0_endofpacket;                                                               // rsp_demux:src0_endofpacket -> rsp_mux:sink0_endofpacket
+	wire         cmd_mux_src_valid;                                                                        // cmd_mux:src_valid -> rs232_uart_s1_cmd_width_adapter:in_valid
+	wire  [57:0] cmd_mux_src_data;                                                                         // cmd_mux:src_data -> rs232_uart_s1_cmd_width_adapter:in_data
+	wire         cmd_mux_src_ready;                                                                        // rs232_uart_s1_cmd_width_adapter:in_ready -> cmd_mux:src_ready
+	wire   [0:0] cmd_mux_src_channel;                                                                      // cmd_mux:src_channel -> rs232_uart_s1_cmd_width_adapter:in_channel
+	wire         cmd_mux_src_startofpacket;                                                                // cmd_mux:src_startofpacket -> rs232_uart_s1_cmd_width_adapter:in_startofpacket
+	wire         cmd_mux_src_endofpacket;                                                                  // cmd_mux:src_endofpacket -> rs232_uart_s1_cmd_width_adapter:in_endofpacket
+	wire         rs232_uart_s1_cmd_width_adapter_src_valid;                                                // rs232_uart_s1_cmd_width_adapter:out_valid -> rs232_uart_s1_agent:cp_valid
+	wire  [75:0] rs232_uart_s1_cmd_width_adapter_src_data;                                                 // rs232_uart_s1_cmd_width_adapter:out_data -> rs232_uart_s1_agent:cp_data
+	wire         rs232_uart_s1_cmd_width_adapter_src_ready;                                                // rs232_uart_s1_agent:cp_ready -> rs232_uart_s1_cmd_width_adapter:out_ready
+	wire   [0:0] rs232_uart_s1_cmd_width_adapter_src_channel;                                              // rs232_uart_s1_cmd_width_adapter:out_channel -> rs232_uart_s1_agent:cp_channel
+	wire         rs232_uart_s1_cmd_width_adapter_src_startofpacket;                                        // rs232_uart_s1_cmd_width_adapter:out_startofpacket -> rs232_uart_s1_agent:cp_startofpacket
+	wire         rs232_uart_s1_cmd_width_adapter_src_endofpacket;                                          // rs232_uart_s1_cmd_width_adapter:out_endofpacket -> rs232_uart_s1_agent:cp_endofpacket
+	wire         router_001_src_valid;                                                                     // router_001:src_valid -> rs232_uart_s1_rsp_width_adapter:in_valid
+	wire  [75:0] router_001_src_data;                                                                      // router_001:src_data -> rs232_uart_s1_rsp_width_adapter:in_data
+	wire         router_001_src_ready;                                                                     // rs232_uart_s1_rsp_width_adapter:in_ready -> router_001:src_ready
+	wire   [0:0] router_001_src_channel;                                                                   // router_001:src_channel -> rs232_uart_s1_rsp_width_adapter:in_channel
+	wire         router_001_src_startofpacket;                                                             // router_001:src_startofpacket -> rs232_uart_s1_rsp_width_adapter:in_startofpacket
+	wire         router_001_src_endofpacket;                                                               // router_001:src_endofpacket -> rs232_uart_s1_rsp_width_adapter:in_endofpacket
+	wire         rs232_uart_s1_rsp_width_adapter_src_valid;                                                // rs232_uart_s1_rsp_width_adapter:out_valid -> rsp_demux:sink_valid
+	wire  [57:0] rs232_uart_s1_rsp_width_adapter_src_data;                                                 // rs232_uart_s1_rsp_width_adapter:out_data -> rsp_demux:sink_data
+	wire         rs232_uart_s1_rsp_width_adapter_src_ready;                                                // rsp_demux:sink_ready -> rs232_uart_s1_rsp_width_adapter:out_ready
+	wire   [0:0] rs232_uart_s1_rsp_width_adapter_src_channel;                                              // rs232_uart_s1_rsp_width_adapter:out_channel -> rsp_demux:sink_channel
+	wire         rs232_uart_s1_rsp_width_adapter_src_startofpacket;                                        // rs232_uart_s1_rsp_width_adapter:out_startofpacket -> rsp_demux:sink_startofpacket
+	wire         rs232_uart_s1_rsp_width_adapter_src_endofpacket;                                          // rs232_uart_s1_rsp_width_adapter:out_endofpacket -> rsp_demux:sink_endofpacket
+	wire         rs232_uart_s1_agent_rdata_fifo_src_valid;                                                 // rs232_uart_s1_agent:rdata_fifo_src_valid -> avalon_st_adapter:in_0_valid
+	wire  [33:0] rs232_uart_s1_agent_rdata_fifo_src_data;                                                  // rs232_uart_s1_agent:rdata_fifo_src_data -> avalon_st_adapter:in_0_data
+	wire         rs232_uart_s1_agent_rdata_fifo_src_ready;                                                 // avalon_st_adapter:in_0_ready -> rs232_uart_s1_agent:rdata_fifo_src_ready
+	wire         avalon_st_adapter_out_0_valid;                                                            // avalon_st_adapter:out_0_valid -> rs232_uart_s1_agent:rdata_fifo_sink_valid
+	wire  [33:0] avalon_st_adapter_out_0_data;                                                             // avalon_st_adapter:out_0_data -> rs232_uart_s1_agent:rdata_fifo_sink_data
+	wire         avalon_st_adapter_out_0_ready;                                                            // rs232_uart_s1_agent:rdata_fifo_sink_ready -> avalon_st_adapter:out_0_ready
+	wire   [0:0] avalon_st_adapter_out_0_error;                                                            // avalon_st_adapter:out_0_error -> rs232_uart_s1_agent:rdata_fifo_sink_error
 
 	altera_merlin_master_translator #(
 		.AV_ADDRESS_W                (6),
@@ -147,40 +146,40 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.UAV_CONSTANT_BURST_BEHAVIOR (0),
 		.AV_LINEWRAPBURSTS           (0),
 		.AV_REGISTERINCOMINGSIGNALS  (0)
-	) uart_module_top_0_avalon_master_translator (
-		.clk                    (clk_50_clk_clk),                                                                     //                       clk.clk
-		.reset                  (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset),                           //                     reset.reset
-		.uav_address            (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_address),       // avalon_universal_master_0.address
-		.uav_burstcount         (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_burstcount),    //                          .burstcount
-		.uav_read               (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_read),          //                          .read
-		.uav_write              (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_write),         //                          .write
-		.uav_waitrequest        (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_waitrequest),   //                          .waitrequest
-		.uav_readdatavalid      (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_readdatavalid), //                          .readdatavalid
-		.uav_byteenable         (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_byteenable),    //                          .byteenable
-		.uav_readdata           (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_readdata),      //                          .readdata
-		.uav_writedata          (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_writedata),     //                          .writedata
-		.uav_lock               (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_lock),          //                          .lock
-		.uav_debugaccess        (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_debugaccess),   //                          .debugaccess
-		.av_address             (uart_module_top_0_avalon_master_address),                                            //      avalon_anti_master_0.address
-		.av_waitrequest         (uart_module_top_0_avalon_master_waitrequest),                                        //                          .waitrequest
-		.av_read                (uart_module_top_0_avalon_master_read),                                               //                          .read
-		.av_readdata            (uart_module_top_0_avalon_master_readdata),                                           //                          .readdata
-		.av_write               (uart_module_top_0_avalon_master_write),                                              //                          .write
-		.av_writedata           (uart_module_top_0_avalon_master_writedata),                                          //                          .writedata
-		.av_burstcount          (1'b1),                                                                               //               (terminated)
-		.av_byteenable          (2'b11),                                                                              //               (terminated)
-		.av_beginbursttransfer  (1'b0),                                                                               //               (terminated)
-		.av_begintransfer       (1'b0),                                                                               //               (terminated)
-		.av_chipselect          (1'b0),                                                                               //               (terminated)
-		.av_readdatavalid       (),                                                                                   //               (terminated)
-		.av_lock                (1'b0),                                                                               //               (terminated)
-		.av_debugaccess         (1'b0),                                                                               //               (terminated)
-		.uav_clken              (),                                                                                   //               (terminated)
-		.av_clken               (1'b1),                                                                               //               (terminated)
-		.uav_response           (2'b00),                                                                              //               (terminated)
-		.av_response            (),                                                                                   //               (terminated)
-		.uav_writeresponsevalid (1'b0),                                                                               //               (terminated)
-		.av_writeresponsevalid  ()                                                                                    //               (terminated)
+	) uart_module_top_0_avalon_master_rs232_translator (
+		.clk                    (clk_100_clk_clk),                                                                          //                       clk.clk
+		.reset                  (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset),                                 //                     reset.reset
+		.uav_address            (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_address),       // avalon_universal_master_0.address
+		.uav_burstcount         (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_burstcount),    //                          .burstcount
+		.uav_read               (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_read),          //                          .read
+		.uav_write              (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_write),         //                          .write
+		.uav_waitrequest        (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_waitrequest),   //                          .waitrequest
+		.uav_readdatavalid      (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_readdatavalid), //                          .readdatavalid
+		.uav_byteenable         (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_byteenable),    //                          .byteenable
+		.uav_readdata           (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_readdata),      //                          .readdata
+		.uav_writedata          (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_writedata),     //                          .writedata
+		.uav_lock               (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_lock),          //                          .lock
+		.uav_debugaccess        (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_debugaccess),   //                          .debugaccess
+		.av_address             (uart_module_top_0_avalon_master_rs232_address),                                            //      avalon_anti_master_0.address
+		.av_waitrequest         (uart_module_top_0_avalon_master_rs232_waitrequest),                                        //                          .waitrequest
+		.av_read                (uart_module_top_0_avalon_master_rs232_read),                                               //                          .read
+		.av_readdata            (uart_module_top_0_avalon_master_rs232_readdata),                                           //                          .readdata
+		.av_write               (uart_module_top_0_avalon_master_rs232_write),                                              //                          .write
+		.av_writedata           (uart_module_top_0_avalon_master_rs232_writedata),                                          //                          .writedata
+		.av_burstcount          (1'b1),                                                                                     //               (terminated)
+		.av_byteenable          (2'b11),                                                                                    //               (terminated)
+		.av_beginbursttransfer  (1'b0),                                                                                     //               (terminated)
+		.av_begintransfer       (1'b0),                                                                                     //               (terminated)
+		.av_chipselect          (1'b0),                                                                                     //               (terminated)
+		.av_readdatavalid       (),                                                                                         //               (terminated)
+		.av_lock                (1'b0),                                                                                     //               (terminated)
+		.av_debugaccess         (1'b0),                                                                                     //               (terminated)
+		.uav_clken              (),                                                                                         //               (terminated)
+		.av_clken               (1'b1),                                                                                     //               (terminated)
+		.uav_response           (2'b00),                                                                                    //               (terminated)
+		.av_response            (),                                                                                         //               (terminated)
+		.uav_writeresponsevalid (1'b0),                                                                                     //               (terminated)
+		.av_writeresponsevalid  ()                                                                                          //               (terminated)
 	);
 
 	altera_merlin_slave_translator #(
@@ -210,41 +209,41 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.AV_SETUP_WAIT_CYCLES           (0),
 		.AV_DATA_HOLD_CYCLES            (0)
 	) rs232_uart_s1_translator (
-		.clk                    (clk_50_clk_clk),                               //                      clk.clk
-		.reset                  (rs232_uart_reset_reset_bridge_in_reset_reset), //                    reset.reset
-		.uav_address            (rs232_uart_s1_agent_m0_address),               // avalon_universal_slave_0.address
-		.uav_burstcount         (rs232_uart_s1_agent_m0_burstcount),            //                         .burstcount
-		.uav_read               (rs232_uart_s1_agent_m0_read),                  //                         .read
-		.uav_write              (rs232_uart_s1_agent_m0_write),                 //                         .write
-		.uav_waitrequest        (rs232_uart_s1_agent_m0_waitrequest),           //                         .waitrequest
-		.uav_readdatavalid      (rs232_uart_s1_agent_m0_readdatavalid),         //                         .readdatavalid
-		.uav_byteenable         (rs232_uart_s1_agent_m0_byteenable),            //                         .byteenable
-		.uav_readdata           (rs232_uart_s1_agent_m0_readdata),              //                         .readdata
-		.uav_writedata          (rs232_uart_s1_agent_m0_writedata),             //                         .writedata
-		.uav_lock               (rs232_uart_s1_agent_m0_lock),                  //                         .lock
-		.uav_debugaccess        (rs232_uart_s1_agent_m0_debugaccess),           //                         .debugaccess
-		.av_address             (rs232_uart_s1_address),                        //      avalon_anti_slave_0.address
-		.av_write               (rs232_uart_s1_write),                          //                         .write
-		.av_read                (rs232_uart_s1_read),                           //                         .read
-		.av_readdata            (rs232_uart_s1_readdata),                       //                         .readdata
-		.av_writedata           (rs232_uart_s1_writedata),                      //                         .writedata
-		.av_begintransfer       (rs232_uart_s1_begintransfer),                  //                         .begintransfer
-		.av_chipselect          (rs232_uart_s1_chipselect),                     //                         .chipselect
-		.av_beginbursttransfer  (),                                             //              (terminated)
-		.av_burstcount          (),                                             //              (terminated)
-		.av_byteenable          (),                                             //              (terminated)
-		.av_readdatavalid       (1'b0),                                         //              (terminated)
-		.av_waitrequest         (1'b0),                                         //              (terminated)
-		.av_writebyteenable     (),                                             //              (terminated)
-		.av_lock                (),                                             //              (terminated)
-		.av_clken               (),                                             //              (terminated)
-		.uav_clken              (1'b0),                                         //              (terminated)
-		.av_debugaccess         (),                                             //              (terminated)
-		.av_outputenable        (),                                             //              (terminated)
-		.uav_response           (),                                             //              (terminated)
-		.av_response            (2'b00),                                        //              (terminated)
-		.uav_writeresponsevalid (),                                             //              (terminated)
-		.av_writeresponsevalid  (1'b0)                                          //              (terminated)
+		.clk                    (clk_100_clk_clk),                                          //                      clk.clk
+		.reset                  (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), //                    reset.reset
+		.uav_address            (rs232_uart_s1_agent_m0_address),                           // avalon_universal_slave_0.address
+		.uav_burstcount         (rs232_uart_s1_agent_m0_burstcount),                        //                         .burstcount
+		.uav_read               (rs232_uart_s1_agent_m0_read),                              //                         .read
+		.uav_write              (rs232_uart_s1_agent_m0_write),                             //                         .write
+		.uav_waitrequest        (rs232_uart_s1_agent_m0_waitrequest),                       //                         .waitrequest
+		.uav_readdatavalid      (rs232_uart_s1_agent_m0_readdatavalid),                     //                         .readdatavalid
+		.uav_byteenable         (rs232_uart_s1_agent_m0_byteenable),                        //                         .byteenable
+		.uav_readdata           (rs232_uart_s1_agent_m0_readdata),                          //                         .readdata
+		.uav_writedata          (rs232_uart_s1_agent_m0_writedata),                         //                         .writedata
+		.uav_lock               (rs232_uart_s1_agent_m0_lock),                              //                         .lock
+		.uav_debugaccess        (rs232_uart_s1_agent_m0_debugaccess),                       //                         .debugaccess
+		.av_address             (rs232_uart_s1_address),                                    //      avalon_anti_slave_0.address
+		.av_write               (rs232_uart_s1_write),                                      //                         .write
+		.av_read                (rs232_uart_s1_read),                                       //                         .read
+		.av_readdata            (rs232_uart_s1_readdata),                                   //                         .readdata
+		.av_writedata           (rs232_uart_s1_writedata),                                  //                         .writedata
+		.av_begintransfer       (rs232_uart_s1_begintransfer),                              //                         .begintransfer
+		.av_chipselect          (rs232_uart_s1_chipselect),                                 //                         .chipselect
+		.av_beginbursttransfer  (),                                                         //              (terminated)
+		.av_burstcount          (),                                                         //              (terminated)
+		.av_byteenable          (),                                                         //              (terminated)
+		.av_readdatavalid       (1'b0),                                                     //              (terminated)
+		.av_waitrequest         (1'b0),                                                     //              (terminated)
+		.av_writebyteenable     (),                                                         //              (terminated)
+		.av_lock                (),                                                         //              (terminated)
+		.av_clken               (),                                                         //              (terminated)
+		.uav_clken              (1'b0),                                                     //              (terminated)
+		.av_debugaccess         (),                                                         //              (terminated)
+		.av_outputenable        (),                                                         //              (terminated)
+		.uav_response           (),                                                         //              (terminated)
+		.av_response            (2'b00),                                                    //              (terminated)
+		.uav_writeresponsevalid (),                                                         //              (terminated)
+		.av_writeresponsevalid  (1'b0)                                                      //              (terminated)
 	);
 
 	altera_merlin_master_agent #(
@@ -299,33 +298,33 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.SECURE_ACCESS_BIT         (1),
 		.USE_READRESPONSE          (0),
 		.USE_WRITERESPONSE         (0)
-	) uart_module_top_0_avalon_master_agent (
-		.clk                   (clk_50_clk_clk),                                                                     //       clk.clk
-		.reset                 (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset),                           // clk_reset.reset
-		.av_address            (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_address),       //        av.address
-		.av_write              (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_write),         //          .write
-		.av_read               (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_read),          //          .read
-		.av_writedata          (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_writedata),     //          .writedata
-		.av_readdata           (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_readdata),      //          .readdata
-		.av_waitrequest        (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_waitrequest),   //          .waitrequest
-		.av_readdatavalid      (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_readdatavalid), //          .readdatavalid
-		.av_byteenable         (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_byteenable),    //          .byteenable
-		.av_burstcount         (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_burstcount),    //          .burstcount
-		.av_debugaccess        (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_debugaccess),   //          .debugaccess
-		.av_lock               (uart_module_top_0_avalon_master_translator_avalon_universal_master_0_lock),          //          .lock
-		.cp_valid              (uart_module_top_0_avalon_master_agent_cp_valid),                                     //        cp.valid
-		.cp_data               (uart_module_top_0_avalon_master_agent_cp_data),                                      //          .data
-		.cp_startofpacket      (uart_module_top_0_avalon_master_agent_cp_startofpacket),                             //          .startofpacket
-		.cp_endofpacket        (uart_module_top_0_avalon_master_agent_cp_endofpacket),                               //          .endofpacket
-		.cp_ready              (uart_module_top_0_avalon_master_agent_cp_ready),                                     //          .ready
-		.rp_valid              (rsp_mux_src_valid),                                                                  //        rp.valid
-		.rp_data               (rsp_mux_src_data),                                                                   //          .data
-		.rp_channel            (rsp_mux_src_channel),                                                                //          .channel
-		.rp_startofpacket      (rsp_mux_src_startofpacket),                                                          //          .startofpacket
-		.rp_endofpacket        (rsp_mux_src_endofpacket),                                                            //          .endofpacket
-		.rp_ready              (rsp_mux_src_ready),                                                                  //          .ready
-		.av_response           (),                                                                                   // (terminated)
-		.av_writeresponsevalid ()                                                                                    // (terminated)
+	) uart_module_top_0_avalon_master_rs232_agent (
+		.clk                   (clk_100_clk_clk),                                                                          //       clk.clk
+		.reset                 (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset),                                 // clk_reset.reset
+		.av_address            (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_address),       //        av.address
+		.av_write              (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_write),         //          .write
+		.av_read               (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_read),          //          .read
+		.av_writedata          (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_writedata),     //          .writedata
+		.av_readdata           (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_readdata),      //          .readdata
+		.av_waitrequest        (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_waitrequest),   //          .waitrequest
+		.av_readdatavalid      (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_readdatavalid), //          .readdatavalid
+		.av_byteenable         (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_byteenable),    //          .byteenable
+		.av_burstcount         (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_burstcount),    //          .burstcount
+		.av_debugaccess        (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_debugaccess),   //          .debugaccess
+		.av_lock               (uart_module_top_0_avalon_master_rs232_translator_avalon_universal_master_0_lock),          //          .lock
+		.cp_valid              (uart_module_top_0_avalon_master_rs232_agent_cp_valid),                                     //        cp.valid
+		.cp_data               (uart_module_top_0_avalon_master_rs232_agent_cp_data),                                      //          .data
+		.cp_startofpacket      (uart_module_top_0_avalon_master_rs232_agent_cp_startofpacket),                             //          .startofpacket
+		.cp_endofpacket        (uart_module_top_0_avalon_master_rs232_agent_cp_endofpacket),                               //          .endofpacket
+		.cp_ready              (uart_module_top_0_avalon_master_rs232_agent_cp_ready),                                     //          .ready
+		.rp_valid              (rsp_mux_src_valid),                                                                        //        rp.valid
+		.rp_data               (rsp_mux_src_data),                                                                         //          .data
+		.rp_channel            (rsp_mux_src_channel),                                                                      //          .channel
+		.rp_startofpacket      (rsp_mux_src_startofpacket),                                                                //          .startofpacket
+		.rp_endofpacket        (rsp_mux_src_endofpacket),                                                                  //          .endofpacket
+		.rp_ready              (rsp_mux_src_ready),                                                                        //          .ready
+		.av_response           (),                                                                                         // (terminated)
+		.av_writeresponsevalid ()                                                                                          // (terminated)
 	);
 
 	altera_merlin_slave_agent #(
@@ -367,49 +366,49 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.USE_WRITERESPONSE         (0),
 		.ECC_ENABLE                (0)
 	) rs232_uart_s1_agent (
-		.clk                     (clk_50_clk_clk),                                    //             clk.clk
-		.reset                   (rs232_uart_reset_reset_bridge_in_reset_reset),      //       clk_reset.reset
-		.m0_address              (rs232_uart_s1_agent_m0_address),                    //              m0.address
-		.m0_burstcount           (rs232_uart_s1_agent_m0_burstcount),                 //                .burstcount
-		.m0_byteenable           (rs232_uart_s1_agent_m0_byteenable),                 //                .byteenable
-		.m0_debugaccess          (rs232_uart_s1_agent_m0_debugaccess),                //                .debugaccess
-		.m0_lock                 (rs232_uart_s1_agent_m0_lock),                       //                .lock
-		.m0_readdata             (rs232_uart_s1_agent_m0_readdata),                   //                .readdata
-		.m0_readdatavalid        (rs232_uart_s1_agent_m0_readdatavalid),              //                .readdatavalid
-		.m0_read                 (rs232_uart_s1_agent_m0_read),                       //                .read
-		.m0_waitrequest          (rs232_uart_s1_agent_m0_waitrequest),                //                .waitrequest
-		.m0_writedata            (rs232_uart_s1_agent_m0_writedata),                  //                .writedata
-		.m0_write                (rs232_uart_s1_agent_m0_write),                      //                .write
-		.rp_endofpacket          (rs232_uart_s1_agent_rp_endofpacket),                //              rp.endofpacket
-		.rp_ready                (rs232_uart_s1_agent_rp_ready),                      //                .ready
-		.rp_valid                (rs232_uart_s1_agent_rp_valid),                      //                .valid
-		.rp_data                 (rs232_uart_s1_agent_rp_data),                       //                .data
-		.rp_startofpacket        (rs232_uart_s1_agent_rp_startofpacket),              //                .startofpacket
-		.cp_ready                (rs232_uart_s1_cmd_width_adapter_src_ready),         //              cp.ready
-		.cp_valid                (rs232_uart_s1_cmd_width_adapter_src_valid),         //                .valid
-		.cp_data                 (rs232_uart_s1_cmd_width_adapter_src_data),          //                .data
-		.cp_startofpacket        (rs232_uart_s1_cmd_width_adapter_src_startofpacket), //                .startofpacket
-		.cp_endofpacket          (rs232_uart_s1_cmd_width_adapter_src_endofpacket),   //                .endofpacket
-		.cp_channel              (rs232_uart_s1_cmd_width_adapter_src_channel),       //                .channel
-		.rf_sink_ready           (rs232_uart_s1_agent_rsp_fifo_out_ready),            //         rf_sink.ready
-		.rf_sink_valid           (rs232_uart_s1_agent_rsp_fifo_out_valid),            //                .valid
-		.rf_sink_startofpacket   (rs232_uart_s1_agent_rsp_fifo_out_startofpacket),    //                .startofpacket
-		.rf_sink_endofpacket     (rs232_uart_s1_agent_rsp_fifo_out_endofpacket),      //                .endofpacket
-		.rf_sink_data            (rs232_uart_s1_agent_rsp_fifo_out_data),             //                .data
-		.rf_source_ready         (rs232_uart_s1_agent_rf_source_ready),               //       rf_source.ready
-		.rf_source_valid         (rs232_uart_s1_agent_rf_source_valid),               //                .valid
-		.rf_source_startofpacket (rs232_uart_s1_agent_rf_source_startofpacket),       //                .startofpacket
-		.rf_source_endofpacket   (rs232_uart_s1_agent_rf_source_endofpacket),         //                .endofpacket
-		.rf_source_data          (rs232_uart_s1_agent_rf_source_data),                //                .data
-		.rdata_fifo_sink_ready   (avalon_st_adapter_out_0_ready),                     // rdata_fifo_sink.ready
-		.rdata_fifo_sink_valid   (avalon_st_adapter_out_0_valid),                     //                .valid
-		.rdata_fifo_sink_data    (avalon_st_adapter_out_0_data),                      //                .data
-		.rdata_fifo_sink_error   (avalon_st_adapter_out_0_error),                     //                .error
-		.rdata_fifo_src_ready    (rs232_uart_s1_agent_rdata_fifo_src_ready),          //  rdata_fifo_src.ready
-		.rdata_fifo_src_valid    (rs232_uart_s1_agent_rdata_fifo_src_valid),          //                .valid
-		.rdata_fifo_src_data     (rs232_uart_s1_agent_rdata_fifo_src_data),           //                .data
-		.m0_response             (2'b00),                                             //     (terminated)
-		.m0_writeresponsevalid   (1'b0)                                               //     (terminated)
+		.clk                     (clk_100_clk_clk),                                          //             clk.clk
+		.reset                   (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), //       clk_reset.reset
+		.m0_address              (rs232_uart_s1_agent_m0_address),                           //              m0.address
+		.m0_burstcount           (rs232_uart_s1_agent_m0_burstcount),                        //                .burstcount
+		.m0_byteenable           (rs232_uart_s1_agent_m0_byteenable),                        //                .byteenable
+		.m0_debugaccess          (rs232_uart_s1_agent_m0_debugaccess),                       //                .debugaccess
+		.m0_lock                 (rs232_uart_s1_agent_m0_lock),                              //                .lock
+		.m0_readdata             (rs232_uart_s1_agent_m0_readdata),                          //                .readdata
+		.m0_readdatavalid        (rs232_uart_s1_agent_m0_readdatavalid),                     //                .readdatavalid
+		.m0_read                 (rs232_uart_s1_agent_m0_read),                              //                .read
+		.m0_waitrequest          (rs232_uart_s1_agent_m0_waitrequest),                       //                .waitrequest
+		.m0_writedata            (rs232_uart_s1_agent_m0_writedata),                         //                .writedata
+		.m0_write                (rs232_uart_s1_agent_m0_write),                             //                .write
+		.rp_endofpacket          (rs232_uart_s1_agent_rp_endofpacket),                       //              rp.endofpacket
+		.rp_ready                (rs232_uart_s1_agent_rp_ready),                             //                .ready
+		.rp_valid                (rs232_uart_s1_agent_rp_valid),                             //                .valid
+		.rp_data                 (rs232_uart_s1_agent_rp_data),                              //                .data
+		.rp_startofpacket        (rs232_uart_s1_agent_rp_startofpacket),                     //                .startofpacket
+		.cp_ready                (rs232_uart_s1_cmd_width_adapter_src_ready),                //              cp.ready
+		.cp_valid                (rs232_uart_s1_cmd_width_adapter_src_valid),                //                .valid
+		.cp_data                 (rs232_uart_s1_cmd_width_adapter_src_data),                 //                .data
+		.cp_startofpacket        (rs232_uart_s1_cmd_width_adapter_src_startofpacket),        //                .startofpacket
+		.cp_endofpacket          (rs232_uart_s1_cmd_width_adapter_src_endofpacket),          //                .endofpacket
+		.cp_channel              (rs232_uart_s1_cmd_width_adapter_src_channel),              //                .channel
+		.rf_sink_ready           (rs232_uart_s1_agent_rsp_fifo_out_ready),                   //         rf_sink.ready
+		.rf_sink_valid           (rs232_uart_s1_agent_rsp_fifo_out_valid),                   //                .valid
+		.rf_sink_startofpacket   (rs232_uart_s1_agent_rsp_fifo_out_startofpacket),           //                .startofpacket
+		.rf_sink_endofpacket     (rs232_uart_s1_agent_rsp_fifo_out_endofpacket),             //                .endofpacket
+		.rf_sink_data            (rs232_uart_s1_agent_rsp_fifo_out_data),                    //                .data
+		.rf_source_ready         (rs232_uart_s1_agent_rf_source_ready),                      //       rf_source.ready
+		.rf_source_valid         (rs232_uart_s1_agent_rf_source_valid),                      //                .valid
+		.rf_source_startofpacket (rs232_uart_s1_agent_rf_source_startofpacket),              //                .startofpacket
+		.rf_source_endofpacket   (rs232_uart_s1_agent_rf_source_endofpacket),                //                .endofpacket
+		.rf_source_data          (rs232_uart_s1_agent_rf_source_data),                       //                .data
+		.rdata_fifo_sink_ready   (avalon_st_adapter_out_0_ready),                            // rdata_fifo_sink.ready
+		.rdata_fifo_sink_valid   (avalon_st_adapter_out_0_valid),                            //                .valid
+		.rdata_fifo_sink_data    (avalon_st_adapter_out_0_data),                             //                .data
+		.rdata_fifo_sink_error   (avalon_st_adapter_out_0_error),                            //                .error
+		.rdata_fifo_src_ready    (rs232_uart_s1_agent_rdata_fifo_src_ready),                 //  rdata_fifo_src.ready
+		.rdata_fifo_src_valid    (rs232_uart_s1_agent_rdata_fifo_src_valid),                 //                .valid
+		.rdata_fifo_src_data     (rs232_uart_s1_agent_rdata_fifo_src_data),                  //                .data
+		.m0_response             (2'b00),                                                    //     (terminated)
+		.m0_writeresponsevalid   (1'b0)                                                      //     (terminated)
 	);
 
 	altera_avalon_sc_fifo #(
@@ -426,67 +425,67 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) rs232_uart_s1_agent_rsp_fifo (
-		.clk               (clk_50_clk_clk),                                 //       clk.clk
-		.reset             (rs232_uart_reset_reset_bridge_in_reset_reset),   // clk_reset.reset
-		.in_data           (rs232_uart_s1_agent_rf_source_data),             //        in.data
-		.in_valid          (rs232_uart_s1_agent_rf_source_valid),            //          .valid
-		.in_ready          (rs232_uart_s1_agent_rf_source_ready),            //          .ready
-		.in_startofpacket  (rs232_uart_s1_agent_rf_source_startofpacket),    //          .startofpacket
-		.in_endofpacket    (rs232_uart_s1_agent_rf_source_endofpacket),      //          .endofpacket
-		.out_data          (rs232_uart_s1_agent_rsp_fifo_out_data),          //       out.data
-		.out_valid         (rs232_uart_s1_agent_rsp_fifo_out_valid),         //          .valid
-		.out_ready         (rs232_uart_s1_agent_rsp_fifo_out_ready),         //          .ready
-		.out_startofpacket (rs232_uart_s1_agent_rsp_fifo_out_startofpacket), //          .startofpacket
-		.out_endofpacket   (rs232_uart_s1_agent_rsp_fifo_out_endofpacket),   //          .endofpacket
-		.csr_address       (2'b00),                                          // (terminated)
-		.csr_read          (1'b0),                                           // (terminated)
-		.csr_write         (1'b0),                                           // (terminated)
-		.csr_readdata      (),                                               // (terminated)
-		.csr_writedata     (32'b00000000000000000000000000000000),           // (terminated)
-		.almost_full_data  (),                                               // (terminated)
-		.almost_empty_data (),                                               // (terminated)
-		.in_empty          (1'b0),                                           // (terminated)
-		.out_empty         (),                                               // (terminated)
-		.in_error          (1'b0),                                           // (terminated)
-		.out_error         (),                                               // (terminated)
-		.in_channel        (1'b0),                                           // (terminated)
-		.out_channel       ()                                                // (terminated)
+		.clk               (clk_100_clk_clk),                                          //       clk.clk
+		.reset             (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
+		.in_data           (rs232_uart_s1_agent_rf_source_data),                       //        in.data
+		.in_valid          (rs232_uart_s1_agent_rf_source_valid),                      //          .valid
+		.in_ready          (rs232_uart_s1_agent_rf_source_ready),                      //          .ready
+		.in_startofpacket  (rs232_uart_s1_agent_rf_source_startofpacket),              //          .startofpacket
+		.in_endofpacket    (rs232_uart_s1_agent_rf_source_endofpacket),                //          .endofpacket
+		.out_data          (rs232_uart_s1_agent_rsp_fifo_out_data),                    //       out.data
+		.out_valid         (rs232_uart_s1_agent_rsp_fifo_out_valid),                   //          .valid
+		.out_ready         (rs232_uart_s1_agent_rsp_fifo_out_ready),                   //          .ready
+		.out_startofpacket (rs232_uart_s1_agent_rsp_fifo_out_startofpacket),           //          .startofpacket
+		.out_endofpacket   (rs232_uart_s1_agent_rsp_fifo_out_endofpacket),             //          .endofpacket
+		.csr_address       (2'b00),                                                    // (terminated)
+		.csr_read          (1'b0),                                                     // (terminated)
+		.csr_write         (1'b0),                                                     // (terminated)
+		.csr_readdata      (),                                                         // (terminated)
+		.csr_writedata     (32'b00000000000000000000000000000000),                     // (terminated)
+		.almost_full_data  (),                                                         // (terminated)
+		.almost_empty_data (),                                                         // (terminated)
+		.in_empty          (1'b0),                                                     // (terminated)
+		.out_empty         (),                                                         // (terminated)
+		.in_error          (1'b0),                                                     // (terminated)
+		.out_error         (),                                                         // (terminated)
+		.in_channel        (1'b0),                                                     // (terminated)
+		.out_channel       ()                                                          // (terminated)
 	);
 
 	MebX_Qsys_Project_mm_interconnect_0_router router (
-		.sink_ready         (uart_module_top_0_avalon_master_agent_cp_ready),           //      sink.ready
-		.sink_valid         (uart_module_top_0_avalon_master_agent_cp_valid),           //          .valid
-		.sink_data          (uart_module_top_0_avalon_master_agent_cp_data),            //          .data
-		.sink_startofpacket (uart_module_top_0_avalon_master_agent_cp_startofpacket),   //          .startofpacket
-		.sink_endofpacket   (uart_module_top_0_avalon_master_agent_cp_endofpacket),     //          .endofpacket
-		.clk                (clk_50_clk_clk),                                           //       clk.clk
-		.reset              (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready          (router_src_ready),                                         //       src.ready
-		.src_valid          (router_src_valid),                                         //          .valid
-		.src_data           (router_src_data),                                          //          .data
-		.src_channel        (router_src_channel),                                       //          .channel
-		.src_startofpacket  (router_src_startofpacket),                                 //          .startofpacket
-		.src_endofpacket    (router_src_endofpacket)                                    //          .endofpacket
+		.sink_ready         (uart_module_top_0_avalon_master_rs232_agent_cp_ready),         //      sink.ready
+		.sink_valid         (uart_module_top_0_avalon_master_rs232_agent_cp_valid),         //          .valid
+		.sink_data          (uart_module_top_0_avalon_master_rs232_agent_cp_data),          //          .data
+		.sink_startofpacket (uart_module_top_0_avalon_master_rs232_agent_cp_startofpacket), //          .startofpacket
+		.sink_endofpacket   (uart_module_top_0_avalon_master_rs232_agent_cp_endofpacket),   //          .endofpacket
+		.clk                (clk_100_clk_clk),                                              //       clk.clk
+		.reset              (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset),     // clk_reset.reset
+		.src_ready          (router_src_ready),                                             //       src.ready
+		.src_valid          (router_src_valid),                                             //          .valid
+		.src_data           (router_src_data),                                              //          .data
+		.src_channel        (router_src_channel),                                           //          .channel
+		.src_startofpacket  (router_src_startofpacket),                                     //          .startofpacket
+		.src_endofpacket    (router_src_endofpacket)                                        //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_0_router_001 router_001 (
-		.sink_ready         (rs232_uart_s1_agent_rp_ready),                 //      sink.ready
-		.sink_valid         (rs232_uart_s1_agent_rp_valid),                 //          .valid
-		.sink_data          (rs232_uart_s1_agent_rp_data),                  //          .data
-		.sink_startofpacket (rs232_uart_s1_agent_rp_startofpacket),         //          .startofpacket
-		.sink_endofpacket   (rs232_uart_s1_agent_rp_endofpacket),           //          .endofpacket
-		.clk                (clk_50_clk_clk),                               //       clk.clk
-		.reset              (rs232_uart_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready          (router_001_src_ready),                         //       src.ready
-		.src_valid          (router_001_src_valid),                         //          .valid
-		.src_data           (router_001_src_data),                          //          .data
-		.src_channel        (router_001_src_channel),                       //          .channel
-		.src_startofpacket  (router_001_src_startofpacket),                 //          .startofpacket
-		.src_endofpacket    (router_001_src_endofpacket)                    //          .endofpacket
+		.sink_ready         (rs232_uart_s1_agent_rp_ready),                             //      sink.ready
+		.sink_valid         (rs232_uart_s1_agent_rp_valid),                             //          .valid
+		.sink_data          (rs232_uart_s1_agent_rp_data),                              //          .data
+		.sink_startofpacket (rs232_uart_s1_agent_rp_startofpacket),                     //          .startofpacket
+		.sink_endofpacket   (rs232_uart_s1_agent_rp_endofpacket),                       //          .endofpacket
+		.clk                (clk_100_clk_clk),                                          //       clk.clk
+		.reset              (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready          (router_001_src_ready),                                     //       src.ready
+		.src_valid          (router_001_src_valid),                                     //          .valid
+		.src_data           (router_001_src_data),                                      //          .data
+		.src_channel        (router_001_src_channel),                                   //          .channel
+		.src_startofpacket  (router_001_src_startofpacket),                             //          .startofpacket
+		.src_endofpacket    (router_001_src_endofpacket)                                //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_0_cmd_demux cmd_demux (
-		.clk                (clk_50_clk_clk),                                           //       clk.clk
+		.clk                (clk_100_clk_clk),                                          //       clk.clk
 		.reset              (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
 		.sink_ready         (router_src_ready),                                         //      sink.ready
 		.sink_channel       (router_src_channel),                                       //          .channel
@@ -503,41 +502,41 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 	);
 
 	MebX_Qsys_Project_mm_interconnect_0_cmd_mux cmd_mux (
-		.clk                 (clk_50_clk_clk),                               //       clk.clk
-		.reset               (rs232_uart_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready           (cmd_mux_src_ready),                            //       src.ready
-		.src_valid           (cmd_mux_src_valid),                            //          .valid
-		.src_data            (cmd_mux_src_data),                             //          .data
-		.src_channel         (cmd_mux_src_channel),                          //          .channel
-		.src_startofpacket   (cmd_mux_src_startofpacket),                    //          .startofpacket
-		.src_endofpacket     (cmd_mux_src_endofpacket),                      //          .endofpacket
-		.sink0_ready         (cmd_demux_src0_ready),                         //     sink0.ready
-		.sink0_valid         (cmd_demux_src0_valid),                         //          .valid
-		.sink0_channel       (cmd_demux_src0_channel),                       //          .channel
-		.sink0_data          (cmd_demux_src0_data),                          //          .data
-		.sink0_startofpacket (cmd_demux_src0_startofpacket),                 //          .startofpacket
-		.sink0_endofpacket   (cmd_demux_src0_endofpacket)                    //          .endofpacket
+		.clk                 (clk_100_clk_clk),                                          //       clk.clk
+		.reset               (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready           (cmd_mux_src_ready),                                        //       src.ready
+		.src_valid           (cmd_mux_src_valid),                                        //          .valid
+		.src_data            (cmd_mux_src_data),                                         //          .data
+		.src_channel         (cmd_mux_src_channel),                                      //          .channel
+		.src_startofpacket   (cmd_mux_src_startofpacket),                                //          .startofpacket
+		.src_endofpacket     (cmd_mux_src_endofpacket),                                  //          .endofpacket
+		.sink0_ready         (cmd_demux_src0_ready),                                     //     sink0.ready
+		.sink0_valid         (cmd_demux_src0_valid),                                     //          .valid
+		.sink0_channel       (cmd_demux_src0_channel),                                   //          .channel
+		.sink0_data          (cmd_demux_src0_data),                                      //          .data
+		.sink0_startofpacket (cmd_demux_src0_startofpacket),                             //          .startofpacket
+		.sink0_endofpacket   (cmd_demux_src0_endofpacket)                                //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_0_cmd_demux rsp_demux (
-		.clk                (clk_50_clk_clk),                                    //       clk.clk
-		.reset              (rs232_uart_reset_reset_bridge_in_reset_reset),      // clk_reset.reset
-		.sink_ready         (rs232_uart_s1_rsp_width_adapter_src_ready),         //      sink.ready
-		.sink_channel       (rs232_uart_s1_rsp_width_adapter_src_channel),       //          .channel
-		.sink_data          (rs232_uart_s1_rsp_width_adapter_src_data),          //          .data
-		.sink_startofpacket (rs232_uart_s1_rsp_width_adapter_src_startofpacket), //          .startofpacket
-		.sink_endofpacket   (rs232_uart_s1_rsp_width_adapter_src_endofpacket),   //          .endofpacket
-		.sink_valid         (rs232_uart_s1_rsp_width_adapter_src_valid),         //          .valid
-		.src0_ready         (rsp_demux_src0_ready),                              //      src0.ready
-		.src0_valid         (rsp_demux_src0_valid),                              //          .valid
-		.src0_data          (rsp_demux_src0_data),                               //          .data
-		.src0_channel       (rsp_demux_src0_channel),                            //          .channel
-		.src0_startofpacket (rsp_demux_src0_startofpacket),                      //          .startofpacket
-		.src0_endofpacket   (rsp_demux_src0_endofpacket)                         //          .endofpacket
+		.clk                (clk_100_clk_clk),                                          //       clk.clk
+		.reset              (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
+		.sink_ready         (rs232_uart_s1_rsp_width_adapter_src_ready),                //      sink.ready
+		.sink_channel       (rs232_uart_s1_rsp_width_adapter_src_channel),              //          .channel
+		.sink_data          (rs232_uart_s1_rsp_width_adapter_src_data),                 //          .data
+		.sink_startofpacket (rs232_uart_s1_rsp_width_adapter_src_startofpacket),        //          .startofpacket
+		.sink_endofpacket   (rs232_uart_s1_rsp_width_adapter_src_endofpacket),          //          .endofpacket
+		.sink_valid         (rs232_uart_s1_rsp_width_adapter_src_valid),                //          .valid
+		.src0_ready         (rsp_demux_src0_ready),                                     //      src0.ready
+		.src0_valid         (rsp_demux_src0_valid),                                     //          .valid
+		.src0_data          (rsp_demux_src0_data),                                      //          .data
+		.src0_channel       (rsp_demux_src0_channel),                                   //          .channel
+		.src0_startofpacket (rsp_demux_src0_startofpacket),                             //          .startofpacket
+		.src0_endofpacket   (rsp_demux_src0_endofpacket)                                //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_0_rsp_mux rsp_mux (
-		.clk                 (clk_50_clk_clk),                                           //       clk.clk
+		.clk                 (clk_100_clk_clk),                                          //       clk.clk
 		.reset               (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
 		.src_ready           (rsp_mux_src_ready),                                        //       src.ready
 		.src_valid           (rsp_mux_src_valid),                                        //          .valid
@@ -602,21 +601,21 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.PACKING                       (1),
 		.ENABLE_ADDRESS_ALIGNMENT      (0)
 	) rs232_uart_s1_cmd_width_adapter (
-		.clk                  (clk_50_clk_clk),                                    //       clk.clk
-		.reset                (rs232_uart_reset_reset_bridge_in_reset_reset),      // clk_reset.reset
-		.in_valid             (cmd_mux_src_valid),                                 //      sink.valid
-		.in_channel           (cmd_mux_src_channel),                               //          .channel
-		.in_startofpacket     (cmd_mux_src_startofpacket),                         //          .startofpacket
-		.in_endofpacket       (cmd_mux_src_endofpacket),                           //          .endofpacket
-		.in_ready             (cmd_mux_src_ready),                                 //          .ready
-		.in_data              (cmd_mux_src_data),                                  //          .data
-		.out_endofpacket      (rs232_uart_s1_cmd_width_adapter_src_endofpacket),   //       src.endofpacket
-		.out_data             (rs232_uart_s1_cmd_width_adapter_src_data),          //          .data
-		.out_channel          (rs232_uart_s1_cmd_width_adapter_src_channel),       //          .channel
-		.out_valid            (rs232_uart_s1_cmd_width_adapter_src_valid),         //          .valid
-		.out_ready            (rs232_uart_s1_cmd_width_adapter_src_ready),         //          .ready
-		.out_startofpacket    (rs232_uart_s1_cmd_width_adapter_src_startofpacket), //          .startofpacket
-		.in_command_size_data (3'b000)                                             // (terminated)
+		.clk                  (clk_100_clk_clk),                                          //       clk.clk
+		.reset                (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
+		.in_valid             (cmd_mux_src_valid),                                        //      sink.valid
+		.in_channel           (cmd_mux_src_channel),                                      //          .channel
+		.in_startofpacket     (cmd_mux_src_startofpacket),                                //          .startofpacket
+		.in_endofpacket       (cmd_mux_src_endofpacket),                                  //          .endofpacket
+		.in_ready             (cmd_mux_src_ready),                                        //          .ready
+		.in_data              (cmd_mux_src_data),                                         //          .data
+		.out_endofpacket      (rs232_uart_s1_cmd_width_adapter_src_endofpacket),          //       src.endofpacket
+		.out_data             (rs232_uart_s1_cmd_width_adapter_src_data),                 //          .data
+		.out_channel          (rs232_uart_s1_cmd_width_adapter_src_channel),              //          .channel
+		.out_valid            (rs232_uart_s1_cmd_width_adapter_src_valid),                //          .valid
+		.out_ready            (rs232_uart_s1_cmd_width_adapter_src_ready),                //          .ready
+		.out_startofpacket    (rs232_uart_s1_cmd_width_adapter_src_startofpacket),        //          .startofpacket
+		.in_command_size_data (3'b000)                                                    // (terminated)
 	);
 
 	altera_merlin_width_adapter #(
@@ -668,21 +667,21 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.PACKING                       (1),
 		.ENABLE_ADDRESS_ALIGNMENT      (0)
 	) rs232_uart_s1_rsp_width_adapter (
-		.clk                  (clk_50_clk_clk),                                    //       clk.clk
-		.reset                (rs232_uart_reset_reset_bridge_in_reset_reset),      // clk_reset.reset
-		.in_valid             (router_001_src_valid),                              //      sink.valid
-		.in_channel           (router_001_src_channel),                            //          .channel
-		.in_startofpacket     (router_001_src_startofpacket),                      //          .startofpacket
-		.in_endofpacket       (router_001_src_endofpacket),                        //          .endofpacket
-		.in_ready             (router_001_src_ready),                              //          .ready
-		.in_data              (router_001_src_data),                               //          .data
-		.out_endofpacket      (rs232_uart_s1_rsp_width_adapter_src_endofpacket),   //       src.endofpacket
-		.out_data             (rs232_uart_s1_rsp_width_adapter_src_data),          //          .data
-		.out_channel          (rs232_uart_s1_rsp_width_adapter_src_channel),       //          .channel
-		.out_valid            (rs232_uart_s1_rsp_width_adapter_src_valid),         //          .valid
-		.out_ready            (rs232_uart_s1_rsp_width_adapter_src_ready),         //          .ready
-		.out_startofpacket    (rs232_uart_s1_rsp_width_adapter_src_startofpacket), //          .startofpacket
-		.in_command_size_data (3'b000)                                             // (terminated)
+		.clk                  (clk_100_clk_clk),                                          //       clk.clk
+		.reset                (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // clk_reset.reset
+		.in_valid             (router_001_src_valid),                                     //      sink.valid
+		.in_channel           (router_001_src_channel),                                   //          .channel
+		.in_startofpacket     (router_001_src_startofpacket),                             //          .startofpacket
+		.in_endofpacket       (router_001_src_endofpacket),                               //          .endofpacket
+		.in_ready             (router_001_src_ready),                                     //          .ready
+		.in_data              (router_001_src_data),                                      //          .data
+		.out_endofpacket      (rs232_uart_s1_rsp_width_adapter_src_endofpacket),          //       src.endofpacket
+		.out_data             (rs232_uart_s1_rsp_width_adapter_src_data),                 //          .data
+		.out_channel          (rs232_uart_s1_rsp_width_adapter_src_channel),              //          .channel
+		.out_valid            (rs232_uart_s1_rsp_width_adapter_src_valid),                //          .valid
+		.out_ready            (rs232_uart_s1_rsp_width_adapter_src_ready),                //          .ready
+		.out_startofpacket    (rs232_uart_s1_rsp_width_adapter_src_startofpacket),        //          .startofpacket
+		.in_command_size_data (3'b000)                                                    // (terminated)
 	);
 
 	MebX_Qsys_Project_mm_interconnect_0_avalon_st_adapter #(
@@ -703,15 +702,15 @@ module MebX_Qsys_Project_mm_interconnect_0 (
 		.outUseReady     (1),
 		.outReadyLatency (0)
 	) avalon_st_adapter (
-		.in_clk_0_clk   (clk_50_clk_clk),                               // in_clk_0.clk
-		.in_rst_0_reset (rs232_uart_reset_reset_bridge_in_reset_reset), // in_rst_0.reset
-		.in_0_data      (rs232_uart_s1_agent_rdata_fifo_src_data),      //     in_0.data
-		.in_0_valid     (rs232_uart_s1_agent_rdata_fifo_src_valid),     //         .valid
-		.in_0_ready     (rs232_uart_s1_agent_rdata_fifo_src_ready),     //         .ready
-		.out_0_data     (avalon_st_adapter_out_0_data),                 //    out_0.data
-		.out_0_valid    (avalon_st_adapter_out_0_valid),                //         .valid
-		.out_0_ready    (avalon_st_adapter_out_0_ready),                //         .ready
-		.out_0_error    (avalon_st_adapter_out_0_error)                 //         .error
+		.in_clk_0_clk   (clk_100_clk_clk),                                          // in_clk_0.clk
+		.in_rst_0_reset (uart_module_top_0_reset_sink_reset_bridge_in_reset_reset), // in_rst_0.reset
+		.in_0_data      (rs232_uart_s1_agent_rdata_fifo_src_data),                  //     in_0.data
+		.in_0_valid     (rs232_uart_s1_agent_rdata_fifo_src_valid),                 //         .valid
+		.in_0_ready     (rs232_uart_s1_agent_rdata_fifo_src_ready),                 //         .ready
+		.out_0_data     (avalon_st_adapter_out_0_data),                             //    out_0.data
+		.out_0_valid    (avalon_st_adapter_out_0_valid),                            //         .valid
+		.out_0_ready    (avalon_st_adapter_out_0_ready),                            //         .ready
+		.out_0_error    (avalon_st_adapter_out_0_error)                             //         .error
 	);
 
 endmodule

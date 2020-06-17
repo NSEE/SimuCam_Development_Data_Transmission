@@ -199,11 +199,7 @@ module MebX_Qsys_Project (
 	tristate_conduit_tcm_read_n_out,
 	tristate_conduit_tcm_write_n_out,
 	tristate_conduit_tcm_data_out,
-	tristate_conduit_tcm_chipselect_n_out,
-	uart_module_uart_txd_signal,
-	uart_module_uart_rxd_signal,
-	uart_module_uart_rts_signal,
-	uart_module_uart_cts_signal);	
+	tristate_conduit_tcm_chipselect_n_out);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -405,8 +401,4 @@ module MebX_Qsys_Project (
 	output	[0:0]	tristate_conduit_tcm_write_n_out;
 	inout	[15:0]	tristate_conduit_tcm_data_out;
 	output	[0:0]	tristate_conduit_tcm_chipselect_n_out;
-	output		uart_module_uart_txd_signal;
-	input		uart_module_uart_rxd_signal;
-	input		uart_module_uart_rts_signal;
-	output		uart_module_uart_cts_signal;
 endmodule

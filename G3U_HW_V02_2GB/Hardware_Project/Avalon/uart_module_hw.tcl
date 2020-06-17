@@ -4,7 +4,7 @@
 
 
 # 
-# uart_module_top "uart_module_top" v1.0
+# uart_module_top "uart_module_top" v1.1
 #  2019.12.19.10:47:42
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME uart_module_top
-set_module_property VERSION 1.0
+set_module_property VERSION 1.1
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR ""
@@ -39,26 +39,28 @@ add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
 set_fileset_property QUARTUS_SYNTH TOP_LEVEL uart_module_top
 set_fileset_property QUARTUS_SYNTH ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property QUARTUS_SYNTH ENABLE_FILE_OVERWRITE_MODE true
-add_fileset_file avalon_mm_registers_pkg.vhd VHDL PATH UART_Module/REGISTERS/avalon_mm_registers_pkg.vhd
-add_fileset_file avalon_mm_pkg.vhd VHDL PATH UART_Module/AVALON/avalon_mm_pkg.vhd
-add_fileset_file avalon_mm_write_ent.vhd VHDL PATH UART_Module/AVALON/avalon_mm_write_ent.vhd
-add_fileset_file avalon_mm_read_ent.vhd VHDL PATH UART_Module/AVALON/avalon_mm_read_ent.vhd
+add_fileset_file avalon_mm_uart_registers_pkg.vhd VHDL PATH UART_Module/REGISTERS/avalon_mm_uart_registers_pkg.vhd
+add_fileset_file avalon_mm_uart_pkg.vhd VHDL PATH UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_pkg.vhd
+add_fileset_file avalon_mm_uart_write_ent.vhd VHDL PATH UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_write_ent.vhd
+add_fileset_file avalon_mm_uart_read_ent.vhd VHDL PATH UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_read_ent.vhd
 add_fileset_file data_fifo_sc_fifo.vhd VHDL PATH UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd
 add_fileset_file uart_rx_ent.vhd VHDL PATH UART_Module/UART/uart_rx_ent.vhd
 add_fileset_file uart_tx_ent.vhd VHDL PATH UART_Module/UART/uart_tx_ent.vhd
+add_fileset_file avm_uart_rs232_controller_ent.vhd VHDL PATH UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd
 add_fileset_file uart_module_top.vhd VHDL PATH UART_Module/uart_module_top.vhd TOP_LEVEL_FILE
 
 add_fileset SIM_VHDL SIM_VHDL "" ""
 set_fileset_property SIM_VHDL TOP_LEVEL uart_module_top
 set_fileset_property SIM_VHDL ENABLE_RELATIVE_INCLUDE_PATHS false
 set_fileset_property SIM_VHDL ENABLE_FILE_OVERWRITE_MODE true
-add_fileset_file uart_tx_ent.vhd VHDL PATH UART_Module/UART/uart_tx_ent.vhd
-add_fileset_file avalon_mm_registers_pkg.vhd VHDL PATH UART_Module/REGISTERS/avalon_mm_registers_pkg.vhd
-add_fileset_file avalon_mm_pkg.vhd VHDL PATH UART_Module/AVALON/avalon_mm_pkg.vhd
-add_fileset_file avalon_mm_write_ent.vhd VHDL PATH UART_Module/AVALON/avalon_mm_write_ent.vhd
-add_fileset_file avalon_mm_read_ent.vhd VHDL PATH UART_Module/AVALON/avalon_mm_read_ent.vhd
+add_fileset_file avalon_mm_uart_registers_pkg.vhd VHDL PATH UART_Module/REGISTERS/avalon_mm_uart_registers_pkg.vhd
+add_fileset_file avalon_mm_uart_pkg.vhd VHDL PATH UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_pkg.vhd
+add_fileset_file avalon_mm_uart_write_ent.vhd VHDL PATH UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_write_ent.vhd
+add_fileset_file avalon_mm_uart_read_ent.vhd VHDL PATH UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_read_ent.vhd
 add_fileset_file data_fifo_sc_fifo.vhd VHDL PATH UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd
 add_fileset_file uart_rx_ent.vhd VHDL PATH UART_Module/UART/uart_rx_ent.vhd
+add_fileset_file uart_tx_ent.vhd VHDL PATH UART_Module/UART/uart_tx_ent.vhd
+add_fileset_file avm_uart_rs232_controller_ent.vhd VHDL PATH UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd
 add_fileset_file uart_module_top.vhd VHDL PATH UART_Module/uart_module_top.vhd TOP_LEVEL_FILE
 
 
@@ -76,7 +78,7 @@ add_fileset_file uart_module_top.vhd VHDL PATH UART_Module/uart_module_top.vhd T
 # connection point reset_sink
 # 
 add_interface reset_sink reset end
-set_interface_property reset_sink associatedClock clock_sink
+set_interface_property reset_sink associatedClock clock_sink_100
 set_interface_property reset_sink synchronousEdges DEASSERT
 set_interface_property reset_sink ENABLED true
 set_interface_property reset_sink EXPORT_OF ""
@@ -84,110 +86,111 @@ set_interface_property reset_sink PORT_NAME_MAP ""
 set_interface_property reset_sink CMSIS_SVD_VARIABLES ""
 set_interface_property reset_sink SVD_ADDRESS_GROUP ""
 
-add_interface_port reset_sink reset_sink_reset reset Input 1
+add_interface_port reset_sink reset_sink_reset_i reset Input 1
 
 
 # 
-# connection point clock_sink
+# connection point clock_sink_100
 # 
-add_interface clock_sink clock end
-set_interface_property clock_sink clockRate 50000000
-set_interface_property clock_sink ENABLED true
-set_interface_property clock_sink EXPORT_OF ""
-set_interface_property clock_sink PORT_NAME_MAP ""
-set_interface_property clock_sink CMSIS_SVD_VARIABLES ""
-set_interface_property clock_sink SVD_ADDRESS_GROUP ""
+add_interface clock_sink_100 clock end
+set_interface_property clock_sink_100 clockRate 100000000
+set_interface_property clock_sink_100 ENABLED true
+set_interface_property clock_sink_100 EXPORT_OF ""
+set_interface_property clock_sink_100 PORT_NAME_MAP ""
+set_interface_property clock_sink_100 CMSIS_SVD_VARIABLES ""
+set_interface_property clock_sink_100 SVD_ADDRESS_GROUP ""
 
-add_interface_port clock_sink clock_sink_clk clk Input 1
+add_interface_port clock_sink_100 clock_sink_100_clk_i clk Input 1
 
 
 # 
 # connection point conduit_end
 # 
-add_interface conduit_end conduit end
-set_interface_property conduit_end associatedClock clock_sink
-set_interface_property conduit_end associatedReset ""
-set_interface_property conduit_end ENABLED true
-set_interface_property conduit_end EXPORT_OF ""
-set_interface_property conduit_end PORT_NAME_MAP ""
-set_interface_property conduit_end CMSIS_SVD_VARIABLES ""
-set_interface_property conduit_end SVD_ADDRESS_GROUP ""
-
-add_interface_port conduit_end uart_txd uart_txd_signal Output 1
-add_interface_port conduit_end uart_rxd uart_rxd_signal Input 1
-add_interface_port conduit_end uart_rts uart_rts_signal Input 1
-add_interface_port conduit_end uart_cts uart_cts_signal Output 1
-
-
-# 
-# connection point avalon_slave
-# 
-add_interface avalon_slave avalon end
-set_interface_property avalon_slave addressUnits WORDS
-set_interface_property avalon_slave associatedClock clock_sink
-set_interface_property avalon_slave associatedReset reset_sink
-set_interface_property avalon_slave bitsPerSymbol 8
-set_interface_property avalon_slave burstOnBurstBoundariesOnly false
-set_interface_property avalon_slave burstcountUnits WORDS
-set_interface_property avalon_slave explicitAddressSpan 0
-set_interface_property avalon_slave holdTime 0
-set_interface_property avalon_slave linewrapBursts false
-set_interface_property avalon_slave maximumPendingReadTransactions 0
-set_interface_property avalon_slave maximumPendingWriteTransactions 0
-set_interface_property avalon_slave readLatency 0
-set_interface_property avalon_slave readWaitTime 1
-set_interface_property avalon_slave setupTime 0
-set_interface_property avalon_slave timingUnits Cycles
-set_interface_property avalon_slave writeWaitTime 0
-set_interface_property avalon_slave ENABLED true
-set_interface_property avalon_slave EXPORT_OF ""
-set_interface_property avalon_slave PORT_NAME_MAP ""
-set_interface_property avalon_slave CMSIS_SVD_VARIABLES ""
-set_interface_property avalon_slave SVD_ADDRESS_GROUP ""
-
-add_interface_port avalon_slave avalon_slave_address address Input 8
-add_interface_port avalon_slave avalon_slave_read read Input 1
-add_interface_port avalon_slave avalon_slave_write write Input 1
-add_interface_port avalon_slave avalon_slave_waitrequest waitrequest Output 1
-add_interface_port avalon_slave avalon_slave_writedata writedata Input 32
-add_interface_port avalon_slave avalon_slave_readdata readdata Output 32
-set_interface_assignment avalon_slave embeddedsw.configuration.isFlash 0
-set_interface_assignment avalon_slave embeddedsw.configuration.isMemoryDevice 0
-set_interface_assignment avalon_slave embeddedsw.configuration.isNonVolatileStorage 0
-set_interface_assignment avalon_slave embeddedsw.configuration.isPrintableDevice 0
+#add_interface conduit_end conduit end
+#set_interface_property conduit_end associatedClock clock_sink_100
+#set_interface_property conduit_end associatedReset ""
+#set_interface_property conduit_end ENABLED true
+#set_interface_property conduit_end EXPORT_OF ""
+#set_interface_property conduit_end PORT_NAME_MAP ""
+#set_interface_property conduit_end CMSIS_SVD_VARIABLES ""
+#set_interface_property conduit_end SVD_ADDRESS_GROUP ""
+#
+#add_interface_port conduit_end uart_txd uart_txd_signal Output 1
+#add_interface_port conduit_end uart_rxd uart_rxd_signal Input 1
+#add_interface_port conduit_end uart_rts uart_rts_signal Input 1
+#add_interface_port conduit_end uart_cts uart_cts_signal Output 1
 
 
 # 
-# connection point avalon_master
+# connection point avalon_slave_uart
 # 
-add_interface avalon_master avalon start
-set_interface_property avalon_master addressUnits SYMBOLS
-set_interface_property avalon_master associatedClock clock_sink
-set_interface_property avalon_master associatedReset reset_sink
-set_interface_property avalon_master bitsPerSymbol 8
-set_interface_property avalon_master burstOnBurstBoundariesOnly false
-set_interface_property avalon_master burstcountUnits WORDS
-set_interface_property avalon_master doStreamReads false
-set_interface_property avalon_master doStreamWrites false
-set_interface_property avalon_master holdTime 0
-set_interface_property avalon_master linewrapBursts false
-set_interface_property avalon_master maximumPendingReadTransactions 0
-set_interface_property avalon_master maximumPendingWriteTransactions 0
-set_interface_property avalon_master readLatency 0
-set_interface_property avalon_master readWaitTime 1
-set_interface_property avalon_master setupTime 0
-set_interface_property avalon_master timingUnits Cycles
-set_interface_property avalon_master writeWaitTime 0
-set_interface_property avalon_master ENABLED true
-set_interface_property avalon_master EXPORT_OF ""
-set_interface_property avalon_master PORT_NAME_MAP ""
-set_interface_property avalon_master CMSIS_SVD_VARIABLES ""
-set_interface_property avalon_master SVD_ADDRESS_GROUP ""
+add_interface avalon_slave_uart avalon end
+set_interface_property avalon_slave_uart addressUnits WORDS
+set_interface_property avalon_slave_uart associatedClock clock_sink_100
+set_interface_property avalon_slave_uart associatedReset reset_sink
+set_interface_property avalon_slave_uart bitsPerSymbol 8
+set_interface_property avalon_slave_uart burstOnBurstBoundariesOnly false
+set_interface_property avalon_slave_uart burstcountUnits WORDS
+set_interface_property avalon_slave_uart explicitAddressSpan 0
+set_interface_property avalon_slave_uart holdTime 0
+set_interface_property avalon_slave_uart linewrapBursts false
+set_interface_property avalon_slave_uart maximumPendingReadTransactions 0
+set_interface_property avalon_slave_uart maximumPendingWriteTransactions 0
+set_interface_property avalon_slave_uart readLatency 0
+set_interface_property avalon_slave_uart readWaitTime 1
+set_interface_property avalon_slave_uart setupTime 0
+set_interface_property avalon_slave_uart timingUnits Cycles
+set_interface_property avalon_slave_uart writeWaitTime 0
+set_interface_property avalon_slave_uart ENABLED true
+set_interface_property avalon_slave_uart EXPORT_OF ""
+set_interface_property avalon_slave_uart PORT_NAME_MAP ""
+set_interface_property avalon_slave_uart CMSIS_SVD_VARIABLES ""
+set_interface_property avalon_slave_uart SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_master avalon_master_address address Output 6
-add_interface_port avalon_master avalon_master_read read Output 1
-add_interface_port avalon_master avalon_master_write write Output 1
-add_interface_port avalon_master avalon_master_writedata writedata Output 16
-add_interface_port avalon_master avalon_master_readdata readdata Input 16
-add_interface_port avalon_master avalon_master_waitrequest waitrequest Input 1
+add_interface_port avalon_slave_uart avalon_slave_uart_address_i address Input 8
+add_interface_port avalon_slave_uart avalon_slave_uart_byteenable_i byteenable Input 4
+add_interface_port avalon_slave_uart avalon_slave_uart_write_i write Input 1
+add_interface_port avalon_slave_uart avalon_slave_uart_writedata_i writedata Input 32
+add_interface_port avalon_slave_uart avalon_slave_uart_read_i read Input 1
+add_interface_port avalon_slave_uart avalon_slave_uart_readdata_o readdata Output 32
+add_interface_port avalon_slave_uart avalon_slave_uart_waitrequest_o waitrequest Output 1
+set_interface_assignment avalon_slave_uart embeddedsw.configuration.isFlash 0
+set_interface_assignment avalon_slave_uart embeddedsw.configuration.isMemoryDevice 0
+set_interface_assignment avalon_slave_uart embeddedsw.configuration.isNonVolatileStorage 0
+set_interface_assignment avalon_slave_uart embeddedsw.configuration.isPrintableDevice 0
+
+
+# 
+# connection point avalon_master_rs232
+# 
+add_interface avalon_master_rs232 avalon start
+set_interface_property avalon_master_rs232 addressUnits SYMBOLS
+set_interface_property avalon_master_rs232 associatedClock clock_sink_100
+set_interface_property avalon_master_rs232 associatedReset reset_sink
+set_interface_property avalon_master_rs232 bitsPerSymbol 8
+set_interface_property avalon_master_rs232 burstOnBurstBoundariesOnly false
+set_interface_property avalon_master_rs232 burstcountUnits WORDS
+set_interface_property avalon_master_rs232 doStreamReads false
+set_interface_property avalon_master_rs232 doStreamWrites false
+set_interface_property avalon_master_rs232 holdTime 0
+set_interface_property avalon_master_rs232 linewrapBursts false
+set_interface_property avalon_master_rs232 maximumPendingReadTransactions 0
+set_interface_property avalon_master_rs232 maximumPendingWriteTransactions 0
+set_interface_property avalon_master_rs232 readLatency 0
+set_interface_property avalon_master_rs232 readWaitTime 1
+set_interface_property avalon_master_rs232 setupTime 0
+set_interface_property avalon_master_rs232 timingUnits Cycles
+set_interface_property avalon_master_rs232 writeWaitTime 0
+set_interface_property avalon_master_rs232 ENABLED true
+set_interface_property avalon_master_rs232 EXPORT_OF ""
+set_interface_property avalon_master_rs232 PORT_NAME_MAP ""
+set_interface_property avalon_master_rs232 CMSIS_SVD_VARIABLES ""
+set_interface_property avalon_master_rs232 SVD_ADDRESS_GROUP ""
+
+add_interface_port avalon_master_rs232 avalon_master_rs232_readdata_i readdata Input 16
+add_interface_port avalon_master_rs232 avalon_master_rs232_waitrequest_i waitrequest Input 1
+add_interface_port avalon_master_rs232 avalon_master_rs232_address_o address Output 6
+add_interface_port avalon_master_rs232 avalon_master_rs232_write_o write Output 1
+add_interface_port avalon_master_rs232 avalon_master_rs232_writedata_o writedata Output 16
+add_interface_port avalon_master_rs232 avalon_master_rs232_read_o read Output 1
 

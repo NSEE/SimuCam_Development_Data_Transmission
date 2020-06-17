@@ -50,9 +50,9 @@ module MebX_Qsys_Project_mm_interconnect_1_router_001_default_decode
                DEFAULT_DESTID = 32 
    )
   (output [114 - 109 : 0] default_destination_id,
-   output [39-1 : 0] default_wr_channel,
-   output [39-1 : 0] default_rd_channel,
-   output [39-1 : 0] default_src_channel
+   output [40-1 : 0] default_wr_channel,
+   output [40-1 : 0] default_rd_channel,
+   output [40-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
@@ -63,7 +63,7 @@ module MebX_Qsys_Project_mm_interconnect_1_router_001_default_decode
       assign default_src_channel = '0;
     end
     else begin : default_channel_assignment
-      assign default_src_channel = 39'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 40'b1 << DEFAULT_CHANNEL;
     end
   endgenerate
 
@@ -73,8 +73,8 @@ module MebX_Qsys_Project_mm_interconnect_1_router_001_default_decode
       assign default_rd_channel = '0;
     end
     else begin : default_rw_channel_assignment
-      assign default_wr_channel = 39'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 39'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 40'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 40'b1 << DEFAULT_RD_CHANNEL;
     end
   endgenerate
 
@@ -103,7 +103,7 @@ module MebX_Qsys_Project_mm_interconnect_1_router_001
     // -------------------
     output                          src_valid,
     output reg [128-1    : 0] src_data,
-    output reg [39-1 : 0] src_channel,
+    output reg [40-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -119,7 +119,7 @@ module MebX_Qsys_Project_mm_interconnect_1_router_001
     localparam PKT_PROTECTION_H = 118;
     localparam PKT_PROTECTION_L = 116;
     localparam ST_DATA_W = 128;
-    localparam ST_CHANNEL_W = 39;
+    localparam ST_CHANNEL_W = 40;
     localparam DECODER_TYPE = 0;
 
     localparam PKT_TRANS_WRITE = 71;
@@ -166,7 +166,7 @@ module MebX_Qsys_Project_mm_interconnect_1_router_001
     assign src_startofpacket = sink_startofpacket;
     assign src_endofpacket   = sink_endofpacket;
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [39-1 : 0] default_src_channel;
+    wire [40-1 : 0] default_src_channel;
 
 
 
@@ -192,19 +192,19 @@ module MebX_Qsys_Project_mm_interconnect_1_router_001
 
     // ( 0x80000000 .. 0x80000800 )
     if ( {address[RG:PAD0],{PAD0{1'b0}}} == 32'h80000000   ) begin
-            src_channel = 39'b001;
+            src_channel = 40'b001;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 36;
     end
 
     // ( 0x80200000 .. 0x80300000 )
     if ( {address[RG:PAD1],{PAD1{1'b0}}} == 32'h80200000   ) begin
-            src_channel = 39'b010;
+            src_channel = 40'b010;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 37;
     end
 
     // ( 0x84000000 .. 0x88000000 )
     if ( {address[RG:PAD2],{PAD2{1'b0}}} == 32'h84000000   ) begin
-            src_channel = 39'b100;
+            src_channel = 40'b100;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 32;
     end
 

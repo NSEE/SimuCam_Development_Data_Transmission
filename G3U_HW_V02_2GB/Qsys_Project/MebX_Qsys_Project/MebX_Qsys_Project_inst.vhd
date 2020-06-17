@@ -199,11 +199,7 @@
 			tristate_conduit_tcm_read_n_out                                                                        : out   std_logic_vector(0 downto 0);                     -- tcm_read_n_out
 			tristate_conduit_tcm_write_n_out                                                                       : out   std_logic_vector(0 downto 0);                     -- tcm_write_n_out
 			tristate_conduit_tcm_data_out                                                                          : inout std_logic_vector(15 downto 0) := (others => 'X'); -- tcm_data_out
-			tristate_conduit_tcm_chipselect_n_out                                                                  : out   std_logic_vector(0 downto 0);                     -- tcm_chipselect_n_out
-			uart_module_uart_txd_signal                                                                            : out   std_logic;                                        -- uart_txd_signal
-			uart_module_uart_rxd_signal                                                                            : in    std_logic                     := 'X';             -- uart_rxd_signal
-			uart_module_uart_rts_signal                                                                            : in    std_logic                     := 'X';             -- uart_rts_signal
-			uart_module_uart_cts_signal                                                                            : out   std_logic                                         -- uart_cts_signal
+			tristate_conduit_tcm_chipselect_n_out                                                                  : out   std_logic_vector(0 downto 0)                      -- tcm_chipselect_n_out
 		);
 	end component MebX_Qsys_Project;
 
@@ -408,10 +404,6 @@
 			tristate_conduit_tcm_read_n_out                                                                        => CONNECTED_TO_tristate_conduit_tcm_read_n_out,                                                                        --                                                                    .tcm_read_n_out
 			tristate_conduit_tcm_write_n_out                                                                       => CONNECTED_TO_tristate_conduit_tcm_write_n_out,                                                                       --                                                                    .tcm_write_n_out
 			tristate_conduit_tcm_data_out                                                                          => CONNECTED_TO_tristate_conduit_tcm_data_out,                                                                          --                                                                    .tcm_data_out
-			tristate_conduit_tcm_chipselect_n_out                                                                  => CONNECTED_TO_tristate_conduit_tcm_chipselect_n_out,                                                                  --                                                                    .tcm_chipselect_n_out
-			uart_module_uart_txd_signal                                                                            => CONNECTED_TO_uart_module_uart_txd_signal,                                                                            --                                                         uart_module.uart_txd_signal
-			uart_module_uart_rxd_signal                                                                            => CONNECTED_TO_uart_module_uart_rxd_signal,                                                                            --                                                                    .uart_rxd_signal
-			uart_module_uart_rts_signal                                                                            => CONNECTED_TO_uart_module_uart_rts_signal,                                                                            --                                                                    .uart_rts_signal
-			uart_module_uart_cts_signal                                                                            => CONNECTED_TO_uart_module_uart_cts_signal                                                                             --                                                                    .uart_cts_signal
+			tristate_conduit_tcm_chipselect_n_out                                                                  => CONNECTED_TO_tristate_conduit_tcm_chipselect_n_out                                                                   --                                                                    .tcm_chipselect_n_out
 		);
 

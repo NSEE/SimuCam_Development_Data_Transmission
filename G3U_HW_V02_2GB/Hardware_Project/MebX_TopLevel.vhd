@@ -238,9 +238,9 @@ entity MebX_TopLevel is
 		SYNC_OUT               : out   std_logic;
 		-- RS232 UART	 
 		O_RS232_UART_TXD       : out   std_logic;
-		O_RS232_UART_CTS       : out   std_logic;
-		I_RS232_UART_RXD       : in    std_logic;
-		I_RS232_UART_RTS       : in    std_logic
+		--		O_RS232_UART_CTS       : out   std_logic;
+		I_RS232_UART_RXD       : in    std_logic
+		--		I_RS232_UART_RTS       : in    std_logic
 	);
 end entity;
 
@@ -538,14 +538,14 @@ architecture bhv of MebX_TopLevel is
 			sd_card_ip_o_SD_clock                                       : out   std_logic; --                         -- o_SD_clock
 			--
 			rs232_uart_rxd                                              : in    std_logic                     := 'X'; -- rxd
-			rs232_uart_txd                                              : out   std_logic; --                         -- txd
+			rs232_uart_txd                                              : out   std_logic ---                         -- txd
 			--            rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
 			--            rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
 
-			uart_module_uart_txd_signal                                 : out   std_logic; -- uart_txd_signal
-			uart_module_uart_rxd_signal                                 : in    std_logic                     := 'X'; -- uart_rxd_signal
-			uart_module_uart_rts_signal                                 : in    std_logic                     := 'X'; -- uart_rts_signal
-			uart_module_uart_cts_signal                                 : out   std_logic -- uart_cts_signal
+			--			uart_module_uart_txd_signal                                 : out   std_logic; -- uart_txd_signal
+			--			uart_module_uart_rxd_signal                                 : in    std_logic                     := 'X'; -- uart_rxd_signal
+			--			uart_module_uart_rts_signal                                 : in    std_logic                     := 'X'; -- uart_rts_signal
+			--			uart_module_uart_cts_signal                                 : out   std_logic -- uart_cts_signal
 		);
 	end component MebX_Qsys_Project;
 
@@ -744,7 +744,7 @@ begin
 			sd_card_ip_o_SD_clock                                       => O_SD_CARD_CLOCK, --  --                                      .o_SD_clock
 			--
 			rs232_uart_rxd                                              => I_RS232_UART_RXD, -- --                            rs232_uart.rxd
-			rs232_uart_txd                                              => O_RS232_UART_TXD, -- --                                      .txd
+			rs232_uart_txd                                              => O_RS232_UART_TXD --- --                                      .txd
 			--            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
 			--            rs232_uart_rts_n                                                        => O_RS232_UART_CTS,                                                        --                                                            .rts_n
 
@@ -758,10 +758,10 @@ begin
 			--            uart_module_uart_rts_signal                                             => I_RS232_UART_RTS,                                             --                                                            .uart_rts_signal
 			--            uart_module_uart_cts_signal                                             => O_RS232_UART_CTS                                              --                                                            .uart_cts_signal
 
-			uart_module_uart_txd_signal                                 => open, --                                                 uart_module.uart_txd_signal
-			uart_module_uart_rxd_signal                                 => '1', --                                                            .uart_rxd_signal
-			uart_module_uart_rts_signal                                 => I_RS232_UART_RTS, --                                                            .uart_rts_signal
-			uart_module_uart_cts_signal                                 => O_RS232_UART_CTS --                                                            .uart_cts_signal
+			--			uart_module_uart_txd_signal                                 => open, --                                                 uart_module.uart_txd_signal
+			--			uart_module_uart_rxd_signal                                 => '1', --                                                            .uart_rxd_signal
+			--			uart_module_uart_rts_signal                                 => I_RS232_UART_RTS, --                                                            .uart_rts_signal
+			--			uart_module_uart_cts_signal                                 => O_RS232_UART_CTS --                                                            .uart_cts_signal
 
 		);
 
