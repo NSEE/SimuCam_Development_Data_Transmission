@@ -42,7 +42,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	INT16U i_length_buffer = 0;
 
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels >= xMajor){
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor){
         fprintf(fp, "[ECHO]Entered echo sender\r\n");
     }
 #endif
@@ -59,7 +59,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	p_imagette_buffer =
 			(T_Imagette *) T_simucam.T_Sub[i_channel].T_data.addr_init;
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels >= xVerbose){
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose){
         fprintf(fp, "[ECHO] imagette nb %i\r\n", i_imagette_number);
     }
 #endif
@@ -75,7 +75,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	}
 
 #if DEBUG_ON
-	if(T_simucam.T_conf.usiDebugLevels >= xVerbose){
+	if(T_simucam.T_conf.usiDebugLevels <= xVerbose){
         fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
             i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
             p_imagette_buffer->imagette_start);
@@ -127,7 +127,8 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	 */
 
     for (INT8U t = 0; t < 13; t++) {
-    	fprintf(fp, "%i", tx_buffer[t]);
+    	// fprintf(fp, "%i", tx_buffer[t]);
+		vUartWriteChar(tx_buffer[t]);
     }
 
     /**
@@ -150,12 +151,13 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
         /* Assure the right memory is in use */
         bDdr2SwitchMemory((unsigned char) i_channel / 4);
         /* Print imagette char */
-        fprintf(fp, "%i",(INT8U) *pDataPointer);
+        // fprintf(fp, "%i",(INT8U) *pDataPointer);
+		vUartWriteChar(*pDataPointer);
         /* Advance the buffer pointer 1 byte */
         pDataPointer++;
 
 #if DEBUG_ON
-        if(T_simucam.T_conf.usiDebugLevels >= xVerbose) {
+        if(T_simucam.T_conf.usiDebugLevels <= xVerbose) {
             fprintf(fp, "[ECHO]Bytes left to send: %i\r\n", i_length_buffer);
         }
 #endif
@@ -167,7 +169,9 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	tx_buffer[14] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
 	tx_buffer[13] = div(usCRC, 256).rem;
-	fprintf(fp, "%i%i", tx_buffer[13], tx_buffer[14]); //mock CRC
+	// fprintf(fp, "%i%i", tx_buffer[13], tx_buffer[14]); //mock CRC
+	vUartWriteChar(tx_buffer[13]);
+	vUartWriteChar(tx_buffer[14]);
      
 
 	T_simucam.T_status.TM_id++;
@@ -241,7 +245,8 @@ void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
      * Send Log through serial
      */
     for (int f = 0; f < LOG_SIZE; f++){
-    	fprintf(fp, "%c", tx_buffer[f]);
+    	// fprintf(fp, "%c", tx_buffer[f]);
+		vUartWriteChar(tx_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -255,7 +260,7 @@ void echo_task(void) {
 	x_echo *p_echo_rcvd;
 
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels >= xMajor){
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor){
         fprintf(fp, "[ECHO]Initialized Echo Task\r\n");
     }
 #endif
@@ -267,6 +272,13 @@ void echo_task(void) {
             if(T_simucam.T_conf.echo_sent == 1){
 			i_echo_dataset(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette,
 					p_echo_rcvd->channel);
+#if DEBUG_ON
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose){
+				fprintf(fp, "[ECHO]Echo Sent nb: %i CH: %i\r\n", 
+				p_echo_rcvd->nb_imagette, 
+				p_echo_rcvd->channel);
+			}
+#endif
                     }
             if(T_simucam.T_conf.iLog == 1){
                 vLogSend(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette,
@@ -275,7 +287,7 @@ void echo_task(void) {
 		} else {
 #if DEBUG_ON
             /* Create ack */
-			if (T_simucam.T_conf.usiDebugLevels >= xCritical){
+			if (T_simucam.T_conf.usiDebugLevels <= xCritical){
                 fprintf(fp, "[ECHO] Echo queue error.\r\n");
             }
 #endif

@@ -1,0 +1,14 @@
+'IMT Use only - For Debug and General Control'
+'Define the terminator to be sent via spacewire after the data packet'
+'0: No terminator at the end of the data packet'
+'1: EEP at the end of the data packet'
+'2: EOP at the end of the data packet (default)'
+T=2;
+'If the Debug messages are enable, than this feature will set the debug level of the messages'
+'0: All messages! REALY ALL! (Maybe this can crash the JTAG fifo tx)'
+'1: Main Progress and main messages (ex. Syncs, state changes) (default)'
+'2: Only Critical Failures'
+'3 or higher: None - I want to be blind!'
+D=1;
+<<
+'Keep the "less than" (<) caracter, this is used in the parser'

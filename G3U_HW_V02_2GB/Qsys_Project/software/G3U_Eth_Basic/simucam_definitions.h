@@ -54,7 +54,7 @@
 /* HW and FW release version */
 #define SIMUCAM_RELEASE                 "I2dev"
 #define SIMUCAM_HW_VERSION              "0.1"
-#define SIMUCAM_FW_VERSION              "0.0"
+#define SIMUCAM_FW_VERSION              "0.5"
 
 /*
  * Convert to enum
@@ -211,16 +211,15 @@ struct x_telemetry {
 
 } x_telemetry;
 
-
 typedef enum {
-    xCritical,
+	xCritical = 0,
     xMajor,
-    xVerbose
+	xVerbose
 } debug_levels;
 
 /*$PAGE*/
 
-typedef enum { dlFullMessage = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorMessage, dlCustom2, dlJustMajorProgress, dlCriticalOnly } tDebugLevel;
+//typedef enum { dlFullMessage = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorMessage, dlCustom2, dlJustMajorProgress, dlCriticalOnly } tDebugLevel;
 
 #define min_sim( x , y ) ((x < y) ? x : y)
 
