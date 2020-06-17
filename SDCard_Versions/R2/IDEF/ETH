@@ -1,0 +1,17 @@
+'Eth connection'
+'MAC default'
+M=84:16:236:96:66:121;
+'IP Address'
+I=10.9.11.216;
+'Default Gateway'
+G=10.9.11.1;
+'Subnet-Mask'
+S=255.255.255.0;
+'DNS-Server'
+D=8.8.8.8;
+'TCP port for eth commands'
+P=1700;
+'DHCP - Used by IMT - let always 0 for Static IP [ 0 = OFF , 1 = ON]'
+H=0;
+<<
+'Keep the "less than" (<) caracter, this is used in the parser'

@@ -21,6 +21,7 @@
 #include "../simucam_definitions.h"
 #include "../utils/crc.h"
 #include "../api_drivers/ddr2/ddr2.h"
+#include "../driver/uart/uart.h"
 
 extern T_Simucam T_simucam;
 
