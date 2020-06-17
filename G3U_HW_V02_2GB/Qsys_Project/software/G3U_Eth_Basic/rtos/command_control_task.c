@@ -97,7 +97,7 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 //	vUartWriteBuffer(ack_buffer, ack_size);
 	for (int f = 0; f < ack_size; f++){
 //		fprintf(fp, "%c", ack_buffer[f]);
-		vUartWriteChar(ack_buffer[f]);
+		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -162,7 +162,7 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 
 	for (int f = 0; f < ack_size; f++){
 //		fprintf(fp, "%c", ack_buffer[f]);
-		vUartWriteChar(ack_buffer[f]);
+		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -273,7 +273,7 @@ void v_HK_creator(INT8U i_channel) {
      */
     for (int f = 0; f < HK_SIZE; f++){
 //		fprintf(fp, "%c", hk_buffer[f]);
-		vUartWriteChar(hk_buffer[f]);
+		vUartWriteCharBlocking(hk_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -356,7 +356,7 @@ void vSendETHConfig(TConfEth xEthConf){
 	fprintf(fp, "alive cmd:");
     for (int f = 0; f < IP_CONFIG_SIZE; f++){
     	fprintf(fp, " %i", iETHBuffer[f]);
-		vUartWriteChar(iETHBuffer[f]);
+		vUartWriteCharBlocking(iETHBuffer[f]);
 	}
     fprintf(fp, "\r\n");
     T_simucam.T_status.TM_id++;

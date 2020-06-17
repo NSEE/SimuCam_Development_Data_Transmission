@@ -29,11 +29,11 @@
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
 
-        if ( !iUartEmpty() ) {
+        if ( !bUartRxBufferEmpty() ) {
                 while(luNbChars != 0){
                         // fgets(pBuffer, 2, stdin);
                         //*pBuffer = getchar();
-                        *pBuffer = cUartReadChar();
+                        *pBuffer = cUartReadCharBlocking();
                         pBuffer++;
                         luReturn++;
                         luNbChars--;
