@@ -840,7 +840,7 @@ void CommandManagementTask() {
 						 * Stop Simucam Timer
 						 */
 						error_code = bDschStopTimer(&xSimucamTimer);
-                        if(error_code != OS_NO_ERR){
+                        if(error_code != TRUE){
                         	fprintf(fp, "simucam timer prob \n");
                             v_ack_creator(p_payload, xTimerError);
                         }
