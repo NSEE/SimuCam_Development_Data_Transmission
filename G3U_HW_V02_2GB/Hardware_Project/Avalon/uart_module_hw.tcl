@@ -4,7 +4,7 @@
 
 
 # 
-# uart_module_top "uart_module_top" v1.1
+# uart_module_top "uart_module_top" v1.2
 #  2019.12.19.10:47:42
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME uart_module_top
-set_module_property VERSION 1.1
+set_module_property VERSION 1.2
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR ""
@@ -47,6 +47,11 @@ add_fileset_file data_fifo_sc_fifo.vhd VHDL PATH UART_Module/DATA_FIFO/ip_core/d
 add_fileset_file uart_rx_ent.vhd VHDL PATH UART_Module/UART/uart_rx_ent.vhd
 add_fileset_file uart_tx_ent.vhd VHDL PATH UART_Module/UART/uart_tx_ent.vhd
 add_fileset_file avm_uart_rs232_controller_ent.vhd VHDL PATH UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd
+add_fileset_file uart_avm_data_pkg.vhd VHDL PATH UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_pkg.vhd
+add_fileset_file uart_avm_data_reader_ent.vhd VHDL PATH UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_reader_ent.vhd
+add_fileset_file uart_avm_data_writer_ent.vhd VHDL PATH UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_writer_ent.vhd
+add_fileset_file uart_rx_avm_writer_controller_ent.vhd VHDL PATH UART_Module/UART_AMV_CONTROLLER/uart_rx_avm_writer_controller_ent.vhd
+add_fileset_file uart_tx_avm_reader_controller_ent.vhd VHDL PATH UART_Module/UART_AMV_CONTROLLER/uart_tx_avm_reader_controller_ent.vhd
 add_fileset_file uart_module_top.vhd VHDL PATH UART_Module/uart_module_top.vhd TOP_LEVEL_FILE
 
 add_fileset SIM_VHDL SIM_VHDL "" ""
@@ -61,6 +66,11 @@ add_fileset_file data_fifo_sc_fifo.vhd VHDL PATH UART_Module/DATA_FIFO/ip_core/d
 add_fileset_file uart_rx_ent.vhd VHDL PATH UART_Module/UART/uart_rx_ent.vhd
 add_fileset_file uart_tx_ent.vhd VHDL PATH UART_Module/UART/uart_tx_ent.vhd
 add_fileset_file avm_uart_rs232_controller_ent.vhd VHDL PATH UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd
+add_fileset_file uart_avm_data_pkg.vhd VHDL PATH UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_pkg.vhd
+add_fileset_file uart_avm_data_reader_ent.vhd VHDL PATH UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_reader_ent.vhd
+add_fileset_file uart_avm_data_writer_ent.vhd VHDL PATH UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_writer_ent.vhd
+add_fileset_file uart_rx_avm_writer_controller_ent.vhd VHDL PATH UART_Module/UART_AMV_CONTROLLER/uart_rx_avm_writer_controller_ent.vhd
+add_fileset_file uart_tx_avm_reader_controller_ent.vhd VHDL PATH UART_Module/UART_AMV_CONTROLLER/uart_tx_avm_reader_controller_ent.vhd
 add_fileset_file uart_module_top.vhd VHDL PATH UART_Module/uart_module_top.vhd TOP_LEVEL_FILE
 
 
@@ -104,24 +114,6 @@ add_interface_port clock_sink_100 clock_sink_100_clk_i clk Input 1
 
 
 # 
-# connection point conduit_end
-# 
-#add_interface conduit_end conduit end
-#set_interface_property conduit_end associatedClock clock_sink_100
-#set_interface_property conduit_end associatedReset ""
-#set_interface_property conduit_end ENABLED true
-#set_interface_property conduit_end EXPORT_OF ""
-#set_interface_property conduit_end PORT_NAME_MAP ""
-#set_interface_property conduit_end CMSIS_SVD_VARIABLES ""
-#set_interface_property conduit_end SVD_ADDRESS_GROUP ""
-#
-#add_interface_port conduit_end uart_txd uart_txd_signal Output 1
-#add_interface_port conduit_end uart_rxd uart_rxd_signal Input 1
-#add_interface_port conduit_end uart_rts uart_rts_signal Input 1
-#add_interface_port conduit_end uart_cts uart_cts_signal Output 1
-
-
-# 
 # connection point avalon_slave_uart
 # 
 add_interface avalon_slave_uart avalon end
@@ -158,6 +150,41 @@ set_interface_assignment avalon_slave_uart embeddedsw.configuration.isFlash 0
 set_interface_assignment avalon_slave_uart embeddedsw.configuration.isMemoryDevice 0
 set_interface_assignment avalon_slave_uart embeddedsw.configuration.isNonVolatileStorage 0
 set_interface_assignment avalon_slave_uart embeddedsw.configuration.isPrintableDevice 0
+
+
+# 
+# connection point avalon_master_data
+# 
+add_interface avalon_master_data avalon start
+set_interface_property avalon_master_data addressUnits SYMBOLS
+set_interface_property avalon_master_data associatedClock clock_sink_100
+set_interface_property avalon_master_data associatedReset reset_sink
+set_interface_property avalon_master_data bitsPerSymbol 8
+set_interface_property avalon_master_data burstOnBurstBoundariesOnly false
+set_interface_property avalon_master_data burstcountUnits WORDS
+set_interface_property avalon_master_data doStreamReads false
+set_interface_property avalon_master_data doStreamWrites false
+set_interface_property avalon_master_data holdTime 0
+set_interface_property avalon_master_data linewrapBursts false
+set_interface_property avalon_master_data maximumPendingReadTransactions 0
+set_interface_property avalon_master_data maximumPendingWriteTransactions 0
+set_interface_property avalon_master_data readLatency 0
+set_interface_property avalon_master_data readWaitTime 1
+set_interface_property avalon_master_data setupTime 0
+set_interface_property avalon_master_data timingUnits Cycles
+set_interface_property avalon_master_data writeWaitTime 0
+set_interface_property avalon_master_data ENABLED true
+set_interface_property avalon_master_data EXPORT_OF ""
+set_interface_property avalon_master_data PORT_NAME_MAP ""
+set_interface_property avalon_master_data CMSIS_SVD_VARIABLES ""
+set_interface_property avalon_master_data SVD_ADDRESS_GROUP ""
+
+add_interface_port avalon_master_data avalon_master_data_readdata_i readdata Input 8
+add_interface_port avalon_master_data avalon_master_data_waitrequest_i waitrequest Input 1
+add_interface_port avalon_master_data avalon_master_data_address_o address Output 64
+add_interface_port avalon_master_data avalon_master_data_read_o read Output 1
+add_interface_port avalon_master_data avalon_master_data_write_o write Output 1
+add_interface_port avalon_master_data avalon_master_data_writedata_o writedata Output 8
 
 
 # 

@@ -74,20 +74,85 @@ int main() {
 	bSetPainelLeds( LEDS_OFF , LEDS_ST_ALL_MASK );
 	bSetPainelLeds( LEDS_ON , LEDS_POWER_MASK );
 
-	printf("Waiting 10s...\n");
-	usleep(10000000);
+	bUartFlushRxBuffer(0);
 
-	printf("%d\n", bUartWriteCharNonBlocking('H'));
-	printf("%d\n", bUartWriteCharNonBlocking('e'));
-	printf("%d\n", bUartWriteCharNonBlocking('l'));
-	printf("%d\n", bUartWriteCharNonBlocking('l'));
-	printf("%d\n", bUartWriteCharNonBlocking('o'));
+//	printf("Waiting 10s...\n");
+//	usleep(10000000);
+
+//	printf("%d\n", bUartWriteCharNonBlocking('H'));
+//	printf("%d\n", bUartWriteCharNonBlocking('e'));
+//	printf("%d\n", bUartWriteCharNonBlocking('l'));
+//	printf("%d\n", bUartWriteCharNonBlocking('l'));
+//	printf("%d\n", bUartWriteCharNonBlocking('o'));
+
+	vUartWriteCharBlocking('H');
+	vUartWriteCharBlocking('e');
+	vUartWriteCharBlocking('l');
+	vUartWriteCharBlocking('l');
+	vUartWriteCharBlocking('o');
 
 	printf("Received: %c\n", cUartReadCharBlocking());
 	printf("Received: %c\n", cUartReadCharBlocking());
 	printf("Received: %c\n", cUartReadCharBlocking());
 	printf("Received: %c\n", cUartReadCharBlocking());
 	printf("Received: %c\n", cUartReadCharBlocking());
+
+	bDdr2SwitchMemory(DDR2_M1_ID);
+	char *pcStr = (char *) DDR2_EXT_ADDR_WINDOWED_BASE;
+
+	pcStr[0] ='H';
+	pcStr[1] ='E';
+	pcStr[2] ='L';
+	pcStr[3] ='L';
+	pcStr[4] ='O';
+	pcStr[5] ='_';
+	pcStr[6] ='W';
+	pcStr[7] ='O';
+	pcStr[8] ='R';
+	pcStr[9] ='L';
+	pcStr[10] ='D';
+	pcStr[11] ='_';
+	pcStr[12] ='F';
+	pcStr[13] ='R';
+	pcStr[14] ='O';
+	pcStr[15] ='M';
+	pcStr[16] ='_';
+	pcStr[17] ='S';
+	pcStr[18] ='I';
+	pcStr[19] ='M';
+	pcStr[20] ='U';
+	pcStr[21] ='C';
+	pcStr[22] ='A';
+	pcStr[23] ='M';
+	pcStr[24] ='\n';
+
+	usleep(1000);
+
+	printf("Go\n");
+
+	bUartDmaTxTransfer(eUartDdrM1, (alt_u32 *)0x00000000, 25);
+	while (bUartDmaTxBusy()) {}
+
+	printf("Go2\n");
+
+	bUartDmaTxTransfer(eUartDdrM1, (alt_u32 *)0x00000000, 25);
+	while (bUartDmaTxBusy()) {}
+
+	printf("Waiting...\n");
+
+	alt_u8 ucCnt = 0;
+
+	for (ucCnt = 0; ucCnt < 25; ucCnt++) {
+		pcStr[ucCnt] = (char)0xFF;
+	}
+
+	bUartDmaRxTransfer(eUartDdrM1, (alt_u32 *)0x00000000, 24);
+	while (bUartDmaRxBusy()) {}
+
+	for (ucCnt = 0; ucCnt < 25; ucCnt++) {
+		printf("%c", pcStr[ucCnt]);
+	}
+	printf("\n");
 
 	while(1) {}
 

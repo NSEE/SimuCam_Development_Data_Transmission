@@ -3879,8 +3879,26 @@
  <module
    name="uart_module_top_0"
    kind="uart_module_top"
-   version="1.1"
+   version="1.2"
    enabled="1" />
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="uart_module_top_0.avalon_master_data"
+   end="m2_ddr2_memory.avl">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x80000000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="uart_module_top_0.avalon_master_data"
+   end="m1_clock_bridge.s0">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
  <connection
    kind="avalon"
    version="18.1"
