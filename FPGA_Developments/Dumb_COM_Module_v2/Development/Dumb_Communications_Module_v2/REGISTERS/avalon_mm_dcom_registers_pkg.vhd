@@ -8,7 +8,7 @@ package avalon_mm_dcom_registers_pkg is
 
 	-- Allowed Addresses
 	constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#3C#;
+	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#43#;
 
 	-- Registers Types
 
@@ -103,6 +103,21 @@ package avalon_mm_dcom_registers_pkg is
 		data_buffer_full  : std_logic;  -- Data Scheduler Buffer Full
 	end record t_dcom_data_scheduler_buffer_status_rd_reg;
 
+	-- Data Scheduler Data Control Register
+	type t_dcom_data_scheduler_data_control_wr_reg is record
+		rd_initial_addr_high_dword : std_logic_vector(31 downto 0); -- Data Scheduler Initial Read Address [High Dword]
+		rd_initial_addr_low_dword  : std_logic_vector(31 downto 0); -- Data Scheduler Initial Read Address [Low Dword]
+		rd_data_length_bytes       : std_logic_vector(31 downto 0); -- Data Scheduler Read Data Length [Bytes]
+		rd_start                   : std_logic; -- Data Scheduler Data Read Start
+		rd_reset                   : std_logic; -- Data Scheduler Data Read Reset
+		rd_auto_restart            : std_logic; -- Data Scheduler Data Read Auto Restart
+	end record t_dcom_data_scheduler_data_control_wr_reg;
+
+	-- Data Scheduler Data Status Register
+	type t_dcom_data_scheduler_data_status_rd_reg is record
+		rd_busy : std_logic;            -- Data Scheduler Data Read Busy
+	end record t_dcom_data_scheduler_data_status_rd_reg;
+
 	-- Data Scheduler IRQ Control Register
 	type t_dcom_data_scheduler_irq_control_wr_reg is record
 		irq_tx_end_en   : std_logic;    -- Data Scheduler Tx End IRQ Enable
@@ -173,6 +188,7 @@ package avalon_mm_dcom_registers_pkg is
 		data_scheduler_tmr_control_reg     : t_dcom_data_scheduler_tmr_control_wr_reg; -- Data Scheduler Timer Control Register
 		data_scheduler_tmr_config_reg      : t_dcom_data_scheduler_tmr_config_wr_reg; -- Data Scheduler Timer Config Register
 		data_scheduler_pkt_config_reg      : t_dcom_data_scheduler_pkt_config_wr_reg; -- Data Scheduler Packet Config Register
+		data_scheduler_data_control_reg    : t_dcom_data_scheduler_data_control_wr_reg; -- Data Scheduler Data Control Register
 		data_scheduler_irq_control_reg     : t_dcom_data_scheduler_irq_control_wr_reg; -- Data Scheduler IRQ Control Register
 		data_scheduler_irq_flags_clear_reg : t_dcom_data_scheduler_irq_flags_clear_wr_reg; -- Data Scheduler IRQ Flags Clear Register
 		rmap_dev_addr_reg                  : t_dcom_rmap_dev_addr_wr_reg; -- RMAP Device Address Register
@@ -187,6 +203,7 @@ package avalon_mm_dcom_registers_pkg is
 		spw_timecode_status_reg          : t_dcom_spw_timecode_status_rd_reg; -- SpaceWire Timecode Status Register
 		data_scheduler_tmr_status_reg    : t_dcom_data_scheduler_tmr_status_rd_reg; -- Data Scheduler Timer Status Register
 		data_scheduler_buffer_status_reg : t_dcom_data_scheduler_buffer_status_rd_reg; -- Data Scheduler Buffer Status Register
+		data_scheduler_data_status_reg   : t_dcom_data_scheduler_data_status_rd_reg; -- Data Scheduler Data Status Register
 		data_scheduler_irq_flags_reg     : t_dcom_data_scheduler_irq_flags_rd_reg; -- Data Scheduler IRQ Flags Register
 		rmap_codec_status_reg            : t_dcom_rmap_codec_status_rd_reg; -- RMAP Codec Status Register
 	end record t_dcom_read_registers;
