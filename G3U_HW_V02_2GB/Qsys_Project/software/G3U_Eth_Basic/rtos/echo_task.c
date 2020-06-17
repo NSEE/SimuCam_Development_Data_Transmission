@@ -267,6 +267,13 @@ void echo_task(void) {
             if(T_simucam.T_conf.echo_sent == 1){
 			i_echo_dataset(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette,
 					p_echo_rcvd->channel);
+#if DEBUG_ON
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose){
+				fprintf(fp, "[ECHO]Echo Sent nb: %i CH: %i\r\n", 
+				p_echo_rcvd->nb_imagette, 
+				p_echo_rcvd->channel);
+			}
+#endif
                     }
             if(T_simucam.T_conf.iLog == 1){
                 vLogSend(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette,
