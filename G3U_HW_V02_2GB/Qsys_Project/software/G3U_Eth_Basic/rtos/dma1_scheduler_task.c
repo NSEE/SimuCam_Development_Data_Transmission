@@ -21,14 +21,14 @@ sub_config_t sub_config_send[8];
 void dma1_scheduler_task(void *task_data) {
 	INT8U error_code_dma_sched;
 	INT8U i_dma_sched_controller;
-	INT8U dma_nb = (INT8U) task_data;
+	INT8U dma_nb = (INT8U) ((INT32U) task_data);
 	INT8U i_channel_buffer;
 
 	while (1) {
 
-		i_dma_sched_controller = (INT8U) OSQPend(
+		i_dma_sched_controller = (INT8U) ((INT32U) OSQPend(
 				p_dma_scheduler_controller_queue[dma_nb], 0,
-				&error_code_dma_sched);
+				&error_code_dma_sched));
 
 		if (error_code_dma_sched == OS_ERR_NONE) {
 			switch (i_dma_sched_controller) {
@@ -85,14 +85,14 @@ void dma1_scheduler_task(void *task_data) {
 void dma2_scheduler_task(void *task_data) {
 	INT8U error_code_dma_sched;
 	INT8U i_dma_sched_controller;
-	INT8U dma_nb = (INT8U) task_data;
+	INT8U dma_nb = (INT8U) ((INT32U) task_data);
 	INT8U i_channel_buffer;
 
 	while (1) {
 
-		i_dma_sched_controller = (INT8U) OSQPend(
+		i_dma_sched_controller = (INT8U) ((INT32U) OSQPend(
 				p_dma_scheduler_controller_queue[dma_nb], 0,
-				&error_code_dma_sched);
+				&error_code_dma_sched));
 
 		if (error_code_dma_sched == OS_ERR_NONE) {
 			switch (i_dma_sched_controller) {

@@ -76,7 +76,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 #if DEBUG_ON
 	if(T_simucam.T_conf.usiDebugLevels <= xVerbose){
-        fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
+        fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %u, first byte %i\r\n",
             i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
             p_imagette_buffer->imagette_start);
     }
@@ -255,7 +255,7 @@ void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
 OS_EVENT *p_echo_queue;
 void *p_echo_queue_tbl[ECHO_QUEUE_BUFFER]; /*Storage for sub_unit queue*/
 
-void echo_task(void) {
+void echo_task(void *task_data) {
 	INT8U echo_error;
 	x_echo *p_echo_rcvd;
 

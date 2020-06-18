@@ -4,12 +4,12 @@
  *  Created on: Dec 12, 2019
  *      Author: yuribunduki
  */
+
 #include "periodic_HK_task.h"
 
-
 void periodic_HK_task(void *task_data){
-    unsigned short int usiResetDelayL = 0;
-    INT8U iErrorCodeL = 0;
+//    unsigned short int usiResetDelayL = 0;
+//    INT8U iErrorCodeL = 0;
     div_t xDlyAdjustedS;
     div_t xDlyAdjustedM;
     div_t xDlyAdjustedH;
@@ -29,6 +29,5 @@ void periodic_HK_task(void *task_data){
             v_HK_creator(xCount);
         }
     }
-    
 
 }

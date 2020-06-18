@@ -26,7 +26,7 @@ void sub_unit_control_task_7(void *task_data) {
 	/*
 	 * Assign channel code from task descriptor
 	 */
-	INT8U c_spw_channel = (INT8U) task_data;
+	INT8U c_spw_channel = (INT8U) ((INT32U) task_data);
 	unsigned char c_DMA_nb = c_spw_channel / 4;
 	sub_config_t *p_config;
 
@@ -198,10 +198,10 @@ void sub_unit_control_task_7(void *task_data) {
 								> (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
 										+ DMA_OFFSET))) {
 #if DEBUG_ON
-					fprintf(fp, "[SUBUNIT%i]Printinf offset %i & %x\r\n",(INT8U)c_spw_channel,
+					fprintf(fp, "[SUBUNIT%i]Printinf offset %lu & %lx\r\n",(INT8U)c_spw_channel,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador);
-					INT16U teste_limit = usiDschGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataScheduler));
+//					INT16U teste_limit = usiDschGetBuffersFreeSpace(&(xCh[c_spw_channel].xDataScheduler));
 #endif
 					/*
 					 * Try to get the mutex
@@ -215,7 +215,7 @@ void sub_unit_control_task_7(void *task_data) {
 #endif
 					} else {
 #if DEBUG_ON
-						fprintf(fp, "[SUBUNIT%i] length antes while: %lu\r\n",
+						fprintf(fp, "[SUBUNIT%i] length antes while: %u\r\n",
 								(INT8U) c_spw_channel,
 								T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 #endif
@@ -226,7 +226,7 @@ void sub_unit_control_task_7(void *task_data) {
 							bDdr2SwitchMemory(DDR2_M1_ID);
 #if DEBUG_ON
 							fprintf(fp, 
-									"[SUBUNIT%i] length antes da transf.: %lu\r\n",
+									"[SUBUNIT%i] length antes da transf.: %u\r\n",
 									(INT8U) c_spw_channel,
 									T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 #endif
@@ -248,7 +248,7 @@ void sub_unit_control_task_7(void *task_data) {
 						if (i_transferred != 0) {
 #if DEBUG_ON
 							fprintf(fp, 
-									"[SUBUNIT%i] length antes correcao de end: %lu\r\n",
+									"[SUBUNIT%i] length antes correcao de end: %u\r\n",
 									(INT8U) c_spw_channel,
 									T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 #endif
@@ -389,7 +389,7 @@ void sub_unit_control_task_7(void *task_data) {
 								i_temp_sched = simDMABack;
 								OSQPost(
 										p_dma_scheduler_controller_queue[c_DMA_nb],
-										i_temp_sched);
+										(void *) ((INT32U) i_temp_sched));
 
 								i_mem_pointer_buffer =
 										(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
@@ -415,13 +415,13 @@ void sub_unit_control_task_7(void *task_data) {
 							/* Return Mutex */
 							OSMutexPost(xMutexDMA[c_DMA_nb]);
 							/* Schedule */
-							OSQPost(DMA_sched_queue[c_DMA_nb], c_spw_channel);
+							OSQPost(DMA_sched_queue[c_DMA_nb], (void *) ((INT32U) c_spw_channel));
 							/*
 							 * Signal cmd that DMA is free
 							 */
 							i_temp_sched = simDMABack;
 							OSQPost(p_dma_scheduler_controller_queue[c_DMA_nb],
-									i_temp_sched);
+									(void *) ((INT32U) i_temp_sched));
 						}
 					} else {
 						/*
@@ -435,7 +435,7 @@ void sub_unit_control_task_7(void *task_data) {
 						 */
 						i_temp_sched = simDMABack;
 						OSQPost(p_dma_scheduler_controller_queue[c_DMA_nb],
-								i_temp_sched);
+								(void *) ((INT32U) i_temp_sched));
 					}
 					break;
 

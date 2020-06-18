@@ -22,6 +22,7 @@
  ************************************************************************************************
  */
 #include "../simucam_definitions.h"
+#include "../alt_error_handler.h"
 #include "tasks_init.h"
 /*$PAGE*/
 

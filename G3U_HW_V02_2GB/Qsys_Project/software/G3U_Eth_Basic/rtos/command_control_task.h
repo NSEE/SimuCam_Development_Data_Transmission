@@ -20,15 +20,16 @@
  ************************************************************************************************
  */
 #include "includes.h"
+#include "sub_unit_control_task.h"
+#include "../simucam_definitions.h"
 #include "../alt_error_handler.h"
 #include "../utils/util.h"
 #include "../utils/configs_simucam.h"
-#include "../driver/dcom/dcom_channel.h"
-#include "sub_unit_control_task.h"
-#include "../simucam_definitions.h"
+#include "../utils/crc.h"
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/sync/sync.h"
 #include "../driver/uart/uart.h"
+#include "../driver/dcom/dcom_channel.h"
 // #include "simple_socket_server.h"			/* Used in the conn/send op */
 /*
  * Include configurations for the communication modules [yb]

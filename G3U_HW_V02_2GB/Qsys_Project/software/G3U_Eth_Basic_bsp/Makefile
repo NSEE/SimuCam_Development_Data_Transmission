@@ -390,13 +390,6 @@ altera_iniche_C_LIB_SRCS := \
 altera_iniche_ASM_LIB_SRCS := \
 	$(altera_iniche_SRCS_ROOT)/src/nios2/asm_cksum.S
 
-# altera_msgdma_driver sources root 
-altera_msgdma_driver_SRCS_ROOT := drivers
-
-# altera_msgdma_driver sources 
-altera_msgdma_driver_C_LIB_SRCS := \
-	$(altera_msgdma_driver_SRCS_ROOT)/src/altera_msgdma.c
-
 # altera_nios2_gen2_ucosii_driver sources root 
 altera_nios2_gen2_ucosii_driver_SRCS_ROOT := HAL
 
@@ -520,7 +513,6 @@ COMPONENT_C_LIB_SRCS += \
 	$(altera_avalon_sysid_qsys_driver_C_LIB_SRCS) \
 	$(altera_avalon_timer_driver_C_LIB_SRCS) \
 	$(altera_iniche_C_LIB_SRCS) \
-	$(altera_msgdma_driver_C_LIB_SRCS) \
 	$(altera_nios2_gen2_ucosii_driver_C_LIB_SRCS) \
 	$(hal_C_LIB_SRCS) \
 	$(ucosii_C_LIB_SRCS)
