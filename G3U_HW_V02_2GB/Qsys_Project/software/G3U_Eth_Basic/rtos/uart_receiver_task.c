@@ -291,8 +291,14 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                 INT8U *pxTestData =
                 (INT8U *) pSimucam->T_Sub[i_channel_wr].T_data.addr_init+6;
-                fprintf(fp, "[UART ImagetteParser DEBUG]First Bytes %i %i\r\n", pxTestData[0],
-                pxTestData[1]);
+                fprintf(fp, "[UART ImagetteParser DEBUG]First Bytes %x %x %x %x %x %x\r\n", 
+                pxTestData[0],
+                pxTestData[1],
+                pxTestData[2],
+                pxTestData[3],
+                pxTestData[4],
+                pxTestData[5]
+                );
         }
 #endif
             
