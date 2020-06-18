@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jun 17, 2020 2:01:07 AM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1592370067718</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jun 17, 2020 10:49:54 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1592444994866</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>.\</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
@@ -956,30 +956,6 @@
                 <slaveDescriptor>Dumb_Communication_Module_v2_8</slaveDescriptor>
                 <addressRange>0x80002800 - 0x80002BFF</addressRange>
                 <addressSpan>1024</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M2_descriptor_slave</slaveDescriptor>
-                <addressRange>0x80002C00 - 0x80002C1F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M1_descriptor_slave</slaveDescriptor>
-                <addressRange>0x80002C20 - 0x80002C3F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M2_csr</slaveDescriptor>
-                <addressRange>0x80002C40 - 0x80002C5F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M1_csr</slaveDescriptor>
-                <addressRange>0x80002C60 - 0x80002C7F</addressRange>
-                <addressSpan>32</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>

@@ -12,35 +12,99 @@ bool bDdr2MemoryFastTest ( void );
 bool bTestSimucamCriticalHW( void ) {
 	bool bSuccess;
 
-	bSuccess = bIdmaInitM1Dma();
+	bSuccess = bIdmaInitCh1Dma();
 	if ( FALSE == bSuccess ) {
 		#if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlCriticalOnly ) {
-			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DDR2 Memory 1!\n");
-		}
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 1!\n");
 		#endif
 		return (bSuccess);
 	} else {
 		#if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlCriticalOnly ) {
-			printf("SimuCam Critical HW Test: DMA for DDR2 Memory 1 initiated.\n");
-		}
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 1 initiated.\n");
 		#endif
 	}
 
-	bSuccess = bIdmaInitM2Dma();
+	bSuccess = bIdmaInitCh2Dma();
 	if ( FALSE == bSuccess ) {
 		#if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlCriticalOnly ) {
-			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DDR2 Memory 2!\n");
-		}
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 2!\n");
 		#endif
 		return (bSuccess);
 	} else {
 		#if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlCriticalOnly ) {
-			printf("SimuCam Critical HW Test: DMA for DDR2 Memory 2 initiated.\n");
-		}
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 2 initiated.\n");
+		#endif
+	}
+
+	bSuccess = bIdmaInitCh3Dma();
+	if ( FALSE == bSuccess ) {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 3!\n");
+		#endif
+		return (bSuccess);
+	} else {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 3 initiated.\n");
+		#endif
+	}
+
+	bSuccess = bIdmaInitCh4Dma();
+	if ( FALSE == bSuccess ) {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 4!\n");
+		#endif
+		return (bSuccess);
+	} else {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 4 initiated.\n");
+		#endif
+	}
+
+	bSuccess = bIdmaInitCh5Dma();
+	if ( FALSE == bSuccess ) {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 5!\n");
+		#endif
+		return (bSuccess);
+	} else {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 5 initiated.\n");
+		#endif
+	}
+
+	bSuccess = bIdmaInitCh6Dma();
+	if ( FALSE == bSuccess ) {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 6!\n");
+		#endif
+		return (bSuccess);
+	} else {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 6 initiated.\n");
+		#endif
+	}
+
+	bSuccess = bIdmaInitCh7Dma();
+	if ( FALSE == bSuccess ) {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 7!\n");
+		#endif
+		return (bSuccess);
+	} else {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 7 initiated.\n");
+		#endif
+	}
+
+	bSuccess = bIdmaInitCh8Dma();
+	if ( FALSE == bSuccess ) {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: CRITICAL! Could not initiate the DMA for DCOM Channel 8!\n");
+		#endif
+		return (bSuccess);
+	} else {
+		#if DEBUG_ON
+			printf("SimuCam Critical HW Test: DMA for DCOM Channel 8 initiated.\n");
 		#endif
 	}
 
@@ -57,19 +121,9 @@ bool bDdr2MemoryFastTest ( void ) {
 
 	/* Write data into ddr2 memory 1 and ddr2 memory 2 to check if they are working*/
 
-	/*
-#if DEBUG_ON
-	if ( DEBUG_LEVEL <= dlMajorMessage ) {
-	printf("SimuCam Critical HW Test: Starting DDR2 Memories test (fast):\n");
-	}
-#endif
-	 */
-
 	/* Ddr2 Memory 1 */
 #if DEBUG_ON
-	if ( DEBUG_LEVEL <= dlMajorMessage ) {
-	printf("SimuCam Critical HW Test: Testing DDR2 Memory 1... ");
-	}
+		fprintf(fp, "SimuCam Critical HW Test: Testing DDR2 Memory 1... ");
 #endif
 	usleep(1000000);
 	bDdr2SwitchMemory(DDR2_M1_ID);
@@ -97,23 +151,17 @@ bool bDdr2MemoryFastTest ( void ) {
 		bM1Success = TRUE;
 		vRstcReleaseSimucamReset(0); /* Release SimuCam Reset Signal - Disable "Watchdog"*/
 #if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlMajorMessage ) {
-			printf("DDR2 Memory 1 Passed!\n");
-		}
+			fprintf(fp, "DDR2 Memory 1 Passed!\n");
 #endif
 	} else {
 #if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlMajorMessage ) {
-			printf("CRITICAL! DDR2 Memory 1 Failure!\n");
-		}
+			fprintf(fp, "CRITICAL! DDR2 Memory 1 Failure!\n");
 #endif
 	}
 
 	/* Ddr2 Memory 2 */
 #if DEBUG_ON
-	if ( DEBUG_LEVEL <= dlMajorMessage ) {
-	printf("SimuCam Critical HW Test: Testing DDR2 Memory 2... ");
-	}
+		fprintf(fp, "SimuCam Critical HW Test: Testing DDR2 Memory 2... ");
 #endif
 	usleep(1000000);
 	bDdr2SwitchMemory(DDR2_M2_ID);
@@ -141,15 +189,11 @@ bool bDdr2MemoryFastTest ( void ) {
 		bM2Success = TRUE;
 		vRstcReleaseSimucamReset(0); /* Release SimuCam Reset Signal - Disable "Watchdog"*/
 #if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlMajorMessage ) {
-			printf("DDR2 Memory 2 Passed!\n\n");
-		}
+			fprintf(fp, "DDR2 Memory 2 Passed!\n\n");
 #endif
 	} else {
 #if DEBUG_ON
-		if ( DEBUG_LEVEL <= dlMajorMessage ) {
-			printf("CRITICAL! DDR2 Memory 2 Failure!\n\n");
-		}
+			fprintf(fp, "CRITICAL! DDR2 Memory 2 Failure!\n\n");
 #endif
 	}
 

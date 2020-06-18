@@ -20,9 +20,9 @@
 // Altera IRQ Mapper
 //
 // Parameters
-//   NUM_RCVRS        : 17
+//   NUM_RCVRS        : 15
 //   SENDER_IRW_WIDTH : 32
-//   IRQ_MAP          : 0:0,1:1,2:3,3:4,4:5,5:6,6:7,7:16,8:2,9:8,10:15,11:13,12:14,13:12,14:10,15:11,16:9
+//   IRQ_MAP          : 0:3,1:4,2:5,3:6,4:7,5:16,6:2,7:8,8:15,9:13,10:14,11:12,12:10,13:11,14:9
 //
 // -------------------------------------------------------
 
@@ -54,8 +54,6 @@ module MebX_Qsys_Project_irq_mapper
     input                receiver12_irq,
     input                receiver13_irq,
     input                receiver14_irq,
-    input                receiver15_irq,
-    input                receiver16_irq,
 
     // -------------------
     // Command Source (Output)
@@ -67,23 +65,21 @@ module MebX_Qsys_Project_irq_mapper
     always @* begin
 	sender_irq = 0;
 
-        sender_irq[0] = receiver0_irq;
-        sender_irq[1] = receiver1_irq;
-        sender_irq[3] = receiver2_irq;
-        sender_irq[4] = receiver3_irq;
-        sender_irq[5] = receiver4_irq;
-        sender_irq[6] = receiver5_irq;
-        sender_irq[7] = receiver6_irq;
-        sender_irq[16] = receiver7_irq;
-        sender_irq[2] = receiver8_irq;
-        sender_irq[8] = receiver9_irq;
-        sender_irq[15] = receiver10_irq;
-        sender_irq[13] = receiver11_irq;
-        sender_irq[14] = receiver12_irq;
-        sender_irq[12] = receiver13_irq;
-        sender_irq[10] = receiver14_irq;
-        sender_irq[11] = receiver15_irq;
-        sender_irq[9] = receiver16_irq;
+        sender_irq[3] = receiver0_irq;
+        sender_irq[4] = receiver1_irq;
+        sender_irq[5] = receiver2_irq;
+        sender_irq[6] = receiver3_irq;
+        sender_irq[7] = receiver4_irq;
+        sender_irq[16] = receiver5_irq;
+        sender_irq[2] = receiver6_irq;
+        sender_irq[8] = receiver7_irq;
+        sender_irq[15] = receiver8_irq;
+        sender_irq[13] = receiver9_irq;
+        sender_irq[14] = receiver10_irq;
+        sender_irq[12] = receiver11_irq;
+        sender_irq[10] = receiver12_irq;
+        sender_irq[11] = receiver13_irq;
+        sender_irq[9] = receiver14_irq;
     end
 
 endmodule

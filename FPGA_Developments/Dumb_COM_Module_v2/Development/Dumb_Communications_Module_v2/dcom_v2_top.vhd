@@ -14,7 +14,6 @@ use IEEE.numeric_std.all;
 
 use work.avalon_mm_dcom_pkg.all;
 use work.avalon_mm_dcom_registers_pkg.all;
-use work.avalon_mm_data_buffer_pkg.all;
 use work.dcom_avm_data_pkg.all;
 use work.data_buffer_pkg.all;
 use work.rmap_target_pkg.all;

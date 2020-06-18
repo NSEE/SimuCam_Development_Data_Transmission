@@ -21,6 +21,7 @@ extern TDschChannel xSimucamTimer;
 extern T_Simucam T_simucam;
 
 //! [constants definition]
+#define DSCH_DATA_BUFFER_LENGTH_BYTES    (alt_u16)16384
 //! [constants definition]
 
 //! [public module structs definition]
@@ -53,6 +54,11 @@ bool bDschGetPacketConfig(TDschChannel *pxDschCh);
 bool bDschSetPacketConfig(TDschChannel *pxDschCh);
 
 bool bDschGetBufferStatus(TDschChannel *pxDschCh);
+
+bool bDschGetDataControl(TDschChannel *pxDschCh);
+bool bDschSetDataControl(TDschChannel *pxDschCh);
+
+bool bDschGetDataStatus(TDschChannel *pxDschCh);
 
 bool bDschGetIrqControl(TDschChannel *pxDschCh);
 bool bDschSetIrqControl(TDschChannel *pxDschCh);

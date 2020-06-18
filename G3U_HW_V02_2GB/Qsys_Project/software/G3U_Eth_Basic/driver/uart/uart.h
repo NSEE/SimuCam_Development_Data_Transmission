@@ -9,31 +9,17 @@
 #define UART_H_
 
 #include "../../simucam_definitions.h"
+#include "../../api_drivers/ddr2/ddr2.h"
 
 //! [constants definition]
 
 #define UART_BASE_ADDR UART_MODULE_TOP_0_BASE
-
-#define UART_M1_BASE_ADDR               (alt_u64)0x0000000000000000
-#define UART_M1_SPAN                    (alt_u32)0x7FFFFFFF
-#define UART_M2_BASE_ADDR               (alt_u64)0x0000000080000000
-#define UART_M2_SPAN                    (alt_u32)0x7FFFFFFF
 
 #define UART_TX_BUFFER_LENGTH_BYTES     (alt_u16)32768
 #define UART_RX_BUFFER_LENGTH_BYTES     (alt_u16)32768
 //! [constants definition]
 
 //! [public module structs definition]
-union MemoryAddress {
-	alt_u64 ulliMemAddr64b;
-	alt_u32 uliMemAddr32b[2];
-};
-
-enum UartDdrMemId {
-	eUartDdrM1 = 0,
-	eUartDdrM2
-} EUartDdrMemId;
-
 /* UART Tx Buffer Control Register Struct */
 typedef struct UartTxBufferControl {
 	bool bTxWriteReq; /* Tx Buffer Write Requisition */

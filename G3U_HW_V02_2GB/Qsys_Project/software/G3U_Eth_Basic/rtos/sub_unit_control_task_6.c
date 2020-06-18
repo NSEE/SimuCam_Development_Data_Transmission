@@ -231,18 +231,16 @@ void sub_unit_control_task_6(void *task_data) {
 									T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 #endif
 							i_transferred =
-									bIdmaDmaM1Transfer(
+									(INT16U)uliIdmaChDmaTransfer(eDdr2Memory1,
 											(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-											T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-													+ DMA_OFFSET,
+											(INT32U) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET),
 											c_spw_channel);
 						} else {
 							bDdr2SwitchMemory(DDR2_M2_ID);
 							i_transferred =
-									bIdmaDmaM2Transfer(
+									(INT16U)uliIdmaChDmaTransfer(eDdr2Memory2,
 											(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-											T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-													+ DMA_OFFSET,
+											(INT32U) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET),
 											c_spw_channel);
 						}
 						OSMutexPost(xMutexDMA[c_DMA_nb]);
@@ -371,18 +369,16 @@ void sub_unit_control_task_6(void *task_data) {
 							if (c_DMA_nb == 0) {
 								bDdr2SwitchMemory(DDR2_M1_ID);
 								i_transferred =
-										bIdmaDmaM1Transfer(
+										(INT16U)uliIdmaChDmaTransfer(eDdr2Memory1,
 												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-														+ DMA_OFFSET,
+												(INT32U) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET),
 												c_spw_channel);
 							} else {
 								bDdr2SwitchMemory(DDR2_M2_ID);
 								i_transferred =
-										bIdmaDmaM2Transfer(
+										(INT16U)uliIdmaChDmaTransfer(eDdr2Memory2,
 												(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador),
-												T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length
-														+ DMA_OFFSET,
+												(INT32U) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET),
 												c_spw_channel);
 							}
 							OSMutexPost(xMutexDMA[c_DMA_nb]);

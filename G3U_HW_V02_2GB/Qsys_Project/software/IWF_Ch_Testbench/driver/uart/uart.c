@@ -24,7 +24,7 @@
 
 //! [public functions]
 
-bool bUartTxBufferFull(){
+bool bUartTxBufferFull(void){
 	bool bFull;
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
@@ -34,7 +34,7 @@ bool bUartTxBufferFull(){
 	return (bFull);
 }
 
-bool bUartRxBufferEmpty(){
+bool bUartRxBufferEmpty(void){
 	bool bEmpty;
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
@@ -42,6 +42,60 @@ bool bUartRxBufferEmpty(){
 	bEmpty = vpxUartModule->xUartRxBufferStatus.bRxEmpty;
 
 	return (bEmpty);
+}
+
+alt_u16 usiUartTxBufferUsedSpace(void){
+	alt_u16 usiUsedSpace = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	if (vpxUartModule->xUartTxBufferStatus.bTxFull) {
+		usiUsedSpace = UART_TX_BUFFER_LENGTH_BYTES;
+	} else {
+		usiUsedSpace = vpxUartModule->xUartTxBufferStatus.usiTxUsedWords;
+	}
+
+	return (usiUsedSpace);
+}
+
+alt_u16 usiUartTxBufferFreeSpace(void){
+	alt_u16 usiFreeSpace = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	if (vpxUartModule->xUartTxBufferStatus.bTxFull) {
+		usiFreeSpace = 0;
+	} else {
+		usiFreeSpace = UART_TX_BUFFER_LENGTH_BYTES - vpxUartModule->xUartTxBufferStatus.usiTxUsedWords;
+	}
+
+	return (usiFreeSpace);
+}
+
+alt_u16 usiUartRxBufferUsedSpace(void){
+	alt_u16 usiUsedSpace = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	usiUsedSpace = vpxUartModule->xUartRxBufferStatus.usiRxUsedWords;
+	if ((0 == usiUsedSpace) && (!vpxUartModule->xUartRxBufferStatus.bRxEmpty)) {
+		usiUsedSpace = UART_RX_BUFFER_LENGTH_BYTES;
+	}
+
+	return (usiUsedSpace);
+}
+
+alt_u16 usiUartRxBufferFreeSpace(void){
+	alt_u16 usiFreeSpace = 0;
+
+	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
+
+	usiFreeSpace = UART_RX_BUFFER_LENGTH_BYTES - vpxUartModule->xUartRxBufferStatus.usiRxUsedWords;
+	if ((UART_RX_BUFFER_LENGTH_BYTES == usiFreeSpace) && (!vpxUartModule->xUartRxBufferStatus.bRxEmpty)) {
+		usiFreeSpace = 0;
+	}
+
+	return (usiFreeSpace);
 }
 
 void vUartWriteCharBlocking(char cTxChar){
@@ -67,7 +121,7 @@ void vUartWriteBufferBlocking(char *pcTxBuffer, alt_u16 usiLength){
 
 }
 
-char cUartReadCharBlocking(){
+char cUartReadCharBlocking(void){
 	char cRxChar;
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
@@ -194,7 +248,7 @@ bool bUartDmaTxReset(bool bWait){
 	return (bStatus);
 }
 
-bool bUartDmaTxBusy(){
+bool bUartDmaTxBusy(void){
 	bool bBusy;
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
@@ -209,7 +263,7 @@ bool bUartDmaTxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
 
-	union MemoryAddress unMemoryAddress;
+	union Ddr2MemoryAddress unMemoryAddress;
 
 	bool bMemoryFlag = FALSE;
 	bool bNotBusyFlag = FALSE;
@@ -217,21 +271,17 @@ bool bUartDmaTxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 	alt_u32 uliRoundedTransferSizeInBytes = 0;
 
 	switch (ucDdrMemId) {
-
-		case eUartDdrM1:
-			unMemoryAddress.ulliMemAddr64b = UART_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory1:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
-		case eUartDdrM2:
-			unMemoryAddress.ulliMemAddr64b = UART_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory2:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
 		default:
 			bMemoryFlag = FALSE;
 			break;
-
 	}
 
 	if (!vpxUartModule->xUartTxDataStatus.bTxRdBusy) {
@@ -274,7 +324,7 @@ bool bUartDmaRxReset(bool bWait){
 	return (bStatus);
 }
 
-bool bUartDmaRxBusy(){
+bool bUartDmaRxBusy(void){
 	bool bBusy;
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
@@ -289,7 +339,7 @@ bool bUartDmaRxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
 
-	union MemoryAddress unMemoryAddress;
+	union Ddr2MemoryAddress unMemoryAddress;
 
 	bool bMemoryFlag = FALSE;
 	bool bNotBusyFlag = FALSE;
@@ -297,21 +347,17 @@ bool bUartDmaRxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 	alt_u32 uliRoundedTransferSizeInBytes = 0;
 
 	switch (ucDdrMemId) {
-
-		case eUartDdrM1:
-			unMemoryAddress.ulliMemAddr64b = UART_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory1:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
-		case eUartDdrM2:
-			unMemoryAddress.ulliMemAddr64b = UART_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory2:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
 		default:
 			bMemoryFlag = FALSE;
 			break;
-
 	}
 
 	if (!vpxUartModule->xUartRxDataStatus.bRxWrBusy) {

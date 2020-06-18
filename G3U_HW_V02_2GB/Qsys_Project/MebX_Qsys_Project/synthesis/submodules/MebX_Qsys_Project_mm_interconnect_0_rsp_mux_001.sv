@@ -43,9 +43,9 @@
 //   ARBITRATION_SHARES:  1 1
 //   ARBITRATION_SCHEME   "no-arb"
 //   PIPELINE_ARB:        0
-//   PKT_TRANS_LOCK:      104 (arbitration locking enabled)
-//   ST_DATA_W:           159
-//   ST_CHANNEL_W:        40
+//   PKT_TRANS_LOCK:      140 (arbitration locking enabled)
+//   ST_DATA_W:           186
+//   ST_CHANNEL_W:        10
 // ------------------------------------------
 
 module MebX_Qsys_Project_mm_interconnect_0_rsp_mux_001
@@ -54,15 +54,15 @@ module MebX_Qsys_Project_mm_interconnect_0_rsp_mux_001
     // Sinks
     // ----------------------
     input                       sink0_valid,
-    input [159-1   : 0]  sink0_data,
-    input [40-1: 0]  sink0_channel,
+    input [186-1   : 0]  sink0_data,
+    input [10-1: 0]  sink0_channel,
     input                       sink0_startofpacket,
     input                       sink0_endofpacket,
     output                      sink0_ready,
 
     input                       sink1_valid,
-    input [159-1   : 0]  sink1_data,
-    input [40-1: 0]  sink1_channel,
+    input [186-1   : 0]  sink1_data,
+    input [10-1: 0]  sink1_channel,
     input                       sink1_startofpacket,
     input                       sink1_endofpacket,
     output                      sink1_ready,
@@ -72,8 +72,8 @@ module MebX_Qsys_Project_mm_interconnect_0_rsp_mux_001
     // Source
     // ----------------------
     output                      src_valid,
-    output [159-1    : 0] src_data,
-    output [40-1 : 0] src_channel,
+    output [186-1    : 0] src_data,
+    output [10-1 : 0] src_channel,
     output                      src_startofpacket,
     output                      src_endofpacket,
     input                       src_ready,
@@ -84,13 +84,13 @@ module MebX_Qsys_Project_mm_interconnect_0_rsp_mux_001
     input clk,
     input reset
 );
-    localparam PAYLOAD_W        = 159 + 40 + 2;
+    localparam PAYLOAD_W        = 186 + 10 + 2;
     localparam NUM_INPUTS       = 2;
     localparam SHARE_COUNTER_W  = 1;
     localparam PIPELINE_ARB     = 0;
-    localparam ST_DATA_W        = 159;
-    localparam ST_CHANNEL_W     = 40;
-    localparam PKT_TRANS_LOCK   = 104;
+    localparam ST_DATA_W        = 186;
+    localparam ST_CHANNEL_W     = 10;
+    localparam PKT_TRANS_LOCK   = 140;
 
     // ------------------------------------------
     // Signals
@@ -119,8 +119,8 @@ module MebX_Qsys_Project_mm_interconnect_0_rsp_mux_001
     // ------------------------------------------
     reg [NUM_INPUTS - 1 : 0] lock;
     always @* begin
-      lock[0] = sink0_data[104];
-      lock[1] = sink1_data[104];
+      lock[0] = sink0_data[140];
+      lock[1] = sink1_data[140];
     end
 
     assign last_cycle = src_valid & src_ready & src_endofpacket & ~(|(lock & grant));

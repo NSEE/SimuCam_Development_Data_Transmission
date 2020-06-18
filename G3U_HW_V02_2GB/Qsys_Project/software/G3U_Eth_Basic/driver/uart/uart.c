@@ -263,7 +263,7 @@ bool bUartDmaTxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
 
-	union MemoryAddress unMemoryAddress;
+	union Ddr2MemoryAddress unMemoryAddress;
 
 	bool bMemoryFlag = FALSE;
 	bool bNotBusyFlag = FALSE;
@@ -271,21 +271,17 @@ bool bUartDmaTxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 	alt_u32 uliRoundedTransferSizeInBytes = 0;
 
 	switch (ucDdrMemId) {
-
-		case eUartDdrM1:
-			unMemoryAddress.ulliMemAddr64b = UART_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory1:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
-		case eUartDdrM2:
-			unMemoryAddress.ulliMemAddr64b = UART_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory2:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
 		default:
 			bMemoryFlag = FALSE;
 			break;
-
 	}
 
 	if (!vpxUartModule->xUartTxDataStatus.bTxRdBusy) {
@@ -343,7 +339,7 @@ bool bUartDmaRxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 
 	volatile TUartModule *vpxUartModule = (TUartModule *)UART_BASE_ADDR;
 
-	union MemoryAddress unMemoryAddress;
+	union Ddr2MemoryAddress unMemoryAddress;
 
 	bool bMemoryFlag = FALSE;
 	bool bNotBusyFlag = FALSE;
@@ -351,21 +347,17 @@ bool bUartDmaRxTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 u
 	alt_u32 uliRoundedTransferSizeInBytes = 0;
 
 	switch (ucDdrMemId) {
-
-		case eUartDdrM1:
-			unMemoryAddress.ulliMemAddr64b = UART_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory1:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
-		case eUartDdrM2:
-			unMemoryAddress.ulliMemAddr64b = UART_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+		case eDdr2Memory2:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
 			bMemoryFlag = TRUE;
 			break;
-
 		default:
 			bMemoryFlag = FALSE;
 			break;
-
 	}
 
 	if (!vpxUartModule->xUartRxDataStatus.bRxWrBusy) {

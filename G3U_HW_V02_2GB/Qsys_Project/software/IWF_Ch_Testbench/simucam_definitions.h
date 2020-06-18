@@ -15,8 +15,8 @@
 
 /* HW and FW release version */
 #define SIMUCAM_RELEASE                 "I2dev"
-#define SIMUCAM_HW_VERSION              "0.1"
-#define SIMUCAM_FW_VERSION              "0.1.testbench"
+#define SIMUCAM_HW_VERSION              "0.3"
+#define SIMUCAM_FW_VERSION              "0.0.testbench"
 
 #ifndef bool
 	//typedef short int bool;
