@@ -28,18 +28,18 @@
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
 
-        if ( !bUartRxBufferEmpty() ) {
-                while(luNbChars != 0){
-                        // fgets(pBuffer, 2, stdin);
-                        //*pBuffer = getchar();
-                        *pBuffer = cUartReadCharBlocking();
-                        pBuffer++;
-                        luReturn++;
-                        luNbChars--;
-                }
-        } else {
-                luReturn = 0;
+        // if ( !bUartRxBufferEmpty() ) {
+        while(luNbChars != 0){
+                // fgets(pBuffer, 2, stdin);
+                //*pBuffer = getchar();
+                *pBuffer = cUartReadCharBlocking();
+                pBuffer++;
+                luReturn++;
+                luNbChars--;
         }
+        // } else {
+        //         luReturn = 0;
+        // }
 //#if DEBUG_ON
 //       if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
 //               fprintf(fp, "[GETSERIAL]Received Total: %lu\r\n", luReturn);
