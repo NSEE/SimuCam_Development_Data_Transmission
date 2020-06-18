@@ -39,6 +39,8 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
                         pBuffer++;
                         luReturn++;
                         luNbChars--;
+                } else {
+                        OSTimeDly(1);
                 }
         }
         // } else {
