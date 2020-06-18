@@ -6,5 +6,6 @@ START cmd /c "..\FPGA_Developments\RMAP_Memory_Subunit_Area\Development\UpdateSR
 START cmd /c "..\FPGA_Developments\SpaceWire_Channel\Development\UpdateSpwc100Hw.bat
 START cmd /c "..\FPGA_Developments\SpaceWire_Glutton\Development\UpdateSpwGluttonHw.bat
 START cmd /c "..\FPGA_Developments\Sync\Development\UpdateSyncHw.bat"
+START cmd /c "..\FPGA_Developments\UART_Module\UpdateUart100Hw.bat"
 REM Adicionar novos Hw sempre que forem criados
 REM PAUSE

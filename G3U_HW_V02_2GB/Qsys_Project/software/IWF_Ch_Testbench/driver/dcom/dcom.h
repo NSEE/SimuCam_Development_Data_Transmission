@@ -149,6 +149,21 @@ typedef struct DschBufferStatus {
 	bool bFull; /* Data Scheduler Buffer Full */
 } TDschBufferStatus;
 
+/* Data Scheduler Data Control Register Struct */
+typedef struct DschDataControl {
+	alt_u32 uliRdInitAddrHighDword; /* Data Scheduler Initial Read Address [High Dword] */
+	alt_u32 uliRdInitAddrLowDword; /* Data Scheduler Initial Read Address [Low Dword] */
+	alt_u32 uliRdDataLenghtBytes; /* Data Scheduler Read Data Length [Bytes] */
+	bool bRdStart; /* Data Scheduler Data Read Start */
+	bool bRdReset; /* Data Scheduler Data Read Reset */
+	bool bRdAutoRestart; /* Data Scheduler Data Read Auto Restart */
+} TDschDataControl;
+
+/* Data Scheduler Data Status Register Struct */
+typedef struct DschDataStatus {
+	bool bRdBusy; /* Data Scheduler Data Read Busy */
+} TDschDataStatus;
+
 /* Data Scheduler IRQ Control Register Struct */
 typedef struct DschIrqControl {
 	bool bTxEndEn; /* Data Scheduler Tx End IRQ Enable */
@@ -228,6 +243,8 @@ typedef struct DschChannel {
 	TDschTimerStatus xDschTimerStatus;
 	TDschPacketConfig xDschPacketConfig;
 	TDschBufferStatus xDschBufferStatus;
+	TDschDataControl xDschDataControl;
+	TDschDataStatus xDschDataStatus;
 	TDschIrqControl xDschIrqControl;
 	TDschIrqFlag xDschIrqFlag;
 	TDschIrqFlagClr xDschIrqFlagClr;

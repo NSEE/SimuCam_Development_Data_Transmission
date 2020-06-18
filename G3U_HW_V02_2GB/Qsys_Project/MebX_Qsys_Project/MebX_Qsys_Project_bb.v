@@ -17,11 +17,6 @@ module MebX_Qsys_Project (
 	dcom_7_sync_end_sync_channel_signal,
 	dcom_8_sync_end_sync_channel_signal,
 	dip_export,
-	dumb_communication_module_v2_timer_avalon_slave_data_buffer_address,
-	dumb_communication_module_v2_timer_avalon_slave_data_buffer_byteenable,
-	dumb_communication_module_v2_timer_avalon_slave_data_buffer_write,
-	dumb_communication_module_v2_timer_avalon_slave_data_buffer_writedata,
-	dumb_communication_module_v2_timer_avalon_slave_data_buffer_waitrequest,
 	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal,
 	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal,
 	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal,
@@ -200,10 +195,10 @@ module MebX_Qsys_Project (
 	tristate_conduit_tcm_write_n_out,
 	tristate_conduit_tcm_data_out,
 	tristate_conduit_tcm_chipselect_n_out,
-	uart_module_uart_txd_signal,
-	uart_module_uart_rxd_signal,
-	uart_module_uart_rts_signal,
-	uart_module_uart_cts_signal);	
+	dumb_communication_module_v2_timer_avalon_master_data_readdata,
+	dumb_communication_module_v2_timer_avalon_master_data_waitrequest,
+	dumb_communication_module_v2_timer_avalon_master_data_address,
+	dumb_communication_module_v2_timer_avalon_master_data_read);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -222,11 +217,6 @@ module MebX_Qsys_Project (
 	input		dcom_7_sync_end_sync_channel_signal;
 	input		dcom_8_sync_end_sync_channel_signal;
 	input	[7:0]	dip_export;
-	input	[11:0]	dumb_communication_module_v2_timer_avalon_slave_data_buffer_address;
-	input	[7:0]	dumb_communication_module_v2_timer_avalon_slave_data_buffer_byteenable;
-	input		dumb_communication_module_v2_timer_avalon_slave_data_buffer_write;
-	input	[63:0]	dumb_communication_module_v2_timer_avalon_slave_data_buffer_writedata;
-	output		dumb_communication_module_v2_timer_avalon_slave_data_buffer_waitrequest;
 	input		dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal;
 	input	[7:0]	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal;
 	input		dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal;
@@ -405,8 +395,8 @@ module MebX_Qsys_Project (
 	output	[0:0]	tristate_conduit_tcm_write_n_out;
 	inout	[15:0]	tristate_conduit_tcm_data_out;
 	output	[0:0]	tristate_conduit_tcm_chipselect_n_out;
-	output		uart_module_uart_txd_signal;
-	input		uart_module_uart_rxd_signal;
-	input		uart_module_uart_rts_signal;
-	output		uart_module_uart_cts_signal;
+	input	[63:0]	dumb_communication_module_v2_timer_avalon_master_data_readdata;
+	input		dumb_communication_module_v2_timer_avalon_master_data_waitrequest;
+	output	[63:0]	dumb_communication_module_v2_timer_avalon_master_data_address;
+	output		dumb_communication_module_v2_timer_avalon_master_data_read;
 endmodule

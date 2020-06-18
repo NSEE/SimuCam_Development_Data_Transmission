@@ -29,7 +29,7 @@
 // Generation parameters:
 //   output_name:         MebX_Qsys_Project_mm_interconnect_1_rsp_demux
 //   ST_DATA_W:           128
-//   ST_CHANNEL_W:        39
+//   ST_CHANNEL_W:        40
 //   NUM_OUTPUTS:         1
 //   VALID_WIDTH:         1
 // ------------------------------------------
@@ -47,7 +47,7 @@ module MebX_Qsys_Project_mm_interconnect_1_rsp_demux
     // -------------------
     input  [1-1      : 0]   sink_valid,
     input  [128-1    : 0]   sink_data, // ST_DATA_W=128
-    input  [39-1 : 0]   sink_channel, // ST_CHANNEL_W=39
+    input  [40-1 : 0]   sink_channel, // ST_CHANNEL_W=40
     input                         sink_startofpacket,
     input                         sink_endofpacket,
     output                        sink_ready,
@@ -57,7 +57,7 @@ module MebX_Qsys_Project_mm_interconnect_1_rsp_demux
     // -------------------
     output reg                      src0_valid,
     output reg [128-1    : 0] src0_data, // ST_DATA_W=128
-    output reg [39-1 : 0] src0_channel, // ST_CHANNEL_W=39
+    output reg [40-1 : 0] src0_channel, // ST_CHANNEL_W=40
     output reg                      src0_startofpacket,
     output reg                      src0_endofpacket,
     input                           src0_ready,
@@ -94,7 +94,7 @@ module MebX_Qsys_Project_mm_interconnect_1_rsp_demux
     // -------------------
     assign ready_vector[0] = src0_ready;
 
-    assign sink_ready = |(sink_channel & {{38{1'b0}},{ready_vector[NUM_OUTPUTS - 1 : 0]}});
+    assign sink_ready = |(sink_channel & {{39{1'b0}},{ready_vector[NUM_OUTPUTS - 1 : 0]}});
 
 endmodule
 

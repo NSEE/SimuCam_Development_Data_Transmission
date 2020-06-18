@@ -3,6 +3,7 @@
 	<name>IWF_Ch_Testbench</name>
 	<comment></comment>
 	<projects>
+		<project>IWF_Ch_Testbench_bsp</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

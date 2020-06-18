@@ -29,8 +29,11 @@
 
 #include "includes.h"
 #include "../simucam_definitions.h"
+#include "../alt_error_handler.h"
+#include "../utils/crc.h"
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/uart/uart.h"
+#include "../rtos/command_control_task.h"
 
 /*
 ************************************************************************************************

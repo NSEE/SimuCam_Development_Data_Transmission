@@ -15,7 +15,6 @@
 /*$PAGE*/
 
 #include "uart_receiver_task.h"
-#include "../driver/uart/uart.h"
 /**
  * @name luGetSerial
  * @brief Receives a fixed number of chars from serial
@@ -29,11 +28,11 @@
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
 
-        if ( !iUartEmpty() ) {
+        if ( !bUartRxBufferEmpty() ) {
                 while(luNbChars != 0){
                         // fgets(pBuffer, 2, stdin);
                         //*pBuffer = getchar();
-                        *pBuffer = cUartReadChar();
+                        *pBuffer = cUartReadCharBlocking();
                         pBuffer++;
                         luReturn++;
                         luNbChars--;
@@ -81,12 +80,12 @@ void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer){
             + 65536 * cReceiveBuffer[5]
             + 4294967296 * cReceiveBuffer[4];
 
-    pPayload->luCRCPartial = crc__CRC16CCITT(cReceiveBuffer, HEADER_OVERHEAD);
+    pPayload->luCRCPartial = crc__CRC16CCITT((unsigned char *)cReceiveBuffer, HEADER_OVERHEAD);
 
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
         fprintf(fp, "[UART HParser]Parsed header %u, Parsed id: %u, parsed type %u, parsed size %lu\n", pPayload->header, pPayload->packet_id, pPayload->type, pPayload->size);
-        fprintf(fp, "[UART HParser]Print partial crc %lu\n", pPayload->luCRCPartial);
+        fprintf(fp, "[UART HParser]Print partial crc %u\n", pPayload->luCRCPartial);
         }
 #endif
 }
@@ -144,7 +143,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
         T_Imagette *p_imagette_buff;
 
         p_imagette_byte =
-                (INT32U) pSimucam->T_Sub[i_channel_wr].T_data.addr_init;
+                (INT8U *) pSimucam->T_Sub[i_channel_wr].T_data.addr_init;
 
         /*
         * Parse nb of imagettes
@@ -180,7 +179,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
 
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                fprintf(fp, "[UART ImagetteParser DEBUG]Received nb Imagettes %lu\r\n", pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes);
+                fprintf(fp, "[UART ImagetteParser DEBUG]Received nb Imagettes %u\r\n", pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes);
                 fprintf(fp, "[UART ImagetteParser DEBUG]Received TAG %i %i %i %i\r\n",
                 (INT8U) pSimucam->T_Sub[i_channel_wr].T_data.tag[0],
                 (INT8U) pSimucam->T_Sub[i_channel_wr].T_data.tag[1],
@@ -373,7 +372,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
 
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                fprintf(fp, "[vCmdParser DEBUG]Calculated CRC = %lu\n",
+                fprintf(fp, "[vCmdParser DEBUG]Calculated CRC = %u\n",
                         (INT16U) pUartPayload->luCRCPartial);
         }
 #endif
@@ -385,7 +384,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
 
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                fprintf(fp, "[vCmdParser DEBUG]Received CRC = %lu\n",
+                fprintf(fp, "[vCmdParser DEBUG]Received CRC = %u\n",
                         (INT16U) pUartPayload->crc);
         }
 #endif
@@ -422,7 +421,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
 
 #if DEBUG_ON
         if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                fprintf(fp, "[vCmdParser DEBUG]Received CRC = %lu\n",
+                fprintf(fp, "[vCmdParser DEBUG]Received CRC = %u\n",
                         (INT16U) pUartPayload->crc);
         }
 #endif
@@ -463,9 +462,9 @@ INT8U vCmdParser(T_uart_payload *pUartPayload){
 }
 
 void uart_receiver_task(void *task_data){
-    bool bSuccess = FALSE;
+//    bool bSuccess = FALSE;
     INT8U cReceiveBuffer[UART_BUFFER_SIZE];
-    INT8U cReceive[UART_BUFFER_SIZE+64];
+//    INT8U cReceive[UART_BUFFER_SIZE+64];
     INT8U error_code = 0;
     tReaderStates eReaderRXMode = sRConfiguring;
     static T_uart_payload payload;
@@ -490,8 +489,8 @@ void uart_receiver_task(void *task_data){
 //#endif
                 memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
                 
-                if( luGetSerial((char *) &cReceiveBuffer, 8) ){
-                        luGetSerial((char *) &cReceiveBuffer, 8);
+                if( luGetSerial((INT8U *) &cReceiveBuffer, 8) ){
+                        luGetSerial((INT8U *) &cReceiveBuffer, 8);
                         vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
         #if DEBUG_ON
                         if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
@@ -519,7 +518,7 @@ void uart_receiver_task(void *task_data){
                         eReaderRXMode = sGetHeader;
                     } else{
                         eReaderRXMode = sRConfiguring;
-                        v_ack_creator(payload, xCommandNotAccepted);
+                        v_ack_creator(&payload, xCommandNotAccepted);
                     }
                     
                 break;
@@ -542,10 +541,13 @@ void uart_receiver_task(void *task_data){
                 	error_code = OSQPost(p_simucam_command_q, &payload);
                 					alt_SSSErrorHandler(error_code, 0);
                         if(error_code != OS_NO_ERR){
-                                v_ack_creator(payload, xOSError);
+                                v_ack_creator(&payload, xOSError);
                         }
                 	eReaderRXMode = sRConfiguring;
 				break;
+
+                case sSendToACKReceiver:
+                break;
         }
     }
 }

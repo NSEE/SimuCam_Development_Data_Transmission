@@ -16,10 +16,11 @@
 
 #include <stdio.h>
 #include "simucam_definitions.h"
-#include "driver/dcom/dcom_channel.h"
-#include "driver/sync/sync.h"
 #include "api_driver/iwf_simucam_dma/iwf_simucam_dma.h"
 #include "api_driver/ddr2/ddr2.h"
+#include "driver/dcom/dcom_channel.h"
+#include "driver/sync/sync.h"
+#include "driver/uart/uart.h"
 #include "utils/initialization_simucam.h"
 #include "utils/test_module_simucam.h"
 
@@ -72,6 +73,88 @@ int main() {
 
 	bSetPainelLeds( LEDS_OFF , LEDS_ST_ALL_MASK );
 	bSetPainelLeds( LEDS_ON , LEDS_POWER_MASK );
+
+	bUartFlushRxBuffer(0);
+
+//	printf("Waiting 10s...\n");
+//	usleep(10000000);
+
+//	printf("%d\n", bUartWriteCharNonBlocking('H'));
+//	printf("%d\n", bUartWriteCharNonBlocking('e'));
+//	printf("%d\n", bUartWriteCharNonBlocking('l'));
+//	printf("%d\n", bUartWriteCharNonBlocking('l'));
+//	printf("%d\n", bUartWriteCharNonBlocking('o'));
+
+//	vUartWriteCharBlocking('H');
+//	vUartWriteCharBlocking('e');
+//	vUartWriteCharBlocking('l');
+//	vUartWriteCharBlocking('l');
+//	vUartWriteCharBlocking('o');
+//
+//	printf("Received: %c\n", cUartReadCharBlocking());
+//	printf("Received: %c\n", cUartReadCharBlocking());
+//	printf("Received: %c\n", cUartReadCharBlocking());
+//	printf("Received: %c\n", cUartReadCharBlocking());
+//	printf("Received: %c\n", cUartReadCharBlocking());
+//
+//	bDdr2SwitchMemory(DDR2_M1_ID);
+//	char *pcStr = (char *) DDR2_EXT_ADDR_WINDOWED_BASE;
+//
+//	pcStr[0] ='H';
+//	pcStr[1] ='E';
+//	pcStr[2] ='L';
+//	pcStr[3] ='L';
+//	pcStr[4] ='O';
+//	pcStr[5] ='_';
+//	pcStr[6] ='W';
+//	pcStr[7] ='O';
+//	pcStr[8] ='R';
+//	pcStr[9] ='L';
+//	pcStr[10] ='D';
+//	pcStr[11] ='_';
+//	pcStr[12] ='F';
+//	pcStr[13] ='R';
+//	pcStr[14] ='O';
+//	pcStr[15] ='M';
+//	pcStr[16] ='_';
+//	pcStr[17] ='S';
+//	pcStr[18] ='I';
+//	pcStr[19] ='M';
+//	pcStr[20] ='U';
+//	pcStr[21] ='C';
+//	pcStr[22] ='A';
+//	pcStr[23] ='M';
+//	pcStr[24] ='\n';
+//
+//	usleep(1000);
+//
+//	printf("Go\n");
+//
+//	bUartDmaTxTransfer(eDdr2Memory1, (alt_u32 *)0x00000000, 25);
+//	while (bUartDmaTxBusy()) {}
+//
+//	printf("Go2\n");
+//
+//	bUartDmaTxTransfer(eDdr2Memory1, (alt_u32 *)0x00000000, 25);
+//	while (bUartDmaTxBusy()) {}
+//
+//	printf("Waiting...\n");
+//
+//	alt_u8 ucCnt = 0;
+//
+//	for (ucCnt = 0; ucCnt < 25; ucCnt++) {
+//		pcStr[ucCnt] = (char)0xFF;
+//	}
+//
+//	bUartDmaRxTransfer(eDdr2Memory1, (alt_u32 *)0x00000000, 24);
+//	while (bUartDmaRxBusy()) {}
+//
+//	for (ucCnt = 0; ucCnt < 25; ucCnt++) {
+//		printf("%c", pcStr[ucCnt]);
+//	}
+//	printf("\n");
+//
+//	while(1) {}
 
 	printf("Starting Channels...\n");
 
@@ -208,7 +291,7 @@ int main() {
 	printf("Data for M1 initialized !!\n");
 
 	printf("Transferring Data from M1 to Channel A... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh1Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh1Buffer)) {
 		printf("Transfer for Channel A Complete!! \n");
 	} else {
 		printf("Transfer for Channel A Failed!! ERROR!! \n");
@@ -216,7 +299,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M1 to Channel B... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh2Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh2Buffer)) {
 		printf("Transfer for Channel B Complete!! \n");
 	} else {
 		printf("Transfer for Channel B Failed!! ERROR!! \n");
@@ -224,7 +307,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M1 to Channel C... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh3Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh3Buffer)) {
 		printf("Transfer for Channel C Complete!! \n");
 	} else {
 		printf("Transfer for Channel C Failed!! ERROR!! \n");
@@ -232,7 +315,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M1 to Channel D... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh4Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh4Buffer)) {
 		printf("Transfer for Channel D Complete!! \n");
 	} else {
 		printf("Transfer for Channel D Failed!! ERROR!! \n");
@@ -240,7 +323,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M1 to Channel E... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh5Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh5Buffer)) {
 		printf("Transfer for Channel E Complete!! \n");
 	} else {
 		printf("Transfer for Channel E Failed!! ERROR!! \n");
@@ -248,7 +331,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M1 to Channel F... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh6Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh6Buffer)) {
 		printf("Transfer for Channel F Complete!! \n");
 	} else {
 		printf("Transfer for Channel F Failed!! ERROR!! \n");
@@ -256,7 +339,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M1 to Channel G... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh7Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh7Buffer)) {
 		printf("Transfer for Channel G Complete!! \n");
 	} else {
 		printf("Transfer for Channel G Failed!! ERROR!! \n");
@@ -264,7 +347,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M1 to Channel H... ");
-	if (bIdmaDmaM1Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh8Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh8Buffer)) {
 		printf("Transfer for Channel H Complete!! \n");
 	} else {
 		printf("Transfer for Channel H Failed!! ERROR!! \n");
@@ -304,7 +387,7 @@ int main() {
 	printf("Data for M2 initialized !!\n");
 
 	printf("Transferring Data from M2 to Channel A... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh1Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh1Buffer)) {
 		printf("Transfer for Channel A Complete!! \n");
 	} else {
 		printf("Transfer for Channel A Failed!! ERROR!! \n");
@@ -312,7 +395,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M2 to Channel B... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh2Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh2Buffer)) {
 		printf("Transfer for Channel B Complete!! \n");
 	} else {
 		printf("Transfer for Channel B Failed!! ERROR!! \n");
@@ -320,7 +403,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M2 to Channel C... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh3Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh3Buffer)) {
 		printf("Transfer for Channel C Complete!! \n");
 	} else {
 		printf("Transfer for Channel C Failed!! ERROR!! \n");
@@ -328,7 +411,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M2 to Channel D... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh4Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh4Buffer)) {
 		printf("Transfer for Channel D Complete!! \n");
 	} else {
 		printf("Transfer for Channel D Failed!! ERROR!! \n");
@@ -336,7 +419,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M2 to Channel E... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh5Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh5Buffer)) {
 		printf("Transfer for Channel E Complete!! \n");
 	} else {
 		printf("Transfer for Channel E Failed!! ERROR!! \n");
@@ -344,7 +427,7 @@ int main() {
 
 	usleep(1000000);
 	printf("Transferring Data from M2 to Channel F... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh6Buffer)) {
+	if (uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh6Buffer)) {
 		printf("Transfer for Channel F Complete!! \n");
 	} else {
 		printf("Transfer for Channel F Failed!! ERROR!! \n");
@@ -352,7 +435,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M2 to Channel G... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh7Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh7Buffer)) {
 		printf("Transfer for Channel G Complete!! \n");
 	} else {
 		printf("Transfer for Channel G Failed!! ERROR!! \n");
@@ -360,7 +443,7 @@ int main() {
 	usleep(1000000);
 
 	printf("Transferring Data from M2 to Channel H... ");
-	if (bIdmaDmaM2Transfer((alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh8Buffer)) {
+	if (uliIdmaChDmaTransfer(eDdr2Memory2, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh8Buffer)) {
 		printf("Transfer for Channel H Complete!! \n");
 	} else {
 		printf("Transfer for Channel H Failed!! ERROR!! \n");

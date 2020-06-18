@@ -116,16 +116,188 @@ R21
 !i113 1
 R7
 R8
+Pavalon_mm_uart_pkg
+R0
+R1
+R2
+Z22 w1592186508
+Z23 dD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench
+Z24 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_pkg.vhd
+Z25 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_pkg.vhd
+l0
+L5
+V8jR6S>3PCD1KGfj1Y7z=81
+!s100 fNAQ[AYniDSS4V]JgzSfz3
+R4
+32
+Z26 !s110 1592361931
+!i10b 1
+Z27 !s108 1592361931.000000
+Z28 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_pkg.vhd|
+Z29 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_pkg.vhd|
+!i113 1
+R7
+R8
+Bbody
+Z30 DPx4 work 18 avalon_mm_uart_pkg 0 22 8jR6S>3PCD1KGfj1Y7z=81
+R0
+R1
+R2
+l0
+L59
+V5X2EDA95Oe?g466<PJ@2Q3
+!s100 okDTe7b4[0G]Gm@fC5dYm3
+R4
+32
+R26
+!i10b 1
+R27
+R28
+R29
+!i113 1
+R7
+R8
+Eavalon_mm_uart_read_ent
+Z31 w1592357736
+Z32 DPx4 work 28 avalon_mm_uart_registers_pkg 0 22 CVQW3zd];m?jFVbDJKN?C2
+R30
+R0
+R1
+R2
+R23
+Z33 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_read_ent.vhd
+Z34 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_read_ent.vhd
+l0
+L8
+VH3W]@Gg;6m?bR`]S^YBb]1
+!s100 XZ4e]7?^[j;6R8`^J:me<0
+R4
+32
+Z35 !s110 1592361932
+!i10b 1
+Z36 !s108 1592361932.000000
+Z37 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_read_ent.vhd|
+Z38 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_read_ent.vhd|
+!i113 1
+R7
+R8
+Artl
+R32
+R30
+R0
+R1
+R2
+Z39 DEx4 work 23 avalon_mm_uart_read_ent 0 22 H3W]@Gg;6m?bR`]S^YBb]1
+l21
+L19
+V:D8k^ba^nA4fGL`2DX5H51
+!s100 88`FNW;UQ<:4Tel?cQg^K2
+R4
+32
+R35
+!i10b 1
+R36
+R37
+R38
+!i113 1
+R7
+R8
+Pavalon_mm_uart_registers_pkg
+R0
+R1
+R2
+Z40 w1592357728
+R23
+Z41 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/REGISTERS/avalon_mm_uart_registers_pkg.vhd
+Z42 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/REGISTERS/avalon_mm_uart_registers_pkg.vhd
+l0
+L5
+VCVQW3zd];m?jFVbDJKN?C2
+!s100 E[8K=[HAnmXd`ogW;1[Qk2
+R4
+32
+R35
+!i10b 1
+R36
+Z43 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/REGISTERS/avalon_mm_uart_registers_pkg.vhd|
+Z44 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/REGISTERS/avalon_mm_uart_registers_pkg.vhd|
+!i113 1
+R7
+R8
+Bbody
+R32
+R0
+R1
+R2
+l0
+L87
+V6NJC7aM5ilT@gX?Q7UMfU2
+!s100 HdNWKPJ>gZ0OhZiETQ;ez1
+R4
+32
+R35
+!i10b 1
+R36
+R43
+R44
+!i113 1
+R7
+R8
+Eavalon_mm_uart_write_ent
+Z45 w1592357767
+R32
+R30
+R0
+R1
+R2
+R23
+Z46 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_write_ent.vhd
+Z47 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_write_ent.vhd
+l0
+L8
+VIa@MH6?4bL=KVdICI8i8a3
+!s100 W>SN6bC_I1Q6TbZEMP4^B0
+R4
+32
+R35
+!i10b 1
+R36
+Z48 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_write_ent.vhd|
+Z49 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON_UART_REGISTERS/avalon_mm_uart_write_ent.vhd|
+!i113 1
+R7
+R8
+Artl
+R32
+R30
+R0
+R1
+R2
+Z50 DEx4 work 24 avalon_mm_uart_write_ent 0 22 Ia@MH6?4bL=KVdICI8i8a3
+l22
+L18
+VNgOjKJN2iMc;O31d6mIZ31
+!s100 8?<eUCOQFjEkB1=SQ^m7g2
+R4
+32
+R35
+!i10b 1
+R36
+R48
+R49
+!i113 1
+R7
+R8
 Eavalon_mm_write_ent
-Z22 w1576585790
+Z51 w1576585790
 R10
 R11
 R0
 R1
 R2
 R3
-Z23 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd
-Z24 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd
+Z52 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd
+Z53 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd
 l0
 L8
 V]CoWFH=zc4FMQQ7B]J_j:2
@@ -135,8 +307,8 @@ R4
 R5
 !i10b 1
 R6
-Z25 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd|
-Z26 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd|
+Z54 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd|
+Z55 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVALON/avalon_mm_write_ent.vhd|
 !i113 1
 R7
 R8
@@ -146,7 +318,7 @@ R11
 R0
 R1
 R2
-Z27 DEx4 work 19 avalon_mm_write_ent 0 22 ]CoWFH=zc4FMQQ7B]J_j:2
+Z56 DEx4 work 19 avalon_mm_write_ent 0 22 ]CoWFH=zc4FMQQ7B]J_j:2
 l22
 L18
 VCbmc?d^ZDS1g5_32D:mPi2
@@ -156,31 +328,72 @@ R4
 R5
 !i10b 1
 R6
-R25
-R26
+R54
+R55
+!i113 1
+R7
+R8
+Eavm_uart_rs232_controller_ent
+Z57 w1592189736
+R0
+R1
+R2
+R23
+Z58 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd
+Z59 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd
+l0
+L5
+VDSggHBSYjLXA3WSSZ>B[91
+!s100 TM0MCLlb3XD^9GBj]W@5Y1
+R4
+32
+Z60 !s110 1592361933
+!i10b 1
+Z61 !s108 1592361933.000000
+Z62 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd|
+Z63 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/AVM_UART_RS232/avm_uart_rs232_controller_ent.vhd|
+!i113 1
+R7
+R8
+Artl
+R0
+R1
+R2
+Z64 DEx4 work 29 avm_uart_rs232_controller_ent 0 22 DSggHBSYjLXA3WSSZ>B[91
+l26
+L24
+Vh^o8LlbSXD2<5?c]Yh_zR2
+!s100 Hd@Oi7j<[iTfGg9XaSh873
+R4
+32
+R60
+!i10b 1
+R61
+R62
+R63
 !i113 1
 R7
 R8
 Econfig_avalon_stimuli
-Z28 w1576583516
+Z65 w1591805057
 R10
 R0
 R1
 R2
-R3
-Z29 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd
-Z30 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd
+R23
+Z66 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd
+Z67 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd
 l0
 L7
 VDlLLlN5g2Z>B1jz9d=1NF1
 !s100 kEmY9P@^e_T8XGZQn_T7l2
 R4
 32
-R5
+Z68 !s110 1592361934
 !i10b 1
-R6
-Z31 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd|
-Z32 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd|
+Z69 !s108 1592361934.000000
+Z70 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd|
+Z71 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/config_avalon_stimuli.vhd|
 !i113 1
 R7
 R8
@@ -189,136 +402,265 @@ R10
 R0
 R1
 R2
-Z33 DEx4 work 21 config_avalon_stimuli 0 22 DlLLlN5g2Z>B1jz9d=1NF1
+Z72 DEx4 work 21 config_avalon_stimuli 0 22 DlLLlN5g2Z>B1jz9d=1NF1
 l28
 L24
 VIE2X@GSL9<5YTP?74@Z>V1
 !s100 zCb8VB>nnkB]o`BdmTN>o1
 R4
 32
-R5
+R68
 !i10b 1
-R6
-R31
-R32
+R69
+R70
+R71
 !i113 1
 R7
 R8
 Edata_fifo_sc_fifo
-Z34 w1576507764
+Z73 w1591805058
 R1
 R2
-R3
-Z35 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd
-Z36 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd
+R23
+Z74 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd
+Z75 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd
 l0
 L42
 Vm]8f>5^o6hWkn13AP05d[3
 !s100 o:7:Kh9Q_H;0QoJ^E0<Io1
 R4
 32
-R5
+R35
 !i10b 1
-R6
-Z37 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd|
-Z38 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd|
+R36
+Z76 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd|
+Z77 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/DATA_FIFO/ip_core/data_fifo_sc_fifo/data_fifo_sc_fifo.vhd|
 !i113 1
 R7
 R8
 Asyn
 R1
 R2
-Z39 DEx4 work 17 data_fifo_sc_fifo 0 22 m]8f>5^o6hWkn13AP05d[3
+Z78 DEx4 work 17 data_fifo_sc_fifo 0 22 m]8f>5^o6hWkn13AP05d[3
 l95
 L59
 VjXD`3jdDc:TG2YIi8RiQ82
 !s100 GZcO0[_jEd3nkJNLcWaz;3
 R4
 32
-R5
+R35
 !i10b 1
-R6
-R37
-R38
+R36
+R76
+R77
 !i113 1
 R7
 R8
 Etestbench_top
-Z40 w1576603491
+Z79 w1592361929
 R0
 R1
 R2
-R3
-Z41 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd
-Z42 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd
+R23
+Z80 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd
+Z81 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd
 l0
 L5
 V8PLe2HbY:2XZhzjO2JGIG0
 !s100 G?5U7^R@6KQZzZA7M_nJY1
 R4
 32
-Z43 !s110 1576603494
+R68
 !i10b 1
-Z44 !s108 1576603494.000000
-Z45 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd|
-Z46 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd|
+R69
+Z82 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd|
+Z83 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/Testbench/testbench_top.vhd|
 !i113 1
 R7
 R8
 Artl
-R11
-Z47 DEx4 work 15 uart_module_top 0 22 EIBbja2e:be71Kg3QURlM0
+Z84 DPx4 work 17 uart_avm_data_pkg 0 22 @K2J@J`c5cKV9EW?VZ:gR1
+R32
+R30
+Z85 DEx4 work 15 uart_module_top 0 22 mV_4b:9e`l]^]don8_]V[1
 R10
-R33
+R72
 R0
 R1
 R2
-DEx4 work 13 testbench_top 0 22 8PLe2HbY:2XZhzjO2JGIG0
+Z86 DEx4 work 13 testbench_top 0 22 8PLe2HbY:2XZhzjO2JGIG0
 l28
 L8
-V1>j6M6[T;EKAN;><CY`4g0
-!s100 3]TFnBb1k]4L7eCCS^eH>0
+Z87 V[j5IHM^ag<QSb9dHKh;7R3
+Z88 !s100 e[FAOLSWQJgmnHN[i?1_81
 R4
 32
-R43
+R68
 !i10b 1
-R44
-R45
-R46
+R69
+R82
+R83
+!i113 1
+R7
+R8
+Puart_avm_data_pkg
+R0
+R1
+R2
+Z89 w1592358706
+R23
+Z90 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_pkg.vhd
+Z91 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_pkg.vhd
+l0
+L5
+V@K2J@J`c5cKV9EW?VZ:gR1
+!s100 G2;e4ENmDJNfAWfioDFY]2
+R4
+32
+R60
+!i10b 1
+R61
+Z92 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_pkg.vhd|
+Z93 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_pkg.vhd|
+!i113 1
+R7
+R8
+Bbody
+R84
+R0
+R1
+R2
+l0
+L101
+VEMak03?Dg[Q5?@OK[;k5`1
+!s100 Ve3W3k:?U_9UXKNXTG3Vz3
+R4
+32
+R60
+!i10b 1
+R61
+R92
+R93
+!i113 1
+R7
+R8
+Euart_avm_data_reader_ent
+Z94 w1592358708
+R84
+R0
+R1
+R2
+R23
+Z95 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_reader_ent.vhd
+Z96 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_reader_ent.vhd
+l0
+L7
+V168OZRVMVPL<bfTC070o10
+!s100 M^SdWOKBAzTn>lUoI:A=C0
+R4
+32
+R60
+!i10b 1
+R61
+Z97 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_reader_ent.vhd|
+Z98 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_reader_ent.vhd|
+!i113 1
+R7
+R8
+Artl
+R84
+R0
+R1
+R2
+Z99 DEx4 work 24 uart_avm_data_reader_ent 0 22 168OZRVMVPL<bfTC070o10
+l31
+L18
+V85_`D0^9:UdFDVEI0Do981
+!s100 XDW;;;:Y_jRJkJ0eB4K?H2
+R4
+32
+R60
+!i10b 1
+R61
+R97
+R98
+!i113 1
+R7
+R8
+Euart_avm_data_writer_ent
+Z100 w1592358711
+R84
+R0
+R1
+R2
+R23
+Z101 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_writer_ent.vhd
+Z102 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_writer_ent.vhd
+l0
+L7
+VRE8<5b`AZ9?=h4RKo?OIZ1
+!s100 BQ^;d@>Id0ZolAj[o<7>01
+R4
+32
+R60
+!i10b 1
+R61
+Z103 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_writer_ent.vhd|
+Z104 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AVALON_MM_MASTER_DATA/uart_avm_data_writer_ent.vhd|
+!i113 1
+R7
+R8
+Artl
+R84
+R0
+R1
+R2
+Z105 DEx4 work 24 uart_avm_data_writer_ent 0 22 RE8<5b`AZ9?=h4RKo?OIZ1
+l31
+L18
+VB`??b`96nfj3_Nc28:Aik2
+!s100 VLkmJKW<jM6nMQ1SCDhLM1
+R4
+32
+R60
+!i10b 1
+R61
+R103
+R104
 !i113 1
 R7
 R8
 Euart_module
-Z48 w1576508210
-Z49 DPx4 work 23 avalon_mm_registers_pkg 0 22 Og5KahN9l_i?ePIcLMZJ20
+Z106 w1576508210
+Z107 DPx4 work 23 avalon_mm_registers_pkg 0 22 Og5KahN9l_i?ePIcLMZJ20
 R11
 R0
 R1
 R2
 R3
-Z50 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd
-Z51 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd
+Z108 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd
+Z109 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd
 l0
 L18
 VkiP_NV=0A3O_WNm531Q>70
 !s100 Vi2[Y2[lZ`KH0RhmmQYN>3
 R4
 32
-Z52 !s110 1576508214
+Z110 !s110 1576508214
 !i10b 1
-Z53 !s108 1576508214.000000
-Z54 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd|
-Z55 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd|
+Z111 !s108 1576508214.000000
+Z112 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd|
+Z113 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd|
 !i113 1
 R7
 R8
 Artl
-Z56 DEx4 work 11 uart_rx_ent 0 22 GZGchFKS[<BPXzfGIlI7P1
-Z57 DEx4 work 11 uart_tx_ent 0 22 5JB1?0:fc3Vi>FL9IdZ;O2
-R39
+Z114 DEx4 work 11 uart_rx_ent 0 22 GZGchFKS[<BPXzfGIlI7P1
+Z115 DEx4 work 11 uart_tx_ent 0 22 5JB1?0:fc3Vi>FL9IdZ;O2
+R78
 R16
-R27
-R49
+R56
+R107
 R11
 R0
 R1
@@ -330,83 +672,131 @@ Vbi6:;H0EhZ8QjP2WZhnTG3
 !s100 FdbD_nfPmR;9V8o5_gFe60
 R4
 32
-R52
+R110
 !i10b 1
-R53
-R54
-R55
+R111
+R112
+R113
 !i113 1
 R7
 R8
 Euart_module_top
-Z58 w1576585722
-R10
-R11
+Z116 w1592361845
+R84
+R32
+R30
 R0
 R1
 R2
-R3
-R50
-R51
+R23
+Z117 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd
+Z118 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd
 l0
-L18
-VEIBbja2e:be71Kg3QURlM0
-!s100 1Hek5OcB92YX^dIh=69oF2
+L19
+VmV_4b:9e`l]^]don8_]V[1
+!s100 m?0J_Uko^:Lb]8D_O88O71
 R4
 32
-R5
+R68
 !i10b 1
-R6
-R54
-R55
+R69
+Z119 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd|
+Z120 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/uart_module_top.vhd|
 !i113 1
 R7
 R8
 Artl
-R56
-R57
+R64
+Z121 DEx4 work 33 uart_rx_avm_writer_controller_ent 0 22 i_ol`KNPi<:9BViD3CBlB1
+R105
+R78
+Z122 DEx4 work 33 uart_tx_avm_reader_controller_ent 0 22 >L@TIl5Cj3k?G8Io7HI:z1
+R99
 R39
-R16
-R27
-R10
-R11
+R50
+R84
+R32
+R30
 R0
 R1
 R2
-R47
-l51
-L35
-VYmD<7DIMkc?LXkhlN^C^[0
-!s100 3`PTjH_2VUkU:c_d[6DFf1
+R85
+l89
+L45
+VW5?ICXhUL@0z`;48P7oh`0
+!s100 MQggbW^^a[hJj?Pj]l[R_3
 R4
 32
-R5
+R68
 !i10b 1
-R6
-R54
-R55
+R69
+R119
+R120
+!i113 1
+R7
+R8
+Euart_rx_avm_writer_controller_ent
+Z123 w1592360641
+R84
+R0
+R1
+R2
+R23
+Z124 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_rx_avm_writer_controller_ent.vhd
+Z125 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_rx_avm_writer_controller_ent.vhd
+l0
+L7
+Vi_ol`KNPi<:9BViD3CBlB1
+!s100 F635Lz8mG0OX4h=_e7a@21
+R4
+32
+R68
+!i10b 1
+R69
+Z126 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_rx_avm_writer_controller_ent.vhd|
+Z127 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_rx_avm_writer_controller_ent.vhd|
+!i113 1
+R7
+R8
+Artl
+R84
+R0
+R1
+R2
+R121
+l47
+L25
+V6AB5gWT_BkE8NcRJ6cUNZ3
+!s100 Si6DQ9<k>^cV55VOK6Yj?2
+R4
+32
+R68
+!i10b 1
+R69
+R126
+R127
 !i113 1
 R7
 R8
 Euart_rx_ent
-Z59 w1576613156
+R73
 R0
 R1
 R2
-R3
-Z60 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd
-Z61 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd
+R23
+Z128 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd
+Z129 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd
 l0
 L5
 VGZGchFKS[<BPXzfGIlI7P1
 !s100 @;iiUf:M]?_X]EPl18;XP2
 R4
 32
-Z62 !s110 1576613165
+R35
 !i10b 1
-Z63 !s108 1576613165.000000
-Z64 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd|
-Z65 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd|
+R36
+Z130 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd|
+Z131 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_rx_ent.vhd|
 !i113 1
 R7
 R8
@@ -414,40 +804,83 @@ Artl
 R0
 R1
 R2
-R56
+R114
 l46
 L19
 V9H`REYCPRodWS6Gk6bUCl2
 !s100 efN0IfD;3nEQ=XQR<i[Mn2
 R4
 32
-R62
+R35
 !i10b 1
-R63
-R64
-R65
+R36
+R130
+R131
+!i113 1
+R7
+R8
+Euart_tx_avm_reader_controller_ent
+Z132 w1592360032
+R84
+R0
+R1
+R2
+R23
+Z133 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_tx_avm_reader_controller_ent.vhd
+Z134 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_tx_avm_reader_controller_ent.vhd
+l0
+L7
+V>L@TIl5Cj3k?G8Io7HI:z1
+!s100 4N6l<fFCSC9[=_hSzecP^1
+R4
+32
+R68
+!i10b 1
+R69
+Z135 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_tx_avm_reader_controller_ent.vhd|
+Z136 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART_AMV_CONTROLLER/uart_tx_avm_reader_controller_ent.vhd|
+!i113 1
+R7
+R8
+Artl
+R84
+R0
+R1
+R2
+R122
+l44
+L25
+VWMVBjaHb40ZY7JgQF0GeD0
+!s100 ^Xk5X8i^<=<aTVioT@dZd2
+R4
+32
+R68
+!i10b 1
+R69
+R135
+R136
 !i113 1
 R7
 R8
 Euart_tx_ent
-Z66 w1576521586
+R73
 R0
 R1
 R2
-R3
-Z67 8C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd
-Z68 FC:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd
+R23
+Z137 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd
+Z138 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd
 l0
 L5
 V5JB1?0:fc3Vi>FL9IdZ;O2
 !s100 34zFoVC[NWac7PT=RVAWQ3
 R4
 32
-R5
+R60
 !i10b 1
-R6
-Z69 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd|
-Z70 !s107 C:/Users/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd|
+R61
+Z139 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd|
+Z140 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/UART_Module/Development/UART_Module/UART/uart_tx_ent.vhd|
 !i113 1
 R7
 R8
@@ -455,18 +888,18 @@ Artl
 R0
 R1
 R2
-R57
+R115
 l37
 L19
 VnK4ZdFlaV<5W:nhKK=c_40
 !s100 WW22K9fHo<UTR;Qe;oF5]2
 R4
 32
-R5
+R60
 !i10b 1
-R6
-R69
-R70
+R61
+R139
+R140
 !i113 1
 R7
 R8

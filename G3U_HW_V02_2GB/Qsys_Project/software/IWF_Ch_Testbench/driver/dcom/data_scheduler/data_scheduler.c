@@ -27,7 +27,6 @@ static volatile int viCh6HoldContext;
 static volatile int viCh7HoldContext;
 static volatile int viCh8HoldContext;
 
-const alt_u16 cusiDataBufferSize = 16*1024; /* 16kB */
 //! [data memory private global variables]
 
 //! [program memory private global variables]
@@ -502,6 +501,57 @@ bool bDschGetBufferStatus(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
+bool bDschGetDataControl(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		pxDschCh->xDschDataControl = vpxDcomChannel->xDataScheduler.xDschDataControl;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+bool bDschSetDataControl(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		vpxDcomChannel->xDataScheduler.xDschDataControl = pxDschCh->xDschDataControl;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+bool bDschGetDataStatus(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		pxDschCh->xDschDataStatus = vpxDcomChannel->xDataScheduler.xDschDataStatus;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
 bool bDschGetIrqControl(TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
@@ -635,7 +685,7 @@ alt_u16 usiDschGetBuffersFreeSpace(TDschChannel *pxDschCh){
 			usiFreeSpace = 0;
 		} else {
 			/* Used in HW is in range 0..2048, for 64b words. This value is converted in the range 0..16384, for 8b words */
-			usiFreeSpace = cusiDataBufferSize - (alt_u16)(vpxDcomChannel->xDataScheduler.xDschBufferStatus.usiUsedBytes << 3);
+			usiFreeSpace = DSCH_DATA_BUFFER_LENGTH_BYTES - vpxDcomChannel->xDataScheduler.xDschBufferStatus.usiUsedBytes;
 		}
 
 	}
@@ -719,6 +769,12 @@ bool bDschInitCh(TDschChannel *pxDschCh, alt_u8 ucDcomCh) {
 				bInitFail = TRUE;
 			}
 			if (!bDschGetBufferStatus(pxDschCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bDschGetDataControl(pxDschCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bDschGetDataStatus(pxDschCh)) {
 				bInitFail = TRUE;
 			}
 			if (!bDschGetIrqControl(pxDschCh)) {

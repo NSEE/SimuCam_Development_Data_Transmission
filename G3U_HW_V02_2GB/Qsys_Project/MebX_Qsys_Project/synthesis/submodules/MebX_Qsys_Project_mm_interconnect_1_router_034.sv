@@ -49,21 +49,21 @@ module MebX_Qsys_Project_mm_interconnect_1_router_034_default_decode
                DEFAULT_RD_CHANNEL = -1,
                DEFAULT_DESTID = 5 
    )
-  (output [96 - 91 : 0] default_destination_id,
-   output [39-1 : 0] default_wr_channel,
-   output [39-1 : 0] default_rd_channel,
-   output [39-1 : 0] default_src_channel
+  (output [114 - 109 : 0] default_destination_id,
+   output [40-1 : 0] default_wr_channel,
+   output [40-1 : 0] default_rd_channel,
+   output [40-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
-    DEFAULT_DESTID[96 - 91 : 0];
+    DEFAULT_DESTID[114 - 109 : 0];
 
   generate
     if (DEFAULT_CHANNEL == -1) begin : no_default_channel_assignment
       assign default_src_channel = '0;
     end
     else begin : default_channel_assignment
-      assign default_src_channel = 39'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 40'b1 << DEFAULT_CHANNEL;
     end
   endgenerate
 
@@ -73,8 +73,8 @@ module MebX_Qsys_Project_mm_interconnect_1_router_034_default_decode
       assign default_rd_channel = '0;
     end
     else begin : default_rw_channel_assignment
-      assign default_wr_channel = 39'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 39'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 40'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 40'b1 << DEFAULT_RD_CHANNEL;
     end
   endgenerate
 
@@ -93,7 +93,7 @@ module MebX_Qsys_Project_mm_interconnect_1_router_034
     // Command Sink (Input)
     // -------------------
     input                       sink_valid,
-    input  [110-1 : 0]    sink_data,
+    input  [128-1 : 0]    sink_data,
     input                       sink_startofpacket,
     input                       sink_endofpacket,
     output                      sink_ready,
@@ -102,8 +102,8 @@ module MebX_Qsys_Project_mm_interconnect_1_router_034
     // Command Source (Output)
     // -------------------
     output                          src_valid,
-    output reg [110-1    : 0] src_data,
-    output reg [39-1 : 0] src_channel,
+    output reg [128-1    : 0] src_data,
+    output reg [40-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -112,18 +112,18 @@ module MebX_Qsys_Project_mm_interconnect_1_router_034
     // -------------------------------------------------------
     // Local parameters and variables
     // -------------------------------------------------------
-    localparam PKT_ADDR_H = 50;
-    localparam PKT_ADDR_L = 18;
-    localparam PKT_DEST_ID_H = 96;
-    localparam PKT_DEST_ID_L = 91;
-    localparam PKT_PROTECTION_H = 100;
-    localparam PKT_PROTECTION_L = 98;
-    localparam ST_DATA_W = 110;
-    localparam ST_CHANNEL_W = 39;
+    localparam PKT_ADDR_H = 68;
+    localparam PKT_ADDR_L = 36;
+    localparam PKT_DEST_ID_H = 114;
+    localparam PKT_DEST_ID_L = 109;
+    localparam PKT_PROTECTION_H = 118;
+    localparam PKT_PROTECTION_L = 116;
+    localparam ST_DATA_W = 128;
+    localparam ST_CHANNEL_W = 40;
     localparam DECODER_TYPE = 1;
 
-    localparam PKT_TRANS_WRITE = 53;
-    localparam PKT_TRANS_READ  = 54;
+    localparam PKT_TRANS_WRITE = 71;
+    localparam PKT_TRANS_READ  = 72;
 
     localparam PKT_ADDR_W = PKT_ADDR_H-PKT_ADDR_L + 1;
     localparam PKT_DEST_ID_W = PKT_DEST_ID_H-PKT_DEST_ID_L + 1;
@@ -158,7 +158,7 @@ module MebX_Qsys_Project_mm_interconnect_1_router_034
     assign src_valid         = sink_valid;
     assign src_startofpacket = sink_startofpacket;
     assign src_endofpacket   = sink_endofpacket;
-    wire [39-1 : 0] default_src_channel;
+    wire [40-1 : 0] default_src_channel;
 
 
 
@@ -190,11 +190,11 @@ module MebX_Qsys_Project_mm_interconnect_1_router_034
 
 
         if (destid == 5 ) begin
-            src_channel = 39'b01;
+            src_channel = 40'b01;
         end
 
         if (destid == 6  && read_transaction) begin
-            src_channel = 39'b10;
+            src_channel = 40'b10;
         end
 
 

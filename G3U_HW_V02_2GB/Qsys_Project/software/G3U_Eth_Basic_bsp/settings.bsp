@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jun 16, 2020 3:06:24 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1592312784194</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>C:\iwf\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>Jun 17, 2020 11:56:39 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1592448999676</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>.\</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
@@ -1817,81 +1817,57 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_Timer</slaveDescriptor>
+                <slaveDescriptor>uart_module_top_0</slaveDescriptor>
                 <addressRange>0x80000800 - 0x80000BFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_2</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_Timer</slaveDescriptor>
                 <addressRange>0x80000C00 - 0x80000FFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_3</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_2</slaveDescriptor>
                 <addressRange>0x80001000 - 0x800013FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_4</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_3</slaveDescriptor>
                 <addressRange>0x80001400 - 0x800017FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_5</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_4</slaveDescriptor>
                 <addressRange>0x80001800 - 0x80001BFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_6</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_5</slaveDescriptor>
                 <addressRange>0x80001C00 - 0x80001FFF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_7</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_6</slaveDescriptor>
                 <addressRange>0x80002000 - 0x800023FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_8</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_7</slaveDescriptor>
                 <addressRange>0x80002400 - 0x800027FF</addressRange>
                 <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>Dumb_Communication_Module_v2_1</slaveDescriptor>
+                <slaveDescriptor>Dumb_Communication_Module_v2_8</slaveDescriptor>
                 <addressRange>0x80002800 - 0x80002BFF</addressRange>
                 <addressSpan>1024</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M2_descriptor_slave</slaveDescriptor>
-                <addressRange>0x80002C00 - 0x80002C1F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M1_descriptor_slave</slaveDescriptor>
-                <addressRange>0x80002C20 - 0x80002C3F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M2_csr</slaveDescriptor>
-                <addressRange>0x80002C40 - 0x80002C5F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>dma_DDR_M1_csr</slaveDescriptor>
-                <addressRange>0x80002C60 - 0x80002C7F</addressRange>
-                <addressSpan>32</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
@@ -1911,6 +1887,12 @@
                 <addressRange>0x80002C90 - 0x80002C97</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes>printable</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>Dumb_Communication_Module_v2_1</slaveDescriptor>
+                <addressRange>0x80003000 - 0x800033FF</addressRange>
+                <addressSpan>1024</addressSpan>
+                <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>RMAP_Memory_Subunit_Area_8</slaveDescriptor>
@@ -2144,12 +2126,6 @@
                 <slaveDescriptor>SEVEN_SEGMENT_CONTROLLER_0</slaveDescriptor>
                 <addressRange>0x82000A00 - 0x82000A07</addressRange>
                 <addressSpan>8</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
-                <slaveDescriptor>uart_module_top_0</slaveDescriptor>
-                <addressRange>0x82000C00 - 0x82000FFF</addressRange>
-                <addressSpan>1024</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>

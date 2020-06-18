@@ -81,7 +81,7 @@ OS_EVENT *xMutexDMA[2];
  */
 
 void SimucamCreateOSQ(void) {
-	p_simucam_command_q = OSQCreate(&p_simucam_command_q_table[0],
+	p_simucam_command_q = OSQCreate((void *) (&p_simucam_command_q_table[0]),
 	DATAQ_BUF_SIZE);
 
 	if (!p_simucam_command_q) {
@@ -98,7 +98,7 @@ void SimucamCreateOSQ(void) {
  * Create the Simucam data queue
  */
 void DataCreateOSQ(void) {
-	SimucamDataQ = OSQCreate(&SimucamDataQTbl[0], DATAQ_BUF_SIZE);
+	SimucamDataQ = OSQCreate((void *) (&SimucamDataQTbl[0]), DATAQ_BUF_SIZE);
 
 	if (!SimucamDataQ) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
@@ -430,7 +430,7 @@ void SimucamCreateTasks(void) {
 	 error_code = OSTaskCreateExt(periodic_HK_task, NULL,
 	 		(void *) &periodic_HK_task_stack[TASK_STACKSIZE - 1],
 	 		PERIODIC_HK_TASK_PRIORITY,
-	 		PERIODIC_HK_TASK_PRIORITY, periodic_HK_task,
+	 		PERIODIC_HK_TASK_PRIORITY, periodic_HK_task_stack,
 	 		TASK_STACKSIZE,
 	 		NULL, 0);
 

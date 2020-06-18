@@ -19,11 +19,9 @@
 #include "../driver/rtcc_spi/rtcc_spi.h"
 #include "../driver/seven_seg/seven_seg.h"
 
-#include "../api_drivers/dma/dma.h"
 #include "../api_drivers/sense/sense.h"
 #include "../api_drivers/ddr2/ddr2.h"
 
-//#include "../driver/dcom/dcom_channel.h"
 #include "../driver/dcom/dcom_channel.h"
 //#include "sub_unit_control_task.h"
 

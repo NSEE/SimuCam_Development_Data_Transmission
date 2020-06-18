@@ -97,7 +97,7 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 //	vUartWriteBuffer(ack_buffer, ack_size);
 	for (int f = 0; f < ack_size; f++){
 //		fprintf(fp, "%c", ack_buffer[f]);
-		vUartWriteChar(ack_buffer[f]);
+		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -162,7 +162,7 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 
 	for (int f = 0; f < ack_size; f++){
 //		fprintf(fp, "%c", ack_buffer[f]);
-		vUartWriteChar(ack_buffer[f]);
+		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -189,7 +189,7 @@ void v_HK_creator(INT8U i_channel) {
 	INT16U imagettes_to_send =
 			T_simucam.T_Sub[chann_buff].T_data.nb_of_imagettes;
 	INT8U hk_buffer[HK_SIZE];
-	bool b_link_enabled = false;
+//	bool b_link_enabled = false;
 
 #if DEBUG_ON
 	fprintf(fp, "[HK CREATOR] Entered hk creator for channel %i.\r\n", (INT8U)chann_buff);
@@ -202,11 +202,11 @@ void v_HK_creator(INT8U i_channel) {
 	bSpwcGetLinkStatus(&(xCh[chann_buff].xSpacewire));
 	bSpwcGetLinkError(&(xCh[chann_buff].xSpacewire));
 
-	if (T_simucam.T_Sub[i_channel].T_conf.mode == subModeRun) {
-		b_link_enabled = true;
-	} else {
-		b_link_enabled = false;
-	}
+//	if (T_simucam.T_Sub[i_channel].T_conf.mode == subModeRun) {
+//		b_link_enabled = true;
+//	} else {
+//		b_link_enabled = false;
+//	}
 
 	hk_buffer[0] = 2;
 
@@ -273,7 +273,7 @@ void v_HK_creator(INT8U i_channel) {
      */
     for (int f = 0; f < HK_SIZE; f++){
 //		fprintf(fp, "%c", hk_buffer[f]);
-		vUartWriteChar(hk_buffer[f]);
+		vUartWriteCharBlocking(hk_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -356,7 +356,7 @@ void vSendETHConfig(TConfEth xEthConf){
 	fprintf(fp, "alive cmd:");
     for (int f = 0; f < IP_CONFIG_SIZE; f++){
     	fprintf(fp, " %i", iETHBuffer[f]);
-		vUartWriteChar(iETHBuffer[f]);
+		vUartWriteCharBlocking(iETHBuffer[f]);
 	}
     fprintf(fp, "\r\n");
     T_simucam.T_status.TM_id++;
@@ -381,7 +381,7 @@ void vClearRam(void){
         } else {
             bDdr2SwitchMemory(DDR2_M2_ID);
         }  
-        memset((INT32U) T_simucam.T_Sub[s].T_data.addr_init, 0, (0x20000000 - 1));
+        memset((INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0, (0x20000000 - 1));
     }
 }
 
@@ -417,8 +417,8 @@ void vDataSelector(T_uart_payload* pPayload){
     
     for (INT8U i = 0; i < NB_CHANNELS; i++)
     {
-        if(iCompareTags(pPayload->data[10], T_simucam.T_Sub[i].T_data.tag) == 1){
-            
+    	if(iCompareTags((INT8U *) ((INT32U) pPayload->data[10]), T_simucam.T_Sub[i].T_data.tag) == 1){
+
         }
     }
 }
@@ -467,7 +467,7 @@ void CommandManagementTask() {
 	T_simucam.T_Sub[3].T_data.addr_init = DDR2_BASE_ADDR_DATASET_4;
 	T_simucam.T_Sub[7].T_data.addr_init = DDR2_BASE_ADDR_DATASET_4;
 
-	struct x_telemetry x_telemetry_buffer;
+//	struct x_telemetry x_telemetry_buffer;
 
 	/*
 	 * Init and config of sync functionality

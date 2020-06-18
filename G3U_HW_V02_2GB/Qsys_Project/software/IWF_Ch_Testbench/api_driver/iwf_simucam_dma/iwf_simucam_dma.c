@@ -11,279 +11,199 @@
 //! [private function prototypes]
 
 //! [data memory public global variables]
-alt_msgdma_dev *pxDmaM1Dev = NULL;
-alt_msgdma_dev *pxDmaM2Dev = NULL;
 //! [data memory public global variables]
 
 //! [public functions]
-bool bIdmaInitM1Dma(void) {
-	bool bStatus = FALSE;
-	bool bFailDispatcher = FALSE;
-	alt_u16 usiCounter = 0;
-
-	// open dma device
-	pxDmaM1Dev = alt_msgdma_open((char *) IDMA_DMA_M1_NAME);
-
-	// check if the device was opened
-	if (pxDmaM1Dev != NULL) {
-		// device opened
-		// reset the dispatcher
-		IOWR_ALTERA_MSGDMA_CSR_CONTROL(pxDmaM1Dev->csr_base, ALTERA_MSGDMA_CSR_RESET_MASK);
-		while (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM1Dev->csr_base) & ALTERA_MSGDMA_CSR_RESET_STATE_MASK) {
-			usleep(1);
-			usiCounter++;
-			if (5000 <= usiCounter) { //wait at most 5ms for the device to be reseted
-				bFailDispatcher = TRUE;
-				break;
-			}
-		}
-		if (bFailDispatcher == FALSE)
-			bStatus = TRUE;
-	}
-
+bool bIdmaInitCh1Dma(void){
+	bool bStatus = TRUE;
 	return bStatus;
 }
 
-bool bIdmaInitM2Dma(void) {
-	bool bStatus = FALSE;
-	bool bFailDispatcher = FALSE;
-	alt_u16 usiCounter = 0;
-
-	// open dma device
-	pxDmaM2Dev = alt_msgdma_open((char *) IDMA_DMA_M2_NAME);
-
-	// check if the device was opened
-	if (pxDmaM2Dev != NULL) {
-		// device opened
-		// reset the dispatcher
-		IOWR_ALTERA_MSGDMA_CSR_CONTROL(pxDmaM2Dev->csr_base, ALTERA_MSGDMA_CSR_RESET_MASK);
-		while (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM2Dev->csr_base) & ALTERA_MSGDMA_CSR_RESET_STATE_MASK) {
-			usleep(1);
-			usiCounter++;
-			if (5000 <= usiCounter) { //wait at most 5ms for the device to be reseted
-				bFailDispatcher = TRUE;
-				break;
-			}
-		}
-		if (bFailDispatcher == FALSE)
-			bStatus = TRUE;
-	}
-
+bool bIdmaInitCh2Dma(void){
+	bool bStatus = TRUE;
 	return bStatus;
 }
 
-alt_u16 bIdmaDmaM1Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
-//	bool bStatus = FALSE;
+bool bIdmaInitCh3Dma(void){
+	bool bStatus = TRUE;
+	return bStatus;
+}
 
-	alt_msgdma_extended_descriptor xDmaExtendedDescriptor;
+bool bIdmaInitCh4Dma(void){
+	bool bStatus = TRUE;
+	return bStatus;
+}
 
-	alt_u32 uliDestAddrLow = 0;
-	alt_u32 uliDestAddrHigh = 0;
+bool bIdmaInitCh5Dma(void){
+	bool bStatus = TRUE;
+	return bStatus;
+}
 
-	alt_u32 uliSrcAddrLow = 0;
-	alt_u32 uliSrcAddrHigh = 0;
+bool bIdmaInitCh6Dma(void){
+	bool bStatus = TRUE;
+	return bStatus;
+}
 
-	alt_u32 uliControlBits = 0x00000000;
-	bool bChannelFlag = FALSE;
-	bool bAddressFlag = FALSE;
+bool bIdmaInitCh7Dma(void){
+	bool bStatus = TRUE;
+	return bStatus;
+}
 
-	alt_u16 usiRoundedTransferSizeInBytes = 0;
+bool bIdmaInitCh8Dma(void){
+	bool bStatus = TRUE;
+	return bStatus;
+}
 
-	/* Assuming that the channel selected exist, change to FALSE if doesn't */
-//	bStatus = FALSE;
+bool bIdmaResetChDma(alt_u8 ucChBufferId, bool bWait){
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel = NULL;
+
 	switch (ucChBufferId) {
 	case eIdmaCh1Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_1_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_1_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_1_BASE_ADDR);
 		break;
 	case eIdmaCh2Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_2_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_2_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_2_BASE_ADDR);
 		break;
 	case eIdmaCh3Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_3_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_3_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_3_BASE_ADDR);
 		break;
 	case eIdmaCh4Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_4_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_4_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_4_BASE_ADDR);
 		break;
 	case eIdmaCh5Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_5_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_5_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_5_BASE_ADDR);
 		break;
 	case eIdmaCh6Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_6_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_6_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_6_BASE_ADDR);
 		break;
 	case eIdmaCh7Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_7_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_7_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_7_BASE_ADDR);
 		break;
 	case eIdmaCh8Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_8_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_8_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
+		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_8_BASE_ADDR);
 		break;
 	default:
-		bChannelFlag = FALSE;
+		vpxDcomChannel = NULL;
 		break;
 	}
 
-	uliSrcAddrLow = (alt_u32) IDMA_M1_BASE_ADDR_LOW + (alt_u32) uliDdrInitialAddr;
-	uliSrcAddrHigh = (alt_u32) IDMA_M1_BASE_ADDR_HIGH;
+	if (vpxDcomChannel != NULL) {
 
-	// Rounding up the size to the nearest multiple of 8 (8 bytes = 64b = size of memory access)
-	if (usiTransferSizeInBytes % 8) {
-		// Transfer size is not a multiple of 8
-		usiRoundedTransferSizeInBytes = ((alt_u16) (usiTransferSizeInBytes / 8) + 1) * 8;
-	} else {
-		usiRoundedTransferSizeInBytes = usiTransferSizeInBytes;
+		vpxDcomChannel->xDataScheduler.xDschDataControl.bRdReset = TRUE;
+		if (bWait) {
+			// wait for the avm controller to be free
+			while (vpxDcomChannel->xDataScheduler.xDschDataStatus.bRdBusy) {
+				alt_busy_sleep(1); /* delay 1us */
+			}
+		}
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+alt_u32 uliIdmaChDmaTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 uliTransferSizeInBytes, alt_u8 ucChBufferId) {
+	alt_u32 uliProgramedTransferSize = 0;
+
+	volatile TDcomChannel *vpxDcomChannel = NULL;
+
+	union Ddr2MemoryAddress unMemoryAddress;
+
+	bool bMemoryFlag = FALSE;
+	bool bAddressFlag = FALSE;
+	bool bChannelFlag = FALSE;;
+	bool bNotBusyFlag = FALSE;
+
+	alt_u32 uliRoundedTransferSizeInBytes = 0;
+
+	switch (ucDdrMemId) {
+		case eDdr2Memory1:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M1_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+			bMemoryFlag = TRUE;
+			break;
+		case eDdr2Memory2:
+			unMemoryAddress.ulliMemAddr64b = DDR2_M2_BASE_ADDR + (alt_u64)((alt_u32)uliDdrInitialAddr);
+			bMemoryFlag = TRUE;
+			break;
+		default:
+			bMemoryFlag = FALSE;
+			break;
 	}
 
 	// Verify if the base address is a multiple o 8 (8 bytes = 64b = size of memory access)
-	if (uliSrcAddrLow % 8) {
+	if (unMemoryAddress.ulliMemAddr64b % 8) {
 		// Address is not a multiple of 8
 		bAddressFlag = FALSE;
 	} else {
 		bAddressFlag = TRUE;
 	}
 
-	if ((bChannelFlag) && (bAddressFlag)) {
-		if (pxDmaM2Dev != NULL) {
-
-			while (0 != (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM1Dev->csr_base) & ALTERA_MSGDMA_CSR_DESCRIPTOR_BUFFER_FULL_MASK)) {
-				alt_busy_sleep(1); /* delay 1us */
-			}
-			/* Success = 0 */
-			if (0 == iMsgdmaConstructExtendedMmToMmDescriptor(pxDmaM1Dev,
-							&xDmaExtendedDescriptor, (alt_u32 *) uliSrcAddrLow, (alt_u32 *) uliDestAddrLow,
-							usiRoundedTransferSizeInBytes, uliControlBits, (alt_u32 *) uliSrcAddrHigh,
-							(alt_u32 *) uliDestAddrHigh, 1, 1, 1, 1, 1)) {
-				/* Success = 0 */
-				if (0 == iMsgdmaExtendedDescriptorAsyncTransfer(pxDmaM1Dev, &xDmaExtendedDescriptor)) {
-//					bStatus = TRUE;
-				}
-			}
-		} else{
-			usiRoundedTransferSizeInBytes = 0;
-		}
-	}
-	return usiRoundedTransferSizeInBytes;
-}
-
-alt_u16 bIdmaDmaM2Transfer(alt_u32 *uliDdrInitialAddr, alt_u16 usiTransferSizeInBytes, alt_u8 ucChBufferId) {
-//	bool bStatus = FALSE;
-
-	alt_msgdma_extended_descriptor xDmaExtendedDescriptor;
-
-	alt_u32 uliDestAddrLow = 0;
-	alt_u32 uliDestAddrHigh = 0;
-
-	alt_u32 uliSrcAddrLow = 0;
-	alt_u32 uliSrcAddrHigh = 0;
-
-	alt_u32 uliControlBits = 0x00000000;
-	bool bChannelFlag = FALSE;
-	bool bAddressFlag = FALSE;
-
-	alt_u16 usiRoundedTransferSizeInBytes = 0;
-
-	/* Assuming that the channel selected exist, change to FALSE if doesn't */
-//	bStatus = FALSE;
 	switch (ucChBufferId) {
-	case eIdmaCh1Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_1_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_1_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	case eIdmaCh2Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_2_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_2_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	case eIdmaCh3Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_3_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_3_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	case eIdmaCh4Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_4_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_4_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	case eIdmaCh5Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_5_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_5_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	case eIdmaCh6Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_6_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_6_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	case eIdmaCh7Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_7_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_7_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	case eIdmaCh8Buffer:
-		uliDestAddrLow = (alt_u32) IDMA_CH_8_BUFF_BASE_ADDR_LOW;
-		uliDestAddrHigh = (alt_u32) IDMA_CH_8_BUFF_BASE_ADDR_HIGH;
-		bChannelFlag = TRUE;
-		break;
-	default:
-		bChannelFlag = FALSE;
-		break;
+		case eIdmaCh1Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_1_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		case eIdmaCh2Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_2_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		case eIdmaCh3Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_3_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		case eIdmaCh4Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_4_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		case eIdmaCh5Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_5_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		case eIdmaCh6Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_6_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		case eIdmaCh7Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_7_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		case eIdmaCh8Buffer:
+			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_8_BASE_ADDR);
+			bChannelFlag = TRUE;
+			break;
+		default:
+			bChannelFlag = FALSE;
+			break;
 	}
 
-	uliSrcAddrLow = (alt_u32) IDMA_M2_BASE_ADDR_LOW + (alt_u32) uliDdrInitialAddr;
-	uliSrcAddrHigh = (alt_u32) IDMA_M2_BASE_ADDR_HIGH;
+	if (!vpxDcomChannel->xDataScheduler.xDschDataStatus.bRdBusy) {
+		bNotBusyFlag = TRUE;
+	}
 
 	// Rounding up the size to the nearest multiple of 8 (8 bytes = 64b = size of memory access)
-	if (usiTransferSizeInBytes % 8) {
+	if (uliTransferSizeInBytes % 8) {
 		// Transfer size is not a multiple of 8
-		usiRoundedTransferSizeInBytes = ((alt_u16) (usiTransferSizeInBytes / 8) + 1) * 8;
+		uliRoundedTransferSizeInBytes = (alt_u32)((uliTransferSizeInBytes & 0xFFFFFFF8) + 8);
 	} else {
-		usiRoundedTransferSizeInBytes = usiTransferSizeInBytes;
+		uliRoundedTransferSizeInBytes = uliTransferSizeInBytes;
 	}
 
-	// Verify if the base address is a multiple o 8 (8 bytes = 64b = size of memory access)
-	if (uliSrcAddrLow % 8) {
-		// Address is not a multiple of 8
-		bAddressFlag = FALSE;
-	} else {
-		bAddressFlag = TRUE;
-	}
+	if ((bMemoryFlag) && (bAddressFlag) && (bChannelFlag) && (bNotBusyFlag)) {
 
-	if ((bChannelFlag) && (bAddressFlag)) {
-		if (pxDmaM2Dev != NULL) {
+		// reset the avm controller
+		bIdmaResetChDma(ucChBufferId, TRUE);
 
-			while (0 != (IORD_ALTERA_MSGDMA_CSR_STATUS(pxDmaM2Dev->csr_base) & ALTERA_MSGDMA_CSR_DESCRIPTOR_BUFFER_FULL_MASK)) {
-				alt_busy_sleep(1); /* delay 1us */
-			}
-			/* Success = 0 */
-			if (0 == iMsgdmaConstructExtendedMmToMmDescriptor(pxDmaM2Dev,
-							&xDmaExtendedDescriptor, (alt_u32 *) uliSrcAddrLow, (alt_u32 *) uliDestAddrLow,
-							usiRoundedTransferSizeInBytes, uliControlBits, (alt_u32 *) uliSrcAddrHigh,
-							(alt_u32 *) uliDestAddrHigh, 1, 1, 1, 1, 1)) {
-				/* Success = 0 */
-				if (0 == iMsgdmaExtendedDescriptorAsyncTransfer(pxDmaM2Dev, &xDmaExtendedDescriptor)) {
-//					bStatus = TRUE;
-				}
-			}
-		} else{
-			usiRoundedTransferSizeInBytes = 0;
-		}
+		// start new transfer
+		vpxDcomChannel->xDataScheduler.xDschDataControl.uliRdInitAddrLowDword = unMemoryAddress.uliMemAddr32b[0];
+		vpxDcomChannel->xDataScheduler.xDschDataControl.uliRdInitAddrHighDword = unMemoryAddress.uliMemAddr32b[1];
+		vpxDcomChannel->xDataScheduler.xDschDataControl.uliRdDataLenghtBytes = uliRoundedTransferSizeInBytes;
+		vpxDcomChannel->xDataScheduler.xDschDataControl.bRdStart = TRUE;
+		uliProgramedTransferSize = uliRoundedTransferSizeInBytes;
+
 	}
-	return usiRoundedTransferSizeInBytes;
+	return (uliProgramedTransferSize);
 }
 
 //! [public functions]

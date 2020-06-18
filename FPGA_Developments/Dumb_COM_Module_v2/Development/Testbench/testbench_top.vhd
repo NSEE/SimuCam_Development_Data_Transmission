@@ -62,8 +62,8 @@ architecture RTL of testbench_top is
 	end record t_rmap_target_spw_tx_control;
 
 	--dummy
---	signal s_dummy_spw_tx_flag    : t_rmap_target_spw_tx_flag;
---	signal s_dummy_spw_tx_control : t_rmap_target_spw_tx_control;
+	--	signal s_dummy_spw_tx_flag    : t_rmap_target_spw_tx_flag;
+	--	signal s_dummy_spw_tx_control : t_rmap_target_spw_tx_control;
 
 	signal s_dummy_spw_rxvalid : std_logic;
 	signal s_dummy_spw_rxhalff : std_logic;
@@ -116,61 +116,58 @@ begin
 
 	dcom_v2_top_inst : entity work.dcom_v2_top
 		port map(
-			reset_sink_reset_i                     => rst,
-			sync_channel_i                         => s_sync,
-			clock_sink_100_clk_i                   => clk100,
-			clock_sink_200_clk_i                   => clk200,
-			avalon_slave_data_buffer_address_i     => s_avalon_buffer_stimuli_mm_address,
-			avalon_slave_data_buffer_byteenable_i  => s_avalon_buffer_stimuli_mm_byteenable,
-			avalon_slave_data_buffer_write_i       => s_avalon_buffer_stimuli_mm_write,
-			avalon_slave_data_buffer_writedata_i   => s_avalon_buffer_stimuli_mm_writedata,
-			avalon_slave_data_buffer_waitrequest_o => s_avalon_buffer_stimuli_mm_waitrequest,
-			avalon_slave_dcom_address_i            => s_config_avalon_stimuli_mm_address,
-			avalon_slave_dcom_byteenable_i         => (others => '1'),
-			avalon_slave_dcom_write_i              => s_config_avalon_stimuli_mm_write,
-			avalon_slave_dcom_read_i               => s_config_avalon_stimuli_mm_read,
-			avalon_slave_dcom_writedata_i          => s_config_avalon_stimuli_mm_writedata,
-			avalon_slave_dcom_readdata_o           => s_config_avalon_stimuli_mm_readdata,
-			avalon_slave_dcom_waitrequest_o        => s_config_avalon_stimuli_mm_waitrequest,
-			tx_interrupt_sender_irq_o              => s_irq_tx,
-			spw_link_status_started_i              => '0',
-			spw_link_status_connecting_i           => '0',
-			spw_link_status_running_i              => '0',
-			spw_link_error_errdisc_i               => '0',
-			spw_link_error_errpar_i                => '0',
-			spw_link_error_erresc_i                => '0',
-			spw_link_error_errcred_i               => '0',
-			spw_timecode_rx_tick_out_i             => '0',
-			spw_timecode_rx_ctrl_out_i             => (others => '0'),
-			spw_timecode_rx_time_out_i             => (others => '0'),
-			spw_data_rx_status_rxvalid_i           => '0',
-			spw_data_rx_status_rxhalff_i           => '0',
-			spw_data_rx_status_rxflag_i            => '0',
-			spw_data_rx_status_rxdata_i            => (others => '0'),
-			spw_data_tx_status_txrdy_i             => '0',
-			spw_data_tx_status_txhalff_i           => '0',
-			spw_link_command_autostart_o           => open,
-			spw_link_command_linkstart_o           => open,
-			spw_link_command_linkdis_o             => open,
-			spw_link_command_txdivcnt_o            => open,
-			spw_timecode_tx_tick_in_o              => open,
-			spw_timecode_tx_ctrl_in_o              => open,
-			spw_timecode_tx_time_in_o              => open,
-			spw_data_rx_command_rxread_o           => open,
-			spw_data_tx_command_txwrite_o          => open,
-			spw_data_tx_command_txflag_o           => open,
-			spw_data_tx_command_txdata_o           => open,
-			codec_rmap_wr_waitrequest_i            => '0',
-			codec_rmap_readdata_i                  => (others => '0'),
-			codec_rmap_rd_waitrequest_i            => '0',
-			codec_rmap_wr_address_o                => open,
-			codec_rmap_write_o                     => open,
-			codec_rmap_writedata_o                 => open,
-			codec_rmap_rd_address_o                => open,
-			codec_rmap_read_o                      => open,
-			rmap_mem_addr_offset_o                 => open
+			reset_sink_reset_i               => rst,
+			sync_channel_i                   => s_sync,
+			clock_sink_100_clk_i             => clk100,
+			avalon_master_data_readdata_i    => (others => '0'),
+			avalon_master_data_waitrequest_i => '1',
+			avalon_master_data_address_o     => open,
+			avalon_master_data_read_o        => open,
+			avalon_slave_dcom_address_i      => s_config_avalon_stimuli_mm_address,
+			avalon_slave_dcom_byteenable_i   => (others => '1'),
+			avalon_slave_dcom_write_i        => s_config_avalon_stimuli_mm_write,
+			avalon_slave_dcom_read_i         => s_config_avalon_stimuli_mm_read,
+			avalon_slave_dcom_writedata_i    => s_config_avalon_stimuli_mm_writedata,
+			avalon_slave_dcom_readdata_o     => s_config_avalon_stimuli_mm_readdata,
+			avalon_slave_dcom_waitrequest_o  => s_config_avalon_stimuli_mm_waitrequest,
+			tx_interrupt_sender_irq_o        => s_irq_tx,
+			spw_link_status_started_i        => '0',
+			spw_link_status_connecting_i     => '0',
+			spw_link_status_running_i        => '0',
+			spw_link_error_errdisc_i         => '0',
+			spw_link_error_errpar_i          => '0',
+			spw_link_error_erresc_i          => '0',
+			spw_link_error_errcred_i         => '0',
+			spw_timecode_rx_tick_out_i       => '0',
+			spw_timecode_rx_ctrl_out_i       => (others => '0'),
+			spw_timecode_rx_time_out_i       => (others => '0'),
+			spw_data_rx_status_rxvalid_i     => '0',
+			spw_data_rx_status_rxhalff_i     => '0',
+			spw_data_rx_status_rxflag_i      => '0',
+			spw_data_rx_status_rxdata_i      => (others => '0'),
+			spw_data_tx_status_txrdy_i       => '0',
+			spw_data_tx_status_txhalff_i     => '0',
+			spw_link_command_autostart_o     => open,
+			spw_link_command_linkstart_o     => open,
+			spw_link_command_linkdis_o       => open,
+			spw_link_command_txdivcnt_o      => open,
+			spw_timecode_tx_tick_in_o        => open,
+			spw_timecode_tx_ctrl_in_o        => open,
+			spw_timecode_tx_time_in_o        => open,
+			spw_data_rx_command_rxread_o     => open,
+			spw_data_tx_command_txwrite_o    => open,
+			spw_data_tx_command_txflag_o     => open,
+			spw_data_tx_command_txdata_o     => open,
+			codec_rmap_wr_waitrequest_i      => '0',
+			codec_rmap_readdata_i            => (others => '0'),
+			codec_rmap_rd_waitrequest_i      => '0',
+			codec_rmap_wr_address_o          => open,
+			codec_rmap_write_o               => open,
+			codec_rmap_writedata_o           => open,
+			codec_rmap_rd_address_o          => open,
+			codec_rmap_read_o                => open,
+			rmap_mem_addr_offset_o           => open
 		);
-	
 
 	--	s_spw_codec_comm_di <= s_spw_codec_comm_do;
 	--	s_spw_codec_comm_si <= s_spw_codec_comm_so;
@@ -199,89 +196,89 @@ begin
 		end if;
 	end process p_sync_generator;
 
---	-- spw connection
---	-- SpaceWire Light Codec Component 
---	spw_stimuli_spwstream_inst : entity work.spwstream
---		generic map(
---			sysfreq         => 100000000.0,
---			txclkfreq       => 0.0,
---			rximpl          => impl_generic,
---			rxchunk         => 1,
---			tximpl          => impl_generic,
---			rxfifosize_bits => 11,
---			txfifosize_bits => 11
---		)
---		port map(
---			clk        => clk100,
---			rxclk      => clk100,
---			txclk      => clk100,
---			rst        => rst,
---			autostart  => '1',
---			linkstart  => '1',
---			linkdis    => '0',
---			txdivcnt   => x"01",
---			tick_in    => '0',
---			ctrl_in    => "00",
---			time_in    => "000000",
---			txwrite    => s_dummy_spw_tx_control.write,
---			txflag     => s_dummy_spw_tx_control.flag,
---			txdata     => s_dummy_spw_tx_control.data,
---			txrdy      => s_dummy_spw_tx_flag.ready,
---			txhalff    => open,
---			tick_out   => open,
---			ctrl_out   => open,
---			time_out   => open,
---			rxvalid    => s_dummy_spw_rxvalid,
---			rxhalff    => s_dummy_spw_rxhalff,
---			rxflag     => s_dummy_spw_rxflag,
---			rxdata     => s_dummy_spw_rxdata,
---			rxread     => s_dummy_spw_rxread,
---			started    => open,
---			connecting => open,
---			running    => open,
---			errdisc    => open,
---			errpar     => open,
---			erresc     => open,
---			errcred    => open,
---			spw_di     => s_spw_codec_dummy_di,
---			spw_si     => s_spw_codec_dummy_si,
---			spw_do     => s_spw_codec_dummy_do,
---			spw_so     => s_spw_codec_dummy_so
---		);
+	--	-- spw connection
+	--	-- SpaceWire Light Codec Component 
+	--	spw_stimuli_spwstream_inst : entity work.spwstream
+	--		generic map(
+	--			sysfreq         => 100000000.0,
+	--			txclkfreq       => 0.0,
+	--			rximpl          => impl_generic,
+	--			rxchunk         => 1,
+	--			tximpl          => impl_generic,
+	--			rxfifosize_bits => 11,
+	--			txfifosize_bits => 11
+	--		)
+	--		port map(
+	--			clk        => clk100,
+	--			rxclk      => clk100,
+	--			txclk      => clk100,
+	--			rst        => rst,
+	--			autostart  => '1',
+	--			linkstart  => '1',
+	--			linkdis    => '0',
+	--			txdivcnt   => x"01",
+	--			tick_in    => '0',
+	--			ctrl_in    => "00",
+	--			time_in    => "000000",
+	--			txwrite    => s_dummy_spw_tx_control.write,
+	--			txflag     => s_dummy_spw_tx_control.flag,
+	--			txdata     => s_dummy_spw_tx_control.data,
+	--			txrdy      => s_dummy_spw_tx_flag.ready,
+	--			txhalff    => open,
+	--			tick_out   => open,
+	--			ctrl_out   => open,
+	--			time_out   => open,
+	--			rxvalid    => s_dummy_spw_rxvalid,
+	--			rxhalff    => s_dummy_spw_rxhalff,
+	--			rxflag     => s_dummy_spw_rxflag,
+	--			rxdata     => s_dummy_spw_rxdata,
+	--			rxread     => s_dummy_spw_rxread,
+	--			started    => open,
+	--			connecting => open,
+	--			running    => open,
+	--			errdisc    => open,
+	--			errpar     => open,
+	--			erresc     => open,
+	--			errcred    => open,
+	--			spw_di     => s_spw_codec_dummy_di,
+	--			spw_si     => s_spw_codec_dummy_si,
+	--			spw_do     => s_spw_codec_dummy_do,
+	--			spw_so     => s_spw_codec_dummy_so
+	--		);
 
---	p_codec_dummy_read : process(clk100, rst) is
---		variable v_time_counter : natural := 0;
---		variable v_data_counter : natural := 0;
---	begin
---		if (rst = '1') then
---			s_dummy_spw_rxread <= '0';
---			s_delay_timer      <= std_logic_vector(to_unsigned(0, s_delay_timer'length));
---			s_delay_trigger    <= '0';
---		elsif rising_edge(clk100) then
---			v_time_counter     := v_time_counter + 1;
---			s_dummy_spw_rxread <= '0';
---			if (s_dummy_spw_rxvalid = '1') then
---				s_dummy_spw_rxread <= '1';
---
---				-- check incoming data
---				if (s_dummy_spw_rxdata = x"00") then
---					--assert false report "Wrong Spw Rx Data" severity error;
---				end if;
---			end if;
---
---			if ((s_dummy_spw_rxvalid = '1') and (s_dummy_spw_rxread = '1')) then
---				v_data_counter := v_data_counter + 1;
---			end if;
---
---			s_delay_timer <= std_logic_vector(to_unsigned(10, s_delay_timer'length));
---			if (v_time_counter = 1000) then
---				s_delay_trigger <= '1';
---			else
---				s_delay_trigger <= '0';
---			end if;
---
---		end if;
---	end process p_codec_dummy_read;
+	--	p_codec_dummy_read : process(clk100, rst) is
+	--		variable v_time_counter : natural := 0;
+	--		variable v_data_counter : natural := 0;
+	--	begin
+	--		if (rst = '1') then
+	--			s_dummy_spw_rxread <= '0';
+	--			s_delay_timer      <= std_logic_vector(to_unsigned(0, s_delay_timer'length));
+	--			s_delay_trigger    <= '0';
+	--		elsif rising_edge(clk100) then
+	--			v_time_counter     := v_time_counter + 1;
+	--			s_dummy_spw_rxread <= '0';
+	--			if (s_dummy_spw_rxvalid = '1') then
+	--				s_dummy_spw_rxread <= '1';
+	--
+	--				-- check incoming data
+	--				if (s_dummy_spw_rxdata = x"00") then
+	--					--assert false report "Wrong Spw Rx Data" severity error;
+	--				end if;
+	--			end if;
+	--
+	--			if ((s_dummy_spw_rxvalid = '1') and (s_dummy_spw_rxread = '1')) then
+	--				v_data_counter := v_data_counter + 1;
+	--			end if;
+	--
+	--			s_delay_timer <= std_logic_vector(to_unsigned(10, s_delay_timer'length));
+	--			if (v_time_counter = 1000) then
+	--				s_delay_trigger <= '1';
+	--			else
+	--				s_delay_trigger <= '0';
+	--			end if;
+	--
+	--		end if;
+	--	end process p_codec_dummy_read;
 
 	s_spw_codec_comm_di  <= s_spw_codec_dummy_do;
 	s_spw_codec_comm_si  <= s_spw_codec_dummy_so;

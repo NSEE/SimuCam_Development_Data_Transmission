@@ -14,65 +14,64 @@ use IEEE.numeric_std.all;
 
 use work.avalon_mm_dcom_pkg.all;
 use work.avalon_mm_dcom_registers_pkg.all;
-use work.avalon_mm_data_buffer_pkg.all;
+use work.dcom_avm_data_pkg.all;
 use work.data_buffer_pkg.all;
 use work.rmap_target_pkg.all;
 use work.spw_codec_pkg.all;
 
 entity dcom_v2_top is
 	port(
-		reset_sink_reset_i                     : in  std_logic                     := '0'; --          --                       reset_sink.reset
-		sync_channel_i                         : in  std_logic                     := '0'; --          --                 sync_conduit_end.sync_channel_i_signal
-		clock_sink_100_clk_i                   : in  std_logic                     := '0'; --          --                   clock_sink_100.clk
-		avalon_slave_data_buffer_address_i     : in  std_logic_vector(11 downto 0) := (others => '0'); --         avalon_slave_data_buffer.address
-		avalon_slave_data_buffer_byteenable_i  : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .byteenable
-		avalon_slave_data_buffer_write_i       : in  std_logic                     := '0'; --          --                                 .write
-		avalon_slave_data_buffer_writedata_i   : in  std_logic_vector(63 downto 0) := (others => '0'); --                                 .writedata
-		avalon_slave_data_buffer_waitrequest_o : out std_logic; --                                     --                                 .waitrequest
-		avalon_slave_dcom_address_i            : in  std_logic_vector(7 downto 0)  := (others => '0'); --                avalon_slave_dcom.address
-		avalon_slave_dcom_byteenable_i         : in  std_logic_vector(3 downto 0)  := (others => '0'); --                                 .byteenable
-		avalon_slave_dcom_write_i              : in  std_logic                     := '0'; --          --                                 .write
-		avalon_slave_dcom_read_i               : in  std_logic                     := '0'; --          --                                 .read
-		avalon_slave_dcom_writedata_i          : in  std_logic_vector(31 downto 0) := (others => '0'); --                                 .writedata
-		avalon_slave_dcom_readdata_o           : out std_logic_vector(31 downto 0); --                 --                                 .readdata
-		avalon_slave_dcom_waitrequest_o        : out std_logic; --                                     --                                 .waitrequest
-		tx_interrupt_sender_irq_o              : out std_logic; --                                     --              tx_interrupt_sender.irq
-		spw_link_status_started_i              : in  std_logic                     := '0'; --          -- conduit_end_spacewire_controller.spw_link_status_started_signal
-		spw_link_status_connecting_i           : in  std_logic                     := '0'; --          --                                 .spw_link_status_connecting_signal
-		spw_link_status_running_i              : in  std_logic                     := '0'; --          --                                 .spw_link_status_running_signal
-		spw_link_error_errdisc_i               : in  std_logic                     := '0'; --          --                                 .spw_link_error_errdisc_signal
-		spw_link_error_errpar_i                : in  std_logic                     := '0'; --          --                                 .spw_link_error_errpar_signal
-		spw_link_error_erresc_i                : in  std_logic                     := '0'; --          --                                 .spw_link_error_erresc_signal
-		spw_link_error_errcred_i               : in  std_logic                     := '0'; --          --                                 .spw_link_error_errcred_signal		
-		spw_timecode_rx_tick_out_i             : in  std_logic                     := '0'; --          --                                 .spw_timecode_rx_tick_out_signal
-		spw_timecode_rx_ctrl_out_i             : in  std_logic_vector(1 downto 0)  := (others => '0'); --                                 .spw_timecode_rx_ctrl_out_signal
-		spw_timecode_rx_time_out_i             : in  std_logic_vector(5 downto 0)  := (others => '0'); --                                 .spw_timecode_rx_time_out_signal
-		spw_data_rx_status_rxvalid_i           : in  std_logic                     := '0'; --          --                                 .spw_data_rx_status_rxvalid_signal
-		spw_data_rx_status_rxhalff_i           : in  std_logic                     := '0'; --          --                                 .spw_data_rx_status_rxhalff_signal
-		spw_data_rx_status_rxflag_i            : in  std_logic                     := '0'; --          --                                 .spw_data_rx_status_rxflag_signal
-		spw_data_rx_status_rxdata_i            : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .spw_data_rx_status_rxdata_signal
-		spw_data_tx_status_txrdy_i             : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txrdy_signal
-		spw_data_tx_status_txhalff_i           : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txhalff_signal
-		spw_link_command_autostart_o           : out std_logic; --                                     --                                 .spw_link_command_autostart_signal
-		spw_link_command_linkstart_o           : out std_logic; --                                     --                                 .spw_link_command_linkstart_signal
-		spw_link_command_linkdis_o             : out std_logic; --                                     --                                 .spw_link_command_linkdis_signal
-		spw_link_command_txdivcnt_o            : out std_logic_vector(7 downto 0); --                  --                                 .spw_link_command_txdivcnt_signal
-		spw_timecode_tx_tick_in_o              : out std_logic; --                                     --                                 .spw_timecode_tx_tick_in_signal
-		spw_timecode_tx_ctrl_in_o              : out std_logic_vector(1 downto 0); --                  --                                 .spw_timecode_tx_ctrl_in_signal
-		spw_timecode_tx_time_in_o              : out std_logic_vector(5 downto 0); --                  --                                 .spw_timecode_tx_time_in_signal
-		spw_data_rx_command_rxread_o           : out std_logic; --                                     --                                 .spw_data_rx_command_rxread_signal
-		spw_data_tx_command_txwrite_o          : out std_logic; --                                     --                                 .spw_data_tx_command_txwrite_signal
-		spw_data_tx_command_txflag_o           : out std_logic; --                                     --                                 .spw_data_tx_command_txflag_signal
-		spw_data_tx_command_txdata_o           : out std_logic_vector(7 downto 0); --                  --                                 .spw_data_tx_command_txdata_signal
-		codec_rmap_wr_waitrequest_i            : in  std_logic                     := '0'; --          --    conduit_end_rmap_master_codec.wr_waitrequest_signal
-		codec_rmap_readdata_i                  : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .readdata_signal
-		codec_rmap_rd_waitrequest_i            : in  std_logic                     := '0'; --          --                                 .rd_waitrequest_signal
-		codec_rmap_wr_address_o                : out std_logic_vector(31 downto 0); --                 --                                 .wr_address_signal
-		codec_rmap_write_o                     : out std_logic; --                                     --                                 .write_signal
-		codec_rmap_writedata_o                 : out std_logic_vector(7 downto 0); --                  --                                 .writedata_signal
-		codec_rmap_rd_address_o                : out std_logic_vector(31 downto 0); --                 --                                 .rd_address_signal
-		codec_rmap_read_o                      : out std_logic; --                                     --                                 .read_signal
-		rmap_mem_addr_offset_o                 : out std_logic_vector(31 downto 0) ---                 -- conduit_end_rmap_mem_configs_out.mem_addr_offset_signal
+		reset_sink_reset_i               : in  std_logic                     := '0'; --          --                       reset_sink.reset
+		sync_channel_i                   : in  std_logic                     := '0'; --          --                 sync_conduit_end.sync_channel_i_signal
+		clock_sink_100_clk_i             : in  std_logic                     := '0'; --          --                   clock_sink_100.clk
+		avalon_slave_dcom_address_i      : in  std_logic_vector(7 downto 0)  := (others => '0'); --                avalon_slave_dcom.address
+		avalon_slave_dcom_byteenable_i   : in  std_logic_vector(3 downto 0)  := (others => '0'); --                                 .byteenable
+		avalon_slave_dcom_write_i        : in  std_logic                     := '0'; --          --                                 .write
+		avalon_slave_dcom_read_i         : in  std_logic                     := '0'; --          --                                 .read
+		avalon_slave_dcom_writedata_i    : in  std_logic_vector(31 downto 0) := (others => '0'); --                                 .writedata
+		avalon_slave_dcom_readdata_o     : out std_logic_vector(31 downto 0); --                 --                                 .readdata
+		avalon_slave_dcom_waitrequest_o  : out std_logic; --                                     --                                 .waitrequest
+		avalon_master_data_readdata_i    : in  std_logic_vector(63 downto 0) := (others => '0'); --               avalon_master_data.readdata
+		avalon_master_data_waitrequest_i : in  std_logic                     := '0'; --          --                                 .waitrequest
+		avalon_master_data_address_o     : out std_logic_vector(63 downto 0); --                 --                                 .address
+		avalon_master_data_read_o        : out std_logic; --                                     --                                 .read
+		tx_interrupt_sender_irq_o        : out std_logic; --                                     --              tx_interrupt_sender.irq
+		spw_link_status_started_i        : in  std_logic                     := '0'; --          -- conduit_end_spacewire_controller.spw_link_status_started_signal
+		spw_link_status_connecting_i     : in  std_logic                     := '0'; --          --                                 .spw_link_status_connecting_signal
+		spw_link_status_running_i        : in  std_logic                     := '0'; --          --                                 .spw_link_status_running_signal
+		spw_link_error_errdisc_i         : in  std_logic                     := '0'; --          --                                 .spw_link_error_errdisc_signal
+		spw_link_error_errpar_i          : in  std_logic                     := '0'; --          --                                 .spw_link_error_errpar_signal
+		spw_link_error_erresc_i          : in  std_logic                     := '0'; --          --                                 .spw_link_error_erresc_signal
+		spw_link_error_errcred_i         : in  std_logic                     := '0'; --          --                                 .spw_link_error_errcred_signal		
+		spw_timecode_rx_tick_out_i       : in  std_logic                     := '0'; --          --                                 .spw_timecode_rx_tick_out_signal
+		spw_timecode_rx_ctrl_out_i       : in  std_logic_vector(1 downto 0)  := (others => '0'); --                                 .spw_timecode_rx_ctrl_out_signal
+		spw_timecode_rx_time_out_i       : in  std_logic_vector(5 downto 0)  := (others => '0'); --                                 .spw_timecode_rx_time_out_signal
+		spw_data_rx_status_rxvalid_i     : in  std_logic                     := '0'; --          --                                 .spw_data_rx_status_rxvalid_signal
+		spw_data_rx_status_rxhalff_i     : in  std_logic                     := '0'; --          --                                 .spw_data_rx_status_rxhalff_signal
+		spw_data_rx_status_rxflag_i      : in  std_logic                     := '0'; --          --                                 .spw_data_rx_status_rxflag_signal
+		spw_data_rx_status_rxdata_i      : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .spw_data_rx_status_rxdata_signal
+		spw_data_tx_status_txrdy_i       : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txrdy_signal
+		spw_data_tx_status_txhalff_i     : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txhalff_signal
+		spw_link_command_autostart_o     : out std_logic; --                                     --                                 .spw_link_command_autostart_signal
+		spw_link_command_linkstart_o     : out std_logic; --                                     --                                 .spw_link_command_linkstart_signal
+		spw_link_command_linkdis_o       : out std_logic; --                                     --                                 .spw_link_command_linkdis_signal
+		spw_link_command_txdivcnt_o      : out std_logic_vector(7 downto 0); --                  --                                 .spw_link_command_txdivcnt_signal
+		spw_timecode_tx_tick_in_o        : out std_logic; --                                     --                                 .spw_timecode_tx_tick_in_signal
+		spw_timecode_tx_ctrl_in_o        : out std_logic_vector(1 downto 0); --                  --                                 .spw_timecode_tx_ctrl_in_signal
+		spw_timecode_tx_time_in_o        : out std_logic_vector(5 downto 0); --                  --                                 .spw_timecode_tx_time_in_signal
+		spw_data_rx_command_rxread_o     : out std_logic; --                                     --                                 .spw_data_rx_command_rxread_signal
+		spw_data_tx_command_txwrite_o    : out std_logic; --                                     --                                 .spw_data_tx_command_txwrite_signal
+		spw_data_tx_command_txflag_o     : out std_logic; --                                     --                                 .spw_data_tx_command_txflag_signal
+		spw_data_tx_command_txdata_o     : out std_logic_vector(7 downto 0); --                  --                                 .spw_data_tx_command_txdata_signal
+		codec_rmap_wr_waitrequest_i      : in  std_logic                     := '0'; --          --    conduit_end_rmap_master_codec.wr_waitrequest_signal
+		codec_rmap_readdata_i            : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .readdata_signal
+		codec_rmap_rd_waitrequest_i      : in  std_logic                     := '0'; --          --                                 .rd_waitrequest_signal
+		codec_rmap_wr_address_o          : out std_logic_vector(31 downto 0); --                 --                                 .wr_address_signal
+		codec_rmap_write_o               : out std_logic; --                                     --                                 .write_signal
+		codec_rmap_writedata_o           : out std_logic_vector(7 downto 0); --                  --                                 .writedata_signal
+		codec_rmap_rd_address_o          : out std_logic_vector(31 downto 0); --                 --                                 .rd_address_signal
+		codec_rmap_read_o                : out std_logic; --                                     --                                 .read_signal
+		rmap_mem_addr_offset_o           : out std_logic_vector(31 downto 0) ---                 -- conduit_end_rmap_mem_configs_out.mem_addr_offset_signal
 	);
 end entity dcom_v2_top;
 
@@ -97,6 +96,10 @@ architecture rtl of dcom_v2_top is
 	-- DCOM Avalon MM Registers Signals
 	signal s_dcom_write_registers : t_dcom_write_registers;
 	signal s_dcom_read_registers  : t_dcom_read_registers;
+
+	-- DCOM AVM Controller Signals
+	signal s_avm_data_master_rd_control : t_dcom_avm_data_master_rd_control;
+	signal s_avm_data_master_rd_status  : t_dcom_avm_data_master_rd_status;
 
 	-- Data Buffer Signals
 	signal s_avs_dbuffer_wrdata   : std_logic_vector((c_AVS_DBUFFER_DATA_WIDTH - 1) downto 0);
@@ -219,22 +222,42 @@ begin
 	-- DCOM Avalon MM Signals Assignments
 	avalon_slave_dcom_waitrequest_o <= ('1') when (a_reset = '1') else ((s_dcom_avalon_mm_write_waitrequest) and (s_dcom_avalon_mm_read_waitrequest));
 
-	-- Data Buffer Avalon MM Write Instantiation
-	avalon_mm_data_buffer_write_ent_inst : entity work.avalon_mm_data_buffer_write_ent
+	-- DCOM Avalon MM Master (AVM) Reader Instantiation
+	dcom_avm_data_reader_ent_inst : entity work.dcom_avm_data_reader_ent
 		port map(
-			clk_i                               => a_avs_clock,
-			rst_i                               => a_reset,
-			avalon_mm_data_buffer_i.address     => avalon_slave_data_buffer_address_i,
-			avalon_mm_data_buffer_i.write       => avalon_slave_data_buffer_write_i,
-			avalon_mm_data_buffer_i.writedata   => avalon_slave_data_buffer_writedata_i,
-			avalon_mm_data_buffer_i.byteenable  => avalon_slave_data_buffer_byteenable_i,
-			avs_dbuffer_full_i                  => s_avs_dbuffer_full,
-			avs_bebuffer_full_i                 => s_avs_bebuffer_full,
-			avalon_mm_data_buffer_o.waitrequest => avalon_slave_data_buffer_waitrequest_o,
-			avs_dbuffer_wrreq_o                 => s_avs_dbuffer_wrreq,
-			avs_dbuffer_wrdata_o                => s_avs_dbuffer_wrdata,
-			avs_bebuffer_wrreq_o                => s_avs_bebuffer_wrreq,
-			avs_bebuffer_wrdata_o               => s_avs_bebuffer_wrdata
+			clk_i                             => a_avs_clock,
+			rst_i                             => a_reset,
+			avm_master_rd_control_i           => s_avm_data_master_rd_control,
+			avm_slave_rd_status_i.readdata    => avalon_master_data_readdata_i,
+			avm_slave_rd_status_i.waitrequest => avalon_master_data_waitrequest_i,
+			avm_master_rd_status_o            => s_avm_data_master_rd_status,
+			avm_slave_rd_control_o.address    => avalon_master_data_address_o,
+			avm_slave_rd_control_o.read       => avalon_master_data_read_o
+		);
+
+	-- DCOM Tx Avalon MM Master (AVM) Reader Controller Instantiation
+	dcom_avm_reader_controller_ent_inst : entity work.dcom_avm_reader_controller_ent
+		port map(
+			clk_i                                      => a_avs_clock,
+			rst_i                                      => a_reset,
+			tmr_stop_i                                 => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
+			tmr_start_i                                => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
+			controller_rd_start_i                      => s_dcom_write_registers.data_scheduler_data_control_reg.rd_start,
+			controller_rd_reset_i                      => s_dcom_write_registers.data_scheduler_data_control_reg.rd_reset,
+			controller_rd_auto_restart_i               => s_dcom_write_registers.data_scheduler_data_control_reg.rd_auto_restart,
+			controller_rd_initial_addr_i(63 downto 32) => s_dcom_write_registers.data_scheduler_data_control_reg.rd_initial_addr_high_dword,
+			controller_rd_initial_addr_i(31 downto 0)  => s_dcom_write_registers.data_scheduler_data_control_reg.rd_initial_addr_low_dword,
+			controller_rd_length_bytes_i               => s_dcom_write_registers.data_scheduler_data_control_reg.rd_data_length_bytes,
+			controller_wr_busy_i                       => '0',
+			avm_master_rd_status_i                     => s_avm_data_master_rd_status,
+			data_buffer_full_i                         => s_avs_dbuffer_full,
+			be_buffer_full_i                           => s_avs_bebuffer_full,
+			controller_rd_busy_o                       => s_dcom_read_registers.data_scheduler_data_status_reg.rd_busy,
+			avm_master_rd_control_o                    => s_avm_data_master_rd_control,
+			data_buffer_wrdata_o                       => s_avs_dbuffer_wrdata,
+			data_buffer_wrreq_o                        => s_avs_dbuffer_wrreq,
+			be_buffer_wrdata_o                         => s_avs_bebuffer_wrdata,
+			be_buffer_wrreq_o                          => s_avs_bebuffer_wrreq
 		);
 
 	-- Data Buffer Instantiation
@@ -252,13 +275,14 @@ begin
 			dcrtl_dbuffer_rdreq_i  => s_dcrtl_dbuffer_rdreq,
 			dbuff_empty_o          => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_empty,
 			dbuff_full_o           => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_full,
-			dbuff_usedw_o          => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(11 downto 0),
+			dbuff_usedw_o          => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(14 downto 3),
 			avs_dbuffer_full_o     => s_avs_dbuffer_full,
 			avs_bebuffer_full_o    => s_avs_bebuffer_full,
 			dcrtl_dbuffer_rddata_o => s_dcrtl_dbuffer_rddata,
 			dcrtl_dbuffer_empty_o  => s_dcrtl_dbuffer_empty
 		);
-	s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(15 downto 12) <= (others => '0');
+	s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(15)         <= '0';
+	s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(2 downto 0) <= (others => '0');
 
 	-- Data Controller Instantiation
 	data_controller_ent_inst : entity work.data_controller_ent
@@ -295,7 +319,7 @@ begin
 		port map(
 			clk_i             => a_avs_clock,
 			rst_i             => a_reset,
-			tmr_run_on_sync_i => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_start_on_sync,
+			tmr_run_on_sync_i => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_run_on_sync,
 			tmr_clk_div_i     => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_clk_div,
 			tmr_time_in_i     => s_dcom_write_registers.data_scheduler_tmr_config_reg.timer_start_time,
 			tmr_clear_i       => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_clear,
@@ -386,9 +410,9 @@ begin
 		port map(
 			clk_i                          => a_avs_clock,
 			rst_i                          => a_reset,
-			fee_clear_signal_i             => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_clear,
-			fee_stop_signal_i              => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
-			fee_start_signal_i             => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
+			tmr_clear_i                    => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_clear,
+			tmr_stop_i                     => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
+			tmr_start_i                    => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
 			spw_codec_rx_status_i          => s_mux_rx_channel_status,
 			spw_codec_tx_status_i          => s_mux_tx_channel_status,
 			spw_mux_rx_0_command_i.rxread  => s_rmap_spw_control.receiver.read,

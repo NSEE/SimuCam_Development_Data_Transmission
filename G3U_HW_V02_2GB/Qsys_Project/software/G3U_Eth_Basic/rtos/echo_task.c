@@ -76,7 +76,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
 #if DEBUG_ON
 	if(T_simucam.T_conf.usiDebugLevels <= xVerbose){
-        fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n",
+        fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %u, first byte %i\r\n",
             i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
             p_imagette_buffer->imagette_start);
     }
@@ -128,7 +128,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 
     for (INT8U t = 0; t < 13; t++) {
     	// fprintf(fp, "%i", tx_buffer[t]);
-		vUartWriteChar(tx_buffer[t]);
+    	vUartWriteCharBlocking(tx_buffer[t]);
     }
 
     /**
@@ -152,7 +152,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
         bDdr2SwitchMemory((unsigned char) i_channel / 4);
         /* Print imagette char */
         // fprintf(fp, "%i",(INT8U) *pDataPointer);
-		vUartWriteChar(*pDataPointer);
+		vUartWriteCharBlocking(*pDataPointer);
         /* Advance the buffer pointer 1 byte */
         pDataPointer++;
 
@@ -170,8 +170,8 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number,
 	usCRC = div(usCRC, 256).quot;
 	tx_buffer[13] = div(usCRC, 256).rem;
 	// fprintf(fp, "%i%i", tx_buffer[13], tx_buffer[14]); //mock CRC
-	vUartWriteChar(tx_buffer[13]);
-	vUartWriteChar(tx_buffer[14]);
+	vUartWriteCharBlocking(tx_buffer[13]);
+	vUartWriteCharBlocking(tx_buffer[14]);
      
 
 	T_simucam.T_status.TM_id++;
@@ -246,7 +246,7 @@ void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
      */
     for (int f = 0; f < LOG_SIZE; f++){
     	// fprintf(fp, "%c", tx_buffer[f]);
-		vUartWriteChar(tx_buffer[f]);
+		vUartWriteCharBlocking(tx_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
@@ -255,7 +255,7 @@ void vLogSend(INT32U i_sim_time, INT16U i_imagette_number,
 OS_EVENT *p_echo_queue;
 void *p_echo_queue_tbl[ECHO_QUEUE_BUFFER]; /*Storage for sub_unit queue*/
 
-void echo_task(void) {
+void echo_task(void *task_data) {
 	INT8U echo_error;
 	x_echo *p_echo_rcvd;
 
