@@ -27,15 +27,19 @@
  **/
 unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars){
         INT32U luReturn = 0;
+        bool bSuccess = FALSE;
 
         // if ( !bUartRxBufferEmpty() ) {
         while(luNbChars != 0){
                 // fgets(pBuffer, 2, stdin);
-                //*pBuffer = getchar();
-                *pBuffer = cUartReadCharBlocking();
-                pBuffer++;
-                luReturn++;
-                luNbChars--;
+                //*pBuffer = getchar(); OSsleep 10ms
+                // *pBuffer = cUartReadCharBlocking();
+                bSuccess = bUartReadCharNonBlocking((char *)pBuffer);
+                if (bSuccess){      
+                        pBuffer++;
+                        luReturn++;
+                        luNbChars--;
+                }
         }
         // } else {
         //         luReturn = 0;
