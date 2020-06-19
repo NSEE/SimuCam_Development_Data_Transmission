@@ -78,7 +78,7 @@ void LogTask(void *task_data) {
 	fprintf(fp, "Created \"log\" Task (Prio:%d) \n", LOG_TASK_PRIORITY);
 #endif
 	while (1) {
-		TEMP_Read((alt_8 *)&tempFPGA, (alt_8 *)&tempBoard);
+		TEMP_Read((alt_8 *) &tempFPGA, (alt_8 *) &tempBoard);
 		bSSDisplayUpdate(tempFPGA);
 		OSTimeDlyHMSM(0, 0, 1, 0);
 	}

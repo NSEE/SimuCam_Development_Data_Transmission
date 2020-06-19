@@ -42,67 +42,40 @@
 
 /* Sub modes enum */
 typedef enum {
-	subModeConfig = 0,
-	subModeRun,
-	subModeInit,
-	subModetoConfig,
-	subModetoRun,
-	subAccessDMA1,
-	subAccessDMA2,
-	subAbort,
-	subEOT,
-	subChangeMode,
-	subAccessDMA
+	subModeConfig = 0, subModeRun, subModeInit, subModetoConfig, subModetoRun, subAccessDMA1, subAccessDMA2, subAbort, subEOT, subChangeMode, subAccessDMA
 } TSubStates;
 
 /* MeB status enum */
 typedef enum {
-	simModeConfig = 0,
-	simModeRun,
-	simModeInit,
-	simModetoConfig,
-	simModetoRun,
-	simDMA1Back,
-	simDMA2Back,
-	simDMA1Sched,
-	simDMA2Sched,
-	simAbort,
-	simDMASched,
-	simDMABack
+	simModeConfig = 0, simModeRun, simModeInit, simModetoConfig, simModetoRun, simDMA1Back, simDMA2Back, simDMA1Sched, simDMA2Sched, simAbort, simDMASched, simDMABack
 } TSimStates;
 
 /* Command Types */
 typedef enum {
-    typeConfigureSub = 101,
-    typeNewData,
-    typeDeleteData,
-    typeSelectDataToSend,
-    typeChangeSimucamMode,
-    typeStartSending,
-    typeAbortSending,
-    typeClearRam,
-    typeDirectSend,
-    typeGetHK,
-    typeConfigureMeb,
-    typeSetRecording,
-    typeSetPeriodicHK,
-    typeReset
+	typeConfigureSub = 101,
+	typeNewData,
+	typeDeleteData,
+	typeSelectDataToSend,
+	typeChangeSimucamMode,
+	typeStartSending,
+	typeAbortSending,
+	typeClearRam,
+	typeDirectSend,
+	typeGetHK,
+	typeConfigureMeb,
+	typeSetRecording,
+	typeSetPeriodicHK,
+	typeReset
 } TCmdTypes;
 
 /* Internal Types */
 typedef enum {
-    typeAckInt = 201,
-    typeSentLog,
-    typeStaticIp,
-    typeGetIP
+	typeAckInt = 201, typeSentLog, typeStaticIp, typeGetIP
 } TCIntTypes;
 
 /* External Types */
 typedef enum {
-    typeAckExt = 201,
-    typeUpload,
-    typeSentEcho,
-    typeHK
+	typeAckExt = 201, typeUpload, typeSentEcho, typeHK
 } TCExtTypes;
 
 /* Pointer to the start of the imagette */
@@ -131,8 +104,8 @@ typedef struct T_Sub_conf {
 	INT8U echo_sent;
 	INT8U sub_status_sending;
 	INT8U link_status;
-	bool	b_abort;
-	INT16U	i_imagette_control;
+	bool b_abort;
+	INT16U i_imagette_control;
 } T_Sub_conf;
 
 typedef struct T_Sub {
@@ -144,10 +117,10 @@ typedef struct T_Simucam_conf {
 	INT8U b_meb_status;
 	INT8U echo_sent;
 	INT8U i_forward_data;
-    INT8U iLog;
-    INT8U iPeriodicHK;
-    INT32U luHKPeriod;          /* HK Timer period in centiseconds, not activated if 0 */
-    INT8U usiDebugLevels;
+	INT8U iLog;
+	INT8U iPeriodicHK;
+	INT32U luHKPeriod; /* HK Timer period in centiseconds, not activated if 0 */
+	INT8U usiDebugLevels;
 } T_Simucam_conf;
 
 typedef struct T_simucam_status {
@@ -156,7 +129,7 @@ typedef struct T_simucam_status {
 	INT32U simucam_running_time;
 	bool has_dma_1;
 	bool has_dma_2;
-	INT16U	TM_id;
+	INT16U TM_id;
 } T_simucam_status;
 
 typedef struct T_Simucam {
@@ -169,23 +142,23 @@ typedef struct T_Simucam {
  */
 
 typedef struct T_uart_payload {
-	INT8U header;					/* Command Header */
-	INT16U packet_id;				/* Unique identifier */
-	INT8U type;						/* Will be the command id */
-	INT8U sub_type;					/* Could carry the sub-unit id */
-	INT32U size;					/* Size pre-computed in function */
-	INT8U data[PAYLOAD_DATA_SIZE];	/* Data array */
-	INT16U crc;						/* We will use the CCITT-CRC, that is also used in the PUS protocol */
-    INT16U luCRCPartial;            /* Buffer to calculate the CRC */
+	INT8U header; /* Command Header */
+	INT16U packet_id; /* Unique identifier */
+	INT8U type; /* Will be the command id */
+	INT8U sub_type; /* Could carry the sub-unit id */
+	INT32U size; /* Size pre-computed in function */
+	INT8U data[PAYLOAD_DATA_SIZE]; /* Data array */
+	INT16U crc; /* We will use the CCITT-CRC, that is also used in the PUS protocol */
+	INT16U luCRCPartial; /* Buffer to calculate the CRC */
 
-}T_uart_payload;
+} T_uart_payload;
 
-typedef struct x_echo{
-	INT16U 	nb_imagette;
-	INT32U	simucam_time;
-	INT8U	channel;
-    INT8U   iTag[8];
-}x_echo;
+typedef struct x_echo {
+	INT16U nb_imagette;
+	INT32U simucam_time;
+	INT8U channel;
+	INT8U iTag[8];
+} x_echo;
 /*$PAGE*/
 
 #endif /* SIMUCAM_MODEL_H_ */

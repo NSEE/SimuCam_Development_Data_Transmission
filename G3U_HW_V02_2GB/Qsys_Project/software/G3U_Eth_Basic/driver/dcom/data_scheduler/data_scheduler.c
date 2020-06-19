@@ -47,7 +47,7 @@ void vDschCh1HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_1_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_1_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -55,8 +55,7 @@ void vDschCh1HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[0].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[0].T_data.i_imagette
-				< T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[0].T_data.i_imagette < T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], (void *) 0);
 			OSQPost(p_dma_scheduler_controller_queue[0], (void *) simDMASched);
 		}
@@ -74,12 +73,12 @@ void vDschCh1HandleIrq(void* pvContext) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 0;
 			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[0].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
-            if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[0].T_data.tag[m];
-                }
-            }
-			queue_error = OSQPost(p_echo_queue,&(x_echo_sent[i_echo_buffer_ctr]));
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[0].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 #if DEBUG_ON
@@ -102,8 +101,7 @@ void vDschCh1HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[0].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[0].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[0].T_conf.i_imagette_control >= T_simucam.T_Sub[0].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[0], &xSubTemp);
 		} else {
@@ -124,7 +122,7 @@ void vDschCh2HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_2_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_2_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -132,8 +130,7 @@ void vDschCh2HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[1].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[1].T_data.i_imagette
-				< T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[1].T_data.i_imagette < T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], (void *) 1);
 			OSQPost(p_dma_scheduler_controller_queue[0], (void *) simDMASched);
 		}
@@ -149,23 +146,18 @@ void vDschCh2HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
 		if (T_simucam.T_conf.echo_sent == 1 || T_simucam.T_conf.iLog == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 1;
-			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
-					T_simucam.T_Sub[1].T_conf.i_imagette_control;
-			x_echo_sent[i_echo_buffer_ctr].simucam_time =
-					T_simucam.T_status.simucam_running_time;
-            if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] =
-                            T_simucam.T_Sub[1].T_data.tag[m];
-                }
-            }
-			queue_error = OSQPost(p_echo_queue,
-					&(x_echo_sent[i_echo_buffer_ctr]));
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[1].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[1].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 #if DEBUG_ON
-				fprintf(fp, "[SCHEDULER]Next buffer nb %i.\r\n",
-						i_echo_buffer_ctr);
+				fprintf(fp, "[SCHEDULER]Next buffer nb %i.\r\n", i_echo_buffer_ctr);
 #endif
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
 #if DEBUG_ON
@@ -184,8 +176,7 @@ void vDschCh2HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[1].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[1].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[1].T_conf.i_imagette_control >= T_simucam.T_Sub[1].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[1], &xSubTemp);
 			T_simucam.T_Sub[1].T_conf.i_imagette_control = 0;
@@ -205,7 +196,7 @@ void vDschCh3HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_3_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_3_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -213,8 +204,7 @@ void vDschCh3HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[2].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[2].T_data.i_imagette
-				< T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[2].T_data.i_imagette < T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], (void *) 2);
 			OSQPost(p_dma_scheduler_controller_queue[0], (void *) simDMASched);
 		}
@@ -230,18 +220,14 @@ void vDschCh3HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
 		if (T_simucam.T_conf.echo_sent == 1 || T_simucam.T_conf.iLog == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 2;
-			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
-					T_simucam.T_Sub[2].T_conf.i_imagette_control;
-			x_echo_sent[i_echo_buffer_ctr].simucam_time =
-					T_simucam.T_status.simucam_running_time;
-			if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] =
-                            T_simucam.T_Sub[2].T_data.tag[m];
-                }
-            }
-            queue_error = OSQPost(p_echo_queue,
-					&(x_echo_sent[i_echo_buffer_ctr]));
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[2].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[2].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -258,8 +244,7 @@ void vDschCh3HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[2].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[2].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[2].T_conf.i_imagette_control >= T_simucam.T_Sub[2].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[2], &xSubTemp);
 		}
@@ -278,7 +263,7 @@ void vDschCh4HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_4_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_4_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -286,8 +271,7 @@ void vDschCh4HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[3].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[3].T_data.i_imagette
-				< T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[3].T_data.i_imagette < T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[0], (void *) 3);
 			OSQPost(p_dma_scheduler_controller_queue[0], (void *) simDMASched);
 		}
@@ -303,18 +287,14 @@ void vDschCh4HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
 		if (T_simucam.T_conf.echo_sent == 1 || T_simucam.T_conf.iLog == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 3;
-			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
-					T_simucam.T_Sub[3].T_conf.i_imagette_control;
-			x_echo_sent[i_echo_buffer_ctr].simucam_time =
-					T_simucam.T_status.simucam_running_time;
-			if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] =
-                            T_simucam.T_Sub[3].T_data.tag[m];
-                }
-            }
-            queue_error = OSQPost(p_echo_queue,
-					&(x_echo_sent[i_echo_buffer_ctr]));
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[3].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[3].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -331,8 +311,7 @@ void vDschCh4HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[3].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[3].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[3].T_conf.i_imagette_control >= T_simucam.T_Sub[3].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[3], &xSubTemp);
 		}
@@ -351,7 +330,7 @@ void vDschCh5HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_5_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_5_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -359,8 +338,7 @@ void vDschCh5HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[4].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[4].T_data.i_imagette
-				< T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[4].T_data.i_imagette < T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], (void *) 4);
 			OSQPost(p_dma_scheduler_controller_queue[1], (void *) simDMASched);
 		}
@@ -376,18 +354,14 @@ void vDschCh5HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
 		if (T_simucam.T_conf.echo_sent == 1 || T_simucam.T_conf.iLog == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 4;
-			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
-					T_simucam.T_Sub[4].T_conf.i_imagette_control;
-			x_echo_sent[i_echo_buffer_ctr].simucam_time =
-					T_simucam.T_status.simucam_running_time;
-			if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] =
-                            T_simucam.T_Sub[4].T_data.tag[m];
-                }
-            }
-            queue_error = OSQPost(p_echo_queue,
-					&(x_echo_sent[i_echo_buffer_ctr]));
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[4].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[4].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -404,8 +378,7 @@ void vDschCh5HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[4].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[4].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[4].T_conf.i_imagette_control >= T_simucam.T_Sub[4].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[4], &xSubTemp);
 		}
@@ -424,7 +397,7 @@ void vDschCh6HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_6_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_6_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -432,8 +405,7 @@ void vDschCh6HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[5].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[5].T_data.i_imagette
-				< T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[5].T_data.i_imagette < T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], (void *) 5);
 			OSQPost(p_dma_scheduler_controller_queue[1], (void *) simDMASched);
 		}
@@ -449,18 +421,14 @@ void vDschCh6HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
 		if (T_simucam.T_conf.echo_sent == 1 || T_simucam.T_conf.iLog == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 5;
-			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
-					T_simucam.T_Sub[5].T_conf.i_imagette_control;
-			x_echo_sent[i_echo_buffer_ctr].simucam_time =
-					T_simucam.T_status.simucam_running_time;
-			if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] =
-                            T_simucam.T_Sub[5].T_data.tag[m];
-                }
-            }
-            queue_error = OSQPost(p_echo_queue,
-					&(x_echo_sent[i_echo_buffer_ctr]));
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[5].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[5].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -477,8 +445,7 @@ void vDschCh6HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[5].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[5].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[5].T_conf.i_imagette_control >= T_simucam.T_Sub[5].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[5], &xSubTemp);
 		}
@@ -497,7 +464,7 @@ void vDschCh7HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_7_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_7_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -505,8 +472,7 @@ void vDschCh7HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[6].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[6].T_data.i_imagette
-				< T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[6].T_data.i_imagette < T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], (void *) 6);
 			OSQPost(p_dma_scheduler_controller_queue[1], (void *) simDMASched);
 		}
@@ -522,18 +488,14 @@ void vDschCh7HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
 		if (T_simucam.T_conf.echo_sent == 1 || T_simucam.T_conf.iLog == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 6;
-			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
-					T_simucam.T_Sub[6].T_conf.i_imagette_control;
-			x_echo_sent[i_echo_buffer_ctr].simucam_time =
-					T_simucam.T_status.simucam_running_time;
-			if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] =
-                            T_simucam.T_Sub[6].T_data.tag[m];
-                }
-            }
-            queue_error = OSQPost(p_echo_queue,
-					&(x_echo_sent[i_echo_buffer_ctr]));
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[6].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[6].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -550,8 +512,7 @@ void vDschCh7HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[6].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[6].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[6].T_conf.i_imagette_control >= T_simucam.T_Sub[6].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[6], &xSubTemp);
 		}
@@ -570,7 +531,7 @@ void vDschCh8HandleIrq(void* pvContext) {
 	 * App logic sequence...
 	 */
 
-	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *)(DCOM_CH_8_BASE_ADDR);
+	volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_8_BASE_ADDR);
 
 	/* Check IRQ Tx Begin Flag */
 	if (vpxDcomChannel->xDataScheduler.xDschIrqFlag.bTxBeginFlag) {
@@ -578,8 +539,7 @@ void vDschCh8HandleIrq(void* pvContext) {
 		/* IRQ Tx Begin Flag ISR */
 
 		T_simucam.T_Sub[7].T_conf.sub_status_sending = 1;
-		if (T_simucam.T_Sub[7].T_data.i_imagette
-				< T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[7].T_data.i_imagette < T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
 			OSQPost(DMA_sched_queue[1], (void *) 7);
 			OSQPost(p_dma_scheduler_controller_queue[1], (void *) simDMASched);
 		}
@@ -595,18 +555,14 @@ void vDschCh8HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_running_time = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
 		if (T_simucam.T_conf.echo_sent == 1 || T_simucam.T_conf.iLog == 1) {
 			x_echo_sent[i_echo_buffer_ctr].channel = 7;
-			x_echo_sent[i_echo_buffer_ctr].nb_imagette =
-					T_simucam.T_Sub[7].T_conf.i_imagette_control;
-			x_echo_sent[i_echo_buffer_ctr].simucam_time =
-					T_simucam.T_status.simucam_running_time;
-			if (T_simucam.T_conf.iLog == 1){
-                for (INT8U m = 0; m < 8; m++){
-                    x_echo_sent[i_echo_buffer_ctr].iTag[m] =
-                            T_simucam.T_Sub[7].T_data.tag[m];
-                }
-            }
-            queue_error = OSQPost(p_echo_queue,
-					&(x_echo_sent[i_echo_buffer_ctr]));
+			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[7].T_conf.i_imagette_control;
+			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
+			if (T_simucam.T_conf.iLog == 1) {
+				for (INT8U m = 0; m < 8; m++) {
+					x_echo_sent[i_echo_buffer_ctr].iTag[m] = T_simucam.T_Sub[7].T_data.tag[m];
+				}
+			}
+			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
@@ -623,8 +579,7 @@ void vDschCh8HandleIrq(void* pvContext) {
 		T_simucam.T_status.simucam_total_imagettes_sent++;
 		T_simucam.T_Sub[7].T_conf.sub_status_sending = 0;
 
-		if (T_simucam.T_Sub[7].T_conf.i_imagette_control
-				>= T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
+		if (T_simucam.T_Sub[7].T_conf.i_imagette_control >= T_simucam.T_Sub[7].T_data.nb_of_imagettes) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[7], &xSubTemp);
 		}
@@ -642,7 +597,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh1HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_1_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_1_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -654,7 +609,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh2HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_2_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_2_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -666,7 +621,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh3HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_3_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_3_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -678,7 +633,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh4HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_4_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_4_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -690,7 +645,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh5HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_5_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_5_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -702,7 +657,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh6HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_6_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_6_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -714,7 +669,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh7HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_7_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_7_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -726,7 +681,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 		// Recast the hold_context pointer to match the alt_irq_register() function
 		// prototype.
 		pvHoldContext = (void*) &viCh8HoldContext;
-		vpxDcomChannel = (TDcomChannel *)(DCOM_CH_8_BASE_ADDR);
+		vpxDcomChannel = (TDcomChannel *) (DCOM_CH_8_BASE_ADDR);
 		// Clear all flags
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxBeginFlagClr = TRUE;
 		vpxDcomChannel->xDataScheduler.xDschIrqFlagClr.bTxEndFlagClr = TRUE;
@@ -747,7 +702,7 @@ bool bDschGetTimerControl(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschTimerControl = vpxDcomChannel->xDataScheduler.xDschTimerControl;
 
@@ -764,7 +719,7 @@ bool bDschSetTimerControl(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschTimerControl = pxDschCh->xDschTimerControl;
 
@@ -781,7 +736,7 @@ bool bDschGetTimerConfig(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschTimerConfig = vpxDcomChannel->xDataScheduler.xDschTimerConfig;
 
@@ -798,7 +753,7 @@ bool bDschSetTimerConfig(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschTimerConfig = pxDschCh->xDschTimerConfig;
 
@@ -815,7 +770,7 @@ bool bDschGetTimerStatus(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschTimerStatus = vpxDcomChannel->xDataScheduler.xDschTimerStatus;
 
@@ -832,7 +787,7 @@ bool bDschGetPacketConfig(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschPacketConfig = vpxDcomChannel->xDataScheduler.xDschPacketConfig;
 
@@ -849,7 +804,7 @@ bool bDschSetPacketConfig(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschPacketConfig = pxDschCh->xDschPacketConfig;
 
@@ -866,7 +821,7 @@ bool bDschGetBufferStatus(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschBufferStatus = vpxDcomChannel->xDataScheduler.xDschBufferStatus;
 
@@ -883,7 +838,7 @@ bool bDschGetDataControl(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschDataControl = vpxDcomChannel->xDataScheduler.xDschDataControl;
 
@@ -900,7 +855,7 @@ bool bDschSetDataControl(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschDataControl = pxDschCh->xDschDataControl;
 
@@ -917,7 +872,7 @@ bool bDschGetDataStatus(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschDataStatus = vpxDcomChannel->xDataScheduler.xDschDataStatus;
 
@@ -934,7 +889,7 @@ bool bDschGetIrqControl(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschIrqControl = vpxDcomChannel->xDataScheduler.xDschIrqControl;
 
@@ -951,7 +906,7 @@ bool bDschSetIrqControl(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschIrqControl = pxDschCh->xDschIrqControl;
 
@@ -968,7 +923,7 @@ bool bDschGetIrqFlags(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		pxDschCh->xDschIrqFlag = vpxDcomChannel->xDataScheduler.xDschIrqFlag;
 
@@ -985,7 +940,7 @@ bool bDschStartTimer(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschTimerControl.bStart = TRUE;
 
@@ -1002,7 +957,7 @@ bool bDschRunTimer(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschTimerControl.bRun = TRUE;
 
@@ -1019,7 +974,7 @@ bool bDschStopTimer(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschTimerControl.bStop = TRUE;
 
@@ -1036,7 +991,7 @@ bool bDschClrTimer(TDschChannel *pxDschCh) {
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		vpxDcomChannel->xDataScheduler.xDschTimerControl.bClear = TRUE;
 
@@ -1047,13 +1002,35 @@ bool bDschClrTimer(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-alt_u16 usiDschGetBuffersFreeSpace(TDschChannel *pxDschCh){
+alt_u16 usiDschGetBuffersUsedSpace(TDschChannel *pxDschCh) {
+	alt_u16 usiUsedSpace = 0;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		/* If the buffer is full, the HW usedw goes to 0, so we need to check if the data buffer is already full */
+		if (vpxDcomChannel->xDataScheduler.xDschBufferStatus.bEmpty) {
+			/* Buufer is empty, used space is zero*/
+			usiUsedSpace = 0;
+		} else {
+			/* Used in HW is in range 0..2048, for 64b words. This value is converted in the range 0..16384, for 8b words */
+			usiUsedSpace = vpxDcomChannel->xDataScheduler.xDschBufferStatus.usiUsedBytes;
+		}
+
+	}
+
+	return (usiUsedSpace);
+}
+
+alt_u16 usiDschGetBuffersFreeSpace(TDschChannel *pxDschCh) {
 	alt_u16 usiFreeSpace = 0;
 	volatile TDcomChannel *vpxDcomChannel;
 
 	if (pxDschCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxDschCh->xDschDevAddr.uliDschBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
 		/* If the buffer is full, the HW usedw goes to 0, so we need to check if the data buffer is already full */
 		if (vpxDcomChannel->xDataScheduler.xDschBufferStatus.bFull) {
@@ -1080,49 +1057,49 @@ bool bDschInitCh(TDschChannel *pxDschCh, alt_u8 ucDcomCh) {
 		switch (ucDcomCh) {
 		case eDcomSpwCh1:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_1_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_1_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_1_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_1_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh2:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_2_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_2_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_2_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_2_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh3:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_3_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_3_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_3_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_3_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh4:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_4_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_4_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_4_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_4_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh5:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_5_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_5_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_5_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_5_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh6:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_6_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_6_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_6_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_6_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh7:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_7_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_7_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_7_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_7_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh8:
 			pxDschCh->xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_8_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_8_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_8_BASE_ADDR);
 			vpxDcomChannel->xDataScheduler.xDschDevAddr.uliDschBaseAddr = (alt_u32) DCOM_CH_8_BASE_ADDR;
 			bValidCh = TRUE;
 			break;

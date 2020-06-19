@@ -17,14 +17,7 @@
 
 //! [public module structs definition]
 enum IdmaChBufferId {
-	eIdmaCh1Buffer = 0,
-	eIdmaCh2Buffer = 1,
-	eIdmaCh3Buffer = 2,
-	eIdmaCh4Buffer = 3,
-	eIdmaCh5Buffer = 4,
-	eIdmaCh6Buffer = 5,
-	eIdmaCh7Buffer = 6,
-	eIdmaCh8Buffer = 7
+	eIdmaCh1Buffer = 0, eIdmaCh2Buffer, eIdmaCh3Buffer, eIdmaCh4Buffer, eIdmaCh5Buffer, eIdmaCh6Buffer, eIdmaCh7Buffer, eIdmaCh8Buffer
 } EIdmaChBufferId;
 //! [public module structs definition]
 
@@ -52,6 +45,5 @@ alt_u32 uliIdmaChDmaTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_
 
 //! [macros]
 //! [macros]
-
 
 #endif /* IWF_SIMUCAM_DMA_H_ */

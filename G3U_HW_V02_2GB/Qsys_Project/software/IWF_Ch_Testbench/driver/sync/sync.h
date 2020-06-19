@@ -26,7 +26,7 @@
 
 //! [public module structs definition]
 typedef struct SyncStatus {
-	bool   bIntExtN;
+	bool bIntExtN;
 	alt_u8 ucState;
 	alt_u8 ucErrorCode;
 	alt_u8 ucCycleNumber;
@@ -86,7 +86,7 @@ typedef struct SyncConfig {
 } TSyncConfig;
 
 typedef struct SyncGeneralConfig {
-	bool   bSignalPolarity;
+	bool bSignalPolarity;
 	alt_u8 ucNumberOfCycles;
 } TSyncGeneralConfig;
 
@@ -117,18 +117,18 @@ typedef struct SyncIRQNumber {
 } TSyncIRQNumber;
 
 typedef struct SyncModule {
-	TSyncStatus         xSyncStatus        ;
-	TSyncIrqEn          xSyncIrqEn         ;
-	TSyncIrqFlagClr     xSyncIrqFlagClr    ;
-	TSyncIrqFlag        xSyncIrqFlag       ;
-	TPreSyncIrqEn       xPreSyncIrqEn      ;
-	TPreSyncIrqFlagClr  xPreSyncIrqFlagClr ;
-	TPreSyncIrqFlag     xPreSyncIrqFlag    ;
-	TSyncConfig         xSyncConfig        ;
-	TSyncGeneralConfig  xSyncGeneralConfig ;
+	TSyncStatus xSyncStatus;
+	TSyncIrqEn xSyncIrqEn;
+	TSyncIrqFlagClr xSyncIrqFlagClr;
+	TSyncIrqFlag xSyncIrqFlag;
+	TPreSyncIrqEn xPreSyncIrqEn;
+	TPreSyncIrqFlagClr xPreSyncIrqFlagClr;
+	TPreSyncIrqFlag xPreSyncIrqFlag;
+	TSyncConfig xSyncConfig;
+	TSyncGeneralConfig xSyncGeneralConfig;
 	TSyncErrorInjection xSyncErrorInjection;
-	TSyncControl        xSyncControl       ;
-	TSyncIRQNumber      xSyncIRQNumber     ;
+	TSyncControl xSyncControl;
+	TSyncIRQNumber xSyncIRQNumber;
 } TSyncModule;
 //! [public module structs definition]
 

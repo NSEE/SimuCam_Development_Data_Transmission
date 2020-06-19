@@ -1,4 +1,4 @@
- /**
+/**
  * @file   seven_seg.h
  * @Author Rodrigo França (rodrigo.franca@maua.br | rodmarfra@gmail.com)
  * @date   Fevereiro, 2017

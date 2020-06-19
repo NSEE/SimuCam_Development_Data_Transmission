@@ -23,19 +23,19 @@
  ************************************************************************************************
  */
 
-void CommandManagementTask      ();
-void sub_unit_control_task 		(void *task_data);
-void sub_unit_control_task_1 	(void *task_data);
-void sub_unit_control_task_2	(void *task_data);
-void sub_unit_control_task_3	(void *task_data);
-void sub_unit_control_task_4	(void *task_data);
-void sub_unit_control_task_5	(void *task_data);
-void sub_unit_control_task_6	(void *task_data);
-void sub_unit_control_task_7	(void *task_data);
-void dma1_scheduler_task		(void *task_data);
-void dma2_scheduler_task		(void *task_data);
-void echo_task					(void *task_data);
-void uart_receiver_task			(void *task_data);
+void CommandManagementTask();
+void sub_unit_control_task(void *task_data);
+void sub_unit_control_task_1(void *task_data);
+void sub_unit_control_task_2(void *task_data);
+void sub_unit_control_task_3(void *task_data);
+void sub_unit_control_task_4(void *task_data);
+void sub_unit_control_task_5(void *task_data);
+void sub_unit_control_task_6(void *task_data);
+void sub_unit_control_task_7(void *task_data);
+void dma1_scheduler_task(void *task_data);
+void dma2_scheduler_task(void *task_data);
+void echo_task(void *task_data);
+void uart_receiver_task(void *task_data);
 void periodic_HK_task(void *task_data);
 
 /*$PAGE*/

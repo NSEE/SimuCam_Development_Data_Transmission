@@ -81,15 +81,11 @@ int get_mac_addr(NET net, unsigned char mac_addr[6]) {
  * or we are setting our own static IP, Gateway, and Subnet Mask addresses our
  * self. This routine is where that happens.
  */
-int get_ip_addr(alt_iniche_dev *p_dev, ip_addr* ipaddr, ip_addr* netmask,
-		ip_addr* gw, int* use_dhcp) {
+int get_ip_addr(alt_iniche_dev *p_dev, ip_addr* ipaddr, ip_addr* netmask, ip_addr* gw, int* use_dhcp) {
 
-	IP4_ADDR(*ipaddr, xConfEth.ucIP[0], xConfEth.ucIP[1], xConfEth.ucIP[2],
-			xConfEth.ucIP[3]);
-	IP4_ADDR(*gw, xConfEth.ucGTW[0], xConfEth.ucGTW[1], xConfEth.ucGTW[2],
-			xConfEth.ucGTW[3]);
-	IP4_ADDR(*netmask, xConfEth.ucSubNet[0], xConfEth.ucSubNet[1],
-			xConfEth.ucSubNet[2], xConfEth.ucSubNet[3]);
+	IP4_ADDR(*ipaddr, xConfEth.ucIP[0], xConfEth.ucIP[1], xConfEth.ucIP[2], xConfEth.ucIP[3]);
+	IP4_ADDR(*gw, xConfEth.ucGTW[0], xConfEth.ucGTW[1], xConfEth.ucGTW[2], xConfEth.ucGTW[3]);
+	IP4_ADDR(*netmask, xConfEth.ucSubNet[0], xConfEth.ucSubNet[1], xConfEth.ucSubNet[2], xConfEth.ucSubNet[3]);
 
 #ifdef DHCP_CLIENT
 	*use_dhcp = 1;
@@ -125,10 +121,8 @@ alt_u32 get_serial_number(void) {
 
 #if DEBUG_ON
 	while (!ser_num) {
-		fprintf(fp, 
-				"Please enter your 9-digit serial number. This is printed on a \n");
-		fprintf(fp, 
-				"label under your Nios dev. board. The first 3 digits of the \n");
+		fprintf(fp, "Please enter your 9-digit serial number. This is printed on a \n");
+		fprintf(fp, "label under your Nios dev. board. The first 3 digits of the \n");
 		fprintf(fp, "label are ASJ and the serial number follows this.\n -->");
 
 		for (i = 0; i < 9; i++) {
@@ -148,8 +142,7 @@ alt_u32 get_serial_number(void) {
 				ser_num += serial_number[i] - '0';
 			} else {
 				ser_num = 0;
-				fprintf(fp, 
-						"Serial number only contains decimal digits and is non-zero\n");
+				fprintf(fp, "Serial number only contains decimal digits and is non-zero\n");
 				break;
 			}
 		}
@@ -189,8 +182,7 @@ error_t generate_and_store_mac_addr() {
 	alt_flash_fd* flash_handle;
 #if DEBUG_ON
 	fprintf(fp, "Can't read the MAC address from your board (this probably means\n");
-	fprintf(fp, 
-			"that your flash was erased). We will assign you a MAC address and\n");
+	fprintf(fp, "that your flash was erased). We will assign you a MAC address and\n");
 	fprintf(fp, "static network settings\n\n");
 #endif
 	ser_num = get_serial_number();
@@ -249,8 +241,7 @@ error_t generate_and_store_mac_addr() {
 		/* Write the MAC address to flash */
 		flash_handle = alt_flash_open_dev(EXT_FLASH_NAME);
 		if (flash_handle) {
-			alt_write_flash(flash_handle, last_flash_sector_offset,
-					flash_content, 32);
+			alt_write_flash(flash_handle, last_flash_sector_offset, flash_content, 32);
 			alt_flash_close_dev(flash_handle);
 			error = 0;
 		}
@@ -275,8 +266,7 @@ error_t generate_mac_addr(unsigned char mac_addr[6]) {
 	error_t error = -1;
 	alt_u32 ser_num = 0;
 #if DEBUG_ON
-	fprintf(fp, 
-			"\nCan't read the MAC address from your board. We will assign you\n");
+	fprintf(fp, "\nCan't read the MAC address from your board. We will assign you\n");
 	fprintf(fp, "a MAC address.\n\n");
 #endif
 	ser_num = get_serial_number();
@@ -292,9 +282,7 @@ error_t generate_mac_addr(unsigned char mac_addr[6]) {
 		mac_addr[4] = (ser_num & 0xff00) >> 8;
 		mac_addr[5] = ser_num & 0xff;
 #if DEBUG_ON
-		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
-				mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4],
-				mac_addr[5]);
+		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n", mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
 #endif
 		error = 0;
 	}
@@ -338,9 +326,7 @@ error_t get_board_mac_addr(unsigned char mac_addr[6]) {
 		mac_addr[4] = IORD_8DIRECT(last_flash_sector, 8);
 		mac_addr[5] = IORD_8DIRECT(last_flash_sector, 9);
 #if DEBUG_ON
-		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n",
-				mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4],
-				mac_addr[5]);
+		fprintf(fp, "Your Ethernet MAC address is %02x:%02x:%02x:%02x:%02x:%02x\n", mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
 #endif
 	}
 
@@ -390,8 +376,7 @@ int FindLastFlashSectorOffset(alt_u32 *pLastFlashSectorOffset) {
 			if (regions[n].offset > pLastRegion->offset)
 				pLastRegion = &(regions[n]);
 		}
-		lastFlashSectorOffset = pLastRegion->offset + pLastRegion->region_size
-				- pLastRegion->block_size;
+		lastFlashSectorOffset = pLastRegion->offset + pLastRegion->region_size - pLastRegion->block_size;
 	}
 
 	/* Return results. */

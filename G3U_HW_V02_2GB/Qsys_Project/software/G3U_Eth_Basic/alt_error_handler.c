@@ -1,12 +1,12 @@
 /******************************************************************************
-* Copyright (c) 2006 Altera Corporation, San Jose, California, USA.           *
-* All rights reserved. All use of this software and documentation is          *
-* subject to the License Agreement located at the end of this file below.     *
-*******************************************************************************                                                                             *
-* Date - October 24, 2006                                                     *
-* Module - alt_error_handler.c                                                *
-*                                                                             *
-******************************************************************************/
+ * Copyright (c) 2006 Altera Corporation, San Jose, California, USA.           *
+ * All rights reserved. All use of this software and documentation is          *
+ * subject to the License Agreement located at the end of this file below.     *
+ *******************************************************************************                                                                             *
+ * Date - October 24, 2006                                                     *
+ * Module - alt_error_handler.c                                                *
+ *                                                                             *
+ ******************************************************************************/
 
 /*
  * The following functions are MicroC/OS-II system call, network stack system
@@ -85,8 +85,8 @@
  * extensibility capability for a variety of overloaded uses is the reason 
  * for declaration of the expanded_diagnosis_ptr as void *.
  */
- 
- /*
+
+/*
  * Include files:
  * 
  * <stdio.h>: Contains C "{fp,p}rintf()" functions.
@@ -99,291 +99,277 @@
 #include "includes.h"
 #include "alt_error_handler.h"
 #include "simucam_definitions.h"
- 
-void alt_uCOSIIErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
-{
-   FAULT_LEVEL fault_level;
-   
-   if(error_code == OS_NO_ERR)
-   {
-      return;
-   }
-   
-   fault_level = SYSTEM;  
-   OSSchedLock();  /* Disable Task Switching but still service other IRQs */
-      
-   switch (error_code)
-   {  
-      case OS_PRIO_EXIST:
-         fprintf(stderr, "Attempted to assign task priority aready in use.\n");
-         break;
-      case OS_PRIO_INVALID:
-         fprintf(stderr, "Specified task priority higher than allowed max.\n");
-         fprintf(stderr, "Task can't be assigned a priority higher than %d\n",
-            OS_LOWEST_PRIO);
-         break;
-      case OS_NO_MORE_TCB:
-         fprintf(stderr, "Task Control Blocks have been exhausted\n");
-         fprintf(stderr, "Current max number of tasks is %d\n",OS_MAX_TASKS);
-         break;
-      case OS_MBOX_FULL:
-         fault_level = NONE;
-         fprintf(stderr, "Attempted Post to Mailbox already holding message\n");
-         break;
-      case OS_ERR_EVENT_TYPE:
-         fault_level = TASK;
-         fprintf(stderr, 
-"Attempted to access a resource with no match for the required data type.\n");
-         break;
-      case OS_ERR_PEVENT_NULL:
-         fprintf(stderr, "Attempting to access a resource pointing to NULL\n");
-         break;
-      case OS_ERR_POST_NULL_PTR:
-         fault_level = TASK;
-         fprintf(stderr, "Attempted to Post a NULL to a resource. \n");
-         break;
-      case OS_TIMEOUT:
-         fault_level = NONE;
-         fprintf(stderr, "Resource not received in specified time\n");
-         break;
-      case OS_ERR_PEND_ISR:
-         fprintf(stderr, "Attempting to pend for a resource in an ISR\n");
-         break;
-      case OS_TASK_DEL_IDLE:
-         fprintf(stderr, "Attempted to delete the IDLE task\n");
-         break;
-      case OS_TASK_DEL_ERR:
-         fault_level = NONE;
-         fprintf(stderr, "Attempted to delete a task that does not exist\n");
-         break;
-      case OS_TASK_DEL_ISR:
-         fprintf(stderr, "Attempted to delete a task from an ISR\n");
-         break;
-      case OS_Q_FULL:
-         fault_level = NONE;
-         fprintf(stderr, "Attempted to post to a full message queue\n");
-         break;
-      case OS_ERR_NOT_MUTEX_OWNER:
-         fault_level = TASK;
-         fprintf(stderr, "Attempted to post a mutex not owned by the task\n");
-         break;
-      case EXPANDED_DIAGNOSIS_CODE:      
-         fault_level = SYSTEM;
-         fprintf(fp, "\n[MicroC/OS-II]: See STDERR for expanded diagnosis translation.");
-         fprintf(stderr, "\n[MicroC/OS-II]: Expanded Diagnosis: %s.", (char *)expanded_diagnosis_ptr);
-         break;           
-      default:
-         fprintf(fp, "\n[MicroC/OS-II]: (Not a MicroC/OS-II error) See STDERR.\n");
-         fprintf(stderr, "\n[MicroC/OS-II]:");
-         fprintf(stderr, "\nError_code %d.\n", error_code);
-         perror("\n[MicroC/OS-II]: (Not a MicroC/OS-II error), ERRNO: ");
-         break;
 
-   }
+void alt_uCOSIIErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr) {
+	FAULT_LEVEL fault_level;
 
-   /* Process the error based on the fault level, 
-    * reenable scheduler if appropriate. */  
-   switch (fault_level) {
-      case TASK:
-         /* Error can be isolated by killing the task */
-         fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is TASK).");
-         fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is TASK");
-         fprintf(stderr, "\n[MicroC/OS-II]: Task is being deleted.\n");
-         OSSchedUnlock(); /* Reenable Task Switching */
-         OSTaskDel(OS_PRIO_SELF);
-         /* Reinvoke uCOSII error handler in case task deletion fails, in 
-          * which case fault_level for this secondary error will be SYSTEM. */
-         alt_uCOSIIErrorHandler(error_code, 0);         
-         break;
-      case SYSTEM:
-         /* Total System Failure, Restart Required */
-         fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is SYSTEM).");
-         fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is SYSTEM");
-         fprintf(stderr, "\n[MicroC/OS-II]: FATAL Error, Restart required.");
-         fprintf(stderr, "\n[MicroC/OS-II]: Locking scheduler - endless loop.\n");
-         while(1); /* Since scheduler is locked,loop halts all task activity.*/
-         break;
-      case NONE:
-         fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is NONE");
-         fprintf(stderr, "\n[MicroC/OS-II]: Informational error only, control"); 
-         fprintf(stderr, 
-            "returned to task to complete processing at application level.\n");
-         OSSchedUnlock(); /* Reenable Task Switching */
-         return;   
-         break;      
-      default:
-         fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is Unknown).\n");
-         fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is unknown!?!\n");
-   }
-   while(1); /* Correct Program Flow never gets here. */
+	if (error_code == OS_NO_ERR) {
+		return;
+	}
+
+	fault_level = SYSTEM;
+	OSSchedLock(); /* Disable Task Switching but still service other IRQs */
+
+	switch (error_code) {
+	case OS_PRIO_EXIST:
+		fprintf(stderr, "Attempted to assign task priority aready in use.\n");
+		break;
+	case OS_PRIO_INVALID:
+		fprintf(stderr, "Specified task priority higher than allowed max.\n");
+		fprintf(stderr, "Task can't be assigned a priority higher than %d\n",
+		OS_LOWEST_PRIO);
+		break;
+	case OS_NO_MORE_TCB:
+		fprintf(stderr, "Task Control Blocks have been exhausted\n");
+		fprintf(stderr, "Current max number of tasks is %d\n", OS_MAX_TASKS);
+		break;
+	case OS_MBOX_FULL:
+		fault_level = NONE;
+		fprintf(stderr, "Attempted Post to Mailbox already holding message\n");
+		break;
+	case OS_ERR_EVENT_TYPE:
+		fault_level = TASK;
+		fprintf(stderr, "Attempted to access a resource with no match for the required data type.\n");
+		break;
+	case OS_ERR_PEVENT_NULL:
+		fprintf(stderr, "Attempting to access a resource pointing to NULL\n");
+		break;
+	case OS_ERR_POST_NULL_PTR:
+		fault_level = TASK;
+		fprintf(stderr, "Attempted to Post a NULL to a resource. \n");
+		break;
+	case OS_TIMEOUT:
+		fault_level = NONE;
+		fprintf(stderr, "Resource not received in specified time\n");
+		break;
+	case OS_ERR_PEND_ISR:
+		fprintf(stderr, "Attempting to pend for a resource in an ISR\n");
+		break;
+	case OS_TASK_DEL_IDLE:
+		fprintf(stderr, "Attempted to delete the IDLE task\n");
+		break;
+	case OS_TASK_DEL_ERR:
+		fault_level = NONE;
+		fprintf(stderr, "Attempted to delete a task that does not exist\n");
+		break;
+	case OS_TASK_DEL_ISR:
+		fprintf(stderr, "Attempted to delete a task from an ISR\n");
+		break;
+	case OS_Q_FULL:
+		fault_level = NONE;
+		fprintf(stderr, "Attempted to post to a full message queue\n");
+		break;
+	case OS_ERR_NOT_MUTEX_OWNER:
+		fault_level = TASK;
+		fprintf(stderr, "Attempted to post a mutex not owned by the task\n");
+		break;
+	case EXPANDED_DIAGNOSIS_CODE:
+		fault_level = SYSTEM;
+		fprintf(fp, "\n[MicroC/OS-II]: See STDERR for expanded diagnosis translation.");
+		fprintf(stderr, "\n[MicroC/OS-II]: Expanded Diagnosis: %s.", (char *) expanded_diagnosis_ptr);
+		break;
+	default:
+		fprintf(fp, "\n[MicroC/OS-II]: (Not a MicroC/OS-II error) See STDERR.\n");
+		fprintf(stderr, "\n[MicroC/OS-II]:");
+		fprintf(stderr, "\nError_code %d.\n", error_code);
+		perror("\n[MicroC/OS-II]: (Not a MicroC/OS-II error), ERRNO: ");
+		break;
+
+	}
+
+	/* Process the error based on the fault level, 
+	 * reenable scheduler if appropriate. */
+	switch (fault_level) {
+	case TASK:
+		/* Error can be isolated by killing the task */
+		fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is TASK).");
+		fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is TASK");
+		fprintf(stderr, "\n[MicroC/OS-II]: Task is being deleted.\n");
+		OSSchedUnlock(); /* Reenable Task Switching */
+		OSTaskDel(OS_PRIO_SELF);
+		/* Reinvoke uCOSII error handler in case task deletion fails, in 
+		 * which case fault_level for this secondary error will be SYSTEM. */
+		alt_uCOSIIErrorHandler(error_code, 0);
+		break;
+	case SYSTEM:
+		/* Total System Failure, Restart Required */
+		fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is SYSTEM).");
+		fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is SYSTEM");
+		fprintf(stderr, "\n[MicroC/OS-II]: FATAL Error, Restart required.");
+		fprintf(stderr, "\n[MicroC/OS-II]: Locking scheduler - endless loop.\n");
+		while (1)
+			; /* Since scheduler is locked,loop halts all task activity.*/
+		break;
+	case NONE:
+		fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is NONE");
+		fprintf(stderr, "\n[MicroC/OS-II]: Informational error only, control");
+		fprintf(stderr, "returned to task to complete processing at application level.\n");
+		OSSchedUnlock(); /* Reenable Task Switching */
+		return;
+		break;
+	default:
+		fprintf(fp, "\n[MicroC/OS-II]: See STDERR (FAULT_LEVEL is Unknown).\n");
+		fprintf(stderr, "\n[MicroC/OS-II]: FAULT_LEVEL is unknown!?!\n");
+	}
+	while (1)
+		; /* Correct Program Flow never gets here. */
 }
 
-void alt_NetworkErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr)
-{
-   FAULT_LEVEL fault_level;
+void alt_NetworkErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr) {
+	FAULT_LEVEL fault_level;
 
-   if(error_code == OS_NO_ERR)
-   {
-      return;
-   }
+	if (error_code == OS_NO_ERR) {
+		return;
+	}
 
-   fault_level = SYSTEM;   
-   OSSchedLock();  /* Disable Task Switching but still service other IRQs */  
+	fault_level = SYSTEM;
+	OSSchedLock(); /* Disable Task Switching but still service other IRQs */
 
-   if (error_code == EXPANDED_DIAGNOSIS_CODE) 
-   {
-      fault_level = SYSTEM;
-      fprintf(fp, "\n[Network]: See STDERR for expanded diagnosis translation.");
-      fprintf(stderr, "\n[Network]: %s", (char *)expanded_diagnosis_ptr);
-      /* Check errno also in case it has been set. */
-      perror("\n[Network]:  ERRNO: ");
-   }
-   else 
-   {
-      fault_level = TASK;
-      fprintf(fp, "\n[Network]: See STDERR.\n");
-      fprintf(stderr, "\n[Network]: Error_code %d!\n", error_code);        
-      perror("\n[Network]:  ERRNO: ");
-   }
+	if (error_code == EXPANDED_DIAGNOSIS_CODE) {
+		fault_level = SYSTEM;
+		fprintf(fp, "\n[Network]: See STDERR for expanded diagnosis translation.");
+		fprintf(stderr, "\n[Network]: %s", (char *) expanded_diagnosis_ptr);
+		/* Check errno also in case it has been set. */
+		perror("\n[Network]:  ERRNO: ");
+	} else {
+		fault_level = TASK;
+		fprintf(fp, "\n[Network]: See STDERR.\n");
+		fprintf(stderr, "\n[Network]: Error_code %d!\n", error_code);
+		perror("\n[Network]:  ERRNO: ");
+	}
 
-   /* Process error based on fault level, reenable scheduler if appropriate. */     
-   switch (fault_level) 
-   {
-      case TASK:
-         /* Error can be isolated by killing the task */
-         fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is TASK).");
-         fprintf(stderr, "\n[Network]: FAULT_LEVEL is TASK");
-         fprintf(stderr, "\n[Network]: Task is being deleted.\n");
-         OSSchedUnlock(); /* Reenable Task Switching */
-         OSTaskDel(OS_PRIO_SELF);
-         /* Reinvoke uCOSII error handler in case task deletion fails, in 
-          * which case fault_level for this secondary error will be SYSTEM. */
-         alt_uCOSIIErrorHandler(error_code, 0);         
-         break;
-      case SYSTEM:
-         /* Total System Failure, Restart Required */
-         fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is SYSTEM).");
-         fprintf(stderr, "\n[Network]: FAULT_LEVEL is SYSTEM.");
-         fprintf(stderr, "\n[Network]: FATAL Error, Restart required.");
-         fprintf(stderr, "\n[Network]: Locking scheduler - endless loop.\n");
-         while(1); /* Since scheduler is locked, loop halts all task activity.*/
-         break;
-      case NONE:
-         fprintf(stderr, "\n[Network]: FAULT_LEVEL is NONE.");
-         fprintf(stderr, "\n[Network]: Informational "
-                         "error only, control returned");
-         fprintf(stderr, 
-            "to task to complete processing at the application level.\n");
-         OSSchedUnlock(); /* Reenable Task Switching */ 
-         return;
-         break;         
-      default:
-         fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is unknown).\n");
-         fprintf(stderr, "\n[Network] FAULT_LEVEL is unknown !?!\n");
-   }
-   while(1); /* Correct Program Flow never gets here. */
+	/* Process error based on fault level, reenable scheduler if appropriate. */
+	switch (fault_level) {
+	case TASK:
+		/* Error can be isolated by killing the task */
+		fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is TASK).");
+		fprintf(stderr, "\n[Network]: FAULT_LEVEL is TASK");
+		fprintf(stderr, "\n[Network]: Task is being deleted.\n");
+		OSSchedUnlock(); /* Reenable Task Switching */
+		OSTaskDel(OS_PRIO_SELF);
+		/* Reinvoke uCOSII error handler in case task deletion fails, in 
+		 * which case fault_level for this secondary error will be SYSTEM. */
+		alt_uCOSIIErrorHandler(error_code, 0);
+		break;
+	case SYSTEM:
+		/* Total System Failure, Restart Required */
+		fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is SYSTEM).");
+		fprintf(stderr, "\n[Network]: FAULT_LEVEL is SYSTEM.");
+		fprintf(stderr, "\n[Network]: FATAL Error, Restart required.");
+		fprintf(stderr, "\n[Network]: Locking scheduler - endless loop.\n");
+		while (1)
+			; /* Since scheduler is locked, loop halts all task activity.*/
+		break;
+	case NONE:
+		fprintf(stderr, "\n[Network]: FAULT_LEVEL is NONE.");
+		fprintf(stderr, "\n[Network]: Informational "
+				"error only, control returned");
+		fprintf(stderr, "to task to complete processing at the application level.\n");
+		OSSchedUnlock(); /* Reenable Task Switching */
+		return;
+		break;
+	default:
+		fprintf(fp, "\n[Network]: See STDERR (FAULT_LEVEL is unknown).\n");
+		fprintf(stderr, "\n[Network] FAULT_LEVEL is unknown !?!\n");
+	}
+	while (1)
+		; /* Correct Program Flow never gets here. */
 }
-   
-   
-void alt_SSSErrorHandler(INT8U error_code, 
-                         void *expanded_diagnosis_ptr)
-{
-   FAULT_LEVEL fault_level;
-   
-   if   (error_code == OS_NO_ERR)
-   {
-      return;
-   }
 
-   fault_level = (error_code == OS_NO_ERR) ? NONE : SYSTEM;
-   
-   OSSchedLock();  /* Disable Task Switching but still service other IRQs */
-   switch (error_code)
-   {
-      case EXPANDED_DIAGNOSIS_CODE:      
-         fault_level = SYSTEM;
-         fprintf(fp, "\n[SSS]: See STDERR for expanded diagnosis translation.");
-         fprintf(stderr, "\n[SSS]: %s", (char *)expanded_diagnosis_ptr);
-         break;
-         
-      case OS_Q_FULL:
-         fault_level = NONE;
-         fprintf(stderr,"\n[SSS]: Attempted to post to a full message queue.");
-         break;
-      
-      default:
-         fault_level = SYSTEM;
-         fprintf(fp, "\n[SSS]: See STDERR.\n");
-         fprintf(stderr, "\n[SSS]: Error_code %d!", error_code);        
-         perror("\n[SSS]:  ERRNO: ");
-   }
+void alt_SSSErrorHandler(INT8U error_code, void *expanded_diagnosis_ptr) {
+	FAULT_LEVEL fault_level;
 
-   /* Process the error based on the fault level, 
-    * reenable scheduler if appropriate. */     
-   switch (fault_level) 
-   {
-      case TASK:
-         /* Error can be isolated by killing the task */
-         fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is TASK).");
-         fprintf(stderr, "\n[SSS]: FAULT_LEVEL is TASK");
-         fprintf(stderr, "\n[SSS]: Task is being deleted.\n");
-         OSSchedUnlock(); /* Reenable Task Switching */
-         OSTaskDel(OS_PRIO_SELF);
-         /* Invoke uCOSII error handler in case task deletion fails, in 
-          * which case fault_level for this secondary error will be SYSTEM. */
-         alt_uCOSIIErrorHandler(error_code, 0);         
-         break;
-      case SYSTEM:
-          /* Total System Failure, Restart Required */
-         fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is SYSTEM).");
-         fprintf(stderr, "\n[SSS]: FAULT_LEVEL is SYSTEM.");
-         fprintf(stderr, "\n[SSS]: FATAL Error, Restart required.");
-         fprintf(stderr, "\n[SSS]: Locking scheduler - endless loop.\n");
-         while(1); /* Since scheduler is locked, loop halts all task activity.*/
-         break;
-      case NONE:
-         fprintf(stderr, "\n[SSS] FAULT_LEVEL is NONE.");
-         fprintf(stderr, 
-            "\n[SSS] Informational error only, control returned to task to ");
-         fprintf(stderr,
-            "complete processing at the application level.\n");
-         OSSchedUnlock(); /* Reenable Task Switching */ 
-         return;         
-         break;
-      default:
-         fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is Unknown).\n");
-         fprintf(stderr, "\n[SSS] FAULT_LEVEL is unknown!?!\n");
-   }
-   while(1); /* Correct Program Flow never gets here. */
+	if (error_code == OS_NO_ERR) {
+		return;
+	}
+
+	fault_level = (error_code == OS_NO_ERR) ? NONE : SYSTEM;
+
+	OSSchedLock(); /* Disable Task Switching but still service other IRQs */
+	switch (error_code) {
+	case EXPANDED_DIAGNOSIS_CODE:
+		fault_level = SYSTEM;
+		fprintf(fp, "\n[SSS]: See STDERR for expanded diagnosis translation.");
+		fprintf(stderr, "\n[SSS]: %s", (char *) expanded_diagnosis_ptr);
+		break;
+
+	case OS_Q_FULL:
+		fault_level = NONE;
+		fprintf(stderr, "\n[SSS]: Attempted to post to a full message queue.");
+		break;
+
+	default:
+		fault_level = SYSTEM;
+		fprintf(fp, "\n[SSS]: See STDERR.\n");
+		fprintf(stderr, "\n[SSS]: Error_code %d!", error_code);
+		perror("\n[SSS]:  ERRNO: ");
+	}
+
+	/* Process the error based on the fault level, 
+	 * reenable scheduler if appropriate. */
+	switch (fault_level) {
+	case TASK:
+		/* Error can be isolated by killing the task */
+		fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is TASK).");
+		fprintf(stderr, "\n[SSS]: FAULT_LEVEL is TASK");
+		fprintf(stderr, "\n[SSS]: Task is being deleted.\n");
+		OSSchedUnlock(); /* Reenable Task Switching */
+		OSTaskDel(OS_PRIO_SELF);
+		/* Invoke uCOSII error handler in case task deletion fails, in 
+		 * which case fault_level for this secondary error will be SYSTEM. */
+		alt_uCOSIIErrorHandler(error_code, 0);
+		break;
+	case SYSTEM:
+		/* Total System Failure, Restart Required */
+		fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is SYSTEM).");
+		fprintf(stderr, "\n[SSS]: FAULT_LEVEL is SYSTEM.");
+		fprintf(stderr, "\n[SSS]: FATAL Error, Restart required.");
+		fprintf(stderr, "\n[SSS]: Locking scheduler - endless loop.\n");
+		while (1)
+			; /* Since scheduler is locked, loop halts all task activity.*/
+		break;
+	case NONE:
+		fprintf(stderr, "\n[SSS] FAULT_LEVEL is NONE.");
+		fprintf(stderr, "\n[SSS] Informational error only, control returned to task to ");
+		fprintf(stderr, "complete processing at the application level.\n");
+		OSSchedUnlock(); /* Reenable Task Switching */
+		return;
+		break;
+	default:
+		fprintf(fp, "\n[SSS]: See STDERR (FAULT_LEVEL is Unknown).\n");
+		fprintf(stderr, "\n[SSS] FAULT_LEVEL is unknown!?!\n");
+	}
+	while (1)
+		; /* Correct Program Flow never gets here. */
 }
-   
+
 /******************************************************************************
-*                                                                             *
-* License Agreement                                                           *
-*                                                                             *
-* Copyright (c) 2006 Altera Corporation, San Jose, California, USA.           *
-* All rights reserved.                                                        *
-*                                                                             *
-* Permission is hereby granted, free of charge, to any person obtaining a     *
-* copy of this software and associated documentation files (the "Software"),  *
-* to deal in the Software without restriction, including without limitation   *
-* the rights to use, copy, modify, merge, publish, distribute, sublicense,    *
-* and/or sell copies of the Software, and to permit persons to whom the       *
-* Software is furnished to do so, subject to the following conditions:        *
-*                                                                             *
-* The above copyright notice and this permission notice shall be included in  *
-* all copies or substantial portions of the Software.                         *
-*                                                                             *
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  *
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,    *
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE *
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER      *
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING     *
-* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER         *
-* DEALINGS IN THE SOFTWARE.                                                   *
-*                                                                             *
-* This agreement shall be governed in all respects by the laws of the State   *
-* of California and by the laws of the United States of America.              *
-* Altera does not recommend, suggest or require that this reference design    *
-* file be used in conjunction or combination with any other product.          *
-******************************************************************************/
+ *                                                                             *
+ * License Agreement                                                           *
+ *                                                                             *
+ * Copyright (c) 2006 Altera Corporation, San Jose, California, USA.           *
+ * All rights reserved.                                                        *
+ *                                                                             *
+ * Permission is hereby granted, free of charge, to any person obtaining a     *
+ * copy of this software and associated documentation files (the "Software"),  *
+ * to deal in the Software without restriction, including without limitation   *
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,    *
+ * and/or sell copies of the Software, and to permit persons to whom the       *
+ * Software is furnished to do so, subject to the following conditions:        *
+ *                                                                             *
+ * The above copyright notice and this permission notice shall be included in  *
+ * all copies or substantial portions of the Software.                         *
+ *                                                                             *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR  *
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,    *
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE *
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER      *
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING     *
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER         *
+ * DEALINGS IN THE SOFTWARE.                                                   *
+ *                                                                             *
+ * This agreement shall be governed in all respects by the laws of the State   *
+ * of California and by the laws of the United States of America.              *
+ * Altera does not recommend, suggest or require that this reference design    *
+ * file be used in conjunction or combination with any other product.          *
+ ******************************************************************************/

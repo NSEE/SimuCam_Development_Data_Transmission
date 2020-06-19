@@ -29,7 +29,7 @@ bool bRmapGetCodecConfig(TRmapChannel *pxRmapCh) {
 
 	if (pxRmapCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
 		pxRmapCh->xRmapCodecConfig = vpxDcomChannel->xRmap.xRmapCodecConfig;
 
@@ -46,7 +46,7 @@ bool bRmapSetCodecConfig(TRmapChannel *pxRmapCh) {
 
 	if (pxRmapCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
 		vpxDcomChannel->xRmap.xRmapCodecConfig = pxRmapCh->xRmapCodecConfig;
 
@@ -63,7 +63,7 @@ bool bRmapGetCodecStatus(TRmapChannel *pxRmapCh) {
 
 	if (pxRmapCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
 		pxRmapCh->xRmapCodecStatus = vpxDcomChannel->xRmap.xRmapCodecStatus;
 
@@ -80,7 +80,7 @@ bool bRmapGetCodecError(TRmapChannel *pxRmapCh) {
 
 	if (pxRmapCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
 		pxRmapCh->xRmapCodecError = vpxDcomChannel->xRmap.xRmapCodecError;
 
@@ -97,7 +97,7 @@ bool bRmapGetMemAreaConfig(TRmapChannel *pxRmapCh) {
 
 	if (pxRmapCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
 		pxRmapCh->xRmapMemAreaConfig = vpxDcomChannel->xRmap.xRmapMemAreaConfig;
 
@@ -113,9 +113,9 @@ bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh) {
 
 	if (pxRmapCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
-		vpxDcomChannel->xRmap.xRmapMemAreaConfig  = pxRmapCh->xRmapMemAreaConfig;
+		vpxDcomChannel->xRmap.xRmapMemAreaConfig = pxRmapCh->xRmapMemAreaConfig;
 
 		bStatus = TRUE;
 	}
@@ -126,18 +126,18 @@ bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh) {
 bool bRmapGetRmapMemArea(TRmapChannel *pxRmapCh) {
 	bool bStatus = TRUE;
 	/*
-	bool bStatus = FALSE;
-	volatile TCommChannel *vpxCommChannel;
+	 bool bStatus = FALSE;
+	 volatile TCommChannel *vpxCommChannel;
 
-	if (pxRmapCh != NULL) {
+	 if (pxRmapCh != NULL) {
 
-		vpxCommChannel = (TCommChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+	 vpxCommChannel = (TCommChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
-		pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig = vpxCommChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig;
+	 pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig = vpxCommChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig;
 
-		bStatus = TRUE;
-	}
-	*/
+	 bStatus = TRUE;
+	 }
+	 */
 
 	return bStatus;
 }
@@ -145,30 +145,30 @@ bool bRmapGetRmapMemArea(TRmapChannel *pxRmapCh) {
 bool bRmapSetRmapMemArea(TRmapChannel *pxRmapCh) {
 	bool bStatus = TRUE;
 	/*
-	bool bStatus = FALSE;
-	volatile TCommChannel *vpxCommChannel;
+	 bool bStatus = FALSE;
+	 volatile TCommChannel *vpxCommChannel;
 
-	if (pxRmapCh != NULL) {
+	 if (pxRmapCh != NULL) {
 
-		vpxCommChannel = (TCommChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+	 vpxCommChannel = (TCommChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
-		vpxCommChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig = pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig;
+	 vpxCommChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig = pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaConfig;
 
-		bStatus = TRUE;
-	}
-	*/
+	 bStatus = TRUE;
+	 }
+	 */
 
 	return bStatus;
 }
 
-bool bRmapClearMemArea(TRmapChannel *pxRmapCh){
+bool bRmapClearMemArea(TRmapChannel *pxRmapCh) {
 	bool bStatus = FALSE;
 	alt_u16 usiAddrCnt = 0;
 	volatile TDcomChannel *vpxDcomChannel;
 
 	if (pxRmapCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
 		for (usiAddrCnt = 0; usiAddrCnt < RMAP_MEMORY_AREA_LENGTH_BYTES; usiAddrCnt++) {
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt->xRmapMemAreaReg.ucRmapMemByte[usiAddrCnt] = 0x00;
@@ -192,7 +192,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh1:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_1_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_1_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_1_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_1_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_1_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_1_BASE_ADDR;
 			bValidCh = TRUE;
@@ -200,7 +200,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh2:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_2_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_2_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_2_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_2_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_2_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_2_BASE_ADDR;
 			bValidCh = TRUE;
@@ -208,7 +208,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh3:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_3_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_3_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_3_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_3_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_3_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_3_BASE_ADDR;
 			bValidCh = TRUE;
@@ -216,7 +216,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh4:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_4_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_4_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_4_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_4_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_4_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_4_BASE_ADDR;
 			bValidCh = TRUE;
@@ -224,7 +224,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh5:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_5_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_5_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_5_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_5_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_5_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_5_BASE_ADDR;
 			bValidCh = TRUE;
@@ -232,7 +232,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh6:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_6_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_6_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_6_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_6_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_6_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_6_BASE_ADDR;
 			bValidCh = TRUE;
@@ -240,7 +240,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh7:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_7_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_7_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_7_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_7_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_7_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_7_BASE_ADDR;
 			bValidCh = TRUE;
@@ -248,7 +248,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 		case eDcomSpwCh8:
 			pxRmapCh->xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_8_BASE_ADDR;
 			pxRmapCh->xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_8_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_8_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_8_BASE_ADDR);
 			vpxDcomChannel->xRmap.xRmapDevAddr.uliRmapBaseAddr = (alt_u32) DCOM_CH_8_BASE_ADDR;
 			vpxDcomChannel->xRmap.xRmapMemAreaPrt.puliRmapAreaPrt = (TRmapMemArea *) DCOM_RMAP_MEM_8_BASE_ADDR;
 			bValidCh = TRUE;
@@ -277,7 +277,7 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 			if (!bRmapClearMemArea(pxRmapCh)) {
 				bInitFail = TRUE;
 			}
-			
+
 			if (!bInitFail) {
 				bStatus = TRUE;
 			}

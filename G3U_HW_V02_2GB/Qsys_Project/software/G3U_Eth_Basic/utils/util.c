@@ -91,8 +91,7 @@ void _print_codec_status(int codec_status) {
  * @retval 1 : Sucesso
  *
  */
-void _split_codec_status(int codec_status, int *started, int *connecting,
-		int *running) {
+void _split_codec_status(int codec_status, int *started, int *connecting, int *running) {
 	*started = (int) ((codec_status >> 6) & 1);
 	*connecting = (int) ((codec_status >> 5) & 1);
 	*running = (int) ((codec_status >> 4) & 1);
@@ -114,8 +113,7 @@ INT8U aatoh(INT8U *buffer) {
 	INT8U* a;
 	INT8U v;
 	a = buffer;
-	v = ((a[0] - (48 + 7 * (a[0] > 57))) << 4)
-			+ (a[1] - (48 + 7 * (a[1] > 57)));
+	v = ((a[0] - (48 + 7 * (a[0] > 57))) << 4) + (a[1] - (48 + 7 * (a[1] > 57)));
 	return v;
 }
 
@@ -206,8 +204,7 @@ INT16U crc16(INT8U *p_data, INT32U i_length) {
 		return (~crc);
 
 	do {
-		for (i = 0, data = (unsigned int) 0xff & *p_data++; i < 8; i++, data >>=
-				1) {
+		for (i = 0, data = (unsigned int) 0xff & *p_data++; i < 8; i++, data >>= 1) {
 			if ((crc & 0x0001) ^ (data & 0x0001))
 				crc = (crc >> 1) ^ POLY;
 			else
@@ -222,5 +219,4 @@ INT16U crc16(INT8U *p_data, INT32U i_length) {
 
 	return (crc);
 }
-
 

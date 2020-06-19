@@ -85,8 +85,7 @@ void SimucamCreateOSQ(void) {
 	DATAQ_BUF_SIZE);
 
 	if (!p_simucam_command_q) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create Simucam Command Queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create Simucam Command Queue.\n");
 	} else {
 #if DEBUG_ON
 		fprintf(fp, "Simucam Command Queue created successfully.\r\n");
@@ -101,8 +100,7 @@ void DataCreateOSQ(void) {
 	SimucamDataQ = OSQCreate((void *) (&SimucamDataQTbl[0]), DATAQ_BUF_SIZE);
 
 	if (!SimucamDataQ) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create SimucamDataQ.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create SimucamDataQ.\n");
 	} else {
 #if DEBUG_ON
 		fprintf(fp, "SimucamDataQ created successfully.\r\n");
@@ -147,15 +145,13 @@ void sub_unit_create_os_data_structs(void) {
 	DMA_sched_queue[0] = OSQCreate(&DMA1_sched_queue_tbl[0],
 	DMA_SCHED_BUFFER);
 	if (!DMA_sched_queue[0]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	DMA_sched_queue[1] = OSQCreate(&DMA2_sched_queue_tbl[0],
 	DMA_SCHED_BUFFER);
 	if (!DMA_sched_queue[1]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	/*
@@ -165,85 +161,73 @@ void sub_unit_create_os_data_structs(void) {
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[0]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	p_sub_unit_config_queue[1] = OSQCreate(&p_sub_unit_config_queue_tbl_1[0],
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[1]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	p_sub_unit_config_queue[2] = OSQCreate(&p_sub_unit_config_queue_tbl_2[0],
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[2]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	p_sub_unit_config_queue[3] = OSQCreate(&p_sub_unit_config_queue_tbl_3[0],
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[3]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	p_sub_unit_config_queue[4] = OSQCreate(&p_sub_unit_config_queue_tbl_4[0],
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[4]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	p_sub_unit_config_queue[5] = OSQCreate(&p_sub_unit_config_queue_tbl_5[0],
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[5]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	p_sub_unit_config_queue[6] = OSQCreate(&p_sub_unit_config_queue_tbl_6[0],
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[6]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
 	p_sub_unit_config_queue[7] = OSQCreate(&p_sub_unit_config_queue_tbl_7[0],
 	SUBUNIT_BUFFER);
 
 	if (!p_sub_unit_config_queue[7]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_sub_unit_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_sub_unit_queue.\n");
 	}
 
-	p_dma_scheduler_controller_queue[0] = OSQCreate(
-			&p_dma_scheduler_controller_queue_tbl_0[0],
-			SUBUNIT_BUFFER);
+	p_dma_scheduler_controller_queue[0] = OSQCreate(&p_dma_scheduler_controller_queue_tbl_0[0],
+	SUBUNIT_BUFFER);
 
 	/*
 	 * Creation of the DMA scheduller queues
 	 */
 	if (!p_dma_scheduler_controller_queue[0]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_dma_scheduler_controller_queue 0.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_dma_scheduler_controller_queue 0.\n");
 	}
 
-	p_dma_scheduler_controller_queue[1] = OSQCreate(
-			&p_dma_scheduler_controller_queue_tbl_1[0],
-			SUBUNIT_BUFFER);
+	p_dma_scheduler_controller_queue[1] = OSQCreate(&p_dma_scheduler_controller_queue_tbl_1[0],
+	SUBUNIT_BUFFER);
 
 	if (!p_dma_scheduler_controller_queue[1]) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_dma_scheduler_controller_queue 1.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_dma_scheduler_controller_queue 1.\n");
 	}
 
 	/*
@@ -253,11 +237,9 @@ void sub_unit_create_os_data_structs(void) {
 	ECHO_QUEUE_BUFFER);
 
 	if (!p_echo_queue) {
-		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE,
-				"Failed to create p_echo_queue.\n");
+		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create p_echo_queue.\n");
 	}
 }
-
 
 /* TODO format
  * Function used to initialize all simucam tasks
@@ -280,12 +262,11 @@ void SimucamCreateTasks(void) {
 	/*
 	 * Creating the sub_unit 0 management task [yb]
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 0,
-			(void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY,
-			SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 0, (void *) &sub_unit_task_stack[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY,
+	SUB_UNIT_TASK_PRIORITY, sub_unit_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
@@ -294,147 +275,133 @@ void SimucamCreateTasks(void) {
 	/*
 	 * Creating the sub_unit 1 management task [yb] TODO: Change to one .c
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_1, (void *) 1,
-			(void *) &sub_unit_task_stack_1[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 1,
-			SUB_UNIT_TASK_PRIORITY + 1, sub_unit_task_stack_1,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_1, (void *) 1, (void *) &sub_unit_task_stack_1[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY + 1,
+	SUB_UNIT_TASK_PRIORITY + 1, sub_unit_task_stack_1,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the sub_unit 2 management task [yb] TODO: Change to one .c
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_2, (void *) 2,
-			(void *) &sub_unit_task_stack_2[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 2,
-			SUB_UNIT_TASK_PRIORITY + 2, sub_unit_task_stack_2,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_2, (void *) 2, (void *) &sub_unit_task_stack_2[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY + 2,
+	SUB_UNIT_TASK_PRIORITY + 2, sub_unit_task_stack_2,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the sub_unit 3 management task [yb] TODO: Change to one .c
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_3, (void *) 3,
-			(void *) &sub_unit_task_stack_3[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 3,
-			SUB_UNIT_TASK_PRIORITY + 3, sub_unit_task_stack_3,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_3, (void *) 3, (void *) &sub_unit_task_stack_3[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY + 3,
+	SUB_UNIT_TASK_PRIORITY + 3, sub_unit_task_stack_3,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the sub_unit 4 management task [yb] TODO: Change to one .c
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_4, (void *) 4,
-			(void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 4,
-			SUB_UNIT_TASK_PRIORITY + 4, sub_unit_task_stack_4,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_4, (void *) 4, (void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY + 4,
+	SUB_UNIT_TASK_PRIORITY + 4, sub_unit_task_stack_4,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 	/*
 	 * Creating the sub_unit 5 management task [yb] TODO: Change to one .c
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_5, (void *) 5,
-			(void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 5,
-			SUB_UNIT_TASK_PRIORITY + 5, sub_unit_task_stack_5,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_5, (void *) 5, (void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY + 5,
+	SUB_UNIT_TASK_PRIORITY + 5, sub_unit_task_stack_5,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the sub_unit 6 management task [yb] TODO: Change to one .c
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_6, (void *) 6,
-			(void *) &sub_unit_task_stack_6[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 6,
-			SUB_UNIT_TASK_PRIORITY + 6, sub_unit_task_stack_6,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_6, (void *) 6, (void *) &sub_unit_task_stack_6[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY + 6,
+	SUB_UNIT_TASK_PRIORITY + 6, sub_unit_task_stack_6,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the sub_unit 7 management task [yb] TODO: Change to one .c
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_7, (void *) 7,
-			(void *) &sub_unit_task_stack_7[TASK_STACKSIZE - 1],
-			SUB_UNIT_TASK_PRIORITY + 7,
-			SUB_UNIT_TASK_PRIORITY + 7, sub_unit_task_stack_7,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(sub_unit_control_task_7, (void *) 7, (void *) &sub_unit_task_stack_7[TASK_STACKSIZE - 1],
+	SUB_UNIT_TASK_PRIORITY + 7,
+	SUB_UNIT_TASK_PRIORITY + 7, sub_unit_task_stack_7,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the DMA controller task [yb]
 	 */
-	error_code = OSTaskCreateExt(dma1_scheduler_task, (void *) 0,
-			(void *) &dma1_scheduler_task_stack_0[TASK_STACKSIZE - 1],
-			DMA_SCHEDULER_TASK_PRIORITY,
-			DMA_SCHEDULER_TASK_PRIORITY, dma1_scheduler_task_stack_0,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(dma1_scheduler_task, (void *) 0, (void *) &dma1_scheduler_task_stack_0[TASK_STACKSIZE - 1],
+	DMA_SCHEDULER_TASK_PRIORITY,
+	DMA_SCHEDULER_TASK_PRIORITY, dma1_scheduler_task_stack_0,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the DMA2 controller task [yb]
 	 */
-	error_code = OSTaskCreateExt(dma2_scheduler_task, (void *) 1,
-			(void *) &dma1_scheduler_task_stack_1[TASK_STACKSIZE - 1],
-			DMA_SCHEDULER_TASK_PRIORITY + 1,
-			DMA_SCHEDULER_TASK_PRIORITY + 1, dma1_scheduler_task_stack_1,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(dma2_scheduler_task, (void *) 1, (void *) &dma1_scheduler_task_stack_1[TASK_STACKSIZE - 1],
+	DMA_SCHEDULER_TASK_PRIORITY + 1,
+	DMA_SCHEDULER_TASK_PRIORITY + 1, dma1_scheduler_task_stack_1,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the Echo task [yb]
 	 */
-	error_code = OSTaskCreateExt(echo_task, NULL,
-			(void *) &echo_task_stack[TASK_STACKSIZE - 1],
-			ECHO_TASK_PRIORITY,
-			ECHO_TASK_PRIORITY, echo_task_stack,
-			TASK_STACKSIZE,
-			NULL, 0);
+	error_code = OSTaskCreateExt(echo_task, NULL, (void *) &echo_task_stack[TASK_STACKSIZE - 1],
+	ECHO_TASK_PRIORITY,
+	ECHO_TASK_PRIORITY, echo_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
 	 * Creating the UART receiver task
 	 */
-	 error_code = OSTaskCreateExt(uart_receiver_task, NULL,
-	 		(void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
-	 		UART_RCV_TASK_PRIORITY,
-	 		UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
-	 		TASK_STACKSIZE,
-	 		NULL, 0);
+	error_code = OSTaskCreateExt(uart_receiver_task, NULL, (void *) &uart_rcv_task_stack[TASK_STACKSIZE - 1],
+	UART_RCV_TASK_PRIORITY,
+	UART_RCV_TASK_PRIORITY, uart_rcv_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
 
-	 alt_uCOSIIErrorHandler(error_code, 0);
+	alt_uCOSIIErrorHandler(error_code, 0);
 
-     
-
-     /*
+	/*
 	 * Creating the periodic HK task
 	 */
-	 error_code = OSTaskCreateExt(periodic_HK_task, NULL,
-	 		(void *) &periodic_HK_task_stack[TASK_STACKSIZE - 1],
-	 		PERIODIC_HK_TASK_PRIORITY,
-	 		PERIODIC_HK_TASK_PRIORITY, periodic_HK_task_stack,
-	 		TASK_STACKSIZE,
-	 		NULL, 0);
+	error_code = OSTaskCreateExt(periodic_HK_task, NULL, (void *) &periodic_HK_task_stack[TASK_STACKSIZE - 1],
+	PERIODIC_HK_TASK_PRIORITY,
+	PERIODIC_HK_TASK_PRIORITY, periodic_HK_task_stack,
+	TASK_STACKSIZE,
+	NULL, 0);
 
-	 alt_uCOSIIErrorHandler(error_code, 0);
+	alt_uCOSIIErrorHandler(error_code, 0);
 
 	xMutexDMA[0] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
 	if (error_code != OS_ERR_NONE) {

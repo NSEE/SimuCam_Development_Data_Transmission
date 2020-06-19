@@ -53,8 +53,7 @@ union Ddr2MemoryAddress {
 };
 
 enum Ddr2DdrMemId {
-	eDdr2Memory1 = 0,
-	eDdr2Memory2
+	eDdr2Memory1 = 0, eDdr2Memory2
 } EUartDdrMemId;
 
 /* prototype */

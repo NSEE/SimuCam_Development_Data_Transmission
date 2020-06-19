@@ -84,7 +84,6 @@ void sub_unit_control_task_1(void *task_data);
  */
 
 //OS_EVENT *sub_unit_command_semaphore;
-
 extern T_Simucam T_simucam;
 
 #endif /* SUB_UNIT_CONTROL_TASK_3_H_ */

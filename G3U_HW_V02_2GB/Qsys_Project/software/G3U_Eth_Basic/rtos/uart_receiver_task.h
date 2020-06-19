@@ -18,10 +18,10 @@
 #define RTOS_UART_RECEIVER_TASK_H_
 
 /*
-************************************************************************************************
-*                                        INCLUDE FILES
-************************************************************************************************
-*/
+ ************************************************************************************************
+ *                                        INCLUDE FILES
+ ************************************************************************************************
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -36,10 +36,10 @@
 #include "../rtos/command_control_task.h"
 
 /*
-************************************************************************************************
-*                                        CONSTANTS & MACROS
-************************************************************************************************
-*/
+ ************************************************************************************************
+ *                                        CONSTANTS & MACROS
+ ************************************************************************************************
+ */
 #define PROTOCOL_OVERHEAD		7
 #define HEADER_OVERHEAD         8
 #define PAYLOAD_OVERHEAD        10
@@ -47,7 +47,9 @@
 #define IMAGETTE_HEADER         6
 #define UART_BUFFER_SIZE        256
 
-typedef enum { sRConfiguring = 0, sGetHeader, sToGetImagettes, sGetImagettes, sToGetCommand, sGetCommand, sSendToCmdCtrl, sSendToACKReceiver } tReaderStates;
+typedef enum {
+	sRConfiguring = 0, sGetHeader, sToGetImagettes, sGetImagettes, sToGetCommand, sGetCommand, sSendToCmdCtrl, sSendToACKReceiver
+} tReaderStates;
 
 extern T_Simucam T_simucam;
 /*

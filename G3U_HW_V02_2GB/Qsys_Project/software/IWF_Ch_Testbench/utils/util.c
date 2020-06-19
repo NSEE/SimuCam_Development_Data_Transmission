@@ -75,7 +75,7 @@ void _print_codec_status(int codec_status) {
 	int running = (int) ((codec_status >> 4) & 1);
 
 #if DEBUG_ON
-	if ( DEBUG_LEVEL <= dlMinorMessage ) {
+	if ( DEBUG_LEVEL <= dlMinorMessage) {
 		sprintf(cDebugBuffer, "-------- link status \n");
 		printf(cDebugBuffer);
 		sprintf(cDebugBuffer, "Link started    : %s \n", (started == 1) ? "S" : "N");
@@ -102,8 +102,7 @@ void _print_codec_status(int codec_status) {
  * @retval 1 : Sucesso
  *
  */
-void _split_codec_status(int codec_status, int *started, int *connecting,
-		int *running) {
+void _split_codec_status(int codec_status, int *started, int *connecting, int *running) {
 	*started = (int) ((codec_status >> 6) & 1);
 	*connecting = (int) ((codec_status >> 5) & 1);
 	*running = (int) ((codec_status >> 4) & 1);
@@ -125,8 +124,7 @@ alt_u8 aatoh(alt_u8 *buffer) {
 	alt_u8* a;
 	alt_u8 v;
 	a = buffer;
-	v = ((a[0] - (48 + 7 * (a[0] > 57))) << 4)
-			+ (a[1] - (48 + 7 * (a[1] > 57)));
+	v = ((a[0] - (48 + 7 * (a[0] > 57))) << 4) + (a[1] - (48 + 7 * (a[1] > 57)));
 	return v;
 }
 
@@ -146,9 +144,9 @@ alt_u8 aatoh(alt_u8 *buffer) {
 alt_u8 Verif_Error(alt_u8 error_code) {
 	if (!error_code) {
 #if DEBUG_ON
-if ( DEBUG_LEVEL <= dlCriticalOnly ) {
-	printf("ERROR\n\r");
-}
+		if ( DEBUG_LEVEL <= dlCriticalOnly) {
+			printf("ERROR\n\r");
+		}
 #endif
 		return 0;
 	} else

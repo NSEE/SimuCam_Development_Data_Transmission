@@ -10,24 +10,26 @@
 
 #define DEBUG_ON    	1
 #if DEBUG_ON
-	#define debug( fp, mensage )    if ( DEBUG_ON ) { fprintf( fp, mensage ); }
+#define debug( fp, mensage )    if ( DEBUG_ON ) { fprintf( fp, mensage ); }
 #endif
 
 /* HW and FW release version */
 #define SIMUCAM_RELEASE                 "I2dev"
 #define SIMUCAM_HW_VERSION              "0.3"
-#define SIMUCAM_FW_VERSION              "0.0.testbench"
+#define SIMUCAM_FW_VERSION              "0.2.testbench"
 
 #ifndef bool
-	//typedef short int bool;
-	//typedef enum e_bool { false = 0, true = 1 } bool;
-	//#define false   0
-	//#define true    1
-	#define FALSE   0
-	#define TRUE    1
+//typedef short int bool;
+//typedef enum e_bool { false = 0, true = 1 } bool;
+//#define false   0
+//#define true    1
+#define FALSE   0
+#define TRUE    1
 #endif
 
-typedef enum { dlFullMessage  = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorMessage, dlCustom2, dlJustMajorProgress, dlCriticalOnly } tDebugLevel;
+typedef enum {
+	dlFullMessage = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorMessage, dlCustom2, dlJustMajorProgress, dlCriticalOnly
+} tDebugLevel;
 #define DEBUG_LEVEL                     4
 
 #include <altera_up_sd_card_avalon_interface.h>
@@ -53,12 +55,11 @@ typedef enum { dlFullMessage  = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajor
 
 /* Variable that will carry the debug JTAG device file descriptor*/
 #if DEBUG_ON
-    FILE* fp;
+FILE* fp;
 #endif
 
 #define min_sim( x , y ) ((x < y) ? x : y)
 
 #include <altera_avalon_uart.h>
-
 
 #endif /* SIMUCAM_DEFINITIONS_H_ */
