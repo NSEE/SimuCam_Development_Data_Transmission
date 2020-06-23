@@ -30,6 +30,7 @@
 #include "../driver/sync/sync.h"
 #include "../driver/uart/uart.h"
 #include "../driver/dcom/dcom_channel.h"
+#include "../driver/reset/reset.h"
 // #include "simple_socket_server.h"			/* Used in the conn/send op */
 /*
  * Include configurations for the communication modules [yb]

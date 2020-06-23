@@ -414,13 +414,14 @@ INT8U iCompareTags(INT8U iTagA[], INT8U iTagB[]){
  * @retval          void
  **/
 void vDataSelector(T_uart_payload* pPayload){
-    
-    for (INT8U i = 0; i < NB_CHANNELS; i++)
-    {
-    	if(iCompareTags((INT8U *) ((INT32U) pPayload->data[10]), T_simucam.T_Sub[i].T_data.tag) == 1){
 
-        }
-    }
+	/* NOT IMPLEMENTED */
+    // for (INT8U i = 0; i < NB_CHANNELS; i++)
+    // {
+    // 	if(iCompareTags((INT8U *) ((INT32U) pPayload->data[10]), T_simucam.T_Sub[i].T_data.tag) == 1){
+
+    //     }
+    // }
 }
 
 
@@ -742,9 +743,9 @@ void CommandManagementTask() {
                 }
 #endif
 				/**
-				 * Todo: Add new reset function
+				 * Todo franca: Add new reset function
 				 */
-                v_ack_creator(p_payload, xNotImplemented);
+				vRstcHoldSimucamReset(0);
             break;
 
 			default:
@@ -926,6 +927,18 @@ void CommandManagementTask() {
 #endif
 					v_HK_creator(p_payload->data[0]);
 					break;
+
+				case typeReset:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+                    fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
+                }
+#endif
+				/**
+				 * Todo franca: Add new reset function
+				 */
+				vRstcHoldSimucamReset(0); /* Hold SimuCam Reset Signal */
+            	break;
 
 				default:
 #if DEBUG_ON

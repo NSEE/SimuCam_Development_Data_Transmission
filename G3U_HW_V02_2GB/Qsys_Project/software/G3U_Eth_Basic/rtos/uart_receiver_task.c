@@ -528,7 +528,8 @@ void uart_receiver_task(void *task_data){
                     if(T_simucam.T_status.simucam_mode == simModeConfig){
                         vImagetteParser((T_Simucam *) &T_simucam, (T_uart_payload *) &payload);
                         eReaderRXMode = sGetHeader;
-                    } else{
+                    } else {
+                        bUartFlushRxBuffer(payload.size - 8);
                         eReaderRXMode = sRConfiguring;
                         v_ack_creator(&payload, xCommandNotAccepted);
                     }
