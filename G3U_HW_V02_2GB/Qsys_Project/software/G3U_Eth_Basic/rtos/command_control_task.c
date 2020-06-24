@@ -377,6 +377,24 @@ void vClearRam(void) {
 	}
 }
 
+void vResetSimucam() {
+	INT8U iResetCmd[8];
+	iResetCmd[0] = 255;
+	iResetCmd[1] = 255;
+	iResetCmd[2] = 255;
+	iResetCmd[3] = 255;
+	iResetCmd[4] = 255;
+	iResetCmd[5] = 255;
+	iResetCmd[6] = 255;
+	iResetCmd[7] = 255;
+
+	for (int f = 0; f < 8; f++) {
+		vUartWriteCharBlocking(iResetCmd[f]);
+	}
+
+	vRstcHoldSimucamReset(0);
+}
+
 /**
  * @name iCompareTags
  * @brief Clears the RAM
@@ -717,7 +735,7 @@ void CommandManagementTask() {
 					fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
 				}
 #endif
-				vRstcHoldSimucamReset(0);
+				vResetSimucam();
             break;
 
 			default:
@@ -893,7 +911,7 @@ void CommandManagementTask() {
                     fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
                 }
 #endif
-				vRstcHoldSimucamReset(0); /* Hold SimuCam Reset Signal */
+				vResetSimucam(); /* Hold SimuCam Reset Signal */
             	break;
 
 				default:
