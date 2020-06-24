@@ -239,8 +239,10 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload){
                     iOffsetLengthBuff[5]
                             + 256 * iOffsetLengthBuff[4];
 
-
-
+                /* 0 is a non valid offset for the simucam */
+                if (p_imagette_buff->offset == 0){
+                        p_imagette_buff->offset = 1;
+                }
                         
             /**
              * Add do partial CRC

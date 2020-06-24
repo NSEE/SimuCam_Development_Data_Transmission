@@ -742,9 +742,6 @@ void CommandManagementTask() {
                     fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
                 }
 #endif
-				/**
-				 * Todo franca: Add new reset function
-				 */
 				vRstcHoldSimucamReset(0);
             break;
 
@@ -934,9 +931,6 @@ void CommandManagementTask() {
                     fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
                 }
 #endif
-				/**
-				 * Todo franca: Add new reset function
-				 */
 				vRstcHoldSimucamReset(0); /* Hold SimuCam Reset Signal */
             	break;
 
