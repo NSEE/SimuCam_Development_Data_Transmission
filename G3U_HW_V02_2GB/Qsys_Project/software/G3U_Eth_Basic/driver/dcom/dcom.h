@@ -44,14 +44,7 @@
 
 //! [public module structs definition]
 enum DcomSpwCh {
-	eDcomSpwCh1 = 0,
-	eDcomSpwCh2,
-	eDcomSpwCh3,
-	eDcomSpwCh4,
-	eDcomSpwCh5,
-	eDcomSpwCh6,
-	eDcomSpwCh7,
-	eDcomSpwCh8
+	eDcomSpwCh1 = 0, eDcomSpwCh2, eDcomSpwCh3, eDcomSpwCh4, eDcomSpwCh5, eDcomSpwCh6, eDcomSpwCh7, eDcomSpwCh8
 } EDcomSpwCh;
 
 /* Dcom Device Address Register Struct */
@@ -215,12 +208,12 @@ typedef struct RmapCodecError {
 	bool bInvalidDataCrc; /* RMAP Error Invalid Data CRC */
 } TRmapCodecError;
 
- /* RMAP Memory Area Config Register Struct */
+/* RMAP Memory Area Config Register Struct */
 typedef struct RmapMemAreaConfig {
 	alt_u32 uliAddrOffset; /* RMAP Memory Area Address Offset */
 } TRmapMemAreaConfig;
 
- /* RMAP Memory Area Pointer Register Struct */
+/* RMAP Memory Area Pointer Register Struct */
 typedef struct RmapMemAreaPrt {
 	TRmapMemArea *puliRmapAreaPrt; /* RMAP Memory Area Pointer */
 } TRmapMemAreaPrt;

@@ -29,7 +29,7 @@ bool bSpwcGetLinkConfig(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		pxSpwcCh->xSpwcLinkConfig = vpxDcomChannel->xSpacewire.xSpwcLinkConfig;
 
@@ -46,7 +46,7 @@ bool bSpwcSetLinkConfig(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		vpxDcomChannel->xSpacewire.xSpwcLinkConfig = pxSpwcCh->xSpwcLinkConfig;
 
@@ -63,7 +63,7 @@ bool bSpwcGetLinkStatus(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		pxSpwcCh->xSpwcLinkStatus = vpxDcomChannel->xSpacewire.xSpwcLinkStatus;
 
@@ -80,7 +80,7 @@ bool bSpwcGetLinkError(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		pxSpwcCh->xSpwcLinkError = vpxDcomChannel->xSpacewire.xSpwcLinkError;
 
@@ -97,7 +97,7 @@ bool bSpwcGetTimecodeControl(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		pxSpwcCh->xSpwcTimecodeControl = vpxDcomChannel->xSpacewire.xSpwcTimecodeControl;
 
@@ -114,7 +114,7 @@ bool bSpwcSetTimecodeControl(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		vpxDcomChannel->xSpacewire.xSpwcTimecodeControl = pxSpwcCh->xSpwcTimecodeControl;
 
@@ -125,14 +125,13 @@ bool bSpwcSetTimecodeControl(TSpwcChannel *pxSpwcCh) {
 	return bStatus;
 }
 
-
 bool bSpwcGetTimecodeStatus(TSpwcChannel *pxSpwcCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		pxSpwcCh->xSpwcTimecodeStatus = vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus;
 
@@ -149,7 +148,7 @@ bool bSpwcSendTimecode(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		vpxDcomChannel->xSpacewire.xSpwcTimecodeControl.ucTxTime = pxSpwcCh->xSpwcTimecodeControl.ucTxTime;
 		vpxDcomChannel->xSpacewire.xSpwcTimecodeControl.ucTxControl = pxSpwcCh->xSpwcTimecodeControl.ucTxControl;
@@ -170,7 +169,7 @@ bool bSpwcReceiveTimecode(TSpwcChannel *pxSpwcCh) {
 
 	if (pxSpwcCh != NULL) {
 
-		vpxDcomChannel = (TDcomChannel *)(pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
 
 		pxSpwcCh->xSpwcTimecodeStatus.ucRxTime = vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime;
 		pxSpwcCh->xSpwcTimecodeStatus.ucRxControl = vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxControl;
@@ -200,49 +199,49 @@ bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh) {
 		switch (ucDcomCh) {
 		case eDcomSpwCh1:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_1_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_1_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_1_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_1_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh2:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_2_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_2_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_2_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_2_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh3:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_3_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_3_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_3_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_3_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh4:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_4_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_4_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_4_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_4_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh5:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_5_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_5_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_5_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_5_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh6:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_6_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_6_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_6_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_6_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh7:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_7_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_7_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_7_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_7_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
 		case eDcomSpwCh8:
 			pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_8_BASE_ADDR;
-			vpxDcomChannel = (TDcomChannel *)(DCOM_CH_8_BASE_ADDR);
+			vpxDcomChannel = (TDcomChannel *) (DCOM_CH_8_BASE_ADDR);
 			vpxDcomChannel->xSpacewire.xSpwcDevAddr.uliSpwcBaseAddr = (alt_u32) DCOM_CH_8_BASE_ADDR;
 			bValidCh = TRUE;
 			break;
@@ -276,11 +275,11 @@ bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh) {
 	return bStatus;
 }
 
-alt_u8 ucSpwcCalculateLinkDiv(alt_8 ucLinkSpeed){
+alt_u8 ucSpwcCalculateLinkDiv(alt_8 ucLinkSpeed) {
 	alt_u8 ucLinkDiv;
 
 	if (ucLinkSpeed < 100) {
-		ucLinkDiv = (alt_u8)(round(200.0/((float)ucLinkSpeed))) - 1;
+		ucLinkDiv = (alt_u8) (round(200.0 / ((float) ucLinkSpeed))) - 1;
 	} else {
 		ucLinkDiv = 1;
 	}

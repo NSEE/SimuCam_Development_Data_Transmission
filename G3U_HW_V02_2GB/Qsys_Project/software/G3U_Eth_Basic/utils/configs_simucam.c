@@ -21,209 +21,208 @@ bool bLoadDefaultEthConf(void) {
 	char c, *p_inteiro;
 	char inteiro[8];
 
+	if ((xSdHandle.connected == TRUE) && (bSDcardIsPresent()) && (bSDcardFAT16Check())) {
 
-	if ( ( xSdHandle.connected == TRUE ) && ( bSDcardIsPresent() ) && ( bSDcardFAT16Check() ) ) {
-
-		siFile = siOpenFile( ETH_FILE_NAME );
+		siFile = siOpenFile( ETH_FILE_NAME);
 
 		if (siFile >= 0) {
 
-			memset( &(inteiro) , 10 , sizeof( inteiro ) );
+			memset(&(inteiro), 10, sizeof(inteiro));
 			p_inteiro = inteiro;
 
 			do {
 				c = cGetNextChar(siFile);
 				//fprintf(fp, "%c \n", c);
 				switch (c) {
-					case 39:// single quote '
+				case 39: // single quote '
+					c = cGetNextChar(siFile);
+					while (c != 39) {
 						c = cGetNextChar(siFile);
-						while ( c != 39 ){
-							c = cGetNextChar(siFile);
-						}
-						break;
-					case -1: 	//EOF
-						bEOF = TRUE;
-						break;
-					case -2: 	//EOF
-						#if DEBUG_ON
-						if ( xConfDebug.usiDebugLevel <= xCritical ) {
-							debug(fp,"SDCard: Problem with SDCard");
-						}
-						#endif
-						bEOF = TRUE;
-						break;
-					case 0x20: 	//ASCII: 0x20 = space
-					case 10: 	//ASCII: 10 = LN
-					case 13: 	//ASCII: 13 = CR
-						break;
-					case 'M':
+					}
+					break;
+				case -1: 	//EOF
+					bEOF = TRUE;
+					break;
+				case -2: 	//EOF
+#if DEBUG_ON
+					if (xConfDebug.usiDebugLevel <= xCritical) {
+						debug(fp, "SDCard: Problem with SDCard");
+					}
+#endif
+					bEOF = TRUE;
+					break;
+				case 0x20: 	//ASCII: 0x20 = space
+				case 10: 	//ASCII: 10 = LN
+				case 13: 	//ASCII: 13 = CR
+					break;
+				case 'M':
 
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=58) && (c !=59) ); //ASCII: 58 = ':' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfEth.ucMAC[min_sim(ucParser,5)] = (unsigned char)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'I':
-
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfEth.ucIP[min_sim(ucParser,3)] = (unsigned char)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'G':
-
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfEth.ucGTW[min_sim(ucParser,3)] = (unsigned char)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'S':
-
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfEth.ucSubNet[min_sim(ucParser,3)] = (unsigned char)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'D':
-
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfEth.ucDNS[min_sim(ucParser,3)] = (unsigned char)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'P':
-						ucParser = 0;
+					ucParser = 0;
+					do {
 						do {
 							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
+							if (isdigit(c)) {
 								(*p_inteiro) = c;
 								p_inteiro++;
 							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
+						} while ((c != 58) && (c != 59)); //ASCII: 58 = ':' 59 = ';'
 						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						xConfEth.siPort = (unsigned short int)atoi( inteiro );
+						xConfEth.ucMAC[min_sim(ucParser, 5)] = (unsigned char) atoi(inteiro);
 						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
 
-						break;
-					case 'H':
+					break;
+				case 'I':
 
+					ucParser = 0;
+					do {
 						do {
 							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
+							if (isdigit(c)) {
 								(*p_inteiro) = c;
 								p_inteiro++;
 							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
 						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						sidhcpTemp = atoi( inteiro );
-						if (sidhcpTemp == 1)
-							xConfEth.bDHCP = TRUE;
-						else
-							xConfEth.bDHCP = FALSE;
-
+						xConfEth.ucIP[min_sim(ucParser, 3)] = (unsigned char) atoi(inteiro);
 						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
 
-						break;
-					case 0x3C: //"<"
-						close = siCloseFile(siFile);
-						if (close == FALSE){
-							#if DEBUG_ON
-							if ( xConfDebug.usiDebugLevel <= xCritical ) {
-								debug(fp,"SDCard: Can't close the file.\n");
+					break;
+				case 'G':
+
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
 							}
-							#endif
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfEth.ucGTW[min_sim(ucParser, 3)] = (unsigned char) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'S':
+
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfEth.ucSubNet[min_sim(ucParser, 3)] = (unsigned char) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'D':
+
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfEth.ucDNS[min_sim(ucParser, 3)] = (unsigned char) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'P':
+					ucParser = 0;
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiro) = c;
+							p_inteiro++;
 						}
-						/* End of Parser File */
-						bEOF = TRUE;
-						bSuccess = TRUE; //todo: pensar melhor
-						break;
-					default:
-						#if DEBUG_ON
-						if ( xConfDebug.usiDebugLevel <= xCritical ) {
-							fprintf(fp,"SDCard: Problem with the parser. (%c)\n" ,c);
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfEth.siPort = (unsigned short int) atoi(inteiro);
+					p_inteiro = inteiro;
+
+					break;
+				case 'H':
+
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiro) = c;
+							p_inteiro++;
 						}
-						#endif
-						break;
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					sidhcpTemp = atoi(inteiro);
+					if (sidhcpTemp == 1)
+						xConfEth.bDHCP = TRUE;
+					else
+						xConfEth.bDHCP = FALSE;
+
+					p_inteiro = inteiro;
+
+					break;
+				case 0x3C: //"<"
+					close = siCloseFile(siFile);
+					if (close == FALSE) {
+#if DEBUG_ON
+						if (xConfDebug.usiDebugLevel <= xCritical) {
+							debug(fp, "SDCard: Can't close the file.\n");
+						}
+#endif
+					}
+					/* End of Parser File */
+					bEOF = TRUE;
+					bSuccess = TRUE; //todo: pensar melhor
+					break;
+				default:
+#if DEBUG_ON
+					if (xConfDebug.usiDebugLevel <= xCritical) {
+						fprintf(fp, "SDCard: Problem with the parser. (%c)\n", c);
+					}
+#endif
+					break;
 				}
-			} while ( bEOF == FALSE );
+			} while (bEOF == FALSE);
 		} else {
-			#if DEBUG_ON
-			if ( xConfDebug.usiDebugLevel <= xCritical ) {
-				fprintf(fp,"SDCard: File not found.\n");
+#if DEBUG_ON
+			if (xConfDebug.usiDebugLevel <= xCritical) {
+				fprintf(fp, "SDCard: File not found.\n");
 			}
-			#endif
+#endif
 		}
 	} else {
-		#if DEBUG_ON
-		if ( xConfDebug.usiDebugLevel <= xCritical ) {
-			fprintf(fp,"SDCard: No SDCard.\n");
+#if DEBUG_ON
+		if (xConfDebug.usiDebugLevel <= xCritical) {
+			fprintf(fp, "SDCard: No SDCard.\n");
 		}
-		#endif
+#endif
 	}
 	/* Load the default configuration if not successful in read the SDCard */
-	if ( bSuccess == FALSE ) {
+	if (bSuccess == FALSE) {
 
 		/*ucMAC[0]:ucMAC[1]:ucMAC[2]:ucMAC[3]:ucMAC[4]:ucMAC[5]
 		 *54:10:EC:60:42:79*/
@@ -271,7 +270,7 @@ bool bLoadDefaultEthConf(void) {
 }
 
 /* Load RMAP configuration values from SD Card */
-bool bLoadDefaultRmapConf( void ){
+bool bLoadDefaultRmapConf(void) {
 	short int siFile;
 	bool bSuccess = FALSE;
 	bool bEOF = FALSE;
@@ -281,486 +280,486 @@ bool bLoadDefaultRmapConf( void ){
 	char inteiro[8];
 	char inteiroll[24];
 
-	if ( ( xSdHandle.connected == TRUE ) && ( bSDcardIsPresent() ) && ( bSDcardFAT16Check() ) ) {
+	if ((xSdHandle.connected == TRUE) && (bSDcardIsPresent()) && (bSDcardFAT16Check())) {
 
-		siFile = siOpenFile( RMAP_FILE_NAME );
+		siFile = siOpenFile( RMAP_FILE_NAME);
 
-		if ( siFile >= 0 ){
+		if (siFile >= 0) {
 
-			memset( &(inteiro) , 10 , sizeof( inteiro ) );
-			memset( &(inteiroll) , 10 , sizeof( inteiroll ) );
+			memset(&(inteiro), 10, sizeof(inteiro));
+			memset(&(inteiroll), 10, sizeof(inteiroll));
 			p_inteiro = inteiro;
 			p_inteiroll = inteiroll;
 
 			do {
 				c = cGetNextChar(siFile);
 				switch (c) {
-					case 39:// single quote '
+				case 39: // single quote '
+					c = cGetNextChar(siFile);
+					while (c != 39) {
 						c = cGetNextChar(siFile);
-						while ( c != 39 ){
+					}
+					break;
+				case -1: 	//EOF
+					bEOF = TRUE;
+					break;
+				case -2: 	//EOF
+#if DEBUG_ON
+					if (xConfDebug.usiDebugLevel <= xCritical) {
+						debug(fp, "SDCard: Problem with SDCard");
+					}
+#endif
+					bEOF = TRUE;
+					break;
+				case 0x20: 	//ASCII: 0x20 = space
+				case 10: 	//ASCII: 10 = LN
+				case 13: 	//ASCII: 13 = CR
+					break;
+				case 'Q':
+					ucParser = 0;
+					do {
+						do {
 							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucLogicalAddr[0] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'W':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucKey[0] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'E':
+
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
 						}
-						break;
-					case -1: 	//EOF
-						bEOF = TRUE;
-						break;
-					case -2: 	//EOF
-						#if DEBUG_ON
-						if ( xConfDebug.usiDebugLevel <= xCritical ) {
-							debug(fp,"SDCard: Problem with SDCard");
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfRmap.uliAddrOffset[0] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
+
+					break;
+				case 'R':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucLogicalAddr[1] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'T':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucKey[1] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'Y':
+
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
 						}
-						#endif
-						bEOF = TRUE;
-						break;
-					case 0x20: 	//ASCII: 0x20 = space
-					case 10: 	//ASCII: 10 = LN
-					case 13: 	//ASCII: 13 = CR
-						break;
-					case 'Q':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-							xConfRmap.ucLogicalAddr[0] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
+					xConfRmap.uliAddrOffset[1] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
 
-						break;
-					case 'W':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[0] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'E':
-
+					break;
+				case 'U':
+					ucParser = 0;
+					do {
 						do {
 							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
 							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						xConfRmap.uliAddrOffset[0] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
+						xConfRmap.ucLogicalAddr[2] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
 
-						break;
-					case 'R':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucLogicalAddr[1] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'T':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[1] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'Y':
-
+					break;
+				case 'I':
+					ucParser = 0;
+					do {
 						do {
 							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
 							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						xConfRmap.uliAddrOffset[1] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
+						xConfRmap.ucKey[2] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
 
-						break;
-					case 'U':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucLogicalAddr[2] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'I':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[2] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'O':
-						do {
-							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
-							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.uliAddrOffset[2] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
-
-						break;
-					case 'P':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucLogicalAddr[3] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'A':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[3] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'S':
-						do {
-							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
-							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.uliAddrOffset[3] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
-
-						break;
-
-					case 'D':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucLogicalAddr[4] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'F':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[4] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'G':
-						do {
-							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
-							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.uliAddrOffset[4] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
-
-						break;
-
-					case 'H':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucLogicalAddr[5] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'J':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[5] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'K':
-
-						do {
-							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
-							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.uliAddrOffset[5] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
-
-						break;
-					case 'L':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucLogicalAddr[6] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'Z':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[6] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'X':
-
-						do {
-							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
-							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.uliAddrOffset[6] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
-
-						break;
-					case 'C':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucLogicalAddr[7] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'V':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfRmap.ucKey[7] = (alt_u8)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'B':
-
-						do {
-							c = cGetNextChar(siFile);
-							if ( isdigit( c ) ) {
-								(*p_inteiroll) = c;
-								p_inteiroll++;
-							}
-						} while ( c !=59 ); //ASCII: 59 = ';'
-						(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.uliAddrOffset[7] = (alt_u32)atoll( inteiroll );
-						p_inteiroll = inteiroll;
-
-						break;
-					case 0x3C: //"<"
-						close = siCloseFile(siFile);
-						if (close == FALSE){
-							#if DEBUG_ON
-							if ( xConfDebug.usiDebugLevel <= xCritical ) {
-								debug(fp,"SDCard: Can't close the file.\n");
-							}
-							#endif
+					break;
+				case 'O':
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
 						}
-						/* End of Parser File */
-						bEOF = TRUE;
-						bSuccess = TRUE; //tod: pensar melhor
-						break;
-					default:
-						#if DEBUG_ON
-						if ( xConfDebug.usiDebugLevel <= xCritical ) {
-							fprintf(fp,"SDCard: Problem with the parser. (%c)\n" ,c);
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfRmap.uliAddrOffset[2] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
+
+					break;
+				case 'P':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucLogicalAddr[3] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'A':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucKey[3] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'S':
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
 						}
-						#endif
-						break;
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfRmap.uliAddrOffset[3] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
+
+					break;
+
+				case 'D':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucLogicalAddr[4] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'F':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucKey[4] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'G':
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
+						}
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfRmap.uliAddrOffset[4] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
+
+					break;
+
+				case 'H':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucLogicalAddr[5] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'J':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucKey[5] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'K':
+
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
+						}
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfRmap.uliAddrOffset[5] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
+
+					break;
+				case 'L':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucLogicalAddr[6] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'Z':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucKey[6] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'X':
+
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
+						}
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfRmap.uliAddrOffset[6] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
+
+					break;
+				case 'C':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucLogicalAddr[7] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'V':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfRmap.ucKey[7] = (alt_u8) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'B':
+
+					do {
+						c = cGetNextChar(siFile);
+						if (isdigit(c)) {
+							(*p_inteiroll) = c;
+							p_inteiroll++;
+						}
+					} while (c != 59); //ASCII: 59 = ';'
+					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+					xConfRmap.uliAddrOffset[7] = (alt_u32) atoll(inteiroll);
+					p_inteiroll = inteiroll;
+
+					break;
+				case 0x3C: //"<"
+					close = siCloseFile(siFile);
+					if (close == FALSE) {
+#if DEBUG_ON
+						if (xConfDebug.usiDebugLevel <= xCritical) {
+							debug(fp, "SDCard: Can't close the file.\n");
+						}
+#endif
+					}
+					/* End of Parser File */
+					bEOF = TRUE;
+					bSuccess = TRUE; //tod: pensar melhor
+					break;
+				default:
+#if DEBUG_ON
+					if (xConfDebug.usiDebugLevel <= xCritical) {
+						fprintf(fp, "SDCard: Problem with the parser. (%c)\n", c);
+					}
+#endif
+					break;
 				}
-			} while ( bEOF == FALSE );
+			} while (bEOF == FALSE);
 		} else {
-			#if DEBUG_ON
-			if ( xConfDebug.usiDebugLevel <= xCritical ) {
-				fprintf(fp,"SDCard: File not found.\n");
+#if DEBUG_ON
+			if (xConfDebug.usiDebugLevel <= xCritical) {
+				fprintf(fp, "SDCard: File not found.\n");
 			}
-			#endif
+#endif
 		}
 	} else {
-		#if DEBUG_ON
-		if ( xConfDebug.usiDebugLevel <= xCritical ) {
-			fprintf(fp,"SDCard: No SDCard.\n");
+#if DEBUG_ON
+		if (xConfDebug.usiDebugLevel <= xCritical) {
+			fprintf(fp, "SDCard: No SDCard.\n");
 		}
-		#endif
+#endif
 	}
 	/* Load the default configuration if not successful in read the SDCard */
-	if ( bSuccess == FALSE ) {
+	if (bSuccess == FALSE) {
 
 		xConfRmap.ucLogicalAddr[0] = 0x00;
 		xConfRmap.ucLogicalAddr[1] = 0x00;
@@ -795,7 +794,7 @@ bool bLoadDefaultRmapConf( void ){
 }
 
 /* Load debug values from SD Card, only used during the development */
-bool bLoadDefaultDebugConf( void ){
+bool bLoadDefaultDebugConf(void) {
 	short int siFile;
 	bool bSuccess = FALSE;
 	bool bEOF = FALSE;
@@ -804,119 +803,119 @@ bool bLoadDefaultDebugConf( void ){
 	char c, *p_inteiro;
 	char inteiro[8];
 
+	if ((xSdHandle.connected == TRUE) && (bSDcardIsPresent()) && (bSDcardFAT16Check())) {
 
-	if ( ( xSdHandle.connected == TRUE ) && ( bSDcardIsPresent() ) && ( bSDcardFAT16Check() ) ) {
+		siFile = siOpenFile( DEBUG_FILE_NAME);
 
-		siFile = siOpenFile( DEBUG_FILE_NAME );
+		if (siFile >= 0) {
 
-		if ( siFile >= 0 ){
-
-			memset( &(inteiro) , 10 , sizeof( inteiro ) );
+			memset(&(inteiro), 10, sizeof(inteiro));
 			p_inteiro = inteiro;
 
 			do {
 				c = cGetNextChar(siFile);
 				switch (c) {
-					case 39:// single quote '
+				case 39: // single quote '
+					c = cGetNextChar(siFile);
+					while (c != 39) {
 						c = cGetNextChar(siFile);
-						while ( c != 39 ){
+					}
+					break;
+				case -1: 	//EOF
+					bEOF = TRUE;
+					break;
+				case -2: 	//EOF
+#if DEBUG_ON
+					debug(fp, "SDCard: Problem with SDCard")
+					;
+#endif
+					bEOF = TRUE;
+					break;
+				case 0x20: 	//ASCII: 0x20 = space
+				case 10: 	//ASCII: 10 = LN
+				case 13: 	//ASCII: 13 = CR
+					break;
+				case 'T':
+					ucParser = 0;
+					do {
+						do {
 							c = cGetNextChar(siFile);
-						}
-						break;
-					case -1: 	//EOF
-						bEOF = TRUE;
-						break;
-					case -2: 	//EOF
-						#if DEBUG_ON
-							debug(fp, "SDCard: Problem with SDCard");
-						#endif
-						bEOF = TRUE;
-						break;
-					case 0x20: 	//ASCII: 0x20 = space
-					case 10: 	//ASCII: 10 = LN
-					case 13: 	//ASCII: 13 = CR
-						break;
-					case 'T':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							switch ((unsigned short int)atoi( inteiro )) {
-								case 0:
-									xConfDebug.bSendEEP = FALSE;
-									xConfDebug.bSendEOP = FALSE;
-									break;
-								case 1:
-									xConfDebug.bSendEEP = TRUE;
-									xConfDebug.bSendEOP = FALSE;
-									break;
-								case 2:
-								default:
-									xConfDebug.bSendEEP = FALSE;
-									xConfDebug.bSendEOP = TRUE;
-									break;
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
 							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 'D':
-						ucParser = 0;
-						do {
-							do {
-								c = cGetNextChar(siFile);
-								if ( isdigit( c ) ) {
-									(*p_inteiro) = c;
-									p_inteiro++;
-								}
-							} while ( (c !=46) && (c !=59) ); //ASCII: 46 = '.' 59 = ';'
-							(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-							xConfDebug.usiDebugLevel = (unsigned short int)atoi( inteiro );
-							p_inteiro = inteiro;
-							ucParser++;
-						} while ( (c !=59) );
-
-						break;
-					case 0x3C: //"<"
-						close = siCloseFile(siFile);
-						if (close == FALSE){
-							#if DEBUG_ON
-								debug(fp, "SDCard: Can't close the file.\n");
-							#endif
+						switch ((unsigned short int) atoi(inteiro)) {
+						case 0:
+							xConfDebug.bSendEEP = FALSE;
+							xConfDebug.bSendEOP = FALSE;
+							break;
+						case 1:
+							xConfDebug.bSendEEP = TRUE;
+							xConfDebug.bSendEOP = FALSE;
+							break;
+						case 2:
+						default:
+							xConfDebug.bSendEEP = FALSE;
+							xConfDebug.bSendEOP = TRUE;
+							break;
 						}
-						/* End of Parser File */
-						bEOF = TRUE;
-						bSuccess = TRUE; //tod: pensar melhor
-						break;
-					default:
-						#if DEBUG_ON
-							fprintf(fp, "SDCard: Problem with the parser. (%c)\n", c);
-						#endif
-						break;
+
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 'D':
+					ucParser = 0;
+					do {
+						do {
+							c = cGetNextChar(siFile);
+							if (isdigit(c)) {
+								(*p_inteiro) = c;
+								p_inteiro++;
+							}
+						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
+						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
+
+						xConfDebug.usiDebugLevel = (unsigned short int) atoi(inteiro);
+						p_inteiro = inteiro;
+						ucParser++;
+					} while ((c != 59));
+
+					break;
+				case 0x3C: //"<"
+					close = siCloseFile(siFile);
+					if (close == FALSE) {
+#if DEBUG_ON
+						debug(fp, "SDCard: Can't close the file.\n");
+#endif
+					}
+					/* End of Parser File */
+					bEOF = TRUE;
+					bSuccess = TRUE; //tod: pensar melhor
+					break;
+				default:
+#if DEBUG_ON
+					fprintf(fp, "SDCard: Problem with the parser. (%c)\n", c);
+#endif
+					break;
 				}
-			} while ( bEOF == FALSE );
+			} while (bEOF == FALSE);
 		} else {
-			#if DEBUG_ON
-				fprintf(fp, "SDCard: File not found.\n");
-			#endif
+#if DEBUG_ON
+			fprintf(fp, "SDCard: File not found.\n");
+#endif
 		}
 	} else {
-		#if DEBUG_ON
-			fprintf(fp, "SDCard: No SDCard.\n");
-		#endif
+#if DEBUG_ON
+		fprintf(fp, "SDCard: No SDCard.\n");
+#endif
 	}
 	/* Load the default configuration if not successful in read the SDCard */
-	if ( bSuccess == FALSE ) {
+	if (bSuccess == FALSE) {
 
 		xConfDebug.bSendEEP = FALSE;
 		xConfDebug.bSendEOP = TRUE;
@@ -928,31 +927,30 @@ bool bLoadDefaultDebugConf( void ){
 	return bSuccess;
 }
 
-
 #if DEBUG_ON
-void vShowEthConfig( void ) {
+void vShowEthConfig(void) {
 
 	fprintf(fp, "Ethernet loaded configurations:\n");
 
 	fprintf(fp, "  MAC: %02X:%02X:%02X:%02X:%02X:%02X \n", xConfEth.ucMAC[0], xConfEth.ucMAC[1], xConfEth.ucMAC[2], xConfEth.ucMAC[3], xConfEth.ucMAC[4], xConfEth.ucMAC[5]);
 
-	fprintf(fp, "  IP: %i.%i.%i.%i \n",xConfEth.ucIP[0], xConfEth.ucIP[1], xConfEth.ucIP[2], xConfEth.ucIP[3] );
+	fprintf(fp, "  IP: %i.%i.%i.%i \n", xConfEth.ucIP[0], xConfEth.ucIP[1], xConfEth.ucIP[2], xConfEth.ucIP[3]);
 
-	fprintf(fp, "  GTW: %i.%i.%i.%i \n",xConfEth.ucGTW[0], xConfEth.ucGTW[1], xConfEth.ucGTW[2], xConfEth.ucGTW[3] );
+	fprintf(fp, "  GTW: %i.%i.%i.%i \n", xConfEth.ucGTW[0], xConfEth.ucGTW[1], xConfEth.ucGTW[2], xConfEth.ucGTW[3]);
 
-	fprintf(fp, "  Sub: %i.%i.%i.%i \n",xConfEth.ucSubNet[0], xConfEth.ucSubNet[1], xConfEth.ucSubNet[2], xConfEth.ucSubNet[3] );
+	fprintf(fp, "  Sub: %i.%i.%i.%i \n", xConfEth.ucSubNet[0], xConfEth.ucSubNet[1], xConfEth.ucSubNet[2], xConfEth.ucSubNet[3]);
 
-	fprintf(fp, "  DNS: %i.%i.%i.%i \n",xConfEth.ucDNS[0], xConfEth.ucDNS[1], xConfEth.ucDNS[2], xConfEth.ucDNS[3] );
+	fprintf(fp, "  DNS: %i.%i.%i.%i \n", xConfEth.ucDNS[0], xConfEth.ucDNS[1], xConfEth.ucDNS[2], xConfEth.ucDNS[3]);
 
-	fprintf(fp, "  Server Port: %i\n", xConfEth.siPort );
+	fprintf(fp, "  Server Port: %i\n", xConfEth.siPort);
 
-	fprintf(fp, "  Use DHCP: %i\n", xConfEth.bDHCP );
+	fprintf(fp, "  Use DHCP: %i\n", xConfEth.bDHCP);
 
 	fprintf(fp, "\n");
 
 }
 
-void vShowRmapConfig( void ) {
+void vShowRmapConfig(void) {
 
 	fprintf(fp, "RMAP loaded configurations:\n");
 
@@ -976,7 +974,7 @@ void vShowRmapConfig( void ) {
 
 }
 
-void vShowDebugConfig( void ) {
+void vShowDebugConfig(void) {
 
 	fprintf(fp, "Debug loaded configurations:\n");
 

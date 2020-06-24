@@ -33,16 +33,16 @@ typedef struct Data {
 int main() {
 
 	/* Debug device initialization - JTAG USB */
-	#if DEBUG_ON
-	    fp = fopen(JTAG_UART_0_NAME, "r+");
-	#endif
+#if DEBUG_ON
+	fp = fopen(JTAG_UART_0_NAME, "r+");
+#endif
 
-	#if DEBUG_ON
-		printf("Main entry point.\n");
-	#endif
+#if DEBUG_ON
+	printf("Main entry point.\n");
+#endif
 
 	/* Initialization of core HW */
-	if (bInitSimucamCoreHW()){
+	if (bInitSimucamCoreHW()) {
 #if DEBUG_ON
 		printf("\n");
 		printf("SimuCam Release: %s\n", SIMUCAM_RELEASE);
@@ -58,21 +58,23 @@ int main() {
 		printf("CRITICAL HW FAILURE: SimuCam will be halted.\n");
 		printf("\n");
 #endif
-		while (1) {}
+		while (1) {
+		}
 	}
 
 	/* Test of some critical IPCores HW interfaces in the Simucam */
 	if (!bTestSimucamCriticalHW()) {
 		printf("CRITICAL HW FAILURE: SimuCam will be halted.\n");
 		printf("\n");
-		while (1) {}
+		while (1) {
+		}
 	}
 
 	/* Initialization of basic HW */
 	vInitSimucamBasicHW();
 
-	bSetPainelLeds( LEDS_OFF , LEDS_ST_ALL_MASK );
-	bSetPainelLeds( LEDS_ON , LEDS_POWER_MASK );
+	bSetPainelLeds( LEDS_OFF, LEDS_ST_ALL_MASK);
+	bSetPainelLeds( LEDS_ON, LEDS_POWER_MASK);
 
 	bUartFlushRxBuffer(0);
 
@@ -162,7 +164,7 @@ int main() {
 	bEnableLvdsBoard();
 
 	TDcomChannel xChannelA;
-	if (bDcomInitCh(&xChannelA, eDcomSpwCh1)){
+	if (bDcomInitCh(&xChannelA, eDcomSpwCh1)) {
 		printf("Channel A initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelA.xSpacewire));
@@ -174,7 +176,7 @@ int main() {
 	bDschStartTimer(&(xChannelA.xDataScheduler));
 
 	TDcomChannel xChannelB;
-	if (bDcomInitCh(&xChannelB, eDcomSpwCh2)){
+	if (bDcomInitCh(&xChannelB, eDcomSpwCh2)) {
 		printf("Channel B initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelB.xSpacewire));
@@ -186,7 +188,7 @@ int main() {
 	bDschStartTimer(&(xChannelB.xDataScheduler));
 
 	TDcomChannel xChannelC;
-	if (bDcomInitCh(&xChannelC, eDcomSpwCh3)){
+	if (bDcomInitCh(&xChannelC, eDcomSpwCh3)) {
 		printf("Channel C initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelC.xSpacewire));
@@ -198,7 +200,7 @@ int main() {
 	bDschStartTimer(&(xChannelC.xDataScheduler));
 
 	TDcomChannel xChannelD;
-	if (bDcomInitCh(&xChannelD, eDcomSpwCh4)){
+	if (bDcomInitCh(&xChannelD, eDcomSpwCh4)) {
 		printf("Channel D initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelD.xSpacewire));
@@ -210,7 +212,7 @@ int main() {
 	bDschStartTimer(&(xChannelD.xDataScheduler));
 
 	TDcomChannel xChannelE;
-	if (bDcomInitCh(&xChannelE, eDcomSpwCh5)){
+	if (bDcomInitCh(&xChannelE, eDcomSpwCh5)) {
 		printf("Channel E initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelE.xSpacewire));
@@ -222,7 +224,7 @@ int main() {
 	bDschStartTimer(&(xChannelE.xDataScheduler));
 
 	TDcomChannel xChannelF;
-	if (bDcomInitCh(&xChannelF, eDcomSpwCh6)){
+	if (bDcomInitCh(&xChannelF, eDcomSpwCh6)) {
 		printf("Channel F initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelF.xSpacewire));
@@ -234,7 +236,7 @@ int main() {
 	bDschStartTimer(&(xChannelF.xDataScheduler));
 
 	TDcomChannel xChannelG;
-	if (bDcomInitCh(&xChannelG, eDcomSpwCh7)){
+	if (bDcomInitCh(&xChannelG, eDcomSpwCh7)) {
 		printf("Channel G initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelG.xSpacewire));
@@ -246,7 +248,7 @@ int main() {
 	bDschStartTimer(&(xChannelG.xDataScheduler));
 
 	TDcomChannel xChannelH;
-	if (bDcomInitCh(&xChannelH, eDcomSpwCh8)){
+	if (bDcomInitCh(&xChannelH, eDcomSpwCh8)) {
 		printf("Channel H initialized.\n");
 	}
 	bSpwcGetLinkConfig(&(xChannelH.xSpacewire));
@@ -263,35 +265,35 @@ int main() {
 	TData *xData = (TData *) DDR2_EXT_ADDR_WINDOWED_BASE;
 	xData->uliTime = 0;
 	xData->uiLength = 25;
-	xData->ucData[0] ='H';
-	xData->ucData[1] ='E';
-	xData->ucData[2] ='L';
-	xData->ucData[3] ='L';
-	xData->ucData[4] ='O';
-	xData->ucData[5] ='_';
-	xData->ucData[6] ='W';
-	xData->ucData[7] ='O';
-	xData->ucData[8] ='R';
-	xData->ucData[9] ='L';
-	xData->ucData[10] ='D';
-	xData->ucData[11] ='_';
-	xData->ucData[12] ='F';
-	xData->ucData[13] ='R';
-	xData->ucData[14] ='O';
-	xData->ucData[15] ='M';
-	xData->ucData[16] ='_';
-	xData->ucData[17] ='S';
-	xData->ucData[18] ='I';
-	xData->ucData[19] ='M';
-	xData->ucData[20] ='U';
-	xData->ucData[21] ='C';
-	xData->ucData[22] ='A';
-	xData->ucData[23] ='M';
-	xData->ucData[24] ='\0';
+	xData->ucData[0] = 'H';
+	xData->ucData[1] = 'E';
+	xData->ucData[2] = 'L';
+	xData->ucData[3] = 'L';
+	xData->ucData[4] = 'O';
+	xData->ucData[5] = '_';
+	xData->ucData[6] = 'W';
+	xData->ucData[7] = 'O';
+	xData->ucData[8] = 'R';
+	xData->ucData[9] = 'L';
+	xData->ucData[10] = 'D';
+	xData->ucData[11] = '_';
+	xData->ucData[12] = 'F';
+	xData->ucData[13] = 'R';
+	xData->ucData[14] = 'O';
+	xData->ucData[15] = 'M';
+	xData->ucData[16] = '_';
+	xData->ucData[17] = 'S';
+	xData->ucData[18] = 'I';
+	xData->ucData[19] = 'M';
+	xData->ucData[20] = 'U';
+	xData->ucData[21] = 'C';
+	xData->ucData[22] = 'A';
+	xData->ucData[23] = 'M';
+	xData->ucData[24] = '\0';
 	printf("Data for M1 initialized !!\n");
 
 	printf("Transferring Data from M1 to Channel A... ");
-	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 31, eIdmaCh1Buffer)) {
+	if (0 != uliIdmaChDmaTransfer(eDdr2Memory1, (alt_u32 *) (DDR2_EXT_ADDR_WINDOWED_BASE), 9, eIdmaCh1Buffer)) {
 		printf("Transfer for Channel A Complete!! \n");
 	} else {
 		printf("Transfer for Channel A Failed!! ERROR!! \n");
@@ -359,31 +361,31 @@ int main() {
 	xData = (TData *) DDR2_EXT_ADDR_WINDOWED_BASE;
 	xData->uliTime = 0;
 	xData->uiLength = 25;
-	xData->ucData[0] ='H';
-	xData->ucData[1] ='E';
-	xData->ucData[2] ='L';
-	xData->ucData[3] ='L';
-	xData->ucData[4] ='O';
-	xData->ucData[5] ='_';
-	xData->ucData[6] ='W';
-	xData->ucData[7] ='O';
-	xData->ucData[8] ='R';
-	xData->ucData[9] ='L';
-	xData->ucData[10] ='D';
-	xData->ucData[11] ='_';
-	xData->ucData[12] ='F';
-	xData->ucData[13] ='R';
-	xData->ucData[14] ='O';
-	xData->ucData[15] ='M';
-	xData->ucData[16] ='_';
-	xData->ucData[17] ='S';
-	xData->ucData[18] ='I';
-	xData->ucData[19] ='M';
-	xData->ucData[20] ='U';
-	xData->ucData[21] ='C';
-	xData->ucData[22] ='A';
-	xData->ucData[23] ='M';
-	xData->ucData[24] ='\0';
+	xData->ucData[0] = 'H';
+	xData->ucData[1] = 'E';
+	xData->ucData[2] = 'L';
+	xData->ucData[3] = 'L';
+	xData->ucData[4] = 'O';
+	xData->ucData[5] = '_';
+	xData->ucData[6] = 'W';
+	xData->ucData[7] = 'O';
+	xData->ucData[8] = 'R';
+	xData->ucData[9] = 'L';
+	xData->ucData[10] = 'D';
+	xData->ucData[11] = '_';
+	xData->ucData[12] = 'F';
+	xData->ucData[13] = 'R';
+	xData->ucData[14] = 'O';
+	xData->ucData[15] = 'M';
+	xData->ucData[16] = '_';
+	xData->ucData[17] = 'S';
+	xData->ucData[18] = 'I';
+	xData->ucData[19] = 'M';
+	xData->ucData[20] = 'U';
+	xData->ucData[21] = 'C';
+	xData->ucData[22] = 'A';
+	xData->ucData[23] = 'M';
+	xData->ucData[24] = '\0';
 	printf("Data for M2 initialized !!\n");
 
 	printf("Transferring Data from M2 to Channel A... ");
@@ -464,7 +466,8 @@ int main() {
 	printf("\n");
 	printf("Finished Testbench, S2\n");
 
-	while (1) {}
+	while (1) {
+	}
 
 	return 0;
 }

@@ -11,7 +11,7 @@
 #include "../driver/seven_seg/seven_seg.h"
 #include "../driver/ctrl_io_lvds/ctrl_io_lvds.h"
 
-void Init_Simucam_Config(void){
+void Init_Simucam_Config(void) {
 
 	/* Turn Off all LEDs */
 	bSetBoardLeds(LEDS_OFF, LEDS_BOARD_ALL_MASK);
@@ -34,7 +34,7 @@ void Init_Simucam_Config(void){
 	bSetPainelLeds(LEDS_OFF, LEDS_PAINEL_ALL_MASK);
 	bSetPainelLeds(LEDS_ON, LEDS_POWER_MASK);
 
-	volatile alt_u16 *vpusiUartAddr = (alt_u16 *)UART_MODULE_TOP_0_BASE;
+	volatile alt_u16 *vpusiUartAddr = (alt_u16 *) UART_MODULE_TOP_0_BASE;
 	vpusiUartAddr[4] = ((vpusiUartAddr[4] - 1) * 12) + 1;
 //	fprintf(fp, "baud: %u \n", vpusiUartAddr[4]);
 

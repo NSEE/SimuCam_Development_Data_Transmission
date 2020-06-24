@@ -7,65 +7,64 @@
 
 #include "sdcard_file_manager.h"
 
-
 TSDHandle xSdHandle;
 
-bool bSDcardIsPresent( void ){
+bool bSDcardIsPresent(void) {
 	return alt_up_sd_card_is_Present();
 }
 
-bool bSDcardFAT16Check( void ){
+bool bSDcardFAT16Check(void) {
 	return alt_up_sd_card_is_FAT16();
 }
 
-bool bInitializeSDCard( void ){
+bool bInitializeSDCard(void) {
 	bool bSucess = FALSE;
 	xSdHandle.deviceHandle = NULL;
 
 	xSdHandle.deviceHandle = alt_up_sd_card_open_dev(ALTERA_UP_SD_CARD_AVALON_INTERFACE_0_NAME);
-	if ( xSdHandle.deviceHandle != NULL ) {
+	if (xSdHandle.deviceHandle != NULL) {
 
 		bSucess = bSDcardIsPresent();
-		if ( bSucess ) {
+		if (bSucess) {
 			bSucess = bSDcardFAT16Check();
-			if ( bSucess ) {
+			if (bSucess) {
 				xSdHandle.connected = TRUE;
-				#if DEBUG_ON
-					fprintf(fp, "SD is up.\r\n");
-				#endif
+#if DEBUG_ON
+				fprintf(fp, "SD is up.\r\n");
+#endif
 
 			} else {
 				/* SD isn't in FAT16 format*/
-				#if DEBUG_ON
-					fprintf(fp, "SD Card should be formated in FAT16.\r\n");
-				#endif
+#if DEBUG_ON
+				fprintf(fp, "SD Card should be formated in FAT16.\r\n");
+#endif
 			}
 		} else {
 			/* There's no SDCard in the slot */
-			#if DEBUG_ON
-				fprintf(fp, "There is no SD in the slot.\r\n");
-			#endif
+#if DEBUG_ON
+			fprintf(fp, "There is no SD in the slot.\r\n");
+#endif
 		}
 
 	} else {
 		/* Unable to open the SDCard device. */
 		bSucess = FALSE;
-		#if DEBUG_ON
-			fprintf(fp, "Unable to open the SDCard device.\r\n");
-		#endif
+#if DEBUG_ON
+		fprintf(fp, "Unable to open the SDCard device.\r\n");
+#endif
 	}
 
 	return bSucess;
 }
 
-short int siOpenFile( char *filename ) {
-	return alt_up_sd_card_fopen( filename, FALSE );
+short int siOpenFile(char *filename) {
+	return alt_up_sd_card_fopen(filename, FALSE);
 }
 
-bool siCloseFile( short int file_handle ) {
-	return alt_up_sd_card_fclose( file_handle );
+bool siCloseFile(short int file_handle) {
+	return alt_up_sd_card_fclose(file_handle);
 }
 
-char cGetNextChar( short int file_handle ) {
-	return (char)alt_up_sd_card_read( file_handle );
+char cGetNextChar(short int file_handle) {
+	return (char) alt_up_sd_card_read(file_handle);
 }

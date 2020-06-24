@@ -66,5 +66,4 @@ OS_EVENT *sub_unit_command_semaphore;
 
 extern T_Simucam T_simucam;
 
-
 #endif /* SUB_UNIT_CONTROL_TASK_6_H_ */

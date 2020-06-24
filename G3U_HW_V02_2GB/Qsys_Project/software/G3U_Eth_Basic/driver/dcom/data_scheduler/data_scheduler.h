@@ -21,6 +21,8 @@ extern TDschChannel xSimucamTimer;
 extern T_Simucam T_simucam;
 
 //! [constants definition]
+#define DSCH_DATA_ACCESS_WIDTH_BYTES     (alt_u32)8
+#define DSCH_DATA_TRANSFER_SIZE_MASK     (alt_u32)0xFFFFFFF8
 #define DSCH_DATA_BUFFER_LENGTH_BYTES    (alt_u16)16384
 //! [constants definition]
 
@@ -70,6 +72,7 @@ bool bDschRunTimer(TDschChannel *pxDschCh);
 bool bDschStopTimer(TDschChannel *pxDschCh);
 bool bDschClrTimer(TDschChannel *pxDschCh);
 
+alt_u16 usiDschGetBuffersUsedSpace(TDschChannel *pxDschCh);
 alt_u16 usiDschGetBuffersFreeSpace(TDschChannel *pxDschCh);
 
 bool bDschInitCh(TDschChannel *pxDschCh, alt_u8 ucDcomCh);

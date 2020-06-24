@@ -17,7 +17,6 @@
 #ifndef SIMUCAM_INIT_TASK_H_
 #define SIMUCAM_INIT_TASK_H_
 
-
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h> 
@@ -33,7 +32,6 @@
 
 /* Command control definitions*/
 #include "command_control_task.h"
-
 
 #include "../api_drivers/ddr2/ddr2.h"
 
@@ -90,12 +88,10 @@ void SimucamCreateTasks(void);
 void DataCreateOSQ(void);
 void SimucamCreateOSQ(void);
 
-
 /*
  * Sub-Unit queues prototypes
  */
 void sub_unit_create_os_data_structs();
 void sub_unit_create_queue(void);
-
 
 #endif /* SIMUCAM_INIT_TASK_H_ */

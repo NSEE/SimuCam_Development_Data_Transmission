@@ -54,9 +54,9 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 	INT16U nb_id_pkt = p_error_response->packet_id;
 	INT8U ack_buffer[64];
 	INT32U ack_size = 14;
-    INT16U usCRC = 0;
+	INT16U usCRC = 0;
 
-    /* memset buffer */
+	/* memset buffer */
 #if DEBUG_ON
 	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
 #endif
@@ -84,25 +84,24 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 
 	ack_buffer[10] = p_error_response->type;
 	ack_buffer[11] = error_code;
-	
-    /**
-     * Calculate and add CRC
-     */
-    usCRC = crc__CRC16CCITT(ack_buffer, 12);
 
-    ack_buffer[13] = div(usCRC, 256).rem;
+	/**
+	 * Calculate and add CRC
+	 */
+	usCRC = crc__CRC16CCITT(ack_buffer, 12);
+
+	ack_buffer[13] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
 	ack_buffer[12] = div(usCRC, 256).rem;
 
 //	vUartWriteBuffer(ack_buffer, ack_size);
-	for (int f = 0; f < ack_size; f++){
+	for (int f = 0; f < ack_size; f++) {
 //		fprintf(fp, "%c", ack_buffer[f]);
 		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
 }
-
 
 /**
  * @name v_ack_int
@@ -120,9 +119,9 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 	INT16U nb_id_pkt = p_error_response->packet_id;
 	INT8U ack_buffer[64];
 	INT32U ack_size = 14;
-    INT16U usCRC = 0;
+	INT16U usCRC = 0;
 
-    /* memset buffer */
+	/* memset buffer */
 #if DEBUG_ON
 	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
 #endif
@@ -150,24 +149,23 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 
 	ack_buffer[10] = p_error_response->type;
 	ack_buffer[11] = error_code;
-	
-    /**
-     * Calculate and add CRC
-     */
-    usCRC = crc__CRC16CCITT(ack_buffer, 12);
 
-    ack_buffer[13] = div(usCRC, 256).rem;
+	/**
+	 * Calculate and add CRC
+	 */
+	usCRC = crc__CRC16CCITT(ack_buffer, 12);
+
+	ack_buffer[13] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
 	ack_buffer[12] = div(usCRC, 256).rem;
 
-	for (int f = 0; f < ack_size; f++){
+	for (int f = 0; f < ack_size; f++) {
 //		fprintf(fp, "%c", ack_buffer[f]);
 		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
 	T_simucam.T_status.TM_id++;
 }
-
 
 /**
  * @name v_HK_creator
@@ -184,17 +182,14 @@ void v_HK_creator(INT8U i_channel) {
 	INT16U usCRC;
 	INT16U nb_id = T_simucam.T_status.TM_id;
 	INT16U nb_counter_total = T_simucam.T_status.simucam_total_imagettes_sent;
-	INT16U nb_counter_current =
-			T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
-	INT16U imagettes_to_send =
-			T_simucam.T_Sub[chann_buff].T_data.nb_of_imagettes;
+	INT16U nb_counter_current = T_simucam.T_Sub[chann_buff].T_conf.i_imagette_control;
+	INT16U imagettes_to_send = T_simucam.T_Sub[chann_buff].T_data.nb_of_imagettes;
 	INT8U hk_buffer[HK_SIZE];
 //	bool b_link_enabled = false;
 
 #if DEBUG_ON
-	fprintf(fp, "[HK CREATOR] Entered hk creator for channel %i.\r\n", (INT8U)chann_buff);
+	fprintf(fp, "[HK CREATOR] Entered hk creator for channel %i.\r\n", (INT8U) chann_buff);
 #endif
-
 
 	/*
 	 * Update SpW status flags
@@ -267,11 +262,11 @@ void v_HK_creator(INT8U i_channel) {
 	hk_buffer[29] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
 	hk_buffer[28] = div(usCRC, 256).rem;
-    
-    /*
-     * Send HK through serial
-     */
-    for (int f = 0; f < HK_SIZE; f++){
+
+	/*
+	 * Send HK through serial
+	 */
+	for (int f = 0; f < HK_SIZE; f++) {
 //		fprintf(fp, "%c", hk_buffer[f]);
 		vUartWriteCharBlocking(hk_buffer[f]);
 	}
@@ -288,78 +283,76 @@ void v_HK_creator(INT8U i_channel) {
  * @param 	[in] 	TConfEth xEthConf
  * @retval          void
  **/
-void vSendETHConfig(TConfEth xEthConf){
-    INT8U iETHBuffer[32];
-    INT16U nb_id = T_simucam.T_status.TM_id;
-    INT16U usCRC;
+void vSendETHConfig(TConfEth xEthConf) {
+	INT8U iETHBuffer[32];
+	INT16U nb_id = T_simucam.T_status.TM_id;
+	INT16U usCRC;
 	INT16U portNb = xEthConf.siPort;
 
-    /* Header */
-    iETHBuffer[0] = 4;
-    
-    /*
+	/* Header */
+	iETHBuffer[0] = 4;
+
+	/*
 	 * Id to bytes
 	 */
 	iETHBuffer[2] = div(nb_id, 256).rem;
 	nb_id = div(nb_id, 256).quot;
 	iETHBuffer[1] = div(nb_id, 256).rem;
 
-    iETHBuffer[3] = typeStaticIp;
+	iETHBuffer[3] = typeStaticIp;
 
-    /* Length */
-    iETHBuffer[4] = 0;
+	/* Length */
+	iETHBuffer[4] = 0;
 	iETHBuffer[5] = 0;
 	iETHBuffer[6] = 0;
 	iETHBuffer[7] = IP_CONFIG_SIZE;
 
-    iETHBuffer[8] = 1;
+	iETHBuffer[8] = 1;
 	iETHBuffer[10] = div(portNb, 256).rem;
 	portNb = div(portNb, 256).quot;
 	iETHBuffer[9] = div(portNb, 256).rem;
 
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                fprintf(fp, "SDCard IP:");
-            }
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+		fprintf(fp, "SDCard IP:");
+	}
 #endif
 
-    for (INT8U h = 0; h < 4; h++)
-    {
-        iETHBuffer[11 + h] = xEthConf.ucIP[h];
-        iETHBuffer[15 + h] = xEthConf.ucGTW[h];
-        iETHBuffer[19 + h] = xEthConf.ucGTW[h];
+	for (INT8U h = 0; h < 4; h++) {
+		iETHBuffer[11 + h] = xEthConf.ucIP[h];
+		iETHBuffer[15 + h] = xEthConf.ucGTW[h];
+		iETHBuffer[19 + h] = xEthConf.ucGTW[h];
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                fprintf(fp, " %i", xEthConf.ucIP[h]);
-            }
+		if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+			fprintf(fp, " %i", xEthConf.ucIP[h]);
+		}
 #endif
-    }
+	}
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                fprintf(fp, "\r\n");
-            }
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+		fprintf(fp, "\r\n");
+	}
 #endif
 
-    for (INT8U f = 0; f < 6; f++)
-    {
-        iETHBuffer[23 + f] = xEthConf.ucMAC[f];
-    }
-    usCRC = crc__CRC16CCITT(iETHBuffer, IP_CONFIG_SIZE - 2);
+	for (INT8U f = 0; f < 6; f++) {
+		iETHBuffer[23 + f] = xEthConf.ucMAC[f];
+	}
+	usCRC = crc__CRC16CCITT(iETHBuffer, IP_CONFIG_SIZE - 2);
 
-    iETHBuffer[30] = div(usCRC, 256).rem;
+	iETHBuffer[30] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
 	iETHBuffer[29] = div(usCRC, 256).rem;
 
-    /*
-     * Send Eth Config through serial
-     */
+	/*
+	 * Send Eth Config through serial
+	 */
 	fprintf(fp, "alive cmd:");
-    for (int f = 0; f < IP_CONFIG_SIZE; f++){
-    	fprintf(fp, " %i", iETHBuffer[f]);
+	for (int f = 0; f < IP_CONFIG_SIZE; f++) {
+		fprintf(fp, " %i", iETHBuffer[f]);
 		vUartWriteCharBlocking(iETHBuffer[f]);
 	}
-    fprintf(fp, "\r\n");
-    T_simucam.T_status.TM_id++;
+	fprintf(fp, "\r\n");
+	T_simucam.T_status.TM_id++;
 }
 
 /**
@@ -370,19 +363,18 @@ void vSendETHConfig(TConfEth xEthConf){
  * @param 	[in] 	void
  * @retval          void
  **/
-void vClearRam(void){
-    for (INT8U s = 0; s < NB_CHANNELS; s++)
-    {
-        /*
-        * Switch to the right memory stick
-        */
-        if (((unsigned char) s / 4) == 0) {
-            bDdr2SwitchMemory(DDR2_M1_ID);
-        } else {
-            bDdr2SwitchMemory(DDR2_M2_ID);
-        }  
-        memset((INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0, (0x20000000 - 1));
-    }
+void vClearRam(void) {
+	for (INT8U s = 0; s < NB_CHANNELS; s++) {
+		/*
+		 * Switch to the right memory stick
+		 */
+		if (((unsigned char) s / 4) == 0) {
+			bDdr2SwitchMemory(DDR2_M1_ID);
+		} else {
+			bDdr2SwitchMemory(DDR2_M2_ID);
+		}
+		memset((INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0, (0x20000000 - 1));
+	}
 }
 
 /**
@@ -393,16 +385,15 @@ void vClearRam(void){
  * @param 	[in] 	void
  * @retval          void
  **/
-INT8U iCompareTags(INT8U iTagA[], INT8U iTagB[]){
-    INT8U iRetVal = 1;
-    for (INT8U i = 0; i < 8; i++)
-    {
-        if(iTagA[i] != iTagB[i]){
-            iRetVal = 0;
-            break;
-        }
-    }
-    return iRetVal;
+INT8U iCompareTags(INT8U iTagA[], INT8U iTagB[]) {
+	INT8U iRetVal = 1;
+	for (INT8U i = 0; i < 8; i++) {
+		if (iTagA[i] != iTagB[i]) {
+			iRetVal = 0;
+			break;
+		}
+	}
+	return iRetVal;
 }
 
 /**
@@ -423,7 +414,6 @@ void vDataSelector(T_uart_payload* pPayload){
     //     }
     // }
 }
-
 
 /*
  * Task body
@@ -448,7 +438,6 @@ void CommandManagementTask() {
 	 */
 //	bIdmaInitM1Dma();
 //	bIdmaInitM2Dma();
-
 	/* Init HK period */
 	T_simucam.T_conf.luHKPeriod = 0;
 
@@ -498,17 +487,16 @@ void CommandManagementTask() {
 		 */
 		case simModeInit:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                fprintf(fp, "[CommandManagementTask]Init\r\n");
-            }
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				fprintf(fp, "[CommandManagementTask]Init\r\n");
+			}
 #endif
 
 			/*
 			 * Configuring done inside the sub-unit modules
-             * TODO Function
+			 * TODO Function
 			 */
-			for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
-					i_channel_for++) {
+			for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
 				sub_config_send[i_channel_for].RMAP_handling = 0;
 				sub_config_send[i_channel_for].forward_data = 0;
 				sub_config_send[i_channel_for].link_config = 0;
@@ -524,9 +512,9 @@ void CommandManagementTask() {
 
 		case simModetoConfig:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ) {
-                fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
-            }
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
+			}
 #endif
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
@@ -537,58 +525,53 @@ void CommandManagementTask() {
 			 */
 		case simModeConfig:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor ) {
-                fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
-            }
+			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
+			}
 #endif
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
 
 			switch (p_payload->type) { /*Selector for commands and actions*/
 
-            /**
-             * Send Ethernet config to NUC when it is booted
-             */
-            case typeGetIP:
-#if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]NUC alive, sending Eth conf\r\n");
-                }
-#endif
-                /* Send ETH settings to NUC, no ACK expected */
-                vSendETHConfig(xConfEth);
-            break;
-
-			/*
-			 * Sub-Unit config command
+			/**
+			 * Send Ethernet config to NUC when it is booted
 			 */
+			case typeGetIP:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]NUC alive, sending Eth conf\r\n");
+				}
+#endif
+				/* Send ETH settings to NUC, no ACK expected */
+				vSendETHConfig(xConfEth);
+				break;
+
+				/*
+				 * Sub-Unit config command
+				 */
 			case typeConfigureSub:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
+				}
 #endif
 
 				/*
 				 * data[0] is the channel input
 				 */
-				sub_config_send[p_payload->data[0]].link_config =
-						p_payload->data[1];
-				sub_config_send[p_payload->data[0]].linkspeed =
-						p_payload->data[2];
-				sub_config_send[p_payload->data[0]].linkstatus_running =
-						p_payload->data[3];
+				sub_config_send[p_payload->data[0]].link_config = p_payload->data[1];
+				sub_config_send[p_payload->data[0]].linkspeed = p_payload->data[2];
+				sub_config_send[p_payload->data[0]].linkstatus_running = p_payload->data[3];
 				/*
 				 * TODO complete listing
 				 */
 
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                    fprintf(fp, "[CommandManagementTask]Configurations sent: %i, %i, %i\r\n",
-						(INT8U) sub_config_send[p_payload->data[0]].link_config,
-						(INT8U) sub_config_send[p_payload->data[0]].linkspeed,
-						(INT8U) sub_config_send[p_payload->data[0]].linkstatus_running);
-                        }
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask]Configurations sent: %i, %i, %i\r\n", (INT8U) sub_config_send[p_payload->data[0]].link_config,
+							(INT8U) sub_config_send[p_payload->data[0]].linkspeed, (INT8U) sub_config_send[p_payload->data[0]].linkstatus_running);
+				}
 #endif
 
 				v_ack_creator(p_payload, xAckOk);
@@ -612,29 +595,26 @@ void CommandManagementTask() {
 				 */
 			case typeChangeSimucamMode:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
+				}
 #endif
 
 				if (p_payload->data[0] == 1) {
 
-					for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
-							i_channel_for++) {
+					for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
 
 						sub_config_send[i_channel_for].mode = subModetoRun;
-						error_code = (INT8U) OSQPost(
-								p_sub_unit_config_queue[i_channel_for],
-								&sub_config_send[i_channel_for]);
+						error_code = (INT8U) OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
 						alt_SSSErrorHandler(error_code, 0);
 					}
 					T_simucam.T_status.simucam_mode = simModetoRun;
 				}
 
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
+				}
 #endif
 				break;
 
@@ -642,15 +622,15 @@ void CommandManagementTask() {
 				 * Clear RAM
 				 */
 			case typeClearRam:
-                if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                        fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
-                    }
-                vClearRam();
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
+				}
+				vClearRam();
 				v_ack_creator(p_payload, xAckOk);
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                        fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
-                    }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
+				}
 #endif
 				break;
 
@@ -659,14 +639,14 @@ void CommandManagementTask() {
 				 */
 			case typeGetHK:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Get HK\r\n");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Get HK\r\n");
+				}
 #endif
 				i_channel_buffer = p_payload->data[0];
 
 				v_HK_creator(i_channel_buffer);
-                // v_ack_creator(p_payload, xAckOk);
+				// v_ack_creator(p_payload, xAckOk);
 				break;
 
 				/*
@@ -674,9 +654,9 @@ void CommandManagementTask() {
 				 */
 			case typeConfigureMeb:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
+				}
 #endif
 
 				T_simucam.T_conf.i_forward_data = p_payload->data[0];
@@ -684,11 +664,9 @@ void CommandManagementTask() {
 
 				v_ack_creator(p_payload, xAckOk);
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                    fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n",
-						(int) T_simucam.T_conf.i_forward_data,
-						(int) T_simucam.T_conf.echo_sent);
-                        }
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n", (int) T_simucam.T_conf.i_forward_data, (int) T_simucam.T_conf.echo_sent);
+				}
 #endif
 				break;
 
@@ -697,62 +675,58 @@ void CommandManagementTask() {
 				 */
 			case typeSetRecording:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
+				}
 #endif
-                T_simucam.T_conf.iLog = p_payload->data[0];
+				T_simucam.T_conf.iLog = p_payload->data[0];
 				v_ack_creator(p_payload, xAckOk);
 				break;
 
-                /**
-                 * Periodic HK
-                 */
-            case typeSetPeriodicHK:
+				/**
+				 * Periodic HK
+				 */
+			case typeSetPeriodicHK:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Set Periodic HK\n\r");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Set Periodic HK\n\r");
+				}
 #endif
-                T_simucam.T_conf.iPeriodicHK = p_payload->data[0];
-                
-                if(T_simucam.T_conf.iPeriodicHK){
+				T_simucam.T_conf.iPeriodicHK = p_payload->data[0];
 
-                    T_simucam.T_conf.luHKPeriod = p_payload->data[4]
-                                                + 256 * p_payload->data[3]
-                                                + 65536 * p_payload->data[2]
-                                                + 4294967296 * p_payload->data[1];
-                
-                   error_code = OSTaskResume (PERIODIC_HK_TASK_PRIORITY);
-                } else{
-                    error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
-                    T_simucam.T_conf.luHKPeriod = 0;
-                }
-                if(error_code == OS_NO_ERR){
-                    v_ack_creator(p_payload, xAckOk);
-                } else{
-                    v_ack_creator(p_payload, xOSError);
-                }
-                
-            break;
+				if (T_simucam.T_conf.iPeriodicHK) {
 
-            case typeReset:
+					T_simucam.T_conf.luHKPeriod = p_payload->data[4] + 256 * p_payload->data[3] + 65536 * p_payload->data[2] + 4294967296 * p_payload->data[1];
+
+					error_code = OSTaskResume(PERIODIC_HK_TASK_PRIORITY);
+				} else {
+					error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
+					T_simucam.T_conf.luHKPeriod = 0;
+				}
+				if (error_code == OS_NO_ERR) {
+					v_ack_creator(p_payload, xAckOk);
+				} else {
+					v_ack_creator(p_payload, xOSError);
+				}
+
+				break;
+
+			case typeReset:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
+				}
 #endif
 				vRstcHoldSimucamReset(0);
             break;
 
 			default:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
-                    fprintf(fp, "[CommandManagementTask]Command not identified...\n\r");
-                }
+				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+					fprintf(fp, "[CommandManagementTask]Command not identified...\n\r");
+				}
 #endif
-				if (p_payload->type == typeStartSending || p_payload->type == typeAbortSending 
-                            || p_payload->type == typeDirectSend) {
+				if (p_payload->type == typeStartSending || p_payload->type == typeAbortSending || p_payload->type == typeDirectSend) {
 					v_ack_creator(p_payload, xCommandNotAccepted);
 				} else {
 					v_ack_creator(p_payload, xCommandNotFound);
@@ -789,12 +763,12 @@ void CommandManagementTask() {
 			 * Start simucam timer counting
 			 */
 			error_code = bDschRunTimer(&xSimucamTimer);
-            if(error_code == TRUE){
-                v_ack_creator(p_payload, xAckOk);
-            } else {
-                v_ack_creator(p_payload, xTimerError);
-            }
-            
+			if (error_code == TRUE) {
+				v_ack_creator(p_payload, xAckOk);
+			} else {
+				v_ack_creator(p_payload, xTimerError);
+			}
+
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 
 			/*
@@ -805,9 +779,9 @@ void CommandManagementTask() {
 				bSyncCtrOneShot();
 
 				v_ack_creator(p_payload, xAckOk);
-            /*
-             * TODO Start HK timer if needed
-             */
+				/*
+				 * TODO Start HK timer if needed
+				 */
 #if DEBUG_ON
 				fprintf(fp, "[CommandManagementTask]Starting timer\r\n");
 #endif
@@ -821,8 +795,7 @@ void CommandManagementTask() {
 				case typeChangeSimucamMode:
 
 #if DEBUG_ON
-					fprintf(fp, "[CommandManagementTask]MEB status to: %i\r\n",
-							(INT8U) p_payload->data[0]);
+					fprintf(fp, "[CommandManagementTask]MEB status to: %i\r\n", (INT8U) p_payload->data[0]);
 #endif
 
 					if (p_payload->data[0] == 0) {
@@ -830,49 +803,43 @@ void CommandManagementTask() {
 						T_simucam.T_status.simucam_mode = simModetoConfig;
 
 #if DEBUG_ON
-						fprintf(fp, 
-								"[CommandManagementTask]Sending change mode command...\r\n");
+						fprintf(fp, "[CommandManagementTask]Sending change mode command...\r\n");
 #endif
 
 						/*
 						 * Stop Simucam Timer
 						 */
 						error_code = bDschStopTimer(&xSimucamTimer);
-                        if(error_code != TRUE){
-                        	fprintf(fp, "simucam timer prob \n");
-                            v_ack_creator(p_payload, xTimerError);
-                        }
+						if (error_code != TRUE) {
+							fprintf(fp, "simucam timer prob \n");
+							v_ack_creator(p_payload, xTimerError);
+						}
 						/*
 						 * Stop and clear channel timers
 						 */
-						for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
-								i_channel_for++) {
-							if(T_simucam.T_Sub[i_channel_for].T_conf.mode == 1 ||
-									T_simucam.T_Sub[i_channel_for].T_conf.mode == 4){
-								error_code = bDschStopTimer(
-										&(xCh[i_channel_for].xDataScheduler));
-								if(error_code != TRUE){
+						for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+							if (T_simucam.T_Sub[i_channel_for].T_conf.mode == 1 || T_simucam.T_Sub[i_channel_for].T_conf.mode == 4) {
+								error_code = bDschStopTimer(&(xCh[i_channel_for].xDataScheduler));
+								if (error_code != TRUE) {
 									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xTimerError);
 								}
 								error_code = bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
-								if(error_code != TRUE){
+								if (error_code != TRUE) {
 									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xTimerError);
 								}
 								sub_config_send[i_channel_for].mode = subChangeMode;
-								error_code = OSQPost(
-										p_sub_unit_config_queue[i_channel_for],
-										&sub_config_send[i_channel_for]);
-								if(error_code != OS_NO_ERR){
+								error_code = OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
+								if (error_code != OS_NO_ERR) {
 									fprintf(fp, "problem sub %i\n", i_channel_for);
 									v_ack_creator(p_payload, xOSError);
 								}
 							}
 						}
-						if (error_code == TRUE){
-	                        v_ack_creator(p_payload, xAckOk);
-	                    }
+						if (error_code == TRUE) {
+							v_ack_creator(p_payload, xAckOk);
+						}
 					}
 					break;
 
@@ -881,24 +848,20 @@ void CommandManagementTask() {
 					 */
 				case typeAbortSending:
 #if DEBUG_ON
-					fprintf(fp, "[CommandManagementTask]Selected command: %i\n\r",
-							(int) p_payload->type);
+					fprintf(fp, "[CommandManagementTask]Selected command: %i\n\r", (int) p_payload->type);
 #endif
 
-					for (i_channel_for = 0; i_channel_for < NB_CHANNELS;
-							i_channel_for++) {
+					for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
 
 						T_simucam.T_Sub[i_channel_for].T_conf.b_abort = true;
 						sub_config_send[i_channel_for].mode = subAbort;
-						error_code = OSQPost(
-								p_sub_unit_config_queue[i_channel_for],
-								&sub_config_send[i_channel_for]);
+						error_code = OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
 					}
-                    if (error_code == OS_NO_ERR){
-                        v_ack_creator(p_payload, xAckOk);
-                    }else {
-                        v_ack_creator(p_payload, xOSError);
-                    }
+					if (error_code == OS_NO_ERR) {
+						v_ack_creator(p_payload, xAckOk);
+					} else {
+						v_ack_creator(p_payload, xOSError);
+					}
 					break;
 
 					/*
@@ -906,13 +869,12 @@ void CommandManagementTask() {
 					 */
 				case typeDirectSend:
 #if DEBUG_ON
-					fprintf(fp, "[CommandManagementTask]Direct Send to %c\n\r",
-							(char) (p_payload->data[0] + ASCII_A));
+					fprintf(fp, "[CommandManagementTask]Direct Send to %c\n\r", (char) (p_payload->data[0] + ASCII_A));
 #endif
 					/*
 					 * todo: Direct Send needs replaning
 					 */
-                    v_ack_creator(p_payload, xNotImplemented);
+					v_ack_creator(p_payload, xNotImplemented);
 					break;
 
 					/*
@@ -936,13 +898,10 @@ void CommandManagementTask() {
 
 				default:
 #if DEBUG_ON
-					fprintf(fp, 
-							"[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
+					fprintf(fp, "[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
-					if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData
-							|| p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
-							|| p_payload->type == typeClearRam
-							|| p_payload->type == typeConfigureMeb) {
+					if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData || p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
+							|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb) {
 						v_ack_creator(p_payload, xCommandNotAccepted);
 					} else {
 						v_ack_creator(p_payload, xCommandNotFound);

@@ -13,7 +13,7 @@
  ************************************************************************************************
  */
 /*$PAGE*/
-  
+
 #include "rtos/simucam_init_task.h"
 #include "simucam_definitions.h"
 #include "utils/initialization_simucam.h"
@@ -21,27 +21,26 @@
 
 /* Declaring file for JTAG debug */
 #if DEBUG_ON
-    FILE* fp;
+FILE* fp;
 #endif
 
 /* 
  *  Main task
  */
-int main (int argc, char* argv[], char* envp[])
-{
+int main(int argc, char* argv[], char* envp[]) {
 //  INT8U error_code;
 
-  /* Debug device initialization - JTAG USB */
+	/* Debug device initialization - JTAG USB */
 #if DEBUG_ON
-    fp = fopen(JTAG_UART_0_NAME, "r+");
+	fp = fopen(JTAG_UART_0_NAME, "r+");
 #endif
 
 #if DEBUG_ON
-    fprintf(fp, "Main entry point.\n");
+	fprintf(fp, "Main entry point.\n");
 #endif
 
 	/* Initialization of core HW */
-	if (bInitSimucamCoreHW()){
+	if (bInitSimucamCoreHW()) {
 #if DEBUG_ON
 		fprintf(fp, "\n");
 		fprintf(fp, "SimuCam Release: %s\n", SIMUCAM_RELEASE);
@@ -57,14 +56,16 @@ int main (int argc, char* argv[], char* envp[])
 		fprintf(fp, "CRITICAL HW FAILURE: SimuCam will be halted.\n");
 		fprintf(fp, "\n");
 #endif
-		while (1) {}
+		while (1) {
+		}
 	}
 
 	/* Test of some critical IPCores HW interfaces in the Simucam */
 	if (!bTestSimucamCriticalHW()) {
 		fprintf(fp, "CRITICAL HW FAILURE: SimuCam will be halted.\n");
 		fprintf(fp, "\n");
-		while (1) {}
+		while (1) {
+		}
 	}
 
 	/* Initialization of basic HW */
@@ -84,41 +85,41 @@ int main (int argc, char* argv[], char* envp[])
 
 	/* Show loaded configurations from SD Card */
 #if DEBUG_ON
-if ( xConfDebug.usiDebugLevel <= xMajor ) {
-	vShowDebugConfig();
-	vShowRmapConfig();
-	vShowEthConfig();
-}
+	if (xConfDebug.usiDebugLevel <= xMajor) {
+		vShowDebugConfig();
+		vShowRmapConfig();
+		vShowEthConfig();
+	}
 #endif
 
-    /* Clear the RTOS timer */
-    OSTimeSet(0);
+	/* Clear the RTOS timer */
+	OSTimeSet(0);
 
 #if DEBUG_ON
-    if ( xConfDebug.usiDebugLevel <= xMajor ) {
-    	fprintf(fp, "\nSimucam Tasks initializing\n");
-    }
+	if (xConfDebug.usiDebugLevel <= xMajor) {
+		fprintf(fp, "\nSimucam Tasks initializing\n");
+	}
 #endif
 
-    /*
-     * Create os data structures
-     */
-    SimucamCreateOSQ();
-    DataCreateOSQ();
+	/*
+	 * Create os data structures
+	 */
+	SimucamCreateOSQ();
+	DataCreateOSQ();
 
-    /*create the sub-units data structures*/
-    sub_unit_create_os_data_structs();
+	/*create the sub-units data structures*/
+	sub_unit_create_os_data_structs();
 
-    /* create the Simucam tasks */
-    SimucamCreateTasks();
-    
-    /*
-     * Start the OS
-     */
-    OSStart();
+	/* create the Simucam tasks */
+	SimucamCreateTasks();
 
-  
-  while(1); /* Correct Program Flow never gets here. */
+	/*
+	 * Start the OS
+	 */
+	OSStart();
 
-  return -1;
+	while (1)
+		; /* Correct Program Flow never gets here. */
+
+	return -1;
 }

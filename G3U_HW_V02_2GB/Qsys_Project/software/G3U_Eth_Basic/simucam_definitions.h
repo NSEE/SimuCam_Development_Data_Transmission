@@ -1,4 +1,3 @@
-
 /*
  ************************************************************************************************
  *                                              NSEE
@@ -14,7 +13,6 @@
  ************************************************************************************************
  */
 /*$PAGE*/
-
 
 #ifndef SIMUCAM_DEFINITIONS_H_
 #define SIMUCAM_DEFINITIONS_H_
@@ -54,7 +52,7 @@
 /* HW and FW release version */
 #define SIMUCAM_RELEASE                 "I2dev"
 #define SIMUCAM_HW_VERSION              "0.3"
-#define SIMUCAM_FW_VERSION              "0.1"
+#define SIMUCAM_FW_VERSION              "0.3"
 
 /*
  * Convert to enum
@@ -93,18 +91,7 @@
  * Error codes definitions transform into enum
  */
 typedef enum {
-    xAckOk = 0,
-    xPlcH1,
-    xPlcH2,
-    xPlcH3,
-    xCommandNotAccepted,
-    xCommandNotFound,
-    xNotImplemented,
-    xTimerError,
-    xParserError,
-    xEchoError,
-    xOSError,
-    xCRCError
+	xAckOk = 0, xPlcH1, xPlcH2, xPlcH3, xCommandNotAccepted, xCommandNotFound, xNotImplemented, xTimerError, xParserError, xEchoError, xOSError, xCRCError
 } xErrorTypes;
 
 #define ACK_OK						0
@@ -121,31 +108,29 @@ typedef enum {
 
 extern OS_EVENT *xMutexDMA[2];
 
-
 #ifndef bool
-	//typedef short int bool;
-	//typedef enum e_bool { false = 0, true = 1 } bool;
-	//#define false   0
-	//#define true    1
-	#define FALSE   0
-	#define TRUE    1
+//typedef short int bool;
+//typedef enum e_bool { false = 0, true = 1 } bool;
+//#define false   0
+//#define true    1
+#define FALSE   0
+#define TRUE    1
 #endif
 
-
 #if DEBUG_ON
-	#define debug( fp, mensage )    if ( DEBUG_ON ) { fprintf( fp, mensage ); }
+#define debug( fp, mensage )    if ( DEBUG_ON ) { fprintf( fp, mensage ); }
 #endif
 
 /* Variable that will carry the debug JTAG device file descriptor*/
 #if DEBUG_ON
-    extern FILE* fp;
+extern FILE* fp;
 #endif
 
 /*
-************************************************************************************************
-*                                            DATA TYPES
-************************************************************************************************
-*/
+ ************************************************************************************************
+ *                                            DATA TYPES
+ ************************************************************************************************
+ */
 
 /*
  * Structure to identify the Sub-Unit configuration parameters
@@ -168,12 +153,12 @@ typedef struct sub_config {
 	INT8U link_status;
 	struct Timagette_control *imagette;
 
-}sub_config_t;
+} sub_config_t;
 
 struct _sub_data {
 	INT8U p_data_addr[100];
 	INT32U i_data_size;
-}_sub_data;
+} _sub_data;
 
 typedef struct x_imagette {
 	/*
@@ -182,7 +167,7 @@ typedef struct x_imagette {
 	INT32U offset; /* In miliseconds*/
 	INT16U imagette_length; /* length of N imagette */
 	INT8U imagette_start; /*Pointer to de DDR2 address*/
-}x_imagette;
+} x_imagette;
 
 typedef struct Timagette_control {
 #if DMA_DEV
@@ -196,10 +181,10 @@ typedef struct Timagette_control {
 	struct x_imagette *dataset[MAX_IMAGETTES];
 #endif
 	INT16U nb_of_imagettes; /*Number of imagettes in dataset*/
-	INT32U size; 			/*Imagette array size*/
+	INT32U size; /*Imagette array size*/
 	INT8U tag[8];
 	INT8U sto_locale;
-}Timagette_control;
+} Timagette_control;
 
 struct x_telemetry {
 
@@ -212,15 +197,12 @@ struct x_telemetry {
 } x_telemetry;
 
 typedef enum {
-	xCritical = 0,
-    xMajor,
-	xVerbose
+	xCritical = 0, xMajor, xVerbose
 } debug_levels;
 
 /*$PAGE*/
 
 //typedef enum { dlFullMessage = 0, dlCustom0, dlMinorMessage, dlCustom1, dlMajorMessage, dlCustom2, dlJustMajorProgress, dlCriticalOnly } tDebugLevel;
-
 #define min_sim( x , y ) ((x < y) ? x : y)
 
 #endif /* SIMUCAM_DEFINITIONS_H_ */
