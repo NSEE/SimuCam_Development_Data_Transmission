@@ -1,8 +1,8 @@
 /**
  * @file   util.c
  * @Author Rafael Corsi (corsiferrao@gmail.com)
- * @date   Marrço, 2015
- * @brief  Definiçõeses para acesso aos módulos via Avalon
+ * @date   Marrï¿½o, 2015
+ * @brief  Definiï¿½ï¿½eses para acesso aos mï¿½dulos via Avalon
  *
  * tab = 4
  */
@@ -14,10 +14,10 @@
  * @brief   Escrita dos registradores de config. RMAP/SPW
  * @ingroup UTIL
  *
- * Acessa os registradores do módulos RMAP_SPW via acesso a memoria AVALON
+ * Acessa os registradores do mï¿½dulos RMAP_SPW via acesso a memoria AVALON
  *
- * @param [in] BASE_ADD Endereço base de acesso ao registrador
- * @param [in] REG_ADD  Endereço do registador (Offset)
+ * @param [in] BASE_ADD Endereï¿½o base de acesso ao registrador
+ * @param [in] REG_ADD  Endereï¿½o do registador (Offset)
  * @param [in] REG_DADO Dado a ser gravado no registrador
  *
  * @retval 1 : Sucesso 
@@ -36,10 +36,10 @@ alt_32 _reg_write(int BASE_ADD, alt_32 REG_ADD, alt_32 REG_Dado) {
  * @brief   Leitura dos registradores de config. RMAP/SPW
  * @ingroup UTIL
  *
- * Acessa os registradores do módulos RMAP_SPW via acesso a memoria AVALON
+ * Acessa os registradores do mï¿½dulos RMAP_SPW via acesso a memoria AVALON
  *
- * @param [in] BASE_ADD Endereço base de acesso ao registrador
- * @param [in] REG_ADD  Endereço do registador (Offset)
+ * @param [in] BASE_ADD Endereï¿½o base de acesso ao registrador
+ * @param [in] REG_ADD  Endereï¿½o do registador (Offset)
  * @param [in] REG_DADO Retorno do dado lido
  *
  * @retval 1 : Sucesso 
@@ -70,11 +70,13 @@ void _print_codec_status(int codec_status) {
 	int connecting = (int) ((codec_status >> 5) & 1);
 	int running = (int) ((codec_status >> 4) & 1);
 
-	printf("-------- link status \n");
-	printf("Link started    : %s \n", (started == 1) ? "S" : "N");
-	printf("Link connecting : %s \n", (connecting == 1) ? "S" : "N");
-	printf("Link running    : %s \n", (running == 1) ? "S" : "N");
-	printf("--------  \n");
+#if DEBUG_ON
+	fprintf(fp, "-------- link status \n");
+	fprintf(fp, "Link started    : %s \n", (started == 1) ? "S" : "N");
+	fprintf(fp, "Link connecting : %s \n", (connecting == 1) ? "S" : "N");
+	fprintf(fp, "Link running    : %s \n", (running == 1) ? "S" : "N");
+	fprintf(fp, "--------  \n");
+#endif
 }
 
 /**
@@ -89,8 +91,7 @@ void _print_codec_status(int codec_status) {
  * @retval 1 : Sucesso
  *
  */
-void _split_codec_status(int codec_status, int *started, int *connecting,
-		int *running) {
+void _split_codec_status(int codec_status, int *started, int *connecting, int *running) {
 	*started = (int) ((codec_status >> 6) & 1);
 	*connecting = (int) ((codec_status >> 5) & 1);
 	*running = (int) ((codec_status >> 4) & 1);
@@ -112,8 +113,7 @@ INT8U aatoh(INT8U *buffer) {
 	INT8U* a;
 	INT8U v;
 	a = buffer;
-	v = ((a[0] - (48 + 7 * (a[0] > 57))) << 4)
-			+ (a[1] - (48 + 7 * (a[1] > 57)));
+	v = ((a[0] - (48 + 7 * (a[0] > 57))) << 4) + (a[1] - (48 + 7 * (a[1] > 57)));
 	return v;
 }
 
@@ -132,7 +132,10 @@ INT8U aatoh(INT8U *buffer) {
 
 INT8U Verif_Error(INT8U error_code) {
 	if (!error_code) {
-		printf("ERROR\n\r");
+
+#if DEBUG_ON
+		fprintf(fp, "[VERIF ERROR]ERROR\n\r");
+#endif
 		return 0;
 	} else
 		return 1;
@@ -145,15 +148,75 @@ INT8U Verif_Error(INT8U error_code) {
  *
  * Converts 1 digit ASCII numbers to int
  *
- * @param [in] INT8U
+ * @param [in] char
  * *
- * @retval int
+ * @retval INT8U
  *
  */
 
 INT8U toInt(INT8U ascii) {
-	return (int) ascii - 48;
+	return (INT8U) ascii - 48;
 }
 
+/**
+ * @name    toChar
+ * @brief   Converts int number to ASCII
+ * @ingroup UTIL
+ *
+ * Converts 1 digit int numbers to ASCII
+ *
+ * @param [in] INT8U
+ * *
+ * @retval char
+ *
+ */
 
+INT8U toChar(INT8U i_int) {
+	return (INT8U) i_int + 48;
+}
+
+/**
+ * @name crc16
+ * @brief Computes the CRC16 of the data array
+ * @ingroup UTIL
+ *
+ * This routine generates the 16 bit remainder of a block of
+ * data using the ccitt polynomial generator.
+ *
+ * note: when the crc is included in the message(our case),
+ * the valid crc is 0x470F.
+ *
+ * @param 	[in] 	*INT8U Data array
+ * 			[in]	INT8U Array lenght
+ *
+ * @retval INT16U crc
+ **/
+
+INT16U crc16(INT8U *p_data, INT32U i_length) {
+
+	unsigned char i;
+	unsigned int data;
+	unsigned int crc;
+
+	crc = 0xffff;
+
+	if (i_length == 0)
+		return (~crc);
+
+	do {
+		for (i = 0, data = (unsigned int) 0xff & *p_data++; i < 8; i++, data >>= 1) {
+			if ((crc & 0x0001) ^ (data & 0x0001))
+				crc = (crc >> 1) ^ POLY;
+			else
+				crc >>= 1;
+		}
+	} while (--i_length);
+
+	crc = ~crc;
+
+	data = crc;
+	crc = (crc << 8) | (data >> 8 & 0xFF);
+
+	return (crc);
+}
 

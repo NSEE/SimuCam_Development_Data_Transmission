@@ -9,11 +9,6 @@
 #define SYNC_H_
 
 #include "../../simucam_definitions.h"
-#include "../../utils/fee_controller.h"
-#include "../../utils/queue_commands_list.h"
-#include "../../utils/meb.h"
-#include "../../utils/communication_configs.h"
-#include "../../rtos/tasks_configurations.h"
 
 //! [constants definition]
 // address
@@ -25,17 +20,13 @@
 #define SYNC_BIT_ON                     TRUE
 #define SYNC_BIT_OFF                    FALSE
 
+#define SYNC_DEFAULT_SUBUNIT_OST        25e6
+
 //! [constants definition]
-extern const alt_u16 cusiSyncNFeeMasterBlankTimeMs;
-extern const alt_u16 cusiSyncNFeeNormalBlankTimeMs;
-extern const alt_u16 cusiSyncNFeeSyncPeriodMs;
-extern const alt_u16 cusiSyncNFeeOneShotTimeMs;
-extern const bool cbSyncNFeePulsePolarity;
-extern const alt_u8 cusiSyncNFeeNumberOfPulses;
 
 //! [public module structs definition]
 typedef struct SyncStatus {
-	bool   bIntExtN;
+	bool bIntExtN;
 	alt_u8 ucState;
 	alt_u8 ucErrorCode;
 	alt_u8 ucCycleNumber;
@@ -95,7 +86,7 @@ typedef struct SyncConfig {
 } TSyncConfig;
 
 typedef struct SyncGeneralConfig {
-	bool   bSignalPolarity;
+	bool bSignalPolarity;
 	alt_u8 ucNumberOfCycles;
 } TSyncGeneralConfig;
 
@@ -126,18 +117,18 @@ typedef struct SyncIRQNumber {
 } TSyncIRQNumber;
 
 typedef struct SyncModule {
-	TSyncStatus         xSyncStatus        ;
-	TSyncIrqEn          xSyncIrqEn         ;
-	TSyncIrqFlagClr     xSyncIrqFlagClr    ;
-	TSyncIrqFlag        xSyncIrqFlag       ;
-	TPreSyncIrqEn       xPreSyncIrqEn      ;
-	TPreSyncIrqFlagClr  xPreSyncIrqFlagClr ;
-	TPreSyncIrqFlag     xPreSyncIrqFlag    ;
-	TSyncConfig         xSyncConfig        ;
-	TSyncGeneralConfig  xSyncGeneralConfig ;
+	TSyncStatus xSyncStatus;
+	TSyncIrqEn xSyncIrqEn;
+	TSyncIrqFlagClr xSyncIrqFlagClr;
+	TSyncIrqFlag xSyncIrqFlag;
+	TPreSyncIrqEn xPreSyncIrqEn;
+	TPreSyncIrqFlagClr xPreSyncIrqFlagClr;
+	TPreSyncIrqFlag xPreSyncIrqFlag;
+	TSyncConfig xSyncConfig;
+	TSyncGeneralConfig xSyncGeneralConfig;
 	TSyncErrorInjection xSyncErrorInjection;
-	TSyncControl        xSyncControl       ;
-	TSyncIRQNumber      xSyncIRQNumber     ;
+	TSyncControl xSyncControl;
+	TSyncIRQNumber xSyncIRQNumber;
 } TSyncModule;
 //! [public module structs definition]
 
@@ -216,19 +207,15 @@ bool bSyncCtrCh6OutEnable(bool bValue);
 bool bSyncCtrCh7OutEnable(bool bValue);
 bool bSyncCtrCh8OutEnable(bool bValue);
 
-bool bSyncConfigNFeeSyncPeriod(alt_u16 usiSyncPeriodMs);
+bool bSyncConfigOstSubunits(alt_u32 uliOstValue);
+//! [public function prototypes]
 
 //! [private function prototypes]
 alt_u32 uliPerCalcPeriodMs(alt_u16 usiPeriodMs);
 alt_u16 usiRegCalcTimeMs(alt_u32 uliSyncReg);
 //! [private function prototypes]
 
-void vSyncClearCounter(void);
-
-//! [public function prototypes]
-
 //! [data memory public global variables - use extern]
-extern volatile alt_u8 vucN;
 //! [data memory public global variables - use extern]
 
 //! [flags]
