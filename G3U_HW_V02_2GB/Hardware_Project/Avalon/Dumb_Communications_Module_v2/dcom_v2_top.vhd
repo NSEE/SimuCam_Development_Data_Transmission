@@ -102,15 +102,17 @@ architecture rtl of dcom_v2_top is
 	signal s_avm_data_master_rd_status  : t_dcom_avm_data_master_rd_status;
 
 	-- Data Buffer Signals
-	signal s_avs_dbuffer_wrdata   : std_logic_vector((c_AVS_DBUFFER_DATA_WIDTH - 1) downto 0);
-	signal s_avs_dbuffer_wrreq    : std_logic;
-	signal s_avs_dbuffer_full     : std_logic;
-	signal s_avs_bebuffer_wrdata  : std_logic_vector((c_AVS_BEBUFFER_DATA_WIDTH - 1) downto 0);
-	signal s_avs_bebuffer_wrreq   : std_logic;
-	signal s_avs_bebuffer_full    : std_logic;
-	signal s_dcrtl_dbuffer_rddata : std_logic_vector((c_DCTRL_DBUFFER_DATA_WIDTH - 1) downto 0);
-	signal s_dcrtl_dbuffer_rdreq  : std_logic;
-	signal s_dcrtl_dbuffer_empty  : std_logic;
+	signal s_avs_dbuffer_wrdata    : std_logic_vector((c_AVS_DBUFFER_DATA_WIDTH - 1) downto 0);
+	signal s_avs_dbuffer_wrreq     : std_logic;
+	signal s_avs_dbuffer_halffull  : std_logic;
+	signal s_avs_dbuffer_full      : std_logic;
+	signal s_avs_bebuffer_wrdata   : std_logic_vector((c_AVS_BEBUFFER_DATA_WIDTH - 1) downto 0);
+	signal s_avs_bebuffer_wrreq    : std_logic;
+	signal s_avs_bebuffer_halffull : std_logic;
+	signal s_avs_bebuffer_full     : std_logic;
+	signal s_dcrtl_dbuffer_rddata  : std_logic_vector((c_DCTRL_DBUFFER_DATA_WIDTH - 1) downto 0);
+	signal s_dcrtl_dbuffer_rdreq   : std_logic;
+	signal s_dcrtl_dbuffer_empty   : std_logic;
 
 	-- Data Controller Signals
 	signal s_dctrl_tx_begin     : std_logic;
@@ -250,8 +252,10 @@ begin
 			controller_rd_length_bytes_i               => s_dcom_write_registers.data_scheduler_data_control_reg.rd_data_length_bytes,
 			controller_wr_busy_i                       => '0',
 			avm_master_rd_status_i                     => s_avm_data_master_rd_status,
-			data_buffer_full_i                         => s_avs_dbuffer_full,
-			be_buffer_full_i                           => s_avs_bebuffer_full,
+			data_buffer_full_i                         => s_avs_dbuffer_halffull,
+			be_buffer_full_i                           => s_avs_bebuffer_halffull,
+			--			data_buffer_full_i                         => s_avs_dbuffer_full,
+			--			be_buffer_full_i                           => s_avs_bebuffer_full,
 			controller_rd_busy_o                       => s_dcom_read_registers.data_scheduler_data_status_reg.rd_busy,
 			avm_master_rd_control_o                    => s_avm_data_master_rd_control,
 			data_buffer_wrdata_o                       => s_avs_dbuffer_wrdata,
@@ -263,23 +267,25 @@ begin
 	-- Data Buffer Instantiation
 	data_buffer_ent_inst : entity work.data_buffer_ent
 		port map(
-			clk_i                  => a_avs_clock,
-			rst_i                  => a_reset,
-			tmr_clear_i            => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_clear,
-			tmr_stop_i             => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
-			tmr_start_i            => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
-			avs_dbuffer_wrdata_i   => s_avs_dbuffer_wrdata,
-			avs_dbuffer_wrreq_i    => s_avs_dbuffer_wrreq,
-			avs_bebuffer_wrdata_i  => s_avs_bebuffer_wrdata,
-			avs_bebuffer_wrreq_i   => s_avs_bebuffer_wrreq,
-			dcrtl_dbuffer_rdreq_i  => s_dcrtl_dbuffer_rdreq,
-			dbuff_empty_o          => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_empty,
-			dbuff_full_o           => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_full,
-			dbuff_usedw_o          => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(14 downto 3),
-			avs_dbuffer_full_o     => s_avs_dbuffer_full,
-			avs_bebuffer_full_o    => s_avs_bebuffer_full,
-			dcrtl_dbuffer_rddata_o => s_dcrtl_dbuffer_rddata,
-			dcrtl_dbuffer_empty_o  => s_dcrtl_dbuffer_empty
+			clk_i                   => a_avs_clock,
+			rst_i                   => a_reset,
+			tmr_clear_i             => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_clear,
+			tmr_stop_i              => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
+			tmr_start_i             => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
+			avs_dbuffer_wrdata_i    => s_avs_dbuffer_wrdata,
+			avs_dbuffer_wrreq_i     => s_avs_dbuffer_wrreq,
+			avs_bebuffer_wrdata_i   => s_avs_bebuffer_wrdata,
+			avs_bebuffer_wrreq_i    => s_avs_bebuffer_wrreq,
+			dcrtl_dbuffer_rdreq_i   => s_dcrtl_dbuffer_rdreq,
+			dbuff_empty_o           => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_empty,
+			dbuff_full_o            => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_full,
+			dbuff_usedw_o           => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(14 downto 3),
+			avs_dbuffer_halffull_o  => s_avs_dbuffer_halffull,
+			avs_dbuffer_full_o      => s_avs_dbuffer_full,
+			avs_bebuffer_halffull_o => s_avs_bebuffer_halffull,
+			avs_bebuffer_full_o     => s_avs_bebuffer_full,
+			dcrtl_dbuffer_rddata_o  => s_dcrtl_dbuffer_rddata,
+			dcrtl_dbuffer_empty_o   => s_dcrtl_dbuffer_empty
 		);
 	s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(15)         <= '0';
 	s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(2 downto 0) <= (others => '0');

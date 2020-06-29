@@ -6,23 +6,25 @@ use work.data_buffer_pkg.all;
 
 entity data_buffer_ent is
 	port(
-		clk_i                  : in  std_logic;
-		rst_i                  : in  std_logic;
-		tmr_clear_i            : in  std_logic;
-		tmr_stop_i             : in  std_logic;
-		tmr_start_i            : in  std_logic;
-		avs_dbuffer_wrdata_i   : in  std_logic_vector((c_AVS_DBUFFER_DATA_WIDTH - 1) downto 0);
-		avs_dbuffer_wrreq_i    : in  std_logic;
-		avs_bebuffer_wrdata_i  : in  std_logic_vector((c_AVS_BEBUFFER_DATA_WIDTH - 1) downto 0);
-		avs_bebuffer_wrreq_i   : in  std_logic;
-		dcrtl_dbuffer_rdreq_i  : in  std_logic;
-		dbuff_empty_o          : out std_logic;
-		dbuff_full_o           : out std_logic;
-		dbuff_usedw_o          : out std_logic_vector((c_AVS_BUFFER_USED_WIDTH) downto 0);
-		avs_dbuffer_full_o     : out std_logic;
-		avs_bebuffer_full_o    : out std_logic;
-		dcrtl_dbuffer_rddata_o : out std_logic_vector((c_DCTRL_DBUFFER_DATA_WIDTH - 1) downto 0);
-		dcrtl_dbuffer_empty_o  : out std_logic
+		clk_i                   : in  std_logic;
+		rst_i                   : in  std_logic;
+		tmr_clear_i             : in  std_logic;
+		tmr_stop_i              : in  std_logic;
+		tmr_start_i             : in  std_logic;
+		avs_dbuffer_wrdata_i    : in  std_logic_vector((c_AVS_DBUFFER_DATA_WIDTH - 1) downto 0);
+		avs_dbuffer_wrreq_i     : in  std_logic;
+		avs_bebuffer_wrdata_i   : in  std_logic_vector((c_AVS_BEBUFFER_DATA_WIDTH - 1) downto 0);
+		avs_bebuffer_wrreq_i    : in  std_logic;
+		dcrtl_dbuffer_rdreq_i   : in  std_logic;
+		dbuff_empty_o           : out std_logic;
+		dbuff_full_o            : out std_logic;
+		dbuff_usedw_o           : out std_logic_vector((c_AVS_BUFFER_USED_WIDTH) downto 0);
+		avs_dbuffer_halffull_o  : out std_logic;
+		avs_dbuffer_full_o      : out std_logic;
+		avs_bebuffer_halffull_o : out std_logic;
+		avs_bebuffer_full_o     : out std_logic;
+		dcrtl_dbuffer_rddata_o  : out std_logic_vector((c_DCTRL_DBUFFER_DATA_WIDTH - 1) downto 0);
+		dcrtl_dbuffer_empty_o   : out std_logic
 	);
 end entity data_buffer_ent;
 
@@ -224,7 +226,7 @@ begin
 						-- update byte counter (for next byte)
 						s_byte_counter <= s_byte_counter - 1;
 					end if;
-					
+
 				when WR_DELAY =>
 					-- Delay for data write
 					-- default state transition
@@ -238,7 +240,7 @@ begin
 					s_dctrl_dbuffer_fifo.data  <= (others => '0');
 					s_dctrl_dbuffer_fifo.sclr  <= '0';
 					s_dctrl_dbuffer_fifo.wrreq <= '0';
-				-- conditional state transition
+					-- conditional state transition
 
 			end case;
 
@@ -347,20 +349,22 @@ begin
 	-- Ports Assignments --
 
 	-- Data Buffer In/Out Assignments
-	dbuff_empty_o <= s_avs_dbuffer_fifo.empty;
-	dbuff_full_o  <= s_avs_dbuffer_fifo.full;
-	dbuff_usedw_o(c_AVS_BUFFER_USED_WIDTH) <= s_avs_dbuffer_fifo.full;
+	dbuff_empty_o                                         <= s_avs_dbuffer_fifo.empty;
+	dbuff_full_o                                          <= s_avs_dbuffer_fifo.full;
+	dbuff_usedw_o(c_AVS_BUFFER_USED_WIDTH)                <= s_avs_dbuffer_fifo.full;
 	dbuff_usedw_o((c_AVS_BUFFER_USED_WIDTH - 1) downto 0) <= s_avs_dbuffer_fifo.usedw;
 
 	-- Avalon Slave Data Buffer In/Out Assignments
 	s_avs_dbuffer_fifo.data  <= avs_dbuffer_wrdata_i;
 	s_avs_dbuffer_fifo.wrreq <= avs_dbuffer_wrreq_i;
 	avs_dbuffer_full_o       <= s_avs_dbuffer_fifo.full;
+	avs_dbuffer_halffull_o   <= s_avs_dbuffer_fifo.usedw(c_AVS_BUFFER_USED_WIDTH - 1);
 
 	-- Avalon Slave Byte Enable Buffer In/Out Assignments
 	s_avs_bebuffer_fifo.data  <= avs_bebuffer_wrdata_i;
 	s_avs_bebuffer_fifo.wrreq <= avs_bebuffer_wrreq_i;
 	avs_bebuffer_full_o       <= s_avs_bebuffer_fifo.full;
+	avs_bebuffer_halffull_o   <= s_avs_bebuffer_fifo.usedw(c_AVS_BUFFER_USED_WIDTH - 1);
 
 	-- Data Controller Data Buffer In/Out Assignments
 	s_dctrl_dbuffer_fifo.rdreq <= dcrtl_dbuffer_rdreq_i;
