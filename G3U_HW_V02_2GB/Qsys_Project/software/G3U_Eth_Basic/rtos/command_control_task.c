@@ -321,7 +321,7 @@ void vSendETHConfig(TConfEth xEthConf) {
 	for (INT8U h = 0; h < 4; h++) {
 		iETHBuffer[11 + h] = xEthConf.ucIP[h];
 		iETHBuffer[15 + h] = xEthConf.ucGTW[h];
-		iETHBuffer[19 + h] = xEthConf.ucGTW[h];
+		iETHBuffer[19 + h] = xEthConf.ucSubNet[h];
 #if DEBUG_ON
 		if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			fprintf(fp, " %i", xEthConf.ucIP[h]);
