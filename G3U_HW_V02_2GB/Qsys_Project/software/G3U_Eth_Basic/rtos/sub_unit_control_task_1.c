@@ -39,7 +39,9 @@ void sub_unit_control_task_1(void *task_data) {
 
 		case subModeInit:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit mode Init\r\n", (INT8U) c_spw_channel);
+}
 #endif
 
 			/*
@@ -95,7 +97,9 @@ void sub_unit_control_task_1(void *task_data) {
 
 		case subModetoConfig:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit mode toConfig\r\n", (INT8U) c_spw_channel);
+}
 #endif
 			/*
 			 * Stop timer for ChA
@@ -121,7 +125,9 @@ void sub_unit_control_task_1(void *task_data) {
 			 */
 		case subModeConfig:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit mode Config\r\n", (INT8U) c_spw_channel);
+}
 #endif
 			p_config = (sub_config_t *) OSQPend(p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
 			if (error_code == OS_ERR_NONE) {
@@ -135,7 +141,9 @@ void sub_unit_control_task_1(void *task_data) {
 
 			} else {
 #if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 				fprintf(fp, "[SUBUNIT%i]Sub-unit config queue error\r\n", (INT8U) c_spw_channel);
+	}
 #endif
 			}
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
@@ -145,7 +153,9 @@ void sub_unit_control_task_1(void *task_data) {
 
 		case subModetoRun:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit toRun\r\n", (INT8U) c_spw_channel);
+}
 #endif
 			/*
 			 * Stop timer for ChA
@@ -167,7 +177,9 @@ void sub_unit_control_task_1(void *task_data) {
 			 */
 			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SUBUNIT%i]Channel disabled\r\n", (INT8U) c_spw_channel);
+}
 #endif
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 				break;
@@ -186,12 +198,14 @@ void sub_unit_control_task_1(void *task_data) {
 				while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes)) {
 
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %u\r\n",
 							(INT8U) c_spw_channel,
 							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
 							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
+}
 #endif
 
 						/*Calculate next imagette addr*/
@@ -228,7 +242,9 @@ void sub_unit_control_task_1(void *task_data) {
 					 * Set link to autostart
 					 */
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SUBUNIT%i]Channel autostart\r\n", (INT8U) c_spw_channel);
+}
 #endif
 
 					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
@@ -243,7 +259,9 @@ void sub_unit_control_task_1(void *task_data) {
 					 * Set link to start
 					 */
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SUBUNIT%i]Channel start\r\n", (INT8U) c_spw_channel);
+}
 #endif
 
 					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
@@ -263,7 +281,9 @@ void sub_unit_control_task_1(void *task_data) {
 
 		case subModeRun:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit Run\r\n", (INT8U) c_spw_channel);
+}
 #endif
 			p_config = (sub_config_t *) OSQPend(p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
 			if (error_code == OS_ERR_NONE) {
@@ -276,7 +296,9 @@ void sub_unit_control_task_1(void *task_data) {
 					 * End of dataset
 					 */
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SUBUNIT%i]End of Dataset scheduling\r\n", (INT8U) c_spw_channel);
+}
 #endif
 					/*
 					 * Signal cmd that DMA is free
@@ -293,7 +315,9 @@ void sub_unit_control_task_1(void *task_data) {
 					T_simucam.T_Sub[c_spw_channel].T_conf.b_abort = false;
 				case subEOT:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SUBUNIT%i]Sub Abort\r\n", (INT8U) c_spw_channel);
+}
 #endif
 
 					T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
@@ -303,14 +327,18 @@ void sub_unit_control_task_1(void *task_data) {
 
 				case subChangeMode:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SUBUNIT%i]Change mode\r\n", (INT8U) c_spw_channel);
+}
 #endif
 					T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
 					break;
 
 				default:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SUBUNIT%i]Sub-unit Default run trap\r\n", (INT8U) c_spw_channel);
+}
 #endif
 					break;
 				}
@@ -318,7 +346,9 @@ void sub_unit_control_task_1(void *task_data) {
 			break;
 		default:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit default error!\r\n", (INT8U) c_spw_channel);
+}
 #endif
 			break;
 		}

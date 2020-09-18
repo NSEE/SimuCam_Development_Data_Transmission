@@ -35,19 +35,16 @@ bool POWER_Read(alt_u32 szVol[POWER_PORT_NUM]) {
 				} else if (Channel != i) {
 #if DEBUG_ON
 					fprintf(fp, "[%d]Unexpected Channel. Expected:%d, Read:%d\r\n", i, i, Channel);
-
 #endif
 					bSuccess = FALSE;
 				} else if (SIGN ^ bSIGN) {
 #if DEBUG_ON
 					fprintf(fp, "[%d]Unexpected SIGN\r\n", i);
-
 #endif
 					bSuccess = FALSE;
 				} else if (SGL ^ SGL) {
 #if DEBUG_ON
 					fprintf(fp, "[%d]Unexpected SGL\r\n", i);
-
 #endif
 					bSuccess = FALSE;
 				}
@@ -56,7 +53,6 @@ bool POWER_Read(alt_u32 szVol[POWER_PORT_NUM]) {
 			} else {
 #if DEBUG_ON
 				fprintf(fp, "SPI Read Error\r\n");
-
 #endif
 			}
 		} // for i
@@ -126,7 +122,6 @@ void sense_log(void) {
 				fVol = fRef * 0.5;
 #if DEBUG_ON
 				fprintf(fp, "[%s:%06XH,Over]\r\n  VolDrop:%f(V)\r\n", szName[i], (int) szVol[i], fVol);
-
 #endif
 			} else if (SIG && !MSB) {
 				fVol = fRef * 0.5 * fVolDrop;
@@ -134,7 +129,6 @@ void sense_log(void) {
 				fPower = szRefVol[i] * fCurrent;
 #if DEBUG_ON
 				fprintf(fp, "[%s:%06XH,Pos]\r\n  VolDrop:%f(V), Current:%f(A), Power:%f(W)\r\n", szName[i], (int) szVol[i], fVolDrop, fCurrent, fPower);
-
 #endif
 			} else if (!SIG && MSB) {
 				fVol = fRef * 0.5 * fVolDrop;
@@ -142,24 +136,20 @@ void sense_log(void) {
 				fPower = szRefVol[i] * fCurrent;
 #if DEBUG_ON
 				fprintf(fp, "[%s:%06XH,Neg]\r\n  VolDrop:%f(V), Current:%f(A), Power:%f(W)\r\n", szName[i], (int) szVol[i], fVolDrop, fCurrent, fPower);
-
 #endif
 			} else if (!SIG && !MSB) {
 				fVol = -fRef * 0.5;
 #if DEBUG_ON
 				fprintf(fp, "[%s:%06XH,Under]\r\n  VolDrop:%f(V)\r\n", szName[i], (int) szVol[i], fVol);
-
 #endif
 			}
 		}
 #if DEBUG_ON
 		fprintf(fp, "\r\n");
-
 #endif
 	} else {
 #if DEBUG_ON
 		fprintf(fp, "Error\r\n");
-
 #endif
 	}
 }

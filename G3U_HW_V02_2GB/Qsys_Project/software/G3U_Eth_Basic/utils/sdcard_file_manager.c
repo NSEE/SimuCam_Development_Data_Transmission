@@ -36,13 +36,13 @@ bool bInitializeSDCard(void) {
 			} else {
 				/* SD isn't in FAT16 format*/
 #if DEBUG_ON
-				fprintf(fp, "SD Card should be formated in FAT16.\r\n");
+				fprintf(fp, "ERROR: SD Card should be formated in FAT16.\r\n");
 #endif
 			}
 		} else {
 			/* There's no SDCard in the slot */
 #if DEBUG_ON
-			fprintf(fp, "There is no SD in the slot.\r\n");
+			fprintf(fp, "ERROR: There is no SD in the slot.\r\n");
 #endif
 		}
 
@@ -50,7 +50,7 @@ bool bInitializeSDCard(void) {
 		/* Unable to open the SDCard device. */
 		bSucess = FALSE;
 #if DEBUG_ON
-		fprintf(fp, "Unable to open the SDCard device.\r\n");
+		fprintf(fp, "ERROR: Unable to open the SDCard device.\r\n");
 #endif
 	}
 

@@ -412,7 +412,9 @@ INT8U vCmdParser(T_uart_payload *pUartPayload) {
 		}
 
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 		fprintf(fp, "[vCmdParser DEBUG]finished receiving.\n");
+}
 #endif
 	} else {
 #if DEBUG_ON

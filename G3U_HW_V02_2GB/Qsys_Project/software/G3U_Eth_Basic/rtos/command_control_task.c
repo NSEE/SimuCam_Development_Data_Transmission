@@ -58,7 +58,9 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 
 	/* memset buffer */
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
+}
 #endif
 	ack_buffer[0] = 2;
 
@@ -96,7 +98,11 @@ void v_ack_creator(T_uart_payload* p_error_response, INT8U error_code) {
 
 //	vUartWriteBuffer(ack_buffer, ack_size);
 	for (int f = 0; f < ack_size; f++) {
-//		fprintf(fp, "%c", ack_buffer[f]);
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "%c", ack_buffer[f]);
+}
+#endif
 		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
@@ -123,7 +129,9 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 
 	/* memset buffer */
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
+}
 #endif
 	ack_buffer[0] = 4;
 
@@ -160,7 +168,11 @@ void v_ack_int(T_uart_payload* p_error_response, INT8U error_code) {
 	ack_buffer[12] = div(usCRC, 256).rem;
 
 	for (int f = 0; f < ack_size; f++) {
-//		fprintf(fp, "%c", ack_buffer[f]);
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "%c", ack_buffer[f]);
+}
+#endif
 		vUartWriteCharBlocking(ack_buffer[f]);
 	}
 
@@ -188,7 +200,9 @@ void v_HK_creator(INT8U i_channel) {
 //	bool b_link_enabled = false;
 
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	fprintf(fp, "[HK CREATOR] Entered hk creator for channel %i.\r\n", (INT8U) chann_buff);
+}
 #endif
 
 	/*
@@ -313,7 +327,7 @@ void vSendETHConfig(TConfEth xEthConf) {
 	iETHBuffer[9] = div(portNb, 256).rem;
 
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 		fprintf(fp, "SDCard IP:");
 	}
 #endif
@@ -323,13 +337,13 @@ void vSendETHConfig(TConfEth xEthConf) {
 		iETHBuffer[15 + h] = xEthConf.ucGTW[h];
 		iETHBuffer[19 + h] = xEthConf.ucSubNet[h];
 #if DEBUG_ON
-		if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+		if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, " %i", xEthConf.ucIP[h]);
 		}
 #endif
 	}
 #if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 		fprintf(fp, "\r\n");
 	}
 #endif
@@ -346,12 +360,24 @@ void vSendETHConfig(TConfEth xEthConf) {
 	/*
 	 * Send Eth Config through serial
 	 */
-	fprintf(fp, "alive cmd:");
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "alive cmd:");
+	}
+#endif
 	for (int f = 0; f < IP_CONFIG_SIZE; f++) {
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 		fprintf(fp, " %i", iETHBuffer[f]);
+	}
+#endif
 		vUartWriteCharBlocking(iETHBuffer[f]);
 	}
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	fprintf(fp, "\r\n");
+}
+#endif
 	T_simucam.T_status.TM_id++;
 }
 
@@ -448,8 +474,12 @@ void CommandManagementTask() {
 	T_uart_payload *p_payload = &payload_command;
 
 	INT8U i_channel_buffer = 0;
-	/* TODO: remove or encapsulate */
+
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 	fprintf(fp, "[CommandManagementTask]Task init\r\n");
+	}
+#endif
 	T_simucam.T_conf.usiDebugLevels = xConfDebug.usiDebugLevel;
 	/*
 	 * Initialize DMA
@@ -505,7 +535,7 @@ void CommandManagementTask() {
 		 */
 		case simModeInit:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[CommandManagementTask]Init\r\n");
 			}
 #endif
@@ -530,7 +560,7 @@ void CommandManagementTask() {
 
 		case simModetoConfig:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
 			}
 #endif
@@ -543,7 +573,7 @@ void CommandManagementTask() {
 			 */
 		case simModeConfig:
 #if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
 			}
 #endif
@@ -557,7 +587,7 @@ void CommandManagementTask() {
 			 */
 			case typeGetIP:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]NUC alive, sending Eth conf\r\n");
 				}
 #endif
@@ -570,7 +600,7 @@ void CommandManagementTask() {
 				 */
 			case typeConfigureSub:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Configure Sub-Unit\r\n");
 				}
 #endif
@@ -613,7 +643,7 @@ void CommandManagementTask() {
 				 */
 			case typeChangeSimucamMode:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Change Mode\r\n");
 				}
 #endif
@@ -630,7 +660,7 @@ void CommandManagementTask() {
 				}
 
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
 				}
 #endif
@@ -640,13 +670,13 @@ void CommandManagementTask() {
 				 * Clear RAM
 				 */
 			case typeClearRam:
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
 				vClearRam();
 				v_ack_creator(p_payload, xAckOk);
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
 				}
 #endif
@@ -657,7 +687,7 @@ void CommandManagementTask() {
 				 */
 			case typeGetHK:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Get HK\r\n");
 				}
 #endif
@@ -672,7 +702,7 @@ void CommandManagementTask() {
 				 */
 			case typeConfigureMeb:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Config MEB\r\n");
 				}
 #endif
@@ -693,7 +723,7 @@ void CommandManagementTask() {
 				 */
 			case typeSetRecording:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
 				}
 #endif
@@ -706,7 +736,7 @@ void CommandManagementTask() {
 				 */
 			case typeSetPeriodicHK:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Set Periodic HK\n\r");
 				}
 #endif
@@ -731,7 +761,7 @@ void CommandManagementTask() {
 
 			case typeReset:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
 				}
 #endif
@@ -757,7 +787,9 @@ void CommandManagementTask() {
 
 		case simModetoRun:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[CommandManagementTask RUNNING]Mode to RUN\r\n");
+}
 #endif
 
 			/*
@@ -771,11 +803,15 @@ void CommandManagementTask() {
 
 		case simModeRun:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			fprintf(fp, "[CommandManagementTask RUNNING]Mode RUN\r\n");
+}
 #endif
 
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[CommandManagementTask RUNNING]Waiting command...\r\n");
+}
 #endif
 			/*
 			 * Start simucam timer counting
@@ -801,7 +837,9 @@ void CommandManagementTask() {
 				 * TODO Start HK timer if needed
 				 */
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[CommandManagementTask]Starting timer\r\n");
+}
 #endif
 			} else {
 
@@ -813,7 +851,9 @@ void CommandManagementTask() {
 				case typeChangeSimucamMode:
 
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]MEB status to: %i\r\n", (INT8U) p_payload->data[0]);
+}
 #endif
 
 					if (p_payload->data[0] == 0) {
@@ -821,16 +861,23 @@ void CommandManagementTask() {
 						T_simucam.T_status.simucam_mode = simModetoConfig;
 
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						fprintf(fp, "[CommandManagementTask]Sending change mode command...\r\n");
+}
 #endif
 
 						/*
-						 * Stop Simucam Timer
+						 * Stop Simucam Timer TODO: Maybe change to toConfig
 						 */
 						error_code = bDschStopTimer(&xSimucamTimer);
 						if (error_code != TRUE) {
-							fprintf(fp, "simucam timer prob \n");
+							#if DEBUG_ON
+							if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
+								fprintf(fp, "simucam timer prob \n");
+							}
+							#endif
 							v_ack_creator(p_payload, xTimerError);
+							break;
 						}
 						/*
 						 * Stop and clear channel timers
@@ -839,25 +886,38 @@ void CommandManagementTask() {
 							if (T_simucam.T_Sub[i_channel_for].T_conf.mode == 1 || T_simucam.T_Sub[i_channel_for].T_conf.mode == 4) {
 								error_code = bDschStopTimer(&(xCh[i_channel_for].xDataScheduler));
 								if (error_code != TRUE) {
+#if DEBUG_ON
+									if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 									fprintf(fp, "problem sub %i\n", i_channel_for);
+									}
+#endif
 									v_ack_creator(p_payload, xTimerError);
+									break;
 								}
 								error_code = bDschClrTimer(&(xCh[i_channel_for].xDataScheduler));
 								if (error_code != TRUE) {
+#if DEBUG_ON
+									if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 									fprintf(fp, "problem sub %i\n", i_channel_for);
+									}
+#endif
 									v_ack_creator(p_payload, xTimerError);
+									break;
 								}
 								sub_config_send[i_channel_for].mode = subChangeMode;
 								error_code = OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
 								if (error_code != OS_NO_ERR) {
+#if DEBUG_ON
+									if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 									fprintf(fp, "problem sub %i\n", i_channel_for);
+									}
+#endif
 									v_ack_creator(p_payload, xOSError);
+									break;
 								}
 							}
 						}
-						if (error_code == TRUE) {
-							v_ack_creator(p_payload, xAckOk);
-						}
+						v_ack_creator(p_payload, xAckOk);
 					}
 					break;
 
@@ -866,7 +926,9 @@ void CommandManagementTask() {
 					 */
 				case typeAbortSending:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Selected command: %i\n\r", (int) p_payload->type);
+}
 #endif
 
 					for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
@@ -887,7 +949,9 @@ void CommandManagementTask() {
 					 */
 				case typeDirectSend:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Direct Send to %c\n\r", (char) (p_payload->data[0] + ASCII_A));
+}
 #endif
 					/*
 					 * todo: Direct Send needs replaning
@@ -900,14 +964,16 @@ void CommandManagementTask() {
 					 */
 				case typeGetHK:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Get HK\r\n");
+}
 #endif
 					v_HK_creator(p_payload->data[0]);
 					break;
 
 				case typeReset:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xMajor ){
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                     fprintf(fp, "[CommandManagementTask]Ethernet Reset\n\r");
                 }
 #endif
@@ -934,7 +1000,9 @@ void CommandManagementTask() {
 
 		default:
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 			fprintf(fp, "[CommandManagementTask]MEB status error\n\r");
+}
 #endif
 			break;
 		}

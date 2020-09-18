@@ -82,17 +82,23 @@ void vDschCh1HandleIrq(void* pvContext) {
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Next buffer nb %i.\r\n", i_echo_buffer_ctr);
+}
 #endif
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
 #if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SCHEDULER]Buffer limit attaigned.\r\n");
+				}
 #endif
 					i_echo_buffer_ctr = 0;
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
@@ -157,17 +163,23 @@ void vDschCh2HandleIrq(void* pvContext) {
 			if (queue_error == OS_ERR_NONE) {
 				i_echo_buffer_ctr++;
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Next buffer nb %i.\r\n", i_echo_buffer_ctr);
+}
 #endif
 				if (i_echo_buffer_ctr == ECHO_BUFFER) {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[SCHEDULER]Buffer limit attaigned.\r\n");
+}
 #endif
 					i_echo_buffer_ctr = 0;
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
@@ -235,7 +247,9 @@ void vDschCh3HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
@@ -302,7 +316,9 @@ void vDschCh4HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
@@ -369,7 +385,9 @@ void vDschCh5HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
@@ -436,7 +454,9 @@ void vDschCh6HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
@@ -503,7 +523,9 @@ void vDschCh7HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
@@ -570,7 +592,9 @@ void vDschCh8HandleIrq(void* pvContext) {
 				}
 			} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[SCHEDULER]Queue limit attaigned.\r\n");
+}
 #endif
 			}
 		}
