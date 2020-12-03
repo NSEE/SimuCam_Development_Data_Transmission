@@ -100,6 +100,15 @@ typedef struct SpwcTimecodeStatus {
 	bool bRxReceived; /* SpaceWire Timecode Rx Received */
 } TSpwcTimecodeStatus;
 
+/* SpaceWire Codec Error Injection Control Register Struct */
+typedef struct SpwcSpwCodecErrInj {
+	bool bStartErrInj; /* Start SpaceWire Codec Error Injection */
+	bool bResetErrInj; /* Reset SpaceWire Codec Error Injection */
+	alt_u8 ucErrInjErrCode; /* SpaceWire Codec Error Injection Error Code */
+	bool bErrInjBusy; /* SpaceWire Codec Error Injection is Busy */
+	bool bErrInjReady; /* SpaceWire Codec Error Injection is Ready */
+} TSpwcSpwCodecErrInj;
+
 /* Data Scheduler Device Address Register Struct */
 typedef struct DschDevAddr {
 	alt_u32 uliDschBaseAddr; /* Data Scheduler Device Base Address */
@@ -182,6 +191,7 @@ typedef struct RmapDevAddr {
 
 /* RMAP Codec Config Register Struct */
 typedef struct RmapCodecConfig {
+	bool bEnable; /* RMAP Target Enable */
 	alt_u8 ucLogicalAddress; /* RMAP Target Logical Address */
 	alt_u8 ucKey; /* RMAP Target Key */
 } TRmapCodecConfig;
@@ -218,6 +228,13 @@ typedef struct RmapMemAreaPrt {
 	TRmapMemArea *puliRmapAreaPrt; /* RMAP Memory Area Pointer */
 } TRmapMemAreaPrt;
 
+/* RMAP Error Injection Control Register Struct */
+typedef struct RmapRmapErrInj {
+	bool bTriggerErr; /* Trigger RMAP Error */
+	alt_u8 ucErrorId; /* Error ID of RMAP Error */
+	alt_u32 uliValue; /* Value of RMAP Error */
+} TRmapRmapErrInj;
+
 /* General Struct for SpW Channel Registers Access */
 typedef struct SpwcChannel {
 	TSpwcDevAddr xSpwcDevAddr;
@@ -226,6 +243,7 @@ typedef struct SpwcChannel {
 	TSpwcLinkError xSpwcLinkError;
 	TSpwcTimecodeControl xSpwcTimecodeControl;
 	TSpwcTimecodeStatus xSpwcTimecodeStatus;
+	TSpwcSpwCodecErrInj xSpwcSpwCodecErrInj;
 } TSpwcChannel;
 
 /* General Struct for Data Scheduler Registers Access */
@@ -251,6 +269,7 @@ typedef struct RmapChannel {
 	TRmapCodecError xRmapCodecError;
 	TRmapMemAreaConfig xRmapMemAreaConfig;
 	TRmapMemAreaPrt xRmapMemAreaPrt;
+	TRmapRmapErrInj xRmapRmapErrInj;
 } TRmapChannel;
 
 /* General Struct for Communication Module Registers Access */

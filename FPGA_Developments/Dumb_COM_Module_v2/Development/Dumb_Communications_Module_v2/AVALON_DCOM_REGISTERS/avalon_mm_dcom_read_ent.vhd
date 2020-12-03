@@ -169,6 +169,36 @@ begin
 					end if;
 
 				when (16#13#) =>
+					-- SpaceWire Codec Error Injection Control Register : Start SpaceWire Codec Error Injection
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.spw_codec_errinj_control_reg.errinj_ctrl_start_errinj;
+					end if;
+
+				when (16#14#) =>
+					-- SpaceWire Codec Error Injection Control Register : Reset SpaceWire Codec Error Injection
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.spw_codec_errinj_control_reg.errinj_ctrl_reset_errinj;
+					end if;
+
+				when (16#15#) =>
+					-- SpaceWire Codec Error Injection Control Register : SpaceWire Codec Error Injection Error Code
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(3 downto 0) <= dcom_write_registers_i.spw_codec_errinj_control_reg.errinj_ctrl_errinj_code;
+					end if;
+
+				when (16#16#) =>
+					-- SpaceWire Codec Error Injection Status Register : SpaceWire Codec Error Injection is Busy
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.spw_codec_errinj_status_reg.errinj_ctrl_errinj_busy;
+					end if;
+
+				when (16#17#) =>
+					-- SpaceWire Codec Error Injection Status Register : SpaceWire Codec Error Injection is Ready
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.spw_codec_errinj_status_reg.errinj_ctrl_errinj_ready;
+					end if;
+
+				when (16#18#) =>
 					-- Data Scheduler Device Address Register : Data Scheduler Device Base Address
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.data_scheduler_dev_addr_reg.data_scheduler_dev_base_addr(7 downto 0);
@@ -183,37 +213,37 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.data_scheduler_dev_addr_reg.data_scheduler_dev_base_addr(31 downto 24);
 					end if;
 
-				when (16#14#) =>
+				when (16#19#) =>
 					-- Data Scheduler Timer Control Register : Data Scheduler Timer Start
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_tmr_control_reg.timer_start;
 					end if;
 
-				when (16#15#) =>
+				when (16#1A#) =>
 					-- Data Scheduler Timer Control Register : Data Scheduler Timer Run
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_tmr_control_reg.timer_run;
 					end if;
 
-				when (16#16#) =>
+				when (16#1B#) =>
 					-- Data Scheduler Timer Control Register : Data Scheduler Timer Stop
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_tmr_control_reg.timer_stop;
 					end if;
 
-				when (16#17#) =>
+				when (16#1C#) =>
 					-- Data Scheduler Timer Control Register : Data Scheduler Timer Clear
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_tmr_control_reg.timer_clear;
 					end if;
 
-				when (16#18#) =>
+				when (16#1D#) =>
 					-- Data Scheduler Timer Config Register : Data Scheduler Timer Run on Sync
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_tmr_config_reg.timer_run_on_sync;
 					end if;
 
-				when (16#19#) =>
+				when (16#1E#) =>
 					-- Data Scheduler Timer Config Register : Data Scheduler Timer Clock Div
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.data_scheduler_tmr_config_reg.timer_clk_div(7 downto 0);
@@ -228,7 +258,7 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.data_scheduler_tmr_config_reg.timer_clk_div(31 downto 24);
 					end if;
 
-				when (16#1A#) =>
+				when (16#1F#) =>
 					-- Data Scheduler Timer Config Register : Data Scheduler Timer Start Time
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.data_scheduler_tmr_config_reg.timer_start_time(7 downto 0);
@@ -243,31 +273,31 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.data_scheduler_tmr_config_reg.timer_start_time(31 downto 24);
 					end if;
 
-				when (16#1B#) =>
+				when (16#20#) =>
 					-- Data Scheduler Timer Status Register : Data Scheduler Timer Stopped
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_tmr_status_reg.timer_stopped;
 					end if;
 
-				when (16#1C#) =>
+				when (16#21#) =>
 					-- Data Scheduler Timer Status Register : Data Scheduler Timer Started
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_tmr_status_reg.timer_started;
 					end if;
 
-				when (16#1D#) =>
+				when (16#22#) =>
 					-- Data Scheduler Timer Status Register : Data Scheduler Timer Running
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_tmr_status_reg.timer_running;
 					end if;
 
-				when (16#1E#) =>
+				when (16#23#) =>
 					-- Data Scheduler Timer Status Register : Data Scheduler Timer Cleared
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_tmr_status_reg.timer_cleared;
 					end if;
 
-				when (16#1F#) =>
+				when (16#24#) =>
 					-- Data Scheduler Timer Status Register : Data Scheduler Timer Time
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_read_registers_i.data_scheduler_tmr_status_reg.timer_current_time(7 downto 0);
@@ -282,19 +312,19 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_read_registers_i.data_scheduler_tmr_status_reg.timer_current_time(31 downto 24);
 					end if;
 
-				when (16#20#) =>
+				when (16#25#) =>
 					-- Data Scheduler Packet Config Register : Data Scheduler Send EOP with Packet
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_pkt_config_reg.send_eop;
 					end if;
 
-				when (16#21#) =>
+				when (16#26#) =>
 					-- Data Scheduler Packet Config Register : Data Scheduler Send EEP with Packet
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_pkt_config_reg.send_eep;
 					end if;
 
-				when (16#22#) =>
+				when (16#27#) =>
 					-- Data Scheduler Buffer Status Register : Data Scheduler Buffer Used [Bytes]
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_read_registers_i.data_scheduler_buffer_status_reg.data_buffer_used(7 downto 0);
@@ -303,19 +333,19 @@ begin
 						avalon_mm_dcom_o.readdata(15 downto 8) <= dcom_read_registers_i.data_scheduler_buffer_status_reg.data_buffer_used(15 downto 8);
 					end if;
 
-				when (16#23#) =>
+				when (16#28#) =>
 					-- Data Scheduler Buffer Status Register : Data Scheduler Buffer Empty
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_buffer_status_reg.data_buffer_empty;
 					end if;
 
-				when (16#24#) =>
+				when (16#29#) =>
 					-- Data Scheduler Buffer Status Register : Data Scheduler Buffer Full
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_buffer_status_reg.data_buffer_full;
 					end if;
 
-				when (16#25#) =>
+				when (16#2A#) =>
 					-- Data Scheduler Data Control Register : Data Scheduler Initial Read Address [High Dword]
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_initial_addr_high_dword(7 downto 0);
@@ -330,7 +360,7 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_initial_addr_high_dword(31 downto 24);
 					end if;
 
-				when (16#26#) =>
+				when (16#2B#) =>
 					-- Data Scheduler Data Control Register : Data Scheduler Initial Read Address [Low Dword]
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_initial_addr_low_dword(7 downto 0);
@@ -345,7 +375,7 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_initial_addr_low_dword(31 downto 24);
 					end if;
 
-				when (16#27#) =>
+				when (16#2C#) =>
 					-- Data Scheduler Data Control Register : Data Scheduler Read Data Length [Bytes]
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_data_length_bytes(7 downto 0);
@@ -360,67 +390,67 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_data_length_bytes(31 downto 24);
 					end if;
 
-				when (16#28#) =>
+				when (16#2D#) =>
 					-- Data Scheduler Data Control Register : Data Scheduler Data Read Start
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_start;
 					end if;
 
-				when (16#29#) =>
+				when (16#2E#) =>
 					-- Data Scheduler Data Control Register : Data Scheduler Data Read Reset
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_reset;
 					end if;
 
-				when (16#2A#) =>
+				when (16#2F#) =>
 					-- Data Scheduler Data Control Register : Data Scheduler Data Read Auto Restart
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_data_control_reg.rd_auto_restart;
 					end if;
 
-				when (16#2B#) =>
+				when (16#30#) =>
 					-- Data Scheduler Data Status Register : Data Scheduler Data Read Busy
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_data_status_reg.rd_busy;
 					end if;
 
-				when (16#2C#) =>
+				when (16#31#) =>
 					-- Data Scheduler IRQ Control Register : Data Scheduler Tx End IRQ Enable
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_irq_control_reg.irq_tx_end_en;
 					end if;
 
-				when (16#2D#) =>
+				when (16#32#) =>
 					-- Data Scheduler IRQ Control Register : Data Scheduler Tx Begin IRQ Enable
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_irq_control_reg.irq_tx_begin_en;
 					end if;
 
-				when (16#2E#) =>
+				when (16#33#) =>
 					-- Data Scheduler IRQ Flags Register : Data Scheduler Tx End IRQ Flag
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_irq_flags_reg.irq_tx_end_flag;
 					end if;
 
-				when (16#2F#) =>
+				when (16#34#) =>
 					-- Data Scheduler IRQ Flags Register : Data Scheduler Tx Begin IRQ Flag
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.data_scheduler_irq_flags_reg.irq_tx_begin_flag;
 					end if;
 
-				when (16#30#) =>
+				when (16#35#) =>
 					-- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx End IRQ Flag Clear
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_irq_flags_clear_reg.irq_tx_end_flag_clear;
 					end if;
 
-				when (16#31#) =>
+				when (16#36#) =>
 					-- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx Begin IRQ Flag Clear
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.data_scheduler_irq_flags_clear_reg.irq_tx_begin_flag_clear;
 					end if;
 
-				when (16#32#) =>
+				when (16#37#) =>
 					-- RMAP Device Address Register : RMAP Device Base Address
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rmap_dev_addr_reg.rmap_dev_base_addr(7 downto 0);
@@ -435,7 +465,13 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rmap_dev_addr_reg.rmap_dev_base_addr(31 downto 24);
 					end if;
 
-				when (16#33#) =>
+				when (16#38#) =>
+					-- RMAP Codec Config Register : RMAP Target Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.rmap_codec_config_reg.rmap_target_enable;
+					end if;
+
+				when (16#39#) =>
 					-- RMAP Codec Config Register : RMAP Target Logical Address
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rmap_codec_config_reg.rmap_target_logical_addr;
@@ -445,91 +481,91 @@ begin
 						avalon_mm_dcom_o.readdata(15 downto 8) <= dcom_write_registers_i.rmap_codec_config_reg.rmap_target_key;
 					end if;
 
-				when (16#34#) =>
+				when (16#3A#) =>
 					-- RMAP Codec Status Register : RMAP Status Command Received
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_stat_command_received;
 					end if;
 
-				when (16#35#) =>
+				when (16#3B#) =>
 					-- RMAP Codec Status Register : RMAP Status Write Requested
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_stat_write_requested;
 					end if;
 
-				when (16#36#) =>
+				when (16#3C#) =>
 					-- RMAP Codec Status Register : RMAP Status Write Authorized
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_stat_write_authorized;
 					end if;
 
-				when (16#37#) =>
+				when (16#3D#) =>
 					-- RMAP Codec Status Register : RMAP Status Read Requested
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_stat_read_requested;
 					end if;
 
-				when (16#38#) =>
+				when (16#3E#) =>
 					-- RMAP Codec Status Register : RMAP Status Read Authorized
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_stat_read_authorized;
 					end if;
 
-				when (16#39#) =>
+				when (16#3F#) =>
 					-- RMAP Codec Status Register : RMAP Status Reply Sended
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_stat_reply_sended;
 					end if;
 
-				when (16#3A#) =>
+				when (16#40#) =>
 					-- RMAP Codec Status Register : RMAP Status Discarded Package
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_stat_discarded_package;
 					end if;
 
-				when (16#3B#) =>
+				when (16#41#) =>
 					-- RMAP Codec Status Register : RMAP Error Early EOP
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_err_early_eop;
 					end if;
 
-				when (16#3C#) =>
+				when (16#42#) =>
 					-- RMAP Codec Status Register : RMAP Error EEP
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_err_eep;
 					end if;
 
-				when (16#3D#) =>
+				when (16#43#) =>
 					-- RMAP Codec Status Register : RMAP Error Header CRC
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_err_header_crc;
 					end if;
 
-				when (16#3E#) =>
+				when (16#44#) =>
 					-- RMAP Codec Status Register : RMAP Error Unused Packet Type
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_err_unused_packet_type;
 					end if;
 
-				when (16#3F#) =>
+				when (16#45#) =>
 					-- RMAP Codec Status Register : RMAP Error Invalid Command Code
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_err_invalid_command_code;
 					end if;
 
-				when (16#40#) =>
+				when (16#46#) =>
 					-- RMAP Codec Status Register : RMAP Error Too Much Data
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_err_too_much_data;
 					end if;
 
-				when (16#41#) =>
+				when (16#47#) =>
 					-- RMAP Codec Status Register : RMAP Error Invalid Data CRC
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.rmap_codec_status_reg.rmap_err_invalid_data_crc;
 					end if;
 
-				when (16#42#) =>
+				when (16#48#) =>
 					-- RMAP Memory Area Config Register : RMAP Memory Area Address Offset
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(7 downto 0);
@@ -544,7 +580,7 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(31 downto 24);
 					end if;
 
-				when (16#43#) =>
+				when (16#49#) =>
 					-- RMAP Memory Area Pointer Register : RMAP Memory Area Pointer
 					if (avalon_mm_dcom_i.byteenable(0) = '1') then
 						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(7 downto 0);
@@ -557,6 +593,33 @@ begin
 					end if;
 					if (avalon_mm_dcom_i.byteenable(3) = '1') then
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(31 downto 24);
+					end if;
+
+				when (16#4A#) =>
+					-- RMAP Error Injection Control Register : Trigger RMAP Error
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.rmap_error_injection_control_reg.rmap_errinj_trigger;
+					end if;
+
+				when (16#4B#) =>
+					-- RMAP Error Injection Control Register : Error ID of RMAP Error
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(3 downto 0) <= dcom_write_registers_i.rmap_error_injection_control_reg.rmap_errinj_err_id;
+					end if;
+
+				when (16#4C#) =>
+					-- RMAP Error Injection Control Register : Value of RMAP Error
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rmap_error_injection_control_reg.rmap_errinj_value(7 downto 0);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(1) = '1') then
+						avalon_mm_dcom_o.readdata(15 downto 8) <= dcom_write_registers_i.rmap_error_injection_control_reg.rmap_errinj_value(15 downto 8);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(2) = '1') then
+						avalon_mm_dcom_o.readdata(23 downto 16) <= dcom_write_registers_i.rmap_error_injection_control_reg.rmap_errinj_value(23 downto 16);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(3) = '1') then
+						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rmap_error_injection_control_reg.rmap_errinj_value(31 downto 24);
 					end if;
 
 				when others =>

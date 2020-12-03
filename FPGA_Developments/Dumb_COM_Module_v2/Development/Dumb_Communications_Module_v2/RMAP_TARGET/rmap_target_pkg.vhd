@@ -248,18 +248,18 @@ package rmap_target_pkg is
 	-- user application
 
 	-- RMAP reply error code
-	constant c_ERROR_CODE_COMMAND_EXECUTED_SUCCESSFULLY                  : natural := 0;
-	constant c_ERROR_CODE_GENERAL_ERROR_CODE                             : natural := 1;
-	constant c_ERROR_CODE_UNUSED_RMAP_PACKET_TYPE_OR_COMMAND_CODE        : natural := 2;
-	constant c_ERROR_CODE_INVALID_KEY                                    : natural := 3;
-	constant c_ERROR_CODE_INVALID_DATA_CRC                               : natural := 4;
-	constant c_ERROR_CODE_EARLY_EOP                                      : natural := 5;
-	constant c_ERROR_CODE_TOO_MUCH_DATA                                  : natural := 6;
-	constant c_ERROR_CODE_EEP                                            : natural := 7;
-	constant c_ERROR_CODE_VERIFY_BUFFER_OVERRUN                          : natural := 9;
-	constant c_ERROR_CODE_RMAP_COMMAND_NOT_IMPLEMENTED_OR_NOT_AUTHORISED : natural := 10;
-	constant c_ERROR_CODE_RMW_DATA_LENGTH_ERROR                          : natural := 11;
-	constant c_ERROR_CODE_INVALID_TARGET_LOGICAL_ADDRESS                 : natural := 12;
+	constant c_ERROR_CODE_COMMAND_EXECUTED_SUCCESSFULLY                  : std_logic_vector(7 downto 0) := x"00";
+	constant c_ERROR_CODE_GENERAL_ERROR_CODE                             : std_logic_vector(7 downto 0) := x"01";
+	constant c_ERROR_CODE_UNUSED_RMAP_PACKET_TYPE_OR_COMMAND_CODE        : std_logic_vector(7 downto 0) := x"02";
+	constant c_ERROR_CODE_INVALID_KEY                                    : std_logic_vector(7 downto 0) := x"03";
+	constant c_ERROR_CODE_INVALID_DATA_CRC                               : std_logic_vector(7 downto 0) := x"04";
+	constant c_ERROR_CODE_EARLY_EOP                                      : std_logic_vector(7 downto 0) := x"05";
+	constant c_ERROR_CODE_TOO_MUCH_DATA                                  : std_logic_vector(7 downto 0) := x"06";
+	constant c_ERROR_CODE_EEP                                            : std_logic_vector(7 downto 0) := x"07";
+	constant c_ERROR_CODE_VERIFY_BUFFER_OVERRUN                          : std_logic_vector(7 downto 0) := x"09";
+	constant c_ERROR_CODE_RMAP_COMMAND_NOT_IMPLEMENTED_OR_NOT_AUTHORISED : std_logic_vector(7 downto 0) := x"0A";
+	constant c_ERROR_CODE_RMW_DATA_LENGTH_ERROR                          : std_logic_vector(7 downto 0) := x"0B";
+	constant c_ERROR_CODE_INVALID_TARGET_LOGICAL_ADDRESS                 : std_logic_vector(7 downto 0) := x"0C";
 
 	type t_rmap_target_user_codecdata is record
 		target_logical_address    : std_logic_vector(7 downto 0);
@@ -345,6 +345,37 @@ package rmap_target_pkg is
 		write : t_rmap_target_mem_wr_flag;
 		read  : t_rmap_target_mem_rd_flag;
 	end record t_rmap_target_mem_flag;
+
+	-- rmap error injection
+
+	type t_rmap_errinj_control is record
+		rmap_error_en  : std_logic;
+		rmap_error_id  : std_logic_vector(3 downto 0);
+		rmap_error_val : std_logic_vector(31 downto 0);
+	end record t_rmap_errinj_control;
+
+	constant c_RMAP_ERRINJ_CONTROL_RST : t_rmap_errinj_control := (
+		rmap_error_en  => '0',
+		rmap_error_id  => (others => '0'),
+		rmap_error_val => (others => '0')
+	);
+
+	constant c_RMAP_ERRINJ_ERR_ID_INIT_LOG_ADDR      : std_logic_vector(3 downto 0) := x"0";
+	constant c_RMAP_ERRINJ_ERR_ID_INSTRUCTIONS       : std_logic_vector(3 downto 0) := x"1";
+	constant c_RMAP_ERRINJ_ERR_ID_INS_PKT_TYPE       : std_logic_vector(3 downto 0) := x"2";
+	constant c_RMAP_ERRINJ_ERR_ID_INS_CMD_WRITE_READ : std_logic_vector(3 downto 0) := x"3";
+	constant c_RMAP_ERRINJ_ERR_ID_INS_CMD_VERIF_DATA : std_logic_vector(3 downto 0) := x"4";
+	constant c_RMAP_ERRINJ_ERR_ID_INS_CMD_REPLY      : std_logic_vector(3 downto 0) := x"5";
+	constant c_RMAP_ERRINJ_ERR_ID_INS_CMD_INC_ADDR   : std_logic_vector(3 downto 0) := x"6";
+	constant c_RMAP_ERRINJ_ERR_ID_INS_REPLY_ADDR_LEN : std_logic_vector(3 downto 0) := x"7";
+	constant c_RMAP_ERRINJ_ERR_ID_STATUS             : std_logic_vector(3 downto 0) := x"8";
+	constant c_RMAP_ERRINJ_ERR_ID_TARG_LOG_ADDR      : std_logic_vector(3 downto 0) := x"9";
+	constant c_RMAP_ERRINJ_ERR_ID_TRANSACTION_ID     : std_logic_vector(3 downto 0) := x"A";
+	constant c_RMAP_ERRINJ_ERR_ID_DATA_LENGTH        : std_logic_vector(3 downto 0) := x"B";
+	constant c_RMAP_ERRINJ_ERR_ID_HEADER_CRC         : std_logic_vector(3 downto 0) := x"C";
+	constant c_RMAP_ERRINJ_ERR_ID_HEADER_EEP         : std_logic_vector(3 downto 0) := x"D";
+	constant c_RMAP_ERRINJ_ERR_ID_DATA_CRC           : std_logic_vector(3 downto 0) := x"E";
+	constant c_RMAP_ERRINJ_ERR_ID_DATA_EEP           : std_logic_vector(3 downto 0) := x"F";
 
 end package rmap_target_pkg;
 
