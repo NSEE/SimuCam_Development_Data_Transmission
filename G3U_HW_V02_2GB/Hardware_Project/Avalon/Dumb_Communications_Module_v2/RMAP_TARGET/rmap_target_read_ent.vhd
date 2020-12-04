@@ -66,10 +66,11 @@ entity rmap_target_read_ent is
 		-- Global input signals
 		--! Local clock used by the RMAP Codec
 		clk_i              : in  std_logic; --! Local rmap clock
-		reset_n_i          : in  std_logic; --! Reset = '0': reset active; Reset = '1': no reset
-
+		rst_i              : in  std_logic; --! Reset = '0': no reset; Reset = '1': reset active
+		--
 		control_i          : in  t_rmap_target_read_control;
 		headerdata_i       : in  t_rmap_target_read_headerdata;
+		errinj_i           : in  t_rmap_errinj_control;
 		spw_flag_i         : in  t_rmap_target_spw_tx_flag;
 		mem_flag_i         : in  t_rmap_target_mem_rd_flag;
 		-- global output signals
@@ -119,6 +120,8 @@ architecture rtl of rmap_target_read_ent is
 	signal s_read_address_vector : std_logic_vector(39 downto 0);
 	signal s_byte_counter_vector : std_logic_vector(23 downto 0);
 
+	signal s_registered_rmap_errinj : t_rmap_errinj_control;
+
 	--============================================================================
 	-- architecture begin
 	--============================================================================
@@ -131,7 +134,7 @@ begin
 	-- Beginning of p_rmap_target_top
 	--! FIXME Top Process for RMAP Target Codec, responsible for general reset 
 	--! and registering inputs and outputs
-	--! read: clk_i, reset_n_i \n
+	--! read: clk_i, rst_i \n
 	--! write: - \n
 	--! r/w: - \n
 	--============================================================================
@@ -143,17 +146,18 @@ begin
 	-- read: clk_i, s_reset_n
 	-- write:
 	-- r/w: s_rmap_target_read_state
-	p_rmap_target_read_FSM_state : process(clk_i, reset_n_i)
+	p_rmap_target_read_FSM_state : process(clk_i, rst_i)
 		variable v_rmap_target_read_state : t_rmap_target_read_state := IDLE; -- current state
 	begin
 		-- on asynchronous reset in any state we jump to the idle state
-		if (reset_n_i = '0') then
+		if (rst_i = '1') then
 			s_rmap_target_read_state      <= IDLE;
 			v_rmap_target_read_state      := IDLE;
 			s_rmap_target_read_next_state <= IDLE;
 			s_read_address                <= (others => '0');
 			s_read_byte_counter           <= 0;
 			s_byte_counter                <= (others => '0');
+			s_registered_rmap_errinj      <= c_RMAP_ERRINJ_CONTROL_RST;
 			-- Outputs Generation
 			flags_o.read_busy             <= '0';
 			flags_o.read_data_indication  <= '0';
@@ -181,6 +185,19 @@ begin
 					s_read_byte_counter           <= 0;
 					s_byte_counter                <= (others => '0');
 					-- conditional state transition and internal signal values
+					-- check if the rmap error injection was enabled
+					if (errinj_i.rmap_error_en = '1') then
+						-- the rmap error injection was enabled
+						-- check if the error can be activated in a read and register the error
+						case (errinj_i.rmap_error_id) is
+							when (c_RMAP_ERRINJ_ERR_ID_DATA_CRC) =>
+								s_registered_rmap_errinj <= errinj_i;
+							when (c_RMAP_ERRINJ_ERR_ID_DATA_EEP) =>
+								s_registered_rmap_errinj <= errinj_i;
+							when others =>
+								s_registered_rmap_errinj <= c_RMAP_ERRINJ_CONTROL_RST;
+						end case;
+					end if;
 					-- check if user application authorized a read
 					if (control_i.read_authorization = '1') then
 						-- user application authorized read operation
@@ -329,7 +346,7 @@ begin
 			-- Begin of RMAP Target Read Finite State Machine
 			-- (output generation)
 			--=============================================================================
-			-- read: s_rmap_target_read_state, reset_n_i
+			-- read: s_rmap_target_read_state, rst_i
 			-- write:
 			-- r/w:
 			case (v_rmap_target_read_state) is
@@ -393,7 +410,15 @@ begin
 					spw_control_o.data            <= s_read_data_crc;
 					-- write the spw data
 					spw_control_o.write           <= '1';
-				-- conditional output signals
+					-- conditional output signals
+					-- check if a rmap error injection is enabled and is for data crc
+					if ((s_registered_rmap_errinj.rmap_error_en = '1') and (s_registered_rmap_errinj.rmap_error_id = c_RMAP_ERRINJ_ERR_ID_DATA_CRC)) then
+						-- a rmap error injection is enabled and is for data crc
+						-- inject error at data crc
+						spw_control_o.data       <= s_registered_rmap_errinj.rmap_error_val(7 downto 0);
+						-- clear the registered error
+						s_registered_rmap_errinj <= c_RMAP_ERRINJ_CONTROL_RST;
+					end if;
 
 				-- state "FIELD_EOP"
 				when FIELD_EOP =>
@@ -410,7 +435,15 @@ begin
 					spw_control_o.data            <= c_EOP_VALUE;
 					-- write the spw data
 					spw_control_o.write           <= '1';
-				-- conditional output signals
+					-- conditional output signals
+					-- check if a rmap error injection is enabled and is to send a data eep
+					if ((s_registered_rmap_errinj.rmap_error_en = '1') and (s_registered_rmap_errinj.rmap_error_id = c_RMAP_ERRINJ_ERR_ID_DATA_EEP)) then
+						-- a rmap error injection is enabled and is to send a data eep
+						-- inject data eep error
+						spw_control_o.data       <= c_EEP_VALUE;
+						-- clear the registered error
+						s_registered_rmap_errinj <= c_RMAP_ERRINJ_CONTROL_RST;
+					end if;
 
 				-- state "READ_DATA"
 				when READ_DATA =>
@@ -428,7 +461,7 @@ begin
 						mem_byte_address_o <= s_read_address;
 					end if;
 					-- set memory read request
-					mem_control_o.read <= '1';
+					mem_control_o.read            <= '1';
 				-- conditional output signals
 
 				-- state "READ_NOT_OK"

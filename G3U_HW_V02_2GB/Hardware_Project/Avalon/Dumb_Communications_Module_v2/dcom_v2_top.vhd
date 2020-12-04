@@ -52,6 +52,8 @@ entity dcom_v2_top is
 		spw_data_rx_status_rxdata_i      : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .spw_data_rx_status_rxdata_signal
 		spw_data_tx_status_txrdy_i       : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txrdy_signal
 		spw_data_tx_status_txhalff_i     : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txhalff_signal
+		spw_errinj_ctrl_errinj_busy_i    : in  std_logic                     := '0'; --          --                                        .spw_errinj_ctrl_errinj_busy_signal
+		spw_errinj_ctrl_errinj_ready_i   : in  std_logic                     := '0'; --          --                                        .spw_errinj_ctrl_errinj_ready_signal
 		spw_link_command_autostart_o     : out std_logic; --                                     --                                 .spw_link_command_autostart_signal
 		spw_link_command_linkstart_o     : out std_logic; --                                     --                                 .spw_link_command_linkstart_signal
 		spw_link_command_linkdis_o       : out std_logic; --                                     --                                 .spw_link_command_linkdis_signal
@@ -63,6 +65,9 @@ entity dcom_v2_top is
 		spw_data_tx_command_txwrite_o    : out std_logic; --                                     --                                 .spw_data_tx_command_txwrite_signal
 		spw_data_tx_command_txflag_o     : out std_logic; --                                     --                                 .spw_data_tx_command_txflag_signal
 		spw_data_tx_command_txdata_o     : out std_logic_vector(7 downto 0); --                  --                                 .spw_data_tx_command_txdata_signal
+		spw_errinj_ctrl_start_errinj_o   : out std_logic; --                                      --                                        .spw_errinj_ctrl_start_errinj_signal
+		spw_errinj_ctrl_reset_errinj_o   : out std_logic; --                                      --                                        .spw_errinj_ctrl_reset_errinj_signal
+		spw_errinj_ctrl_errinj_code_o    : out std_logic_vector(3 downto 0); --                   --                                        .spw_errinj_ctrl_errinj_code_signal
 		codec_rmap_wr_waitrequest_i      : in  std_logic                     := '0'; --          --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 		codec_rmap_readdata_i            : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .readdata_signal
 		codec_rmap_rd_waitrequest_i      : in  std_logic                     := '0'; --          --                                 .rd_waitrequest_signal
@@ -84,8 +89,6 @@ architecture rtl of dcom_v2_top is
 	alias a_reset is reset_sink_reset_i;
 
 	-- Signals --
-
-	signal rst_n : std_logic;
 
 	-- DCOM Avalon MM Read Signals
 	signal s_dcom_avalon_mm_read_waitrequest : std_logic;
@@ -340,9 +343,6 @@ begin
 			tmr_time_out_o    => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time
 		);
 
-	-- reset_n creation
-	rst_n <= not a_reset;
-
 	-- RMAP (TEMP)
 	rmap_target_top_inst : entity work.rmap_target_top
 		generic map(
@@ -353,12 +353,16 @@ begin
 		)
 		port map(
 			clk_i                      => a_avs_clock,
-			reset_n_i                  => rst_n,
+			rst_i                      => a_reset,
 			spw_flag_i                 => s_rmap_spw_flag,
 			mem_flag_i                 => s_rmap_mem_flag,
 			spw_control_o              => s_rmap_spw_control,
+			conf_target_enable_i       => s_dcom_write_registers.rmap_codec_config_reg.rmap_target_enable,
 			conf_target_logical_addr_i => s_dcom_write_registers.rmap_codec_config_reg.rmap_target_logical_addr,
 			conf_target_key_i          => s_dcom_write_registers.rmap_codec_config_reg.rmap_target_key,
+			rmap_errinj_en_i           => s_dcom_write_registers.rmap_error_injection_control_reg.rmap_errinj_trigger,
+			rmap_errinj_id_i           => s_dcom_write_registers.rmap_error_injection_control_reg.rmap_errinj_err_id,
+			rmap_errinj_val_i          => s_dcom_write_registers.rmap_error_injection_control_reg.rmap_errinj_value,
 			mem_control_o              => s_rmap_mem_control,
 			mem_wr_byte_address_o      => s_rmap_mem_wr_byte_address,
 			mem_rd_byte_address_o      => s_rmap_mem_rd_byte_address,
@@ -440,33 +444,38 @@ begin
 		);
 
 	-- SpaceWire Controller Signals Assignments
-	s_dcom_read_registers.spw_link_status_reg.spw_link_started        <= spw_link_status_started_i;
-	s_dcom_read_registers.spw_link_status_reg.spw_link_connecting     <= spw_link_status_connecting_i;
-	s_dcom_read_registers.spw_link_status_reg.spw_link_running        <= spw_link_status_running_i;
-	s_dcom_read_registers.spw_link_status_reg.spw_err_disconnect      <= spw_link_error_errdisc_i;
-	s_dcom_read_registers.spw_link_status_reg.spw_err_parity          <= spw_link_error_errpar_i;
-	s_dcom_read_registers.spw_link_status_reg.spw_err_escape          <= spw_link_error_erresc_i;
-	s_dcom_read_registers.spw_link_status_reg.spw_err_credit          <= spw_link_error_errcred_i;
-	s_rxtc_tick_out                                                   <= spw_timecode_rx_tick_out_i;
-	s_dcom_read_registers.spw_timecode_status_reg.timecode_rx_control <= spw_timecode_rx_ctrl_out_i;
-	s_dcom_read_registers.spw_timecode_status_reg.timecode_rx_time    <= spw_timecode_rx_time_out_i;
-	s_mux_rx_channel_status.rxvalid                                   <= spw_data_rx_status_rxvalid_i;
-	s_mux_rx_channel_status.rxhalff                                   <= spw_data_rx_status_rxhalff_i;
-	s_mux_rx_channel_status.rxflag                                    <= spw_data_rx_status_rxflag_i;
-	s_mux_rx_channel_status.rxdata                                    <= spw_data_rx_status_rxdata_i;
-	s_mux_tx_channel_status.txrdy                                     <= spw_data_tx_status_txrdy_i;
-	s_mux_tx_channel_status.txhalff                                   <= spw_data_tx_status_txhalff_i;
-	spw_link_command_autostart_o                                      <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_autostart;
-	spw_link_command_linkstart_o                                      <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_linkstart;
-	spw_link_command_linkdis_o                                        <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_disconnect;
-	spw_link_command_txdivcnt_o                                       <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_txdivcnt;
-	spw_timecode_tx_tick_in_o                                         <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_send;
-	spw_timecode_tx_ctrl_in_o                                         <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_control;
-	spw_timecode_tx_time_in_o                                         <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_time;
-	spw_data_rx_command_rxread_o                                      <= s_mux_rx_channel_command.rxread;
-	spw_data_tx_command_txwrite_o                                     <= s_mux_tx_channel_command.txwrite;
-	spw_data_tx_command_txflag_o                                      <= s_mux_tx_channel_command.txflag;
-	spw_data_tx_command_txdata_o                                      <= s_mux_tx_channel_command.txdata;
+	s_dcom_read_registers.spw_link_status_reg.spw_link_started                 <= spw_link_status_started_i;
+	s_dcom_read_registers.spw_link_status_reg.spw_link_connecting              <= spw_link_status_connecting_i;
+	s_dcom_read_registers.spw_link_status_reg.spw_link_running                 <= spw_link_status_running_i;
+	s_dcom_read_registers.spw_link_status_reg.spw_err_disconnect               <= spw_link_error_errdisc_i;
+	s_dcom_read_registers.spw_link_status_reg.spw_err_parity                   <= spw_link_error_errpar_i;
+	s_dcom_read_registers.spw_link_status_reg.spw_err_escape                   <= spw_link_error_erresc_i;
+	s_dcom_read_registers.spw_link_status_reg.spw_err_credit                   <= spw_link_error_errcred_i;
+	s_rxtc_tick_out                                                            <= spw_timecode_rx_tick_out_i;
+	s_dcom_read_registers.spw_timecode_status_reg.timecode_rx_control          <= spw_timecode_rx_ctrl_out_i;
+	s_dcom_read_registers.spw_timecode_status_reg.timecode_rx_time             <= spw_timecode_rx_time_out_i;
+	s_mux_rx_channel_status.rxvalid                                            <= spw_data_rx_status_rxvalid_i;
+	s_mux_rx_channel_status.rxhalff                                            <= spw_data_rx_status_rxhalff_i;
+	s_mux_rx_channel_status.rxflag                                             <= spw_data_rx_status_rxflag_i;
+	s_mux_rx_channel_status.rxdata                                             <= spw_data_rx_status_rxdata_i;
+	s_mux_tx_channel_status.txrdy                                              <= spw_data_tx_status_txrdy_i;
+	s_mux_tx_channel_status.txhalff                                            <= spw_data_tx_status_txhalff_i;
+	s_dcom_read_registers.spw_codec_errinj_status_reg.errinj_ctrl_errinj_busy  <= spw_errinj_ctrl_errinj_busy_i;
+	s_dcom_read_registers.spw_codec_errinj_status_reg.errinj_ctrl_errinj_ready <= spw_errinj_ctrl_errinj_ready_i;
+	spw_link_command_autostart_o                                               <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_autostart;
+	spw_link_command_linkstart_o                                               <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_linkstart;
+	spw_link_command_linkdis_o                                                 <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_disconnect;
+	spw_link_command_txdivcnt_o                                                <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_txdivcnt;
+	spw_timecode_tx_tick_in_o                                                  <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_send;
+	spw_timecode_tx_ctrl_in_o                                                  <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_control;
+	spw_timecode_tx_time_in_o                                                  <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_time;
+	spw_data_rx_command_rxread_o                                               <= s_mux_rx_channel_command.rxread;
+	spw_data_tx_command_txwrite_o                                              <= s_mux_tx_channel_command.txwrite;
+	spw_data_tx_command_txflag_o                                               <= s_mux_tx_channel_command.txflag;
+	spw_data_tx_command_txdata_o                                               <= s_mux_tx_channel_command.txdata;
+	spw_errinj_ctrl_start_errinj_o                                             <= s_dcom_write_registers.spw_codec_errinj_control_reg.errinj_ctrl_start_errinj;
+	spw_errinj_ctrl_reset_errinj_o                                             <= s_dcom_write_registers.spw_codec_errinj_control_reg.errinj_ctrl_reset_errinj;
+	spw_errinj_ctrl_errinj_code_o                                              <= s_dcom_write_registers.spw_codec_errinj_control_reg.errinj_ctrl_errinj_code;
 
 	p_timecode_rx_flag_manager : process(a_avs_clock, a_reset) is
 	begin
