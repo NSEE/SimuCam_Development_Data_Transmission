@@ -57,7 +57,6 @@ bool bDdr2EepromTest(alt_u8 ucMemoryId) {
 		bSuccess = FALSE;
 #if DEBUG_ON
 		fprintf(fp, "DR2 Memory ID not identified!! Aborting Test \n");
-		;
 #endif
 		return bSuccess;
 	}
@@ -92,7 +91,6 @@ bool bDdr2EepromTest(alt_u8 ucMemoryId) {
 
 #if DEBUG_ON
 	fprintf(fp, "DDR2 EEPROM Write Test\n");
-
 #endif
 	alt_u8 ucWriteData = 0x12, ucTestAddr = 128;
 	alt_u8 ucReadData;
@@ -101,21 +99,18 @@ bool bDdr2EepromTest(alt_u8 ucMemoryId) {
 	if (!bSuccess) {
 #if DEBUG_ON
 		fprintf(fp, "Failed to write EEPROM\n");
-
 #endif
 	} else {
 		bSuccess = I2C_Read(uliI2cSclBase, uliI2cSdaBase, cucDeviceAddr, ucTestAddr, &ucReadData);
 		if (!bSuccess) {
 #if DEBUG_ON
 			fprintf(fp, "Failed to read EEPROM for verify\n");
-
 #endif
 		} else {
 			if (ucReadData != ucWriteData) {
 				bSuccess = FALSE;
 #if DEBUG_ON
 				fprintf(fp, "Verify EEPROM write fail, ReadData=%02Xh, WriteData=%02Xh\n", ucReadData, ucWriteData);
-
 #endif
 			}
 		}
@@ -123,17 +118,14 @@ bool bDdr2EepromTest(alt_u8 ucMemoryId) {
 	if (bSuccess) {
 #if DEBUG_ON
 		fprintf(fp, "DDR2 EEPROM Write Test Completed\n\n");
-
 #endif
 	} else {
 #if DEBUG_ON
 		fprintf(fp, "DDR2 EEPROM Write Test Failed\n\n");
-
 #endif
 	}
 #if DEBUG_ON
 	fprintf(fp, "\n");
-
 #endif
 
 	return bSuccess;
@@ -155,7 +147,6 @@ bool bDdr2EepromDump(alt_u8 ucMemoryId) {
 
 #if DEBUG_ON
 	fprintf(fp, "===== DE4 DDR2 EEPROM Dump =====\n");
-
 #endif
 	const alt_u8 cucDeviceAddr = DDR2_EEPROM_I2C_ADDRESS;
 	bool bSuccess = FALSE;

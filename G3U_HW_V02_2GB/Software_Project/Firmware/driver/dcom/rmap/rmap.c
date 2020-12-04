@@ -91,6 +91,41 @@ bool bRmapGetCodecError(TRmapChannel *pxRmapCh) {
 	return bStatus;
 }
 
+bool bRmapGetRmapErrInj(TRmapChannel *pxRmapCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxRmapCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+
+		pxRmapCh->xRmapRmapErrInj = vpxDcomChannel->xRmap.xRmapRmapErrInj;
+
+		bStatus = TRUE;
+
+	}
+
+	return (bStatus);
+}
+
+bool bRmapSetRmapErrInj(TRmapChannel *pxRmapCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxRmapCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.ucErrorId = pxRmapCh->xRmapRmapErrInj.ucErrorId;
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.uliValue = pxRmapCh->xRmapRmapErrInj.uliValue;
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.bTriggerErr = pxRmapCh->xRmapRmapErrInj.bTriggerErr;
+
+		bStatus = TRUE;
+	}
+
+	return (bStatus);
+}
+
 bool bRmapGetMemAreaConfig(TRmapChannel *pxRmapCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
@@ -266,6 +301,9 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 				bInitFail = TRUE;
 			}
 			if (!bRmapGetCodecError(pxRmapCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bRmapGetRmapErrInj(pxRmapCh)) {
 				bInitFail = TRUE;
 			}
 			if (!bRmapGetMemAreaConfig(pxRmapCh)) {

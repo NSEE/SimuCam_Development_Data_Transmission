@@ -28,6 +28,9 @@ bool bRmapGetCodecStatus(TRmapChannel *pxRmapCh);
 
 bool bRmapGetCodecError(TRmapChannel *pxRmapCh);
 
+bool bRmapGetRmapErrInj(TRmapChannel *pxRmapCh);
+bool bRmapSetRmapErrInj(TRmapChannel *pxRmapCh);
+
 bool bRmapGetMemAreaConfig(TRmapChannel *pxRmapCh);
 bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh);
 

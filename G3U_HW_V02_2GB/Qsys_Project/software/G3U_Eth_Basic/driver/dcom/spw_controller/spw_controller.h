@@ -38,6 +38,9 @@ bool bSpwcGetTimecodeStatus(TSpwcChannel *pxSpwcCh);
 bool bSpwcSendTimecode(TSpwcChannel *pxSpwcCh);
 bool bSpwcReceiveTimecode(TSpwcChannel *pxSpwcCh);
 
+bool bSpwcGetSpwCodecErrInj(TSpwcChannel *pxSpwcCh);
+bool bSpwcSetSpwCodecErrInj(TSpwcChannel *pxSpwcCh);
+
 bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh);
 
 alt_u8 ucSpwcCalculateLinkDiv(alt_8 ucLinkSpeed);
