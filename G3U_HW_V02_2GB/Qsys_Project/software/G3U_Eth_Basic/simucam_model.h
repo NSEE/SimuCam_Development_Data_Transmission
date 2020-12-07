@@ -65,7 +65,8 @@ typedef enum {
 	typeConfigureMeb,
 	typeSetRecording,
 	typeSetPeriodicHK,
-	typeReset
+	typeReset,
+	typeErrorInjection = 205
 } TCmdTypes;
 
 /* Internal Types */
@@ -160,5 +161,15 @@ typedef struct x_echo {
 	INT8U iTag[8];
 } x_echo;
 /*$PAGE*/
+
+typedef enum {
+	parity = 0,
+	disconnect,
+	escape_sequence,
+	character_sequence
+	credit,
+	EEP,
+	invalid_destination,
+} TErrorInjCodes;
 
 #endif /* SIMUCAM_MODEL_H_ */

@@ -980,6 +980,20 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				vResetSimucam(); /* Hold SimuCam Reset Signal */
             	break;
 
+				case typeErrorInjection:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+                    fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
+                }
+#endif
+				// Get channel and error type
+				// p_payload->data[0] -> Type
+				// p_payload->data[1] -> Channel
+				// Call error function on switch
+
+				// No ack executed
+				break;
+
 				default:
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
