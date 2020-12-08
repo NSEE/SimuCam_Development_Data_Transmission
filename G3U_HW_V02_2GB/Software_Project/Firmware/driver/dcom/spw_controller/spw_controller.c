@@ -188,6 +188,46 @@ bool bSpwcReceiveTimecode(TSpwcChannel *pxSpwcCh) {
 	return bStatus;
 }
 
+bool bSpwcGetSpwCodecErrInj(TSpwcChannel *pxSpwcCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxSpwcCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+
+		pxSpwcCh->xSpwcSpwCodecErrInj = vpxDcomChannel->xSpacewire.xSpwcSpwCodecErrInj;
+
+		bStatus = TRUE;
+
+	}
+
+	return (bStatus);
+}
+
+bool bSpwcSetSpwCodecErrInj(TSpwcChannel *pxSpwcCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxSpwcCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxSpwcCh->xSpwcDevAddr.uliSpwcBaseAddr);
+
+		vpxDcomChannel->xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = pxSpwcCh->xSpwcSpwCodecErrInj.ucErrInjErrCode;
+		if (pxSpwcCh->xSpwcSpwCodecErrInj.bResetErrInj) {
+			vpxDcomChannel->xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+		} else if (pxSpwcCh->xSpwcSpwCodecErrInj.bStartErrInj) {
+			vpxDcomChannel->xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+		}
+
+		bStatus = TRUE;
+	}
+
+	return (bStatus);
+}
+
+
+
 bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh) {
 	bool bStatus = FALSE;
 	bool bValidCh = FALSE;
@@ -264,6 +304,9 @@ bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh) {
 				bInitFail = TRUE;
 			}
 			if (!bSpwcGetTimecodeStatus(pxSpwcCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bSpwcGetSpwCodecErrInj(pxSpwcCh)) {
 				bInitFail = TRUE;
 			}
 

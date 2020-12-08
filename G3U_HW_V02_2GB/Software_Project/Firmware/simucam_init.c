@@ -36,25 +36,31 @@ int main(int argc, char* argv[], char* envp[]) {
 #endif
 
 #if DEBUG_ON
-	fprintf(fp, "Main entry point.\n");
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+		fprintf(fp, "Main entry point.\n");
+	}
 #endif
 
 	/* Initialization of core HW */
 	if (bInitSimucamCoreHW()) {
 #if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 		fprintf(fp, "\n");
 		fprintf(fp, "SimuCam Release: %s\n", SIMUCAM_RELEASE);
 		fprintf(fp, "SimuCam HW Version: %s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION);
 		fprintf(fp, "SimuCam FW Version: %s.%s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION, SIMUCAM_FW_VERSION);
 		fprintf(fp, "\n");
+	}	
 #endif
 	} else {
 #if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 		fprintf(fp, "\n");
 		fprintf(fp, "CRITICAL HW FAILURE: Hardware TimeStamp or System ID does not match the expected! SimuCam will be halted.\n");
 		fprintf(fp, "CRITICAL HW FAILURE: Expected HW release: %s.%s\n", SIMUCAM_RELEASE, SIMUCAM_HW_VERSION);
 		fprintf(fp, "CRITICAL HW FAILURE: SimuCam will be halted.\n");
 		fprintf(fp, "\n");
+	}
 #endif
 		while (1) {
 		}
@@ -62,8 +68,10 @@ int main(int argc, char* argv[], char* envp[]) {
 
 	/* Test of some critical IPCores HW interfaces in the Simucam */
 	if (!bTestSimucamCriticalHW()) {
-		fprintf(fp, "CRITICAL HW FAILURE: SimuCam will be halted.\n");
-		fprintf(fp, "\n");
+		if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
+			fprintf(fp, "CRITICAL HW FAILURE: SimuCam will be halted.\n");
+			fprintf(fp, "\n");
+		}
 		while (1) {
 		}
 	}

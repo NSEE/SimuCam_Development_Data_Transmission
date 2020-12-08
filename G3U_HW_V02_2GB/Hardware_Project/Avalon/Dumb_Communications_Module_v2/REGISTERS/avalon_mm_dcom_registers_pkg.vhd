@@ -8,7 +8,7 @@ package avalon_mm_dcom_registers_pkg is
 
 	-- Allowed Addresses
 	constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#43#;
+	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#4C#;
 
 	-- Registers Types
 
@@ -60,6 +60,19 @@ package avalon_mm_dcom_registers_pkg is
 		timecode_rx_control  : std_logic_vector(1 downto 0); -- SpaceWire Timecode Rx Control
 		timecode_rx_received : std_logic; -- SpaceWire Timecode Rx Received
 	end record t_dcom_spw_timecode_status_rd_reg;
+
+	-- SpaceWire Codec Error Injection Control Register
+	type t_domm_spw_codec_errinj_control_wr_reg is record
+		errinj_ctrl_start_errinj : std_logic; -- Start SpaceWire Codec Error Injection
+		errinj_ctrl_reset_errinj : std_logic; -- Reset SpaceWire Codec Error Injection
+		errinj_ctrl_errinj_code  : std_logic_vector(3 downto 0); -- SpaceWire Codec Error Injection Error Code
+	end record t_domm_spw_codec_errinj_control_wr_reg;
+
+	-- SpaceWire Codec Error Injection Status Register
+	type t_domm_spw_codec_errinj_status_rd_reg is record
+		errinj_ctrl_errinj_busy  : std_logic; -- SpaceWire Codec Error Injection is Busy
+		errinj_ctrl_errinj_ready : std_logic; -- SpaceWire Codec Error Injection is Ready
+	end record t_domm_spw_codec_errinj_status_rd_reg;
 
 	-- Data Scheduler Device Address Register
 	type t_dcom_data_scheduler_dev_addr_wr_reg is record
@@ -143,6 +156,7 @@ package avalon_mm_dcom_registers_pkg is
 
 	-- RMAP Codec Config Register
 	type t_dcom_rmap_codec_config_wr_reg is record
+		rmap_target_enable       : std_logic; -- RMAP Target Enable
 		rmap_target_logical_addr : std_logic_vector(7 downto 0); -- RMAP Target Logical Address
 		rmap_target_key          : std_logic_vector(7 downto 0); -- RMAP Target Key
 	end record t_dcom_rmap_codec_config_wr_reg;
@@ -175,6 +189,13 @@ package avalon_mm_dcom_registers_pkg is
 		rmap_mem_area_ptr : std_logic_vector(31 downto 0); -- RMAP Memory Area Pointer
 	end record t_dcom_rmap_mem_area_ptr_wr_reg;
 
+	-- RMAP Error Injection Control Register
+	type t_domm_rmap_error_injection_control_wr_reg is record
+		rmap_errinj_trigger : std_logic; -- Trigger RMAP Error
+		rmap_errinj_err_id  : std_logic_vector(3 downto 0); -- Error ID of RMAP Error
+		rmap_errinj_value   : std_logic_vector(31 downto 0); -- Value of RMAP Error
+	end record t_domm_rmap_error_injection_control_wr_reg;
+
 	-- Avalon MM Types
 
 	-- Avalon MM Read/Write Registers
@@ -184,6 +205,7 @@ package avalon_mm_dcom_registers_pkg is
 		spw_dev_addr_reg                   : t_dcom_spw_dev_addr_wr_reg; -- SpaceWire Device Address Register
 		spw_link_config_reg                : t_dcom_spw_link_config_wr_reg; -- SpaceWire Link Config Register
 		spw_timecode_control_reg           : t_dcom_spw_timecode_control_wr_reg; -- SpaceWire Timecode Control Register
+		spw_codec_errinj_control_reg       : t_domm_spw_codec_errinj_control_wr_reg; -- SpaceWire Codec Error Injection Control Register
 		data_scheduler_dev_addr_reg        : t_dcom_data_scheduler_dev_addr_wr_reg; -- Data Scheduler Device Address Register
 		data_scheduler_tmr_control_reg     : t_dcom_data_scheduler_tmr_control_wr_reg; -- Data Scheduler Timer Control Register
 		data_scheduler_tmr_config_reg      : t_dcom_data_scheduler_tmr_config_wr_reg; -- Data Scheduler Timer Config Register
@@ -195,12 +217,14 @@ package avalon_mm_dcom_registers_pkg is
 		rmap_codec_config_reg              : t_dcom_rmap_codec_config_wr_reg; -- RMAP Codec Config Register
 		rmap_mem_area_config_reg           : t_dcom_rmap_mem_area_config_wr_reg; -- RMAP Memory Area Config Register
 		rmap_mem_area_ptr_reg              : t_dcom_rmap_mem_area_ptr_wr_reg; -- RMAP Memory Area Pointer Register
+		rmap_error_injection_control_reg   : t_domm_rmap_error_injection_control_wr_reg; -- RMAP Error Injection Control Register
 	end record t_dcom_write_registers;
 
 	-- Avalon MM Read-Only Registers
 	type t_dcom_read_registers is record
 		spw_link_status_reg              : t_dcom_spw_link_status_rd_reg; -- SpaceWire Link Status Register
 		spw_timecode_status_reg          : t_dcom_spw_timecode_status_rd_reg; -- SpaceWire Timecode Status Register
+		spw_codec_errinj_status_reg      : t_domm_spw_codec_errinj_status_rd_reg; -- SpaceWire Codec Error Injection Status Register
 		data_scheduler_tmr_status_reg    : t_dcom_data_scheduler_tmr_status_rd_reg; -- Data Scheduler Timer Status Register
 		data_scheduler_buffer_status_reg : t_dcom_data_scheduler_buffer_status_rd_reg; -- Data Scheduler Buffer Status Register
 		data_scheduler_data_status_reg   : t_dcom_data_scheduler_data_status_rd_reg; -- Data Scheduler Data Status Register

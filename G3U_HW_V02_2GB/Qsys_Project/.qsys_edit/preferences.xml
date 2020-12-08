@@ -5,10 +5,11 @@
   <columns>
    <connections preferredWidth="1151" />
    <irq preferredWidth="34" />
-   <name preferredWidth="296" />
+   <name preferredWidth="232" />
    <inputclock preferredWidth="108" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
+ <library expandedCategories="Library,Project" />
  <window width="1936" height="1056" x="-8" y="-8" />
+ <generation synthesis="VHDL" />
 </preferences>

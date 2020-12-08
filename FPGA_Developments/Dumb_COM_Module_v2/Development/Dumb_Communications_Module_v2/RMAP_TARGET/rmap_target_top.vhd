@@ -62,12 +62,16 @@ entity rmap_target_top is
 		-- Global input signals
 		--! Local clock used by the RMAP Codec
 		clk_i                      : in  std_logic; --! Local rmap clock
-		reset_n_i                  : in  std_logic; --! Reset = '0': reset active; Reset = '1': no reset
+		rst_i                      : in  std_logic; --! Reset = '0': no reset; Reset = '1': reset active
 
 		spw_flag_i                 : in  t_rmap_target_spw_flag;
 		mem_flag_i                 : in  t_rmap_target_mem_flag;
+		conf_target_enable_i       : in  std_logic;
 		conf_target_logical_addr_i : in  std_logic_vector(7 downto 0);
 		conf_target_key_i          : in  std_logic_vector(7 downto 0);
+		rmap_errinj_en_i           : in  std_logic;
+		rmap_errinj_id_i           : in  std_logic_vector(3 downto 0);
+		rmap_errinj_val_i          : in  std_logic_vector(31 downto 0);
 		-- global output signals
 
 		spw_control_o              : out t_rmap_target_spw_control;
@@ -113,6 +117,10 @@ architecture rtl of rmap_target_top is
 
 	signal s_rmap_target_user_configs : t_rmap_target_user_configs;
 
+	signal s_target_dis_rd_spw_rx_control : t_rmap_target_spw_rx_control;
+
+	signal s_target_spw_rx_flag : t_rmap_target_spw_rx_flag;
+
 	--============================================================================
 	-- architecture begin
 	--============================================================================
@@ -126,7 +134,7 @@ begin
 		)
 		port map(
 			clk_i                                 => clk_i,
-			reset_n_i                             => reset_n_i,
+			rst_i                                 => rst_i,
 			flags_i                               => s_rmap_target_flags,
 			error_i                               => s_rmap_target_rmap_error,
 			codecdata_i.target_logical_address    => s_rmap_target_rmap_data.target_logical_address,
@@ -145,9 +153,9 @@ begin
 	rmap_target_command_ent_inst : entity work.rmap_target_command_ent
 		port map(
 			clk_i                                  => clk_i,
-			reset_n_i                              => reset_n_i,
+			rst_i                                  => rst_i,
 			control_i                              => s_rmap_target_control.command_parsing,
-			spw_flag_i                             => spw_flag_i.receiver,
+			spw_flag_i                             => s_target_spw_rx_flag,
 			flags_o                                => s_rmap_target_flags.command_parsing,
 			error_o                                => s_rmap_target_error.command_parsing,
 			headerdata_o.target_logical_address    => s_rmap_target_rmap_data.target_logical_address,
@@ -171,14 +179,14 @@ begin
 		)
 		port map(
 			clk_i                                             => clk_i,
-			reset_n_i                                         => reset_n_i,
+			rst_i                                             => rst_i,
 			control_i                                         => s_rmap_target_control.write_operation,
 			headerdata_i.instruction_verify_data_before_write => s_rmap_target_rmap_data.instructions.command.verify_data_before_write,
 			headerdata_i.instruction_increment_address        => s_rmap_target_rmap_data.instructions.command.increment_address,
 			headerdata_i.extended_address                     => s_rmap_target_rmap_data.extended_address,
 			headerdata_i.address                              => s_rmap_target_rmap_data.address,
 			headerdata_i.data_length                          => s_rmap_target_rmap_data.data_length,
-			spw_flag_i                                        => spw_flag_i.receiver,
+			spw_flag_i                                        => s_target_spw_rx_flag,
 			mem_flag_i                                        => mem_flag_i.write,
 			flags_o                                           => s_rmap_target_flags.write_operation,
 			error_o                                           => s_rmap_target_error.write_operation,
@@ -195,12 +203,15 @@ begin
 		)
 		port map(
 			clk_i                                      => clk_i,
-			reset_n_i                                  => reset_n_i,
+			rst_i                                      => rst_i,
 			control_i                                  => s_rmap_target_control.read_operation,
 			headerdata_i.instruction_increment_address => s_rmap_target_rmap_data.instructions.command.increment_address,
 			headerdata_i.extended_address              => s_rmap_target_rmap_data.extended_address,
 			headerdata_i.address                       => s_rmap_target_rmap_data.address,
 			headerdata_i.data_length                   => s_rmap_target_rmap_data.data_length,
+			errinj_i.rmap_error_en                     => rmap_errinj_en_i,
+			errinj_i.rmap_error_id                     => rmap_errinj_id_i,
+			errinj_i.rmap_error_val                    => rmap_errinj_val_i,
 			spw_flag_i                                 => spw_flag_i.transmitter,
 			mem_flag_i                                 => mem_flag_i.read,
 			flags_o                                    => s_rmap_target_flags.read_operation,
@@ -213,7 +224,7 @@ begin
 	rmap_target_reply_ent_inst : entity work.rmap_target_reply_ent
 		port map(
 			clk_i                                  => clk_i,
-			reset_n_i                              => reset_n_i,
+			rst_i                                  => rst_i,
 			control_i                              => s_rmap_target_control.reply_geneneration,
 			headerdata_i.reply_spw_address         => s_rmap_target_rmap_data.reply_address,
 			headerdata_i.initiator_logical_address => s_rmap_target_rmap_data.initiator_logical_address,
@@ -222,6 +233,9 @@ begin
 			headerdata_i.target_logical_address    => s_rmap_target_rmap_data.target_logical_address,
 			headerdata_i.transaction_identifier    => s_rmap_target_rmap_data.transaction_identifier,
 			headerdata_i.data_length               => s_rmap_target_rmap_data.data_length,
+			errinj_i.rmap_error_en                 => rmap_errinj_en_i,
+			errinj_i.rmap_error_id                 => rmap_errinj_id_i,
+			errinj_i.rmap_error_val                => rmap_errinj_val_i,
 			spw_flag_i                             => spw_flag_i.transmitter,
 			flags_o                                => s_rmap_target_flags.reply_geneneration,
 			--			error_o                                => s_rmap_target_error.dummy,
@@ -232,13 +246,13 @@ begin
 	-- Beginning of p_rmap_target_top
 	--! Top Process for RMAP Target Codec, responsible for general reset 
 	--! and registering inputs and outputs
-	--! read: clk_i, reset_n_i \n
+	--! read: clk_i, rst_i \n
 	--! write: - \n
 	--! r/w: - \n
 	--============================================================================
 	--	p_rmap_target_top_process : process(clk_i)
 	--	begin
-	--		if (reset_n_i = '0') then       -- asynchronous reset
+	--		if (rst_i = '1') then       -- asynchronous reset
 	--			-- reset to default value
 	--
 	--		elsif (rising_edge(clk_i)) then -- synchronous process
@@ -246,9 +260,31 @@ begin
 	--		end if;
 	--	end process p_rmap_target_top_process;
 
-	-- signals assingment
+	-- RMAP Target Disabled Reader
+	p_rmap_target_disabled_reader : process(clk_i, rst_i) is
+	begin
+		if (rst_i = '1') then
+			s_target_dis_rd_spw_rx_control.read <= '0';
+		elsif rising_edge(clk_i) then
+			s_target_dis_rd_spw_rx_control.read <= '0';
+			-- check if the target is disabled and the spw codec has valid data
+			if ((conf_target_enable_i = '0') and (spw_flag_i.receiver.valid = '1')) then
+				-- the target is disabled and the spw codec has valid data
+				-- read spw codec data
+				s_target_dis_rd_spw_rx_control.read <= '1';
+			end if;
+		end if;
+	end process p_rmap_target_disabled_reader;
 
-	-- error signals
+	-- signals assignments --
+
+	-- spw rx flags signals assignments
+	s_target_spw_rx_flag.valid <= (spw_flag_i.receiver.valid) and (conf_target_enable_i); -- if the target is disabled, the spw rxvalid flag will be masked
+	s_target_spw_rx_flag.flag  <= spw_flag_i.receiver.flag;
+	s_target_spw_rx_flag.data  <= spw_flag_i.receiver.data;
+	s_target_spw_rx_flag.error <= spw_flag_i.receiver.error;
+
+	-- error signals assignments
 	s_rmap_target_rmap_error.early_eop            <= (s_rmap_target_error.command_parsing.early_eop) or (s_rmap_target_error.write_operation.early_eop);
 	s_rmap_target_rmap_error.eep                  <= (s_rmap_target_error.command_parsing.eep) or (s_rmap_target_error.write_operation.eep);
 	s_rmap_target_rmap_error.header_crc           <= s_rmap_target_error.command_parsing.header_crc;
@@ -257,17 +293,17 @@ begin
 	s_rmap_target_rmap_error.too_much_data        <= (s_rmap_target_error.command_parsing.too_much_data) or (s_rmap_target_error.write_operation.too_much_data);
 	s_rmap_target_rmap_error.invalid_data_crc     <= s_rmap_target_error.write_operation.invalid_data_crc;
 
-	-- spw control signals
-	spw_control_o.receiver.read     <= (s_rmap_target_spw_command_rx_control.read) or (s_rmap_target_spw_write_rx_control.read);
+	-- spw control signals assignments
+	spw_control_o.receiver.read     <= (s_rmap_target_spw_command_rx_control.read) or (s_rmap_target_spw_write_rx_control.read) or (s_target_dis_rd_spw_rx_control.read);
 	spw_control_o.transmitter.flag  <= (s_rmap_target_spw_read_tx_control.flag) or (s_rmap_target_spw_reply_tx_control.flag);
 	spw_control_o.transmitter.data  <= (s_rmap_target_spw_read_tx_control.data) or (s_rmap_target_spw_reply_tx_control.data);
 	spw_control_o.transmitter.write <= (s_rmap_target_spw_read_tx_control.write) or (s_rmap_target_spw_reply_tx_control.write);
 
-	-- inputs
+	-- inputs assignments
 	s_rmap_target_user_configs.user_key                    <= conf_target_key_i;
 	s_rmap_target_user_configs.user_target_logical_address <= conf_target_logical_addr_i;
 
-	-- outputs
+	-- outputs assignments
 	stat_command_received_o    <= s_rmap_target_flags.command_parsing.command_received;
 	stat_write_requested_o     <= s_rmap_target_flags.command_parsing.write_request;
 	stat_write_authorized_o    <= s_rmap_target_control.write_operation.write_authorization;

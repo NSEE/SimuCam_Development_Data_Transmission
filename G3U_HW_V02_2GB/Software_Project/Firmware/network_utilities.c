@@ -48,7 +48,7 @@ int get_mac_addr(NET net, unsigned char mac_addr[6]) {
 	/* error = get_board_mac_addr(mac_addr); */
 	if (!RTCC_SPI_R_MAC(mac_addr)) {
 #if DEBUG_ON
-		fprintf(fp, "Failed to get RTCC EUI-48 MAC Address!! Using the SD Card Default MAC Address \n");
+			fprintf(fp, "Failed to get RTCC EUI-48 MAC Address!! Using the SD Card Default MAC Address \n");
 #endif
 		mac_addr[0] = xConfEth.ucMAC[0];
 		mac_addr[1] = xConfEth.ucMAC[1];
@@ -58,7 +58,7 @@ int get_mac_addr(NET net, unsigned char mac_addr[6]) {
 		mac_addr[5] = xConfEth.ucMAC[5];
 	}
 #if DEBUG_ON
-	fprintf(fp, "SimuCam MAC Address: 0x%02x:%02x:%02x:%02x:%02x:%02x \n", mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
+		fprintf(fp, "SimuCam MAC Address: 0x%02x:%02x:%02x:%02x:%02x:%02x \n", mac_addr[0], mac_addr[1], mac_addr[2], mac_addr[3], mac_addr[4], mac_addr[5]);
 #endif
 
 	if (error) {
@@ -120,33 +120,33 @@ alt_u32 get_serial_number(void) {
 	int i = 0;
 
 #if DEBUG_ON
-	while (!ser_num) {
-		fprintf(fp, "Please enter your 9-digit serial number. This is printed on a \n");
-		fprintf(fp, "label under your Nios dev. board. The first 3 digits of the \n");
-		fprintf(fp, "label are ASJ and the serial number follows this.\n -->");
+		while (!ser_num) {
+			fprintf(fp, "Please enter your 9-digit serial number. This is printed on a \n");
+			fprintf(fp, "label under your Nios dev. board. The first 3 digits of the \n");
+			fprintf(fp, "label are ASJ and the serial number follows this.\n -->");
 
-		for (i = 0; i < 9; i++) {
-			serial_number[i] = getchar();
-			putchar(serial_number[i]);
+			for (i = 0; i < 9; i++) {
+				serial_number[i] = getchar();
+				putchar(serial_number[i]);
 
-			/* Handle backspaces.  How civilized. */
-			if ((serial_number[i] == 0x08) && (i >= 0)) {
-				i--;
+				/* Handle backspaces.  How civilized. */
+				if ((serial_number[i] == 0x08) && (i >= 0)) {
+					i--;
+				}
+			}
+			fprintf(fp, "\n");
+
+			for (i = 0; i < 9; i++) {
+				if (isdigit(serial_number[i])) {
+					ser_num *= 10;
+					ser_num += serial_number[i] - '0';
+				} else {
+					ser_num = 0;
+					fprintf(fp, "Serial number only contains decimal digits and is non-zero\n");
+					break;
+				}
 			}
 		}
-		fprintf(fp, "\n");
-
-		for (i = 0; i < 9; i++) {
-			if (isdigit(serial_number[i])) {
-				ser_num *= 10;
-				ser_num += serial_number[i] - '0';
-			} else {
-				ser_num = 0;
-				fprintf(fp, "Serial number only contains decimal digits and is non-zero\n");
-				break;
-			}
-		}
-	}
 #endif
 	return ser_num;
 }

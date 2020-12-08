@@ -88,7 +88,9 @@ void SimucamCreateOSQ(void) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create Simucam Command Queue.\n");
 	} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 		fprintf(fp, "Simucam Command Queue created successfully.\r\n");
+}
 #endif
 	}
 }
@@ -103,7 +105,9 @@ void DataCreateOSQ(void) {
 		alt_uCOSIIErrorHandler(EXPANDED_DIAGNOSIS_CODE, "Failed to create SimucamDataQ.\n");
 	} else {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 		fprintf(fp, "SimucamDataQ created successfully.\r\n");
+}
 #endif
 	}
 }
@@ -406,17 +410,23 @@ void SimucamCreateTasks(void) {
 	xMutexDMA[0] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE, &error_code);
 	if (error_code != OS_ERR_NONE) {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 		fprintf(fp, "Error creating mutex\r\n");
+}
 #endif
 	}
 	xMutexDMA[1] = OSMutexCreate(PCP_MUTEX_DMA_QUEUE + 1, &error_code);
 	if (error_code != OS_ERR_NONE) {
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 		fprintf(fp, "Error creating mutex\r\n");
+}
 #endif
 	}
 #if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	fprintf(fp, "Tasks created successfully\r\n");
+}
 #endif
 
 }

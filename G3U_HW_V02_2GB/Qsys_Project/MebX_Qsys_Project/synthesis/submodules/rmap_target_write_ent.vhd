@@ -68,8 +68,8 @@ entity rmap_target_write_ent is
 		-- Global input signals
 		--! Local clock used by the RMAP Codec
 		clk_i              : in  std_logic; --! Local rmap clock
-		reset_n_i          : in  std_logic; --! Reset = '0': reset active; Reset = '1': no reset
-
+		rst_i              : in  std_logic; --! Reset = '0': no reset; Reset = '1': reset active
+		--
 		control_i          : in  t_rmap_target_write_control;
 		headerdata_i       : in  t_rmap_target_write_headerdata;
 		spw_flag_i         : in  t_rmap_target_spw_rx_flag;
@@ -141,7 +141,7 @@ begin
 	-- Beginning of p_rmap_target_top
 	--! FIXME Top Process for RMAP Target Codec, responsible for general reset 
 	--! and registering inputs and outputs
-	--! read: clk_i, reset_n_i \n
+	--! read: clk_i, rst_i \n
 	--! write: - \n
 	--! r/w: - \n
 	--============================================================================
@@ -153,12 +153,12 @@ begin
 	-- read: clk_i, s_reset_n
 	-- write:
 	-- r/w: s_rmap_target_write_state
-	p_rmap_target_write_FSM_state : process(clk_i, reset_n_i)
+	p_rmap_target_write_FSM_state : process(clk_i, rst_i)
 		variable v_rmap_target_write_state : t_rmap_target_write_state; -- current state
 		variable v_byte_counter            : std_logic_vector((g_DATA_LENGTH_WIDTH - 1) downto 0);
 	begin
 		-- on asynchronous reset in any state we jump to the idle state
-		if (reset_n_i = '0') then
+		if (rst_i = '1') then
 			s_rmap_target_write_state      <= IDLE;
 			v_rmap_target_write_state      := IDLE;
 			s_rmap_target_write_next_state <= IDLE;
@@ -519,7 +519,7 @@ begin
 			-- Begin of RMAP Target Write Finite State Machine
 			-- (output generation)
 			--=============================================================================
-			-- read: s_rmap_target_write_state, reset_n_i
+			-- read: s_rmap_target_write_state, rst_i
 			-- write:
 			-- r/w:
 			case (v_rmap_target_write_state) is
@@ -686,9 +686,12 @@ begin
 					flags_o.write_data_indication  <= '0';
 					flags_o.write_operation_failed <= '0';
 					flags_o.write_data_discarded   <= '0';
-					spw_control_o.read             <= '1';
+					spw_control_o.read             <= '0';
 					mem_control_o.write            <= '0';
-				-- conditional output signals
+					-- conditional output signals
+					if (spw_flag_i.valid = '1') then
+						spw_control_o.read <= '1';
+					end if;
 
 				-- state "WRITE_FINISH_OPERATION"
 				when WRITE_FINISH_OPERATION =>

@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2020.06.29.04:40:43 -->
+ <!-- 2020.12.03.23:20:39 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1593416442</value>
+  <value>1607044838</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -746,7 +746,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_1">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -1820,6 +1820,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -1884,6 +1896,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -2028,7 +2058,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_2">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -3102,6 +3132,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -3166,6 +3208,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -3310,7 +3370,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_3">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -4384,6 +4444,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -4448,6 +4520,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -4592,7 +4682,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_4">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -5666,6 +5756,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -5730,6 +5832,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -5874,7 +5994,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_5">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -6948,6 +7068,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -7012,6 +7144,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -7156,7 +7306,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_6">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -8230,6 +8380,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -8294,6 +8456,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -8438,7 +8618,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_7">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -9512,6 +9692,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -9576,6 +9768,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -9720,7 +9930,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_8">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -10794,6 +11004,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -10858,6 +11080,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -11002,7 +11242,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.1"
+   version="1.2"
    path="Dumb_Communication_Module_v2_Timer">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -12052,6 +12292,18 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_errinj_busy_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_ready_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -12116,6 +12368,24 @@ parameters are a RESULT of the module parameters. -->
     <direction>Output</direction>
     <width>8</width>
     <role>spw_data_tx_command_txdata_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_start_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_o</name>
+    <direction>Output</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
    </port>
   </interface>
   <interface
@@ -17938,7 +18208,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_A"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_A">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -17964,7 +18234,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -18125,6 +18395,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -18233,6 +18692,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -18328,126 +18805,24 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
  <module
    name="SpaceWire_Channel_B"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_B">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -18473,7 +18848,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -18634,6 +19009,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -18742,6 +19306,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -18837,126 +19419,24 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
  <module
    name="SpaceWire_Channel_C"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_C">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -18982,7 +19462,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -19143,6 +19623,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -19251,6 +19920,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -19346,126 +20033,24 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
  <module
    name="SpaceWire_Channel_D"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_D">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -19491,7 +20076,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -19652,6 +20237,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -19760,6 +20534,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -19855,126 +20647,24 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
  <module
    name="SpaceWire_Channel_E"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_E">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -20000,7 +20690,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -20161,6 +20851,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -20269,6 +21148,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -20364,126 +21261,24 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
  <module
    name="SpaceWire_Channel_F"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_F">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -20509,7 +21304,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -20670,6 +21465,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -20778,6 +21762,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -20873,126 +21875,24 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
  <module
    name="SpaceWire_Channel_G"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_G">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -21018,7 +21918,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -21179,6 +22079,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -21287,6 +22376,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -21382,126 +22489,24 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
  <module
    name="SpaceWire_Channel_H"
    kind="SpaceWire_Channel"
-   version="1.0"
+   version="1.4"
    path="SpaceWire_Channel_H">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -21527,7 +22532,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock_sink_100mhz</value>
+    <value>clock_sink_200mhz</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -21688,6 +22693,195 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
+  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_lvds_p_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_data_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_data_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_out_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_out_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_p_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_p_strobe_in_signal</role>
+   </port>
+   <port>
+    <name>spw_lvds_n_strobe_in_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_lvds_n_strobe_in_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_enable" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_rx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_rx_enable_signal</role>
+   </port>
+   <port>
+    <name>spw_tx_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_tx_enable_signal</role>
+   </port>
+  </interface>
+  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_200mhz</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>conduit</type>
+   <isStart>false</isStart>
+   <port>
+    <name>spw_red_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_red_status_led_signal</role>
+   </port>
+   <port>
+    <name>spw_green_status_led_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_green_status_led_signal</role>
+   </port>
+  </interface>
   <interface
      name="conduit_end_spacewire_channel"
      kind="conduit_end"
@@ -21796,6 +22990,24 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_data_tx_command_txdata_signal</role>
    </port>
    <port>
+    <name>spw_errinj_ctrl_start_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_start_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_reset_errinj_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_errinj_ctrl_reset_errinj_signal</role>
+   </port>
+   <port>
+    <name>spw_errinj_ctrl_errinj_code_i</name>
+    <direction>Input</direction>
+    <width>4</width>
+    <role>spw_errinj_ctrl_errinj_code_signal</role>
+   </port>
+   <port>
     <name>spw_link_status_started_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -21891,119 +23103,17 @@ parameters are a RESULT of the module parameters. -->
     <width>1</width>
     <role>spw_data_tx_status_txhalff_signal</role>
    </port>
-  </interface>
-  <interface name="conduit_end_spacewire_lvds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
    <port>
-    <name>spw_data_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_data_in_signal</role>
-   </port>
-   <port>
-    <name>spw_data_out_o</name>
+    <name>spw_errinj_ctrl_errinj_busy_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_data_out_signal</role>
+    <role>spw_errinj_ctrl_errinj_busy_signal</role>
    </port>
    <port>
-    <name>spw_strobe_out_o</name>
+    <name>spw_errinj_ctrl_errinj_ready_o</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>spw_strobe_out_signal</role>
-   </port>
-   <port>
-    <name>spw_strobe_in_i</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>spw_strobe_in_signal</role>
-   </port>
-  </interface>
-  <interface name="conduit_end_spacewire_leds" kind="conduit_end" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink_200mhz</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedReset">
-    <type>java.lang.String</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>conduit</type>
-   <isStart>false</isStart>
-   <port>
-    <name>spw_red_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_red_status_led_signal</role>
-   </port>
-   <port>
-    <name>spw_green_status_led_o</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>spw_green_status_led_signal</role>
+    <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
   </interface>
  </module>
@@ -81375,7 +82485,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1593416442</value>
+   <value>1607044838</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -81395,7 +82505,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1593416442</value>
+   <value>1607044838</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -81411,7 +82521,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1593416442</value>
+   <value>1607044838</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -97750,7 +98860,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>126</instanceCount>
+  <instanceCount>134</instanceCount>
   <name>conduit_end</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -97763,7 +98873,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>DCOM_v2</displayName>
-  <version>1.1</version>
+  <version>1.2</version>
  </plugin>
  <plugin>
   <instanceCount>16</instanceCount>
@@ -97803,7 +98913,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>SpaceWire_Channel</displayName>
-  <version>1.0</version>
+  <version>1.4</version>
  </plugin>
  <plugin>
   <instanceCount>3</instanceCount>

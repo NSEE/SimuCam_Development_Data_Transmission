@@ -1,7 +1,6 @@
 # Reading C:/intelFPGA/18.1/modelsim_ase/tcl/vsim/pref.tcl
-# OpenFile D:/rfranca/Development/GitHub/IWF_SimuCam_Development2/FPGA_Developments/Dumb_COM_Module_v2/Development/Testbench/dcom_v2_testbench.mpf
+# OpenFile D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Dumb_COM_Module_v2/Development/Testbench/dcom_v2_testbench.mpf
 # Loading project dcom_v2_testbench
-# Compile of dcom_tb_avs_read_ent.vhd failed with 10 errors.
 # Compile of avalon_mm_dcom_registers_pkg.vhd was successful.
 # Compile of avalon_mm_dcom_pkg.vhd was successful.
 # Compile of avalon_mm_dcom_read_ent.vhd was successful.
@@ -21,19 +20,7 @@
 # Compile of rmap_target_write_ent.vhd was successful.
 # Compile of rmap_target_user_ent.vhd was successful.
 # Compile of rmap_target_top.vhd was successful.
-# Compile of spwpkg.vhd was successful.
-# Compile of spwlink.vhd was successful.
-# Compile of spwram.vhd was successful.
-# Compile of spwrecv.vhd was successful.
-# Compile of spwrecvfront_fast.vhd was successful.
-# Compile of spwrecvfront_generic.vhd was successful.
-# Compile of spwstream.vhd was successful.
-# Compile of spwxmit.vhd was successful.
-# Compile of spwxmit_fast.vhd was successful.
-# Compile of streamtest.vhd was successful.
-# Compile of syncdff.vhd was successful.
 # Compile of spw_codec_pkg.vhd was successful.
-# Compile of spw_codec.vhd was successful.
 # Compile of spw_data_dc_fifo.vhd was successful.
 # Compile of spw_timecode_dc_fifo.vhd was successful.
 # Compile of spw_clk_synchronization_ent.vhd was successful.
@@ -46,124 +33,37 @@
 # Compile of config_avalon_stimuli.vhd was successful.
 # Compile of dcom_tb_avs_pkg.vhd was successful.
 # Compile of dcom_tb_avs_write_ent.vhd was successful.
-# Compile of dcom_tb_avs_read_ent.vhd failed with 9 errors.
-# Compile of testbench_top.vhd was successful.
-# 46 compiles, 1 failed with 9 errors.
 # Compile of dcom_tb_avs_read_ent.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 34 compiles, 12 failed with no errors.
+# Compile of avalon_mm_dcom_registers_pkg.vhd was successful.
+# Compile of avalon_mm_dcom_pkg.vhd was successful.
+# Compile of avalon_mm_dcom_read_ent.vhd was successful.
+# Compile of avalon_mm_dcom_write_ent.vhd was successful.
+# Compile of avs_byteen_buffer_sc_fifo.vhd was successful.
+# Compile of avs_data_buffer_sc_fifo.vhd was successful.
+# Compile of dctrl_data_buffer_sc_fifo.vhd was successful.
+# Compile of data_buffer_pkg.vhd was successful.
+# Compile of data_buffer_ent.vhd was successful.
+# Compile of data_controller_ent.vhd was successful.
+# Compile of data_scheduler_ent.vhd was successful.
+# Compile of rmap_target_crc_pkg.vhd was successful.
+# Compile of rmap_target_pkg.vhd was successful.
+# Compile of rmap_target_command_ent.vhd was successful.
+# Compile of rmap_target_read_ent.vhd was successful.
+# Compile of rmap_target_reply_ent.vhd was successful.
+# Compile of rmap_target_write_ent.vhd was successful.
+# Compile of rmap_target_user_ent.vhd was successful.
+# Compile of rmap_target_top.vhd was successful.
+# Compile of spw_mux_ent.vhd was successful.
+# Compile of dcom_avm_data_pkg.vhd was successful.
+# Compile of dcom_avm_data_reader_ent.vhd was successful.
+# Compile of dcom_avm_reader_controller_ent.vhd was successful.
+# Compile of dcom_v2_top.vhd was successful.
+# Compile of avalon_buffer_stimuli.vhd was successful.
 # Compile of config_avalon_stimuli.vhd was successful.
+# Compile of dcom_tb_avs_pkg.vhd was successful.
+# Compile of dcom_tb_avs_write_ent.vhd was successful.
 # Compile of dcom_tb_avs_read_ent.vhd was successful.
-# 2 compiles, 0 failed with no errors.
-vsim work.testbench_top
-# vsim work.testbench_top 
-# Start time: 04:09:37 on Jun 29,2020
-# Loading std.standard
-# Loading std.textio(body)
-# Loading ieee.std_logic_1164(body)
-# Loading ieee.numeric_std(body)
-# Loading work.dcom_tb_avs_pkg
-# Loading work.avalon_mm_dcom_pkg(body)
-# Loading work.avalon_mm_dcom_registers_pkg(body)
-# Loading work.dcom_avm_data_pkg(body)
-# Loading work.data_buffer_pkg(body)
-# Loading work.rmap_target_pkg(body)
-# Loading work.spwpkg
-# Loading work.spw_codec_pkg
-# Loading work.testbench_top(rtl)
-# Loading work.config_avalon_stimuli(rtl)
-# Loading work.dcom_tb_avs_read_ent(rtl)
-# Loading work.dcom_v2_top(rtl)
-# Loading work.avalon_mm_dcom_read_ent(rtl)
-# Loading work.avalon_mm_dcom_write_ent(rtl)
-# Loading work.dcom_avm_data_reader_ent(rtl)
-# Loading work.dcom_avm_reader_controller_ent(rtl)
-# Loading work.data_buffer_ent(rtl)
-# Loading work.avs_data_buffer_sc_fifo(syn)
-# Loading ieee.std_logic_arith(body)
-# Loading ieee.std_logic_unsigned(body)
-# Loading altera_mf.altera_device_families(body)
-# Loading altera_mf.scfifo(behavior)
-# Loading work.avs_byteen_buffer_sc_fifo(syn)
-# Loading work.dctrl_data_buffer_sc_fifo(syn)
-# Loading work.data_controller_ent(rtl)
-# Loading work.data_scheduler_ent(rtl)
-# Loading work.rmap_target_crc_pkg(body)
-# Loading work.rmap_target_top(rtl)
-# Loading work.rmap_target_user_ent(rtl)
-# Loading work.rmap_target_command_ent(rtl)
-# Loading work.rmap_target_write_ent(rtl)
-# Loading work.rmap_target_read_ent(rtl)
-# Loading work.rmap_target_reply_ent(rtl)
-# Loading work.spw_mux_ent(rtl)
-add wave -position insertpoint sim:/testbench_top/config_avalon_stimuli_inst/*
-add wave -position insertpoint sim:/testbench_top/dcom_tb_avs_read_ent_inst/*
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/*
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/dcom_avm_data_reader_ent_inst/*
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/dcom_avm_reader_controller_ent_inst/*
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_buffer_ent_inst/*
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_controller_ent_inst/*
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_scheduler_ent_inst/*
-write format wave -window .main_pane.wave.interior.cs.body.pw.wf D:/rfranca/Development/GitHub/IWF_SimuCam_Development2/FPGA_Developments/Dumb_COM_Module_v2/Development/Testbench/avm_wave.do
-restart
-run
-# Compile of config_avalon_stimuli.vhd was successful.
 # Compile of testbench_top.vhd was successful.
-# 2 compiles, 0 failed with no errors.
-restart
-# Loading work.testbench_top(rtl)
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of dcom_v2_top.vhd was successful.
-restart
-# Loading work.dcom_v2_top(rtl)
-run
-# Compile of dcom_v2_top.vhd was successful.
-restart
-# Loading work.dcom_v2_top(rtl)
-run
-# Compile of dcom_v2_top.vhd was successful.
-# Compile of config_avalon_stimuli.vhd was successful.
-# 2 compiles, 0 failed with no errors.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-# Loading work.dcom_v2_top(rtl)
-run
-run
-# Compile of dcom_v2_top.vhd was successful.
-restart
-# Loading work.dcom_v2_top(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of dcom_v2_top.vhd was successful.
-restart
-# Loading work.dcom_v2_top(rtl)
-run
-# Compile of dcom_v2_top.vhd was successful.
-restart
-# Loading work.dcom_v2_top(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of testbench_top.vhd was successful.
-restart
-# Loading work.testbench_top(rtl)
-run
-write format wave -window .main_pane.wave.interior.cs.body.pw.wf D:/rfranca/Development/GitHub/IWF_SimuCam_Development2/FPGA_Developments/Dumb_COM_Module_v2/Development/Testbench/avm_wave.do
-# End time: 04:33:40 on Jun 29,2020, Elapsed time: 0:24:03
-# Errors: 0, Warnings: 0
+# 30 compiles, 0 failed with no errors.

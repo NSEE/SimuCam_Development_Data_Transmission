@@ -14,6 +14,26 @@
 //! [constants definition]
 
 //! [public module structs definition]
+
+enum RmapRmapErrId {
+	eRmapRmapErrIdInitLogAddr     = 0u,  /* RMAP Error Injection Error ID for Initiator Logical Address */
+	eRmapRmapErrIdInstructions    = 1u,  /* RMAP Error Injection Error ID for Instructions Field */
+	eRmapRmapErrIdInsPktType      = 2u,  /* RMAP Error Injection Error ID for Packet Type Instruction */
+	eRmapRmapErrIdInsCmdWriteRead = 3u,  /* RMAP Error Injection Error ID for Write/Read Instruction Command */
+	eRmapRmapErrIdInsCmdVerifData = 4u,  /* RMAP Error Injection Error ID for Verify Data Before Reply Instruction Command */
+	eRmapRmapErrIdInsCmdReply     = 5u,  /* RMAP Error Injection Error ID for Reply Instruction Command */
+	eRmapRmapErrIdInsCmdIncAddr   = 6u,  /* RMAP Error Injection Error ID for Increment Address Instruction Command */
+	eRmapRmapErrIdInsReplyAddrLen = 7u,  /* RMAP Error Injection Error ID for Reply Address Length Instruction */
+	eRmapRmapErrIdStatus          = 8u,  /* RMAP Error Injection Error ID for Status */
+	eRmapRmapErrIdTargLogAddr     = 9u,  /* RMAP Error Injection Error ID for Target Logical Address */
+	eRmapRmapErrIdTransactionId   = 10u, /* RMAP Error Injection Error ID for Transaction Identifier */
+	eRmapRmapErrIdDataLength      = 11u, /* RMAP Error Injection Error ID for Data Length */
+	eRmapRmapErrIdHeaderCrc       = 12u, /* RMAP Error Injection Error ID for Header CRC */
+	eRmapRmapErrIdHeaderEep       = 13u, /* RMAP Error Injection Error ID for Header EEP */
+	eRmapRmapErrIdDataCrc         = 14u, /* RMAP Error Injection Error ID for Data CRC */
+	eRmapRmapErrIdDataEep         = 15u  /* RMAP Error Injection Error ID for Data EEP */
+} RmapRmapErrId;
+
 //! [public module structs definition]
 
 //! [public function prototypes]
@@ -27,6 +47,9 @@ bool bRmapSetCodecConfig(TRmapChannel *pxRmapCh);
 bool bRmapGetCodecStatus(TRmapChannel *pxRmapCh);
 
 bool bRmapGetCodecError(TRmapChannel *pxRmapCh);
+
+bool bRmapGetRmapErrInj(TRmapChannel *pxRmapCh);
+bool bRmapSetRmapErrInj(TRmapChannel *pxRmapCh);
 
 bool bRmapGetMemAreaConfig(TRmapChannel *pxRmapCh);
 bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh);
