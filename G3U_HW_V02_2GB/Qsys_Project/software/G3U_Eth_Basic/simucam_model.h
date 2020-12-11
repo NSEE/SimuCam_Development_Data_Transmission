@@ -167,7 +167,7 @@ typedef enum {
 	spwErrParity = 0,
 	spwErrDisconnect,
 	spwErrEscape_sequence,
-	spwErrCharacter_sequence
+	spwErrCharacter_sequence,
 	spwErrCredit,
 	spwErrEEP,
 	spwErrInvalidDestination,

@@ -940,12 +940,11 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						sub_config_send[i_channel_for].mode = subAbort;
 						error_code = OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
 					}
-					if (error_code != OS_NO_ERR) {
-						v_ack_creator(p_payload, xOSError);
-						// v_ack_creator(p_payload, xAckOk);
-					} // else {
-					// 	v_ack_creator(p_payload, xOSError);
-					// }
+					if (error_code == OS_NO_ERR) {
+						 v_ack_creator(p_payload, xAckOk);
+					} else {
+					 	v_ack_creator(p_payload, xOSError);
+					 }
 					break;
 
 					/*
@@ -996,40 +995,136 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					case spwErrParity:
 						// xCh[p_payload->data[1]].xSpacewire
 						/* Force the stop of any ongoing SpW Codec Errors */
-						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
 						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
 						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						/* Wait SpW Codec Errors controller to be ready */
-						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-							bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						}
 						/* Inject the selected SpW Codec Error */
 						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
 						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
 						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdParity;
-						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						break;
 						
 					case spwErrDisconnect:
-
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						break;
 
 					case spwErrEscape_sequence:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdEscape;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						break;
 
 					case spwErrCharacter_sequence:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdChar;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						break;
 
 					case spwErrCredit:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdCredit;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						break;
 
 					case spwErrEEP:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);					
 						break;
 
 					case spwErrInvalidDestination:
+						// /* Force the stop of any ongoing SpW Codec Errors */
+						// bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						// bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// /* Wait SpW Codec Errors controller to be ready */
+						// bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+						// 	bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// }
+						// /* Inject the selected SpW Codec Error */
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
+						// bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// v_ack_creator(p_payload, xNotImplemented);
 						break;
 					
 					default:
@@ -1049,40 +1144,13 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
                     fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
                 }
 #endif
-				// Get channel and error type
-				switch (p_payload->data[0]){
-					//Parity
-					case 0:
-						// xCh[p_payload->data[1]].xSpacewire
-						/* Force the stop of any ongoing SpW Codec Errors */
-						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bStartErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bResetErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.ucErrInjErrCode = eDpktSpwCodecErrIdNone;
-						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						/* Wait SpW Codec Errors controller to be ready */
-						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bErrInjReady) {
-							bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						}
-						/* Inject the selected SpW Codec Error */
-						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bStartErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bResetErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.ucErrInjErrCode = eDpktSpwCodecErrIdParity;
-						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						break;
-					
-					
-					
-					default:
-						break;
 
-				}
-				// p_payload->data[0] -> Type
-				// p_payload->data[1] -> Channel
-				// Call error function on switch
+				bRmapGetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.bTriggerErr = TRUE;
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.ucErrorId   = p_payload->data[0];
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32)( (alt_u32)(p_payload->data[2] & 0x0000ffff)<<16 | (alt_u32)(p_payload->data[3] & 0x0000ffff) );
+				bRmapSetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 
-				// No ack executed
 				break;
 
 				default:
