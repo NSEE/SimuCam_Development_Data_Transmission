@@ -817,11 +817,14 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			 * Start simucam timer counting
 			 */
 			error_code = bDschRunTimer(&xSimucamTimer);
-			if (error_code == TRUE) {
-				v_ack_creator(p_payload, xAckOk);
-			} else {
+			if (error_code != TRUE){
 				v_ack_creator(p_payload, xTimerError);
 			}
+			// if (error_code == TRUE) {
+			// 	v_ack_creator(p_payload, xAckOk);
+			// } else {
+			// 	v_ack_creator(p_payload, xTimerError);
+			// }
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 
@@ -937,11 +940,12 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						sub_config_send[i_channel_for].mode = subAbort;
 						error_code = OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
 					}
-					if (error_code == OS_NO_ERR) {
-						v_ack_creator(p_payload, xAckOk);
-					} else {
+					if (error_code != OS_NO_ERR) {
 						v_ack_creator(p_payload, xOSError);
-					}
+						// v_ack_creator(p_payload, xAckOk);
+					} // else {
+					// 	v_ack_creator(p_payload, xOSError);
+					// }
 					break;
 
 					/*
@@ -1092,7 +1096,6 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						v_ack_creator(p_payload, xCommandNotFound);
 					}
 					break;
-
 				}
 
 			}
