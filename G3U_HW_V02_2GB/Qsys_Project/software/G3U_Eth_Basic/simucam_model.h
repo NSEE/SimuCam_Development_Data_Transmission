@@ -66,7 +66,8 @@ typedef enum {
 	typeSetRecording,
 	typeSetPeriodicHK,
 	typeReset,
-	typeErrorInjection = 205
+	typeErrorInjectionSpw = 205,
+	typeErrorInjectionRmap
 } TCmdTypes;
 
 /* Internal Types */
@@ -163,13 +164,13 @@ typedef struct x_echo {
 /*$PAGE*/
 
 typedef enum {
-	parity = 0,
-	disconnect,
-	escape_sequence,
-	character_sequence
-	credit,
-	EEP,
-	invalid_destination,
+	spwErrParity = 0,
+	spwErrDisconnect,
+	spwErrEscape_sequence,
+	spwErrCharacter_sequence
+	spwErrCredit,
+	spwErrEEP,
+	spwErrInvalidDestination,
 } TErrorInjCodes;
 
 #endif /* SIMUCAM_MODEL_H_ */

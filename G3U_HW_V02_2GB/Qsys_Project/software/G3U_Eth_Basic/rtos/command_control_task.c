@@ -980,13 +980,100 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				vResetSimucam(); /* Hold SimuCam Reset Signal */
             	break;
 
-				case typeErrorInjection:
+				case typeErrorInjectionSpw:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
                     fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
                 }
 #endif
 				// Get channel and error type
+				switch (p_payload->data[0]){
+					
+					case spwErrParity:
+						// xCh[p_payload->data[1]].xSpacewire
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdParity;
+						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						break;
+						
+					case spwErrDisconnect:
+
+						break;
+
+					case spwErrEscape_sequence:
+						break;
+
+					case spwErrCharacter_sequence:
+						break;
+
+					case spwErrCredit:
+						break;
+
+					case spwErrEEP:
+						break;
+
+					case spwErrInvalidDestination:
+						break;
+					
+					default:
+						break;
+
+				}
+				// p_payload->data[0] -> Type
+				// p_payload->data[1] -> Channel
+				// Call error function on switch
+
+				// No ack executed
+				break;
+
+				case typeErrorInjectionRmap:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+                    fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
+                }
+#endif
+				// Get channel and error type
+				switch (p_payload->data[0]){
+					//Parity
+					case 0:
+						// xCh[p_payload->data[1]].xSpacewire
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.ucErrInjErrCode = eDpktSpwCodecErrIdNone;
+						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bErrInjReady) {
+							bDpktGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xDpktSpwCodecErrInj.ucErrInjErrCode = eDpktSpwCodecErrIdParity;
+						bDpktSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						break;
+					
+					
+					
+					default:
+						break;
+
+				}
 				// p_payload->data[0] -> Type
 				// p_payload->data[1] -> Channel
 				// Call error function on switch
