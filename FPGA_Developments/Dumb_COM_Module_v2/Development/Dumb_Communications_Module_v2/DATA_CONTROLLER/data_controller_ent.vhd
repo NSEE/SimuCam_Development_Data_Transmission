@@ -295,9 +295,9 @@ begin
 					if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
 						-- all data read
 						-- verify it an eop need to be transmitted
-						if (dctrl_send_eop_i = '1') then
-							-- need to send an eop
-							-- go to waiting spw buffer space, returning to transmit eop
+						if ((dctrl_send_eop_i = '1') or (dctrl_send_eep_i = '1')) then
+							-- need to send an eop or eep
+							-- go to waiting spw buffer space, returning to transmit eop or eep
 							s_data_controller_return_state <= TRANSMIT_EOP;
 						else
 							-- no need to send an eop
@@ -520,9 +520,17 @@ begin
 					spw_tx_write_o   <= '1';
 					-- set spw flag (to indicate a package end)
 					spw_tx_flag_o    <= '1';
-					-- fill spw data with the eop identifier (0x00)
-					spw_tx_data_o    <= x"00";
-				-- conditional output signals
+					-- conditional output signals
+					-- check if an eop need to be sent
+					if (dctrl_send_eop_i = '1') then
+						-- an eop need to be sent
+						-- fill spw data with the eop identifier (0x00)
+						spw_tx_data_o <= x"00";
+					else
+						-- an eep need to be sent
+						-- fill spw data with the eep identifier (0x01)
+						spw_tx_data_o <= x"01";
+					end if;
 
 				when DATA_PACKET_END =>
 					-- Data packet end, finalize the data packet transmission
@@ -546,7 +554,7 @@ begin
 					spw_tx_write_o   <= '1';
 					-- set spw flag (to indicate a package end)
 					spw_tx_flag_o    <= '1';
-					-- fill spw data with the eop identifier (0x00)
+					-- fill spw data with the eep identifier (0x01)
 					spw_tx_data_o    <= x"01";
 				-- conditional output signals
 
