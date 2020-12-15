@@ -799,6 +799,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			bDschStartTimer(&xSimucamTimer);
 
 			T_simucam.T_status.simucam_mode = simModeRun;
+			v_ack_creator(p_payload, xAckOk);
 			break;
 
 		case simModeRun:
