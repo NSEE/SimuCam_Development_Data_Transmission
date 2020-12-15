@@ -321,7 +321,7 @@ void vSendETHConfig(TConfEth xEthConf) {
 	iETHBuffer[6] = 0;
 	iETHBuffer[7] = IP_CONFIG_SIZE;
 
-	iETHBuffer[8] = 1;
+	iETHBuffer[8] = xEthConf.bDHCP;
 	iETHBuffer[10] = div(portNb, 256).rem;
 	portNb = div(portNb, 256).quot;
 	iETHBuffer[9] = div(portNb, 256).rem;
