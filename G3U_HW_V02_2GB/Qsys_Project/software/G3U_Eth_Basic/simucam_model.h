@@ -67,7 +67,8 @@ typedef enum {
 	typeSetPeriodicHK,
 	typeReset,
 	typeErrorInjectionSpw = 205,
-	typeErrorInjectionRmap
+	typeErrorInjectionRmap,
+	typeDisc = 254,
 } TCmdTypes;
 
 /* Internal Types */

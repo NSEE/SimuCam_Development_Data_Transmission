@@ -768,6 +768,19 @@ void CommandManagementTask() {
 				vResetSimucam();
             break;
 
+			/* Eth Disconnect */
+			case typeDisc:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask]Ethernet Disconnect\n\r");
+				}
+#endif
+				error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
+				T_simucam.T_conf.luHKPeriod = 0;
+				T_simucam.T_conf.i_forward_data = 0;
+				T_simucam.T_conf.echo_sent = 0;
+			break;
+
 			default:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
