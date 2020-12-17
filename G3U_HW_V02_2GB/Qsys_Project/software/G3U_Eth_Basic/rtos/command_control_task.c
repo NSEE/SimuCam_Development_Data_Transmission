@@ -622,7 +622,7 @@ void CommandManagementTask() {
 				}
 #endif
 
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 
 				break;
 
@@ -674,7 +674,7 @@ void CommandManagementTask() {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
 				vClearRam();
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
@@ -694,7 +694,7 @@ void CommandManagementTask() {
 				i_channel_buffer = p_payload->data[0];
 
 				v_HK_creator(i_channel_buffer);
-				// v_ack_creator(p_payload, xAckOk);
+				// v_ack_creator(p_payload, xExecOk);
 				break;
 
 				/*
@@ -710,7 +710,7 @@ void CommandManagementTask() {
 				T_simucam.T_conf.i_forward_data = p_payload->data[0];
 				T_simucam.T_conf.echo_sent = p_payload->data[1];
 
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n", (int) T_simucam.T_conf.i_forward_data, (int) T_simucam.T_conf.echo_sent);
@@ -728,7 +728,7 @@ void CommandManagementTask() {
 				}
 #endif
 				T_simucam.T_conf.iLog = p_payload->data[0];
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 				break;
 
 				/**
@@ -752,7 +752,7 @@ void CommandManagementTask() {
 					T_simucam.T_conf.luHKPeriod = 0;
 				}
 				if (error_code == OS_NO_ERR) {
-					v_ack_creator(p_payload, xAckOk);
+					v_ack_creator(p_payload, xExecOk);
 				} else {
 					v_ack_creator(p_payload, xOSError);
 				}
@@ -812,7 +812,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			bDschStartTimer(&xSimucamTimer);
 
 			T_simucam.T_status.simucam_mode = simModeRun;
-			v_ack_creator(p_payload, xAckOk);
+			v_ack_creator(p_payload, xExecOk);
 			break;
 
 		case simModeRun:
@@ -835,7 +835,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				v_ack_creator(p_payload, xTimerError);
 			}
 			// if (error_code == TRUE) {
-			// 	v_ack_creator(p_payload, xAckOk);
+			// 	v_ack_creator(p_payload, xExecOk);
 			// } else {
 			// 	v_ack_creator(p_payload, xTimerError);
 			// }
@@ -849,7 +849,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 				bSyncCtrOneShot();
 
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 				/*
 				 * TODO Start HK timer if needed
 				 */
@@ -934,7 +934,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 								}
 							}
 						}
-						v_ack_creator(p_payload, xAckOk);
+						v_ack_creator(p_payload, xExecOk);
 					}
 					break;
 
@@ -955,7 +955,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						error_code = OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
 					}
 					if (error_code == OS_NO_ERR) {
-						 v_ack_creator(p_payload, xAckOk);
+						 v_ack_creator(p_payload, xExecOk);
 					} else {
 					 	v_ack_creator(p_payload, xOSError);
 					 }

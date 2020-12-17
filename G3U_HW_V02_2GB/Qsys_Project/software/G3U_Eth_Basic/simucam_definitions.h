@@ -91,7 +91,7 @@
  * Error codes definitions transform into enum
  */
 typedef enum {
-	xAckOk = 0, xPlcH1, xPlcH2, xPlcH3, xCommandNotAccepted, xCommandNotFound, xNotImplemented, xTimerError, xParserError, xEchoError, xOSError, xCRCError
+	xAckOk = 0, xExecOk, xPlcH2, xPlcH3, xCommandNotAccepted, xCommandNotFound, xNotImplemented, xTimerError, xParserError, xEchoError, xOSError, xCRCError
 } xErrorTypes;
 
 #define ACK_OK						0
