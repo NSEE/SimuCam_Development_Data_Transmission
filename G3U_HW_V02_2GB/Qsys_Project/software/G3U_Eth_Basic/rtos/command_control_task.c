@@ -236,7 +236,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	hk_buffer[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
 	hk_buffer[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; /**sub_config_linkstatus*/
 	hk_buffer[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; /**sub_config_linkspeed*/
-	hk_buffer[13] = xCh[chann_buff].xSpacewire.xSpwcLinkStatus.bRunning; /**sub_status_linkrunning*/ // TODO
+	hk_buffer[13] = xCh[chann_buff].xSpacewire.xSpwcLinkStatus.bRunning;
 	hk_buffer[14] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**link enabled*/
 	hk_buffer[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
 	hk_buffer[16] = 0; /**TODO link errors*/
@@ -627,17 +627,6 @@ void CommandManagementTask() {
 				break;
 
 				/*
-				 * Select data to send
-				 * TODO Will be done in the MEB
-				 * char: h
-				 */
-			case typeSelectDataToSend:
-
-				v_ack_creator(p_payload, xNotImplemented);
-
-				break;
-
-				/*
 				 * Change Simucam Modes
 				 * char: i
 				 */
@@ -780,6 +769,16 @@ void CommandManagementTask() {
 				T_simucam.T_conf.i_forward_data = 0;
 				T_simucam.T_conf.echo_sent = 0;
 			break;
+			
+			case typeSetProgressEvent:
+#if DEBUG_ON
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+				fprintf(fp, "[CommandManagementTask]Set Progress Eventst\n\r");
+			}
+#endif
+				T_simucam.T_conf.usiProgressEvent = p_payload->data[0];
+				v_ack_creator(p_payload, xExecOk);
+			break;
 
 			default:
 #if DEBUG_ON
@@ -884,7 +883,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #endif
 
 						/*
-						 * Stop Simucam Timer TODO: Maybe change to toConfig
+						 * Stop Simucam Timer
 						 */
 						error_code = bDschStopTimer(&xSimucamTimer);
 						if (error_code != TRUE) {

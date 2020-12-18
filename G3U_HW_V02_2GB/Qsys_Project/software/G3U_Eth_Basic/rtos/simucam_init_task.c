@@ -245,7 +245,7 @@ void sub_unit_create_os_data_structs(void) {
 	}
 }
 
-/* TODO format
+/* 
  * Function used to initialize all simucam tasks
  */
 void SimucamCreateTasks(void) {

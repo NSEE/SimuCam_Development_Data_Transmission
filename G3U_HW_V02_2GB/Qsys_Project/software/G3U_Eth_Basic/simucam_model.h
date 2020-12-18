@@ -68,6 +68,7 @@ typedef enum {
 	typeReset,
 	typeErrorInjectionSpw = 205,
 	typeErrorInjectionRmap,
+	typeSetProgressEvent,
 	typeDisc = 254,
 } TCmdTypes;
 
@@ -124,6 +125,7 @@ typedef struct T_Simucam_conf {
 	INT8U iPeriodicHK;
 	INT32U luHKPeriod; /* HK Timer period in centiseconds, not activated if 0 */
 	INT8U usiDebugLevels;
+	INT8U usiProgressEvent;
 } T_Simucam_conf;
 
 typedef struct T_simucam_status {
