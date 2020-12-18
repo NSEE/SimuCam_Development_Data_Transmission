@@ -290,6 +290,66 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 }
 
 /**
+ * @name v_p_event_creator
+ * @brief External Comm ACK generator
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	INT8U EID Code
+ * @retval  void
+ **/
+void v_p_event_creator(INT8U usi_eid) {
+
+	 INT16U nb_id = T_simucam.T_status.TM_id;
+	INT8U ack_buffer[32];
+	INT32U ack_size = 14;
+	INT16U usCRC = 0;
+
+	/* memset buffer */
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
+}
+#endif
+	ack_buffer[0] = 2;
+
+	/*
+	 * Id to bytes
+	 */
+	ack_buffer[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	ack_buffer[1] = div(nb_id, 256).rem;
+
+	ack_buffer[3] = typeProgEvent;
+	ack_buffer[4] = 0;
+	ack_buffer[5] = 0;
+	ack_buffer[6] = 0;
+	ack_buffer[7] = 11;
+
+	ack_buffer[8] = usi_eid;
+
+	/**
+	 * Calculate and add CRC
+	 */
+	usCRC = crc__CRC16CCITT(ack_buffer, 12);
+
+	ack_buffer[10] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	ack_buffer[9] = div(usCRC, 256).rem;
+
+//	vUartWriteBuffer(ack_buffer, ack_size);
+	for (int f = 0; f < ack_size; f++) {
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "%c", ack_buffer[f]);
+}
+#endif
+		vUartWriteCharBlocking(ack_buffer[f]);
+	}
+
+	T_simucam.T_status.TM_id++;
+}
+
+/**
  * @name vSendETHConfig
  * @brief Send the SD Card eth conf to NUC
  * @ingroup UTIL
@@ -566,6 +626,9 @@ void CommandManagementTask() {
 #endif
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
+			if (T_simucam.T_conf.usiProgressEvent == 1){
+				v_p_event_creator(eidMebConfig);
+			}	
 			break;
 
 			/*
@@ -666,6 +729,9 @@ void CommandManagementTask() {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
 				}
 #endif
+				if (T_simucam.T_conf.usiProgressEvent == 1){
+					v_p_event_creator(eidClrRam);
+				}	
 				break;
 
 				/*
@@ -809,6 +875,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 			T_simucam.T_status.simucam_mode = simModeRun;
 			v_ack_creator(p_payload, xExecOk);
+			if (T_simucam.T_conf.usiProgressEvent == 1){
+					v_p_event_creator(eidMebRun);
+			}	
 			break;
 
 		case simModeRun:
@@ -846,6 +915,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				bSyncCtrOneShot();
 
 				v_ack_creator(p_payload, xExecOk);
+				if (T_simucam.T_conf.usiProgressEvent == 1){
+					v_p_event_creator(eidSyncRcv);
+				}
 				/*
 				 * TODO Start HK timer if needed
 				 */
