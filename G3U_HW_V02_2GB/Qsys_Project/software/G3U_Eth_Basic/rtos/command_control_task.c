@@ -611,9 +611,6 @@ void CommandManagementTask() {
 				sub_config_send[p_payload->data[0]].link_config = p_payload->data[1];
 				sub_config_send[p_payload->data[0]].linkspeed = p_payload->data[2];
 				sub_config_send[p_payload->data[0]].linkstatus_running = p_payload->data[3];
-				/*
-				 * TODO complete listing
-				 */
 
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {

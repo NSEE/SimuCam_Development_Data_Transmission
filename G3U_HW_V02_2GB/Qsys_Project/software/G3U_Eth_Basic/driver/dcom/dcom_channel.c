@@ -100,6 +100,59 @@ bool bDcomInitCh(TDcomChannel *pxDcomCh, alt_u8 ucDcomCh) {
 
 	return bStatus;
 }
+
+/**
+ * @name set_spw_linkspeed
+ * @brief Set SpW linkspeed
+ * @ingroup command_control
+ *
+ * Set the linkspeed of specific SpW channel according to the
+ * specified divider code
+ *
+ * @param 	[in] 	TDcomChannel *x_channel
+ * @param	[in]	INT8U linkspeed_code
+ * 0: 10Mbits, 1: 25Mbits, 2: 50Mbits, 3: 100Mbits
+ * 	ref_clock = 200M -> spw_clock = ref_clock/(div+1)
+ * @retval INT8U error_code 1 if OK
+ **/
+INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code) {
+	INT8U error_code = 0;
+	INT8U i_linkspeed_div = 1;
+
+	switch (i_linkspeed_code) {
+	case 0:
+		/* 10 Mbits */
+		i_linkspeed_div = 19;
+		break;
+
+	case 1:
+		/* 25 Mbits */
+		i_linkspeed_div = 7;
+		break;
+
+	case 2:
+		/* 50 Mbits */
+		i_linkspeed_div = 3;
+
+		break;
+
+	case 3:
+		/* 100 Mbits */
+		i_linkspeed_div = 1;
+		break;
+
+	default:
+		i_linkspeed_div = 1;
+		break;
+	}
+
+	bSpwcGetLinkConfig(&(x_channel->xSpacewire));
+	x_channel->xSpacewire.xSpwcLinkConfig.ucTxDivCnt = i_linkspeed_div;
+	bSpwcSetLinkConfig(&(x_channel->xSpacewire));
+
+	return error_code;
+}
+
 //! [public functions]
 
 //! [private functions]

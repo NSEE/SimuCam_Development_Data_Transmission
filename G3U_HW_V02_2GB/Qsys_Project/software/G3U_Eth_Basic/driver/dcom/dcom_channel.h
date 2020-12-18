@@ -28,6 +28,8 @@ bool bDcomInitCh(TDcomChannel *pxDcomCh, alt_u8 ucDcomCh);
 
 //! [public function prototypes]
 
+INT8U set_spw_linkspeed(TDcomChannel *x_channel, INT8U i_linkspeed_code);
+
 //! [data memory public global variables - use extern]
 //! [data memory public global variables - use extern]
 
