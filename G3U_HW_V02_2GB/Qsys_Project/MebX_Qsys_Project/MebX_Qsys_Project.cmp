@@ -62,6 +62,7 @@
 			dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal : out   std_logic;                                        -- spw_errinj_ctrl_start_errinj_signal
 			dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal : out   std_logic;                                        -- spw_errinj_ctrl_reset_errinj_signal
 			dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal  : out   std_logic_vector(3 downto 0);                     -- spw_errinj_ctrl_errinj_code_signal
+			dumb_communication_module_v2_timer_rprt_interrupt_sender_irq                                            : out   std_logic;                                        -- irq
 			dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal                                 : in    std_logic                     := 'X';             -- sync_channel_signal
 			dumb_communication_module_v2_timer_tx_interrupt_sender_irq                                              : out   std_logic;                                        -- irq
 			eth_rst_export                                                                                          : out   std_logic;                                        -- export

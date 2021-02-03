@@ -622,6 +622,273 @@ begin
 						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rmap_error_injection_control_reg.rmap_errinj_value(31 downto 24);
 					end if;
 
+				when (16#4D#) =>
+					-- Report Device Address Register : Report Device Base Address
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(7 downto 0) <= dcom_write_registers_i.rprt_dev_addr_reg.rprt_dev_base_addr(7 downto 0);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(1) = '1') then
+						avalon_mm_dcom_o.readdata(15 downto 8) <= dcom_write_registers_i.rprt_dev_addr_reg.rprt_dev_base_addr(15 downto 8);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(2) = '1') then
+						avalon_mm_dcom_o.readdata(23 downto 16) <= dcom_write_registers_i.rprt_dev_addr_reg.rprt_dev_base_addr(23 downto 16);
+					end if;
+					if (avalon_mm_dcom_i.byteenable(3) = '1') then
+						avalon_mm_dcom_o.readdata(31 downto 24) <= dcom_write_registers_i.rprt_dev_addr_reg.rprt_dev_base_addr(31 downto 24);
+					end if;
+
+				when (16#4E#) =>
+					-- Report IRQ Control Register : Report SpW Link Connected IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_spw_link_connected_en;
+					end if;
+
+				when (16#4F#) =>
+					-- Report IRQ Control Register : Report SpW Link Disconnected IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_spw_link_disconnected_en;
+					end if;
+
+				when (16#50#) =>
+					-- Report IRQ Control Register : Report SpW Error Disconnect IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_spw_err_disconnect_en;
+					end if;
+
+				when (16#51#) =>
+					-- Report IRQ Control Register : Report SpW Error Parity IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_spw_err_parity_en;
+					end if;
+
+				when (16#52#) =>
+					-- Report IRQ Control Register : Report SpW Error Escape IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_spw_err_escape_en;
+					end if;
+
+				when (16#53#) =>
+					-- Report IRQ Control Register : Report SpW Error Credit IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_spw_err_credit_en;
+					end if;
+
+				when (16#54#) =>
+					-- Report IRQ Control Register : Report Rx Timecode Received IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rx_timecode_received_en;
+					end if;
+
+				when (16#55#) =>
+					-- Report IRQ Control Register : Report Rmap Error Early EOP IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rmap_err_early_eop_en;
+					end if;
+
+				when (16#56#) =>
+					-- Report IRQ Control Register : Report Rmap Error EEP IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rmap_err_eep_en;
+					end if;
+
+				when (16#57#) =>
+					-- Report IRQ Control Register : Report Rmap Error Header CRC IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rmap_err_header_crc_en;
+					end if;
+
+				when (16#58#) =>
+					-- Report IRQ Control Register : Report Rmap Error Unused Packet Type IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rmap_err_unused_packet_type_en;
+					end if;
+
+				when (16#59#) =>
+					-- Report IRQ Control Register : Report Rmap Error Invalid Command Code IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rmap_err_invalid_command_code_en;
+					end if;
+
+				when (16#5A#) =>
+					-- Report IRQ Control Register : Report Rmap Error Too Much Data IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rmap_err_too_much_data_en;
+					end if;
+
+				when (16#5B#) =>
+					-- Report IRQ Control Register : Report Rmap Error Invalid Data Crc IRQ Enable
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_control_reg.irq_rprt_rmap_err_invalid_data_crc_en;
+					end if;
+
+				when (16#5C#) =>
+					-- Report IRQ Flags Register : Report SpW Link Connected IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_spw_link_connected_flag;
+					end if;
+
+				when (16#5D#) =>
+					-- Report IRQ Flags Register : Report SpW Link Disconnected IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_spw_link_disconnected_flag;
+					end if;
+
+				when (16#5E#) =>
+					-- Report IRQ Flags Register : Report SpW Error Disconnect IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_spw_err_disconnect_flag;
+					end if;
+
+				when (16#5F#) =>
+					-- Report IRQ Flags Register : Report SpW Error Parity IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_spw_err_parity_flag;
+					end if;
+
+				when (16#60#) =>
+					-- Report IRQ Flags Register : Report SpW Error Escape IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_spw_err_escape_flag;
+					end if;
+
+				when (16#61#) =>
+					-- Report IRQ Flags Register : Report SpW Error Credit IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_spw_err_credit_flag;
+					end if;
+
+				when (16#62#) =>
+					-- Report IRQ Flags Register : Report Rx Timecode Received IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rx_timecode_received_flag;
+					end if;
+
+				when (16#63#) =>
+					-- Report IRQ Flags Register : Report Rmap Error Early EOP IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rmap_err_early_eop_flag;
+					end if;
+
+				when (16#64#) =>
+					-- Report IRQ Flags Register : Report Rmap Error EEP IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rmap_err_eep_flag;
+					end if;
+
+				when (16#65#) =>
+					-- Report IRQ Flags Register : Report Rmap Error Header CRC IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rmap_err_header_crc_flag;
+					end if;
+
+				when (16#66#) =>
+					-- Report IRQ Flags Register : Report Rmap Error Unused Packet Type IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rmap_err_unused_packet_type_flag;
+					end if;
+
+				when (16#67#) =>
+					-- Report IRQ Flags Register : Report Rmap Error Invalid Command Code IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rmap_err_invalid_command_code_flag;
+					end if;
+
+				when (16#68#) =>
+					-- Report IRQ Flags Register : Report Rmap Error Too Much Data IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rmap_err_too_much_data_flag;
+					end if;
+
+				when (16#69#) =>
+					-- Report IRQ Flags Register : Report Rmap Error Invalid Data Crc IRQ Flag
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_read_registers_i.report_irq_flags_reg.irq_rprt_rmap_err_invalid_data_crc_flag;
+					end if;
+
+				when (16#6A#) =>
+					-- Report IRQ Flags Clear Register : Report SpW Link Connected IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_spw_link_connected_flag_clear;
+					end if;
+
+				when (16#6B#) =>
+					-- Report IRQ Flags Clear Register : Report SpW Link Disconnected IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_spw_link_disconnected_flag_clear;
+					end if;
+
+				when (16#6C#) =>
+					-- Report IRQ Flags Clear Register : Report SpW Error Disconnect IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_spw_err_disconnect_flag_clear;
+					end if;
+
+				when (16#6D#) =>
+					-- Report IRQ Flags Clear Register : Report SpW Error Parity IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_spw_err_parity_flag_clear;
+					end if;
+
+				when (16#6E#) =>
+					-- Report IRQ Flags Clear Register : Report SpW Error Escape IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_spw_err_escape_flag_clear;
+					end if;
+
+				when (16#6F#) =>
+					-- Report IRQ Flags Clear Register : Report SpW Error Credit IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_spw_err_credit_flag_clear;
+					end if;
+
+				when (16#70#) =>
+					-- Report IRQ Flags Clear Register : Report Rx Timecode Received IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rx_timecode_received_flag_clear;
+					end if;
+
+				when (16#71#) =>
+					-- Report IRQ Flags Clear Register : Report Rmap Error Early EOP IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rmap_err_early_eop_flag_clear;
+					end if;
+
+				when (16#72#) =>
+					-- Report IRQ Flags Clear Register : Report Rmap Error EEP IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rmap_err_eep_flag_clear;
+					end if;
+
+				when (16#73#) =>
+					-- Report IRQ Flags Clear Register : Report Rmap Error Header CRC IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rmap_err_header_crc_flag_clear;
+					end if;
+
+				when (16#74#) =>
+					-- Report IRQ Flags Clear Register : Report Rmap Error Unused Packet Type IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rmap_err_unused_packet_type_flag_clear;
+					end if;
+
+				when (16#75#) =>
+					-- Report IRQ Flags Clear Register : Report Rmap Error Invalid Command Code IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_command_code_flag_clear;
+					end if;
+
+				when (16#76#) =>
+					-- Report IRQ Flags Clear Register : Report Rmap Error Too Much Data IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rmap_err_too_much_data_flag_clear;
+					end if;
+
+				when (16#77#) =>
+					-- Report IRQ Flags Clear Register : Report Rmap Error Invalid Data Crc IRQ Flag Clear
+					if (avalon_mm_dcom_i.byteenable(0) = '1') then
+						avalon_mm_dcom_o.readdata(0) <= dcom_write_registers_i.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_data_crc_flag_clear;
+					end if;
+
 				when others =>
 					-- No register associated to the address, return with 0x00000000
 					avalon_mm_dcom_o.readdata <= (others => '0');

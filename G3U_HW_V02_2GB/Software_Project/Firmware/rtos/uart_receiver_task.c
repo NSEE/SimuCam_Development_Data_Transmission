@@ -292,9 +292,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC ERROR.\n");
 		}
 #endif
-		/* CRC removed for testing */
-		//     v_ack_creator(pPayload, xCRCError);
-		v_ack_creator(pPayload, xAckOk);
+		v_ack_creator(pPayload, xCRCError);
 	}
 }
 
@@ -402,13 +400,11 @@ INT8U vCmdParser(T_uart_payload *pUartPayload) {
 
 #if DEBUG_ON
 			if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
-				fprintf(fp, "[vCmdParser DEBUG]CRC ERROR, but that's ok.\n");
+				fprintf(fp, "[vCmdParser DEBUG]CRC ERROR\n");
 			}
 #endif
-			/* Temporary fix, TODO: Remove */
-			//     v_ack_creator(pUartPayload, xCRCError);
-			//     return 1;
-			return 0;
+			v_ack_creator(pUartPayload, xCRCError);
+			return 1;
 		}
 
 #if DEBUG_ON
@@ -498,6 +494,9 @@ void uart_receiver_task(void *task_data) {
 		case sGetCommand:
 			error_code = vCmdParser((T_uart_payload *) &payload);
 			if (error_code == 0) {
+				if (payload.type != 204 || payload.type != 254) {
+					v_ack_creator(&payload, xAckOk);
+				}
 				eReaderRXMode = sSendToCmdCtrl;
 			} else {
 				eReaderRXMode = sRConfiguring;

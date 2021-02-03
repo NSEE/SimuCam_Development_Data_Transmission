@@ -65,7 +65,11 @@ typedef enum {
 	typeConfigureMeb,
 	typeSetRecording,
 	typeSetPeriodicHK,
-	typeReset
+	typeReset,
+	typeErrorInjectionSpw = 205,
+	typeErrorInjectionRmap,
+	typeSetProgressEvent,
+	typeDisc = 254,
 } TCmdTypes;
 
 /* Internal Types */
@@ -75,8 +79,12 @@ typedef enum {
 
 /* External Types */
 typedef enum {
-	typeAckExt = 201, typeUpload, typeSentEcho, typeHK
+	typeProgEvent = 101, typeAckExt = 201, typeUpload, typeSentEcho, typeHK
 } TCExtTypes;
+
+typedef enum {
+	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam
+} EidTypes;
 
 /* Pointer to the start of the imagette */
 typedef struct T_imagette {
@@ -121,6 +129,7 @@ typedef struct T_Simucam_conf {
 	INT8U iPeriodicHK;
 	INT32U luHKPeriod; /* HK Timer period in centiseconds, not activated if 0 */
 	INT8U usiDebugLevels;
+	INT8U usiProgressEvent;
 } T_Simucam_conf;
 
 typedef struct T_simucam_status {
@@ -160,5 +169,15 @@ typedef struct x_echo {
 	INT8U iTag[8];
 } x_echo;
 /*$PAGE*/
+
+typedef enum {
+	spwErrParity = 0,
+	spwErrDisconnect,
+	spwErrEscape_sequence,
+	spwErrCharacter_sequence,
+	spwErrCredit,
+	spwErrEEP,
+	spwErrInvalidDestination,
+} TErrorInjCodes;
 
 #endif /* SIMUCAM_MODEL_H_ */

@@ -12,6 +12,7 @@
 #include "spw_controller/spw_controller.h"
 #include "data_scheduler/data_scheduler.h"
 #include "rmap/rmap.h"
+#include "report/report.h"
 
 //! [constants definition]
 //! [constants definition]

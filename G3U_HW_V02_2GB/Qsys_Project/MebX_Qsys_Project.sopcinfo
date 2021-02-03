@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2020.12.03.23:20:39 -->
+ <!-- 2021.02.02.14:51:05 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1607044838</value>
+  <value>1612284664</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -746,7 +746,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_1">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -1611,7 +1611,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_1.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -1677,6 +1677,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -2058,7 +2135,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_2">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -2923,7 +3000,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_2.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -2989,6 +3066,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -3370,7 +3524,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_3">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -4235,7 +4389,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_3.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -4301,6 +4455,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -4682,7 +4913,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_4">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -5547,7 +5778,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_4.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -5613,6 +5844,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -5994,7 +6302,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_5">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -6859,7 +7167,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_5.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -6925,6 +7233,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -7306,7 +7691,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_6">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -8171,7 +8556,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_6.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -8237,6 +8622,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -8618,7 +9080,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_7">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -9483,7 +9945,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_7.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -9549,6 +10011,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -9930,7 +10469,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_8">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -10795,7 +11334,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_8.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -10861,6 +11400,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -11242,7 +11858,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.2"
+   version="1.3"
    path="Dumb_Communication_Module_v2_Timer">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -12083,7 +12699,7 @@ particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedAddressablePoint">
     <type>com.altera.entityinterfaces.IConnectionPoint</type>
-    <value>Dumb_Communication_Module_v2_Timer.avalon_slave_dcom</value>
+    <value></value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -12149,6 +12765,83 @@ parameters are a RESULT of the module parameters. -->
    <isStart>false</isStart>
    <port>
     <name>tx_interrupt_sender_irq_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>irq</role>
+   </port>
+  </interface>
+  <interface name="rprt_interrupt_sender" kind="interrupt_sender" version="18.1">
+   <!-- The connection points exposed by a module instance for the
+particular module parameters. Connection points and their
+parameters are a RESULT of the module parameters. -->
+   <parameter name="associatedAddressablePoint">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedClock">
+    <type>java.lang.String</type>
+    <value>clock_sink_100</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="associatedReset">
+    <type>java.lang.String</type>
+    <value>reset_sink</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgedReceiverOffset">
+    <type>java.lang.Integer</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="bridgesToReceiver">
+    <type>com.altera.entityinterfaces.IConnectionPoint</type>
+    <value></value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="irqScheme">
+    <type>com.altera.sopcmodel.interrupt.InterruptConnectionPoint$EIrqScheme</type>
+    <value>NONE</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>false</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="deviceFamily">
+    <type>java.lang.String</type>
+    <value>UNKNOWN</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <parameter name="generateLegacySim">
+    <type>boolean</type>
+    <value>false</value>
+    <derived>false</derived>
+    <enabled>true</enabled>
+    <visible>true</visible>
+    <valid>true</valid>
+   </parameter>
+   <type>interrupt</type>
+   <isStart>false</isStart>
+   <port>
+    <name>rprt_interrupt_sender_irq_o</name>
     <direction>Output</direction>
     <width>1</width>
     <role>irq</role>
@@ -66209,7 +66902,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="internalIrqMaskSystemInfo">
    <type>long</type>
-   <value>131068</value>
+   <value>66977788</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -67630,6 +68323,62 @@ parameters are a RESULT of the module parameters. -->
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_1</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_1.rprt_interrupt_sender</name>
+    <interruptNumber>18</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_2</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_2.rprt_interrupt_sender</name>
+    <interruptNumber>19</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_3</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_3.rprt_interrupt_sender</name>
+    <interruptNumber>20</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_4</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_4.rprt_interrupt_sender</name>
+    <interruptNumber>21</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_5</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_5.rprt_interrupt_sender</name>
+    <interruptNumber>22</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_6</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_6.rprt_interrupt_sender</name>
+    <interruptNumber>23</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_8</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_8.rprt_interrupt_sender</name>
+    <interruptNumber>25</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
+    <moduleName>Dumb_Communication_Module_v2_7</moduleName>
+    <slaveName>rprt_interrupt_sender</slaveName>
+    <name>Dumb_Communication_Module_v2_7.rprt_interrupt_sender</name>
+    <interruptNumber>24</interruptNumber>
+   </interrupt>
+   <interrupt>
+    <isBridge>false</isBridge>
     <moduleName>sync</moduleName>
     <slaveName>sync_interrupt_sender</slaveName>
     <name>sync.sync_interrupt_sender</name>
@@ -67654,14 +68403,14 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>Dumb_Communication_Module_v2_7</moduleName>
     <slaveName>tx_interrupt_sender</slaveName>
     <name>Dumb_Communication_Module_v2_7.tx_interrupt_sender</name>
-    <interruptNumber>13</interruptNumber>
+    <interruptNumber>14</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
     <moduleName>Dumb_Communication_Module_v2_6</moduleName>
     <slaveName>tx_interrupt_sender</slaveName>
     <name>Dumb_Communication_Module_v2_6.tx_interrupt_sender</name>
-    <interruptNumber>14</interruptNumber>
+    <interruptNumber>13</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
@@ -67675,14 +68424,14 @@ parameters are a RESULT of the module parameters. -->
     <moduleName>Dumb_Communication_Module_v2_4</moduleName>
     <slaveName>tx_interrupt_sender</slaveName>
     <name>Dumb_Communication_Module_v2_4.tx_interrupt_sender</name>
-    <interruptNumber>10</interruptNumber>
+    <interruptNumber>11</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
     <moduleName>Dumb_Communication_Module_v2_3</moduleName>
     <slaveName>tx_interrupt_sender</slaveName>
     <name>Dumb_Communication_Module_v2_3.tx_interrupt_sender</name>
-    <interruptNumber>11</interruptNumber>
+    <interruptNumber>10</interruptNumber>
    </interrupt>
    <interrupt>
     <isBridge>false</isBridge>
@@ -82485,7 +83234,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1607044838</value>
+   <value>1612284664</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -82505,7 +83254,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1607044838</value>
+   <value>1612284664</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -82521,7 +83270,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1607044838</value>
+   <value>1612284664</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -95678,6 +96427,286 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>pre_sync_interrupt_sender</endConnectionPoint>
  </connection>
  <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_1.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_1.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>18</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_1</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_2.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_2.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>19</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_2</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_3.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_3.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>20</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_3</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_4.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_4.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>21</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_4</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_5.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_5.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>22</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_5</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_6.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_6.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>23</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_6</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_8.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_8.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>25</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_8</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
+   name="nios2_gen2_0.irq/Dumb_Communication_Module_v2_7.rprt_interrupt_sender"
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="Dumb_Communication_Module_v2_7.rprt_interrupt_sender">
+  <parameter name="irqNumber">
+   <type>int</type>
+   <value>24</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="deviceFamily">
+   <type>java.lang.String</type>
+   <value>UNKNOWN</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="generateLegacySim">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <startModule>nios2_gen2_0</startModule>
+  <startConnectionPoint>irq</startConnectionPoint>
+  <endModule>Dumb_Communication_Module_v2_7</endModule>
+  <endConnectionPoint>rprt_interrupt_sender</endConnectionPoint>
+ </connection>
+ <connection
    name="nios2_gen2_0.irq/sync.sync_interrupt_sender"
    kind="interrupt"
    version="18.1"
@@ -95790,7 +96819,7 @@ parameters are a RESULT of the module parameters. -->
    end="Dumb_Communication_Module_v2_7.tx_interrupt_sender">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>13</value>
+   <value>14</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -95825,7 +96854,7 @@ parameters are a RESULT of the module parameters. -->
    end="Dumb_Communication_Module_v2_6.tx_interrupt_sender">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>14</value>
+   <value>13</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -95895,7 +96924,7 @@ parameters are a RESULT of the module parameters. -->
    end="Dumb_Communication_Module_v2_4.tx_interrupt_sender">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>10</value>
+   <value>11</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -95930,7 +96959,7 @@ parameters are a RESULT of the module parameters. -->
    end="Dumb_Communication_Module_v2_3.tx_interrupt_sender">
   <parameter name="irqNumber">
    <type>int</type>
-   <value>11</value>
+   <value>10</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -98873,7 +99902,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>DCOM_v2</displayName>
-  <version>1.2</version>
+  <version>1.3</version>
  </plugin>
  <plugin>
   <instanceCount>16</instanceCount>
@@ -98884,7 +99913,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>16</instanceCount>
+  <instanceCount>25</instanceCount>
   <name>interrupt_sender</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -99148,7 +100177,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>15</instanceCount>
+  <instanceCount>23</instanceCount>
   <name>interrupt</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IConnection</subtype>

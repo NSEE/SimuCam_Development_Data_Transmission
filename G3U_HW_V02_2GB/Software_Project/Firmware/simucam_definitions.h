@@ -50,8 +50,8 @@
 #define ECHO_BUFFER					512
 
 /* HW and FW release version */
-#define SIMUCAM_RELEASE                 "I2"
-#define SIMUCAM_HW_VERSION              "0.0"
+#define SIMUCAM_RELEASE                 "I3"
+#define SIMUCAM_HW_VERSION              "0.1"
 #define SIMUCAM_FW_VERSION              "0.0"
 
 /*
@@ -91,7 +91,7 @@
  * Error codes definitions transform into enum
  */
 typedef enum {
-	xAckOk = 0, xPlcH1, xPlcH2, xPlcH3, xCommandNotAccepted, xCommandNotFound, xNotImplemented, xTimerError, xParserError, xEchoError, xOSError, xCRCError
+	xAckOk = 0, xExecOk, xPlcH2, xPlcH3, xCommandNotAccepted, xCommandNotFound, xNotImplemented, xTimerError, xParserError, xEchoError, xOSError, xCRCError
 } xErrorTypes;
 
 #define ACK_OK						0

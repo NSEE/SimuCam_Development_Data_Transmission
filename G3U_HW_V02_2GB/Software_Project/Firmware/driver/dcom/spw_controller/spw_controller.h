@@ -16,6 +16,16 @@
 //! [constants definition]
 
 //! [public module structs definition]
+
+enum SpwcSpwCodecErrId {
+	eSpwcSpwCodecErrIdNone        = 0u,  /* SpaceWire Codec Error Injection Error ID for No Error */
+	eSpwcSpwCodecErrIdDiscon      = 1u,  /* SpaceWire Codec Error Injection Error ID for Disconnection Error */
+	eSpwcSpwCodecErrIdParity      = 2u,  /* SpaceWire Codec Error Injection Error ID for Parity Error */
+	eSpwcSpwCodecErrIdEscape      = 3u,  /* SpaceWire Codec Error Injection Error ID for Escape (ESC+ESC) Error */
+	eSpwcSpwCodecErrIdCredit      = 4u,  /* SpaceWire Codec Error Injection Error ID for Credit Error */
+	eSpwcSpwCodecErrIdChar        = 5u,  /* SpaceWire Codec Error Injection Error ID for Char Error */
+} SpwcSpwCodecErrId;
+
 //! [public module structs definition]
 
 //! [public function prototypes]

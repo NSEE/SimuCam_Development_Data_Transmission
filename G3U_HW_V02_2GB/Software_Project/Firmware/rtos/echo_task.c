@@ -119,7 +119,6 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number, INT8U i_channel
 
 	/*
 	 * Send the compiled data
-	 * TODO change to printf
 	 */
 
 	for (INT8U t = 0; t < 13; t++) {

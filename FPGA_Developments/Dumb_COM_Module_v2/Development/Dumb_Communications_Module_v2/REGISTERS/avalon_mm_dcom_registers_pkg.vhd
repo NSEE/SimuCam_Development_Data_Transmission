@@ -8,7 +8,7 @@ package avalon_mm_dcom_registers_pkg is
 
 	-- Allowed Addresses
 	constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#4C#;
+	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#77#;
 
 	-- Registers Types
 
@@ -196,6 +196,65 @@ package avalon_mm_dcom_registers_pkg is
 		rmap_errinj_value   : std_logic_vector(31 downto 0); -- Value of RMAP Error
 	end record t_domm_rmap_error_injection_control_wr_reg;
 
+	-- Report Device Address Register
+	type t_dcom_rprt_dev_addr_wr_reg is record
+		rprt_dev_base_addr : std_logic_vector(31 downto 0); -- Report Device Base Address
+	end record t_dcom_rprt_dev_addr_wr_reg;
+
+	-- Report IRQ Control Register
+	type t_dcom_report_irq_control_wr_reg is record
+		irq_rprt_spw_link_connected_en            : std_logic; -- Report SpW Link Connected IRQ Enable
+		irq_rprt_spw_link_disconnected_en         : std_logic; -- Report SpW Link Disconnected IRQ Enable
+		irq_rprt_spw_err_disconnect_en            : std_logic; -- Report SpW Error Disconnect IRQ Enable
+		irq_rprt_spw_err_parity_en                : std_logic; -- Report SpW Error Parity IRQ Enable
+		irq_rprt_spw_err_escape_en                : std_logic; -- Report SpW Error Escape IRQ Enable
+		irq_rprt_spw_err_credit_en                : std_logic; -- Report SpW Error Credit IRQ Enable
+		irq_rprt_rx_timecode_received_en          : std_logic; -- Report Rx Timecode Received IRQ Enable
+		irq_rprt_rmap_err_early_eop_en            : std_logic; -- Report Rmap Error Early EOP IRQ Enable
+		irq_rprt_rmap_err_eep_en                  : std_logic; -- Report Rmap Error EEP IRQ Enable
+		irq_rprt_rmap_err_header_crc_en           : std_logic; -- Report Rmap Error Header CRC IRQ Enable
+		irq_rprt_rmap_err_unused_packet_type_en   : std_logic; -- Report Rmap Error Unused Packet Type IRQ Enable
+		irq_rprt_rmap_err_invalid_command_code_en : std_logic; -- Report Rmap Error Invalid Command Code IRQ Enable
+		irq_rprt_rmap_err_too_much_data_en        : std_logic; -- Report Rmap Error Too Much Data IRQ Enable
+		irq_rprt_rmap_err_invalid_data_crc_en     : std_logic; -- Report Rmap Error Invalid Data Crc IRQ Enable
+	end record t_dcom_report_irq_control_wr_reg;
+
+	-- Report IRQ Flags Register
+	type t_dcom_report_irq_flags_rd_reg is record
+		irq_rprt_spw_link_connected_flag            : std_logic; -- Report SpW Link Connected IRQ Flag
+		irq_rprt_spw_link_disconnected_flag         : std_logic; -- Report SpW Link Disconnected IRQ Flag
+		irq_rprt_spw_err_disconnect_flag            : std_logic; -- Report SpW Error Disconnect IRQ Flag
+		irq_rprt_spw_err_parity_flag                : std_logic; -- Report SpW Error Parity IRQ Flag
+		irq_rprt_spw_err_escape_flag                : std_logic; -- Report SpW Error Escape IRQ Flag
+		irq_rprt_spw_err_credit_flag                : std_logic; -- Report SpW Error Credit IRQ Flag
+		irq_rprt_rx_timecode_received_flag          : std_logic; -- Report Rx Timecode Received IRQ Flag
+		irq_rprt_rmap_err_early_eop_flag            : std_logic; -- Report Rmap Error Early EOP IRQ Flag
+		irq_rprt_rmap_err_eep_flag                  : std_logic; -- Report Rmap Error EEP IRQ Flag
+		irq_rprt_rmap_err_header_crc_flag           : std_logic; -- Report Rmap Error Header CRC IRQ Flag
+		irq_rprt_rmap_err_unused_packet_type_flag   : std_logic; -- Report Rmap Error Unused Packet Type IRQ Flag
+		irq_rprt_rmap_err_invalid_command_code_flag : std_logic; -- Report Rmap Error Invalid Command Code IRQ Flag
+		irq_rprt_rmap_err_too_much_data_flag        : std_logic; -- Report Rmap Error Too Much Data IRQ Flag
+		irq_rprt_rmap_err_invalid_data_crc_flag     : std_logic; -- Report Rmap Error Invalid Data Crc IRQ Flag
+	end record t_dcom_report_irq_flags_rd_reg;
+
+	-- Report IRQ Flags Clear Register
+	type t_dcom_report_irq_flags_clear_wr_reg is record
+		irq_rprt_spw_link_connected_flag_clear            : std_logic; -- Report SpW Link Connected IRQ Flag Clear
+		irq_rprt_spw_link_disconnected_flag_clear         : std_logic; -- Report SpW Link Disconnected IRQ Flag Clear
+		irq_rprt_spw_err_disconnect_flag_clear            : std_logic; -- Report SpW Error Disconnect IRQ Flag Clear
+		irq_rprt_spw_err_parity_flag_clear                : std_logic; -- Report SpW Error Parity IRQ Flag Clear
+		irq_rprt_spw_err_escape_flag_clear                : std_logic; -- Report SpW Error Escape IRQ Flag Clear
+		irq_rprt_spw_err_credit_flag_clear                : std_logic; -- Report SpW Error Credit IRQ Flag Clear
+		irq_rprt_rx_timecode_received_flag_clear          : std_logic; -- Report Rx Timecode Received IRQ Flag Clear
+		irq_rprt_rmap_err_early_eop_flag_clear            : std_logic; -- Report Rmap Error Early EOP IRQ Flag Clear
+		irq_rprt_rmap_err_eep_flag_clear                  : std_logic; -- Report Rmap Error EEP IRQ Flag Clear
+		irq_rprt_rmap_err_header_crc_flag_clear           : std_logic; -- Report Rmap Error Header CRC IRQ Flag Clear
+		irq_rprt_rmap_err_unused_packet_type_flag_clear   : std_logic; -- Report Rmap Error Unused Packet Type IRQ Flag Clear
+		irq_rprt_rmap_err_invalid_command_code_flag_clear : std_logic; -- Report Rmap Error Invalid Command Code IRQ Flag Clear
+		irq_rprt_rmap_err_too_much_data_flag_clear        : std_logic; -- Report Rmap Error Too Much Data IRQ Flag Clear
+		irq_rprt_rmap_err_invalid_data_crc_flag_clear     : std_logic; -- Report Rmap Error Invalid Data Crc IRQ Flag Clear
+	end record t_dcom_report_irq_flags_clear_wr_reg;
+
 	-- Avalon MM Types
 
 	-- Avalon MM Read/Write Registers
@@ -218,6 +277,9 @@ package avalon_mm_dcom_registers_pkg is
 		rmap_mem_area_config_reg           : t_dcom_rmap_mem_area_config_wr_reg; -- RMAP Memory Area Config Register
 		rmap_mem_area_ptr_reg              : t_dcom_rmap_mem_area_ptr_wr_reg; -- RMAP Memory Area Pointer Register
 		rmap_error_injection_control_reg   : t_domm_rmap_error_injection_control_wr_reg; -- RMAP Error Injection Control Register
+		rprt_dev_addr_reg                  : t_dcom_rprt_dev_addr_wr_reg; -- Report Device Address Register
+		report_irq_control_reg             : t_dcom_report_irq_control_wr_reg; -- Report IRQ Control Register
+		report_irq_flags_clear_reg         : t_dcom_report_irq_flags_clear_wr_reg; -- Report IRQ Flags Clear Register
 	end record t_dcom_write_registers;
 
 	-- Avalon MM Read-Only Registers
@@ -230,6 +292,7 @@ package avalon_mm_dcom_registers_pkg is
 		data_scheduler_data_status_reg   : t_dcom_data_scheduler_data_status_rd_reg; -- Data Scheduler Data Status Register
 		data_scheduler_irq_flags_reg     : t_dcom_data_scheduler_irq_flags_rd_reg; -- Data Scheduler IRQ Flags Register
 		rmap_codec_status_reg            : t_dcom_rmap_codec_status_rd_reg; -- RMAP Codec Status Register
+		report_irq_flags_reg             : t_dcom_report_irq_flags_rd_reg; -- Report IRQ Flags Register
 	end record t_dcom_read_registers;
 
 end package avalon_mm_dcom_registers_pkg;
