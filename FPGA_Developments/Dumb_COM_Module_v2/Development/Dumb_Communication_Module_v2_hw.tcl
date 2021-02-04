@@ -4,7 +4,7 @@
 
 
 # 
-# Dumb_Communication_Module_v2 "DCOM_v2" v1.2
+# Dumb_Communication_Module_v2 "DCOM_v2" v1.3
 #  2019.04.12.16:30:38
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME Dumb_Communication_Module_v2
-set_module_property VERSION 1.2
+set_module_property VERSION 1.3
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR ""
@@ -63,6 +63,8 @@ add_fileset_file spw_mux_ent.vhd VHDL PATH Dumb_Communications_Module_v2/SPW_MUX
 add_fileset_file dcom_avm_data_pkg.vhd VHDL PATH Dumb_Communications_Module_v2/DCOM_AVALON_MM_MASTER_DATA/dcom_avm_data_pkg.vhd
 add_fileset_file dcom_avm_data_reader_ent.vhd VHDL PATH Dumb_Communications_Module_v2/DCOM_AVALON_MM_MASTER_DATA/dcom_avm_data_reader_ent.vhd
 add_fileset_file dcom_avm_reader_controller_ent.vhd VHDL PATH Dumb_Communications_Module_v2/DCOM_AMV_CONTROLLER/dcom_avm_reader_controller_ent.vhd
+add_fileset_file dcom_irq_manager_pkg.vhd VHDL PATH Dumb_Communications_Module_v2/IRQ_MANAGER/dcom_irq_manager_pkg.vhd
+add_fileset_file dcom_rprt_irq_manager_ent.vhd VHDL PATH Dumb_Communications_Module_v2/IRQ_MANAGER/dcom_rprt_irq_manager_ent.vhd
 add_fileset_file dcom_v2_top.vhd VHDL PATH Dumb_Communications_Module_v2/dcom_v2_top.vhd TOP_LEVEL_FILE
 
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
@@ -93,6 +95,8 @@ add_fileset_file spw_mux_ent.vhd VHDL PATH Dumb_Communications_Module_v2/SPW_MUX
 add_fileset_file dcom_avm_data_pkg.vhd VHDL PATH Dumb_Communications_Module_v2/DCOM_AVALON_MM_MASTER_DATA/dcom_avm_data_pkg.vhd
 add_fileset_file dcom_avm_data_reader_ent.vhd VHDL PATH Dumb_Communications_Module_v2/DCOM_AVALON_MM_MASTER_DATA/dcom_avm_data_reader_ent.vhd
 add_fileset_file dcom_avm_reader_controller_ent.vhd VHDL PATH Dumb_Communications_Module_v2/DCOM_AMV_CONTROLLER/dcom_avm_reader_controller_ent.vhd
+add_fileset_file dcom_irq_manager_pkg.vhd VHDL PATH Dumb_Communications_Module_v2/IRQ_MANAGER/dcom_irq_manager_pkg.vhd
+add_fileset_file dcom_rprt_irq_manager_ent.vhd VHDL PATH Dumb_Communications_Module_v2/IRQ_MANAGER/dcom_rprt_irq_manager_ent.vhd
 add_fileset_file dcom_v2_top.vhd VHDL PATH Dumb_Communications_Module_v2/dcom_v2_top.vhd TOP_LEVEL_FILE
 
 
@@ -226,7 +230,7 @@ set_interface_assignment avalon_slave_dcom embeddedsw.configuration.isPrintableD
 # connection point tx_interrupt_sender
 # 
 add_interface tx_interrupt_sender interrupt end
-set_interface_property tx_interrupt_sender associatedAddressablePoint avalon_slave_dcom
+set_interface_property tx_interrupt_sender associatedAddressablePoint ""
 set_interface_property tx_interrupt_sender associatedClock clock_sink_100
 set_interface_property tx_interrupt_sender associatedReset reset_sink
 set_interface_property tx_interrupt_sender bridgedReceiverOffset ""
@@ -238,6 +242,24 @@ set_interface_property tx_interrupt_sender CMSIS_SVD_VARIABLES ""
 set_interface_property tx_interrupt_sender SVD_ADDRESS_GROUP ""
 
 add_interface_port tx_interrupt_sender tx_interrupt_sender_irq_o irq Output 1
+
+
+# 
+# connection point rprt_interrupt_sender
+# 
+add_interface rprt_interrupt_sender interrupt end
+set_interface_property rprt_interrupt_sender associatedAddressablePoint ""
+set_interface_property rprt_interrupt_sender associatedClock clock_sink_100
+set_interface_property rprt_interrupt_sender associatedReset reset_sink
+set_interface_property rprt_interrupt_sender bridgedReceiverOffset ""
+set_interface_property rprt_interrupt_sender bridgesToReceiver ""
+set_interface_property rprt_interrupt_sender ENABLED true
+set_interface_property rprt_interrupt_sender EXPORT_OF ""
+set_interface_property rprt_interrupt_sender PORT_NAME_MAP ""
+set_interface_property rprt_interrupt_sender CMSIS_SVD_VARIABLES ""
+set_interface_property rprt_interrupt_sender SVD_ADDRESS_GROUP ""
+
+add_interface_port rprt_interrupt_sender rprt_interrupt_sender_irq_o irq Output 1
 
 
 # 

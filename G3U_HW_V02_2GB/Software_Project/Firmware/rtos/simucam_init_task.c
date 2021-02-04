@@ -245,7 +245,7 @@ void sub_unit_create_os_data_structs(void) {
 	}
 }
 
-/* TODO format
+/* 
  * Function used to initialize all simucam tasks
  */
 void SimucamCreateTasks(void) {
@@ -277,9 +277,9 @@ void SimucamCreateTasks(void) {
 	OSTimeDlyHMSM(0, 0, 1, 0);
 
 	/*
-	 * Creating the sub_unit 1 management task [yb] TODO: Change to one .c
+	 * Creating the sub_unit 1 management task
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_1, (void *) 1, (void *) &sub_unit_task_stack_1[TASK_STACKSIZE - 1],
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 1, (void *) &sub_unit_task_stack_1[TASK_STACKSIZE - 1],
 	SUB_UNIT_TASK_PRIORITY + 1,
 	SUB_UNIT_TASK_PRIORITY + 1, sub_unit_task_stack_1,
 	TASK_STACKSIZE,
@@ -288,9 +288,9 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 2 management task [yb] TODO: Change to one .c
+	 * Creating the sub_unit 2 management task
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_2, (void *) 2, (void *) &sub_unit_task_stack_2[TASK_STACKSIZE - 1],
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 2, (void *) &sub_unit_task_stack_2[TASK_STACKSIZE - 1],
 	SUB_UNIT_TASK_PRIORITY + 2,
 	SUB_UNIT_TASK_PRIORITY + 2, sub_unit_task_stack_2,
 	TASK_STACKSIZE,
@@ -299,9 +299,9 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 3 management task [yb] TODO: Change to one .c
+	 * Creating the sub_unit 3 management task
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_3, (void *) 3, (void *) &sub_unit_task_stack_3[TASK_STACKSIZE - 1],
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 3, (void *) &sub_unit_task_stack_3[TASK_STACKSIZE - 1],
 	SUB_UNIT_TASK_PRIORITY + 3,
 	SUB_UNIT_TASK_PRIORITY + 3, sub_unit_task_stack_3,
 	TASK_STACKSIZE,
@@ -310,9 +310,9 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 4 management task [yb] TODO: Change to one .c
+	 * Creating the sub_unit 4 management task
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_4, (void *) 4, (void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 4, (void *) &sub_unit_task_stack_4[TASK_STACKSIZE - 1],
 	SUB_UNIT_TASK_PRIORITY + 4,
 	SUB_UNIT_TASK_PRIORITY + 4, sub_unit_task_stack_4,
 	TASK_STACKSIZE,
@@ -320,9 +320,9 @@ void SimucamCreateTasks(void) {
 
 	alt_uCOSIIErrorHandler(error_code, 0);
 	/*
-	 * Creating the sub_unit 5 management task [yb] TODO: Change to one .c
+	 * Creating the sub_unit 5 management task
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_5, (void *) 5, (void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 5, (void *) &sub_unit_task_stack_5[TASK_STACKSIZE - 1],
 	SUB_UNIT_TASK_PRIORITY + 5,
 	SUB_UNIT_TASK_PRIORITY + 5, sub_unit_task_stack_5,
 	TASK_STACKSIZE,
@@ -331,9 +331,9 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 6 management task [yb] TODO: Change to one .c
+	 * Creating the sub_unit 6 management task
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_6, (void *) 6, (void *) &sub_unit_task_stack_6[TASK_STACKSIZE - 1],
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 6, (void *) &sub_unit_task_stack_6[TASK_STACKSIZE - 1],
 	SUB_UNIT_TASK_PRIORITY + 6,
 	SUB_UNIT_TASK_PRIORITY + 6, sub_unit_task_stack_6,
 	TASK_STACKSIZE,
@@ -342,9 +342,9 @@ void SimucamCreateTasks(void) {
 	alt_uCOSIIErrorHandler(error_code, 0);
 
 	/*
-	 * Creating the sub_unit 7 management task [yb] TODO: Change to one .c
+	 * Creating the sub_unit 7 management task
 	 */
-	error_code = OSTaskCreateExt(sub_unit_control_task_7, (void *) 7, (void *) &sub_unit_task_stack_7[TASK_STACKSIZE - 1],
+	error_code = OSTaskCreateExt(sub_unit_control_task, (void *) 7, (void *) &sub_unit_task_stack_7[TASK_STACKSIZE - 1],
 	SUB_UNIT_TASK_PRIORITY + 7,
 	SUB_UNIT_TASK_PRIORITY + 7, sub_unit_task_stack_7,
 	TASK_STACKSIZE,

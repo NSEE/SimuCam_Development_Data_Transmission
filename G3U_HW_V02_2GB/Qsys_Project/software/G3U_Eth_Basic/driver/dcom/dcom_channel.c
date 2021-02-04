@@ -93,6 +93,12 @@ bool bDcomInitCh(TDcomChannel *pxDcomCh, alt_u8 ucDcomCh) {
 	if (!bRmapInitCh(&(pxDcomCh->xRmap), ucDcomCh)) {
 		bInitFail = TRUE;
 	}
+	if (!bRprtInitCh(&(pxDcomCh->xReport), ucDcomCh)) {
+		bInitFail = TRUE;
+	}
+	if (!bRprtInitIrq(ucDcomCh)) {
+		bInitFail = TRUE;
+	}
 
 	if (!bInitFail) {
 		bStatus = TRUE;

@@ -36,6 +36,7 @@ entity dcom_v2_top is
 		avalon_master_data_address_o     : out std_logic_vector(63 downto 0); --                 --                                 .address
 		avalon_master_data_read_o        : out std_logic; --                                     --                                 .read
 		tx_interrupt_sender_irq_o        : out std_logic; --                                     --              tx_interrupt_sender.irq
+		rprt_interrupt_sender_irq_o      : out std_logic; --                                     --            rprt_interrupt_sender.irq
 		spw_link_status_started_i        : in  std_logic                     := '0'; --          -- conduit_end_spacewire_controller.spw_link_status_started_signal
 		spw_link_status_connecting_i     : in  std_logic                     := '0'; --          --                                 .spw_link_status_connecting_signal
 		spw_link_status_running_i        : in  std_logic                     := '0'; --          --                                 .spw_link_status_running_signal
@@ -529,6 +530,72 @@ begin
 		end if;
 	end process p_dcom_tx_irq_manager;
 	tx_interrupt_sender_irq_o <= ('0') when (a_reset = '1') else ((s_dcom_read_registers.data_scheduler_irq_flags_reg.irq_tx_begin_flag) or (s_dcom_read_registers.data_scheduler_irq_flags_reg.irq_tx_end_flag));
+
+	-- DCOM Report IRQ Manager Instantiation
+	dcom_rprt_irq_manager_ent_inst : entity work.dcom_rprt_irq_manager_ent
+		port map(
+			clk_i                                              => a_avs_clock,
+			rst_i                                              => a_reset,
+			irq_manager_stop_i                                 => '0',
+			irq_manager_start_i                                => '1',
+			global_irq_en_i                                    => s_dcom_write_registers.dcom_irq_control_reg.dcom_global_irq_en,
+			irq_watches_i.rprt_spw_link_running                => s_dcom_read_registers.spw_link_status_reg.spw_link_running,
+			irq_watches_i.rprt_spw_err_disconnect              => s_dcom_read_registers.spw_link_status_reg.spw_err_disconnect,
+			irq_watches_i.rprt_spw_err_parity                  => s_dcom_read_registers.spw_link_status_reg.spw_err_parity,
+			irq_watches_i.rprt_spw_err_escape                  => s_dcom_read_registers.spw_link_status_reg.spw_err_escape,
+			irq_watches_i.rprt_spw_err_credit                  => s_dcom_read_registers.spw_link_status_reg.spw_err_credit,
+			irq_watches_i.rprt_rx_timecode_received            => s_dcom_read_registers.spw_timecode_status_reg.timecode_rx_received,
+			irq_watches_i.rprt_rmap_err_early_eop              => s_dcom_read_registers.rmap_codec_status_reg.rmap_err_early_eop,
+			irq_watches_i.rprt_rmap_err_eep                    => s_dcom_read_registers.rmap_codec_status_reg.rmap_err_eep,
+			irq_watches_i.rprt_rmap_err_header_crc             => s_dcom_read_registers.rmap_codec_status_reg.rmap_err_header_crc,
+			irq_watches_i.rprt_rmap_err_unused_packet_type     => s_dcom_read_registers.rmap_codec_status_reg.rmap_err_unused_packet_type,
+			irq_watches_i.rprt_rmap_err_invalid_command_code   => s_dcom_read_registers.rmap_codec_status_reg.rmap_err_invalid_command_code,
+			irq_watches_i.rprt_rmap_err_too_much_data          => s_dcom_read_registers.rmap_codec_status_reg.rmap_err_too_much_data,
+			irq_watches_i.rprt_rmap_err_invalid_data_crc       => s_dcom_read_registers.rmap_codec_status_reg.rmap_err_invalid_data_crc,
+			irq_flags_en_i.rprt_spw_link_connected             => s_dcom_write_registers.report_irq_control_reg.irq_rprt_spw_link_connected_en,
+			irq_flags_en_i.rprt_spw_link_disconnected          => s_dcom_write_registers.report_irq_control_reg.irq_rprt_spw_link_disconnected_en,
+			irq_flags_en_i.rprt_spw_err_disconnect             => s_dcom_write_registers.report_irq_control_reg.irq_rprt_spw_err_disconnect_en,
+			irq_flags_en_i.rprt_spw_err_parity                 => s_dcom_write_registers.report_irq_control_reg.irq_rprt_spw_err_parity_en,
+			irq_flags_en_i.rprt_spw_err_escape                 => s_dcom_write_registers.report_irq_control_reg.irq_rprt_spw_err_escape_en,
+			irq_flags_en_i.rprt_spw_err_credit                 => s_dcom_write_registers.report_irq_control_reg.irq_rprt_spw_err_credit_en,
+			irq_flags_en_i.rprt_rx_timecode_received           => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rx_timecode_received_en,
+			irq_flags_en_i.rprt_rmap_err_early_eop             => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rmap_err_early_eop_en,
+			irq_flags_en_i.rprt_rmap_err_eep                   => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rmap_err_eep_en,
+			irq_flags_en_i.rprt_rmap_err_header_crc            => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rmap_err_header_crc_en,
+			irq_flags_en_i.rprt_rmap_err_unused_packet_type    => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rmap_err_unused_packet_type_en,
+			irq_flags_en_i.rprt_rmap_err_invalid_command_code  => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rmap_err_invalid_command_code_en,
+			irq_flags_en_i.rprt_rmap_err_too_much_data         => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rmap_err_too_much_data_en,
+			irq_flags_en_i.rprt_rmap_err_invalid_data_crc      => s_dcom_write_registers.report_irq_control_reg.irq_rprt_rmap_err_invalid_data_crc_en,
+			irq_flags_clr_i.rprt_spw_link_connected            => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_spw_link_connected_flag_clear,
+			irq_flags_clr_i.rprt_spw_link_disconnected         => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_spw_link_disconnected_flag_clear,
+			irq_flags_clr_i.rprt_spw_err_disconnect            => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_spw_err_disconnect_flag_clear,
+			irq_flags_clr_i.rprt_spw_err_parity                => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_spw_err_parity_flag_clear,
+			irq_flags_clr_i.rprt_spw_err_escape                => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_spw_err_escape_flag_clear,
+			irq_flags_clr_i.rprt_spw_err_credit                => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_spw_err_credit_flag_clear,
+			irq_flags_clr_i.rprt_rx_timecode_received          => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rx_timecode_received_flag_clear,
+			irq_flags_clr_i.rprt_rmap_err_early_eop            => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rmap_err_early_eop_flag_clear,
+			irq_flags_clr_i.rprt_rmap_err_eep                  => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rmap_err_eep_flag_clear,
+			irq_flags_clr_i.rprt_rmap_err_header_crc           => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rmap_err_header_crc_flag_clear,
+			irq_flags_clr_i.rprt_rmap_err_unused_packet_type   => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rmap_err_unused_packet_type_flag_clear,
+			irq_flags_clr_i.rprt_rmap_err_invalid_command_code => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_command_code_flag_clear,
+			irq_flags_clr_i.rprt_rmap_err_too_much_data        => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rmap_err_too_much_data_flag_clear,
+			irq_flags_clr_i.rprt_rmap_err_invalid_data_crc     => s_dcom_write_registers.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_data_crc_flag_clear,
+			irq_flags_o.rprt_spw_link_connected                => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_spw_link_connected_flag,
+			irq_flags_o.rprt_spw_link_disconnected             => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_spw_link_disconnected_flag,
+			irq_flags_o.rprt_spw_err_disconnect                => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_spw_err_disconnect_flag,
+			irq_flags_o.rprt_spw_err_parity                    => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_spw_err_parity_flag,
+			irq_flags_o.rprt_spw_err_escape                    => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_spw_err_escape_flag,
+			irq_flags_o.rprt_spw_err_credit                    => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_spw_err_credit_flag,
+			irq_flags_o.rprt_rx_timecode_received              => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rx_timecode_received_flag,
+			irq_flags_o.rprt_rmap_err_early_eop                => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rmap_err_early_eop_flag,
+			irq_flags_o.rprt_rmap_err_eep                      => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rmap_err_eep_flag,
+			irq_flags_o.rprt_rmap_err_header_crc               => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rmap_err_header_crc_flag,
+			irq_flags_o.rprt_rmap_err_unused_packet_type       => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rmap_err_unused_packet_type_flag,
+			irq_flags_o.rprt_rmap_err_invalid_command_code     => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rmap_err_invalid_command_code_flag,
+			irq_flags_o.rprt_rmap_err_too_much_data            => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rmap_err_too_much_data_flag,
+			irq_flags_o.rprt_rmap_err_invalid_data_crc         => s_dcom_read_registers.report_irq_flags_reg.irq_rprt_rmap_err_invalid_data_crc_flag,
+			irq_o                                              => rprt_interrupt_sender_irq_o
+		);
 
 	-- Sync In Trigger Generator
 	p_sync_in_triger : process(a_avs_clock, a_reset) is

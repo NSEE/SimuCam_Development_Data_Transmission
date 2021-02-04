@@ -236,7 +236,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	hk_buffer[10] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**Sub_config_enabled*/
 	hk_buffer[11] = T_simucam.T_Sub[i_channel].T_conf.link_config; /**sub_config_linkstatus*/
 	hk_buffer[12] = T_simucam.T_Sub[i_channel].T_conf.linkspeed; /**sub_config_linkspeed*/
-	hk_buffer[13] = xCh[chann_buff].xSpacewire.xSpwcLinkStatus.bRunning; /**sub_status_linkrunning*/ // TODO
+	hk_buffer[13] = xCh[chann_buff].xSpacewire.xSpwcLinkStatus.bRunning;
 	hk_buffer[14] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**link enabled*/
 	hk_buffer[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
 	hk_buffer[16] = 0; /**TODO link errors*/
@@ -290,6 +290,66 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 }
 
 /**
+ * @name v_p_event_creator
+ * @brief External Comm ACK generator
+ * @ingroup UTIL
+ *
+ * @param 	[in] 	INT8U EID Code
+ * @retval  void
+ **/
+void v_p_event_creator(INT8U usi_eid) {
+
+	 INT16U nb_id = T_simucam.T_status.TM_id;
+	INT8U ack_buffer[32];
+	INT32U ack_size = 14;
+	INT16U usCRC = 0;
+
+	/* memset buffer */
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+	fprintf(fp, "[ACK CREATOR] Entered ack creator.\r\n");
+}
+#endif
+	ack_buffer[0] = 2;
+
+	/*
+	 * Id to bytes
+	 */
+	ack_buffer[2] = div(nb_id, 256).rem;
+	nb_id = div(nb_id, 256).quot;
+	ack_buffer[1] = div(nb_id, 256).rem;
+
+	ack_buffer[3] = typeProgEvent;
+	ack_buffer[4] = 0;
+	ack_buffer[5] = 0;
+	ack_buffer[6] = 0;
+	ack_buffer[7] = 11;
+
+	ack_buffer[8] = usi_eid;
+
+	/**
+	 * Calculate and add CRC
+	 */
+	usCRC = crc__CRC16CCITT(ack_buffer, 12);
+
+	ack_buffer[10] = div(usCRC, 256).rem;
+	usCRC = div(usCRC, 256).quot;
+	ack_buffer[9] = div(usCRC, 256).rem;
+
+//	vUartWriteBuffer(ack_buffer, ack_size);
+	for (int f = 0; f < ack_size; f++) {
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "%c", ack_buffer[f]);
+}
+#endif
+		vUartWriteCharBlocking(ack_buffer[f]);
+	}
+
+	T_simucam.T_status.TM_id++;
+}
+
+/**
  * @name vSendETHConfig
  * @brief Send the SD Card eth conf to NUC
  * @ingroup UTIL
@@ -321,7 +381,7 @@ void vSendETHConfig(TConfEth xEthConf) {
 	iETHBuffer[6] = 0;
 	iETHBuffer[7] = IP_CONFIG_SIZE;
 
-	iETHBuffer[8] = 1;
+	iETHBuffer[8] = xEthConf.bDHCP;
 	iETHBuffer[10] = div(portNb, 256).rem;
 	portNb = div(portNb, 256).quot;
 	iETHBuffer[9] = div(portNb, 256).rem;
@@ -566,6 +626,9 @@ void CommandManagementTask() {
 #endif
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
+			if (T_simucam.T_conf.usiProgressEvent == 1){
+				v_p_event_creator(eidMebConfig);
+			}	
 			break;
 
 			/*
@@ -611,9 +674,6 @@ void CommandManagementTask() {
 				sub_config_send[p_payload->data[0]].link_config = p_payload->data[1];
 				sub_config_send[p_payload->data[0]].linkspeed = p_payload->data[2];
 				sub_config_send[p_payload->data[0]].linkstatus_running = p_payload->data[3];
-				/*
-				 * TODO complete listing
-				 */
 
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
@@ -622,18 +682,7 @@ void CommandManagementTask() {
 				}
 #endif
 
-				v_ack_creator(p_payload, xAckOk);
-
-				break;
-
-				/*
-				 * Select data to send
-				 * TODO Will be done in the MEB
-				 * char: h
-				 */
-			case typeSelectDataToSend:
-
-				v_ack_creator(p_payload, xNotImplemented);
+				v_ack_creator(p_payload, xExecOk);
 
 				break;
 
@@ -674,12 +723,15 @@ void CommandManagementTask() {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
 				vClearRam();
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
 				}
 #endif
+				if (T_simucam.T_conf.usiProgressEvent == 1){
+					v_p_event_creator(eidClrRam);
+				}	
 				break;
 
 				/*
@@ -694,7 +746,7 @@ void CommandManagementTask() {
 				i_channel_buffer = p_payload->data[0];
 
 				v_HK_creator(i_channel_buffer);
-				// v_ack_creator(p_payload, xAckOk);
+				// v_ack_creator(p_payload, xExecOk);
 				break;
 
 				/*
@@ -710,7 +762,7 @@ void CommandManagementTask() {
 				T_simucam.T_conf.i_forward_data = p_payload->data[0];
 				T_simucam.T_conf.echo_sent = p_payload->data[1];
 
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Meb configs: fwd: %i, echo: %i\r\n", (int) T_simucam.T_conf.i_forward_data, (int) T_simucam.T_conf.echo_sent);
@@ -728,7 +780,7 @@ void CommandManagementTask() {
 				}
 #endif
 				T_simucam.T_conf.iLog = p_payload->data[0];
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
 				break;
 
 				/**
@@ -752,7 +804,7 @@ void CommandManagementTask() {
 					T_simucam.T_conf.luHKPeriod = 0;
 				}
 				if (error_code == OS_NO_ERR) {
-					v_ack_creator(p_payload, xAckOk);
+					v_ack_creator(p_payload, xExecOk);
 				} else {
 					v_ack_creator(p_payload, xOSError);
 				}
@@ -767,6 +819,29 @@ void CommandManagementTask() {
 #endif
 				vResetSimucam();
             break;
+
+			/* Eth Disconnect */
+			case typeDisc:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask]Ethernet Disconnect\n\r");
+				}
+#endif
+				error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
+				T_simucam.T_conf.luHKPeriod = 0;
+				T_simucam.T_conf.i_forward_data = 0;
+				T_simucam.T_conf.echo_sent = 0;
+			break;
+			
+			case typeSetProgressEvent:
+#if DEBUG_ON
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+				fprintf(fp, "[CommandManagementTask]Set Progress Eventst\n\r");
+			}
+#endif
+				T_simucam.T_conf.usiProgressEvent = p_payload->data[0];
+				v_ack_creator(p_payload, xExecOk);
+			break;
 
 			default:
 #if DEBUG_ON
@@ -799,6 +874,10 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			bDschStartTimer(&xSimucamTimer);
 
 			T_simucam.T_status.simucam_mode = simModeRun;
+			v_ack_creator(p_payload, xExecOk);
+			if (T_simucam.T_conf.usiProgressEvent == 1){
+					v_p_event_creator(eidMebRun);
+			}	
 			break;
 
 		case simModeRun:
@@ -817,11 +896,14 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			 * Start simucam timer counting
 			 */
 			error_code = bDschRunTimer(&xSimucamTimer);
-			if (error_code == TRUE) {
-				v_ack_creator(p_payload, xAckOk);
-			} else {
+			if (error_code != TRUE){
 				v_ack_creator(p_payload, xTimerError);
 			}
+			// if (error_code == TRUE) {
+			// 	v_ack_creator(p_payload, xExecOk);
+			// } else {
+			// 	v_ack_creator(p_payload, xTimerError);
+			// }
 
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 
@@ -832,7 +914,10 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 				bSyncCtrOneShot();
 
-				v_ack_creator(p_payload, xAckOk);
+				v_ack_creator(p_payload, xExecOk);
+				if (T_simucam.T_conf.usiProgressEvent == 1){
+					v_p_event_creator(eidSyncRcv);
+				}
 				/*
 				 * TODO Start HK timer if needed
 				 */
@@ -867,7 +952,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #endif
 
 						/*
-						 * Stop Simucam Timer TODO: Maybe change to toConfig
+						 * Stop Simucam Timer
 						 */
 						error_code = bDschStopTimer(&xSimucamTimer);
 						if (error_code != TRUE) {
@@ -917,7 +1002,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 								}
 							}
 						}
-						v_ack_creator(p_payload, xAckOk);
+						v_ack_creator(p_payload, xExecOk);
 					}
 					break;
 
@@ -938,10 +1023,10 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						error_code = OSQPost(p_sub_unit_config_queue[i_channel_for], &sub_config_send[i_channel_for]);
 					}
 					if (error_code == OS_NO_ERR) {
-						v_ack_creator(p_payload, xAckOk);
+						 v_ack_creator(p_payload, xExecOk);
 					} else {
-						v_ack_creator(p_payload, xOSError);
-					}
+					 	v_ack_creator(p_payload, xOSError);
+					 }
 					break;
 
 					/*
@@ -980,6 +1065,189 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				vResetSimucam(); /* Hold SimuCam Reset Signal */
             	break;
 
+				case typeErrorInjectionSpw:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+                    fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
+                }
+#endif
+				// Get channel and error type
+				switch (p_payload->data[0]){
+					
+					case spwErrParity:
+						// xCh[p_payload->data[1]].xSpacewire
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdParity;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						break;
+						
+					case spwErrDisconnect:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						break;
+
+					case spwErrEscape_sequence:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdEscape;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						break;
+
+					case spwErrCharacter_sequence:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdChar;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						break;
+
+					case spwErrCredit:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdCredit;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						break;
+
+					case spwErrEEP:
+						/* Force the stop of any ongoing SpW Codec Errors */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						/* Wait SpW Codec Errors controller to be ready */
+						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						}
+						/* Inject the selected SpW Codec Error */
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
+						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);					
+						break;
+
+					case spwErrInvalidDestination:
+						// /* Force the stop of any ongoing SpW Codec Errors */
+						// bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+						// bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// /* Wait SpW Codec Errors controller to be ready */
+						// bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
+						// 	bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// }
+						// /* Inject the selected SpW Codec Error */
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
+						// bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						// v_ack_creator(p_payload, xNotImplemented);
+						break;
+					
+					default:
+						break;
+
+				}
+				// p_payload->data[0] -> Type
+				// p_payload->data[1] -> Channel
+				// Call error function on switch
+
+				// No ack executed
+				break;
+
+				case typeErrorInjectionRmap:
+#if DEBUG_ON
+				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
+                    fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
+                }
+#endif
+
+				bRmapGetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.bTriggerErr = TRUE;
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.ucErrorId   = p_payload->data[0];
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32)( (alt_u32)(p_payload->data[2] & 0x0000ffff)<<16 | (alt_u32)(p_payload->data[3] & 0x0000ffff) );
+				bRmapSetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
+
+				break;
+
+				/* Eth Disconnect */
+				case typeDisc:
+#if DEBUG_ON
+					if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+						fprintf(fp, "[CommandManagementTask]Ethernet Disconnect\n\r");
+					}
+#endif
+					error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
+					T_simucam.T_conf.luHKPeriod = 0;
+					T_simucam.T_conf.i_forward_data = 0;
+					T_simucam.T_conf.echo_sent = 0;
+				break;
+
 				default:
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
@@ -991,7 +1259,6 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						v_ack_creator(p_payload, xCommandNotFound);
 					}
 					break;
-
 				}
 
 			}

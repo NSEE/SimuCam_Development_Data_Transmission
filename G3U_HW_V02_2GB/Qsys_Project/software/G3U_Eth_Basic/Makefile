@@ -177,6 +177,7 @@ C_SRCS += api_drivers/sense/sense.c
 C_SRCS += utils/initialization_simucam.c
 C_SRCS += utils/test_module_simucam.c
 C_SRCS += driver/dcom/rmap/rmap.c
+C_SRCS += driver/dcom/report/report.c
 CXX_SRCS :=
 ASM_SRCS :=
 

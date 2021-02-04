@@ -5,7 +5,6 @@
  *
  *                                       All Rights Reserved
  *
- * TODO header format
  * Filename     : simucam_init.c
  * Programmer(s): Yuri Bunduki
  * Created on: May 27, 2019

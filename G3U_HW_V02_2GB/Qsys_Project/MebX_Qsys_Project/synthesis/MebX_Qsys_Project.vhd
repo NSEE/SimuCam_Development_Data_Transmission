@@ -70,6 +70,7 @@ entity MebX_Qsys_Project is
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal : out   std_logic;                                        --                                                                    .spw_errinj_ctrl_start_errinj_signal
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal : out   std_logic;                                        --                                                                    .spw_errinj_ctrl_reset_errinj_signal
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal  : out   std_logic_vector(3 downto 0);                     --                                                                    .spw_errinj_ctrl_errinj_code_signal
+		dumb_communication_module_v2_timer_rprt_interrupt_sender_irq                                            : out   std_logic;                                        --            dumb_communication_module_v2_timer_rprt_interrupt_sender.irq
 		dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal                                 : in    std_logic                     := '0';             --                 dumb_communication_module_v2_timer_sync_conduit_end.sync_channel_signal
 		dumb_communication_module_v2_timer_tx_interrupt_sender_irq                                              : out   std_logic;                                        --              dumb_communication_module_v2_timer_tx_interrupt_sender.irq
 		eth_rst_export                                                                                          : out   std_logic;                                        --                                                             eth_rst.export
@@ -300,6 +301,7 @@ architecture rtl of MebX_Qsys_Project is
 			avalon_slave_dcom_readdata_o     : out std_logic_vector(31 downto 0);                    -- readdata
 			avalon_slave_dcom_waitrequest_o  : out std_logic;                                        -- waitrequest
 			tx_interrupt_sender_irq_o        : out std_logic;                                        -- irq
+			rprt_interrupt_sender_irq_o      : out std_logic;                                        -- irq
 			spw_link_status_started_i        : in  std_logic                     := 'X';             -- spw_link_status_started_signal
 			spw_link_status_connecting_i     : in  std_logic                     := 'X';             -- spw_link_status_connecting_signal
 			spw_link_status_running_i        : in  std_logic                     := 'X';             -- spw_link_status_running_signal
@@ -1501,6 +1503,14 @@ architecture rtl of MebX_Qsys_Project is
 			receiver12_irq : in  std_logic                     := 'X'; -- irq
 			receiver13_irq : in  std_logic                     := 'X'; -- irq
 			receiver14_irq : in  std_logic                     := 'X'; -- irq
+			receiver15_irq : in  std_logic                     := 'X'; -- irq
+			receiver16_irq : in  std_logic                     := 'X'; -- irq
+			receiver17_irq : in  std_logic                     := 'X'; -- irq
+			receiver18_irq : in  std_logic                     := 'X'; -- irq
+			receiver19_irq : in  std_logic                     := 'X'; -- irq
+			receiver20_irq : in  std_logic                     := 'X'; -- irq
+			receiver21_irq : in  std_logic                     := 'X'; -- irq
+			receiver22_irq : in  std_logic                     := 'X'; -- irq
 			sender_irq     : out std_logic_vector(31 downto 0)         -- irq
 		);
 	end component MebX_Qsys_Project_irq_mapper;
@@ -2583,14 +2593,22 @@ architecture rtl of MebX_Qsys_Project is
 	signal m1_ddr2_memory_afi_clk_clk                                                                          : std_logic;                      -- m1_ddr2_memory:afi_clk -> [mm_interconnect_4:m1_ddr2_memory_afi_clk_clk, rst_controller_026:clk]
 	signal irq_mapper_receiver0_irq                                                                            : std_logic;                      -- jtag_uart_0:av_irq -> irq_mapper:receiver0_irq
 	signal irq_mapper_receiver4_irq                                                                            : std_logic;                      -- rs232_uart:irq -> irq_mapper:receiver4_irq
-	signal irq_mapper_receiver7_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_1:tx_interrupt_sender_irq_o -> irq_mapper:receiver7_irq
-	signal irq_mapper_receiver8_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_8:tx_interrupt_sender_irq_o -> irq_mapper:receiver8_irq
-	signal irq_mapper_receiver9_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_7:tx_interrupt_sender_irq_o -> irq_mapper:receiver9_irq
-	signal irq_mapper_receiver10_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_6:tx_interrupt_sender_irq_o -> irq_mapper:receiver10_irq
-	signal irq_mapper_receiver11_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_5:tx_interrupt_sender_irq_o -> irq_mapper:receiver11_irq
-	signal irq_mapper_receiver12_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_4:tx_interrupt_sender_irq_o -> irq_mapper:receiver12_irq
-	signal irq_mapper_receiver13_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_3:tx_interrupt_sender_irq_o -> irq_mapper:receiver13_irq
-	signal irq_mapper_receiver14_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_2:tx_interrupt_sender_irq_o -> irq_mapper:receiver14_irq
+	signal irq_mapper_receiver6_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_1:rprt_interrupt_sender_irq_o -> irq_mapper:receiver6_irq
+	signal irq_mapper_receiver7_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_2:rprt_interrupt_sender_irq_o -> irq_mapper:receiver7_irq
+	signal irq_mapper_receiver8_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_3:rprt_interrupt_sender_irq_o -> irq_mapper:receiver8_irq
+	signal irq_mapper_receiver9_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_4:rprt_interrupt_sender_irq_o -> irq_mapper:receiver9_irq
+	signal irq_mapper_receiver10_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_5:rprt_interrupt_sender_irq_o -> irq_mapper:receiver10_irq
+	signal irq_mapper_receiver11_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_6:rprt_interrupt_sender_irq_o -> irq_mapper:receiver11_irq
+	signal irq_mapper_receiver12_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_8:rprt_interrupt_sender_irq_o -> irq_mapper:receiver12_irq
+	signal irq_mapper_receiver13_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_7:rprt_interrupt_sender_irq_o -> irq_mapper:receiver13_irq
+	signal irq_mapper_receiver15_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_1:tx_interrupt_sender_irq_o -> irq_mapper:receiver15_irq
+	signal irq_mapper_receiver16_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_8:tx_interrupt_sender_irq_o -> irq_mapper:receiver16_irq
+	signal irq_mapper_receiver17_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_7:tx_interrupt_sender_irq_o -> irq_mapper:receiver17_irq
+	signal irq_mapper_receiver18_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_6:tx_interrupt_sender_irq_o -> irq_mapper:receiver18_irq
+	signal irq_mapper_receiver19_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_5:tx_interrupt_sender_irq_o -> irq_mapper:receiver19_irq
+	signal irq_mapper_receiver20_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_4:tx_interrupt_sender_irq_o -> irq_mapper:receiver20_irq
+	signal irq_mapper_receiver21_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_3:tx_interrupt_sender_irq_o -> irq_mapper:receiver21_irq
+	signal irq_mapper_receiver22_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_2:tx_interrupt_sender_irq_o -> irq_mapper:receiver22_irq
 	signal nios2_gen2_0_irq_irq                                                                                : std_logic_vector(31 downto 0);  -- irq_mapper:sender_irq -> nios2_gen2_0:irq
 	signal irq_mapper_receiver1_irq                                                                            : std_logic;                      -- irq_synchronizer:sender_irq -> irq_mapper:receiver1_irq
 	signal irq_synchronizer_receiver_irq                                                                       : std_logic_vector(0 downto 0);   -- timer_1ms:irq -> irq_synchronizer:receiver_irq
@@ -2600,7 +2618,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal irq_synchronizer_002_receiver_irq                                                                   : std_logic_vector(0 downto 0);   -- pio_EXT:irq -> irq_synchronizer_002:receiver_irq
 	signal irq_mapper_receiver5_irq                                                                            : std_logic;                      -- irq_synchronizer_003:sender_irq -> irq_mapper:receiver5_irq
 	signal irq_synchronizer_003_receiver_irq                                                                   : std_logic_vector(0 downto 0);   -- sync:pre_sync_interrupt_sender_irq_o -> irq_synchronizer_003:receiver_irq
-	signal irq_mapper_receiver6_irq                                                                            : std_logic;                      -- irq_synchronizer_004:sender_irq -> irq_mapper:receiver6_irq
+	signal irq_mapper_receiver14_irq                                                                           : std_logic;                      -- irq_synchronizer_004:sender_irq -> irq_mapper:receiver14_irq
 	signal irq_synchronizer_004_receiver_irq                                                                   : std_logic_vector(0 downto 0);   -- sync:sync_interrupt_sender_irq_o -> irq_synchronizer_004:receiver_irq
 	signal rst_controller_001_reset_out_reset                                                                  : std_logic;                      -- rst_controller_001:reset_out -> [mm_interconnect_3:Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset, rst_controller_001_reset_out_reset:in]
 	signal rst_controller_reset_source_sd_card_reset                                                           : std_logic;                      -- rst_controller:reset_source_sd_card_reset -> rst_controller_001:reset_in1
@@ -2710,7 +2728,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver7_irq,                                                                            --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver15_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver6_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_a_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_a_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_a_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -2770,7 +2789,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver14_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver22_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver7_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_b_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_b_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_b_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -2830,7 +2850,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver13_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver21_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver8_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_c_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_c_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_c_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -2890,7 +2911,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver12_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver20_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver9_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_d_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_d_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_d_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -2950,7 +2972,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver11_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver19_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver10_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -3010,7 +3033,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver10_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver18_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver11_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -3070,7 +3094,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver9_irq,                                                                            --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver17_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver13_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_g_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_g_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_g_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -3130,7 +3155,8 @@ begin
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver8_irq,                                                                            --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver16_irq,                                                                           --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => irq_mapper_receiver12_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
@@ -3191,6 +3217,7 @@ begin
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
 			tx_interrupt_sender_irq_o        => dumb_communication_module_v2_timer_tx_interrupt_sender_irq,                                              --              tx_interrupt_sender.irq
+			rprt_interrupt_sender_irq_o      => dumb_communication_module_v2_timer_rprt_interrupt_sender_irq,                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_started_signal,      -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_connecting_signal,   --                                 .spw_link_status_connecting_signal
 			spw_link_status_running_i        => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_running_signal,      --                                 .spw_link_status_running_signal
@@ -5104,6 +5131,14 @@ begin
 			receiver12_irq => irq_mapper_receiver12_irq,          -- receiver12.irq
 			receiver13_irq => irq_mapper_receiver13_irq,          -- receiver13.irq
 			receiver14_irq => irq_mapper_receiver14_irq,          -- receiver14.irq
+			receiver15_irq => irq_mapper_receiver15_irq,          -- receiver15.irq
+			receiver16_irq => irq_mapper_receiver16_irq,          -- receiver16.irq
+			receiver17_irq => irq_mapper_receiver17_irq,          -- receiver17.irq
+			receiver18_irq => irq_mapper_receiver18_irq,          -- receiver18.irq
+			receiver19_irq => irq_mapper_receiver19_irq,          -- receiver19.irq
+			receiver20_irq => irq_mapper_receiver20_irq,          -- receiver20.irq
+			receiver21_irq => irq_mapper_receiver21_irq,          -- receiver21.irq
+			receiver22_irq => irq_mapper_receiver22_irq,          -- receiver22.irq
 			sender_irq     => nios2_gen2_0_irq_irq                --     sender.irq
 		);
 
@@ -5169,7 +5204,7 @@ begin
 			receiver_reset => rst_controller_024_reset_out_reset, -- receiver_clk_reset.reset
 			sender_reset   => rst_controller_022_reset_out_reset, --   sender_clk_reset.reset
 			receiver_irq   => irq_synchronizer_004_receiver_irq,  --           receiver.irq
-			sender_irq(0)  => irq_mapper_receiver6_irq            --             sender.irq
+			sender_irq(0)  => irq_mapper_receiver14_irq           --             sender.irq
 		);
 
 	rst_controller_001 : component mebx_qsys_project_rst_controller_001

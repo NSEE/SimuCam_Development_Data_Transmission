@@ -14,13 +14,21 @@
 //! [constants definition]
 // irq numbers
 #define DCOM_CH_1_TX_IRQ                 8
+#define DCOM_CH_1_RPRT_IRQ               18
 #define DCOM_CH_2_TX_IRQ                 9
-#define DCOM_CH_3_TX_IRQ                 11
-#define DCOM_CH_4_TX_IRQ                 10
+#define DCOM_CH_2_RPRT_IRQ               19
+#define DCOM_CH_3_TX_IRQ                 10
+#define DCOM_CH_3_RPRT_IRQ               20
+#define DCOM_CH_4_TX_IRQ                 11
+#define DCOM_CH_4_RPRT_IRQ               21
 #define DCOM_CH_5_TX_IRQ                 12
-#define DCOM_CH_6_TX_IRQ                 14
-#define DCOM_CH_7_TX_IRQ                 13
+#define DCOM_CH_5_RPRT_IRQ               22
+#define DCOM_CH_6_TX_IRQ                 13
+#define DCOM_CH_6_RPRT_IRQ               23
+#define DCOM_CH_7_TX_IRQ                 14
+#define DCOM_CH_7_RPRT_IRQ               24
 #define DCOM_CH_8_TX_IRQ                 15
+#define DCOM_CH_8_RPRT_IRQ               25
 
 // address
 #define DCOM_CH_1_BASE_ADDR              DUMB_COMMUNICATION_MODULE_V2_1_BASE
@@ -235,6 +243,65 @@ typedef struct RmapRmapErrInj {
 	alt_u32 uliValue; /* Value of RMAP Error */
 } TRmapRmapErrInj;
 
+/* Report Device Address Register Struct */
+typedef struct RprtDevAddr {
+	alt_u32 uliRprtBaseAddr; /* Report Device Base Address */
+} TRprtDevAddr;
+
+ /* Report IRQ Control Register Struct */
+typedef struct RprtIrqControl {
+	bool bSpwLinkConnectedEn; /* Report SpW Link Connected IRQ Enable */
+	bool bSpwLinkDisconnectedEn; /* Report SpW Link Disconnected IRQ Enable */
+	bool bSpwErrDisconnectEn; /* Report SpW Error Disconnect IRQ Enable */
+	bool bSpwErrParityEn; /* Report SpW Error Parity IRQ Enable */
+	bool bSpwErrEscapeEn; /* Report SpW Error Escape IRQ Enable */
+	bool bSpwErrCreditEn; /* Report SpW Error Credit IRQ Enable */
+	bool bRxTimecodeReceivedEn; /* Report Rx Timecode Received IRQ Enable */
+	bool bRmapErrEarlyEopEn; /* Report Rmap Error Early EOP IRQ Enable */
+	bool bRmapErrEepen; /* Report Rmap Error EEP IRQ Enable */
+	bool bRmapErrHeaderCrcEn; /* Report Rmap Error Header CRC IRQ Enable */
+	bool bRmapErrUnusedPacketTypeEn; /* Report Rmap Error Unused Packet Type IRQ Enable */
+	bool bRmapErrInvalidCommandCodeEn; /* Report Rmap Error Invalid Command Code IRQ Enable */
+	bool bRmapErrToomuchDataEn; /* Report Rmap Error Too Much Data IRQ Enable */
+	bool bRmapErrInvalidDataCrcEn; /* Report Rmap Error Invalid Data Crc IRQ Enable */
+} TRprtIrqControl;
+
+/* Report IRQ Flags Register Struct */
+typedef struct RprtIrqFlag {
+	bool bSpwLinkConnectedFlag; /* Report SpW Link Connected IRQ Flag */
+	bool bSpwLinkDisconnectedFlag; /* Report SpW Link Disconnected IRQ Flag */
+	bool bSpwErrDisconnectFlag; /* Report SpW Error Disconnect IRQ Flag */
+	bool bSpwErrParityFlag; /* Report SpW Error Parity IRQ Flag */
+	bool bSpwErrEscapeFlag; /* Report SpW Error Escape IRQ Flag */
+	bool bSpwErrCreditFlag; /* Report SpW Error Credit IRQ Flag */
+	bool bRxTimecodeReceivedFlag; /* Report Rx Timecode Received IRQ Flag */
+	bool bRmapErrEarlyEopFlag; /* Report Rmap Error Early EOP IRQ Flag */
+	bool bRmapErrEepFlag; /* Report Rmap Error EEP IRQ Flag */
+	bool bRmapErrHeaderCrcFlag; /* Report Rmap Error Header CRC IRQ Flag */
+	bool bRmapErrUnusedPacketTypeFlag; /* Report Rmap Error Unused Packet Type IRQ Flag */
+	bool bRmapErrInvalidCommandCodeFlag; /* Report Rmap Error Invalid Command Code IRQ Flag */
+	bool bRmapErrTooMuchDataFlag; /* Report Rmap Error Too Much Data IRQ Flag */
+	bool bRmapErrInvalidDataCrcFlag; /* Report Rmap Error Invalid Data Crc IRQ Flag */
+} TRprtIrqFlag;
+
+/* Report IRQ Flags Clear Register Struct */
+typedef struct RprtIrqFlagClr {
+	bool bSpwLinkConnectedFlagClr; /* Report SpW Link Connected IRQ Flag Clear */
+	bool bSpwLinkDisconnectedFlagClr; /* Report SpW Link Disconnected IRQ Flag Clear */
+	bool bSpwErrDisconnectFlagClr; /* Report SpW Error Disconnect IRQ Flag Clear */
+	bool bSpwErrParityFlagClr; /* Report SpW Error Parity IRQ Flag Clear */
+	bool bSpwErrEscapeFlagClr; /* Report SpW Error Escape IRQ Flag Clear */
+	bool bSpwErrCreditFlagClr; /* Report SpW Error Credit IRQ Flag Clear */
+	bool bRxTimecodeReceivedFlagClr; /* Report Rx Timecode Received IRQ Flag Clear */
+	bool bRmapErrEarlyEopFlagClr; /* Report Rmap Error Early EOP IRQ Flag Clear */
+	bool bRmapErrEepFlagClr; /* Report Rmap Error EEP IRQ Flag Clear */
+	bool bRmapErrHeaderCrcFlagClr; /* Report Rmap Error Header CRC IRQ Flag Clear */
+	bool bRmapErrUnusedPacketTypeFlagClr; /* Report Rmap Error Unused Packet Type IRQ Flag Clear */
+	bool bRmapErrInvalidCommandCodeFlagClr; /* Report Rmap Error Invalid Command Code IRQ Flag Clear */
+	bool bRmapErrTooMuchDataFlagClr; /* Report Rmap Error Too Much Data IRQ Flag Clear */
+	bool bRmapErrInvalidDataCrcFlagClr; /* Report Rmap Error Invalid Data Crc IRQ Flag Clear */
+} TRprtIrqFlagClr;
+
 /* General Struct for SpW Channel Registers Access */
 typedef struct SpwcChannel {
 	TSpwcDevAddr xSpwcDevAddr;
@@ -272,6 +339,14 @@ typedef struct RmapChannel {
 	TRmapRmapErrInj xRmapRmapErrInj;
 } TRmapChannel;
 
+/* General Struct for Report Registers Access */
+typedef struct RprtChannel {
+	TRprtDevAddr xRprtDevAddr;
+	TRprtIrqControl xRprtIrqControl;
+	TRprtIrqFlag xRprtIrqFlag;
+	TRprtIrqFlagClr xRprtIrqFlagClr;
+} TRprtChannel;
+
 /* General Struct for Communication Module Registers Access */
 typedef struct DcomChannel {
 	TDcomDevAddr xDcomDevAddr;
@@ -279,6 +354,7 @@ typedef struct DcomChannel {
 	TSpwcChannel xSpacewire;
 	TDschChannel xDataScheduler;
 	TRmapChannel xRmap;
+	TRprtChannel xReport;
 } TDcomChannel;
 
 //! [public module structs definition]
