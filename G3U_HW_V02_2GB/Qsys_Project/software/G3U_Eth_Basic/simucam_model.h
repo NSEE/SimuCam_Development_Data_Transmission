@@ -83,7 +83,7 @@ typedef enum {
 } TCExtTypes;
 
 typedef enum {
-	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam, eidSpwConn, eidSpwDis=13
+	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam, eidSpwConn, eidSpwDis=12
 } EidTypes;
 typedef enum {
 	eidErrDisc = 0, eidErrPar, eidErrEsc, eidErrCred, eidErrEOP, eidErrEEP, eidErrCRC, eidErrUnPack, eidErrInvCmd, eidErrTData, eidErrInvCRC
