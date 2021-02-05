@@ -79,12 +79,15 @@ typedef enum {
 
 /* External Types */
 typedef enum {
-	typeProgEvent = 101, typeAckExt = 201, typeUpload, typeSentEcho, typeHK
+	typeProgEvent = 101, typeAckExt = 201, typeUpload, typeSentEcho, typeHK, typeProgTimecode = 209, typeErrorEvent
 } TCExtTypes;
 
 typedef enum {
-	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam
+	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam, eidSpwConn, eidSpwDis
 } EidTypes;
+typedef enum {
+	eidErrDisc = 0, eidErrPar, eidErrEsc, eidErrCred, eidErrEOP, eidErrEEP, eidErrCRC, eidErrUnPack, eidErrInvCmd, eidErrTData, eidErrInvCRC
+}ErrorEidTypes;
 
 /* Pointer to the start of the imagette */
 typedef struct T_imagette {

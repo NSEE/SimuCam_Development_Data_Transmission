@@ -12,7 +12,9 @@
             "sub_unit_control_task.h": "c",
             "uart_receiver_task.h": "c",
             "periodic_hk_task.h": "c",
-            "simucam_definitions.h": "c"
+            "simucam_definitions.h": "c",
+            "report.h": "c",
+            "simucam_model.h": "c"
         }
 	}
 }

@@ -42,6 +42,8 @@ void vRprtCh1IrqHandler(void* pvContext) {
 	 * if (*pviHoldContext == '0') {}...
 	 * App logic sequence...
 	 */
+	
+	INT8U usi_link_nb = 0;
 
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_1_BASE_ADDR);
 
@@ -50,6 +52,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		// v_p_event_creator(eidSpwConn);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -64,6 +67,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -71,6 +75,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -78,6 +83,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -85,6 +91,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -92,6 +99,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -99,6 +107,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -106,6 +115,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -113,6 +123,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -120,6 +131,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -127,6 +139,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -134,6 +147,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -141,6 +155,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }
@@ -155,6 +170,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 	 * App logic sequence...
 	 */
 
+	INT8U usi_link_nb = 1;
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_2_BASE_ADDR);
 
 	/* SpW Link Connected Flag */
@@ -176,6 +192,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -183,6 +200,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -190,6 +208,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -197,6 +216,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -204,6 +224,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -211,6 +232,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -218,6 +240,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -225,6 +248,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -232,6 +256,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -239,6 +264,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -246,6 +272,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -253,6 +280,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }
@@ -267,6 +295,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 	 * App logic sequence...
 	 */
 
+INT8U usi_link_nb = 2;
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_3_BASE_ADDR);
 
 	/* SpW Link Connected Flag */
@@ -288,6 +317,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -295,6 +325,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -302,6 +333,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -309,6 +341,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -316,6 +349,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -323,6 +357,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -330,6 +365,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -337,6 +373,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -344,6 +381,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -351,6 +389,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -358,6 +397,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -365,6 +405,7 @@ void vRprtCh3IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }
@@ -379,6 +420,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 	 * App logic sequence...
 	 */
 
+INT8U usi_link_nb = 3;
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_4_BASE_ADDR);
 
 	/* SpW Link Connected Flag */
@@ -400,6 +442,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -407,6 +450,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -414,6 +458,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -421,6 +466,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -428,6 +474,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -435,6 +482,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -442,6 +490,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -449,6 +498,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -456,6 +506,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -463,6 +514,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -470,6 +522,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -477,6 +530,7 @@ void vRprtCh4IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }
@@ -491,6 +545,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 	 * App logic sequence...
 	 */
 
+INT8U usi_link_nb = 4;
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_5_BASE_ADDR);
 
 	/* SpW Link Connected Flag */
@@ -512,6 +567,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -519,6 +575,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -526,6 +583,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -533,6 +591,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -540,6 +599,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -547,6 +607,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -554,6 +615,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -561,6 +623,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -568,6 +631,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -575,6 +639,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -582,6 +647,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -589,6 +655,7 @@ void vRprtCh5IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }
@@ -603,6 +670,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 	 * App logic sequence...
 	 */
 
+INT8U usi_link_nb = 5;
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_6_BASE_ADDR);
 
 	/* SpW Link Connected Flag */
@@ -624,6 +692,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -631,6 +700,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -638,6 +708,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -645,6 +716,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -652,6 +724,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -659,6 +732,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -666,6 +740,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -673,6 +748,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -680,6 +756,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -687,6 +764,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -694,6 +772,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -701,6 +780,7 @@ void vRprtCh6IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }
@@ -715,6 +795,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 	 * App logic sequence...
 	 */
 
+INT8U usi_link_nb = 6;
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_7_BASE_ADDR);
 
 	/* SpW Link Connected Flag */
@@ -736,6 +817,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -743,6 +825,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -750,6 +833,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -757,6 +841,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -764,6 +849,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -771,6 +857,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -778,6 +865,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -785,6 +873,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -792,6 +881,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -799,6 +889,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -806,6 +897,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -813,6 +905,7 @@ void vRprtCh7IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }
@@ -827,6 +920,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 	 * App logic sequence...
 	 */
 
+INT8U usi_link_nb = 7;
 	 volatile TDcomChannel *vpxDcomChannel = (TDcomChannel *) (DCOM_CH_8_BASE_ADDR);
 
 	/* SpW Link Connected Flag */
@@ -848,6 +942,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
 
 		/* SpW Error Disconnect Flag Treatment */
+		v_error_event_creator(eidErrDisc, usi_link_nb);
 	}
 
 	/* SpW Error Parity Flag */
@@ -855,6 +950,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
 
 		/* SpW Error Parity Flag Treatment */
+		v_error_event_creator(eidErrPar, usi_link_nb);
 	}
 
 	/* SpW Error Escape Flag */
@@ -862,6 +958,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
 
 		/* SpW Error Escape Flag Treatment */
+		v_error_event_creator(eidErrEsc, usi_link_nb);
 	}
 
 	/* SpW Error Credit Flag */
@@ -869,6 +966,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
 
 		/* SpW Error Credit Flag Treatment */
+		v_error_event_creator(eidErrCred, usi_link_nb);
 	}
 
 	/* Rx Timecode Received Flag */
@@ -876,6 +974,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
 
 		/* Rx Timecode Received Flag Treatment */
+		v_p_event_timecode_creator(vpxDcomChannel->xSpacewire.xSpwcTimecodeStatus.ucRxTime, usi_link_nb);
 	}
 
 	/* Rmap Error Early EOP Flag */
@@ -883,6 +982,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
 
 		/* Rmap Error Early EOP Flag Treatment */
+		v_error_event_creator(eidErrEOP, usi_link_nb);
 	}
 
 	/* Rmap Error EEP Flag */
@@ -890,6 +990,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
 
 		/* Rmap Error EEP Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Header CRC Flag */
@@ -897,6 +998,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
 
 		/* Rmap Error Header CRC Flag Treatment */
+		v_error_event_creator(eidErrEEP, usi_link_nb);
 	}
 
 	/* Rmap Error Unused Packet Type Flag */
@@ -904,6 +1006,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
 
 		/* Rmap Error Unused Packet Type Flag Treatment */
+		v_error_event_creator(eidErrUnPack, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Command Code Flag */
@@ -911,6 +1014,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
 
 		/* Rmap Error Invalid Command Code Flag Treatment */
+		v_error_event_creator(eidErrInvCmd, usi_link_nb);
 	}
 
 	/* Rmap Error Too Much Data Flag */
@@ -918,6 +1022,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
 
 		/* Rmap Error Too Much Data Flag Treatment */
+		v_error_event_creator(eidErrTData, usi_link_nb);
 	}
 
 	/* Rmap Error Invalid Data Crc Flag */
@@ -925,6 +1030,7 @@ void vRprtCh8IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
 
 		/* Rmap Error Invalid Data Crc Flag Treatment */
+		v_error_event_creator(eidErrInvCRC, usi_link_nb);
 	}
 
 }

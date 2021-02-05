@@ -49,6 +49,13 @@ if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			 */
 			bDcomInitCh(&(xCh[c_spw_channel]), c_spw_channel);
 
+			/* Enable Report IRQ */
+			bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
+			/* TODO: List all IRQs needed */
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwLinkConnectedEn = TRUE;
+
+			bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
+
 			/*
 			 * Debug Configuration
 			 */
