@@ -284,7 +284,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC OK.\n");
 		}
 #endif
-		v_ack_creator(pPayload, xAckOk);
+		// v_ack_creator(pPayload, xAckOk); Checked in NUC
 	} else {
 
 #if DEBUG_ON
@@ -292,7 +292,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC ERROR.\n");
 		}
 #endif
-		v_ack_creator(pPayload, xCRCError);
+		// v_ack_creator(pPayload, xCRCError);
 	}
 }
 
@@ -367,7 +367,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload) {
 				fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
 			}
 #endif
-			v_ack_creator(pUartPayload, xCRCError);
+			// v_ack_creator(pUartPayload, xCRCError);
 			return 1;
 		}
 
@@ -403,7 +403,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload) {
 				fprintf(fp, "[vCmdParser DEBUG]CRC ERROR\n");
 			}
 #endif
-			v_ack_creator(pUartPayload, xCRCError);
+			// v_ack_creator(pUartPayload, xCRCError);
 			return 1;
 		}
 
@@ -418,7 +418,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[vCmdParser DEBUG]Invalid data size.\n");
 		}
 #endif
-		v_ack_creator(pUartPayload, xParserError);
+		// v_ack_creator(pUartPayload, xParserError);
 		return 1;
 	}
 }
@@ -494,9 +494,9 @@ void uart_receiver_task(void *task_data) {
 		case sGetCommand:
 			error_code = vCmdParser((T_uart_payload *) &payload);
 			if (error_code == 0) {
-				if (payload.header != 4) {
-					v_ack_creator(&payload, xAckOk);
-				}
+				// if (payload.header != 4) {
+				// 	v_ack_creator(&payload, xAckOk);
+				// }
 				eReaderRXMode = sSendToCmdCtrl;
 			} else {
 				eReaderRXMode = sRConfiguring;
