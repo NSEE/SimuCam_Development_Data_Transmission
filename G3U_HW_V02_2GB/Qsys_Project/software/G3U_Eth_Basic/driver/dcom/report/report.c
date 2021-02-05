@@ -52,7 +52,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
-		// v_p_event_creator(eidSpwConn);
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -60,6 +60,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */
@@ -178,6 +179,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -185,6 +187,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */
@@ -303,6 +306,7 @@ INT8U usi_link_nb = 2;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -310,6 +314,7 @@ INT8U usi_link_nb = 2;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */
@@ -428,6 +433,7 @@ INT8U usi_link_nb = 3;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -435,6 +441,7 @@ INT8U usi_link_nb = 3;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */
@@ -553,6 +560,7 @@ INT8U usi_link_nb = 4;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -560,6 +568,7 @@ INT8U usi_link_nb = 4;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */
@@ -678,6 +687,7 @@ INT8U usi_link_nb = 5;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -685,6 +695,7 @@ INT8U usi_link_nb = 5;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */
@@ -803,6 +814,7 @@ INT8U usi_link_nb = 6;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -810,6 +822,7 @@ INT8U usi_link_nb = 6;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */
@@ -928,6 +941,7 @@ INT8U usi_link_nb = 7;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
 
 		/* SpW Link Connected Flag Treatment */
+		v_p_event_creator(eidSpwConn+usi_link_nb);
 	}
 
 	/* SpW Link Disconnected Flag */
@@ -935,6 +949,7 @@ INT8U usi_link_nb = 7;
 		vpxDcomChannel->xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
 
 		/* SpW Link Disconnected Flag Treatment */
+		v_p_event_creator(eidSpwDis+usi_link_nb);
 	}
 
 	/* SpW Error Disconnect Flag */

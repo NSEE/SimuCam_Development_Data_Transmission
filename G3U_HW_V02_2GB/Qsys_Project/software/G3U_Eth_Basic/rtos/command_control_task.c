@@ -743,9 +743,7 @@ void CommandManagementTask() {
 #endif
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
-			if (T_simucam.T_conf.usiProgressEvent == 1){
-				v_p_event_creator(eidMebConfig);
-			}	
+			v_p_event_creator(eidMebConfig);
 			break;
 
 			/*
@@ -846,9 +844,7 @@ void CommandManagementTask() {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
 				}
 #endif
-				if (T_simucam.T_conf.usiProgressEvent == 1){
-					v_p_event_creator(eidClrRam);
-				}	
+				v_p_event_creator(eidClrRam);
 				break;
 
 				/*
@@ -993,9 +989,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 			T_simucam.T_status.simucam_mode = simModeRun;
 			v_ack_creator(p_payload, xExecOk);
-			if (T_simucam.T_conf.usiProgressEvent == 1){
-					v_p_event_creator(eidMebRun);
-			}	
+			v_p_event_creator(eidMebRun);	
 			break;
 
 		case simModeRun:
@@ -1034,9 +1028,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				bSyncCtrOneShot();
 
 				v_ack_creator(p_payload, xExecOk);
-				if (T_simucam.T_conf.usiProgressEvent == 1){
-					v_p_event_creator(eidSyncRcv);
-				}
+				v_p_event_creator(eidSyncRcv);
 				/*
 				 * TODO Start HK timer if needed
 				 */
