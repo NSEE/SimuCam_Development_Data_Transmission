@@ -57,6 +57,9 @@ bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh);
 bool bRmapGetRmapMemArea(TRmapChannel *pxRmapCh);
 bool bRmapSetRmapMemArea(TRmapChannel *pxRmapCh);
 
+bool bRmapSetEchoingMode(TRmapChannel *pxRmapCh);
+bool bRmapGetEchoingMode(TRmapChannel *pxRmapCh);
+
 bool bRmapClearMemArea(TRmapChannel *pxRmapCh);
 
 bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh);

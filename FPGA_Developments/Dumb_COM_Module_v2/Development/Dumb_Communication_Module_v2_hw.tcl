@@ -4,7 +4,7 @@
 
 
 # 
-# Dumb_Communication_Module_v2 "DCOM_v2" v1.3
+# Dumb_Communication_Module_v2 "DCOM_v2" v1.4
 #  2019.04.12.16:30:38
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME Dumb_Communication_Module_v2
-set_module_property VERSION 1.3
+set_module_property VERSION 1.4
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR ""
@@ -306,6 +306,28 @@ add_interface_port conduit_end_spacewire_controller spw_data_tx_command_txdata_o
 add_interface_port conduit_end_spacewire_controller spw_errinj_ctrl_start_errinj_o spw_errinj_ctrl_start_errinj_signal Output 1
 add_interface_port conduit_end_spacewire_controller spw_errinj_ctrl_reset_errinj_o spw_errinj_ctrl_reset_errinj_signal Output 1
 add_interface_port conduit_end_spacewire_controller spw_errinj_ctrl_errinj_code_o spw_errinj_ctrl_errinj_code_signal Output 4
+
+
+# 
+# connection point conduit_end_rmap_echo_out
+# 
+add_interface conduit_end_rmap_echo_out conduit end
+set_interface_property conduit_end_rmap_echo_out associatedClock clock_sink
+set_interface_property conduit_end_rmap_echo_out associatedReset reset_sink
+set_interface_property conduit_end_rmap_echo_out ENABLED true
+set_interface_property conduit_end_rmap_echo_out EXPORT_OF ""
+set_interface_property conduit_end_rmap_echo_out PORT_NAME_MAP ""
+set_interface_property conduit_end_rmap_echo_out CMSIS_SVD_VARIABLES ""
+set_interface_property conduit_end_rmap_echo_out SVD_ADDRESS_GROUP ""
+
+add_interface_port conduit_end_rmap_echo_out rmap_echo_echo_en_o echo_en_signal Output 1
+add_interface_port conduit_end_rmap_echo_out rmap_echo_echo_id_en_o echo_id_en_signal Output 1
+add_interface_port conduit_end_rmap_echo_out rmap_echo_in_fifo_wrflag_o in_fifo_wrflag_signal Output 1
+add_interface_port conduit_end_rmap_echo_out rmap_echo_in_fifo_wrdata_o in_fifo_wrdata_signal Output 8 
+add_interface_port conduit_end_rmap_echo_out rmap_echo_in_fifo_wrreq_o in_fifo_wrreq_signal Output 1
+add_interface_port conduit_end_rmap_echo_out rmap_echo_out_fifo_wrflag_o out_fifo_wrflag_signal Output 1
+add_interface_port conduit_end_rmap_echo_out rmap_echo_out_fifo_wrdata_o out_fifo_wrdata_signal Output 8 
+add_interface_port conduit_end_rmap_echo_out rmap_echo_out_fifo_wrreq_o out_fifo_wrreq_signal Output 1
 
 
 # 
