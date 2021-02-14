@@ -13,7 +13,7 @@
    {
       datum _sortIndex
       {
-         value = "53";
+         value = "55";
          type = "int";
       }
       datum sopceditor_expanded
@@ -181,7 +181,7 @@
    {
       datum _sortIndex
       {
-         value = "35";
+         value = "36";
          type = "int";
       }
       datum sopceditor_expanded
@@ -202,7 +202,7 @@
    {
       datum _sortIndex
       {
-         value = "37";
+         value = "39";
          type = "int";
       }
       datum sopceditor_expanded
@@ -219,12 +219,17 @@
          type = "String";
       }
    }
-   element MebX_Qsys_Project
+   element FTDI_UMFT601A_Module
    {
-      datum _originalDeviceFamily
+      datum _sortIndex
       {
-         value = "Stratix IV";
-         type = "String";
+         value = "75";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
    element MebX_Qsys_Project
@@ -281,6 +286,27 @@
       {
          value = "Stratix IV";
          type = "String";
+      }
+   }
+   element MebX_Qsys_Project
+   {
+      datum _originalDeviceFamily
+      {
+         value = "Stratix IV";
+         type = "String";
+      }
+   }
+   element RMAP_Echoing
+   {
+      datum _sortIndex
+      {
+         value = "38";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
       }
    }
    element RMAP_Memory_Subunit_Area_1
@@ -442,7 +468,7 @@
    {
       datum _sortIndex
       {
-         value = "36";
+         value = "37";
          type = "int";
       }
       datum sopceditor_expanded
@@ -463,7 +489,7 @@
    {
       datum _sortIndex
       {
-         value = "61";
+         value = "63";
          type = "int";
       }
       datum sopceditor_expanded
@@ -476,7 +502,7 @@
    {
       datum baseAddress
       {
-         value = "2560";
+         value = "2576";
          type = "String";
       }
    }
@@ -584,6 +610,19 @@
          type = "boolean";
       }
    }
+   element SpaceWire_Mux_Ch_H
+   {
+      datum _sortIndex
+      {
+         value = "35";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
    element clk_100
    {
       datum _sortIndex
@@ -631,11 +670,24 @@
          type = "int";
       }
    }
+   element clk_ftdi
+   {
+      datum _sortIndex
+      {
+         value = "74";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
    element clock_bridge_afi_50
    {
       datum _sortIndex
       {
-         value = "40";
+         value = "42";
          type = "int";
       }
       datum sopceditor_expanded
@@ -669,7 +721,7 @@
    {
       datum _sortIndex
       {
-         value = "56";
+         value = "58";
          type = "int";
       }
       datum sopceditor_expanded
@@ -682,53 +734,11 @@
    {
       datum baseAddress
       {
-         value = "2304";
-         type = "String";
-      }
-   }
-   element csense_cs_n
-   {
-      datum _sortIndex
-      {
-         value = "57";
-         type = "int";
-      }
-      datum sopceditor_expanded
-      {
-         value = "0";
-         type = "boolean";
-      }
-   }
-   element csense_cs_n.s1
-   {
-      datum baseAddress
-      {
          value = "2320";
          type = "String";
       }
    }
-   element csense_sck
-   {
-      datum _sortIndex
-      {
-         value = "58";
-         type = "int";
-      }
-      datum sopceditor_expanded
-      {
-         value = "0";
-         type = "boolean";
-      }
-   }
-   element csense_sck.s1
-   {
-      datum baseAddress
-      {
-         value = "2336";
-         type = "String";
-      }
-   }
-   element csense_sdi
+   element csense_cs_n
    {
       datum _sortIndex
       {
@@ -741,15 +751,15 @@
          type = "boolean";
       }
    }
-   element csense_sdi.s1
+   element csense_cs_n.s1
    {
       datum baseAddress
       {
-         value = "2352";
+         value = "2336";
          type = "String";
       }
    }
-   element csense_sdo
+   element csense_sck
    {
       datum _sortIndex
       {
@@ -762,11 +772,53 @@
          type = "boolean";
       }
    }
-   element csense_sdo.s1
+   element csense_sck.s1
+   {
+      datum baseAddress
+      {
+         value = "2352";
+         type = "String";
+      }
+   }
+   element csense_sdi
+   {
+      datum _sortIndex
+      {
+         value = "61";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
+   element csense_sdi.s1
    {
       datum baseAddress
       {
          value = "2368";
+         type = "String";
+      }
+   }
+   element csense_sdo
+   {
+      datum _sortIndex
+      {
+         value = "62";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
+   element csense_sdo.s1
+   {
+      datum baseAddress
+      {
+         value = "2384";
          type = "String";
       }
    }
@@ -787,7 +839,7 @@
    {
       datum baseAddress
       {
-         value = "2147495048";
+         value = "2147494912";
          type = "String";
       }
    }
@@ -886,7 +938,7 @@
    {
       datum _sortIndex
       {
-         value = "48";
+         value = "50";
          type = "int";
       }
       datum sopceditor_expanded
@@ -899,7 +951,7 @@
    {
       datum baseAddress
       {
-         value = "2528";
+         value = "2544";
          type = "String";
       }
    }
@@ -907,7 +959,7 @@
    {
       datum _sortIndex
       {
-         value = "49";
+         value = "51";
          type = "int";
       }
       datum sopceditor_expanded
@@ -920,7 +972,7 @@
    {
       datum baseAddress
       {
-         value = "2544";
+         value = "2560";
          type = "String";
       }
    }
@@ -954,7 +1006,7 @@
    {
       datum _sortIndex
       {
-         value = "50";
+         value = "52";
          type = "int";
       }
       datum sopceditor_expanded
@@ -967,7 +1019,7 @@
    {
       datum baseAddress
       {
-         value = "2384";
+         value = "2400";
          type = "String";
       }
    }
@@ -975,7 +1027,7 @@
    {
       datum _sortIndex
       {
-         value = "51";
+         value = "53";
          type = "int";
       }
       datum sopceditor_expanded
@@ -988,7 +1040,7 @@
    {
       datum baseAddress
       {
-         value = "2400";
+         value = "2416";
          type = "String";
       }
    }
@@ -1170,7 +1222,7 @@
    {
       datum _sortIndex
       {
-         value = "43";
+         value = "45";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1183,53 +1235,11 @@
    {
       datum baseAddress
       {
-         value = "2512";
+         value = "2528";
          type = "String";
       }
    }
    element pio_DIP
-   {
-      datum _sortIndex
-      {
-         value = "44";
-         type = "int";
-      }
-      datum sopceditor_expanded
-      {
-         value = "0";
-         type = "boolean";
-      }
-   }
-   element pio_DIP.s1
-   {
-      datum baseAddress
-      {
-         value = "2480";
-         type = "String";
-      }
-   }
-   element pio_EXT
-   {
-      datum _sortIndex
-      {
-         value = "45";
-         type = "int";
-      }
-      datum sopceditor_expanded
-      {
-         value = "0";
-         type = "boolean";
-      }
-   }
-   element pio_EXT.s1
-   {
-      datum baseAddress
-      {
-         value = "2464";
-         type = "String";
-      }
-   }
-   element pio_LED
    {
       datum _sortIndex
       {
@@ -1242,7 +1252,7 @@
          type = "boolean";
       }
    }
-   element pio_LED.s1
+   element pio_DIP.s1
    {
       datum baseAddress
       {
@@ -1250,7 +1260,7 @@
          type = "String";
       }
    }
-   element pio_LED_painel
+   element pio_EXT
    {
       datum _sortIndex
       {
@@ -1263,11 +1273,53 @@
          type = "boolean";
       }
    }
+   element pio_EXT.s1
+   {
+      datum baseAddress
+      {
+         value = "2480";
+         type = "String";
+      }
+   }
+   element pio_LED
+   {
+      datum _sortIndex
+      {
+         value = "48";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
+   element pio_LED.s1
+   {
+      datum baseAddress
+      {
+         value = "2512";
+         type = "String";
+      }
+   }
+   element pio_LED_painel
+   {
+      datum _sortIndex
+      {
+         value = "49";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
    element pio_LED_painel.s1
    {
       datum baseAddress
       {
-         value = "2288";
+         value = "2304";
          type = "String";
       }
    }
@@ -1275,7 +1327,7 @@
    {
       datum _sortIndex
       {
-         value = "64";
+         value = "66";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1288,7 +1340,7 @@
    {
       datum baseAddress
       {
-         value = "2176";
+         value = "2192";
          type = "String";
       }
    }
@@ -1296,7 +1348,7 @@
    {
       datum _sortIndex
       {
-         value = "68";
+         value = "70";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1309,7 +1361,28 @@
    {
       datum baseAddress
       {
-         value = "2192";
+         value = "2208";
+         type = "String";
+      }
+   }
+   element pio_spw_mux_ch_h_select
+   {
+      datum _sortIndex
+      {
+         value = "71";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
+   element pio_spw_mux_ch_h_select.s1
+   {
+      datum baseAddress
+      {
+         value = "2176";
          type = "String";
       }
    }
@@ -1317,7 +1390,7 @@
    {
       datum _sortIndex
       {
-         value = "39";
+         value = "41";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1343,7 +1416,7 @@
    {
       datum _sortIndex
       {
-         value = "70";
+         value = "73";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1369,7 +1442,7 @@
    {
       datum _sortIndex
       {
-         value = "62";
+         value = "64";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1382,32 +1455,11 @@
    {
       datum baseAddress
       {
-         value = "2272";
+         value = "2288";
          type = "String";
       }
    }
    element rtcc_cs_n
-   {
-      datum _sortIndex
-      {
-         value = "63";
-         type = "int";
-      }
-      datum sopceditor_expanded
-      {
-         value = "0";
-         type = "boolean";
-      }
-   }
-   element rtcc_cs_n.s1
-   {
-      datum baseAddress
-      {
-         value = "2208";
-         type = "String";
-      }
-   }
-   element rtcc_sck
    {
       datum _sortIndex
       {
@@ -1420,7 +1472,7 @@
          type = "boolean";
       }
    }
-   element rtcc_sck.s1
+   element rtcc_cs_n.s1
    {
       datum baseAddress
       {
@@ -1428,28 +1480,7 @@
          type = "String";
       }
    }
-   element rtcc_sdi
-   {
-      datum _sortIndex
-      {
-         value = "66";
-         type = "int";
-      }
-      datum sopceditor_expanded
-      {
-         value = "0";
-         type = "boolean";
-      }
-   }
-   element rtcc_sdi.s1
-   {
-      datum baseAddress
-      {
-         value = "2240";
-         type = "String";
-      }
-   }
-   element rtcc_sdo
+   element rtcc_sck
    {
       datum _sortIndex
       {
@@ -1462,7 +1493,28 @@
          type = "boolean";
       }
    }
-   element rtcc_sdo.s1
+   element rtcc_sck.s1
+   {
+      datum baseAddress
+      {
+         value = "2240";
+         type = "String";
+      }
+   }
+   element rtcc_sdi
+   {
+      datum _sortIndex
+      {
+         value = "68";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
+   element rtcc_sdi.s1
    {
       datum baseAddress
       {
@@ -1470,11 +1522,32 @@
          type = "String";
       }
    }
+   element rtcc_sdo
+   {
+      datum _sortIndex
+      {
+         value = "69";
+         type = "int";
+      }
+      datum sopceditor_expanded
+      {
+         value = "0";
+         type = "boolean";
+      }
+   }
+   element rtcc_sdo.s1
+   {
+      datum baseAddress
+      {
+         value = "2272";
+         type = "String";
+      }
+   }
    element sd_card_wp_n
    {
       datum _sortIndex
       {
-         value = "52";
+         value = "54";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1492,7 +1565,7 @@
       }
       datum baseAddress
       {
-         value = "2448";
+         value = "2464";
          type = "String";
       }
    }
@@ -1508,7 +1581,7 @@
    {
       datum _sortIndex
       {
-         value = "69";
+         value = "72";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1555,7 +1628,7 @@
    {
       datum _sortIndex
       {
-         value = "54";
+         value = "56";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1568,7 +1641,7 @@
    {
       datum baseAddress
       {
-         value = "2432";
+         value = "2448";
          type = "String";
       }
    }
@@ -1576,7 +1649,7 @@
    {
       datum _sortIndex
       {
-         value = "55";
+         value = "57";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1589,7 +1662,7 @@
    {
       datum baseAddress
       {
-         value = "2416";
+         value = "2432";
          type = "String";
       }
    }
@@ -1597,7 +1670,7 @@
    {
       datum _sortIndex
       {
-         value = "41";
+         value = "43";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1618,7 +1691,7 @@
    {
       datum _sortIndex
       {
-         value = "42";
+         value = "44";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1652,7 +1725,7 @@
    {
       datum _sortIndex
       {
-         value = "38";
+         value = "40";
          type = "int";
       }
       datum sopceditor_expanded
@@ -1772,6 +1845,11 @@
    type="conduit"
    dir="end" />
  <interface
+   name="dumb_communication_module_v2_8_conduit_end_rmap_echo_out"
+   internal="Dumb_Communication_Module_v2_8.conduit_end_rmap_echo_out"
+   type="conduit"
+   dir="end" />
+ <interface
    name="dumb_communication_module_v2_timer_avalon_master_data"
    internal="Dumb_Communication_Module_v2_Timer.avalon_master_data"
    type="avalon"
@@ -1779,6 +1857,11 @@
  <interface
    name="dumb_communication_module_v2_timer_avalon_slave_data_buffer"
    internal="Dumb_Communication_Module_v2_Timer.avalon_slave_data_buffer" />
+ <interface
+   name="dumb_communication_module_v2_timer_conduit_end_rmap_echo_out"
+   internal="Dumb_Communication_Module_v2_Timer.conduit_end_rmap_echo_out"
+   type="conduit"
+   dir="end" />
  <interface
    name="dumb_communication_module_v2_timer_conduit_end_rmap_master_codec"
    internal="Dumb_Communication_Module_v2_Timer.conduit_end_rmap_master_codec"
@@ -1819,6 +1902,7 @@
    internal="pio_EXT.external_connection"
    type="conduit"
    dir="end" />
+ <interface name="ftdi_clk" internal="clk_ftdi.clk_in" type="clock" dir="end" />
  <interface
    name="led_de4"
    internal="pio_LED.external_connection"
@@ -1892,6 +1976,11 @@
  <interface
    name="m2_ddr2_oct"
    internal="m2_ddr2_memory.oct"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="pio_spw_mux_ch_h_select"
+   internal="pio_spw_mux_ch_h_select.external_connection"
    type="conduit"
    dir="end" />
  <interface
@@ -2066,12 +2155,23 @@
    type="conduit"
    dir="end" />
  <interface
+   name="spwm_h_select"
+   internal="SpaceWire_Mux_Ch_H.conduit_end_mux_select"
+   type="conduit"
+   dir="end" />
+ <interface
    name="ssdp"
    internal="SEVEN_SEGMENT_CONTROLLER_0.SSDP_conduit"
    type="conduit"
    dir="end" />
  <interface name="sync_in" internal="sync.sync_in" type="conduit" dir="end" />
+ <interface name="sync_in_en" internal="sync.sync_in_en" type="conduit" dir="end" />
  <interface name="sync_out" internal="sync.sync_out" type="conduit" dir="end" />
+ <interface
+   name="sync_out_en"
+   internal="sync.sync_out_en"
+   type="conduit"
+   dir="end" />
  <interface name="sync_spw1" internal="sync.sync_spw1" type="conduit" dir="end" />
  <interface name="sync_spw2" internal="sync.sync_spw2" type="conduit" dir="end" />
  <interface name="sync_spw3" internal="sync.sync_spw3" type="conduit" dir="end" />
@@ -2113,6 +2213,11 @@
    type="conduit"
    dir="end" />
  <interface name="uart_module" internal="uart_module_top_0.conduit_end" />
+ <interface
+   name="umft601a_pins"
+   internal="FTDI_UMFT601A_Module.conduit_umft601a_pins"
+   type="conduit"
+   dir="end" />
  <module
    name="Altera_UP_SD_Card_Avalon_Interface_0"
    kind="Altera_UP_SD_Card_Avalon_Interface"
@@ -2124,48 +2229,54 @@
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.3"
+   version="1.4"
    enabled="1" />
+ <module
+   name="FTDI_UMFT601A_Module"
+   kind="FTDI_UMFT601A_Module"
+   version="2.3"
+   enabled="1" />
+ <module name="RMAP_Echoing" kind="RMAP_Echoing" version="1.3" enabled="1" />
  <module
    name="RMAP_Memory_Subunit_Area_1"
    kind="RMAP_Memory_Subunit_Area"
@@ -2251,6 +2362,11 @@
    kind="SpaceWire_Channel"
    version="1.4"
    enabled="1" />
+ <module
+   name="SpaceWire_Mux_Ch_H"
+   kind="SpaceWire_Mux"
+   version="1.0"
+   enabled="1" />
  <module name="clk_100" kind="clock_source" version="18.1" enabled="1">
   <parameter name="clockFrequency" value="100000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -2265,6 +2381,12 @@
  </module>
  <module name="clk_50" kind="clock_source" version="18.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module name="clk_ftdi" kind="clock_source" version="18.1" enabled="1">
+  <parameter name="clockFrequency" value="100000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
@@ -2395,8 +2517,8 @@
   <parameter name="ACTIVE_LOW_WAITREQUEST" value="0" />
   <parameter name="ACTIVE_LOW_WRITE" value="1" />
   <parameter name="ACTIVE_LOW_WRITEBYTEENABLE" value="0" />
-  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="4" />
-  <parameter name="AUTO_CLK_RESET_DOMAIN" value="4" />
+  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="5" />
+  <parameter name="AUTO_CLK_RESET_DOMAIN" value="5" />
   <parameter name="AUTO_DEVICE" value="EP4SGX230KF40C2" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Stratix IV" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="2" />
@@ -3183,8 +3305,8 @@
    kind="altera_nios2_gen2"
    version="18.1"
    enabled="1">
-  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="4" />
-  <parameter name="AUTO_CLK_RESET_DOMAIN" value="4" />
+  <parameter name="AUTO_CLK_CLOCK_DOMAIN" value="5" />
+  <parameter name="AUTO_CLK_RESET_DOMAIN" value="5" />
   <parameter name="AUTO_DEVICE" value="EP4SGX230KF40C2" />
   <parameter name="AUTO_DEVICE_SPEEDGRADE" value="2" />
   <parameter name="bht_ramBlockType" value="Automatic" />
@@ -3202,7 +3324,7 @@
   <parameter name="dataAddrWidth" value="32" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='ddr2_address_span_extender.windowed_slave' start='0x0' end='0x80000000' type='altera_address_span_extender.windowed_slave' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x80000000' end='0x80000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='uart_module_top_0.avalon_slave_uart' start='0x80000800' end='0x80000C00' type='uart_module_top.avalon_slave_uart' /><slave name='Dumb_Communication_Module_v2_Timer.avalon_slave_dcom' start='0x80000C00' end='0x80001000' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_2.avalon_slave_dcom' start='0x80001000' end='0x80001400' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_3.avalon_slave_dcom' start='0x80001400' end='0x80001800' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_4.avalon_slave_dcom' start='0x80001800' end='0x80001C00' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_5.avalon_slave_dcom' start='0x80001C00' end='0x80002000' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_6.avalon_slave_dcom' start='0x80002000' end='0x80002400' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_7.avalon_slave_dcom' start='0x80002400' end='0x80002800' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_8.avalon_slave_dcom' start='0x80002800' end='0x80002C00' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='sysid_qsys.control_slave' start='0x80002C80' end='0x80002C88' type='altera_avalon_sysid_qsys.control_slave' /><slave name='ddr2_address_span_extender.cntl' start='0x80002C88' end='0x80002C90' type='altera_address_span_extender.cntl' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x80002C90' end='0x80002C98' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='Dumb_Communication_Module_v2_1.avalon_slave_dcom' start='0x80003000' end='0x80003400' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='RMAP_Memory_Subunit_Area_8.avalon_rmap_slave_0' start='0x80004000' end='0x80008000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_7.avalon_rmap_slave_0' start='0x80008000' end='0x8000C000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_6.avalon_rmap_slave_0' start='0x8000C000' end='0x80010000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_5.avalon_rmap_slave_0' start='0x80010000' end='0x80014000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_4.avalon_rmap_slave_0' start='0x80014000' end='0x80018000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_3.avalon_rmap_slave_0' start='0x80018000' end='0x8001C000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_2.avalon_rmap_slave_0' start='0x8001C000' end='0x80020000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_1.avalon_rmap_slave_0' start='0x80020000' end='0x80024000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='onchip_memory.s1' start='0x80200000' end='0x802E0000' type='altera_avalon_onchip_memory2.s1' /><slave name='Altera_UP_SD_Card_Avalon_Interface_0.avalon_sdcard_slave' start='0x82000000' end='0x82000400' type='Altera_UP_SD_Card_Avalon_Interface.avalon_sdcard_slave' /><slave name='sync.avalon_mm_slave' start='0x82000400' end='0x82000800' type='Sync.avalon_mm_slave' /><slave name='rst_controller.avalon_rst_controller_slave' start='0x82000800' end='0x82000840' type='rst_controller.avalon_rst_controller_slave' /><slave name='timer_1us.s1' start='0x82000840' end='0x82000860' type='altera_avalon_timer.s1' /><slave name='timer_1ms.s1' start='0x82000860' end='0x82000880' type='altera_avalon_timer.s1' /><slave name='pio_RST_ETH.s1' start='0x82000880' end='0x82000890' type='altera_avalon_pio.s1' /><slave name='pio_ctrl_io_lvds.s1' start='0x82000890' end='0x820008A0' type='altera_avalon_pio.s1' /><slave name='rtcc_cs_n.s1' start='0x820008A0' end='0x820008B0' type='altera_avalon_pio.s1' /><slave name='rtcc_sck.s1' start='0x820008B0' end='0x820008C0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdi.s1' start='0x820008C0' end='0x820008D0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdo.s1' start='0x820008D0' end='0x820008E0' type='altera_avalon_pio.s1' /><slave name='rtcc_alarm.s1' start='0x820008E0' end='0x820008F0' type='altera_avalon_pio.s1' /><slave name='pio_LED_painel.s1' start='0x820008F0' end='0x82000900' type='altera_avalon_pio.s1' /><slave name='csense_adc_fo.s1' start='0x82000900' end='0x82000910' type='altera_avalon_pio.s1' /><slave name='csense_cs_n.s1' start='0x82000910' end='0x82000920' type='altera_avalon_pio.s1' /><slave name='csense_sck.s1' start='0x82000920' end='0x82000930' type='altera_avalon_pio.s1' /><slave name='csense_sdi.s1' start='0x82000930' end='0x82000940' type='altera_avalon_pio.s1' /><slave name='csense_sdo.s1' start='0x82000940' end='0x82000950' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_scl.s1' start='0x82000950' end='0x82000960' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_sda.s1' start='0x82000960' end='0x82000970' type='altera_avalon_pio.s1' /><slave name='temp_sda.s1' start='0x82000970' end='0x82000980' type='altera_avalon_pio.s1' /><slave name='temp_scl.s1' start='0x82000980' end='0x82000990' type='altera_avalon_pio.s1' /><slave name='sd_card_wp_n.s1' start='0x82000990' end='0x820009A0' type='altera_avalon_pio.s1' /><slave name='pio_EXT.s1' start='0x820009A0' end='0x820009B0' type='altera_avalon_pio.s1' /><slave name='pio_DIP.s1' start='0x820009B0' end='0x820009C0' type='altera_avalon_pio.s1' /><slave name='pio_LED.s1' start='0x820009C0' end='0x820009D0' type='altera_avalon_pio.s1' /><slave name='pio_BUTTON.s1' start='0x820009D0' end='0x820009E0' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_scl.s1' start='0x820009E0' end='0x820009F0' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_sda.s1' start='0x820009F0' end='0x82000A00' type='altera_avalon_pio.s1' /><slave name='SEVEN_SEGMENT_CONTROLLER_0.SSDP_avalon_slave' start='0x82000A00' end='0x82000A08' type='SEVEN_SEGMENT_CONTROLLER.SSDP_avalon_slave' /><slave name='ext_flash.uas' start='0x84000000' end='0x88000000' type='altera_generic_tristate_controller.uas' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='ddr2_address_span_extender.windowed_slave' start='0x0' end='0x80000000' type='altera_address_span_extender.windowed_slave' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x80000000' end='0x80000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='uart_module_top_0.avalon_slave_uart' start='0x80000800' end='0x80000C00' type='uart_module_top.avalon_slave_uart' /><slave name='Dumb_Communication_Module_v2_Timer.avalon_slave_dcom' start='0x80000C00' end='0x80001000' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_2.avalon_slave_dcom' start='0x80001000' end='0x80001400' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_3.avalon_slave_dcom' start='0x80001400' end='0x80001800' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_4.avalon_slave_dcom' start='0x80001800' end='0x80001C00' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_5.avalon_slave_dcom' start='0x80001C00' end='0x80002000' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_6.avalon_slave_dcom' start='0x80002000' end='0x80002400' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_7.avalon_slave_dcom' start='0x80002400' end='0x80002800' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='Dumb_Communication_Module_v2_8.avalon_slave_dcom' start='0x80002800' end='0x80002C00' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='ddr2_address_span_extender.cntl' start='0x80002C00' end='0x80002C08' type='altera_address_span_extender.cntl' /><slave name='sysid_qsys.control_slave' start='0x80002C80' end='0x80002C88' type='altera_avalon_sysid_qsys.control_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x80002C90' end='0x80002C98' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='Dumb_Communication_Module_v2_1.avalon_slave_dcom' start='0x80003000' end='0x80003400' type='Dumb_Communication_Module_v2.avalon_slave_dcom' /><slave name='RMAP_Memory_Subunit_Area_8.avalon_rmap_slave_0' start='0x80004000' end='0x80008000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_7.avalon_rmap_slave_0' start='0x80008000' end='0x8000C000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_6.avalon_rmap_slave_0' start='0x8000C000' end='0x80010000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_5.avalon_rmap_slave_0' start='0x80010000' end='0x80014000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_4.avalon_rmap_slave_0' start='0x80014000' end='0x80018000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_3.avalon_rmap_slave_0' start='0x80018000' end='0x8001C000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_2.avalon_rmap_slave_0' start='0x8001C000' end='0x80020000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='RMAP_Memory_Subunit_Area_1.avalon_rmap_slave_0' start='0x80020000' end='0x80024000' type='RMAP_Memory_Subunit_Area.avalon_rmap_slave_0' /><slave name='onchip_memory.s1' start='0x80200000' end='0x802E0000' type='altera_avalon_onchip_memory2.s1' /><slave name='Altera_UP_SD_Card_Avalon_Interface_0.avalon_sdcard_slave' start='0x82000000' end='0x82000400' type='Altera_UP_SD_Card_Avalon_Interface.avalon_sdcard_slave' /><slave name='sync.avalon_mm_slave' start='0x82000400' end='0x82000800' type='Sync.avalon_mm_slave' /><slave name='rst_controller.avalon_rst_controller_slave' start='0x82000800' end='0x82000840' type='rst_controller.avalon_rst_controller_slave' /><slave name='timer_1us.s1' start='0x82000840' end='0x82000860' type='altera_avalon_timer.s1' /><slave name='timer_1ms.s1' start='0x82000860' end='0x82000880' type='altera_avalon_timer.s1' /><slave name='pio_spw_mux_ch_h_select.s1' start='0x82000880' end='0x82000890' type='altera_avalon_pio.s1' /><slave name='pio_RST_ETH.s1' start='0x82000890' end='0x820008A0' type='altera_avalon_pio.s1' /><slave name='pio_ctrl_io_lvds.s1' start='0x820008A0' end='0x820008B0' type='altera_avalon_pio.s1' /><slave name='rtcc_cs_n.s1' start='0x820008B0' end='0x820008C0' type='altera_avalon_pio.s1' /><slave name='rtcc_sck.s1' start='0x820008C0' end='0x820008D0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdi.s1' start='0x820008D0' end='0x820008E0' type='altera_avalon_pio.s1' /><slave name='rtcc_sdo.s1' start='0x820008E0' end='0x820008F0' type='altera_avalon_pio.s1' /><slave name='rtcc_alarm.s1' start='0x820008F0' end='0x82000900' type='altera_avalon_pio.s1' /><slave name='pio_LED_painel.s1' start='0x82000900' end='0x82000910' type='altera_avalon_pio.s1' /><slave name='csense_adc_fo.s1' start='0x82000910' end='0x82000920' type='altera_avalon_pio.s1' /><slave name='csense_cs_n.s1' start='0x82000920' end='0x82000930' type='altera_avalon_pio.s1' /><slave name='csense_sck.s1' start='0x82000930' end='0x82000940' type='altera_avalon_pio.s1' /><slave name='csense_sdi.s1' start='0x82000940' end='0x82000950' type='altera_avalon_pio.s1' /><slave name='csense_sdo.s1' start='0x82000950' end='0x82000960' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_scl.s1' start='0x82000960' end='0x82000970' type='altera_avalon_pio.s1' /><slave name='m2_ddr2_i2c_sda.s1' start='0x82000970' end='0x82000980' type='altera_avalon_pio.s1' /><slave name='temp_sda.s1' start='0x82000980' end='0x82000990' type='altera_avalon_pio.s1' /><slave name='temp_scl.s1' start='0x82000990' end='0x820009A0' type='altera_avalon_pio.s1' /><slave name='sd_card_wp_n.s1' start='0x820009A0' end='0x820009B0' type='altera_avalon_pio.s1' /><slave name='pio_EXT.s1' start='0x820009B0' end='0x820009C0' type='altera_avalon_pio.s1' /><slave name='pio_DIP.s1' start='0x820009C0' end='0x820009D0' type='altera_avalon_pio.s1' /><slave name='pio_LED.s1' start='0x820009D0' end='0x820009E0' type='altera_avalon_pio.s1' /><slave name='pio_BUTTON.s1' start='0x820009E0' end='0x820009F0' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_scl.s1' start='0x820009F0' end='0x82000A00' type='altera_avalon_pio.s1' /><slave name='m1_ddr2_i2c_sda.s1' start='0x82000A00' end='0x82000A10' type='altera_avalon_pio.s1' /><slave name='SEVEN_SEGMENT_CONTROLLER_0.SSDP_avalon_slave' start='0x82000A10' end='0x82000A18' type='SEVEN_SEGMENT_CONTROLLER.SSDP_avalon_slave' /><slave name='ext_flash.uas' start='0x84000000' end='0x88000000' type='altera_generic_tristate_controller.uas' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -3366,7 +3488,7 @@
    version="18.1"
    enabled="1">
   <parameter name="allowInSystemMemoryContentEditor" value="false" />
-  <parameter name="autoInitializationFileName">MebX_Qsys_Project_onchip_memory</parameter>
+  <parameter name="autoInitializationFileName">$${FILENAME}_onchip_memory</parameter>
   <parameter name="blockType" value="M9K" />
   <parameter name="copyInitFile" value="false" />
   <parameter name="dataWidth" value="32" />
@@ -3503,6 +3625,24 @@
   <parameter name="width" value="4" />
  </module>
  <module
+   name="pio_spw_mux_ch_h_select"
+   kind="altera_avalon_pio"
+   version="18.1"
+   enabled="1">
+  <parameter name="bitClearingEdgeCapReg" value="false" />
+  <parameter name="bitModifyingOutReg" value="false" />
+  <parameter name="captureEdge" value="false" />
+  <parameter name="clockRate" value="50000000" />
+  <parameter name="direction" value="Output" />
+  <parameter name="edgeType" value="RISING" />
+  <parameter name="generateIRQ" value="false" />
+  <parameter name="irqType" value="LEVEL" />
+  <parameter name="resetValue" value="3" />
+  <parameter name="simDoTestBenchWiring" value="false" />
+  <parameter name="simDrivenValue" value="0" />
+  <parameter name="width" value="2" />
+ </module>
+ <module
    name="rs232_uart"
    kind="altera_avalon_uart"
    version="18.1"
@@ -3611,7 +3751,7 @@
   <parameter name="simDrivenValue" value="0" />
   <parameter name="width" value="1" />
  </module>
- <module name="sync" kind="Sync" version="1.5" enabled="1">
+ <module name="sync" kind="Sync" version="1.7" enabled="1">
   <parameter name="g_PRE_SYNC_IRQ_NUMBER" value="16" />
   <parameter name="g_SYNC_IRQ_NUMBER" value="2" />
  </module>
@@ -4042,7 +4182,7 @@
    start="nios2_gen2_0.data_master"
    end="ddr2_address_span_extender.cntl">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x80002c88" />
+  <parameter name="baseAddress" value="0x80002c00" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4150,7 +4290,7 @@
    start="clock_bridge_afi_50.m0"
    end="SEVEN_SEGMENT_CONTROLLER_0.SSDP_avalon_slave">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0a00" />
+  <parameter name="baseAddress" value="0x0a10" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4195,7 +4335,7 @@
    start="clock_bridge_afi_50.m0"
    end="m1_ddr2_i2c_sda.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x09f0" />
+  <parameter name="baseAddress" value="0x0a00" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4204,7 +4344,7 @@
    start="clock_bridge_afi_50.m0"
    end="m1_ddr2_i2c_scl.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x09e0" />
+  <parameter name="baseAddress" value="0x09f0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4213,7 +4353,7 @@
    start="clock_bridge_afi_50.m0"
    end="pio_BUTTON.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x09d0" />
+  <parameter name="baseAddress" value="0x09e0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4222,7 +4362,7 @@
    start="clock_bridge_afi_50.m0"
    end="pio_LED.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x09c0" />
+  <parameter name="baseAddress" value="0x09d0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4240,7 +4380,7 @@
    start="clock_bridge_afi_50.m0"
    end="pio_DIP.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x09b0" />
+  <parameter name="baseAddress" value="0x09c0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4258,7 +4398,7 @@
    start="clock_bridge_afi_50.m0"
    end="pio_EXT.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x09a0" />
+  <parameter name="baseAddress" value="0x09b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4267,7 +4407,7 @@
    start="clock_bridge_afi_50.m0"
    end="sd_card_wp_n.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0990" />
+  <parameter name="baseAddress" value="0x09a0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4276,7 +4416,7 @@
    start="clock_bridge_afi_50.m0"
    end="temp_scl.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0980" />
+  <parameter name="baseAddress" value="0x0990" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4285,7 +4425,7 @@
    start="clock_bridge_afi_50.m0"
    end="temp_sda.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0970" />
+  <parameter name="baseAddress" value="0x0980" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4294,7 +4434,7 @@
    start="clock_bridge_afi_50.m0"
    end="m2_ddr2_i2c_sda.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0960" />
+  <parameter name="baseAddress" value="0x0970" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4303,7 +4443,7 @@
    start="clock_bridge_afi_50.m0"
    end="m2_ddr2_i2c_scl.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0950" />
+  <parameter name="baseAddress" value="0x0960" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4312,7 +4452,7 @@
    start="clock_bridge_afi_50.m0"
    end="csense_sdo.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0940" />
+  <parameter name="baseAddress" value="0x0950" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4321,7 +4461,7 @@
    start="clock_bridge_afi_50.m0"
    end="csense_sdi.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0930" />
+  <parameter name="baseAddress" value="0x0940" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4330,7 +4470,7 @@
    start="clock_bridge_afi_50.m0"
    end="csense_sck.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0920" />
+  <parameter name="baseAddress" value="0x0930" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4339,7 +4479,7 @@
    start="clock_bridge_afi_50.m0"
    end="csense_cs_n.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0910" />
+  <parameter name="baseAddress" value="0x0920" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4348,7 +4488,7 @@
    start="clock_bridge_afi_50.m0"
    end="csense_adc_fo.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0900" />
+  <parameter name="baseAddress" value="0x0910" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4357,7 +4497,7 @@
    start="clock_bridge_afi_50.m0"
    end="pio_LED_painel.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x08f0" />
+  <parameter name="baseAddress" value="0x0900" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4366,7 +4506,7 @@
    start="clock_bridge_afi_50.m0"
    end="rtcc_alarm.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x08e0" />
+  <parameter name="baseAddress" value="0x08f0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4375,7 +4515,7 @@
    start="clock_bridge_afi_50.m0"
    end="rtcc_sdo.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x08d0" />
+  <parameter name="baseAddress" value="0x08e0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4384,7 +4524,7 @@
    start="clock_bridge_afi_50.m0"
    end="rtcc_sdi.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x08c0" />
+  <parameter name="baseAddress" value="0x08d0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4393,7 +4533,7 @@
    start="clock_bridge_afi_50.m0"
    end="rtcc_sck.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x08b0" />
+  <parameter name="baseAddress" value="0x08c0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4402,7 +4542,7 @@
    start="clock_bridge_afi_50.m0"
    end="rtcc_cs_n.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x08a0" />
+  <parameter name="baseAddress" value="0x08b0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4411,7 +4551,7 @@
    start="clock_bridge_afi_50.m0"
    end="pio_ctrl_io_lvds.s1">
   <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x0890" />
+  <parameter name="baseAddress" value="0x08a0" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -4419,6 +4559,15 @@
    version="18.1"
    start="clock_bridge_afi_50.m0"
    end="pio_RST_ETH.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0890" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="clock_bridge_afi_50.m0"
+   end="pio_spw_mux_ch_h_select.s1">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0880" />
   <parameter name="defaultConnection" value="false" />
@@ -4524,6 +4673,11 @@
  <connection
    kind="clock"
    version="18.1"
+   start="clk_50.clk"
+   end="pio_spw_mux_ch_h_select.clk" />
+ <connection
+   kind="clock"
+   version="18.1"
    start="clk_100.clk"
    end="onchip_memory.clk1" />
  <connection kind="clock" version="18.1" start="clk_50.clk" end="sync.clock" />
@@ -4537,6 +4691,16 @@
    version="18.1"
    start="clk_50.clk"
    end="rst_controller.clock_sink" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_100.clk"
+   end="SpaceWire_Mux_Ch_H.clock_sink" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_100.clk"
+   end="FTDI_UMFT601A_Module.clock_sink" />
  <connection
    kind="clock"
    version="18.1"
@@ -4670,6 +4834,11 @@
  <connection
    kind="clock"
    version="18.1"
+   start="clk_100.clk"
+   end="RMAP_Echoing.clock_sink_100mhz" />
+ <connection
+   kind="clock"
+   version="18.1"
    start="clk_200.clk"
    end="SpaceWire_Channel_A.clock_sink_200mhz" />
  <connection
@@ -4722,6 +4891,88 @@
    version="18.1"
    start="clk_100.clk"
    end="clock_bridge_afi_50.s0_clk" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_ftdi.clk"
+   end="FTDI_UMFT601A_Module.umft601a_clock_sink" />
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="RMAP_Echoing.conduit_end_rmap_echo_0_in"
+   end="Dumb_Communication_Module_v2_1.conduit_end_rmap_echo_out">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="RMAP_Echoing.conduit_end_rmap_echo_2_in"
+   end="Dumb_Communication_Module_v2_3.conduit_end_rmap_echo_out">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="RMAP_Echoing.conduit_end_rmap_echo_4_in"
+   end="Dumb_Communication_Module_v2_5.conduit_end_rmap_echo_out">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="RMAP_Echoing.conduit_end_rmap_echo_6_in"
+   end="Dumb_Communication_Module_v2_7.conduit_end_rmap_echo_out">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="Dumb_Communication_Module_v2_2.conduit_end_rmap_echo_out"
+   end="RMAP_Echoing.conduit_end_rmap_echo_1_in">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="Dumb_Communication_Module_v2_4.conduit_end_rmap_echo_out"
+   end="RMAP_Echoing.conduit_end_rmap_echo_3_in">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="Dumb_Communication_Module_v2_6.conduit_end_rmap_echo_out"
+   end="RMAP_Echoing.conduit_end_rmap_echo_5_in">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
  <connection
    kind="conduit"
    version="18.1"
@@ -4968,7 +5219,29 @@
    kind="conduit"
    version="18.1"
    start="SpaceWire_Channel_H.conduit_end_spacewire_channel"
+   end="SpaceWire_Mux_Ch_H.conduit_end_spacewire_controller">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="SpaceWire_Mux_Ch_H.conduit_end_spacewire_channel_0"
    end="Dumb_Communication_Module_v2_8.conduit_end_spacewire_controller">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="18.1"
+   start="SpaceWire_Mux_Ch_H.conduit_end_spacewire_channel_1"
+   end="RMAP_Echoing.conduit_end_spacewire_controller">
   <parameter name="endPort" value="" />
   <parameter name="endPortLSB" value="0" />
   <parameter name="startPort" value="" />
@@ -5162,6 +5435,11 @@
    version="18.1"
    start="clk_50.clk_reset"
    end="clk_100.clk_in_reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_50.clk_reset"
+   end="clk_ftdi.clk_in_reset" />
  <connection
    kind="reset"
    version="18.1"
@@ -5367,6 +5645,11 @@
    kind="reset"
    version="18.1"
    start="clk_50.clk_reset"
+   end="pio_spw_mux_ch_h_select.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_50.clk_reset"
    end="onchip_memory.reset1" />
  <connection
    kind="reset"
@@ -5507,6 +5790,21 @@
    kind="reset"
    version="18.1"
    start="clk_50.clk_reset"
+   end="SpaceWire_Mux_Ch_H.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_50.clk_reset"
+   end="RMAP_Echoing.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_50.clk_reset"
+   end="FTDI_UMFT601A_Module.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_50.clk_reset"
    end="clock_bridge_afi_50.s0_reset" />
  <connection
    kind="reset"
@@ -5541,6 +5839,11 @@
  <connection
    kind="reset"
    version="18.1"
+   start="rst_controller.reset_source_comm_ch1"
+   end="RMAP_Echoing.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
    start="rst_controller.reset_source_comm_ch2"
    end="SpaceWire_Channel_B.reset_sink" />
  <connection
@@ -5553,6 +5856,11 @@
    version="18.1"
    start="rst_controller.reset_source_comm_ch2"
    end="RMAP_Memory_Subunit_Area_2.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="rst_controller.reset_source_comm_ch2"
+   end="RMAP_Echoing.reset_sink" />
  <connection
    kind="reset"
    version="18.1"
@@ -5571,6 +5879,11 @@
  <connection
    kind="reset"
    version="18.1"
+   start="rst_controller.reset_source_comm_ch3"
+   end="RMAP_Echoing.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
    start="rst_controller.reset_source_comm_ch4"
    end="SpaceWire_Channel_D.reset_sink" />
  <connection
@@ -5583,6 +5896,11 @@
    version="18.1"
    start="rst_controller.reset_source_comm_ch4"
    end="RMAP_Memory_Subunit_Area_4.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="rst_controller.reset_source_comm_ch4"
+   end="RMAP_Echoing.reset_sink" />
  <connection
    kind="reset"
    version="18.1"
@@ -5601,6 +5919,11 @@
  <connection
    kind="reset"
    version="18.1"
+   start="rst_controller.reset_source_comm_ch5"
+   end="RMAP_Echoing.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
    start="rst_controller.reset_source_comm_ch6"
    end="SpaceWire_Channel_F.reset_sink" />
  <connection
@@ -5613,6 +5936,11 @@
    version="18.1"
    start="rst_controller.reset_source_comm_ch6"
    end="RMAP_Memory_Subunit_Area_6.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="rst_controller.reset_source_comm_ch6"
+   end="RMAP_Echoing.reset_sink" />
  <connection
    kind="reset"
    version="18.1"
@@ -5631,6 +5959,11 @@
  <connection
    kind="reset"
    version="18.1"
+   start="rst_controller.reset_source_comm_ch7"
+   end="RMAP_Echoing.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
    start="rst_controller.reset_source_comm_ch8"
    end="SpaceWire_Channel_H.reset_sink" />
  <connection
@@ -5642,7 +5975,22 @@
    kind="reset"
    version="18.1"
    start="rst_controller.reset_source_comm_ch8"
+   end="SpaceWire_Mux_Ch_H.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="rst_controller.reset_source_comm_ch8"
+   end="RMAP_Echoing.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="rst_controller.reset_source_comm_ch8"
    end="RMAP_Memory_Subunit_Area_8.reset_sink" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="rst_controller.reset_source_ftdi"
+   end="FTDI_UMFT601A_Module.reset_sink" />
  <connection
    kind="reset"
    version="18.1"

@@ -239,8 +239,21 @@ entity MebX_TopLevel is
 		-- RS232 UART	 
 		O_RS232_UART_TXD       : out   std_logic;
 		--		O_RS232_UART_CTS       : out   std_logic;
-		I_RS232_UART_RXD       : in    std_logic
-		--		I_RS232_UART_RTS       : in    std_logic
+		I_RS232_UART_RXD       : in    std_logic;
+		--		I_RS232_UART_RTS       : in    std_logic;
+		-- FTDI UMFT601A Module Pins
+		FTDI_DATA              : inout std_logic_vector(31 downto 0);
+		FTDI_BE                : inout std_logic_vector(3 downto 0);
+		FTDI_RESET_N           : out   std_logic;
+		FTDI_WAKEUP_N          : inout std_logic;
+		FTDI_CLOCK             : in    std_logic;
+		FTDI_RXF_N             : in    std_logic;
+		FTDI_TXE_N             : in    std_logic;
+		FTDI_GPIO              : inout std_logic_vector(1 downto 0);
+		FTDI_WR_N              : out   std_logic;
+		FTDI_RD_N              : out   std_logic;
+		FTDI_OE_N              : out   std_logic;
+		FTDI_SIWU_N            : out   std_logic
 	);
 end entity;
 
@@ -249,16 +262,9 @@ architecture bhv of MebX_TopLevel is
 	-----------------------------------------
 	-- Clock e reset
 	-----------------------------------------
-	signal clk125, clk100, clk80 : std_logic;
-
-	signal forceIntRst_n : std_logic := '0';
-
 	signal rst_ctrl_input : std_logic := '0';
 	signal simucam_rst    : std_logic := '0';
-
-	attribute KEEP : boolean;
-	attribute KEEP of clk100 : signal is true;
-	attribute KEEP of clk80 : signal is true;
+	signal rst_n          : std_logic;
 
 	-----------------------------------------
 	-- Ethernet 
@@ -290,13 +296,6 @@ architecture bhv of MebX_TopLevel is
 	alias a_hsmb_buffers_preemphasis_0 is ctrl_io_lvds(0);
 
 	-----------------------------------------
-	-- RST CPU
-	-----------------------------------------
-	signal rst_n : std_logic;
-
-	signal pll_locked : std_logic;
-
-	-----------------------------------------
 	-- Signals
 	-----------------------------------------
 	signal spw_1_sync : std_logic;
@@ -307,6 +306,8 @@ architecture bhv of MebX_TopLevel is
 	signal spw_6_sync : std_logic;
 	signal spw_7_sync : std_logic;
 	signal spw_8_sync : std_logic;
+
+	signal spw_h_mux_select : std_logic_vector(1 downto 0);
 
 	signal spw_a_red_led   : std_logic;
 	signal spw_a_green_led : std_logic;
@@ -475,6 +476,10 @@ architecture bhv of MebX_TopLevel is
 			spwc_h_lvds_spw_lvds_p_strobe_out_signal                    : out   std_logic; --                         -- spw_lvds_p_strobe_out_signal
 			spwc_h_lvds_spw_lvds_n_strobe_out_signal                    : out   std_logic; --                         -- spw_lvds_n_strobe_out_signal
 			--
+			spwm_h_select_mux_select_signal                             : in    std_logic_vector(1 downto 0)  := (others => '1'); -- mux_select_signal
+			--
+			pio_spw_mux_ch_h_select_export                              : out   std_logic_vector(1 downto 0); --      -- export
+			--
 			dcom_1_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
 			dcom_2_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
 			dcom_3_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
@@ -541,6 +546,8 @@ architecture bhv of MebX_TopLevel is
 			rtcc_sdo_export                                             : in    std_logic                     := 'X'; -- export
 			--
 			sync_in_conduit                                             : in    std_logic                     := 'X'; -- conduit
+			sync_in_en_conduit                                          : in    std_logic                     := '0'; -- conduit
+			sync_out_en_conduit                                         : in    std_logic                     := '0'; -- conduit
 			sync_out_conduit                                            : out   std_logic; --                         -- conduit
 			sync_spw1_conduit                                           : out   std_logic; --                         -- conduit
 			sync_spw2_conduit                                           : out   std_logic; --                         -- conduit
@@ -558,7 +565,7 @@ architecture bhv of MebX_TopLevel is
 			sd_card_ip_o_SD_clock                                       : out   std_logic; --                         -- o_SD_clock
 			--
 			rs232_uart_rxd                                              : in    std_logic                     := 'X'; -- rxd
-			rs232_uart_txd                                              : out   std_logic ---                         -- txd
+			rs232_uart_txd                                              : out   std_logic; --                         -- txd
 			--            rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
 			--            rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
 
@@ -566,6 +573,21 @@ architecture bhv of MebX_TopLevel is
 			--			uart_module_uart_rxd_signal                                 : in    std_logic                     := 'X'; -- uart_rxd_signal
 			--			uart_module_uart_rts_signal                                 : in    std_logic                     := 'X'; -- uart_rts_signal
 			--			uart_module_uart_cts_signal                                 : out   std_logic -- uart_cts_signal
+			--
+			ftdi_clk_clk                                                : in    std_logic                     := '0'; -- clk
+			--
+			umft601a_pins_umft_data_signal                              : inout std_logic_vector(31 downto 0) := (others => 'Z'); -- umft_data_signal
+			umft601a_pins_umft_reset_n_signal                           : out   std_logic; --                                     -- umft_reset_n_signal
+			umft601a_pins_umft_rxf_n_signal                             : in    std_logic                     := '1'; --          -- umft_rxf_n_signal
+			umft601a_pins_umft_clock_signal                             : in    std_logic                     := '0'; --          -- umft_clock_signal
+			umft601a_pins_umft_wakeup_n_signal                          : inout std_logic                     := 'Z'; --          -- umft_wakeup_n_signal
+			umft601a_pins_umft_be_signal                                : inout std_logic_vector(3 downto 0)  := (others => 'Z'); -- umft_be_signal
+			umft601a_pins_umft_txe_n_signal                             : in    std_logic                     := '1'; --          -- umft_txe_n_signal
+			umft601a_pins_umft_gpio_bus_signal                          : inout std_logic_vector(1 downto 0)  := (others => 'Z'); -- umft_gpio_bus_signal
+			umft601a_pins_umft_wr_n_signal                              : out   std_logic; --                                     -- umft_wr_n_signal
+			umft601a_pins_umft_rd_n_signal                              : out   std_logic; --                                     -- umft_rd_n_signal
+			umft601a_pins_umft_oe_n_signal                              : out   std_logic; --                                     -- umft_oe_n_signal
+			umft601a_pins_umft_siwu_n_signal                            : out   std_logic ---                                     -- umft_siwu_n_signal
 		);
 	end component MebX_Qsys_Project;
 
@@ -578,14 +600,6 @@ architecture bhv of MebX_TopLevel is
 
 	------------------------------------------------------------
 begin
-
-	--==========--
-	-- Clk
-	--==========--
-	--PLL_inst_125 : pll_125 port map (
-	--		inclk0 => OSC_50_BANK2,
-	--		c0     => enet_refclk_125MHz
-	--	);
 
 	--==========--
 	-- AVALON
@@ -730,6 +744,10 @@ begin
 			spwc_h_lvds_spw_lvds_p_strobe_out_signal                    => HSMB_LVDS_TX_SPWH_SO_P, --                                   .spw_lvds_p_strobe_out_signal
 			spwc_h_lvds_spw_lvds_n_strobe_out_signal                    => HSMB_LVDS_TX_SPWH_SO_N, --                                   .spw_lvds_n_strobe_out_signal
 			--
+			spwm_h_select_mux_select_signal                             => spw_h_mux_select, --                            spwm_h_select.mux_select_signal
+			--
+			pio_spw_mux_ch_h_select_export                              => spw_h_mux_select, --                  pio_spw_mux_ch_h_select.export
+			--
 			dcom_1_sync_end_sync_channel_signal                         => spw_1_sync, --            comm_a_sync_end.sync_channel_signal
 			dcom_2_sync_end_sync_channel_signal                         => spw_2_sync, --            comm_b_sync_end.sync_channel_signal
 			dcom_3_sync_end_sync_channel_signal                         => spw_3_sync, --            comm_c_sync_end.sync_channel_signal
@@ -796,6 +814,8 @@ begin
 			rtcc_sdo_export                                             => RTCC_SDO,
 			--
 			sync_in_conduit                                             => s_sync_in, --        --                               sync_in.conduit
+			sync_in_en_conduit                                          => a_enable_iso_drivers,   --                 sync_in_en_conduit.conduit
+			sync_out_en_conduit                                         => a_enable_iso_drivers,   --                sync_out_en_conduit.conduit
 			sync_out_conduit                                            => s_sync_out, --       --                              sync_out.conduit
 			sync_spw1_conduit                                           => spw_1_sync, --       --                             sync_spw1.conduit
 			sync_spw2_conduit                                           => spw_2_sync, --       --                             sync_spw2.conduit
@@ -813,7 +833,7 @@ begin
 			sd_card_ip_o_SD_clock                                       => O_SD_CARD_CLOCK, --  --                                      .o_SD_clock
 			--
 			rs232_uart_rxd                                              => I_RS232_UART_RXD, -- --                            rs232_uart.rxd
-			rs232_uart_txd                                              => O_RS232_UART_TXD --- --                                      .txd
+			rs232_uart_txd                                              => O_RS232_UART_TXD, -- --                                      .txd
 			--            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
 			--            rs232_uart_rts_n                                                        => O_RS232_UART_CTS,                                                        --                                                            .rts_n
 
@@ -832,6 +852,21 @@ begin
 			--			uart_module_uart_rts_signal                                 => I_RS232_UART_RTS, --                                                            .uart_rts_signal
 			--			uart_module_uart_cts_signal                                 => O_RS232_UART_CTS --                                                            .uart_cts_signal
 
+			--
+			ftdi_clk_clk                                                => FTDI_CLOCK, --          --                           ftdi_clk.clk
+			--
+			umft601a_pins_umft_data_signal                              => FTDI_DATA, --           --                      umft601a_pins.umft_data_signal
+			umft601a_pins_umft_reset_n_signal                           => open, --                --                                   .umft_reset_n_signal
+			umft601a_pins_umft_rxf_n_signal                             => FTDI_RXF_N, --          --                                   .umft_rxf_n_signal
+			umft601a_pins_umft_clock_signal                             => '0', --                 --                                   .umft_clock_signal
+			umft601a_pins_umft_wakeup_n_signal                          => FTDI_WAKEUP_N, --       --                                   .umft_wakeup_n_signal
+			umft601a_pins_umft_be_signal                                => FTDI_BE, --             --                                   .umft_be_signal
+			umft601a_pins_umft_txe_n_signal                             => FTDI_TXE_N, --          --                                   .umft_txe_n_signal
+			umft601a_pins_umft_gpio_bus_signal                          => FTDI_GPIO, --           --                                   .umft_gpio_bus_signal
+			umft601a_pins_umft_wr_n_signal                              => FTDI_WR_N, --           --                                   .umft_wr_n_signal
+			umft601a_pins_umft_rd_n_signal                              => FTDI_RD_N, --           --                                   .umft_rd_n_signal
+			umft601a_pins_umft_oe_n_signal                              => FTDI_OE_N, --           --                                   .umft_oe_n_signal
+			umft601a_pins_umft_siwu_n_signal                            => FTDI_SIWU_N ---         --                                   .umft_siwu_n_signal
 		);
 
 	--==========--
@@ -840,6 +875,7 @@ begin
 
 	rst_ctrl_input <= not (CPU_RESET_n and RESET_PAINEL_n);
 	rst_n          <= not (simucam_rst);
+	FTDI_RESET_N   <= rst_n;
 
 	--==========--
 	-- I/Os
