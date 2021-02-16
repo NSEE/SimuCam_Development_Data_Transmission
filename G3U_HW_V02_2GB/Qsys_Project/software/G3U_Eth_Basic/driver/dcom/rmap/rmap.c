@@ -196,23 +196,6 @@ bool bRmapSetRmapMemArea(TRmapChannel *pxRmapCh) {
 	return bStatus;
 }
 
-bool bRmapSetEchoingMode(TRmapChannel *pxRmapCh) {
-	bool bStatus = FALSE;
-	volatile TDcomChannel *vpxDcomChannel;
-
-	if (pxRmapCh != NULL) {
-
-		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
-
-		vpxDcomChannel->xRmap.xRmapEchoingModeConfig = pxRmapCh->xRmapEchoingModeConfig;
-
-		bStatus = TRUE;
-
-	}
-
-	return bStatus;
-}
-
 bool bRmapGetEchoingMode(TRmapChannel *pxRmapCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
@@ -222,6 +205,23 @@ bool bRmapGetEchoingMode(TRmapChannel *pxRmapCh) {
 		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
 		pxRmapCh->xRmapEchoingModeConfig = vpxDcomChannel->xRmap.xRmapEchoingModeConfig;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+bool bRmapSetEchoingMode(TRmapChannel *pxRmapCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxRmapCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+
+		vpxDcomChannel->xRmap.xRmapEchoingModeConfig = pxRmapCh->xRmapEchoingModeConfig;
 
 		bStatus = TRUE;
 
@@ -341,6 +341,9 @@ bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 				bInitFail = TRUE;
 			}
 			if (!bRmapGetMemAreaConfig(pxRmapCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bRmapGetEchoingMode(pxRmapCh)) {
 				bInitFail = TRUE;
 			}
 			if (!bRmapGetRmapMemArea(pxRmapCh)) {
