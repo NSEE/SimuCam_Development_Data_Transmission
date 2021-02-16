@@ -1283,25 +1283,18 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						break;
 
 					case spwErrEEP:
-						/* Force the stop of any ongoing SpW Codec Errors */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						/* Wait SpW Codec Errors controller to be ready */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bDschGetPacketConfig(xCh[p_payload->data[1]]);
+						if (xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep) {
+							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep = FALSE;
+							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEop = TRUE;
+						} else {
+							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep = TRUE;
+							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEop = FALSE;
 						}
-						/* Inject the selected SpW Codec Error */
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);					
+						bDschSetPacketConfig(xCh[p_payload->data[1]]);			
 						break;
 
-					case spwErrInvalidDestination:
+					// case spwErrInvalidDestination:
 						// /* Force the stop of any ongoing SpW Codec Errors */
 						// bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
@@ -1319,7 +1312,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
 						// bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
 						// v_ack_creator(p_payload, xNotImplemented);
-						break;
+						// break;
 					
 					default:
 						break;

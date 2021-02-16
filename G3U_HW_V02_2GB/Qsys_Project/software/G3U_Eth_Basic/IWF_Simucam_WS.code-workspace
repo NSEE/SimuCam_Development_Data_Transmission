@@ -14,7 +14,8 @@
             "periodic_hk_task.h": "c",
             "simucam_definitions.h": "c",
             "report.h": "c",
-            "simucam_model.h": "c"
+            "simucam_model.h": "c",
+            "spw_controller.h": "c"
         }
 	}
 }

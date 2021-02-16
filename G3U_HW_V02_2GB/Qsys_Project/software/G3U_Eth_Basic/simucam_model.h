@@ -79,7 +79,7 @@ typedef enum {
 
 /* External Types */
 typedef enum {
-	typeProgEvent = 101, typeAckExt = 201, typeUpload, typeSentEcho, typeHK, typeProgTimecode = 209, typeErrorEvent
+	typeAckExt = 201, typeUpload, typeSentEcho, typeHK, typeProgEvent = 210,  typeProgTimecode, typeErrorEvent
 } TCExtTypes;
 
 typedef enum {
@@ -180,7 +180,6 @@ typedef enum {
 	spwErrCharacter_sequence,
 	spwErrCredit,
 	spwErrEEP,
-	spwErrInvalidDestination,
 } TErrorInjCodes;
 
 #endif /* SIMUCAM_MODEL_H_ */
