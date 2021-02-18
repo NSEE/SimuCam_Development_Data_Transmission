@@ -284,7 +284,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC OK.\n");
 		}
 #endif
-		// v_ack_creator(pPayload, xAckOk); Checked in NUC
+		v_ack_creator(pPayload, xExecOk);
 	} else {
 
 #if DEBUG_ON
