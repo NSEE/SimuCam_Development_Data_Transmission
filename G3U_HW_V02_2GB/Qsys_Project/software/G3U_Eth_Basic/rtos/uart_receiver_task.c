@@ -440,6 +440,8 @@ void uart_receiver_task(void *task_data) {
 				fprintf(fp, "[UART RCV] Uart receiver init\n");
 			}
 #endif
+			if (T_simucam.T_status.simucam_mode == simClearMem)
+				continue;
 			eReaderRXMode = sGetHeader;
 			break;
 

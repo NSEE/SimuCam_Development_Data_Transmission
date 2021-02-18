@@ -47,7 +47,7 @@ typedef enum {
 
 /* MeB status enum */
 typedef enum {
-	simModeConfig = 0, simModeRun, simModeInit, simModetoConfig, simModetoRun, simDMA1Back, simDMA2Back, simDMA1Sched, simDMA2Sched, simAbort, simDMASched, simDMABack
+	simModeConfig = 0, simModeRun, simModeInit, simModetoConfig, simModetoRun, simDMA1Back, simDMA2Back, simDMA1Sched, simDMA2Sched, simAbort, simDMASched, simDMABack, simClearMem
 } TSimStates;
 
 /* Command Types */

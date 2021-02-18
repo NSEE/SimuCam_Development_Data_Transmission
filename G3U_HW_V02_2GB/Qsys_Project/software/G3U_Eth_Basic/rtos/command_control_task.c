@@ -837,8 +837,11 @@ void CommandManagementTask() {
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
+				TSimStates mem = T_simucam.T_status.simucam_mode;
+				T_simucam.T_status.simucam_mode = simClearMem;
 				vClearRam();
 				v_ack_creator(p_payload, xExecOk);
+				T_simucam.T_status.simucam_mode = mem;
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
@@ -1285,7 +1288,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						break;
 
 					case spwErrEEP:
-						bDschGetPacketConfig(xCh[p_payload->data[1]]);
+						bDschGetPacketConfig(&xCh[p_payload->data[1]].xDataScheduler);
 						if (xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep) {
 							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep = FALSE;
 							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEop = TRUE;
@@ -1293,7 +1296,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep = TRUE;
 							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEop = FALSE;
 						}
-						bDschSetPacketConfig(xCh[p_payload->data[1]]);			
+						bDschSetPacketConfig(&xCh[p_payload->data[1]].xDataScheduler);
 						break;
 
 					// case spwErrInvalidDestination:
