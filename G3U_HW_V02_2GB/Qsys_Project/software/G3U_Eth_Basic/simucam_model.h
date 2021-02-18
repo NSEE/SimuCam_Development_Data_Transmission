@@ -66,6 +66,7 @@ typedef enum {
 	typeSetRecording,
 	typeSetPeriodicHK,
 	typeReset,
+	typeEnableEchoing = 125,
 	typeErrorInjectionSpw = 205,
 	typeErrorInjectionRmap,
 	typeSetProgressEvent,
@@ -83,7 +84,7 @@ typedef enum {
 } TCExtTypes;
 
 typedef enum {
-	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam, eidSpwConn, eidSpwDis=12
+	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam, eidSpwConn, eidSpwDis=12, eidEchEn=20, eidEchDis=28
 } EidTypes;
 typedef enum {
 	eidErrDisc = 0, eidErrPar, eidErrEsc, eidErrCred, eidErrEOP, eidErrEEP, eidErrCRC, eidErrUnPack, eidErrInvCmd, eidErrTData, eidErrInvCRC

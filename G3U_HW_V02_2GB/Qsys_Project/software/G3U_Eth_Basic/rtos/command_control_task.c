@@ -962,6 +962,18 @@ void CommandManagementTask() {
 				v_ack_creator(p_payload, xExecOk);
 			break;
 
+			case typeEnableEchoing:
+				bRmapGetEchoingMode(&xCh[p_payload->data[0]].xRmap);
+				xCh[p_payload->data[0]].xRmap.xRmapEchoingModeConfig.bRmapEchoingModeEn = p_payload->data[1];
+				xCh[p_payload->data[0]].xRmap.xRmapEchoingModeConfig.bRmapEchoingIdEn = p_payload->data[2];
+				bRmapSetEchoingMode(&xCh[p_payload->data[0]].xRmap);
+				v_ack_creator(p_payload, xExecOk);
+				if(p_payload->data[1])
+					v_p_event_creator(eidEchEn+p_payload->data[0]);
+				else
+					v_p_event_creator(eidEchDis+p_payload->data[0]);
+			break;
+
 			default:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
