@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Feb 4, 2021 8:53:26 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1612468406355</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Feb 18, 2021 12:56:34 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1613649394712</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>F:\iwf\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
@@ -1871,14 +1871,14 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>sysid_qsys</slaveDescriptor>
-                <addressRange>0x80002C80 - 0x80002C87</addressRange>
+                <slaveDescriptor>ddr2_address_span_extender_cntl</slaveDescriptor>
+                <addressRange>0x80002C00 - 0x80002C07</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>ddr2_address_span_extender_cntl</slaveDescriptor>
-                <addressRange>0x80002C88 - 0x80002C8F</addressRange>
+                <slaveDescriptor>sysid_qsys</slaveDescriptor>
+                <addressRange>0x80002C80 - 0x80002C87</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>
@@ -1979,152 +1979,158 @@
                 <attributes>timer</attributes>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_RST_ETH</slaveDescriptor>
+                <slaveDescriptor>pio_spw_mux_ch_h_select</slaveDescriptor>
                 <addressRange>0x82000880 - 0x8200088F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_ctrl_io_lvds</slaveDescriptor>
+                <slaveDescriptor>pio_RST_ETH</slaveDescriptor>
                 <addressRange>0x82000890 - 0x8200089F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>rtcc_cs_n</slaveDescriptor>
+                <slaveDescriptor>pio_ctrl_io_lvds</slaveDescriptor>
                 <addressRange>0x820008A0 - 0x820008AF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>rtcc_sck</slaveDescriptor>
+                <slaveDescriptor>rtcc_cs_n</slaveDescriptor>
                 <addressRange>0x820008B0 - 0x820008BF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>rtcc_sdi</slaveDescriptor>
+                <slaveDescriptor>rtcc_sck</slaveDescriptor>
                 <addressRange>0x820008C0 - 0x820008CF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>rtcc_sdo</slaveDescriptor>
+                <slaveDescriptor>rtcc_sdi</slaveDescriptor>
                 <addressRange>0x820008D0 - 0x820008DF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>rtcc_alarm</slaveDescriptor>
+                <slaveDescriptor>rtcc_sdo</slaveDescriptor>
                 <addressRange>0x820008E0 - 0x820008EF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_LED_painel</slaveDescriptor>
+                <slaveDescriptor>rtcc_alarm</slaveDescriptor>
                 <addressRange>0x820008F0 - 0x820008FF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>csense_adc_fo</slaveDescriptor>
+                <slaveDescriptor>pio_LED_painel</slaveDescriptor>
                 <addressRange>0x82000900 - 0x8200090F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>csense_cs_n</slaveDescriptor>
+                <slaveDescriptor>csense_adc_fo</slaveDescriptor>
                 <addressRange>0x82000910 - 0x8200091F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>csense_sck</slaveDescriptor>
+                <slaveDescriptor>csense_cs_n</slaveDescriptor>
                 <addressRange>0x82000920 - 0x8200092F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>csense_sdi</slaveDescriptor>
+                <slaveDescriptor>csense_sck</slaveDescriptor>
                 <addressRange>0x82000930 - 0x8200093F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>csense_sdo</slaveDescriptor>
+                <slaveDescriptor>csense_sdi</slaveDescriptor>
                 <addressRange>0x82000940 - 0x8200094F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>m2_ddr2_i2c_scl</slaveDescriptor>
+                <slaveDescriptor>csense_sdo</slaveDescriptor>
                 <addressRange>0x82000950 - 0x8200095F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>m2_ddr2_i2c_sda</slaveDescriptor>
+                <slaveDescriptor>m2_ddr2_i2c_scl</slaveDescriptor>
                 <addressRange>0x82000960 - 0x8200096F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>temp_sda</slaveDescriptor>
+                <slaveDescriptor>m2_ddr2_i2c_sda</slaveDescriptor>
                 <addressRange>0x82000970 - 0x8200097F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>temp_scl</slaveDescriptor>
+                <slaveDescriptor>temp_sda</slaveDescriptor>
                 <addressRange>0x82000980 - 0x8200098F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>sd_card_wp_n</slaveDescriptor>
+                <slaveDescriptor>temp_scl</slaveDescriptor>
                 <addressRange>0x82000990 - 0x8200099F</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_EXT</slaveDescriptor>
+                <slaveDescriptor>sd_card_wp_n</slaveDescriptor>
                 <addressRange>0x820009A0 - 0x820009AF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_DIP</slaveDescriptor>
+                <slaveDescriptor>pio_EXT</slaveDescriptor>
                 <addressRange>0x820009B0 - 0x820009BF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_LED</slaveDescriptor>
+                <slaveDescriptor>pio_DIP</slaveDescriptor>
                 <addressRange>0x820009C0 - 0x820009CF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>pio_BUTTON</slaveDescriptor>
+                <slaveDescriptor>pio_LED</slaveDescriptor>
                 <addressRange>0x820009D0 - 0x820009DF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>m1_ddr2_i2c_scl</slaveDescriptor>
+                <slaveDescriptor>pio_BUTTON</slaveDescriptor>
                 <addressRange>0x820009E0 - 0x820009EF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>m1_ddr2_i2c_sda</slaveDescriptor>
+                <slaveDescriptor>m1_ddr2_i2c_scl</slaveDescriptor>
                 <addressRange>0x820009F0 - 0x820009FF</addressRange>
                 <addressSpan>16</addressSpan>
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>m1_ddr2_i2c_sda</slaveDescriptor>
+                <addressRange>0x82000A00 - 0x82000A0F</addressRange>
+                <addressSpan>16</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>SEVEN_SEGMENT_CONTROLLER_0</slaveDescriptor>
-                <addressRange>0x82000A00 - 0x82000A07</addressRange>
+                <addressRange>0x82000A10 - 0x82000A17</addressRange>
                 <addressSpan>8</addressSpan>
                 <attributes/>
         </MemoryMap>

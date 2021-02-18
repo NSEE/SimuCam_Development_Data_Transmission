@@ -145,8 +145,8 @@ module MebX_Qsys_Project_mm_interconnect_2_router
     localparam PAD8 = log2ceil(64'h80002400 - 64'h80002000); 
     localparam PAD9 = log2ceil(64'h80002800 - 64'h80002400); 
     localparam PAD10 = log2ceil(64'h80002c00 - 64'h80002800); 
-    localparam PAD11 = log2ceil(64'h80002c88 - 64'h80002c80); 
-    localparam PAD12 = log2ceil(64'h80002c90 - 64'h80002c88); 
+    localparam PAD11 = log2ceil(64'h80002c08 - 64'h80002c00); 
+    localparam PAD12 = log2ceil(64'h80002c88 - 64'h80002c80); 
     localparam PAD13 = log2ceil(64'h80002c98 - 64'h80002c90); 
     localparam PAD14 = log2ceil(64'h80003400 - 64'h80003000); 
     localparam PAD15 = log2ceil(64'h80008000 - 64'h80004000); 
@@ -284,16 +284,16 @@ module MebX_Qsys_Project_mm_interconnect_2_router
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 7;
     end
 
-    // ( 0x80002c80 .. 0x80002c88 )
-    if ( {address[RG:PAD11],{PAD11{1'b0}}} == 32'h80002c80  && read_transaction  ) begin
-            src_channel = 26'b00000100000000000000000000;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 24;
-    end
-
-    // ( 0x80002c88 .. 0x80002c90 )
-    if ( {address[RG:PAD12],{PAD12{1'b0}}} == 32'h80002c88   ) begin
+    // ( 0x80002c00 .. 0x80002c08 )
+    if ( {address[RG:PAD11],{PAD11{1'b0}}} == 32'h80002c00   ) begin
             src_channel = 26'b00000010000000000000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 18;
+    end
+
+    // ( 0x80002c80 .. 0x80002c88 )
+    if ( {address[RG:PAD12],{PAD12{1'b0}}} == 32'h80002c80  && read_transaction  ) begin
+            src_channel = 26'b00000100000000000000000000;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 24;
     end
 
     // ( 0x80002c90 .. 0x80002c98 )

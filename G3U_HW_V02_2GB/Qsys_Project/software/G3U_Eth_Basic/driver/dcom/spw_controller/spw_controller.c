@@ -318,6 +318,17 @@ bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh) {
 	return bStatus;
 }
 
+bool bSpwcChHMuxSelect(alt_u32 uliMuxSelect) {
+	bool bStatus = FALSE;
+
+	if (2 >= uliMuxSelect) {
+		IOWR_ALTERA_AVALON_PIO_DATA(PIO_SPW_MUX_CH_H_SELECT_BASE, uliMuxSelect);
+	}
+
+	return (bStatus);
+}
+
+
 alt_u8 ucSpwcCalculateLinkDiv(alt_8 ucLinkSpeed) {
 	alt_u8 ucLinkDiv;
 

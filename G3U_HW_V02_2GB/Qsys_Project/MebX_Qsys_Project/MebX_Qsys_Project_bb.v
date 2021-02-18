@@ -17,10 +17,26 @@ module MebX_Qsys_Project (
 	dcom_7_sync_end_sync_channel_signal,
 	dcom_8_sync_end_sync_channel_signal,
 	dip_export,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_en_signal,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_id_en_signal,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,
+	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,
 	dumb_communication_module_v2_timer_avalon_master_data_readdata,
 	dumb_communication_module_v2_timer_avalon_master_data_waitrequest,
 	dumb_communication_module_v2_timer_avalon_master_data_address,
 	dumb_communication_module_v2_timer_avalon_master_data_read,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,
+	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,
 	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal,
 	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal,
 	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal,
@@ -62,10 +78,12 @@ module MebX_Qsys_Project (
 	dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal,
 	dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal,
 	dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,
+	dumb_communication_module_v2_timer_rprt_interrupt_sender_irq,
 	dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal,
 	dumb_communication_module_v2_timer_tx_interrupt_sender_irq,
 	eth_rst_export,
 	ext_export,
+	ftdi_clk_clk,
 	led_de4_export,
 	led_painel_export,
 	m1_ddr2_i2c_scl_export,
@@ -120,6 +138,7 @@ module MebX_Qsys_Project (
 	m2_ddr2_memory_status_local_cal_fail,
 	m2_ddr2_oct_rdn,
 	m2_ddr2_oct_rup,
+	pio_spw_mux_ch_h_select_export,
 	rs232_uart_rxd,
 	rs232_uart_txd,
 	rst_reset_n,
@@ -231,6 +250,7 @@ module MebX_Qsys_Project (
 	spwc_h_lvds_spw_lvds_n_strobe_out_signal,
 	spwc_h_lvds_spw_lvds_p_strobe_in_signal,
 	spwc_h_lvds_spw_lvds_n_strobe_in_signal,
+	spwm_h_select_mux_select_signal,
 	ssdp_ssdp0,
 	ssdp_ssdp1,
 	sync_in_conduit,
@@ -252,7 +272,20 @@ module MebX_Qsys_Project (
 	tristate_conduit_tcm_write_n_out,
 	tristate_conduit_tcm_data_out,
 	tristate_conduit_tcm_chipselect_n_out,
-	dumb_communication_module_v2_timer_rprt_interrupt_sender_irq);	
+	umft601a_pins_umft_clock_signal,
+	umft601a_pins_umft_txe_n_signal,
+	umft601a_pins_umft_rxf_n_signal,
+	umft601a_pins_umft_data_signal,
+	umft601a_pins_umft_be_signal,
+	umft601a_pins_umft_wakeup_n_signal,
+	umft601a_pins_umft_gpio_bus_signal,
+	umft601a_pins_umft_reset_n_signal,
+	umft601a_pins_umft_wr_n_signal,
+	umft601a_pins_umft_rd_n_signal,
+	umft601a_pins_umft_oe_n_signal,
+	umft601a_pins_umft_siwu_n_signal,
+	sync_out_en_conduit,
+	sync_in_en_conduit);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -271,10 +304,26 @@ module MebX_Qsys_Project (
 	input		dcom_7_sync_end_sync_channel_signal;
 	input		dcom_8_sync_end_sync_channel_signal;
 	input	[7:0]	dip_export;
+	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_en_signal;
+	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_id_en_signal;
+	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrflag_signal;
+	output	[7:0]	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrdata_signal;
+	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrreq_signal;
+	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrflag_signal;
+	output	[7:0]	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrdata_signal;
+	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrreq_signal;
 	input	[63:0]	dumb_communication_module_v2_timer_avalon_master_data_readdata;
 	input		dumb_communication_module_v2_timer_avalon_master_data_waitrequest;
 	output	[63:0]	dumb_communication_module_v2_timer_avalon_master_data_address;
 	output		dumb_communication_module_v2_timer_avalon_master_data_read;
+	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal;
+	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal;
+	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal;
+	output	[7:0]	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrdata_signal;
+	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrreq_signal;
+	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrflag_signal;
+	output	[7:0]	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrdata_signal;
+	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrreq_signal;
 	input		dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal;
 	input	[7:0]	dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal;
 	input		dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal;
@@ -316,10 +365,12 @@ module MebX_Qsys_Project (
 	output		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal;
 	output		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal;
 	output	[3:0]	dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal;
+	output		dumb_communication_module_v2_timer_rprt_interrupt_sender_irq;
 	input		dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal;
 	output		dumb_communication_module_v2_timer_tx_interrupt_sender_irq;
 	output		eth_rst_export;
 	input		ext_export;
+	input		ftdi_clk_clk;
 	output	[7:0]	led_de4_export;
 	output	[20:0]	led_painel_export;
 	output		m1_ddr2_i2c_scl_export;
@@ -374,6 +425,7 @@ module MebX_Qsys_Project (
 	output		m2_ddr2_memory_status_local_cal_fail;
 	input		m2_ddr2_oct_rdn;
 	input		m2_ddr2_oct_rup;
+	output	[1:0]	pio_spw_mux_ch_h_select_export;
 	input		rs232_uart_rxd;
 	output		rs232_uart_txd;
 	input		rst_reset_n;
@@ -485,6 +537,7 @@ module MebX_Qsys_Project (
 	output		spwc_h_lvds_spw_lvds_n_strobe_out_signal;
 	input		spwc_h_lvds_spw_lvds_p_strobe_in_signal;
 	input		spwc_h_lvds_spw_lvds_n_strobe_in_signal;
+	input	[1:0]	spwm_h_select_mux_select_signal;
 	output	[7:0]	ssdp_ssdp0;
 	output	[7:0]	ssdp_ssdp1;
 	input		sync_in_conduit;
@@ -506,5 +559,18 @@ module MebX_Qsys_Project (
 	output	[0:0]	tristate_conduit_tcm_write_n_out;
 	inout	[15:0]	tristate_conduit_tcm_data_out;
 	output	[0:0]	tristate_conduit_tcm_chipselect_n_out;
-	output		dumb_communication_module_v2_timer_rprt_interrupt_sender_irq;
+	input		umft601a_pins_umft_clock_signal;
+	input		umft601a_pins_umft_txe_n_signal;
+	input		umft601a_pins_umft_rxf_n_signal;
+	inout	[31:0]	umft601a_pins_umft_data_signal;
+	inout	[3:0]	umft601a_pins_umft_be_signal;
+	inout		umft601a_pins_umft_wakeup_n_signal;
+	inout	[1:0]	umft601a_pins_umft_gpio_bus_signal;
+	output		umft601a_pins_umft_reset_n_signal;
+	output		umft601a_pins_umft_wr_n_signal;
+	output		umft601a_pins_umft_rd_n_signal;
+	output		umft601a_pins_umft_oe_n_signal;
+	output		umft601a_pins_umft_siwu_n_signal;
+	input		sync_out_en_conduit;
+	input		sync_in_en_conduit;
 endmodule

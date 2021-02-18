@@ -25,10 +25,26 @@ entity MebX_Qsys_Project is
 		dcom_7_sync_end_sync_channel_signal                                                                     : in    std_logic                     := '0';             --                                                     dcom_7_sync_end.sync_channel_signal
 		dcom_8_sync_end_sync_channel_signal                                                                     : in    std_logic                     := '0';             --                                                     dcom_8_sync_end.sync_channel_signal
 		dip_export                                                                                              : in    std_logic_vector(7 downto 0)  := (others => '0'); --                                                                 dip.export
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_en_signal                                 : out   std_logic;                                        --            dumb_communication_module_v2_8_conduit_end_rmap_echo_out.echo_en_signal
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_id_en_signal                              : out   std_logic;                                        --                                                                    .echo_id_en_signal
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                          : out   std_logic;                                        --                                                                    .in_fifo_wrflag_signal
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                          : out   std_logic_vector(7 downto 0);                     --                                                                    .in_fifo_wrdata_signal
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                           : out   std_logic;                                        --                                                                    .in_fifo_wrreq_signal
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                         : out   std_logic;                                        --                                                                    .out_fifo_wrflag_signal
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                         : out   std_logic_vector(7 downto 0);                     --                                                                    .out_fifo_wrdata_signal
+		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                          : out   std_logic;                                        --                                                                    .out_fifo_wrreq_signal
 		dumb_communication_module_v2_timer_avalon_master_data_readdata                                          : in    std_logic_vector(63 downto 0) := (others => '0'); --               dumb_communication_module_v2_timer_avalon_master_data.readdata
 		dumb_communication_module_v2_timer_avalon_master_data_waitrequest                                       : in    std_logic                     := '0';             --                                                                    .waitrequest
 		dumb_communication_module_v2_timer_avalon_master_data_address                                           : out   std_logic_vector(63 downto 0);                    --                                                                    .address
 		dumb_communication_module_v2_timer_avalon_master_data_read                                              : out   std_logic;                                        --                                                                    .read
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal                             : out   std_logic;                                        --        dumb_communication_module_v2_timer_conduit_end_rmap_echo_out.echo_en_signal
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal                          : out   std_logic;                                        --                                                                    .echo_id_en_signal
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : out   std_logic;                                        --                                                                    .in_fifo_wrflag_signal
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : out   std_logic_vector(7 downto 0);                     --                                                                    .in_fifo_wrdata_signal
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : out   std_logic;                                        --                                                                    .in_fifo_wrreq_signal
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : out   std_logic;                                        --                                                                    .out_fifo_wrflag_signal
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : out   std_logic_vector(7 downto 0);                     --                                                                    .out_fifo_wrdata_signal
+		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : out   std_logic;                                        --                                                                    .out_fifo_wrreq_signal
 		dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal                  : in    std_logic                     := '0';             --    dumb_communication_module_v2_timer_conduit_end_rmap_master_codec.wr_waitrequest_signal
 		dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal                        : in    std_logic_vector(7 downto 0)  := (others => '0'); --                                                                    .readdata_signal
 		dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal                  : in    std_logic                     := '0';             --                                                                    .rd_waitrequest_signal
@@ -75,6 +91,7 @@ entity MebX_Qsys_Project is
 		dumb_communication_module_v2_timer_tx_interrupt_sender_irq                                              : out   std_logic;                                        --              dumb_communication_module_v2_timer_tx_interrupt_sender.irq
 		eth_rst_export                                                                                          : out   std_logic;                                        --                                                             eth_rst.export
 		ext_export                                                                                              : in    std_logic                     := '0';             --                                                                 ext.export
+		ftdi_clk_clk                                                                                            : in    std_logic                     := '0';             --                                                            ftdi_clk.clk
 		led_de4_export                                                                                          : out   std_logic_vector(7 downto 0);                     --                                                             led_de4.export
 		led_painel_export                                                                                       : out   std_logic_vector(20 downto 0);                    --                                                          led_painel.export
 		m1_ddr2_i2c_scl_export                                                                                  : out   std_logic;                                        --                                                     m1_ddr2_i2c_scl.export
@@ -129,6 +146,7 @@ entity MebX_Qsys_Project is
 		m2_ddr2_memory_status_local_cal_fail                                                                    : out   std_logic;                                        --                                                                    .local_cal_fail
 		m2_ddr2_oct_rdn                                                                                         : in    std_logic                     := '0';             --                                                         m2_ddr2_oct.rdn
 		m2_ddr2_oct_rup                                                                                         : in    std_logic                     := '0';             --                                                                    .rup
+		pio_spw_mux_ch_h_select_export                                                                          : out   std_logic_vector(1 downto 0);                     --                                             pio_spw_mux_ch_h_select.export
 		rs232_uart_rxd                                                                                          : in    std_logic                     := '0';             --                                                          rs232_uart.rxd
 		rs232_uart_txd                                                                                          : out   std_logic;                                        --                                                                    .txd
 		rst_reset_n                                                                                             : in    std_logic                     := '0';             --                                                                 rst.reset_n
@@ -240,10 +258,13 @@ entity MebX_Qsys_Project is
 		spwc_h_lvds_spw_lvds_n_strobe_out_signal                                                                : out   std_logic;                                        --                                                                    .spw_lvds_n_strobe_out_signal
 		spwc_h_lvds_spw_lvds_p_strobe_in_signal                                                                 : in    std_logic                     := '0';             --                                                                    .spw_lvds_p_strobe_in_signal
 		spwc_h_lvds_spw_lvds_n_strobe_in_signal                                                                 : in    std_logic                     := '0';             --                                                                    .spw_lvds_n_strobe_in_signal
+		spwm_h_select_mux_select_signal                                                                         : in    std_logic_vector(1 downto 0)  := (others => '0'); --                                                       spwm_h_select.mux_select_signal
 		ssdp_ssdp0                                                                                              : out   std_logic_vector(7 downto 0);                     --                                                                ssdp.ssdp0
 		ssdp_ssdp1                                                                                              : out   std_logic_vector(7 downto 0);                     --                                                                    .ssdp1
 		sync_in_conduit                                                                                         : in    std_logic                     := '0';             --                                                             sync_in.conduit
+		sync_in_en_conduit                                                                                      : in    std_logic                     := '0';             --                                                          sync_in_en.conduit
 		sync_out_conduit                                                                                        : out   std_logic;                                        --                                                            sync_out.conduit
+		sync_out_en_conduit                                                                                     : in    std_logic                     := '0';             --                                                         sync_out_en.conduit
 		sync_spw1_conduit                                                                                       : out   std_logic;                                        --                                                           sync_spw1.conduit
 		sync_spw2_conduit                                                                                       : out   std_logic;                                        --                                                           sync_spw2.conduit
 		sync_spw3_conduit                                                                                       : out   std_logic;                                        --                                                           sync_spw3.conduit
@@ -260,7 +281,19 @@ entity MebX_Qsys_Project is
 		tristate_conduit_tcm_read_n_out                                                                         : out   std_logic_vector(0 downto 0);                     --                                                                    .tcm_read_n_out
 		tristate_conduit_tcm_write_n_out                                                                        : out   std_logic_vector(0 downto 0);                     --                                                                    .tcm_write_n_out
 		tristate_conduit_tcm_data_out                                                                           : inout std_logic_vector(15 downto 0) := (others => '0'); --                                                                    .tcm_data_out
-		tristate_conduit_tcm_chipselect_n_out                                                                   : out   std_logic_vector(0 downto 0)                      --                                                                    .tcm_chipselect_n_out
+		tristate_conduit_tcm_chipselect_n_out                                                                   : out   std_logic_vector(0 downto 0);                     --                                                                    .tcm_chipselect_n_out
+		umft601a_pins_umft_clock_signal                                                                         : in    std_logic                     := '0';             --                                                       umft601a_pins.umft_clock_signal
+		umft601a_pins_umft_txe_n_signal                                                                         : in    std_logic                     := '0';             --                                                                    .umft_txe_n_signal
+		umft601a_pins_umft_rxf_n_signal                                                                         : in    std_logic                     := '0';             --                                                                    .umft_rxf_n_signal
+		umft601a_pins_umft_data_signal                                                                          : inout std_logic_vector(31 downto 0) := (others => '0'); --                                                                    .umft_data_signal
+		umft601a_pins_umft_be_signal                                                                            : inout std_logic_vector(3 downto 0)  := (others => '0'); --                                                                    .umft_be_signal
+		umft601a_pins_umft_wakeup_n_signal                                                                      : inout std_logic                     := '0';             --                                                                    .umft_wakeup_n_signal
+		umft601a_pins_umft_gpio_bus_signal                                                                      : inout std_logic_vector(1 downto 0)  := (others => '0'); --                                                                    .umft_gpio_bus_signal
+		umft601a_pins_umft_reset_n_signal                                                                       : out   std_logic;                                        --                                                                    .umft_reset_n_signal
+		umft601a_pins_umft_wr_n_signal                                                                          : out   std_logic;                                        --                                                                    .umft_wr_n_signal
+		umft601a_pins_umft_rd_n_signal                                                                          : out   std_logic;                                        --                                                                    .umft_rd_n_signal
+		umft601a_pins_umft_oe_n_signal                                                                          : out   std_logic;                                        --                                                                    .umft_oe_n_signal
+		umft601a_pins_umft_siwu_n_signal                                                                        : out   std_logic                                         --                                                                    .umft_siwu_n_signal
 	);
 end entity MebX_Qsys_Project;
 
@@ -334,6 +367,14 @@ architecture rtl of MebX_Qsys_Project is
 			spw_errinj_ctrl_start_errinj_o   : out std_logic;                                        -- spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   : out std_logic;                                        -- spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    : out std_logic_vector(3 downto 0);                     -- spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              : out std_logic;                                        -- echo_en_signal
+			rmap_echo_echo_id_en_o           : out std_logic;                                        -- echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       : out std_logic;                                        -- in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       : out std_logic_vector(7 downto 0);                     -- in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        : out std_logic;                                        -- in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      : out std_logic;                                        -- out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      : out std_logic_vector(7 downto 0);                     -- out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       : out std_logic;                                        -- out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      : in  std_logic                     := 'X';             -- wr_waitrequest_signal
 			codec_rmap_readdata_i            : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- readdata_signal
 			codec_rmap_rd_waitrequest_i      : in  std_logic                     := 'X';             -- rd_waitrequest_signal
@@ -345,6 +386,121 @@ architecture rtl of MebX_Qsys_Project is
 			rmap_mem_addr_offset_o           : out std_logic_vector(31 downto 0)                     -- mem_addr_offset_signal
 		);
 	end component dcom_v2_top;
+
+	component ftdi_usb3_top is
+		port (
+			clock_sink_clk_i          : in    std_logic                     := 'X';             -- clk
+			reset_sink_reset_i        : in    std_logic                     := 'X';             -- reset
+			umft601a_clock_sink_clk_i : in    std_logic                     := 'X';             -- clk
+			umft601a_clock_pin_i      : in    std_logic                     := 'X';             -- umft_clock_signal
+			umft601a_txe_n_pin_i      : in    std_logic                     := 'X';             -- umft_txe_n_signal
+			umft601a_rxf_n_pin_i      : in    std_logic                     := 'X';             -- umft_rxf_n_signal
+			umft601a_data_bus_io      : inout std_logic_vector(31 downto 0) := (others => 'X'); -- umft_data_signal
+			umft601a_be_bus_io        : inout std_logic_vector(3 downto 0)  := (others => 'X'); -- umft_be_signal
+			umft601a_wakeup_n_pin_io  : inout std_logic                     := 'X';             -- umft_wakeup_n_signal
+			umft601a_gpio_bus_io      : inout std_logic_vector(1 downto 0)  := (others => 'X'); -- umft_gpio_bus_signal
+			umft601a_reset_n_pin_o    : out   std_logic;                                        -- umft_reset_n_signal
+			umft601a_wr_n_pin_o       : out   std_logic;                                        -- umft_wr_n_signal
+			umft601a_rd_n_pin_o       : out   std_logic;                                        -- umft_rd_n_signal
+			umft601a_oe_n_pin_o       : out   std_logic;                                        -- umft_oe_n_signal
+			umft601a_siwu_n_pin_o     : out   std_logic                                         -- umft_siwu_n_signal
+		);
+	end component ftdi_usb3_top;
+
+	component rmpe_rmap_echoing_top is
+		port (
+			reset_i                        : in  std_logic                    := 'X';             -- reset
+			clk_100_i                      : in  std_logic                    := 'X';             -- clk
+			rmap_echo_0_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
+			rmap_echo_0_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
+			rmap_echo_0_in_fifo_wrflag_i   : in  std_logic                    := 'X';             -- in_fifo_wrflag_signal
+			rmap_echo_0_in_fifo_wrdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- in_fifo_wrdata_signal
+			rmap_echo_0_in_fifo_wrreq_i    : in  std_logic                    := 'X';             -- in_fifo_wrreq_signal
+			rmap_echo_0_out_fifo_wrflag_i  : in  std_logic                    := 'X';             -- out_fifo_wrflag_signal
+			rmap_echo_0_out_fifo_wrdata_i  : in  std_logic_vector(7 downto 0) := (others => 'X'); -- out_fifo_wrdata_signal
+			rmap_echo_0_out_fifo_wrreq_i   : in  std_logic                    := 'X';             -- out_fifo_wrreq_signal
+			rmap_echo_1_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
+			rmap_echo_1_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
+			rmap_echo_1_in_fifo_wrflag_i   : in  std_logic                    := 'X';             -- in_fifo_wrflag_signal
+			rmap_echo_1_in_fifo_wrdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- in_fifo_wrdata_signal
+			rmap_echo_1_in_fifo_wrreq_i    : in  std_logic                    := 'X';             -- in_fifo_wrreq_signal
+			rmap_echo_1_out_fifo_wrflag_i  : in  std_logic                    := 'X';             -- out_fifo_wrflag_signal
+			rmap_echo_1_out_fifo_wrdata_i  : in  std_logic_vector(7 downto 0) := (others => 'X'); -- out_fifo_wrdata_signal
+			rmap_echo_1_out_fifo_wrreq_i   : in  std_logic                    := 'X';             -- out_fifo_wrreq_signal
+			rmap_echo_2_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
+			rmap_echo_2_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
+			rmap_echo_2_in_fifo_wrflag_i   : in  std_logic                    := 'X';             -- in_fifo_wrflag_signal
+			rmap_echo_2_in_fifo_wrdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- in_fifo_wrdata_signal
+			rmap_echo_2_in_fifo_wrreq_i    : in  std_logic                    := 'X';             -- in_fifo_wrreq_signal
+			rmap_echo_2_out_fifo_wrflag_i  : in  std_logic                    := 'X';             -- out_fifo_wrflag_signal
+			rmap_echo_2_out_fifo_wrdata_i  : in  std_logic_vector(7 downto 0) := (others => 'X'); -- out_fifo_wrdata_signal
+			rmap_echo_2_out_fifo_wrreq_i   : in  std_logic                    := 'X';             -- out_fifo_wrreq_signal
+			rmap_echo_3_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
+			rmap_echo_3_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
+			rmap_echo_3_in_fifo_wrflag_i   : in  std_logic                    := 'X';             -- in_fifo_wrflag_signal
+			rmap_echo_3_in_fifo_wrdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- in_fifo_wrdata_signal
+			rmap_echo_3_in_fifo_wrreq_i    : in  std_logic                    := 'X';             -- in_fifo_wrreq_signal
+			rmap_echo_3_out_fifo_wrflag_i  : in  std_logic                    := 'X';             -- out_fifo_wrflag_signal
+			rmap_echo_3_out_fifo_wrdata_i  : in  std_logic_vector(7 downto 0) := (others => 'X'); -- out_fifo_wrdata_signal
+			rmap_echo_3_out_fifo_wrreq_i   : in  std_logic                    := 'X';             -- out_fifo_wrreq_signal
+			rmap_echo_4_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
+			rmap_echo_4_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
+			rmap_echo_4_in_fifo_wrflag_i   : in  std_logic                    := 'X';             -- in_fifo_wrflag_signal
+			rmap_echo_4_in_fifo_wrdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- in_fifo_wrdata_signal
+			rmap_echo_4_in_fifo_wrreq_i    : in  std_logic                    := 'X';             -- in_fifo_wrreq_signal
+			rmap_echo_4_out_fifo_wrflag_i  : in  std_logic                    := 'X';             -- out_fifo_wrflag_signal
+			rmap_echo_4_out_fifo_wrdata_i  : in  std_logic_vector(7 downto 0) := (others => 'X'); -- out_fifo_wrdata_signal
+			rmap_echo_4_out_fifo_wrreq_i   : in  std_logic                    := 'X';             -- out_fifo_wrreq_signal
+			rmap_echo_5_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
+			rmap_echo_5_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
+			rmap_echo_5_in_fifo_wrflag_i   : in  std_logic                    := 'X';             -- in_fifo_wrflag_signal
+			rmap_echo_5_in_fifo_wrdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- in_fifo_wrdata_signal
+			rmap_echo_5_in_fifo_wrreq_i    : in  std_logic                    := 'X';             -- in_fifo_wrreq_signal
+			rmap_echo_5_out_fifo_wrflag_i  : in  std_logic                    := 'X';             -- out_fifo_wrflag_signal
+			rmap_echo_5_out_fifo_wrdata_i  : in  std_logic_vector(7 downto 0) := (others => 'X'); -- out_fifo_wrdata_signal
+			rmap_echo_5_out_fifo_wrreq_i   : in  std_logic                    := 'X';             -- out_fifo_wrreq_signal
+			rmap_echo_6_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
+			rmap_echo_6_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
+			rmap_echo_6_in_fifo_wrflag_i   : in  std_logic                    := 'X';             -- in_fifo_wrflag_signal
+			rmap_echo_6_in_fifo_wrdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- in_fifo_wrdata_signal
+			rmap_echo_6_in_fifo_wrreq_i    : in  std_logic                    := 'X';             -- in_fifo_wrreq_signal
+			rmap_echo_6_out_fifo_wrflag_i  : in  std_logic                    := 'X';             -- out_fifo_wrflag_signal
+			rmap_echo_6_out_fifo_wrdata_i  : in  std_logic_vector(7 downto 0) := (others => 'X'); -- out_fifo_wrdata_signal
+			rmap_echo_6_out_fifo_wrreq_i   : in  std_logic                    := 'X';             -- out_fifo_wrreq_signal
+			spw_link_status_started_i      : in  std_logic                    := 'X';             -- spw_link_status_started_signal
+			spw_link_status_connecting_i   : in  std_logic                    := 'X';             -- spw_link_status_connecting_signal
+			spw_link_status_running_i      : in  std_logic                    := 'X';             -- spw_link_status_running_signal
+			spw_link_error_errdisc_i       : in  std_logic                    := 'X';             -- spw_link_error_errdisc_signal
+			spw_link_error_errpar_i        : in  std_logic                    := 'X';             -- spw_link_error_errpar_signal
+			spw_link_error_erresc_i        : in  std_logic                    := 'X';             -- spw_link_error_erresc_signal
+			spw_link_error_errcred_i       : in  std_logic                    := 'X';             -- spw_link_error_errcred_signal
+			spw_timecode_rx_tick_out_i     : in  std_logic                    := 'X';             -- spw_timecode_rx_tick_out_signal
+			spw_timecode_rx_ctrl_out_i     : in  std_logic_vector(1 downto 0) := (others => 'X'); -- spw_timecode_rx_ctrl_out_signal
+			spw_timecode_rx_time_out_i     : in  std_logic_vector(5 downto 0) := (others => 'X'); -- spw_timecode_rx_time_out_signal
+			spw_data_rx_status_rxvalid_i   : in  std_logic                    := 'X';             -- spw_data_rx_status_rxvalid_signal
+			spw_data_rx_status_rxhalff_i   : in  std_logic                    := 'X';             -- spw_data_rx_status_rxhalff_signal
+			spw_data_rx_status_rxflag_i    : in  std_logic                    := 'X';             -- spw_data_rx_status_rxflag_signal
+			spw_data_rx_status_rxdata_i    : in  std_logic_vector(7 downto 0) := (others => 'X'); -- spw_data_rx_status_rxdata_signal
+			spw_data_tx_status_txrdy_i     : in  std_logic                    := 'X';             -- spw_data_tx_status_txrdy_signal
+			spw_data_tx_status_txhalff_i   : in  std_logic                    := 'X';             -- spw_data_tx_status_txhalff_signal
+			spw_errinj_ctrl_errinj_busy_i  : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_busy_signal
+			spw_errinj_ctrl_errinj_ready_i : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_autostart_o   : out std_logic;                                       -- spw_link_command_autostart_signal
+			spw_link_command_linkstart_o   : out std_logic;                                       -- spw_link_command_linkstart_signal
+			spw_link_command_linkdis_o     : out std_logic;                                       -- spw_link_command_linkdis_signal
+			spw_link_command_txdivcnt_o    : out std_logic_vector(7 downto 0);                    -- spw_link_command_txdivcnt_signal
+			spw_timecode_tx_tick_in_o      : out std_logic;                                       -- spw_timecode_tx_tick_in_signal
+			spw_timecode_tx_ctrl_in_o      : out std_logic_vector(1 downto 0);                    -- spw_timecode_tx_ctrl_in_signal
+			spw_timecode_tx_time_in_o      : out std_logic_vector(5 downto 0);                    -- spw_timecode_tx_time_in_signal
+			spw_data_rx_command_rxread_o   : out std_logic;                                       -- spw_data_rx_command_rxread_signal
+			spw_data_tx_command_txwrite_o  : out std_logic;                                       -- spw_data_tx_command_txwrite_signal
+			spw_data_tx_command_txflag_o   : out std_logic;                                       -- spw_data_tx_command_txflag_signal
+			spw_data_tx_command_txdata_o   : out std_logic_vector(7 downto 0);                    -- spw_data_tx_command_txdata_signal
+			spw_errinj_ctrl_start_errinj_o : out std_logic;                                       -- spw_errinj_ctrl_start_errinj_signal
+			spw_errinj_ctrl_reset_errinj_o : out std_logic;                                       -- spw_errinj_ctrl_reset_errinj_signal
+			spw_errinj_ctrl_errinj_code_o  : out std_logic_vector(3 downto 0)                     -- spw_errinj_ctrl_errinj_code_signal
+		);
+	end component rmpe_rmap_echoing_top;
 
 	component srme_rmap_memory_subunit_area_top is
 		port (
@@ -432,6 +588,110 @@ architecture rtl of MebX_Qsys_Project is
 			spw_errinj_ctrl_errinj_ready_o : out std_logic                                        -- spw_errinj_ctrl_errinj_ready_signal
 		);
 	end component spwc_spacewire_channel_top;
+
+	component spwm_spacewire_mux_top is
+		port (
+			reset_i                            : in  std_logic                    := 'X';             -- reset
+			clock_i                            : in  std_logic                    := 'X';             -- clk
+			mux_select_i                       : in  std_logic_vector(1 downto 0) := (others => 'X'); -- mux_select_signal
+			spw_ch0_link_command_autostart_i   : in  std_logic                    := 'X';             -- spw_link_command_autostart_signal
+			spw_ch0_link_command_linkstart_i   : in  std_logic                    := 'X';             -- spw_link_command_linkstart_signal
+			spw_ch0_link_command_linkdis_i     : in  std_logic                    := 'X';             -- spw_link_command_linkdis_signal
+			spw_ch0_link_command_txdivcnt_i    : in  std_logic_vector(7 downto 0) := (others => 'X'); -- spw_link_command_txdivcnt_signal
+			spw_ch0_timecode_tx_tick_in_i      : in  std_logic                    := 'X';             -- spw_timecode_tx_tick_in_signal
+			spw_ch0_timecode_tx_ctrl_in_i      : in  std_logic_vector(1 downto 0) := (others => 'X'); -- spw_timecode_tx_ctrl_in_signal
+			spw_ch0_timecode_tx_time_in_i      : in  std_logic_vector(5 downto 0) := (others => 'X'); -- spw_timecode_tx_time_in_signal
+			spw_ch0_data_rx_command_rxread_i   : in  std_logic                    := 'X';             -- spw_data_rx_command_rxread_signal
+			spw_ch0_data_tx_command_txwrite_i  : in  std_logic                    := 'X';             -- spw_data_tx_command_txwrite_signal
+			spw_ch0_data_tx_command_txflag_i   : in  std_logic                    := 'X';             -- spw_data_tx_command_txflag_signal
+			spw_ch0_data_tx_command_txdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- spw_data_tx_command_txdata_signal
+			spw_ch0_errinj_ctrl_start_errinj_i : in  std_logic                    := 'X';             -- spw_errinj_ctrl_start_errinj_signal
+			spw_ch0_errinj_ctrl_reset_errinj_i : in  std_logic                    := 'X';             -- spw_errinj_ctrl_reset_errinj_signal
+			spw_ch0_errinj_ctrl_errinj_code_i  : in  std_logic_vector(3 downto 0) := (others => 'X'); -- spw_errinj_ctrl_errinj_code_signal
+			spw_ch0_link_status_started_o      : out std_logic;                                       -- spw_link_status_started_signal
+			spw_ch0_link_status_connecting_o   : out std_logic;                                       -- spw_link_status_connecting_signal
+			spw_ch0_link_status_running_o      : out std_logic;                                       -- spw_link_status_running_signal
+			spw_ch0_link_error_errdisc_o       : out std_logic;                                       -- spw_link_error_errdisc_signal
+			spw_ch0_link_error_errpar_o        : out std_logic;                                       -- spw_link_error_errpar_signal
+			spw_ch0_link_error_erresc_o        : out std_logic;                                       -- spw_link_error_erresc_signal
+			spw_ch0_link_error_errcred_o       : out std_logic;                                       -- spw_link_error_errcred_signal
+			spw_ch0_timecode_rx_tick_out_o     : out std_logic;                                       -- spw_timecode_rx_tick_out_signal
+			spw_ch0_timecode_rx_ctrl_out_o     : out std_logic_vector(1 downto 0);                    -- spw_timecode_rx_ctrl_out_signal
+			spw_ch0_timecode_rx_time_out_o     : out std_logic_vector(5 downto 0);                    -- spw_timecode_rx_time_out_signal
+			spw_ch0_data_rx_status_rxvalid_o   : out std_logic;                                       -- spw_data_rx_status_rxvalid_signal
+			spw_ch0_data_rx_status_rxhalff_o   : out std_logic;                                       -- spw_data_rx_status_rxhalff_signal
+			spw_ch0_data_rx_status_rxflag_o    : out std_logic;                                       -- spw_data_rx_status_rxflag_signal
+			spw_ch0_data_rx_status_rxdata_o    : out std_logic_vector(7 downto 0);                    -- spw_data_rx_status_rxdata_signal
+			spw_ch0_data_tx_status_txrdy_o     : out std_logic;                                       -- spw_data_tx_status_txrdy_signal
+			spw_ch0_data_tx_status_txhalff_o   : out std_logic;                                       -- spw_data_tx_status_txhalff_signal
+			spw_ch0_errinj_ctrl_errinj_busy_o  : out std_logic;                                       -- spw_errinj_ctrl_errinj_busy_signal
+			spw_ch0_errinj_ctrl_errinj_ready_o : out std_logic;                                       -- spw_errinj_ctrl_errinj_ready_signal
+			spw_ch1_link_command_autostart_i   : in  std_logic                    := 'X';             -- spw_link_command_autostart_signal
+			spw_ch1_link_command_linkstart_i   : in  std_logic                    := 'X';             -- spw_link_command_linkstart_signal
+			spw_ch1_link_command_linkdis_i     : in  std_logic                    := 'X';             -- spw_link_command_linkdis_signal
+			spw_ch1_link_command_txdivcnt_i    : in  std_logic_vector(7 downto 0) := (others => 'X'); -- spw_link_command_txdivcnt_signal
+			spw_ch1_timecode_tx_tick_in_i      : in  std_logic                    := 'X';             -- spw_timecode_tx_tick_in_signal
+			spw_ch1_timecode_tx_ctrl_in_i      : in  std_logic_vector(1 downto 0) := (others => 'X'); -- spw_timecode_tx_ctrl_in_signal
+			spw_ch1_timecode_tx_time_in_i      : in  std_logic_vector(5 downto 0) := (others => 'X'); -- spw_timecode_tx_time_in_signal
+			spw_ch1_data_rx_command_rxread_i   : in  std_logic                    := 'X';             -- spw_data_rx_command_rxread_signal
+			spw_ch1_data_tx_command_txwrite_i  : in  std_logic                    := 'X';             -- spw_data_tx_command_txwrite_signal
+			spw_ch1_data_tx_command_txflag_i   : in  std_logic                    := 'X';             -- spw_data_tx_command_txflag_signal
+			spw_ch1_data_tx_command_txdata_i   : in  std_logic_vector(7 downto 0) := (others => 'X'); -- spw_data_tx_command_txdata_signal
+			spw_ch1_errinj_ctrl_start_errinj_i : in  std_logic                    := 'X';             -- spw_errinj_ctrl_start_errinj_signal
+			spw_ch1_errinj_ctrl_reset_errinj_i : in  std_logic                    := 'X';             -- spw_errinj_ctrl_reset_errinj_signal
+			spw_ch1_errinj_ctrl_errinj_code_i  : in  std_logic_vector(3 downto 0) := (others => 'X'); -- spw_errinj_ctrl_errinj_code_signal
+			spw_ch1_link_status_started_o      : out std_logic;                                       -- spw_link_status_started_signal
+			spw_ch1_link_status_connecting_o   : out std_logic;                                       -- spw_link_status_connecting_signal
+			spw_ch1_link_status_running_o      : out std_logic;                                       -- spw_link_status_running_signal
+			spw_ch1_link_error_errdisc_o       : out std_logic;                                       -- spw_link_error_errdisc_signal
+			spw_ch1_link_error_errpar_o        : out std_logic;                                       -- spw_link_error_errpar_signal
+			spw_ch1_link_error_erresc_o        : out std_logic;                                       -- spw_link_error_erresc_signal
+			spw_ch1_link_error_errcred_o       : out std_logic;                                       -- spw_link_error_errcred_signal
+			spw_ch1_timecode_rx_tick_out_o     : out std_logic;                                       -- spw_timecode_rx_tick_out_signal
+			spw_ch1_timecode_rx_ctrl_out_o     : out std_logic_vector(1 downto 0);                    -- spw_timecode_rx_ctrl_out_signal
+			spw_ch1_timecode_rx_time_out_o     : out std_logic_vector(5 downto 0);                    -- spw_timecode_rx_time_out_signal
+			spw_ch1_data_rx_status_rxvalid_o   : out std_logic;                                       -- spw_data_rx_status_rxvalid_signal
+			spw_ch1_data_rx_status_rxhalff_o   : out std_logic;                                       -- spw_data_rx_status_rxhalff_signal
+			spw_ch1_data_rx_status_rxflag_o    : out std_logic;                                       -- spw_data_rx_status_rxflag_signal
+			spw_ch1_data_rx_status_rxdata_o    : out std_logic_vector(7 downto 0);                    -- spw_data_rx_status_rxdata_signal
+			spw_ch1_data_tx_status_txrdy_o     : out std_logic;                                       -- spw_data_tx_status_txrdy_signal
+			spw_ch1_data_tx_status_txhalff_o   : out std_logic;                                       -- spw_data_tx_status_txhalff_signal
+			spw_ch1_errinj_ctrl_errinj_busy_o  : out std_logic;                                       -- spw_errinj_ctrl_errinj_busy_signal
+			spw_ch1_errinj_ctrl_errinj_ready_o : out std_logic;                                       -- spw_errinj_ctrl_errinj_ready_signal
+			spw_link_status_started_i          : in  std_logic                    := 'X';             -- spw_link_status_started_signal
+			spw_link_status_connecting_i       : in  std_logic                    := 'X';             -- spw_link_status_connecting_signal
+			spw_link_status_running_i          : in  std_logic                    := 'X';             -- spw_link_status_running_signal
+			spw_link_error_errdisc_i           : in  std_logic                    := 'X';             -- spw_link_error_errdisc_signal
+			spw_link_error_errpar_i            : in  std_logic                    := 'X';             -- spw_link_error_errpar_signal
+			spw_link_error_erresc_i            : in  std_logic                    := 'X';             -- spw_link_error_erresc_signal
+			spw_link_error_errcred_i           : in  std_logic                    := 'X';             -- spw_link_error_errcred_signal
+			spw_timecode_rx_tick_out_i         : in  std_logic                    := 'X';             -- spw_timecode_rx_tick_out_signal
+			spw_timecode_rx_ctrl_out_i         : in  std_logic_vector(1 downto 0) := (others => 'X'); -- spw_timecode_rx_ctrl_out_signal
+			spw_timecode_rx_time_out_i         : in  std_logic_vector(5 downto 0) := (others => 'X'); -- spw_timecode_rx_time_out_signal
+			spw_data_rx_status_rxvalid_i       : in  std_logic                    := 'X';             -- spw_data_rx_status_rxvalid_signal
+			spw_data_rx_status_rxhalff_i       : in  std_logic                    := 'X';             -- spw_data_rx_status_rxhalff_signal
+			spw_data_rx_status_rxflag_i        : in  std_logic                    := 'X';             -- spw_data_rx_status_rxflag_signal
+			spw_data_rx_status_rxdata_i        : in  std_logic_vector(7 downto 0) := (others => 'X'); -- spw_data_rx_status_rxdata_signal
+			spw_data_tx_status_txrdy_i         : in  std_logic                    := 'X';             -- spw_data_tx_status_txrdy_signal
+			spw_data_tx_status_txhalff_i       : in  std_logic                    := 'X';             -- spw_data_tx_status_txhalff_signal
+			spw_errinj_ctrl_errinj_busy_i      : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_busy_signal
+			spw_errinj_ctrl_errinj_ready_i     : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_autostart_o       : out std_logic;                                       -- spw_link_command_autostart_signal
+			spw_link_command_linkstart_o       : out std_logic;                                       -- spw_link_command_linkstart_signal
+			spw_link_command_linkdis_o         : out std_logic;                                       -- spw_link_command_linkdis_signal
+			spw_link_command_txdivcnt_o        : out std_logic_vector(7 downto 0);                    -- spw_link_command_txdivcnt_signal
+			spw_timecode_tx_tick_in_o          : out std_logic;                                       -- spw_timecode_tx_tick_in_signal
+			spw_timecode_tx_ctrl_in_o          : out std_logic_vector(1 downto 0);                    -- spw_timecode_tx_ctrl_in_signal
+			spw_timecode_tx_time_in_o          : out std_logic_vector(5 downto 0);                    -- spw_timecode_tx_time_in_signal
+			spw_data_rx_command_rxread_o       : out std_logic;                                       -- spw_data_rx_command_rxread_signal
+			spw_data_tx_command_txwrite_o      : out std_logic;                                       -- spw_data_tx_command_txwrite_signal
+			spw_data_tx_command_txflag_o       : out std_logic;                                       -- spw_data_tx_command_txflag_signal
+			spw_data_tx_command_txdata_o       : out std_logic_vector(7 downto 0);                    -- spw_data_tx_command_txdata_signal
+			spw_errinj_ctrl_start_errinj_o     : out std_logic;                                       -- spw_errinj_ctrl_start_errinj_signal
+			spw_errinj_ctrl_reset_errinj_o     : out std_logic;                                       -- spw_errinj_ctrl_reset_errinj_signal
+			spw_errinj_ctrl_errinj_code_o      : out std_logic_vector(3 downto 0)                     -- spw_errinj_ctrl_errinj_code_signal
+		);
+	end component spwm_spacewire_mux_top;
 
 	component MebX_Qsys_Project_csense_adc_fo is
 		port (
@@ -816,6 +1076,19 @@ architecture rtl of MebX_Qsys_Project is
 		);
 	end component MebX_Qsys_Project_pio_ctrl_io_lvds;
 
+	component MebX_Qsys_Project_pio_spw_mux_ch_h_select is
+		port (
+			clk        : in  std_logic                     := 'X';             -- clk
+			reset_n    : in  std_logic                     := 'X';             -- reset_n
+			address    : in  std_logic_vector(1 downto 0)  := (others => 'X'); -- address
+			write_n    : in  std_logic                     := 'X';             -- write_n
+			writedata  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			chipselect : in  std_logic                     := 'X';             -- chipselect
+			readdata   : out std_logic_vector(31 downto 0);                    -- readdata
+			out_port   : out std_logic_vector(1 downto 0)                      -- export
+		);
+	end component MebX_Qsys_Project_pio_spw_mux_ch_h_select;
+
 	component MebX_Qsys_Project_rs232_uart is
 		port (
 			clk           : in  std_logic                     := 'X';             -- clk
@@ -866,27 +1139,29 @@ architecture rtl of MebX_Qsys_Project is
 			g_PRE_SYNC_IRQ_NUMBER : natural := 0
 		);
 		port (
-			clock_sink_clk_i                : in  std_logic                     := 'X';             -- clk
-			reset_sink_reset_i              : in  std_logic                     := 'X';             -- reset
-			avalon_slave_address_i          : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- address
-			avalon_slave_read_i             : in  std_logic                     := 'X';             -- read
-			avalon_slave_write_i            : in  std_logic                     := 'X';             -- write
-			avalon_slave_writedata_i        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			avalon_slave_byteenable_i       : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
-			avalon_slave_readdata_o         : out std_logic_vector(31 downto 0);                    -- readdata
-			avalon_slave_waitrequest_o      : out std_logic;                                        -- waitrequest
-			conduit_sync_signal_syncin_i    : in  std_logic                     := 'X';             -- conduit
-			conduit_sync_signal_spw1_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_spw2_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_spw3_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_spw4_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_spw5_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_spw6_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_spw7_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_spw8_o      : out std_logic;                                        -- conduit
-			conduit_sync_signal_syncout_o   : out std_logic;                                        -- conduit
-			sync_interrupt_sender_irq_o     : out std_logic;                                        -- irq
-			pre_sync_interrupt_sender_irq_o : out std_logic                                         -- irq
+			clock_sink_clk_i                 : in  std_logic                     := 'X';             -- clk
+			reset_sink_reset_i               : in  std_logic                     := 'X';             -- reset
+			avalon_slave_address_i           : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- address
+			avalon_slave_read_i              : in  std_logic                     := 'X';             -- read
+			avalon_slave_write_i             : in  std_logic                     := 'X';             -- write
+			avalon_slave_writedata_i         : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			avalon_slave_byteenable_i        : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			avalon_slave_readdata_o          : out std_logic_vector(31 downto 0);                    -- readdata
+			avalon_slave_waitrequest_o       : out std_logic;                                        -- waitrequest
+			conduit_sync_signal_syncin_en_i  : in  std_logic                     := 'X';             -- conduit
+			conduit_sync_signal_syncout_en_i : in  std_logic                     := 'X';             -- conduit
+			conduit_sync_signal_syncin_i     : in  std_logic                     := 'X';             -- conduit
+			conduit_sync_signal_spw1_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_spw2_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_spw3_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_spw4_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_spw5_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_spw6_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_spw7_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_spw8_o       : out std_logic;                                        -- conduit
+			conduit_sync_signal_syncout_o    : out std_logic;                                        -- conduit
+			sync_interrupt_sender_irq_o      : out std_logic;                                        -- irq
+			pre_sync_interrupt_sender_irq_o  : out std_logic                                         -- irq
 		);
 	end component sync_ent;
 
@@ -1394,6 +1669,11 @@ architecture rtl of MebX_Qsys_Project is
 			pio_RST_ETH_s1_readdata                                                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			pio_RST_ETH_s1_writedata                                               : out std_logic_vector(31 downto 0);                    -- writedata
 			pio_RST_ETH_s1_chipselect                                              : out std_logic;                                        -- chipselect
+			pio_spw_mux_ch_h_select_s1_address                                     : out std_logic_vector(1 downto 0);                     -- address
+			pio_spw_mux_ch_h_select_s1_write                                       : out std_logic;                                        -- write
+			pio_spw_mux_ch_h_select_s1_readdata                                    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			pio_spw_mux_ch_h_select_s1_writedata                                   : out std_logic_vector(31 downto 0);                    -- writedata
+			pio_spw_mux_ch_h_select_s1_chipselect                                  : out std_logic;                                        -- chipselect
 			rst_controller_avalon_rst_controller_slave_address                     : out std_logic_vector(3 downto 0);                     -- address
 			rst_controller_avalon_rst_controller_slave_write                       : out std_logic;                                        -- write
 			rst_controller_avalon_rst_controller_slave_read                        : out std_logic;                                        -- read
@@ -1661,7 +1941,73 @@ architecture rtl of MebX_Qsys_Project is
 		);
 	end component mebx_qsys_project_rst_controller_010;
 
-	component mebx_qsys_project_rst_controller_011 is
+	component mebx_qsys_project_rst_controller_012 is
+		generic (
+			NUM_RESET_INPUTS          : integer := 6;
+			OUTPUT_RESET_SYNC_EDGES   : string  := "deassert";
+			SYNC_DEPTH                : integer := 2;
+			RESET_REQUEST_PRESENT     : integer := 0;
+			RESET_REQ_WAIT_TIME       : integer := 1;
+			MIN_RST_ASSERTION_TIME    : integer := 3;
+			RESET_REQ_EARLY_DSRT_TIME : integer := 1;
+			USE_RESET_REQUEST_IN0     : integer := 0;
+			USE_RESET_REQUEST_IN1     : integer := 0;
+			USE_RESET_REQUEST_IN2     : integer := 0;
+			USE_RESET_REQUEST_IN3     : integer := 0;
+			USE_RESET_REQUEST_IN4     : integer := 0;
+			USE_RESET_REQUEST_IN5     : integer := 0;
+			USE_RESET_REQUEST_IN6     : integer := 0;
+			USE_RESET_REQUEST_IN7     : integer := 0;
+			USE_RESET_REQUEST_IN8     : integer := 0;
+			USE_RESET_REQUEST_IN9     : integer := 0;
+			USE_RESET_REQUEST_IN10    : integer := 0;
+			USE_RESET_REQUEST_IN11    : integer := 0;
+			USE_RESET_REQUEST_IN12    : integer := 0;
+			USE_RESET_REQUEST_IN13    : integer := 0;
+			USE_RESET_REQUEST_IN14    : integer := 0;
+			USE_RESET_REQUEST_IN15    : integer := 0;
+			ADAPT_RESET_REQUEST       : integer := 0
+		);
+		port (
+			reset_in0      : in  std_logic := 'X'; -- reset_in0.reset
+			reset_in1      : in  std_logic := 'X'; -- reset_in1.reset
+			reset_in2      : in  std_logic := 'X'; -- reset_in2.reset
+			reset_in3      : in  std_logic := 'X'; -- reset_in3.reset
+			reset_in4      : in  std_logic := 'X'; -- reset_in4.reset
+			reset_in5      : in  std_logic := 'X'; -- reset_in5.reset
+			reset_in6      : in  std_logic := 'X'; -- reset_in6.reset
+			reset_in7      : in  std_logic := 'X'; -- reset_in7.reset
+			reset_in8      : in  std_logic := 'X'; -- reset_in8.reset
+			clk            : in  std_logic := 'X'; --       clk.clk
+			reset_out      : out std_logic;        -- reset_out.reset
+			reset_in10     : in  std_logic := 'X';
+			reset_in11     : in  std_logic := 'X';
+			reset_in12     : in  std_logic := 'X';
+			reset_in13     : in  std_logic := 'X';
+			reset_in14     : in  std_logic := 'X';
+			reset_in15     : in  std_logic := 'X';
+			reset_in9      : in  std_logic := 'X';
+			reset_req      : out std_logic;
+			reset_req_in0  : in  std_logic := 'X';
+			reset_req_in1  : in  std_logic := 'X';
+			reset_req_in10 : in  std_logic := 'X';
+			reset_req_in11 : in  std_logic := 'X';
+			reset_req_in12 : in  std_logic := 'X';
+			reset_req_in13 : in  std_logic := 'X';
+			reset_req_in14 : in  std_logic := 'X';
+			reset_req_in15 : in  std_logic := 'X';
+			reset_req_in2  : in  std_logic := 'X';
+			reset_req_in3  : in  std_logic := 'X';
+			reset_req_in4  : in  std_logic := 'X';
+			reset_req_in5  : in  std_logic := 'X';
+			reset_req_in6  : in  std_logic := 'X';
+			reset_req_in7  : in  std_logic := 'X';
+			reset_req_in8  : in  std_logic := 'X';
+			reset_req_in9  : in  std_logic := 'X'
+		);
+	end component mebx_qsys_project_rst_controller_012;
+
+	component mebx_qsys_project_rst_controller_013 is
 		generic (
 			NUM_RESET_INPUTS          : integer := 6;
 			OUTPUT_RESET_SYNC_EDGES   : string  := "deassert";
@@ -1725,7 +2071,7 @@ architecture rtl of MebX_Qsys_Project is
 			reset_req_in8  : in  std_logic := 'X';
 			reset_req_in9  : in  std_logic := 'X'
 		);
-	end component mebx_qsys_project_rst_controller_011;
+	end component mebx_qsys_project_rst_controller_013;
 
 	component mebx_qsys_project_clock_bridge_afi_50 is
 		generic (
@@ -1805,9 +2151,65 @@ architecture rtl of MebX_Qsys_Project is
 		);
 	end component mebx_qsys_project_m1_clock_bridge;
 
-	signal m2_ddr2_memory_afi_clk_clk                                                                          : std_logic;                      -- m2_ddr2_memory:afi_clk -> [SpaceWire_Channel_A:clk_200_i, SpaceWire_Channel_B:clk_200_i, SpaceWire_Channel_C:clk_200_i, SpaceWire_Channel_D:clk_200_i, SpaceWire_Channel_E:clk_200_i, SpaceWire_Channel_F:clk_200_i, SpaceWire_Channel_G:clk_200_i, SpaceWire_Channel_H:clk_200_i, mm_interconnect_0:m2_ddr2_memory_afi_clk_clk, rst_controller_012:clk, rst_controller_013:clk, rst_controller_014:clk, rst_controller_015:clk, rst_controller_016:clk, rst_controller_017:clk, rst_controller_018:clk, rst_controller_019:clk, rst_controller_025:clk]
-	signal m2_ddr2_memory_afi_half_clk_clk                                                                     : std_logic;                      -- m2_ddr2_memory:afi_half_clk -> [Dumb_Communication_Module_v2_1:clock_sink_100_clk_i, Dumb_Communication_Module_v2_2:clock_sink_100_clk_i, Dumb_Communication_Module_v2_3:clock_sink_100_clk_i, Dumb_Communication_Module_v2_4:clock_sink_100_clk_i, Dumb_Communication_Module_v2_5:clock_sink_100_clk_i, Dumb_Communication_Module_v2_6:clock_sink_100_clk_i, Dumb_Communication_Module_v2_7:clock_sink_100_clk_i, Dumb_Communication_Module_v2_8:clock_sink_100_clk_i, Dumb_Communication_Module_v2_Timer:clock_sink_100_clk_i, RMAP_Memory_Subunit_Area_1:clk_100_i, RMAP_Memory_Subunit_Area_2:clk_100_i, RMAP_Memory_Subunit_Area_3:clk_100_i, RMAP_Memory_Subunit_Area_4:clk_100_i, RMAP_Memory_Subunit_Area_5:clk_100_i, RMAP_Memory_Subunit_Area_6:clk_100_i, RMAP_Memory_Subunit_Area_7:clk_100_i, RMAP_Memory_Subunit_Area_8:clk_100_i, SpaceWire_Channel_A:clk_100_i, SpaceWire_Channel_B:clk_100_i, SpaceWire_Channel_C:clk_100_i, SpaceWire_Channel_D:clk_100_i, SpaceWire_Channel_E:clk_100_i, SpaceWire_Channel_F:clk_100_i, SpaceWire_Channel_G:clk_100_i, SpaceWire_Channel_H:clk_100_i, clock_bridge_afi_50:s0_clk, ddr2_address_span_extender:clk, ext_flash:clk_clk, irq_mapper:clk, irq_synchronizer:sender_clk, irq_synchronizer_001:sender_clk, irq_synchronizer_002:sender_clk, irq_synchronizer_003:sender_clk, irq_synchronizer_004:sender_clk, jtag_uart_0:clk, m1_clock_bridge:s0_clk, mm_interconnect_0:clk_100_clk_clk, mm_interconnect_0:m2_ddr2_memory_afi_half_clk_clk, mm_interconnect_1:clk_100_clk_clk, mm_interconnect_2:clk_100_clk_clk, nios2_gen2_0:clk, onchip_memory:clk, rs232_uart:clk, rst_controller_002:clk, rst_controller_003:clk, rst_controller_004:clk, rst_controller_005:clk, rst_controller_006:clk, rst_controller_007:clk, rst_controller_008:clk, rst_controller_009:clk, rst_controller_010:clk, rst_controller_020:clk, rst_controller_022:clk, rst_controller_023:clk, sysid_qsys:clock, tristate_conduit_bridge_0:clk, uart_module_top_0:clock_sink_100_clk_i]
-	signal m1_ddr2_memory_afi_half_clk_clk                                                                     : std_logic;                      -- m1_ddr2_memory:afi_half_clk -> [m1_clock_bridge:m0_clk, mm_interconnect_4:m1_ddr2_memory_afi_half_clk_clk, rst_controller_021:clk]
+	signal m2_ddr2_memory_afi_clk_clk                                                                          : std_logic;                      -- m2_ddr2_memory:afi_clk -> [SpaceWire_Channel_A:clk_200_i, SpaceWire_Channel_B:clk_200_i, SpaceWire_Channel_C:clk_200_i, SpaceWire_Channel_D:clk_200_i, SpaceWire_Channel_E:clk_200_i, SpaceWire_Channel_F:clk_200_i, SpaceWire_Channel_G:clk_200_i, SpaceWire_Channel_H:clk_200_i, mm_interconnect_0:m2_ddr2_memory_afi_clk_clk, rst_controller_014:clk, rst_controller_015:clk, rst_controller_016:clk, rst_controller_017:clk, rst_controller_018:clk, rst_controller_019:clk, rst_controller_020:clk, rst_controller_021:clk, rst_controller_027:clk]
+	signal m2_ddr2_memory_afi_half_clk_clk                                                                     : std_logic;                      -- m2_ddr2_memory:afi_half_clk -> [Dumb_Communication_Module_v2_1:clock_sink_100_clk_i, Dumb_Communication_Module_v2_2:clock_sink_100_clk_i, Dumb_Communication_Module_v2_3:clock_sink_100_clk_i, Dumb_Communication_Module_v2_4:clock_sink_100_clk_i, Dumb_Communication_Module_v2_5:clock_sink_100_clk_i, Dumb_Communication_Module_v2_6:clock_sink_100_clk_i, Dumb_Communication_Module_v2_7:clock_sink_100_clk_i, Dumb_Communication_Module_v2_8:clock_sink_100_clk_i, Dumb_Communication_Module_v2_Timer:clock_sink_100_clk_i, FTDI_UMFT601A_Module:clock_sink_clk_i, RMAP_Echoing:clk_100_i, RMAP_Memory_Subunit_Area_1:clk_100_i, RMAP_Memory_Subunit_Area_2:clk_100_i, RMAP_Memory_Subunit_Area_3:clk_100_i, RMAP_Memory_Subunit_Area_4:clk_100_i, RMAP_Memory_Subunit_Area_5:clk_100_i, RMAP_Memory_Subunit_Area_6:clk_100_i, RMAP_Memory_Subunit_Area_7:clk_100_i, RMAP_Memory_Subunit_Area_8:clk_100_i, SpaceWire_Channel_A:clk_100_i, SpaceWire_Channel_B:clk_100_i, SpaceWire_Channel_C:clk_100_i, SpaceWire_Channel_D:clk_100_i, SpaceWire_Channel_E:clk_100_i, SpaceWire_Channel_F:clk_100_i, SpaceWire_Channel_G:clk_100_i, SpaceWire_Channel_H:clk_100_i, SpaceWire_Mux_Ch_H:clock_i, clock_bridge_afi_50:s0_clk, ddr2_address_span_extender:clk, ext_flash:clk_clk, irq_mapper:clk, irq_synchronizer:sender_clk, irq_synchronizer_001:sender_clk, irq_synchronizer_002:sender_clk, irq_synchronizer_003:sender_clk, irq_synchronizer_004:sender_clk, jtag_uart_0:clk, m1_clock_bridge:s0_clk, mm_interconnect_0:clk_100_clk_clk, mm_interconnect_0:m2_ddr2_memory_afi_half_clk_clk, mm_interconnect_1:clk_100_clk_clk, mm_interconnect_2:clk_100_clk_clk, nios2_gen2_0:clk, onchip_memory:clk, rs232_uart:clk, rst_controller_002:clk, rst_controller_003:clk, rst_controller_004:clk, rst_controller_005:clk, rst_controller_006:clk, rst_controller_007:clk, rst_controller_008:clk, rst_controller_009:clk, rst_controller_010:clk, rst_controller_011:clk, rst_controller_012:clk, rst_controller_022:clk, rst_controller_024:clk, rst_controller_025:clk, sysid_qsys:clock, tristate_conduit_bridge_0:clk, uart_module_top_0:clock_sink_100_clk_i]
+	signal m1_ddr2_memory_afi_half_clk_clk                                                                     : std_logic;                      -- m1_ddr2_memory:afi_half_clk -> [m1_clock_bridge:m0_clk, mm_interconnect_4:m1_ddr2_memory_afi_half_clk_clk, rst_controller_023:clk]
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_id_en_signal                          : std_logic;                      -- Dumb_Communication_Module_v2_1:rmap_echo_echo_id_en_o -> RMAP_Echoing:rmap_echo_0_echo_id_en_i
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_1:rmap_echo_in_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_0_in_fifo_wrflag_i
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : std_logic;                      -- Dumb_Communication_Module_v2_1:rmap_echo_in_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_0_in_fifo_wrreq_i
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : std_logic;                      -- Dumb_Communication_Module_v2_1:rmap_echo_out_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_0_out_fifo_wrflag_i
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_1:rmap_echo_out_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_0_out_fifo_wrreq_i
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_1:rmap_echo_out_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_0_out_fifo_wrdata_i
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_1:rmap_echo_in_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_0_in_fifo_wrdata_i
+	signal dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_en_signal                             : std_logic;                      -- Dumb_Communication_Module_v2_1:rmap_echo_echo_en_o -> RMAP_Echoing:rmap_echo_0_echo_en_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_echo_id_en_signal                          : std_logic;                      -- Dumb_Communication_Module_v2_3:rmap_echo_echo_id_en_o -> RMAP_Echoing:rmap_echo_2_echo_id_en_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_3:rmap_echo_in_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_2_in_fifo_wrflag_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : std_logic;                      -- Dumb_Communication_Module_v2_3:rmap_echo_in_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_2_in_fifo_wrreq_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : std_logic;                      -- Dumb_Communication_Module_v2_3:rmap_echo_out_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_2_out_fifo_wrflag_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_3:rmap_echo_out_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_2_out_fifo_wrreq_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_3:rmap_echo_out_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_2_out_fifo_wrdata_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_3:rmap_echo_in_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_2_in_fifo_wrdata_i
+	signal dumb_communication_module_v2_3_conduit_end_rmap_echo_out_echo_en_signal                             : std_logic;                      -- Dumb_Communication_Module_v2_3:rmap_echo_echo_en_o -> RMAP_Echoing:rmap_echo_2_echo_en_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_echo_id_en_signal                          : std_logic;                      -- Dumb_Communication_Module_v2_5:rmap_echo_echo_id_en_o -> RMAP_Echoing:rmap_echo_4_echo_id_en_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_5:rmap_echo_in_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_4_in_fifo_wrflag_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : std_logic;                      -- Dumb_Communication_Module_v2_5:rmap_echo_in_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_4_in_fifo_wrreq_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : std_logic;                      -- Dumb_Communication_Module_v2_5:rmap_echo_out_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_4_out_fifo_wrflag_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_5:rmap_echo_out_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_4_out_fifo_wrreq_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_5:rmap_echo_out_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_4_out_fifo_wrdata_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_5:rmap_echo_in_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_4_in_fifo_wrdata_i
+	signal dumb_communication_module_v2_5_conduit_end_rmap_echo_out_echo_en_signal                             : std_logic;                      -- Dumb_Communication_Module_v2_5:rmap_echo_echo_en_o -> RMAP_Echoing:rmap_echo_4_echo_en_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_echo_id_en_signal                          : std_logic;                      -- Dumb_Communication_Module_v2_7:rmap_echo_echo_id_en_o -> RMAP_Echoing:rmap_echo_6_echo_id_en_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_7:rmap_echo_in_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_6_in_fifo_wrflag_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : std_logic;                      -- Dumb_Communication_Module_v2_7:rmap_echo_in_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_6_in_fifo_wrreq_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : std_logic;                      -- Dumb_Communication_Module_v2_7:rmap_echo_out_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_6_out_fifo_wrflag_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_7:rmap_echo_out_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_6_out_fifo_wrreq_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_7:rmap_echo_out_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_6_out_fifo_wrdata_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_7:rmap_echo_in_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_6_in_fifo_wrdata_i
+	signal dumb_communication_module_v2_7_conduit_end_rmap_echo_out_echo_en_signal                             : std_logic;                      -- Dumb_Communication_Module_v2_7:rmap_echo_echo_en_o -> RMAP_Echoing:rmap_echo_6_echo_en_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_echo_id_en_signal                          : std_logic;                      -- Dumb_Communication_Module_v2_2:rmap_echo_echo_id_en_o -> RMAP_Echoing:rmap_echo_1_echo_id_en_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_2:rmap_echo_in_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_1_in_fifo_wrflag_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : std_logic;                      -- Dumb_Communication_Module_v2_2:rmap_echo_in_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_1_in_fifo_wrreq_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : std_logic;                      -- Dumb_Communication_Module_v2_2:rmap_echo_out_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_1_out_fifo_wrflag_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_2:rmap_echo_out_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_1_out_fifo_wrreq_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_2:rmap_echo_out_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_1_out_fifo_wrdata_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_2:rmap_echo_in_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_1_in_fifo_wrdata_i
+	signal dumb_communication_module_v2_2_conduit_end_rmap_echo_out_echo_en_signal                             : std_logic;                      -- Dumb_Communication_Module_v2_2:rmap_echo_echo_en_o -> RMAP_Echoing:rmap_echo_1_echo_en_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_echo_id_en_signal                          : std_logic;                      -- Dumb_Communication_Module_v2_4:rmap_echo_echo_id_en_o -> RMAP_Echoing:rmap_echo_3_echo_id_en_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_4:rmap_echo_in_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_3_in_fifo_wrflag_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : std_logic;                      -- Dumb_Communication_Module_v2_4:rmap_echo_in_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_3_in_fifo_wrreq_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : std_logic;                      -- Dumb_Communication_Module_v2_4:rmap_echo_out_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_3_out_fifo_wrflag_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_4:rmap_echo_out_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_3_out_fifo_wrreq_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_4:rmap_echo_out_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_3_out_fifo_wrdata_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_4:rmap_echo_in_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_3_in_fifo_wrdata_i
+	signal dumb_communication_module_v2_4_conduit_end_rmap_echo_out_echo_en_signal                             : std_logic;                      -- Dumb_Communication_Module_v2_4:rmap_echo_echo_en_o -> RMAP_Echoing:rmap_echo_3_echo_en_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_echo_id_en_signal                          : std_logic;                      -- Dumb_Communication_Module_v2_6:rmap_echo_echo_id_en_o -> RMAP_Echoing:rmap_echo_5_echo_id_en_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_6:rmap_echo_in_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_5_in_fifo_wrflag_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : std_logic;                      -- Dumb_Communication_Module_v2_6:rmap_echo_in_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_5_in_fifo_wrreq_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : std_logic;                      -- Dumb_Communication_Module_v2_6:rmap_echo_out_fifo_wrflag_o -> RMAP_Echoing:rmap_echo_5_out_fifo_wrflag_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : std_logic;                      -- Dumb_Communication_Module_v2_6:rmap_echo_out_fifo_wrreq_o -> RMAP_Echoing:rmap_echo_5_out_fifo_wrreq_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_6:rmap_echo_out_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_5_out_fifo_wrdata_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_6:rmap_echo_in_fifo_wrdata_o -> RMAP_Echoing:rmap_echo_5_in_fifo_wrdata_i
+	signal dumb_communication_module_v2_6_conduit_end_rmap_echo_out_echo_en_signal                             : std_logic;                      -- Dumb_Communication_Module_v2_6:rmap_echo_echo_en_o -> RMAP_Echoing:rmap_echo_5_echo_en_i
 	signal dumb_communication_module_v2_2_conduit_end_rmap_master_codec_write_signal                           : std_logic;                      -- Dumb_Communication_Module_v2_2:codec_rmap_write_o -> RMAP_Memory_Subunit_Area_2:subunit_0_rmap_write_i
 	signal rmap_memory_subunit_area_2_conduit_end_subunit_rmap_slave_0_readdata_signal                         : std_logic_vector(7 downto 0);   -- RMAP_Memory_Subunit_Area_2:subunit_0_rmap_readdata_o -> Dumb_Communication_Module_v2_2:codec_rmap_readdata_i
 	signal dumb_communication_module_v2_2_conduit_end_rmap_master_codec_rd_address_signal                      : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_2:codec_rmap_rd_address_o -> RMAP_Memory_Subunit_Area_2:subunit_0_rmap_rd_address_i
@@ -2096,38 +2498,102 @@ architecture rtl of MebX_Qsys_Project is
 	signal spacewire_channel_g_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal               : std_logic;                      -- SpaceWire_Channel_G:spw_errinj_ctrl_errinj_ready_o -> Dumb_Communication_Module_v2_7:spw_errinj_ctrl_errinj_ready_i
 	signal dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_autostart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_7:spw_link_command_autostart_o -> SpaceWire_Channel_G:spw_link_command_autostart_i
 	signal spacewire_channel_g_conduit_end_spacewire_channel_spw_link_error_errcred_signal                     : std_logic;                      -- SpaceWire_Channel_G:spw_link_error_errcred_o -> Dumb_Communication_Module_v2_7:spw_link_error_errcred_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_data_rx_status_rxvalid_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxvalid_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal                : std_logic;                      -- SpaceWire_Channel_H:spw_errinj_ctrl_errinj_busy_o -> Dumb_Communication_Module_v2_8:spw_errinj_ctrl_errinj_busy_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_errinj_ctrl_start_errinj_o -> SpaceWire_Channel_H:spw_errinj_ctrl_start_errinj_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal   : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_8:spw_data_tx_command_txdata_o -> SpaceWire_Channel_H:spw_data_tx_command_txdata_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errdisc_signal                     : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_errdisc_o -> Dumb_Communication_Module_v2_8:spw_link_error_errdisc_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_data_tx_status_txhalff_o -> Dumb_Communication_Module_v2_8:spw_data_tx_status_txhalff_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal  : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_tx_command_txwrite_o -> SpaceWire_Channel_H:spw_data_tx_command_txwrite_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal                   : std_logic;                      -- SpaceWire_Channel_H:spw_timecode_rx_tick_out_o -> Dumb_Communication_Module_v2_8:spw_timecode_rx_tick_out_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_data_rx_status_rxhalff_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxhalff_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal  : std_logic_vector(3 downto 0);   -- Dumb_Communication_Module_v2_8:spw_errinj_ctrl_errinj_code_o -> SpaceWire_Channel_H:spw_errinj_ctrl_errinj_code_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal                   : std_logic_vector(5 downto 0);   -- SpaceWire_Channel_H:spw_timecode_rx_time_out_o -> Dumb_Communication_Module_v2_8:spw_timecode_rx_time_out_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_connecting_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_connecting_o -> Dumb_Communication_Module_v2_8:spw_link_status_connecting_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal                  : std_logic_vector(7 downto 0);   -- SpaceWire_Channel_H:spw_data_rx_status_rxdata_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxdata_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal                   : std_logic_vector(1 downto 0);   -- SpaceWire_Channel_H:spw_timecode_rx_ctrl_out_o -> Dumb_Communication_Module_v2_8:spw_timecode_rx_ctrl_out_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_errinj_ctrl_reset_errinj_o -> SpaceWire_Channel_H:spw_errinj_ctrl_reset_errinj_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_tx_command_txflag_o -> SpaceWire_Channel_H:spw_data_tx_command_txflag_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_linkstart_o -> SpaceWire_Channel_H:spw_link_command_linkstart_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_rx_command_rxread_o -> SpaceWire_Channel_H:spw_data_rx_command_rxread_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_running_o -> Dumb_Communication_Module_v2_8:spw_link_status_running_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_started_o -> Dumb_Communication_Module_v2_8:spw_link_status_started_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_8:spw_link_error_errpar_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkdis_signal     : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_linkdis_o -> SpaceWire_Channel_H:spw_link_command_linkdis_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_erresc_signal                      : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_erresc_o -> Dumb_Communication_Module_v2_8:spw_link_error_erresc_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal                   : std_logic;                      -- SpaceWire_Channel_H:spw_data_tx_status_txrdy_o -> Dumb_Communication_Module_v2_8:spw_data_tx_status_txrdy_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal      : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_timecode_tx_tick_in_o -> SpaceWire_Channel_H:spw_timecode_tx_tick_in_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal    : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_8:spw_link_command_txdivcnt_o -> SpaceWire_Channel_H:spw_link_command_txdivcnt_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal      : std_logic_vector(5 downto 0);   -- Dumb_Communication_Module_v2_8:spw_timecode_tx_time_in_o -> SpaceWire_Channel_H:spw_timecode_tx_time_in_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal                  : std_logic;                      -- SpaceWire_Channel_H:spw_data_rx_status_rxflag_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxflag_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal      : std_logic_vector(1 downto 0);   -- Dumb_Communication_Module_v2_8:spw_timecode_tx_ctrl_in_o -> SpaceWire_Channel_H:spw_timecode_tx_ctrl_in_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal               : std_logic;                      -- SpaceWire_Channel_H:spw_errinj_ctrl_errinj_ready_o -> Dumb_Communication_Module_v2_8:spw_errinj_ctrl_errinj_ready_i
-	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_autostart_o -> SpaceWire_Channel_H:spw_link_command_autostart_i
-	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errcred_signal                     : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_errcred_o -> Dumb_Communication_Module_v2_8:spw_link_error_errcred_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_data_rx_status_rxvalid_o -> SpaceWire_Mux_Ch_H:spw_data_rx_status_rxvalid_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal                : std_logic;                      -- SpaceWire_Channel_H:spw_errinj_ctrl_errinj_busy_o -> SpaceWire_Mux_Ch_H:spw_errinj_ctrl_errinj_busy_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal             : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_errinj_ctrl_start_errinj_o -> SpaceWire_Channel_H:spw_errinj_ctrl_start_errinj_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal               : std_logic_vector(7 downto 0);   -- SpaceWire_Mux_Ch_H:spw_data_tx_command_txdata_o -> SpaceWire_Channel_H:spw_data_tx_command_txdata_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errdisc_signal                     : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_errdisc_o -> SpaceWire_Mux_Ch_H:spw_link_error_errdisc_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_data_tx_status_txhalff_o -> SpaceWire_Mux_Ch_H:spw_data_tx_status_txhalff_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal              : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_data_tx_command_txwrite_o -> SpaceWire_Channel_H:spw_data_tx_command_txwrite_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal                   : std_logic;                      -- SpaceWire_Channel_H:spw_timecode_rx_tick_out_o -> SpaceWire_Mux_Ch_H:spw_timecode_rx_tick_out_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_data_rx_status_rxhalff_o -> SpaceWire_Mux_Ch_H:spw_data_rx_status_rxhalff_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal              : std_logic_vector(3 downto 0);   -- SpaceWire_Mux_Ch_H:spw_errinj_ctrl_errinj_code_o -> SpaceWire_Channel_H:spw_errinj_ctrl_errinj_code_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal                   : std_logic_vector(5 downto 0);   -- SpaceWire_Channel_H:spw_timecode_rx_time_out_o -> SpaceWire_Mux_Ch_H:spw_timecode_rx_time_out_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_connecting_signal                 : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_connecting_o -> SpaceWire_Mux_Ch_H:spw_link_status_connecting_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal                  : std_logic_vector(7 downto 0);   -- SpaceWire_Channel_H:spw_data_rx_status_rxdata_o -> SpaceWire_Mux_Ch_H:spw_data_rx_status_rxdata_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal                   : std_logic_vector(1 downto 0);   -- SpaceWire_Channel_H:spw_timecode_rx_ctrl_out_o -> SpaceWire_Mux_Ch_H:spw_timecode_rx_ctrl_out_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal             : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_errinj_ctrl_reset_errinj_o -> SpaceWire_Channel_H:spw_errinj_ctrl_reset_errinj_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_data_tx_command_txflag_o -> SpaceWire_Channel_H:spw_data_tx_command_txflag_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkstart_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_link_command_linkstart_o -> SpaceWire_Channel_H:spw_link_command_linkstart_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_data_rx_command_rxread_o -> SpaceWire_Channel_H:spw_data_rx_command_rxread_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_running_o -> SpaceWire_Mux_Ch_H:spw_link_status_running_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_started_o -> SpaceWire_Mux_Ch_H:spw_link_status_started_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_errpar_o -> SpaceWire_Mux_Ch_H:spw_link_error_errpar_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkdis_signal                 : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_link_command_linkdis_o -> SpaceWire_Channel_H:spw_link_command_linkdis_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_erresc_signal                      : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_erresc_o -> SpaceWire_Mux_Ch_H:spw_link_error_erresc_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal                   : std_logic;                      -- SpaceWire_Channel_H:spw_data_tx_status_txrdy_o -> SpaceWire_Mux_Ch_H:spw_data_tx_status_txrdy_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal                  : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_timecode_tx_tick_in_o -> SpaceWire_Channel_H:spw_timecode_tx_tick_in_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal                : std_logic_vector(7 downto 0);   -- SpaceWire_Mux_Ch_H:spw_link_command_txdivcnt_o -> SpaceWire_Channel_H:spw_link_command_txdivcnt_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal                  : std_logic_vector(5 downto 0);   -- SpaceWire_Mux_Ch_H:spw_timecode_tx_time_in_o -> SpaceWire_Channel_H:spw_timecode_tx_time_in_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal                  : std_logic;                      -- SpaceWire_Channel_H:spw_data_rx_status_rxflag_o -> SpaceWire_Mux_Ch_H:spw_data_rx_status_rxflag_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal                  : std_logic_vector(1 downto 0);   -- SpaceWire_Mux_Ch_H:spw_timecode_tx_ctrl_in_o -> SpaceWire_Channel_H:spw_timecode_tx_ctrl_in_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal               : std_logic;                      -- SpaceWire_Channel_H:spw_errinj_ctrl_errinj_ready_o -> SpaceWire_Mux_Ch_H:spw_errinj_ctrl_errinj_ready_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_autostart_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_link_command_autostart_o -> SpaceWire_Channel_H:spw_link_command_autostart_i
+	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errcred_signal                     : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_errcred_o -> SpaceWire_Mux_Ch_H:spw_link_error_errcred_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxvalid_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_data_rx_status_rxvalid_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxvalid_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_busy_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_errinj_ctrl_errinj_busy_o -> Dumb_Communication_Module_v2_8:spw_errinj_ctrl_errinj_busy_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_errinj_ctrl_start_errinj_o -> SpaceWire_Mux_Ch_H:spw_ch0_errinj_ctrl_start_errinj_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal   : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_8:spw_data_tx_command_txdata_o -> SpaceWire_Mux_Ch_H:spw_ch0_data_tx_command_txdata_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errdisc_signal                    : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_error_errdisc_o -> Dumb_Communication_Module_v2_8:spw_link_error_errdisc_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txhalff_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_data_tx_status_txhalff_o -> Dumb_Communication_Module_v2_8:spw_data_tx_status_txhalff_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal  : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_tx_command_txwrite_o -> SpaceWire_Mux_Ch_H:spw_ch0_data_tx_command_txwrite_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_tick_out_signal                  : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_timecode_rx_tick_out_o -> Dumb_Communication_Module_v2_8:spw_timecode_rx_tick_out_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxhalff_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_data_rx_status_rxhalff_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxhalff_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal  : std_logic_vector(3 downto 0);   -- Dumb_Communication_Module_v2_8:spw_errinj_ctrl_errinj_code_o -> SpaceWire_Mux_Ch_H:spw_ch0_errinj_ctrl_errinj_code_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_time_out_signal                  : std_logic_vector(5 downto 0);   -- SpaceWire_Mux_Ch_H:spw_ch0_timecode_rx_time_out_o -> Dumb_Communication_Module_v2_8:spw_timecode_rx_time_out_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_connecting_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_status_connecting_o -> Dumb_Communication_Module_v2_8:spw_link_status_connecting_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxdata_signal                 : std_logic_vector(7 downto 0);   -- SpaceWire_Mux_Ch_H:spw_ch0_data_rx_status_rxdata_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxdata_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_ctrl_out_signal                  : std_logic_vector(1 downto 0);   -- SpaceWire_Mux_Ch_H:spw_ch0_timecode_rx_ctrl_out_o -> Dumb_Communication_Module_v2_8:spw_timecode_rx_ctrl_out_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_errinj_ctrl_reset_errinj_o -> SpaceWire_Mux_Ch_H:spw_ch0_errinj_ctrl_reset_errinj_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_tx_command_txflag_o -> SpaceWire_Mux_Ch_H:spw_ch0_data_tx_command_txflag_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_linkstart_o -> SpaceWire_Mux_Ch_H:spw_ch0_link_command_linkstart_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_rx_command_rxread_o -> SpaceWire_Mux_Ch_H:spw_ch0_data_rx_command_rxread_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_running_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_status_running_o -> Dumb_Communication_Module_v2_8:spw_link_status_running_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_started_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_status_started_o -> Dumb_Communication_Module_v2_8:spw_link_status_started_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errpar_signal                     : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_error_errpar_o -> Dumb_Communication_Module_v2_8:spw_link_error_errpar_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkdis_signal     : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_linkdis_o -> SpaceWire_Mux_Ch_H:spw_ch0_link_command_linkdis_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_erresc_signal                     : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_error_erresc_o -> Dumb_Communication_Module_v2_8:spw_link_error_erresc_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txrdy_signal                  : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_data_tx_status_txrdy_o -> Dumb_Communication_Module_v2_8:spw_data_tx_status_txrdy_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal      : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_timecode_tx_tick_in_o -> SpaceWire_Mux_Ch_H:spw_ch0_timecode_tx_tick_in_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal    : std_logic_vector(7 downto 0);   -- Dumb_Communication_Module_v2_8:spw_link_command_txdivcnt_o -> SpaceWire_Mux_Ch_H:spw_ch0_link_command_txdivcnt_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal      : std_logic_vector(5 downto 0);   -- Dumb_Communication_Module_v2_8:spw_timecode_tx_time_in_o -> SpaceWire_Mux_Ch_H:spw_ch0_timecode_tx_time_in_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxflag_signal                 : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_data_rx_status_rxflag_o -> Dumb_Communication_Module_v2_8:spw_data_rx_status_rxflag_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal      : std_logic_vector(1 downto 0);   -- Dumb_Communication_Module_v2_8:spw_timecode_tx_ctrl_in_o -> SpaceWire_Mux_Ch_H:spw_ch0_timecode_tx_ctrl_in_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_ready_signal              : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_errinj_ctrl_errinj_ready_o -> Dumb_Communication_Module_v2_8:spw_errinj_ctrl_errinj_ready_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_autostart_o -> SpaceWire_Mux_Ch_H:spw_ch0_link_command_autostart_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errcred_signal                    : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_error_errcred_o -> Dumb_Communication_Module_v2_8:spw_link_error_errcred_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxvalid_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_data_rx_status_rxvalid_o -> RMAP_Echoing:spw_data_rx_status_rxvalid_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_busy_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_errinj_ctrl_errinj_busy_o -> RMAP_Echoing:spw_errinj_ctrl_errinj_busy_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal                   : std_logic;                      -- RMAP_Echoing:spw_errinj_ctrl_start_errinj_o -> SpaceWire_Mux_Ch_H:spw_ch1_errinj_ctrl_start_errinj_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal                     : std_logic_vector(7 downto 0);   -- RMAP_Echoing:spw_data_tx_command_txdata_o -> SpaceWire_Mux_Ch_H:spw_ch1_data_tx_command_txdata_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errdisc_signal                    : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_error_errdisc_o -> RMAP_Echoing:spw_link_error_errdisc_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_tx_status_txhalff_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_data_tx_status_txhalff_o -> RMAP_Echoing:spw_data_tx_status_txhalff_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal                    : std_logic;                      -- RMAP_Echoing:spw_data_tx_command_txwrite_o -> SpaceWire_Mux_Ch_H:spw_ch1_data_tx_command_txwrite_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_tick_out_signal                  : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_timecode_rx_tick_out_o -> RMAP_Echoing:spw_timecode_rx_tick_out_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxhalff_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_data_rx_status_rxhalff_o -> RMAP_Echoing:spw_data_rx_status_rxhalff_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal                    : std_logic_vector(3 downto 0);   -- RMAP_Echoing:spw_errinj_ctrl_errinj_code_o -> SpaceWire_Mux_Ch_H:spw_ch1_errinj_ctrl_errinj_code_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_time_out_signal                  : std_logic_vector(5 downto 0);   -- SpaceWire_Mux_Ch_H:spw_ch1_timecode_rx_time_out_o -> RMAP_Echoing:spw_timecode_rx_time_out_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_connecting_signal                : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_status_connecting_o -> RMAP_Echoing:spw_link_status_connecting_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxdata_signal                 : std_logic_vector(7 downto 0);   -- SpaceWire_Mux_Ch_H:spw_ch1_data_rx_status_rxdata_o -> RMAP_Echoing:spw_data_rx_status_rxdata_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_ctrl_out_signal                  : std_logic_vector(1 downto 0);   -- SpaceWire_Mux_Ch_H:spw_ch1_timecode_rx_ctrl_out_o -> RMAP_Echoing:spw_timecode_rx_ctrl_out_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal                   : std_logic;                      -- RMAP_Echoing:spw_errinj_ctrl_reset_errinj_o -> SpaceWire_Mux_Ch_H:spw_ch1_errinj_ctrl_reset_errinj_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal                     : std_logic;                      -- RMAP_Echoing:spw_data_tx_command_txflag_o -> SpaceWire_Mux_Ch_H:spw_ch1_data_tx_command_txflag_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkstart_signal                     : std_logic;                      -- RMAP_Echoing:spw_link_command_linkstart_o -> SpaceWire_Mux_Ch_H:spw_ch1_link_command_linkstart_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal                     : std_logic;                      -- RMAP_Echoing:spw_data_rx_command_rxread_o -> SpaceWire_Mux_Ch_H:spw_ch1_data_rx_command_rxread_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_running_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_status_running_o -> RMAP_Echoing:spw_link_status_running_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_started_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_status_started_o -> RMAP_Echoing:spw_link_status_started_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errpar_signal                     : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_error_errpar_o -> RMAP_Echoing:spw_link_error_errpar_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkdis_signal                       : std_logic;                      -- RMAP_Echoing:spw_link_command_linkdis_o -> SpaceWire_Mux_Ch_H:spw_ch1_link_command_linkdis_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_erresc_signal                     : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_error_erresc_o -> RMAP_Echoing:spw_link_error_erresc_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_tx_status_txrdy_signal                  : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_data_tx_status_txrdy_o -> RMAP_Echoing:spw_data_tx_status_txrdy_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal                        : std_logic;                      -- RMAP_Echoing:spw_timecode_tx_tick_in_o -> SpaceWire_Mux_Ch_H:spw_ch1_timecode_tx_tick_in_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal                      : std_logic_vector(7 downto 0);   -- RMAP_Echoing:spw_link_command_txdivcnt_o -> SpaceWire_Mux_Ch_H:spw_ch1_link_command_txdivcnt_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal                        : std_logic_vector(5 downto 0);   -- RMAP_Echoing:spw_timecode_tx_time_in_o -> SpaceWire_Mux_Ch_H:spw_ch1_timecode_tx_time_in_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxflag_signal                 : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_data_rx_status_rxflag_o -> RMAP_Echoing:spw_data_rx_status_rxflag_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal                        : std_logic_vector(1 downto 0);   -- RMAP_Echoing:spw_timecode_tx_ctrl_in_o -> SpaceWire_Mux_Ch_H:spw_ch1_timecode_tx_ctrl_in_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_ready_signal              : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_errinj_ctrl_errinj_ready_o -> RMAP_Echoing:spw_errinj_ctrl_errinj_ready_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_link_command_autostart_signal                     : std_logic;                      -- RMAP_Echoing:spw_link_command_autostart_o -> SpaceWire_Mux_Ch_H:spw_ch1_link_command_autostart_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errcred_signal                    : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_error_errcred_o -> RMAP_Echoing:spw_link_error_errcred_i
 	signal dumb_communication_module_v2_1_conduit_end_rmap_master_codec_write_signal                           : std_logic;                      -- Dumb_Communication_Module_v2_1:codec_rmap_write_o -> RMAP_Memory_Subunit_Area_1:subunit_0_rmap_write_i
 	signal dumb_communication_module_v2_1_conduit_end_rmap_master_codec_rd_address_signal                      : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_1:codec_rmap_rd_address_o -> RMAP_Memory_Subunit_Area_1:subunit_0_rmap_rd_address_i
 	signal rmap_memory_subunit_area_1_conduit_end_subunit_rmap_slave_0_readdata_signal                         : std_logic_vector(7 downto 0);   -- RMAP_Memory_Subunit_Area_1:subunit_0_rmap_readdata_o -> Dumb_Communication_Module_v2_1:codec_rmap_readdata_i
@@ -2570,6 +3036,11 @@ architecture rtl of MebX_Qsys_Project is
 	signal mm_interconnect_3_pio_rst_eth_s1_address                                                            : std_logic_vector(1 downto 0);   -- mm_interconnect_3:pio_RST_ETH_s1_address -> pio_RST_ETH:address
 	signal mm_interconnect_3_pio_rst_eth_s1_write                                                              : std_logic;                      -- mm_interconnect_3:pio_RST_ETH_s1_write -> mm_interconnect_3_pio_rst_eth_s1_write:in
 	signal mm_interconnect_3_pio_rst_eth_s1_writedata                                                          : std_logic_vector(31 downto 0);  -- mm_interconnect_3:pio_RST_ETH_s1_writedata -> pio_RST_ETH:writedata
+	signal mm_interconnect_3_pio_spw_mux_ch_h_select_s1_chipselect                                             : std_logic;                      -- mm_interconnect_3:pio_spw_mux_ch_h_select_s1_chipselect -> pio_spw_mux_ch_h_select:chipselect
+	signal mm_interconnect_3_pio_spw_mux_ch_h_select_s1_readdata                                               : std_logic_vector(31 downto 0);  -- pio_spw_mux_ch_h_select:readdata -> mm_interconnect_3:pio_spw_mux_ch_h_select_s1_readdata
+	signal mm_interconnect_3_pio_spw_mux_ch_h_select_s1_address                                                : std_logic_vector(1 downto 0);   -- mm_interconnect_3:pio_spw_mux_ch_h_select_s1_address -> pio_spw_mux_ch_h_select:address
+	signal mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write                                                  : std_logic;                      -- mm_interconnect_3:pio_spw_mux_ch_h_select_s1_write -> mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write:in
+	signal mm_interconnect_3_pio_spw_mux_ch_h_select_s1_writedata                                              : std_logic_vector(31 downto 0);  -- mm_interconnect_3:pio_spw_mux_ch_h_select_s1_writedata -> pio_spw_mux_ch_h_select:writedata
 	signal m1_clock_bridge_m0_waitrequest                                                                      : std_logic;                      -- mm_interconnect_4:m1_clock_bridge_m0_waitrequest -> m1_clock_bridge:m0_waitrequest
 	signal m1_clock_bridge_m0_readdata                                                                         : std_logic_vector(63 downto 0);  -- mm_interconnect_4:m1_clock_bridge_m0_readdata -> m1_clock_bridge:m0_readdata
 	signal m1_clock_bridge_m0_debugaccess                                                                      : std_logic;                      -- m1_clock_bridge:m0_debugaccess -> mm_interconnect_4:m1_clock_bridge_m0_debugaccess
@@ -2590,7 +3061,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal mm_interconnect_4_m1_ddr2_memory_avl_write                                                          : std_logic;                      -- mm_interconnect_4:m1_ddr2_memory_avl_write -> m1_ddr2_memory:avl_write_req
 	signal mm_interconnect_4_m1_ddr2_memory_avl_writedata                                                      : std_logic_vector(255 downto 0); -- mm_interconnect_4:m1_ddr2_memory_avl_writedata -> m1_ddr2_memory:avl_wdata
 	signal mm_interconnect_4_m1_ddr2_memory_avl_burstcount                                                     : std_logic_vector(7 downto 0);   -- mm_interconnect_4:m1_ddr2_memory_avl_burstcount -> m1_ddr2_memory:avl_size
-	signal m1_ddr2_memory_afi_clk_clk                                                                          : std_logic;                      -- m1_ddr2_memory:afi_clk -> [mm_interconnect_4:m1_ddr2_memory_afi_clk_clk, rst_controller_026:clk]
+	signal m1_ddr2_memory_afi_clk_clk                                                                          : std_logic;                      -- m1_ddr2_memory:afi_clk -> [mm_interconnect_4:m1_ddr2_memory_afi_clk_clk, rst_controller_028:clk]
 	signal irq_mapper_receiver0_irq                                                                            : std_logic;                      -- jtag_uart_0:av_irq -> irq_mapper:receiver0_irq
 	signal irq_mapper_receiver4_irq                                                                            : std_logic;                      -- rs232_uart:irq -> irq_mapper:receiver4_irq
 	signal irq_mapper_receiver6_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_1:rprt_interrupt_sender_irq_o -> irq_mapper:receiver6_irq
@@ -2623,43 +3094,46 @@ architecture rtl of MebX_Qsys_Project is
 	signal rst_controller_001_reset_out_reset                                                                  : std_logic;                      -- rst_controller_001:reset_out -> [mm_interconnect_3:Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset, rst_controller_001_reset_out_reset:in]
 	signal rst_controller_reset_source_sd_card_reset                                                           : std_logic;                      -- rst_controller:reset_source_sd_card_reset -> rst_controller_001:reset_in1
 	signal rst_controller_002_reset_out_reset                                                                  : std_logic;                      -- rst_controller_002:reset_out -> [Dumb_Communication_Module_v2_1:reset_sink_reset_i, RMAP_Memory_Subunit_Area_1:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_1_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_1_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch1_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch1_reset -> [rst_controller_002:reset_in1, rst_controller_012:reset_in1]
+	signal rst_controller_reset_source_comm_ch1_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch1_reset -> [rst_controller_002:reset_in1, rst_controller_012:reset_in1, rst_controller_014:reset_in1]
 	signal rst_controller_003_reset_out_reset                                                                  : std_logic;                      -- rst_controller_003:reset_out -> [Dumb_Communication_Module_v2_2:reset_sink_reset_i, RMAP_Memory_Subunit_Area_2:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_2_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_2_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch2_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch2_reset -> [rst_controller_003:reset_in1, rst_controller_013:reset_in1]
+	signal rst_controller_reset_source_comm_ch2_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch2_reset -> [rst_controller_003:reset_in1, rst_controller_012:reset_in2, rst_controller_015:reset_in1]
 	signal rst_controller_004_reset_out_reset                                                                  : std_logic;                      -- rst_controller_004:reset_out -> [Dumb_Communication_Module_v2_3:reset_sink_reset_i, RMAP_Memory_Subunit_Area_3:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_3_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_3_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch3_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch3_reset -> [rst_controller_004:reset_in1, rst_controller_014:reset_in1]
+	signal rst_controller_reset_source_comm_ch3_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch3_reset -> [rst_controller_004:reset_in1, rst_controller_012:reset_in3, rst_controller_016:reset_in1]
 	signal rst_controller_005_reset_out_reset                                                                  : std_logic;                      -- rst_controller_005:reset_out -> [Dumb_Communication_Module_v2_4:reset_sink_reset_i, RMAP_Memory_Subunit_Area_4:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_4_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_4_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch4_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch4_reset -> [rst_controller_005:reset_in1, rst_controller_015:reset_in1]
+	signal rst_controller_reset_source_comm_ch4_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch4_reset -> [rst_controller_005:reset_in1, rst_controller_012:reset_in4, rst_controller_017:reset_in1]
 	signal rst_controller_006_reset_out_reset                                                                  : std_logic;                      -- rst_controller_006:reset_out -> [Dumb_Communication_Module_v2_5:reset_sink_reset_i, RMAP_Memory_Subunit_Area_5:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_5_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_5_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch5_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch5_reset -> [rst_controller_006:reset_in1, rst_controller_016:reset_in1]
+	signal rst_controller_reset_source_comm_ch5_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch5_reset -> [rst_controller_006:reset_in1, rst_controller_012:reset_in5, rst_controller_018:reset_in1]
 	signal rst_controller_007_reset_out_reset                                                                  : std_logic;                      -- rst_controller_007:reset_out -> [Dumb_Communication_Module_v2_6:reset_sink_reset_i, RMAP_Memory_Subunit_Area_6:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_6_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_6_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch6_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch6_reset -> [rst_controller_007:reset_in1, rst_controller_017:reset_in1]
+	signal rst_controller_reset_source_comm_ch6_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch6_reset -> [rst_controller_007:reset_in1, rst_controller_012:reset_in6, rst_controller_019:reset_in1]
 	signal rst_controller_008_reset_out_reset                                                                  : std_logic;                      -- rst_controller_008:reset_out -> [Dumb_Communication_Module_v2_7:reset_sink_reset_i, RMAP_Memory_Subunit_Area_7:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_7_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_7_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch7_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch7_reset -> [rst_controller_008:reset_in1, rst_controller_018:reset_in1]
-	signal rst_controller_009_reset_out_reset                                                                  : std_logic;                      -- rst_controller_009:reset_out -> [Dumb_Communication_Module_v2_8:reset_sink_reset_i, RMAP_Memory_Subunit_Area_8:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_8_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_8_reset_sink_reset_bridge_in_reset_reset]
-	signal rst_controller_reset_source_comm_ch8_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch8_reset -> [rst_controller_009:reset_in1, rst_controller_019:reset_in1]
+	signal rst_controller_reset_source_comm_ch7_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch7_reset -> [rst_controller_008:reset_in1, rst_controller_012:reset_in7, rst_controller_020:reset_in1]
+	signal rst_controller_009_reset_out_reset                                                                  : std_logic;                      -- rst_controller_009:reset_out -> [Dumb_Communication_Module_v2_8:reset_sink_reset_i, RMAP_Memory_Subunit_Area_8:reset_i, SpaceWire_Mux_Ch_H:reset_i, mm_interconnect_0:Dumb_Communication_Module_v2_8_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:RMAP_Memory_Subunit_Area_8_reset_sink_reset_bridge_in_reset_reset]
+	signal rst_controller_reset_source_comm_ch8_reset                                                          : std_logic;                      -- rst_controller:reset_source_comm_ch8_reset -> [rst_controller_009:reset_in1, rst_controller_012:reset_in8, rst_controller_021:reset_in1]
 	signal rst_controller_010_reset_out_reset                                                                  : std_logic;                      -- rst_controller_010:reset_out -> [Dumb_Communication_Module_v2_Timer:reset_sink_reset_i, clock_bridge_afi_50:s0_reset, ddr2_address_span_extender:reset, m1_clock_bridge:s0_reset, mm_interconnect_0:ddr2_address_span_extender_reset_reset_bridge_in_reset_reset, mm_interconnect_0:m1_clock_bridge_s0_reset_reset_bridge_in_reset_reset, mm_interconnect_2:jtag_uart_0_reset_reset_bridge_in_reset_reset, onchip_memory:reset, rst_controller_010_reset_out_reset:in, rst_translator:in_reset]
 	signal rst_controller_010_reset_out_reset_req                                                              : std_logic;                      -- rst_controller_010:reset_req -> [onchip_memory:reset_req, rst_translator:reset_req_in]
-	signal rst_controller_011_reset_out_reset                                                                  : std_logic;                      -- rst_controller_011:reset_out -> [SEVEN_SEGMENT_CONTROLLER_0:RST, clock_bridge_afi_50:m0_reset, irq_synchronizer:receiver_reset, irq_synchronizer_001:receiver_reset, irq_synchronizer_002:receiver_reset, mm_interconnect_3:clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset, rst_controller:reset_sink_reset, rst_controller_011_reset_out_reset:in]
-	signal rst_controller_012_reset_out_reset                                                                  : std_logic;                      -- rst_controller_012:reset_out -> SpaceWire_Channel_A:reset_i
-	signal rst_controller_013_reset_out_reset                                                                  : std_logic;                      -- rst_controller_013:reset_out -> SpaceWire_Channel_B:reset_i
-	signal rst_controller_014_reset_out_reset                                                                  : std_logic;                      -- rst_controller_014:reset_out -> SpaceWire_Channel_C:reset_i
-	signal rst_controller_015_reset_out_reset                                                                  : std_logic;                      -- rst_controller_015:reset_out -> SpaceWire_Channel_D:reset_i
-	signal rst_controller_016_reset_out_reset                                                                  : std_logic;                      -- rst_controller_016:reset_out -> SpaceWire_Channel_E:reset_i
-	signal rst_controller_017_reset_out_reset                                                                  : std_logic;                      -- rst_controller_017:reset_out -> SpaceWire_Channel_F:reset_i
-	signal rst_controller_018_reset_out_reset                                                                  : std_logic;                      -- rst_controller_018:reset_out -> SpaceWire_Channel_G:reset_i
-	signal rst_controller_019_reset_out_reset                                                                  : std_logic;                      -- rst_controller_019:reset_out -> SpaceWire_Channel_H:reset_i
-	signal rst_controller_020_reset_out_reset                                                                  : std_logic;                      -- rst_controller_020:reset_out -> [ext_flash:reset_reset, mm_interconnect_2:ext_flash_reset_reset_bridge_in_reset_reset, tristate_conduit_bridge_0:reset]
-	signal rst_controller_021_reset_out_reset                                                                  : std_logic;                      -- rst_controller_021:reset_out -> [m1_clock_bridge:m0_reset, mm_interconnect_4:m1_clock_bridge_m0_reset_reset_bridge_in_reset_reset]
-	signal rst_controller_022_reset_out_reset                                                                  : std_logic;                      -- rst_controller_022:reset_out -> [irq_mapper:reset, irq_synchronizer:sender_reset, irq_synchronizer_001:sender_reset, irq_synchronizer_002:sender_reset, irq_synchronizer_003:sender_reset, irq_synchronizer_004:sender_reset, mm_interconnect_2:nios2_gen2_0_reset_reset_bridge_in_reset_reset, rst_controller_022_reset_out_reset:in, rst_translator_001:in_reset]
-	signal rst_controller_022_reset_out_reset_req                                                              : std_logic;                      -- rst_controller_022:reset_req -> [nios2_gen2_0:reset_req, rst_translator_001:reset_req_in]
-	signal rst_controller_023_reset_out_reset                                                                  : std_logic;                      -- rst_controller_023:reset_out -> [mm_interconnect_0:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, rst_controller_023_reset_out_reset:in, uart_module_top_0:reset_sink_reset_i]
-	signal rst_controller_reset_source_rs232_reset                                                             : std_logic;                      -- rst_controller:reset_source_rs232_reset -> rst_controller_023:reset_in1
-	signal rst_controller_024_reset_out_reset                                                                  : std_logic;                      -- rst_controller_024:reset_out -> [irq_synchronizer_003:receiver_reset, irq_synchronizer_004:receiver_reset, mm_interconnect_3:sync_reset_reset_bridge_in_reset_reset, sync:reset_sink_reset_i]
-	signal rst_controller_reset_source_sync_reset                                                              : std_logic;                      -- rst_controller:reset_source_sync_reset -> rst_controller_024:reset_in1
-	signal rst_controller_025_reset_out_reset                                                                  : std_logic;                      -- rst_controller_025:reset_out -> [mm_interconnect_0:m2_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset, mm_interconnect_0:m2_ddr2_memory_soft_reset_reset_bridge_in_reset_reset]
-	signal rst_controller_026_reset_out_reset                                                                  : std_logic;                      -- rst_controller_026:reset_out -> [mm_interconnect_4:m1_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset, mm_interconnect_4:m1_ddr2_memory_soft_reset_reset_bridge_in_reset_reset]
-	signal rst_reset_n_ports_inv                                                                               : std_logic;                      -- rst_reset_n:inv -> [rst_controller_001:reset_in0, rst_controller_002:reset_in0, rst_controller_003:reset_in0, rst_controller_004:reset_in0, rst_controller_005:reset_in0, rst_controller_006:reset_in0, rst_controller_007:reset_in0, rst_controller_008:reset_in0, rst_controller_009:reset_in0, rst_controller_010:reset_in0, rst_controller_011:reset_in0, rst_controller_012:reset_in0, rst_controller_013:reset_in0, rst_controller_014:reset_in0, rst_controller_015:reset_in0, rst_controller_016:reset_in0, rst_controller_017:reset_in0, rst_controller_018:reset_in0, rst_controller_019:reset_in0, rst_controller_020:reset_in0, rst_controller_020:reset_in1, rst_controller_021:reset_in0, rst_controller_022:reset_in0, rst_controller_023:reset_in0, rst_controller_024:reset_in0, rst_controller_025:reset_in0, rst_controller_026:reset_in0]
+	signal rst_controller_011_reset_out_reset                                                                  : std_logic;                      -- rst_controller_011:reset_out -> FTDI_UMFT601A_Module:reset_sink_reset_i
+	signal rst_controller_reset_source_ftdi_reset                                                              : std_logic;                      -- rst_controller:reset_source_ftdi_reset -> rst_controller_011:reset_in1
+	signal rst_controller_012_reset_out_reset                                                                  : std_logic;                      -- rst_controller_012:reset_out -> RMAP_Echoing:reset_i
+	signal rst_controller_013_reset_out_reset                                                                  : std_logic;                      -- rst_controller_013:reset_out -> [SEVEN_SEGMENT_CONTROLLER_0:RST, clock_bridge_afi_50:m0_reset, irq_synchronizer:receiver_reset, irq_synchronizer_001:receiver_reset, irq_synchronizer_002:receiver_reset, mm_interconnect_3:clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset, rst_controller:reset_sink_reset, rst_controller_013_reset_out_reset:in]
+	signal rst_controller_014_reset_out_reset                                                                  : std_logic;                      -- rst_controller_014:reset_out -> SpaceWire_Channel_A:reset_i
+	signal rst_controller_015_reset_out_reset                                                                  : std_logic;                      -- rst_controller_015:reset_out -> SpaceWire_Channel_B:reset_i
+	signal rst_controller_016_reset_out_reset                                                                  : std_logic;                      -- rst_controller_016:reset_out -> SpaceWire_Channel_C:reset_i
+	signal rst_controller_017_reset_out_reset                                                                  : std_logic;                      -- rst_controller_017:reset_out -> SpaceWire_Channel_D:reset_i
+	signal rst_controller_018_reset_out_reset                                                                  : std_logic;                      -- rst_controller_018:reset_out -> SpaceWire_Channel_E:reset_i
+	signal rst_controller_019_reset_out_reset                                                                  : std_logic;                      -- rst_controller_019:reset_out -> SpaceWire_Channel_F:reset_i
+	signal rst_controller_020_reset_out_reset                                                                  : std_logic;                      -- rst_controller_020:reset_out -> SpaceWire_Channel_G:reset_i
+	signal rst_controller_021_reset_out_reset                                                                  : std_logic;                      -- rst_controller_021:reset_out -> SpaceWire_Channel_H:reset_i
+	signal rst_controller_022_reset_out_reset                                                                  : std_logic;                      -- rst_controller_022:reset_out -> [ext_flash:reset_reset, mm_interconnect_2:ext_flash_reset_reset_bridge_in_reset_reset, tristate_conduit_bridge_0:reset]
+	signal rst_controller_023_reset_out_reset                                                                  : std_logic;                      -- rst_controller_023:reset_out -> [m1_clock_bridge:m0_reset, mm_interconnect_4:m1_clock_bridge_m0_reset_reset_bridge_in_reset_reset]
+	signal rst_controller_024_reset_out_reset                                                                  : std_logic;                      -- rst_controller_024:reset_out -> [irq_mapper:reset, irq_synchronizer:sender_reset, irq_synchronizer_001:sender_reset, irq_synchronizer_002:sender_reset, irq_synchronizer_003:sender_reset, irq_synchronizer_004:sender_reset, mm_interconnect_2:nios2_gen2_0_reset_reset_bridge_in_reset_reset, rst_controller_024_reset_out_reset:in, rst_translator_001:in_reset]
+	signal rst_controller_024_reset_out_reset_req                                                              : std_logic;                      -- rst_controller_024:reset_req -> [nios2_gen2_0:reset_req, rst_translator_001:reset_req_in]
+	signal rst_controller_025_reset_out_reset                                                                  : std_logic;                      -- rst_controller_025:reset_out -> [mm_interconnect_0:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, rst_controller_025_reset_out_reset:in, uart_module_top_0:reset_sink_reset_i]
+	signal rst_controller_reset_source_rs232_reset                                                             : std_logic;                      -- rst_controller:reset_source_rs232_reset -> rst_controller_025:reset_in1
+	signal rst_controller_026_reset_out_reset                                                                  : std_logic;                      -- rst_controller_026:reset_out -> [irq_synchronizer_003:receiver_reset, irq_synchronizer_004:receiver_reset, mm_interconnect_3:sync_reset_reset_bridge_in_reset_reset, sync:reset_sink_reset_i]
+	signal rst_controller_reset_source_sync_reset                                                              : std_logic;                      -- rst_controller:reset_source_sync_reset -> rst_controller_026:reset_in1
+	signal rst_controller_027_reset_out_reset                                                                  : std_logic;                      -- rst_controller_027:reset_out -> [mm_interconnect_0:m2_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset, mm_interconnect_0:m2_ddr2_memory_soft_reset_reset_bridge_in_reset_reset]
+	signal rst_controller_028_reset_out_reset                                                                  : std_logic;                      -- rst_controller_028:reset_out -> [mm_interconnect_4:m1_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset, mm_interconnect_4:m1_ddr2_memory_soft_reset_reset_bridge_in_reset_reset]
+	signal rst_reset_n_ports_inv                                                                               : std_logic;                      -- rst_reset_n:inv -> [rst_controller_001:reset_in0, rst_controller_002:reset_in0, rst_controller_003:reset_in0, rst_controller_004:reset_in0, rst_controller_005:reset_in0, rst_controller_006:reset_in0, rst_controller_007:reset_in0, rst_controller_008:reset_in0, rst_controller_009:reset_in0, rst_controller_010:reset_in0, rst_controller_011:reset_in0, rst_controller_012:reset_in0, rst_controller_013:reset_in0, rst_controller_014:reset_in0, rst_controller_015:reset_in0, rst_controller_016:reset_in0, rst_controller_017:reset_in0, rst_controller_018:reset_in0, rst_controller_019:reset_in0, rst_controller_020:reset_in0, rst_controller_021:reset_in0, rst_controller_022:reset_in0, rst_controller_022:reset_in1, rst_controller_023:reset_in0, rst_controller_024:reset_in0, rst_controller_025:reset_in0, rst_controller_026:reset_in0, rst_controller_027:reset_in0, rst_controller_028:reset_in0]
 	signal mm_interconnect_0_m2_ddr2_memory_avl_inv                                                            : std_logic;                      -- m2_ddr2_memory_avl_waitrequest:inv -> mm_interconnect_0:m2_ddr2_memory_avl_waitrequest
 	signal mm_interconnect_1_rs232_uart_s1_read_ports_inv                                                      : std_logic;                      -- mm_interconnect_1_rs232_uart_s1_read:inv -> rs232_uart:read_n
 	signal mm_interconnect_1_rs232_uart_s1_write_ports_inv                                                     : std_logic;                      -- mm_interconnect_1_rs232_uart_s1_write:inv -> rs232_uart:write_n
@@ -2685,12 +3159,13 @@ architecture rtl of MebX_Qsys_Project is
 	signal mm_interconnect_3_rtcc_cs_n_s1_write_ports_inv                                                      : std_logic;                      -- mm_interconnect_3_rtcc_cs_n_s1_write:inv -> rtcc_cs_n:write_n
 	signal mm_interconnect_3_pio_ctrl_io_lvds_s1_write_ports_inv                                               : std_logic;                      -- mm_interconnect_3_pio_ctrl_io_lvds_s1_write:inv -> pio_ctrl_io_lvds:write_n
 	signal mm_interconnect_3_pio_rst_eth_s1_write_ports_inv                                                    : std_logic;                      -- mm_interconnect_3_pio_rst_eth_s1_write:inv -> pio_RST_ETH:write_n
+	signal mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write_ports_inv                                        : std_logic;                      -- mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write:inv -> pio_spw_mux_ch_h_select:write_n
 	signal mm_interconnect_4_m1_ddr2_memory_avl_inv                                                            : std_logic;                      -- m1_ddr2_memory_avl_waitrequest:inv -> mm_interconnect_4:m1_ddr2_memory_avl_waitrequest
 	signal rst_controller_001_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_001_reset_out_reset:inv -> Altera_UP_SD_Card_Avalon_Interface_0:i_reset_n
 	signal rst_controller_010_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_010_reset_out_reset:inv -> [jtag_uart_0:rst_n, sysid_qsys:reset_n]
-	signal rst_controller_011_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_011_reset_out_reset:inv -> [csense_adc_fo:reset_n, csense_cs_n:reset_n, csense_sck:reset_n, csense_sdi:reset_n, csense_sdo:reset_n, m1_ddr2_i2c_scl:reset_n, m1_ddr2_i2c_sda:reset_n, m2_ddr2_i2c_scl:reset_n, m2_ddr2_i2c_sda:reset_n, pio_BUTTON:reset_n, pio_DIP:reset_n, pio_EXT:reset_n, pio_LED:reset_n, pio_LED_painel:reset_n, pio_RST_ETH:reset_n, pio_ctrl_io_lvds:reset_n, rtcc_alarm:reset_n, rtcc_cs_n:reset_n, rtcc_sck:reset_n, rtcc_sdi:reset_n, rtcc_sdo:reset_n, sd_card_wp_n:reset_n, temp_scl:reset_n, temp_sda:reset_n, timer_1ms:reset_n, timer_1us:reset_n]
-	signal rst_controller_022_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_022_reset_out_reset:inv -> nios2_gen2_0:reset_n
-	signal rst_controller_023_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_023_reset_out_reset:inv -> rs232_uart:reset_n
+	signal rst_controller_013_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_013_reset_out_reset:inv -> [csense_adc_fo:reset_n, csense_cs_n:reset_n, csense_sck:reset_n, csense_sdi:reset_n, csense_sdo:reset_n, m1_ddr2_i2c_scl:reset_n, m1_ddr2_i2c_sda:reset_n, m2_ddr2_i2c_scl:reset_n, m2_ddr2_i2c_sda:reset_n, pio_BUTTON:reset_n, pio_DIP:reset_n, pio_EXT:reset_n, pio_LED:reset_n, pio_LED_painel:reset_n, pio_RST_ETH:reset_n, pio_ctrl_io_lvds:reset_n, pio_spw_mux_ch_h_select:reset_n, rtcc_alarm:reset_n, rtcc_cs_n:reset_n, rtcc_sck:reset_n, rtcc_sdi:reset_n, rtcc_sdo:reset_n, sd_card_wp_n:reset_n, temp_scl:reset_n, temp_sda:reset_n, timer_1ms:reset_n, timer_1us:reset_n]
+	signal rst_controller_024_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_024_reset_out_reset:inv -> nios2_gen2_0:reset_n
+	signal rst_controller_025_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_025_reset_out_reset:inv -> rs232_uart:reset_n
 
 begin
 
@@ -2762,6 +3237,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_1_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_1_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_1_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -2823,6 +3306,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_2_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_2_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_2_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -2884,6 +3375,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_3_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_3_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_3_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -2945,6 +3444,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_4_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_4_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_4_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -3006,6 +3513,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_5_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_5_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_5_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -3067,6 +3582,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_6_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_6_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_6_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -3128,6 +3651,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_7_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_7_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_7_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -3157,24 +3688,24 @@ begin
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
 			tx_interrupt_sender_irq_o        => irq_mapper_receiver16_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver12_irq,                                                                           --            rprt_interrupt_sender.irq
-			spw_link_status_started_i        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
-			spw_link_status_connecting_i     => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
-			spw_link_status_running_i        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
-			spw_link_error_errdisc_i         => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errdisc_signal,                     --                                 .spw_link_error_errdisc_signal
-			spw_link_error_errpar_i          => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errpar_signal,                      --                                 .spw_link_error_errpar_signal
-			spw_link_error_erresc_i          => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_erresc_signal,                      --                                 .spw_link_error_erresc_signal
-			spw_link_error_errcred_i         => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errcred_signal,                     --                                 .spw_link_error_errcred_signal
-			spw_timecode_rx_tick_out_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal,                   --                                 .spw_timecode_rx_tick_out_signal
-			spw_timecode_rx_ctrl_out_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal,                   --                                 .spw_timecode_rx_ctrl_out_signal
-			spw_timecode_rx_time_out_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal,                   --                                 .spw_timecode_rx_time_out_signal
-			spw_data_rx_status_rxvalid_i     => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal,                 --                                 .spw_data_rx_status_rxvalid_signal
-			spw_data_rx_status_rxhalff_i     => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal,                 --                                 .spw_data_rx_status_rxhalff_signal
-			spw_data_rx_status_rxflag_i      => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal,                  --                                 .spw_data_rx_status_rxflag_signal
-			spw_data_rx_status_rxdata_i      => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal,                  --                                 .spw_data_rx_status_rxdata_signal
-			spw_data_tx_status_txrdy_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal,                   --                                 .spw_data_tx_status_txrdy_signal
-			spw_data_tx_status_txhalff_i     => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
-			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
-			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_status_started_i        => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_started_signal,                   -- conduit_end_spacewire_controller.spw_link_status_started_signal
+			spw_link_status_connecting_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_connecting_signal,                --                                 .spw_link_status_connecting_signal
+			spw_link_status_running_i        => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_running_signal,                   --                                 .spw_link_status_running_signal
+			spw_link_error_errdisc_i         => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errdisc_signal,                    --                                 .spw_link_error_errdisc_signal
+			spw_link_error_errpar_i          => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errpar_signal,                     --                                 .spw_link_error_errpar_signal
+			spw_link_error_erresc_i          => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_erresc_signal,                     --                                 .spw_link_error_erresc_signal
+			spw_link_error_errcred_i         => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errcred_signal,                    --                                 .spw_link_error_errcred_signal
+			spw_timecode_rx_tick_out_i       => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_tick_out_signal,                  --                                 .spw_timecode_rx_tick_out_signal
+			spw_timecode_rx_ctrl_out_i       => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_ctrl_out_signal,                  --                                 .spw_timecode_rx_ctrl_out_signal
+			spw_timecode_rx_time_out_i       => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_time_out_signal,                  --                                 .spw_timecode_rx_time_out_signal
+			spw_data_rx_status_rxvalid_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxvalid_signal,                --                                 .spw_data_rx_status_rxvalid_signal
+			spw_data_rx_status_rxhalff_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxhalff_signal,                --                                 .spw_data_rx_status_rxhalff_signal
+			spw_data_rx_status_rxflag_i      => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxflag_signal,                 --                                 .spw_data_rx_status_rxflag_signal
+			spw_data_rx_status_rxdata_i      => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxdata_signal,                 --                                 .spw_data_rx_status_rxdata_signal
+			spw_data_tx_status_txrdy_i       => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txrdy_signal,                  --                                 .spw_data_tx_status_txrdy_signal
+			spw_data_tx_status_txhalff_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txhalff_signal,                --                                 .spw_data_tx_status_txhalff_signal
+			spw_errinj_ctrl_errinj_busy_i    => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_busy_signal,               --                                 .spw_errinj_ctrl_errinj_busy_signal
+			spw_errinj_ctrl_errinj_ready_i   => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_ready_signal,              --                                 .spw_errinj_ctrl_errinj_ready_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3189,6 +3720,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => rmap_memory_subunit_area_8_conduit_end_subunit_rmap_slave_0_wr_waitrequest_signal,                   --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => rmap_memory_subunit_area_8_conduit_end_subunit_rmap_slave_0_readdata_signal,                         --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => rmap_memory_subunit_area_8_conduit_end_subunit_rmap_slave_0_rd_waitrequest_signal,                   --                                 .rd_waitrequest_signal
@@ -3250,6 +3789,14 @@ begin
 			spw_errinj_ctrl_start_errinj_o   => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
 			spw_errinj_ctrl_reset_errinj_o   => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
 			spw_errinj_ctrl_errinj_code_o    => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			rmap_echo_echo_en_o              => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal,                             --        conduit_end_rmap_echo_out.echo_en_signal
+			rmap_echo_echo_id_en_o           => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal,                          --                                 .echo_id_en_signal
+			rmap_echo_in_fifo_wrflag_o       => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,                      --                                 .in_fifo_wrflag_signal
+			rmap_echo_in_fifo_wrdata_o       => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,                      --                                 .in_fifo_wrdata_signal
+			rmap_echo_in_fifo_wrreq_o        => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,                       --                                 .in_fifo_wrreq_signal
+			rmap_echo_out_fifo_wrflag_o      => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,                     --                                 .out_fifo_wrflag_signal
+			rmap_echo_out_fifo_wrdata_o      => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,                     --                                 .out_fifo_wrdata_signal
+			rmap_echo_out_fifo_wrreq_o       => dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,                      --                                 .out_fifo_wrreq_signal
 			codec_rmap_wr_waitrequest_i      => dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal,                  --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 			codec_rmap_readdata_i            => dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal,                        --                                 .readdata_signal
 			codec_rmap_rd_waitrequest_i      => dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal,                  --                                 .rd_waitrequest_signal
@@ -3259,6 +3806,119 @@ begin
 			codec_rmap_rd_address_o          => dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_address_signal,                      --                                 .rd_address_signal
 			codec_rmap_read_o                => dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_read_signal,                            --                                 .read_signal
 			rmap_mem_addr_offset_o           => dumb_communication_module_v2_timer_conduit_end_rmap_mem_configs_out_mem_addr_offset_signal               -- conduit_end_rmap_mem_configs_out.mem_addr_offset_signal
+		);
+
+	ftdi_umft601a_module : component ftdi_usb3_top
+		port map (
+			clock_sink_clk_i          => m2_ddr2_memory_afi_half_clk_clk,    --            clock_sink.clk
+			reset_sink_reset_i        => rst_controller_011_reset_out_reset, --            reset_sink.reset
+			umft601a_clock_sink_clk_i => ftdi_clk_clk,                       --   umft601a_clock_sink.clk
+			umft601a_clock_pin_i      => umft601a_pins_umft_clock_signal,    -- conduit_umft601a_pins.umft_clock_signal
+			umft601a_txe_n_pin_i      => umft601a_pins_umft_txe_n_signal,    --                      .umft_txe_n_signal
+			umft601a_rxf_n_pin_i      => umft601a_pins_umft_rxf_n_signal,    --                      .umft_rxf_n_signal
+			umft601a_data_bus_io      => umft601a_pins_umft_data_signal,     --                      .umft_data_signal
+			umft601a_be_bus_io        => umft601a_pins_umft_be_signal,       --                      .umft_be_signal
+			umft601a_wakeup_n_pin_io  => umft601a_pins_umft_wakeup_n_signal, --                      .umft_wakeup_n_signal
+			umft601a_gpio_bus_io      => umft601a_pins_umft_gpio_bus_signal, --                      .umft_gpio_bus_signal
+			umft601a_reset_n_pin_o    => umft601a_pins_umft_reset_n_signal,  --                      .umft_reset_n_signal
+			umft601a_wr_n_pin_o       => umft601a_pins_umft_wr_n_signal,     --                      .umft_wr_n_signal
+			umft601a_rd_n_pin_o       => umft601a_pins_umft_rd_n_signal,     --                      .umft_rd_n_signal
+			umft601a_oe_n_pin_o       => umft601a_pins_umft_oe_n_signal,     --                      .umft_oe_n_signal
+			umft601a_siwu_n_pin_o     => umft601a_pins_umft_siwu_n_signal    --                      .umft_siwu_n_signal
+		);
+
+	rmap_echoing : component rmpe_rmap_echoing_top
+		port map (
+			reset_i                        => rst_controller_012_reset_out_reset,                                                     --                       reset_sink.reset
+			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                        --                clock_sink_100mhz.clk
+			rmap_echo_0_echo_en_i          => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_0_in.echo_en_signal
+			rmap_echo_0_echo_id_en_i       => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
+			rmap_echo_0_in_fifo_wrflag_i   => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,         --                                 .in_fifo_wrflag_signal
+			rmap_echo_0_in_fifo_wrdata_i   => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,         --                                 .in_fifo_wrdata_signal
+			rmap_echo_0_in_fifo_wrreq_i    => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,          --                                 .in_fifo_wrreq_signal
+			rmap_echo_0_out_fifo_wrflag_i  => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,        --                                 .out_fifo_wrflag_signal
+			rmap_echo_0_out_fifo_wrdata_i  => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,        --                                 .out_fifo_wrdata_signal
+			rmap_echo_0_out_fifo_wrreq_i   => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,         --                                 .out_fifo_wrreq_signal
+			rmap_echo_1_echo_en_i          => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_1_in.echo_en_signal
+			rmap_echo_1_echo_id_en_i       => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
+			rmap_echo_1_in_fifo_wrflag_i   => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,         --                                 .in_fifo_wrflag_signal
+			rmap_echo_1_in_fifo_wrdata_i   => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,         --                                 .in_fifo_wrdata_signal
+			rmap_echo_1_in_fifo_wrreq_i    => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,          --                                 .in_fifo_wrreq_signal
+			rmap_echo_1_out_fifo_wrflag_i  => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,        --                                 .out_fifo_wrflag_signal
+			rmap_echo_1_out_fifo_wrdata_i  => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,        --                                 .out_fifo_wrdata_signal
+			rmap_echo_1_out_fifo_wrreq_i   => dumb_communication_module_v2_2_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,         --                                 .out_fifo_wrreq_signal
+			rmap_echo_2_echo_en_i          => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_2_in.echo_en_signal
+			rmap_echo_2_echo_id_en_i       => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
+			rmap_echo_2_in_fifo_wrflag_i   => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,         --                                 .in_fifo_wrflag_signal
+			rmap_echo_2_in_fifo_wrdata_i   => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,         --                                 .in_fifo_wrdata_signal
+			rmap_echo_2_in_fifo_wrreq_i    => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,          --                                 .in_fifo_wrreq_signal
+			rmap_echo_2_out_fifo_wrflag_i  => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,        --                                 .out_fifo_wrflag_signal
+			rmap_echo_2_out_fifo_wrdata_i  => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,        --                                 .out_fifo_wrdata_signal
+			rmap_echo_2_out_fifo_wrreq_i   => dumb_communication_module_v2_3_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,         --                                 .out_fifo_wrreq_signal
+			rmap_echo_3_echo_en_i          => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_3_in.echo_en_signal
+			rmap_echo_3_echo_id_en_i       => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
+			rmap_echo_3_in_fifo_wrflag_i   => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,         --                                 .in_fifo_wrflag_signal
+			rmap_echo_3_in_fifo_wrdata_i   => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,         --                                 .in_fifo_wrdata_signal
+			rmap_echo_3_in_fifo_wrreq_i    => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,          --                                 .in_fifo_wrreq_signal
+			rmap_echo_3_out_fifo_wrflag_i  => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,        --                                 .out_fifo_wrflag_signal
+			rmap_echo_3_out_fifo_wrdata_i  => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,        --                                 .out_fifo_wrdata_signal
+			rmap_echo_3_out_fifo_wrreq_i   => dumb_communication_module_v2_4_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,         --                                 .out_fifo_wrreq_signal
+			rmap_echo_4_echo_en_i          => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_4_in.echo_en_signal
+			rmap_echo_4_echo_id_en_i       => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
+			rmap_echo_4_in_fifo_wrflag_i   => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,         --                                 .in_fifo_wrflag_signal
+			rmap_echo_4_in_fifo_wrdata_i   => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,         --                                 .in_fifo_wrdata_signal
+			rmap_echo_4_in_fifo_wrreq_i    => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,          --                                 .in_fifo_wrreq_signal
+			rmap_echo_4_out_fifo_wrflag_i  => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,        --                                 .out_fifo_wrflag_signal
+			rmap_echo_4_out_fifo_wrdata_i  => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,        --                                 .out_fifo_wrdata_signal
+			rmap_echo_4_out_fifo_wrreq_i   => dumb_communication_module_v2_5_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,         --                                 .out_fifo_wrreq_signal
+			rmap_echo_5_echo_en_i          => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_5_in.echo_en_signal
+			rmap_echo_5_echo_id_en_i       => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
+			rmap_echo_5_in_fifo_wrflag_i   => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,         --                                 .in_fifo_wrflag_signal
+			rmap_echo_5_in_fifo_wrdata_i   => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,         --                                 .in_fifo_wrdata_signal
+			rmap_echo_5_in_fifo_wrreq_i    => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,          --                                 .in_fifo_wrreq_signal
+			rmap_echo_5_out_fifo_wrflag_i  => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,        --                                 .out_fifo_wrflag_signal
+			rmap_echo_5_out_fifo_wrdata_i  => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,        --                                 .out_fifo_wrdata_signal
+			rmap_echo_5_out_fifo_wrreq_i   => dumb_communication_module_v2_6_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,         --                                 .out_fifo_wrreq_signal
+			rmap_echo_6_echo_en_i          => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_6_in.echo_en_signal
+			rmap_echo_6_echo_id_en_i       => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
+			rmap_echo_6_in_fifo_wrflag_i   => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,         --                                 .in_fifo_wrflag_signal
+			rmap_echo_6_in_fifo_wrdata_i   => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrdata_signal,         --                                 .in_fifo_wrdata_signal
+			rmap_echo_6_in_fifo_wrreq_i    => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_in_fifo_wrreq_signal,          --                                 .in_fifo_wrreq_signal
+			rmap_echo_6_out_fifo_wrflag_i  => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,        --                                 .out_fifo_wrflag_signal
+			rmap_echo_6_out_fifo_wrdata_i  => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,        --                                 .out_fifo_wrdata_signal
+			rmap_echo_6_out_fifo_wrreq_i   => dumb_communication_module_v2_7_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,         --                                 .out_fifo_wrreq_signal
+			spw_link_status_started_i      => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_started_signal,      -- conduit_end_spacewire_controller.spw_link_status_started_signal
+			spw_link_status_connecting_i   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_connecting_signal,   --                                 .spw_link_status_connecting_signal
+			spw_link_status_running_i      => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_running_signal,      --                                 .spw_link_status_running_signal
+			spw_link_error_errdisc_i       => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errdisc_signal,       --                                 .spw_link_error_errdisc_signal
+			spw_link_error_errpar_i        => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errpar_signal,        --                                 .spw_link_error_errpar_signal
+			spw_link_error_erresc_i        => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_erresc_signal,        --                                 .spw_link_error_erresc_signal
+			spw_link_error_errcred_i       => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errcred_signal,       --                                 .spw_link_error_errcred_signal
+			spw_timecode_rx_tick_out_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_tick_out_signal,     --                                 .spw_timecode_rx_tick_out_signal
+			spw_timecode_rx_ctrl_out_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_ctrl_out_signal,     --                                 .spw_timecode_rx_ctrl_out_signal
+			spw_timecode_rx_time_out_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_time_out_signal,     --                                 .spw_timecode_rx_time_out_signal
+			spw_data_rx_status_rxvalid_i   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxvalid_signal,   --                                 .spw_data_rx_status_rxvalid_signal
+			spw_data_rx_status_rxhalff_i   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxhalff_signal,   --                                 .spw_data_rx_status_rxhalff_signal
+			spw_data_rx_status_rxflag_i    => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxflag_signal,    --                                 .spw_data_rx_status_rxflag_signal
+			spw_data_rx_status_rxdata_i    => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxdata_signal,    --                                 .spw_data_rx_status_rxdata_signal
+			spw_data_tx_status_txrdy_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_tx_status_txrdy_signal,     --                                 .spw_data_tx_status_txrdy_signal
+			spw_data_tx_status_txhalff_i   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_tx_status_txhalff_signal,   --                                 .spw_data_tx_status_txhalff_signal
+			spw_errinj_ctrl_errinj_busy_i  => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_busy_signal,  --                                 .spw_errinj_ctrl_errinj_busy_signal
+			spw_errinj_ctrl_errinj_ready_i => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_ready_signal, --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_autostart_o   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_autostart_signal,        --                                 .spw_link_command_autostart_signal
+			spw_link_command_linkstart_o   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,        --                                 .spw_link_command_linkstart_signal
+			spw_link_command_linkdis_o     => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,          --                                 .spw_link_command_linkdis_signal
+			spw_link_command_txdivcnt_o    => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,         --                                 .spw_link_command_txdivcnt_signal
+			spw_timecode_tx_tick_in_o      => rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal,           --                                 .spw_timecode_tx_tick_in_signal
+			spw_timecode_tx_ctrl_in_o      => rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal,           --                                 .spw_timecode_tx_ctrl_in_signal
+			spw_timecode_tx_time_in_o      => rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal,           --                                 .spw_timecode_tx_time_in_signal
+			spw_data_rx_command_rxread_o   => rmap_echoing_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal,        --                                 .spw_data_rx_command_rxread_signal
+			spw_data_tx_command_txwrite_o  => rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal,       --                                 .spw_data_tx_command_txwrite_signal
+			spw_data_tx_command_txflag_o   => rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal,        --                                 .spw_data_tx_command_txflag_signal
+			spw_data_tx_command_txdata_o   => rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal,        --                                 .spw_data_tx_command_txdata_signal
+			spw_errinj_ctrl_start_errinj_o => rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal,      --                                 .spw_errinj_ctrl_start_errinj_signal
+			spw_errinj_ctrl_reset_errinj_o => rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal,      --                                 .spw_errinj_ctrl_reset_errinj_signal
+			spw_errinj_ctrl_errinj_code_o  => rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal        --                                 .spw_errinj_ctrl_errinj_code_signal
 		);
 
 	rmap_memory_subunit_area_1 : component srme_rmap_memory_subunit_area_top
@@ -3443,14 +4103,14 @@ begin
 			AVALON_SLAVE_WRITEDATA => mm_interconnect_3_seven_segment_controller_0_ssdp_avalon_slave_writedata,  --                  .writedata
 			AVALON_SLAVE_WRITE     => mm_interconnect_3_seven_segment_controller_0_ssdp_avalon_slave_write,      --                  .write
 			CLK                    => clk50_clk,                                                                 --          SSDP_CLK.clk
-			RST                    => rst_controller_011_reset_out_reset,                                        --          SSDP_RST.reset
+			RST                    => rst_controller_013_reset_out_reset,                                        --          SSDP_RST.reset
 			SEVEN_SEG_DSP0_OUT     => ssdp_ssdp0,                                                                --      SSDP_conduit.ssdp0
 			SEVEN_SEG_DSP1_OUT     => ssdp_ssdp1                                                                 --                  .ssdp1
 		);
 
 	spacewire_channel_a : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_012_reset_out_reset,                                                                  --                    reset_sink.reset
+			reset_i                        => rst_controller_014_reset_out_reset,                                                                  --                    reset_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
 			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
 			spw_lvds_p_data_in_i           => spwc_a_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
@@ -3501,7 +4161,7 @@ begin
 
 	spacewire_channel_b : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_013_reset_out_reset,                                                                  --                    reset_sink.reset
+			reset_i                        => rst_controller_015_reset_out_reset,                                                                  --                    reset_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
 			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
 			spw_lvds_p_data_in_i           => spwc_b_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
@@ -3552,7 +4212,7 @@ begin
 
 	spacewire_channel_c : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_014_reset_out_reset,                                                                  --                    reset_sink.reset
+			reset_i                        => rst_controller_016_reset_out_reset,                                                                  --                    reset_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
 			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
 			spw_lvds_p_data_in_i           => spwc_c_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
@@ -3603,7 +4263,7 @@ begin
 
 	spacewire_channel_d : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_015_reset_out_reset,                                                                  --                    reset_sink.reset
+			reset_i                        => rst_controller_017_reset_out_reset,                                                                  --                    reset_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
 			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
 			spw_lvds_p_data_in_i           => spwc_d_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
@@ -3654,7 +4314,7 @@ begin
 
 	spacewire_channel_e : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_016_reset_out_reset,                                                                  --                    reset_sink.reset
+			reset_i                        => rst_controller_018_reset_out_reset,                                                                  --                    reset_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
 			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
 			spw_lvds_p_data_in_i           => spwc_e_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
@@ -3705,7 +4365,7 @@ begin
 
 	spacewire_channel_f : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_017_reset_out_reset,                                                                  --                    reset_sink.reset
+			reset_i                        => rst_controller_019_reset_out_reset,                                                                  --                    reset_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
 			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
 			spw_lvds_p_data_in_i           => spwc_f_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
@@ -3756,7 +4416,7 @@ begin
 
 	spacewire_channel_g : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_018_reset_out_reset,                                                                  --                    reset_sink.reset
+			reset_i                        => rst_controller_020_reset_out_reset,                                                                  --                    reset_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
 			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
 			spw_lvds_p_data_in_i           => spwc_g_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
@@ -3807,53 +4467,156 @@ begin
 
 	spacewire_channel_h : component spwc_spacewire_channel_top
 		port map (
-			reset_i                        => rst_controller_019_reset_out_reset,                                                                  --                    reset_sink.reset
-			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                                     --             clock_sink_100mhz.clk
-			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                                          --             clock_sink_200mhz.clk
-			spw_lvds_p_data_in_i           => spwc_h_lvds_spw_lvds_p_data_in_signal,                                                               --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
-			spw_lvds_n_data_in_i           => spwc_h_lvds_spw_lvds_n_data_in_signal,                                                               --                              .spw_lvds_n_data_in_signal
-			spw_lvds_p_data_out_o          => spwc_h_lvds_spw_lvds_p_data_out_signal,                                                              --                              .spw_lvds_p_data_out_signal
-			spw_lvds_n_data_out_o          => spwc_h_lvds_spw_lvds_n_data_out_signal,                                                              --                              .spw_lvds_n_data_out_signal
-			spw_lvds_p_strobe_out_o        => spwc_h_lvds_spw_lvds_p_strobe_out_signal,                                                            --                              .spw_lvds_p_strobe_out_signal
-			spw_lvds_n_strobe_out_o        => spwc_h_lvds_spw_lvds_n_strobe_out_signal,                                                            --                              .spw_lvds_n_strobe_out_signal
-			spw_lvds_p_strobe_in_i         => spwc_h_lvds_spw_lvds_p_strobe_in_signal,                                                             --                              .spw_lvds_p_strobe_in_signal
-			spw_lvds_n_strobe_in_i         => spwc_h_lvds_spw_lvds_n_strobe_in_signal,                                                             --                              .spw_lvds_n_strobe_in_signal
-			spw_rx_enable_i                => spwc_h_enable_spw_rx_enable_signal,                                                                  --  conduit_end_spacewire_enable.spw_rx_enable_signal
-			spw_tx_enable_i                => spwc_h_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
-			spw_red_status_led_o           => spwc_h_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
-			spw_green_status_led_o         => spwc_h_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
-			spw_link_command_linkstart_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
-			spw_link_command_linkdis_i     => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
-			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
-			spw_timecode_tx_tick_in_i      => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal,      --                              .spw_timecode_tx_tick_in_signal
-			spw_timecode_tx_ctrl_in_i      => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal,      --                              .spw_timecode_tx_ctrl_in_signal
-			spw_timecode_tx_time_in_i      => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal,      --                              .spw_timecode_tx_time_in_signal
-			spw_data_rx_command_rxread_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal,   --                              .spw_data_rx_command_rxread_signal
-			spw_data_tx_command_txwrite_i  => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal,  --                              .spw_data_tx_command_txwrite_signal
-			spw_data_tx_command_txflag_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal,   --                              .spw_data_tx_command_txflag_signal
-			spw_data_tx_command_txdata_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal,   --                              .spw_data_tx_command_txdata_signal
-			spw_errinj_ctrl_start_errinj_i => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                              .spw_errinj_ctrl_start_errinj_signal
-			spw_errinj_ctrl_reset_errinj_i => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                              .spw_errinj_ctrl_reset_errinj_signal
-			spw_errinj_ctrl_errinj_code_i  => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                              .spw_errinj_ctrl_errinj_code_signal
-			spw_link_status_started_o      => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal,                    --                              .spw_link_status_started_signal
-			spw_link_status_connecting_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                              .spw_link_status_connecting_signal
-			spw_link_status_running_o      => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                              .spw_link_status_running_signal
-			spw_link_error_errdisc_o       => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errdisc_signal,                     --                              .spw_link_error_errdisc_signal
-			spw_link_error_errpar_o        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errpar_signal,                      --                              .spw_link_error_errpar_signal
-			spw_link_error_erresc_o        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_erresc_signal,                      --                              .spw_link_error_erresc_signal
-			spw_link_error_errcred_o       => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errcred_signal,                     --                              .spw_link_error_errcred_signal
-			spw_timecode_rx_tick_out_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal,                   --                              .spw_timecode_rx_tick_out_signal
-			spw_timecode_rx_ctrl_out_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal,                   --                              .spw_timecode_rx_ctrl_out_signal
-			spw_timecode_rx_time_out_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal,                   --                              .spw_timecode_rx_time_out_signal
-			spw_data_rx_status_rxvalid_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal,                 --                              .spw_data_rx_status_rxvalid_signal
-			spw_data_rx_status_rxhalff_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal,                 --                              .spw_data_rx_status_rxhalff_signal
-			spw_data_rx_status_rxflag_o    => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal,                  --                              .spw_data_rx_status_rxflag_signal
-			spw_data_rx_status_rxdata_o    => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal,                  --                              .spw_data_rx_status_rxdata_signal
-			spw_data_tx_status_txrdy_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal,                   --                              .spw_data_tx_status_txrdy_signal
-			spw_data_tx_status_txhalff_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                              .spw_data_tx_status_txhalff_signal
-			spw_errinj_ctrl_errinj_busy_o  => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                              .spw_errinj_ctrl_errinj_busy_signal
-			spw_errinj_ctrl_errinj_ready_o => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal                --                              .spw_errinj_ctrl_errinj_ready_signal
+			reset_i                        => rst_controller_021_reset_out_reset,                                                      --                    reset_sink.reset
+			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                         --             clock_sink_100mhz.clk
+			clk_200_i                      => m2_ddr2_memory_afi_clk_clk,                                                              --             clock_sink_200mhz.clk
+			spw_lvds_p_data_in_i           => spwc_h_lvds_spw_lvds_p_data_in_signal,                                                   --    conduit_end_spacewire_lvds.spw_lvds_p_data_in_signal
+			spw_lvds_n_data_in_i           => spwc_h_lvds_spw_lvds_n_data_in_signal,                                                   --                              .spw_lvds_n_data_in_signal
+			spw_lvds_p_data_out_o          => spwc_h_lvds_spw_lvds_p_data_out_signal,                                                  --                              .spw_lvds_p_data_out_signal
+			spw_lvds_n_data_out_o          => spwc_h_lvds_spw_lvds_n_data_out_signal,                                                  --                              .spw_lvds_n_data_out_signal
+			spw_lvds_p_strobe_out_o        => spwc_h_lvds_spw_lvds_p_strobe_out_signal,                                                --                              .spw_lvds_p_strobe_out_signal
+			spw_lvds_n_strobe_out_o        => spwc_h_lvds_spw_lvds_n_strobe_out_signal,                                                --                              .spw_lvds_n_strobe_out_signal
+			spw_lvds_p_strobe_in_i         => spwc_h_lvds_spw_lvds_p_strobe_in_signal,                                                 --                              .spw_lvds_p_strobe_in_signal
+			spw_lvds_n_strobe_in_i         => spwc_h_lvds_spw_lvds_n_strobe_in_signal,                                                 --                              .spw_lvds_n_strobe_in_signal
+			spw_rx_enable_i                => spwc_h_enable_spw_rx_enable_signal,                                                      --  conduit_end_spacewire_enable.spw_rx_enable_signal
+			spw_tx_enable_i                => spwc_h_enable_spw_tx_enable_signal,                                                      --                              .spw_tx_enable_signal
+			spw_red_status_led_o           => spwc_h_leds_spw_red_status_led_signal,                                                   --    conduit_end_spacewire_leds.spw_red_status_led_signal
+			spw_green_status_led_o         => spwc_h_leds_spw_green_status_led_signal,                                                 --                              .spw_green_status_led_signal
+			spw_link_command_autostart_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_linkstart_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
+			spw_link_command_linkdis_i     => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
+			spw_link_command_txdivcnt_i    => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
+			spw_timecode_tx_tick_in_i      => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal,      --                              .spw_timecode_tx_tick_in_signal
+			spw_timecode_tx_ctrl_in_i      => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal,      --                              .spw_timecode_tx_ctrl_in_signal
+			spw_timecode_tx_time_in_i      => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal,      --                              .spw_timecode_tx_time_in_signal
+			spw_data_rx_command_rxread_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal,   --                              .spw_data_rx_command_rxread_signal
+			spw_data_tx_command_txwrite_i  => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal,  --                              .spw_data_tx_command_txwrite_signal
+			spw_data_tx_command_txflag_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal,   --                              .spw_data_tx_command_txflag_signal
+			spw_data_tx_command_txdata_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal,   --                              .spw_data_tx_command_txdata_signal
+			spw_errinj_ctrl_start_errinj_i => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                              .spw_errinj_ctrl_start_errinj_signal
+			spw_errinj_ctrl_reset_errinj_i => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                              .spw_errinj_ctrl_reset_errinj_signal
+			spw_errinj_ctrl_errinj_code_i  => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                              .spw_errinj_ctrl_errinj_code_signal
+			spw_link_status_started_o      => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal,        --                              .spw_link_status_started_signal
+			spw_link_status_connecting_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_connecting_signal,     --                              .spw_link_status_connecting_signal
+			spw_link_status_running_o      => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal,        --                              .spw_link_status_running_signal
+			spw_link_error_errdisc_o       => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errdisc_signal,         --                              .spw_link_error_errdisc_signal
+			spw_link_error_errpar_o        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errpar_signal,          --                              .spw_link_error_errpar_signal
+			spw_link_error_erresc_o        => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_erresc_signal,          --                              .spw_link_error_erresc_signal
+			spw_link_error_errcred_o       => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errcred_signal,         --                              .spw_link_error_errcred_signal
+			spw_timecode_rx_tick_out_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal,       --                              .spw_timecode_rx_tick_out_signal
+			spw_timecode_rx_ctrl_out_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal,       --                              .spw_timecode_rx_ctrl_out_signal
+			spw_timecode_rx_time_out_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal,       --                              .spw_timecode_rx_time_out_signal
+			spw_data_rx_status_rxvalid_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal,     --                              .spw_data_rx_status_rxvalid_signal
+			spw_data_rx_status_rxhalff_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal,     --                              .spw_data_rx_status_rxhalff_signal
+			spw_data_rx_status_rxflag_o    => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal,      --                              .spw_data_rx_status_rxflag_signal
+			spw_data_rx_status_rxdata_o    => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal,      --                              .spw_data_rx_status_rxdata_signal
+			spw_data_tx_status_txrdy_o     => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal,       --                              .spw_data_tx_status_txrdy_signal
+			spw_data_tx_status_txhalff_o   => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,     --                              .spw_data_tx_status_txhalff_signal
+			spw_errinj_ctrl_errinj_busy_o  => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,    --                              .spw_errinj_ctrl_errinj_busy_signal
+			spw_errinj_ctrl_errinj_ready_o => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal    --                              .spw_errinj_ctrl_errinj_ready_signal
+		);
+
+	spacewire_mux_ch_h : component spwm_spacewire_mux_top
+		port map (
+			reset_i                            => rst_controller_009_reset_out_reset,                                                                  --                       reset_sink.reset
+			clock_i                            => m2_ddr2_memory_afi_half_clk_clk,                                                                     --                       clock_sink.clk
+			mux_select_i                       => spwm_h_select_mux_select_signal,                                                                     --           conduit_end_mux_select.mux_select_signal
+			spw_ch0_link_command_autostart_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --  conduit_end_spacewire_channel_0.spw_link_command_autostart_signal
+			spw_ch0_link_command_linkstart_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
+			spw_ch0_link_command_linkdis_i     => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
+			spw_ch0_link_command_txdivcnt_i    => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                                 .spw_link_command_txdivcnt_signal
+			spw_ch0_timecode_tx_tick_in_i      => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal,      --                                 .spw_timecode_tx_tick_in_signal
+			spw_ch0_timecode_tx_ctrl_in_i      => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal,      --                                 .spw_timecode_tx_ctrl_in_signal
+			spw_ch0_timecode_tx_time_in_i      => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal,      --                                 .spw_timecode_tx_time_in_signal
+			spw_ch0_data_rx_command_rxread_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal,   --                                 .spw_data_rx_command_rxread_signal
+			spw_ch0_data_tx_command_txwrite_i  => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal,  --                                 .spw_data_tx_command_txwrite_signal
+			spw_ch0_data_tx_command_txflag_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal,   --                                 .spw_data_tx_command_txflag_signal
+			spw_ch0_data_tx_command_txdata_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal,   --                                 .spw_data_tx_command_txdata_signal
+			spw_ch0_errinj_ctrl_start_errinj_i => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal, --                                 .spw_errinj_ctrl_start_errinj_signal
+			spw_ch0_errinj_ctrl_reset_errinj_i => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal, --                                 .spw_errinj_ctrl_reset_errinj_signal
+			spw_ch0_errinj_ctrl_errinj_code_i  => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,  --                                 .spw_errinj_ctrl_errinj_code_signal
+			spw_ch0_link_status_started_o      => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_started_signal,                   --                                 .spw_link_status_started_signal
+			spw_ch0_link_status_connecting_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_connecting_signal,                --                                 .spw_link_status_connecting_signal
+			spw_ch0_link_status_running_o      => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_running_signal,                   --                                 .spw_link_status_running_signal
+			spw_ch0_link_error_errdisc_o       => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errdisc_signal,                    --                                 .spw_link_error_errdisc_signal
+			spw_ch0_link_error_errpar_o        => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errpar_signal,                     --                                 .spw_link_error_errpar_signal
+			spw_ch0_link_error_erresc_o        => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_erresc_signal,                     --                                 .spw_link_error_erresc_signal
+			spw_ch0_link_error_errcred_o       => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errcred_signal,                    --                                 .spw_link_error_errcred_signal
+			spw_ch0_timecode_rx_tick_out_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_tick_out_signal,                  --                                 .spw_timecode_rx_tick_out_signal
+			spw_ch0_timecode_rx_ctrl_out_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_ctrl_out_signal,                  --                                 .spw_timecode_rx_ctrl_out_signal
+			spw_ch0_timecode_rx_time_out_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_timecode_rx_time_out_signal,                  --                                 .spw_timecode_rx_time_out_signal
+			spw_ch0_data_rx_status_rxvalid_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxvalid_signal,                --                                 .spw_data_rx_status_rxvalid_signal
+			spw_ch0_data_rx_status_rxhalff_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxhalff_signal,                --                                 .spw_data_rx_status_rxhalff_signal
+			spw_ch0_data_rx_status_rxflag_o    => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxflag_signal,                 --                                 .spw_data_rx_status_rxflag_signal
+			spw_ch0_data_rx_status_rxdata_o    => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_rx_status_rxdata_signal,                 --                                 .spw_data_rx_status_rxdata_signal
+			spw_ch0_data_tx_status_txrdy_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txrdy_signal,                  --                                 .spw_data_tx_status_txrdy_signal
+			spw_ch0_data_tx_status_txhalff_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txhalff_signal,                --                                 .spw_data_tx_status_txhalff_signal
+			spw_ch0_errinj_ctrl_errinj_busy_o  => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_busy_signal,               --                                 .spw_errinj_ctrl_errinj_busy_signal
+			spw_ch0_errinj_ctrl_errinj_ready_o => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_ready_signal,              --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_ch1_link_command_autostart_i   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_autostart_signal,                     --  conduit_end_spacewire_channel_1.spw_link_command_autostart_signal
+			spw_ch1_link_command_linkstart_i   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,                     --                                 .spw_link_command_linkstart_signal
+			spw_ch1_link_command_linkdis_i     => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,                       --                                 .spw_link_command_linkdis_signal
+			spw_ch1_link_command_txdivcnt_i    => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,                      --                                 .spw_link_command_txdivcnt_signal
+			spw_ch1_timecode_tx_tick_in_i      => rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal,                        --                                 .spw_timecode_tx_tick_in_signal
+			spw_ch1_timecode_tx_ctrl_in_i      => rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal,                        --                                 .spw_timecode_tx_ctrl_in_signal
+			spw_ch1_timecode_tx_time_in_i      => rmap_echoing_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal,                        --                                 .spw_timecode_tx_time_in_signal
+			spw_ch1_data_rx_command_rxread_i   => rmap_echoing_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal,                     --                                 .spw_data_rx_command_rxread_signal
+			spw_ch1_data_tx_command_txwrite_i  => rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal,                    --                                 .spw_data_tx_command_txwrite_signal
+			spw_ch1_data_tx_command_txflag_i   => rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal,                     --                                 .spw_data_tx_command_txflag_signal
+			spw_ch1_data_tx_command_txdata_i   => rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal,                     --                                 .spw_data_tx_command_txdata_signal
+			spw_ch1_errinj_ctrl_start_errinj_i => rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal,                   --                                 .spw_errinj_ctrl_start_errinj_signal
+			spw_ch1_errinj_ctrl_reset_errinj_i => rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal,                   --                                 .spw_errinj_ctrl_reset_errinj_signal
+			spw_ch1_errinj_ctrl_errinj_code_i  => rmap_echoing_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal,                    --                                 .spw_errinj_ctrl_errinj_code_signal
+			spw_ch1_link_status_started_o      => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_started_signal,                   --                                 .spw_link_status_started_signal
+			spw_ch1_link_status_connecting_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_connecting_signal,                --                                 .spw_link_status_connecting_signal
+			spw_ch1_link_status_running_o      => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_running_signal,                   --                                 .spw_link_status_running_signal
+			spw_ch1_link_error_errdisc_o       => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errdisc_signal,                    --                                 .spw_link_error_errdisc_signal
+			spw_ch1_link_error_errpar_o        => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errpar_signal,                     --                                 .spw_link_error_errpar_signal
+			spw_ch1_link_error_erresc_o        => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_erresc_signal,                     --                                 .spw_link_error_erresc_signal
+			spw_ch1_link_error_errcred_o       => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errcred_signal,                    --                                 .spw_link_error_errcred_signal
+			spw_ch1_timecode_rx_tick_out_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_tick_out_signal,                  --                                 .spw_timecode_rx_tick_out_signal
+			spw_ch1_timecode_rx_ctrl_out_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_ctrl_out_signal,                  --                                 .spw_timecode_rx_ctrl_out_signal
+			spw_ch1_timecode_rx_time_out_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_timecode_rx_time_out_signal,                  --                                 .spw_timecode_rx_time_out_signal
+			spw_ch1_data_rx_status_rxvalid_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxvalid_signal,                --                                 .spw_data_rx_status_rxvalid_signal
+			spw_ch1_data_rx_status_rxhalff_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxhalff_signal,                --                                 .spw_data_rx_status_rxhalff_signal
+			spw_ch1_data_rx_status_rxflag_o    => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxflag_signal,                 --                                 .spw_data_rx_status_rxflag_signal
+			spw_ch1_data_rx_status_rxdata_o    => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_rx_status_rxdata_signal,                 --                                 .spw_data_rx_status_rxdata_signal
+			spw_ch1_data_tx_status_txrdy_o     => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_tx_status_txrdy_signal,                  --                                 .spw_data_tx_status_txrdy_signal
+			spw_ch1_data_tx_status_txhalff_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_tx_status_txhalff_signal,                --                                 .spw_data_tx_status_txhalff_signal
+			spw_ch1_errinj_ctrl_errinj_busy_o  => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_busy_signal,               --                                 .spw_errinj_ctrl_errinj_busy_signal
+			spw_ch1_errinj_ctrl_errinj_ready_o => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_ready_signal,              --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_status_started_i          => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
+			spw_link_status_connecting_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
+			spw_link_status_running_i          => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal,                    --                                 .spw_link_status_running_signal
+			spw_link_error_errdisc_i           => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errdisc_signal,                     --                                 .spw_link_error_errdisc_signal
+			spw_link_error_errpar_i            => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errpar_signal,                      --                                 .spw_link_error_errpar_signal
+			spw_link_error_erresc_i            => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_erresc_signal,                      --                                 .spw_link_error_erresc_signal
+			spw_link_error_errcred_i           => spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errcred_signal,                     --                                 .spw_link_error_errcred_signal
+			spw_timecode_rx_tick_out_i         => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal,                   --                                 .spw_timecode_rx_tick_out_signal
+			spw_timecode_rx_ctrl_out_i         => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal,                   --                                 .spw_timecode_rx_ctrl_out_signal
+			spw_timecode_rx_time_out_i         => spacewire_channel_h_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal,                   --                                 .spw_timecode_rx_time_out_signal
+			spw_data_rx_status_rxvalid_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal,                 --                                 .spw_data_rx_status_rxvalid_signal
+			spw_data_rx_status_rxhalff_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal,                 --                                 .spw_data_rx_status_rxhalff_signal
+			spw_data_rx_status_rxflag_i        => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal,                  --                                 .spw_data_rx_status_rxflag_signal
+			spw_data_rx_status_rxdata_i        => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal,                  --                                 .spw_data_rx_status_rxdata_signal
+			spw_data_tx_status_txrdy_i         => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal,                   --                                 .spw_data_tx_status_txrdy_signal
+			spw_data_tx_status_txhalff_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
+			spw_errinj_ctrl_errinj_busy_i      => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
+			spw_errinj_ctrl_errinj_ready_i     => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_autostart_o       => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_autostart_signal,               --                                 .spw_link_command_autostart_signal
+			spw_link_command_linkstart_o       => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,               --                                 .spw_link_command_linkstart_signal
+			spw_link_command_linkdis_o         => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,                 --                                 .spw_link_command_linkdis_signal
+			spw_link_command_txdivcnt_o        => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,                --                                 .spw_link_command_txdivcnt_signal
+			spw_timecode_tx_tick_in_o          => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal,                  --                                 .spw_timecode_tx_tick_in_signal
+			spw_timecode_tx_ctrl_in_o          => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal,                  --                                 .spw_timecode_tx_ctrl_in_signal
+			spw_timecode_tx_time_in_o          => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal,                  --                                 .spw_timecode_tx_time_in_signal
+			spw_data_rx_command_rxread_o       => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal,               --                                 .spw_data_rx_command_rxread_signal
+			spw_data_tx_command_txwrite_o      => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal,              --                                 .spw_data_tx_command_txwrite_signal
+			spw_data_tx_command_txflag_o       => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal,               --                                 .spw_data_tx_command_txflag_signal
+			spw_data_tx_command_txdata_o       => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal,               --                                 .spw_data_tx_command_txdata_signal
+			spw_errinj_ctrl_start_errinj_o     => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal,             --                                 .spw_errinj_ctrl_start_errinj_signal
+			spw_errinj_ctrl_reset_errinj_o     => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal,             --                                 .spw_errinj_ctrl_reset_errinj_signal
+			spw_errinj_ctrl_errinj_code_o      => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal               --                                 .spw_errinj_ctrl_errinj_code_signal
 		);
 
 	clock_bridge_afi_50 : component mebx_qsys_project_clock_bridge_afi_50
@@ -3869,7 +4632,7 @@ begin
 		)
 		port map (
 			m0_clk           => clk50_clk,                                              --   m0_clk.clk
-			m0_reset         => rst_controller_011_reset_out_reset,                     -- m0_reset.reset
+			m0_reset         => rst_controller_013_reset_out_reset,                     -- m0_reset.reset
 			s0_clk           => m2_ddr2_memory_afi_half_clk_clk,                        --   s0_clk.clk
 			s0_reset         => rst_controller_010_reset_out_reset,                     -- s0_reset.reset
 			s0_waitrequest   => mm_interconnect_2_clock_bridge_afi_50_s0_waitrequest,   --       s0.waitrequest
@@ -3897,7 +4660,7 @@ begin
 	csense_adc_fo : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                          --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,       --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,       --               reset.reset_n
 			address    => mm_interconnect_3_csense_adc_fo_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_csense_adc_fo_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_csense_adc_fo_s1_writedata,       --                    .writedata
@@ -3909,7 +4672,7 @@ begin
 	csense_cs_n : component MebX_Qsys_Project_csense_cs_n
 		port map (
 			clk        => clk50_clk,                                        --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,     --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,     --               reset.reset_n
 			address    => mm_interconnect_3_csense_cs_n_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_csense_cs_n_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_csense_cs_n_s1_writedata,       --                    .writedata
@@ -3921,7 +4684,7 @@ begin
 	csense_sck : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                       --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,    --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,    --               reset.reset_n
 			address    => mm_interconnect_3_csense_sck_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_csense_sck_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_csense_sck_s1_writedata,       --                    .writedata
@@ -3933,7 +4696,7 @@ begin
 	csense_sdi : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                       --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,    --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,    --               reset.reset_n
 			address    => mm_interconnect_3_csense_sdi_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_csense_sdi_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_csense_sdi_s1_writedata,       --                    .writedata
@@ -3945,7 +4708,7 @@ begin
 	csense_sdo : component MebX_Qsys_Project_csense_sdo
 		port map (
 			clk      => clk50_clk,                                    --                 clk.clk
-			reset_n  => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n  => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address  => mm_interconnect_3_csense_sdo_s1_address,      --                  s1.address
 			readdata => mm_interconnect_3_csense_sdo_s1_readdata,     --                    .readdata
 			in_port  => csense_sdo_export                             -- external_connection.export
@@ -4032,7 +4795,7 @@ begin
 		)
 		port map (
 			clk_clk              => m2_ddr2_memory_afi_half_clk_clk,               --   clk.clk
-			reset_reset          => rst_controller_020_reset_out_reset,            -- reset.reset
+			reset_reset          => rst_controller_022_reset_out_reset,            -- reset.reset
 			uas_address          => mm_interconnect_2_ext_flash_uas_address,       --   uas.address
 			uas_burstcount       => mm_interconnect_2_ext_flash_uas_burstcount,    --      .burstcount
 			uas_read             => mm_interconnect_2_ext_flash_uas_read,          --      .read
@@ -4082,7 +4845,7 @@ begin
 		)
 		port map (
 			m0_clk           => m1_ddr2_memory_afi_half_clk_clk,                    --   m0_clk.clk
-			m0_reset         => rst_controller_021_reset_out_reset,                 -- m0_reset.reset
+			m0_reset         => rst_controller_023_reset_out_reset,                 -- m0_reset.reset
 			s0_clk           => m2_ddr2_memory_afi_half_clk_clk,                    --   s0_clk.clk
 			s0_reset         => rst_controller_010_reset_out_reset,                 -- s0_reset.reset
 			s0_waitrequest   => mm_interconnect_0_m1_clock_bridge_s0_waitrequest,   --       s0.waitrequest
@@ -4110,7 +4873,7 @@ begin
 	m1_ddr2_i2c_scl : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                            --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,         --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,         --               reset.reset_n
 			address    => mm_interconnect_3_m1_ddr2_i2c_scl_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_m1_ddr2_i2c_scl_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_m1_ddr2_i2c_scl_s1_writedata,       --                    .writedata
@@ -4122,7 +4885,7 @@ begin
 	m1_ddr2_i2c_sda : component MebX_Qsys_Project_m1_ddr2_i2c_sda
 		port map (
 			clk        => clk50_clk,                                            --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,         --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,         --               reset.reset_n
 			address    => mm_interconnect_3_m1_ddr2_i2c_sda_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_m1_ddr2_i2c_sda_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_m1_ddr2_i2c_sda_s1_writedata,       --                    .writedata
@@ -4174,7 +4937,7 @@ begin
 	m2_ddr2_i2c_scl : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                            --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,         --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,         --               reset.reset_n
 			address    => mm_interconnect_3_m2_ddr2_i2c_scl_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_m2_ddr2_i2c_scl_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_m2_ddr2_i2c_scl_s1_writedata,       --                    .writedata
@@ -4186,7 +4949,7 @@ begin
 	m2_ddr2_i2c_sda : component MebX_Qsys_Project_m1_ddr2_i2c_sda
 		port map (
 			clk        => clk50_clk,                                            --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,         --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,         --               reset.reset_n
 			address    => mm_interconnect_3_m2_ddr2_i2c_sda_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_m2_ddr2_i2c_sda_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_m2_ddr2_i2c_sda_s1_writedata,       --                    .writedata
@@ -4247,8 +5010,8 @@ begin
 	nios2_gen2_0 : component MebX_Qsys_Project_nios2_gen2_0
 		port map (
 			clk                                 => m2_ddr2_memory_afi_half_clk_clk,                            --                       clk.clk
-			reset_n                             => rst_controller_022_reset_out_reset_ports_inv,               --                     reset.reset_n
-			reset_req                           => rst_controller_022_reset_out_reset_req,                     --                          .reset_req
+			reset_n                             => rst_controller_024_reset_out_reset_ports_inv,               --                     reset.reset_n
+			reset_req                           => rst_controller_024_reset_out_reset_req,                     --                          .reset_req
 			d_address                           => nios2_gen2_0_data_master_address,                           --               data_master.address
 			d_byteenable                        => nios2_gen2_0_data_master_byteenable,                        --                          .byteenable
 			d_read                              => nios2_gen2_0_data_master_read,                              --                          .read
@@ -4294,7 +5057,7 @@ begin
 	pio_button : component MebX_Qsys_Project_pio_BUTTON
 		port map (
 			clk      => clk50_clk,                                    --                 clk.clk
-			reset_n  => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n  => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address  => mm_interconnect_3_pio_button_s1_address,      --                  s1.address
 			readdata => mm_interconnect_3_pio_button_s1_readdata,     --                    .readdata
 			in_port  => button_export                                 -- external_connection.export
@@ -4303,7 +5066,7 @@ begin
 	pio_dip : component MebX_Qsys_Project_pio_DIP
 		port map (
 			clk      => clk50_clk,                                    --                 clk.clk
-			reset_n  => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n  => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address  => mm_interconnect_3_pio_dip_s1_address,         --                  s1.address
 			readdata => mm_interconnect_3_pio_dip_s1_readdata,        --                    .readdata
 			in_port  => dip_export                                    -- external_connection.export
@@ -4312,7 +5075,7 @@ begin
 	pio_ext : component MebX_Qsys_Project_pio_EXT
 		port map (
 			clk        => clk50_clk,                                    --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address    => mm_interconnect_3_pio_ext_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_pio_ext_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_pio_ext_s1_writedata,       --                    .writedata
@@ -4325,7 +5088,7 @@ begin
 	pio_led : component MebX_Qsys_Project_pio_LED
 		port map (
 			clk        => clk50_clk,                                    --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address    => mm_interconnect_3_pio_led_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_pio_led_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_pio_led_s1_writedata,       --                    .writedata
@@ -4337,7 +5100,7 @@ begin
 	pio_led_painel : component MebX_Qsys_Project_pio_LED_painel
 		port map (
 			clk        => clk50_clk,                                           --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,        --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,        --               reset.reset_n
 			address    => mm_interconnect_3_pio_led_painel_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_pio_led_painel_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_pio_led_painel_s1_writedata,       --                    .writedata
@@ -4349,7 +5112,7 @@ begin
 	pio_rst_eth : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                        --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,     --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,     --               reset.reset_n
 			address    => mm_interconnect_3_pio_rst_eth_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_pio_rst_eth_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_pio_rst_eth_s1_writedata,       --                    .writedata
@@ -4361,7 +5124,7 @@ begin
 	pio_ctrl_io_lvds : component MebX_Qsys_Project_pio_ctrl_io_lvds
 		port map (
 			clk        => clk50_clk,                                             --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,          --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,          --               reset.reset_n
 			address    => mm_interconnect_3_pio_ctrl_io_lvds_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_pio_ctrl_io_lvds_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_pio_ctrl_io_lvds_s1_writedata,       --                    .writedata
@@ -4370,10 +5133,22 @@ begin
 			out_port   => ctrl_io_lvds_export                                    -- external_connection.export
 		);
 
+	pio_spw_mux_ch_h_select : component MebX_Qsys_Project_pio_spw_mux_ch_h_select
+		port map (
+			clk        => clk50_clk,                                                    --                 clk.clk
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,                 --               reset.reset_n
+			address    => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_address,         --                  s1.address
+			write_n    => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write_ports_inv, --                    .write_n
+			writedata  => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_writedata,       --                    .writedata
+			chipselect => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_chipselect,      --                    .chipselect
+			readdata   => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_readdata,        --                    .readdata
+			out_port   => pio_spw_mux_ch_h_select_export                                -- external_connection.export
+		);
+
 	rs232_uart : component MebX_Qsys_Project_rs232_uart
 		port map (
 			clk           => m2_ddr2_memory_afi_half_clk_clk,                 --                 clk.clk
-			reset_n       => rst_controller_023_reset_out_reset_ports_inv,    --               reset.reset_n
+			reset_n       => rst_controller_025_reset_out_reset_ports_inv,    --               reset.reset_n
 			address       => mm_interconnect_1_rs232_uart_s1_address,         --                  s1.address
 			begintransfer => mm_interconnect_1_rs232_uart_s1_begintransfer,   --                    .begintransfer
 			chipselect    => mm_interconnect_1_rs232_uart_s1_chipselect,      --                    .chipselect
@@ -4389,8 +5164,8 @@ begin
 	rst_controller : component rst_controller_top
 		port map (
 			clock_sink_clk                          => clk50_clk,                                                                --                  clock_sink.clk
-			reset_sink_reset                        => rst_controller_011_reset_out_reset,                                       --                  reset_sink.reset
-			reset_source_ftdi_reset                 => open,                                                                     --           reset_source_ftdi.reset
+			reset_sink_reset                        => rst_controller_013_reset_out_reset,                                       --                  reset_sink.reset
+			reset_source_ftdi_reset                 => rst_controller_reset_source_ftdi_reset,                                   --           reset_source_ftdi.reset
 			reset_source_sync_reset                 => rst_controller_reset_source_sync_reset,                                   --           reset_source_sync.reset
 			reset_source_rs232_reset                => rst_controller_reset_source_rs232_reset,                                  --          reset_source_rs232.reset
 			reset_source_sd_card_reset              => rst_controller_reset_source_sd_card_reset,                                --        reset_source_sd_card.reset
@@ -4415,7 +5190,7 @@ begin
 	rtcc_alarm : component MebX_Qsys_Project_csense_sdo
 		port map (
 			clk      => clk50_clk,                                    --                 clk.clk
-			reset_n  => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n  => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address  => mm_interconnect_3_rtcc_alarm_s1_address,      --                  s1.address
 			readdata => mm_interconnect_3_rtcc_alarm_s1_readdata,     --                    .readdata
 			in_port  => rtcc_alarm_export                             -- external_connection.export
@@ -4424,7 +5199,7 @@ begin
 	rtcc_cs_n : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                      --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,   --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,   --               reset.reset_n
 			address    => mm_interconnect_3_rtcc_cs_n_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_rtcc_cs_n_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_rtcc_cs_n_s1_writedata,       --                    .writedata
@@ -4436,7 +5211,7 @@ begin
 	rtcc_sck : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                     --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,  --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,  --               reset.reset_n
 			address    => mm_interconnect_3_rtcc_sck_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_rtcc_sck_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_rtcc_sck_s1_writedata,       --                    .writedata
@@ -4448,7 +5223,7 @@ begin
 	rtcc_sdi : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                     --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,  --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,  --               reset.reset_n
 			address    => mm_interconnect_3_rtcc_sdi_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_rtcc_sdi_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_rtcc_sdi_s1_writedata,       --                    .writedata
@@ -4460,7 +5235,7 @@ begin
 	rtcc_sdo : component MebX_Qsys_Project_csense_sdo
 		port map (
 			clk      => clk50_clk,                                    --                 clk.clk
-			reset_n  => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n  => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address  => mm_interconnect_3_rtcc_sdo_s1_address,        --                  s1.address
 			readdata => mm_interconnect_3_rtcc_sdo_s1_readdata,       --                    .readdata
 			in_port  => rtcc_sdo_export                               -- external_connection.export
@@ -4469,7 +5244,7 @@ begin
 	sd_card_wp_n : component MebX_Qsys_Project_csense_sdo
 		port map (
 			clk      => clk50_clk,                                    --                 clk.clk
-			reset_n  => rst_controller_011_reset_out_reset_ports_inv, --               reset.reset_n
+			reset_n  => rst_controller_013_reset_out_reset_ports_inv, --               reset.reset_n
 			address  => mm_interconnect_3_sd_card_wp_n_s1_address,    --                  s1.address
 			readdata => mm_interconnect_3_sd_card_wp_n_s1_readdata,   --                    .readdata
 			in_port  => sd_card_wp_n_io_export                        -- external_connection.export
@@ -4481,27 +5256,29 @@ begin
 			g_PRE_SYNC_IRQ_NUMBER => 16
 		)
 		port map (
-			clock_sink_clk_i                => clk50_clk,                                          --                     clock.clk
-			reset_sink_reset_i              => rst_controller_024_reset_out_reset,                 --                     reset.reset
-			avalon_slave_address_i          => mm_interconnect_3_sync_avalon_mm_slave_address,     --           avalon_mm_slave.address
-			avalon_slave_read_i             => mm_interconnect_3_sync_avalon_mm_slave_read,        --                          .read
-			avalon_slave_write_i            => mm_interconnect_3_sync_avalon_mm_slave_write,       --                          .write
-			avalon_slave_writedata_i        => mm_interconnect_3_sync_avalon_mm_slave_writedata,   --                          .writedata
-			avalon_slave_byteenable_i       => mm_interconnect_3_sync_avalon_mm_slave_byteenable,  --                          .byteenable
-			avalon_slave_readdata_o         => mm_interconnect_3_sync_avalon_mm_slave_readdata,    --                          .readdata
-			avalon_slave_waitrequest_o      => mm_interconnect_3_sync_avalon_mm_slave_waitrequest, --                          .waitrequest
-			conduit_sync_signal_syncin_i    => sync_in_conduit,                                    --                   sync_in.conduit
-			conduit_sync_signal_spw1_o      => sync_spw1_conduit,                                  --                 sync_spw1.conduit
-			conduit_sync_signal_spw2_o      => sync_spw2_conduit,                                  --                 sync_spw2.conduit
-			conduit_sync_signal_spw3_o      => sync_spw3_conduit,                                  --                 sync_spw3.conduit
-			conduit_sync_signal_spw4_o      => sync_spw4_conduit,                                  --                 sync_spw4.conduit
-			conduit_sync_signal_spw5_o      => sync_spw5_conduit,                                  --                 sync_spw5.conduit
-			conduit_sync_signal_spw6_o      => sync_spw6_conduit,                                  --                 sync_spw6.conduit
-			conduit_sync_signal_spw7_o      => sync_spw7_conduit,                                  --                 sync_spw7.conduit
-			conduit_sync_signal_spw8_o      => sync_spw8_conduit,                                  --                 sync_spw8.conduit
-			conduit_sync_signal_syncout_o   => sync_out_conduit,                                   --                  sync_out.conduit
-			sync_interrupt_sender_irq_o     => irq_synchronizer_004_receiver_irq(0),               --     sync_interrupt_sender.irq
-			pre_sync_interrupt_sender_irq_o => irq_synchronizer_003_receiver_irq(0)                -- pre_sync_interrupt_sender.irq
+			clock_sink_clk_i                 => clk50_clk,                                          --                     clock.clk
+			reset_sink_reset_i               => rst_controller_026_reset_out_reset,                 --                     reset.reset
+			avalon_slave_address_i           => mm_interconnect_3_sync_avalon_mm_slave_address,     --           avalon_mm_slave.address
+			avalon_slave_read_i              => mm_interconnect_3_sync_avalon_mm_slave_read,        --                          .read
+			avalon_slave_write_i             => mm_interconnect_3_sync_avalon_mm_slave_write,       --                          .write
+			avalon_slave_writedata_i         => mm_interconnect_3_sync_avalon_mm_slave_writedata,   --                          .writedata
+			avalon_slave_byteenable_i        => mm_interconnect_3_sync_avalon_mm_slave_byteenable,  --                          .byteenable
+			avalon_slave_readdata_o          => mm_interconnect_3_sync_avalon_mm_slave_readdata,    --                          .readdata
+			avalon_slave_waitrequest_o       => mm_interconnect_3_sync_avalon_mm_slave_waitrequest, --                          .waitrequest
+			conduit_sync_signal_syncin_en_i  => sync_in_en_conduit,                                 --                sync_in_en.conduit
+			conduit_sync_signal_syncout_en_i => sync_out_en_conduit,                                --               sync_out_en.conduit
+			conduit_sync_signal_syncin_i     => sync_in_conduit,                                    --                   sync_in.conduit
+			conduit_sync_signal_spw1_o       => sync_spw1_conduit,                                  --                 sync_spw1.conduit
+			conduit_sync_signal_spw2_o       => sync_spw2_conduit,                                  --                 sync_spw2.conduit
+			conduit_sync_signal_spw3_o       => sync_spw3_conduit,                                  --                 sync_spw3.conduit
+			conduit_sync_signal_spw4_o       => sync_spw4_conduit,                                  --                 sync_spw4.conduit
+			conduit_sync_signal_spw5_o       => sync_spw5_conduit,                                  --                 sync_spw5.conduit
+			conduit_sync_signal_spw6_o       => sync_spw6_conduit,                                  --                 sync_spw6.conduit
+			conduit_sync_signal_spw7_o       => sync_spw7_conduit,                                  --                 sync_spw7.conduit
+			conduit_sync_signal_spw8_o       => sync_spw8_conduit,                                  --                 sync_spw8.conduit
+			conduit_sync_signal_syncout_o    => sync_out_conduit,                                   --                  sync_out.conduit
+			sync_interrupt_sender_irq_o      => irq_synchronizer_004_receiver_irq(0),               --     sync_interrupt_sender.irq
+			pre_sync_interrupt_sender_irq_o  => irq_synchronizer_003_receiver_irq(0)                -- pre_sync_interrupt_sender.irq
 		);
 
 	sysid_qsys : component MebX_Qsys_Project_sysid_qsys
@@ -4515,7 +5292,7 @@ begin
 	temp_scl : component MebX_Qsys_Project_csense_adc_fo
 		port map (
 			clk        => clk50_clk,                                     --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,  --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,  --               reset.reset_n
 			address    => mm_interconnect_3_temp_scl_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_temp_scl_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_temp_scl_s1_writedata,       --                    .writedata
@@ -4527,7 +5304,7 @@ begin
 	temp_sda : component MebX_Qsys_Project_m1_ddr2_i2c_sda
 		port map (
 			clk        => clk50_clk,                                     --                 clk.clk
-			reset_n    => rst_controller_011_reset_out_reset_ports_inv,  --               reset.reset_n
+			reset_n    => rst_controller_013_reset_out_reset_ports_inv,  --               reset.reset_n
 			address    => mm_interconnect_3_temp_sda_s1_address,         --                  s1.address
 			write_n    => mm_interconnect_3_temp_sda_s1_write_ports_inv, --                    .write_n
 			writedata  => mm_interconnect_3_temp_sda_s1_writedata,       --                    .writedata
@@ -4539,7 +5316,7 @@ begin
 	timer_1ms : component MebX_Qsys_Project_timer_1ms
 		port map (
 			clk           => clk50_clk,                                      --           clk.clk
-			reset_n       => rst_controller_011_reset_out_reset_ports_inv,   --         reset.reset_n
+			reset_n       => rst_controller_013_reset_out_reset_ports_inv,   --         reset.reset_n
 			address       => mm_interconnect_3_timer_1ms_s1_address,         --            s1.address
 			writedata     => mm_interconnect_3_timer_1ms_s1_writedata,       --              .writedata
 			readdata      => mm_interconnect_3_timer_1ms_s1_readdata,        --              .readdata
@@ -4552,7 +5329,7 @@ begin
 	timer_1us : component MebX_Qsys_Project_timer_1us
 		port map (
 			clk           => clk50_clk,                                      --           clk.clk
-			reset_n       => rst_controller_011_reset_out_reset_ports_inv,   --         reset.reset_n
+			reset_n       => rst_controller_013_reset_out_reset_ports_inv,   --         reset.reset_n
 			address       => mm_interconnect_3_timer_1us_s1_address,         --            s1.address
 			writedata     => mm_interconnect_3_timer_1us_s1_writedata,       --              .writedata
 			readdata      => mm_interconnect_3_timer_1us_s1_readdata,        --              .readdata
@@ -4565,7 +5342,7 @@ begin
 	tristate_conduit_bridge_0 : component MebX_Qsys_Project_tristate_conduit_bridge_0
 		port map (
 			clk                         => m2_ddr2_memory_afi_half_clk_clk,       --   clk.clk
-			reset                       => rst_controller_020_reset_out_reset,    -- reset.reset
+			reset                       => rst_controller_022_reset_out_reset,    -- reset.reset
 			request                     => ext_flash_tcm_request,                 --   tcs.request
 			grant                       => ext_flash_tcm_grant,                   --      .grant
 			tcs_tcm_address_out         => ext_flash_tcm_address_out,             --      .address_out
@@ -4584,7 +5361,7 @@ begin
 
 	uart_module_top_0 : component uart_module_top
 		port map (
-			reset_sink_reset_i                => rst_controller_023_reset_out_reset,                                --          reset_sink.reset
+			reset_sink_reset_i                => rst_controller_025_reset_out_reset,                                --          reset_sink.reset
 			clock_sink_100_clk_i              => m2_ddr2_memory_afi_half_clk_clk,                                   --      clock_sink_100.clk
 			avalon_slave_uart_address_i       => mm_interconnect_2_uart_module_top_0_avalon_slave_uart_address,     --   avalon_slave_uart.address
 			avalon_slave_uart_byteenable_i    => mm_interconnect_2_uart_module_top_0_avalon_slave_uart_byteenable,  --                    .byteenable
@@ -4622,9 +5399,9 @@ begin
 			Dumb_Communication_Module_v2_7_reset_sink_reset_bridge_in_reset_reset => rst_controller_008_reset_out_reset,                            -- Dumb_Communication_Module_v2_7_reset_sink_reset_bridge_in_reset.reset
 			Dumb_Communication_Module_v2_8_reset_sink_reset_bridge_in_reset_reset => rst_controller_009_reset_out_reset,                            -- Dumb_Communication_Module_v2_8_reset_sink_reset_bridge_in_reset.reset
 			m1_clock_bridge_s0_reset_reset_bridge_in_reset_reset                  => rst_controller_010_reset_out_reset,                            --                  m1_clock_bridge_s0_reset_reset_bridge_in_reset.reset
-			m2_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset       => rst_controller_025_reset_out_reset,                            --       m2_ddr2_memory_avl_translator_reset_reset_bridge_in_reset.reset
-			m2_ddr2_memory_soft_reset_reset_bridge_in_reset_reset                 => rst_controller_025_reset_out_reset,                            --                 m2_ddr2_memory_soft_reset_reset_bridge_in_reset.reset
-			uart_module_top_0_reset_sink_reset_bridge_in_reset_reset              => rst_controller_023_reset_out_reset,                            --              uart_module_top_0_reset_sink_reset_bridge_in_reset.reset
+			m2_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset       => rst_controller_027_reset_out_reset,                            --       m2_ddr2_memory_avl_translator_reset_reset_bridge_in_reset.reset
+			m2_ddr2_memory_soft_reset_reset_bridge_in_reset_reset                 => rst_controller_027_reset_out_reset,                            --                 m2_ddr2_memory_soft_reset_reset_bridge_in_reset.reset
+			uart_module_top_0_reset_sink_reset_bridge_in_reset_reset              => rst_controller_025_reset_out_reset,                            --              uart_module_top_0_reset_sink_reset_bridge_in_reset.reset
 			ddr2_address_span_extender_expanded_master_address                    => ddr2_address_span_extender_expanded_master_address,            --                      ddr2_address_span_extender_expanded_master.address
 			ddr2_address_span_extender_expanded_master_waitrequest                => ddr2_address_span_extender_expanded_master_waitrequest,        --                                                                .waitrequest
 			ddr2_address_span_extender_expanded_master_burstcount                 => ddr2_address_span_extender_expanded_master_burstcount,         --                                                                .burstcount
@@ -4697,7 +5474,7 @@ begin
 	mm_interconnect_1 : component MebX_Qsys_Project_mm_interconnect_1
 		port map (
 			clk_100_clk_clk                                          => m2_ddr2_memory_afi_half_clk_clk,                   --                                        clk_100_clk.clk
-			uart_module_top_0_reset_sink_reset_bridge_in_reset_reset => rst_controller_023_reset_out_reset,                -- uart_module_top_0_reset_sink_reset_bridge_in_reset.reset
+			uart_module_top_0_reset_sink_reset_bridge_in_reset_reset => rst_controller_025_reset_out_reset,                -- uart_module_top_0_reset_sink_reset_bridge_in_reset.reset
 			uart_module_top_0_avalon_master_rs232_address            => uart_module_top_0_avalon_master_rs232_address,     --              uart_module_top_0_avalon_master_rs232.address
 			uart_module_top_0_avalon_master_rs232_waitrequest        => uart_module_top_0_avalon_master_rs232_waitrequest, --                                                   .waitrequest
 			uart_module_top_0_avalon_master_rs232_read               => uart_module_top_0_avalon_master_rs232_read,        --                                                   .read
@@ -4716,9 +5493,9 @@ begin
 	mm_interconnect_2 : component MebX_Qsys_Project_mm_interconnect_2
 		port map (
 			clk_100_clk_clk                                                   => m2_ddr2_memory_afi_half_clk_clk,                                                    --                                                 clk_100_clk.clk
-			ext_flash_reset_reset_bridge_in_reset_reset                       => rst_controller_020_reset_out_reset,                                                 --                       ext_flash_reset_reset_bridge_in_reset.reset
+			ext_flash_reset_reset_bridge_in_reset_reset                       => rst_controller_022_reset_out_reset,                                                 --                       ext_flash_reset_reset_bridge_in_reset.reset
 			jtag_uart_0_reset_reset_bridge_in_reset_reset                     => rst_controller_010_reset_out_reset,                                                 --                     jtag_uart_0_reset_reset_bridge_in_reset.reset
-			nios2_gen2_0_reset_reset_bridge_in_reset_reset                    => rst_controller_022_reset_out_reset,                                                 --                    nios2_gen2_0_reset_reset_bridge_in_reset.reset
+			nios2_gen2_0_reset_reset_bridge_in_reset_reset                    => rst_controller_024_reset_out_reset,                                                 --                    nios2_gen2_0_reset_reset_bridge_in_reset.reset
 			RMAP_Memory_Subunit_Area_1_reset_sink_reset_bridge_in_reset_reset => rst_controller_002_reset_out_reset,                                                 -- RMAP_Memory_Subunit_Area_1_reset_sink_reset_bridge_in_reset.reset
 			RMAP_Memory_Subunit_Area_2_reset_sink_reset_bridge_in_reset_reset => rst_controller_003_reset_out_reset,                                                 -- RMAP_Memory_Subunit_Area_2_reset_sink_reset_bridge_in_reset.reset
 			RMAP_Memory_Subunit_Area_3_reset_sink_reset_bridge_in_reset_reset => rst_controller_004_reset_out_reset,                                                 -- RMAP_Memory_Subunit_Area_3_reset_sink_reset_bridge_in_reset.reset
@@ -4727,7 +5504,7 @@ begin
 			RMAP_Memory_Subunit_Area_6_reset_sink_reset_bridge_in_reset_reset => rst_controller_007_reset_out_reset,                                                 -- RMAP_Memory_Subunit_Area_6_reset_sink_reset_bridge_in_reset.reset
 			RMAP_Memory_Subunit_Area_7_reset_sink_reset_bridge_in_reset_reset => rst_controller_008_reset_out_reset,                                                 -- RMAP_Memory_Subunit_Area_7_reset_sink_reset_bridge_in_reset.reset
 			RMAP_Memory_Subunit_Area_8_reset_sink_reset_bridge_in_reset_reset => rst_controller_009_reset_out_reset,                                                 -- RMAP_Memory_Subunit_Area_8_reset_sink_reset_bridge_in_reset.reset
-			uart_module_top_0_reset_sink_reset_bridge_in_reset_reset          => rst_controller_023_reset_out_reset,                                                 --          uart_module_top_0_reset_sink_reset_bridge_in_reset.reset
+			uart_module_top_0_reset_sink_reset_bridge_in_reset_reset          => rst_controller_025_reset_out_reset,                                                 --          uart_module_top_0_reset_sink_reset_bridge_in_reset.reset
 			nios2_gen2_0_data_master_address                                  => nios2_gen2_0_data_master_address,                                                   --                                    nios2_gen2_0_data_master.address
 			nios2_gen2_0_data_master_waitrequest                              => nios2_gen2_0_data_master_waitrequest,                                               --                                                            .waitrequest
 			nios2_gen2_0_data_master_byteenable                               => nios2_gen2_0_data_master_byteenable,                                                --                                                            .byteenable
@@ -4933,8 +5710,8 @@ begin
 		port map (
 			clk_50_clk_clk                                                         => clk50_clk,                                                                              --                                                       clk_50_clk.clk
 			Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset => rst_controller_001_reset_out_reset,                                                     -- Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset.reset
-			clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset               => rst_controller_011_reset_out_reset,                                                     --               clock_bridge_afi_50_m0_reset_reset_bridge_in_reset.reset
-			sync_reset_reset_bridge_in_reset_reset                                 => rst_controller_024_reset_out_reset,                                                     --                                 sync_reset_reset_bridge_in_reset.reset
+			clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset               => rst_controller_013_reset_out_reset,                                                     --               clock_bridge_afi_50_m0_reset_reset_bridge_in_reset.reset
+			sync_reset_reset_bridge_in_reset_reset                                 => rst_controller_026_reset_out_reset,                                                     --                                 sync_reset_reset_bridge_in_reset.reset
 			clock_bridge_afi_50_m0_address                                         => clock_bridge_afi_50_m0_address,                                                         --                                           clock_bridge_afi_50_m0.address
 			clock_bridge_afi_50_m0_waitrequest                                     => clock_bridge_afi_50_m0_waitrequest,                                                     --                                                                 .waitrequest
 			clock_bridge_afi_50_m0_burstcount                                      => clock_bridge_afi_50_m0_burstcount,                                                      --                                                                 .burstcount
@@ -5024,6 +5801,11 @@ begin
 			pio_RST_ETH_s1_readdata                                                => mm_interconnect_3_pio_rst_eth_s1_readdata,                                              --                                                                 .readdata
 			pio_RST_ETH_s1_writedata                                               => mm_interconnect_3_pio_rst_eth_s1_writedata,                                             --                                                                 .writedata
 			pio_RST_ETH_s1_chipselect                                              => mm_interconnect_3_pio_rst_eth_s1_chipselect,                                            --                                                                 .chipselect
+			pio_spw_mux_ch_h_select_s1_address                                     => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_address,                                   --                                       pio_spw_mux_ch_h_select_s1.address
+			pio_spw_mux_ch_h_select_s1_write                                       => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write,                                     --                                                                 .write
+			pio_spw_mux_ch_h_select_s1_readdata                                    => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_readdata,                                  --                                                                 .readdata
+			pio_spw_mux_ch_h_select_s1_writedata                                   => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_writedata,                                 --                                                                 .writedata
+			pio_spw_mux_ch_h_select_s1_chipselect                                  => mm_interconnect_3_pio_spw_mux_ch_h_select_s1_chipselect,                                --                                                                 .chipselect
 			rst_controller_avalon_rst_controller_slave_address                     => mm_interconnect_3_rst_controller_avalon_rst_controller_slave_address,                   --                       rst_controller_avalon_rst_controller_slave.address
 			rst_controller_avalon_rst_controller_slave_write                       => mm_interconnect_3_rst_controller_avalon_rst_controller_slave_write,                     --                                                                 .write
 			rst_controller_avalon_rst_controller_slave_read                        => mm_interconnect_3_rst_controller_avalon_rst_controller_slave_read,                      --                                                                 .read
@@ -5087,9 +5869,9 @@ begin
 		port map (
 			m1_ddr2_memory_afi_clk_clk                                      => m1_ddr2_memory_afi_clk_clk,                              --                                    m1_ddr2_memory_afi_clk.clk
 			m1_ddr2_memory_afi_half_clk_clk                                 => m1_ddr2_memory_afi_half_clk_clk,                         --                               m1_ddr2_memory_afi_half_clk.clk
-			m1_clock_bridge_m0_reset_reset_bridge_in_reset_reset            => rst_controller_021_reset_out_reset,                      --            m1_clock_bridge_m0_reset_reset_bridge_in_reset.reset
-			m1_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset => rst_controller_026_reset_out_reset,                      -- m1_ddr2_memory_avl_translator_reset_reset_bridge_in_reset.reset
-			m1_ddr2_memory_soft_reset_reset_bridge_in_reset_reset           => rst_controller_026_reset_out_reset,                      --           m1_ddr2_memory_soft_reset_reset_bridge_in_reset.reset
+			m1_clock_bridge_m0_reset_reset_bridge_in_reset_reset            => rst_controller_023_reset_out_reset,                      --            m1_clock_bridge_m0_reset_reset_bridge_in_reset.reset
+			m1_ddr2_memory_avl_translator_reset_reset_bridge_in_reset_reset => rst_controller_028_reset_out_reset,                      -- m1_ddr2_memory_avl_translator_reset_reset_bridge_in_reset.reset
+			m1_ddr2_memory_soft_reset_reset_bridge_in_reset_reset           => rst_controller_028_reset_out_reset,                      --           m1_ddr2_memory_soft_reset_reset_bridge_in_reset.reset
 			m1_clock_bridge_m0_address                                      => m1_clock_bridge_m0_address,                              --                                        m1_clock_bridge_m0.address
 			m1_clock_bridge_m0_waitrequest                                  => m1_clock_bridge_m0_waitrequest,                          --                                                          .waitrequest
 			m1_clock_bridge_m0_burstcount                                   => m1_clock_bridge_m0_burstcount,                           --                                                          .burstcount
@@ -5115,7 +5897,7 @@ begin
 	irq_mapper : component MebX_Qsys_Project_irq_mapper
 		port map (
 			clk            => m2_ddr2_memory_afi_half_clk_clk,    --        clk.clk
-			reset          => rst_controller_022_reset_out_reset, --  clk_reset.reset
+			reset          => rst_controller_024_reset_out_reset, --  clk_reset.reset
 			receiver0_irq  => irq_mapper_receiver0_irq,           --  receiver0.irq
 			receiver1_irq  => irq_mapper_receiver1_irq,           --  receiver1.irq
 			receiver2_irq  => irq_mapper_receiver2_irq,           --  receiver2.irq
@@ -5149,8 +5931,8 @@ begin
 		port map (
 			receiver_clk   => clk50_clk,                          --       receiver_clk.clk
 			sender_clk     => m2_ddr2_memory_afi_half_clk_clk,    --         sender_clk.clk
-			receiver_reset => rst_controller_011_reset_out_reset, -- receiver_clk_reset.reset
-			sender_reset   => rst_controller_022_reset_out_reset, --   sender_clk_reset.reset
+			receiver_reset => rst_controller_013_reset_out_reset, -- receiver_clk_reset.reset
+			sender_reset   => rst_controller_024_reset_out_reset, --   sender_clk_reset.reset
 			receiver_irq   => irq_synchronizer_receiver_irq,      --           receiver.irq
 			sender_irq(0)  => irq_mapper_receiver1_irq            --             sender.irq
 		);
@@ -5162,8 +5944,8 @@ begin
 		port map (
 			receiver_clk   => clk50_clk,                          --       receiver_clk.clk
 			sender_clk     => m2_ddr2_memory_afi_half_clk_clk,    --         sender_clk.clk
-			receiver_reset => rst_controller_011_reset_out_reset, -- receiver_clk_reset.reset
-			sender_reset   => rst_controller_022_reset_out_reset, --   sender_clk_reset.reset
+			receiver_reset => rst_controller_013_reset_out_reset, -- receiver_clk_reset.reset
+			sender_reset   => rst_controller_024_reset_out_reset, --   sender_clk_reset.reset
 			receiver_irq   => irq_synchronizer_001_receiver_irq,  --           receiver.irq
 			sender_irq(0)  => irq_mapper_receiver2_irq            --             sender.irq
 		);
@@ -5175,8 +5957,8 @@ begin
 		port map (
 			receiver_clk   => clk50_clk,                          --       receiver_clk.clk
 			sender_clk     => m2_ddr2_memory_afi_half_clk_clk,    --         sender_clk.clk
-			receiver_reset => rst_controller_011_reset_out_reset, -- receiver_clk_reset.reset
-			sender_reset   => rst_controller_022_reset_out_reset, --   sender_clk_reset.reset
+			receiver_reset => rst_controller_013_reset_out_reset, -- receiver_clk_reset.reset
+			sender_reset   => rst_controller_024_reset_out_reset, --   sender_clk_reset.reset
 			receiver_irq   => irq_synchronizer_002_receiver_irq,  --           receiver.irq
 			sender_irq(0)  => irq_mapper_receiver3_irq            --             sender.irq
 		);
@@ -5188,8 +5970,8 @@ begin
 		port map (
 			receiver_clk   => clk50_clk,                          --       receiver_clk.clk
 			sender_clk     => m2_ddr2_memory_afi_half_clk_clk,    --         sender_clk.clk
-			receiver_reset => rst_controller_024_reset_out_reset, -- receiver_clk_reset.reset
-			sender_reset   => rst_controller_022_reset_out_reset, --   sender_clk_reset.reset
+			receiver_reset => rst_controller_026_reset_out_reset, -- receiver_clk_reset.reset
+			sender_reset   => rst_controller_024_reset_out_reset, --   sender_clk_reset.reset
 			receiver_irq   => irq_synchronizer_003_receiver_irq,  --           receiver.irq
 			sender_irq(0)  => irq_mapper_receiver5_irq            --             sender.irq
 		);
@@ -5201,8 +5983,8 @@ begin
 		port map (
 			receiver_clk   => clk50_clk,                          --       receiver_clk.clk
 			sender_clk     => m2_ddr2_memory_afi_half_clk_clk,    --         sender_clk.clk
-			receiver_reset => rst_controller_024_reset_out_reset, -- receiver_clk_reset.reset
-			sender_reset   => rst_controller_022_reset_out_reset, --   sender_clk_reset.reset
+			receiver_reset => rst_controller_026_reset_out_reset, -- receiver_clk_reset.reset
+			sender_reset   => rst_controller_024_reset_out_reset, --   sender_clk_reset.reset
 			receiver_irq   => irq_synchronizer_004_receiver_irq,  --           receiver.irq
 			sender_irq(0)  => irq_mapper_receiver14_irq           --             sender.irq
 		);
@@ -5857,7 +6639,137 @@ begin
 			reset_req_in15 => '0'                                     -- (terminated)
 		);
 
-	rst_controller_011 : component mebx_qsys_project_rst_controller_011
+	rst_controller_011 : component mebx_qsys_project_rst_controller_001
+		generic map (
+			NUM_RESET_INPUTS          => 2,
+			OUTPUT_RESET_SYNC_EDGES   => "deassert",
+			SYNC_DEPTH                => 2,
+			RESET_REQUEST_PRESENT     => 0,
+			RESET_REQ_WAIT_TIME       => 1,
+			MIN_RST_ASSERTION_TIME    => 3,
+			RESET_REQ_EARLY_DSRT_TIME => 1,
+			USE_RESET_REQUEST_IN0     => 0,
+			USE_RESET_REQUEST_IN1     => 0,
+			USE_RESET_REQUEST_IN2     => 0,
+			USE_RESET_REQUEST_IN3     => 0,
+			USE_RESET_REQUEST_IN4     => 0,
+			USE_RESET_REQUEST_IN5     => 0,
+			USE_RESET_REQUEST_IN6     => 0,
+			USE_RESET_REQUEST_IN7     => 0,
+			USE_RESET_REQUEST_IN8     => 0,
+			USE_RESET_REQUEST_IN9     => 0,
+			USE_RESET_REQUEST_IN10    => 0,
+			USE_RESET_REQUEST_IN11    => 0,
+			USE_RESET_REQUEST_IN12    => 0,
+			USE_RESET_REQUEST_IN13    => 0,
+			USE_RESET_REQUEST_IN14    => 0,
+			USE_RESET_REQUEST_IN15    => 0,
+			ADAPT_RESET_REQUEST       => 0
+		)
+		port map (
+			reset_in0      => rst_reset_n_ports_inv,                  -- reset_in0.reset
+			reset_in1      => rst_controller_reset_source_ftdi_reset, -- reset_in1.reset
+			clk            => m2_ddr2_memory_afi_half_clk_clk,        --       clk.clk
+			reset_out      => rst_controller_011_reset_out_reset,     -- reset_out.reset
+			reset_req      => open,                                   -- (terminated)
+			reset_req_in0  => '0',                                    -- (terminated)
+			reset_req_in1  => '0',                                    -- (terminated)
+			reset_in2      => '0',                                    -- (terminated)
+			reset_req_in2  => '0',                                    -- (terminated)
+			reset_in3      => '0',                                    -- (terminated)
+			reset_req_in3  => '0',                                    -- (terminated)
+			reset_in4      => '0',                                    -- (terminated)
+			reset_req_in4  => '0',                                    -- (terminated)
+			reset_in5      => '0',                                    -- (terminated)
+			reset_req_in5  => '0',                                    -- (terminated)
+			reset_in6      => '0',                                    -- (terminated)
+			reset_req_in6  => '0',                                    -- (terminated)
+			reset_in7      => '0',                                    -- (terminated)
+			reset_req_in7  => '0',                                    -- (terminated)
+			reset_in8      => '0',                                    -- (terminated)
+			reset_req_in8  => '0',                                    -- (terminated)
+			reset_in9      => '0',                                    -- (terminated)
+			reset_req_in9  => '0',                                    -- (terminated)
+			reset_in10     => '0',                                    -- (terminated)
+			reset_req_in10 => '0',                                    -- (terminated)
+			reset_in11     => '0',                                    -- (terminated)
+			reset_req_in11 => '0',                                    -- (terminated)
+			reset_in12     => '0',                                    -- (terminated)
+			reset_req_in12 => '0',                                    -- (terminated)
+			reset_in13     => '0',                                    -- (terminated)
+			reset_req_in13 => '0',                                    -- (terminated)
+			reset_in14     => '0',                                    -- (terminated)
+			reset_req_in14 => '0',                                    -- (terminated)
+			reset_in15     => '0',                                    -- (terminated)
+			reset_req_in15 => '0'                                     -- (terminated)
+		);
+
+	rst_controller_012 : component mebx_qsys_project_rst_controller_012
+		generic map (
+			NUM_RESET_INPUTS          => 9,
+			OUTPUT_RESET_SYNC_EDGES   => "deassert",
+			SYNC_DEPTH                => 2,
+			RESET_REQUEST_PRESENT     => 0,
+			RESET_REQ_WAIT_TIME       => 1,
+			MIN_RST_ASSERTION_TIME    => 3,
+			RESET_REQ_EARLY_DSRT_TIME => 1,
+			USE_RESET_REQUEST_IN0     => 0,
+			USE_RESET_REQUEST_IN1     => 0,
+			USE_RESET_REQUEST_IN2     => 0,
+			USE_RESET_REQUEST_IN3     => 0,
+			USE_RESET_REQUEST_IN4     => 0,
+			USE_RESET_REQUEST_IN5     => 0,
+			USE_RESET_REQUEST_IN6     => 0,
+			USE_RESET_REQUEST_IN7     => 0,
+			USE_RESET_REQUEST_IN8     => 0,
+			USE_RESET_REQUEST_IN9     => 0,
+			USE_RESET_REQUEST_IN10    => 0,
+			USE_RESET_REQUEST_IN11    => 0,
+			USE_RESET_REQUEST_IN12    => 0,
+			USE_RESET_REQUEST_IN13    => 0,
+			USE_RESET_REQUEST_IN14    => 0,
+			USE_RESET_REQUEST_IN15    => 0,
+			ADAPT_RESET_REQUEST       => 0
+		)
+		port map (
+			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
+			reset_in1      => rst_controller_reset_source_comm_ch1_reset, -- reset_in1.reset
+			reset_in2      => rst_controller_reset_source_comm_ch2_reset, -- reset_in2.reset
+			reset_in3      => rst_controller_reset_source_comm_ch3_reset, -- reset_in3.reset
+			reset_in4      => rst_controller_reset_source_comm_ch4_reset, -- reset_in4.reset
+			reset_in5      => rst_controller_reset_source_comm_ch5_reset, -- reset_in5.reset
+			reset_in6      => rst_controller_reset_source_comm_ch6_reset, -- reset_in6.reset
+			reset_in7      => rst_controller_reset_source_comm_ch7_reset, -- reset_in7.reset
+			reset_in8      => rst_controller_reset_source_comm_ch8_reset, -- reset_in8.reset
+			clk            => m2_ddr2_memory_afi_half_clk_clk,            --       clk.clk
+			reset_out      => rst_controller_012_reset_out_reset,         -- reset_out.reset
+			reset_req      => open,                                       -- (terminated)
+			reset_req_in0  => '0',                                        -- (terminated)
+			reset_req_in1  => '0',                                        -- (terminated)
+			reset_req_in2  => '0',                                        -- (terminated)
+			reset_req_in3  => '0',                                        -- (terminated)
+			reset_req_in4  => '0',                                        -- (terminated)
+			reset_req_in5  => '0',                                        -- (terminated)
+			reset_req_in6  => '0',                                        -- (terminated)
+			reset_req_in7  => '0',                                        -- (terminated)
+			reset_req_in8  => '0',                                        -- (terminated)
+			reset_in9      => '0',                                        -- (terminated)
+			reset_req_in9  => '0',                                        -- (terminated)
+			reset_in10     => '0',                                        -- (terminated)
+			reset_req_in10 => '0',                                        -- (terminated)
+			reset_in11     => '0',                                        -- (terminated)
+			reset_req_in11 => '0',                                        -- (terminated)
+			reset_in12     => '0',                                        -- (terminated)
+			reset_req_in12 => '0',                                        -- (terminated)
+			reset_in13     => '0',                                        -- (terminated)
+			reset_req_in13 => '0',                                        -- (terminated)
+			reset_in14     => '0',                                        -- (terminated)
+			reset_req_in14 => '0',                                        -- (terminated)
+			reset_in15     => '0',                                        -- (terminated)
+			reset_req_in15 => '0'                                         -- (terminated)
+		);
+
+	rst_controller_013 : component mebx_qsys_project_rst_controller_013
 		generic map (
 			NUM_RESET_INPUTS          => 1,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -5887,7 +6799,7 @@ begin
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,              -- reset_in0.reset
 			clk            => clk50_clk,                          --       clk.clk
-			reset_out      => rst_controller_011_reset_out_reset, -- reset_out.reset
+			reset_out      => rst_controller_013_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
 			reset_in1      => '0',                                -- (terminated)
@@ -5922,136 +6834,6 @@ begin
 			reset_req_in15 => '0'                                 -- (terminated)
 		);
 
-	rst_controller_012 : component mebx_qsys_project_rst_controller_001
-		generic map (
-			NUM_RESET_INPUTS          => 2,
-			OUTPUT_RESET_SYNC_EDGES   => "deassert",
-			SYNC_DEPTH                => 2,
-			RESET_REQUEST_PRESENT     => 0,
-			RESET_REQ_WAIT_TIME       => 1,
-			MIN_RST_ASSERTION_TIME    => 3,
-			RESET_REQ_EARLY_DSRT_TIME => 1,
-			USE_RESET_REQUEST_IN0     => 0,
-			USE_RESET_REQUEST_IN1     => 0,
-			USE_RESET_REQUEST_IN2     => 0,
-			USE_RESET_REQUEST_IN3     => 0,
-			USE_RESET_REQUEST_IN4     => 0,
-			USE_RESET_REQUEST_IN5     => 0,
-			USE_RESET_REQUEST_IN6     => 0,
-			USE_RESET_REQUEST_IN7     => 0,
-			USE_RESET_REQUEST_IN8     => 0,
-			USE_RESET_REQUEST_IN9     => 0,
-			USE_RESET_REQUEST_IN10    => 0,
-			USE_RESET_REQUEST_IN11    => 0,
-			USE_RESET_REQUEST_IN12    => 0,
-			USE_RESET_REQUEST_IN13    => 0,
-			USE_RESET_REQUEST_IN14    => 0,
-			USE_RESET_REQUEST_IN15    => 0,
-			ADAPT_RESET_REQUEST       => 0
-		)
-		port map (
-			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch1_reset, -- reset_in1.reset
-			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
-			reset_out      => rst_controller_012_reset_out_reset,         -- reset_out.reset
-			reset_req      => open,                                       -- (terminated)
-			reset_req_in0  => '0',                                        -- (terminated)
-			reset_req_in1  => '0',                                        -- (terminated)
-			reset_in2      => '0',                                        -- (terminated)
-			reset_req_in2  => '0',                                        -- (terminated)
-			reset_in3      => '0',                                        -- (terminated)
-			reset_req_in3  => '0',                                        -- (terminated)
-			reset_in4      => '0',                                        -- (terminated)
-			reset_req_in4  => '0',                                        -- (terminated)
-			reset_in5      => '0',                                        -- (terminated)
-			reset_req_in5  => '0',                                        -- (terminated)
-			reset_in6      => '0',                                        -- (terminated)
-			reset_req_in6  => '0',                                        -- (terminated)
-			reset_in7      => '0',                                        -- (terminated)
-			reset_req_in7  => '0',                                        -- (terminated)
-			reset_in8      => '0',                                        -- (terminated)
-			reset_req_in8  => '0',                                        -- (terminated)
-			reset_in9      => '0',                                        -- (terminated)
-			reset_req_in9  => '0',                                        -- (terminated)
-			reset_in10     => '0',                                        -- (terminated)
-			reset_req_in10 => '0',                                        -- (terminated)
-			reset_in11     => '0',                                        -- (terminated)
-			reset_req_in11 => '0',                                        -- (terminated)
-			reset_in12     => '0',                                        -- (terminated)
-			reset_req_in12 => '0',                                        -- (terminated)
-			reset_in13     => '0',                                        -- (terminated)
-			reset_req_in13 => '0',                                        -- (terminated)
-			reset_in14     => '0',                                        -- (terminated)
-			reset_req_in14 => '0',                                        -- (terminated)
-			reset_in15     => '0',                                        -- (terminated)
-			reset_req_in15 => '0'                                         -- (terminated)
-		);
-
-	rst_controller_013 : component mebx_qsys_project_rst_controller_001
-		generic map (
-			NUM_RESET_INPUTS          => 2,
-			OUTPUT_RESET_SYNC_EDGES   => "deassert",
-			SYNC_DEPTH                => 2,
-			RESET_REQUEST_PRESENT     => 0,
-			RESET_REQ_WAIT_TIME       => 1,
-			MIN_RST_ASSERTION_TIME    => 3,
-			RESET_REQ_EARLY_DSRT_TIME => 1,
-			USE_RESET_REQUEST_IN0     => 0,
-			USE_RESET_REQUEST_IN1     => 0,
-			USE_RESET_REQUEST_IN2     => 0,
-			USE_RESET_REQUEST_IN3     => 0,
-			USE_RESET_REQUEST_IN4     => 0,
-			USE_RESET_REQUEST_IN5     => 0,
-			USE_RESET_REQUEST_IN6     => 0,
-			USE_RESET_REQUEST_IN7     => 0,
-			USE_RESET_REQUEST_IN8     => 0,
-			USE_RESET_REQUEST_IN9     => 0,
-			USE_RESET_REQUEST_IN10    => 0,
-			USE_RESET_REQUEST_IN11    => 0,
-			USE_RESET_REQUEST_IN12    => 0,
-			USE_RESET_REQUEST_IN13    => 0,
-			USE_RESET_REQUEST_IN14    => 0,
-			USE_RESET_REQUEST_IN15    => 0,
-			ADAPT_RESET_REQUEST       => 0
-		)
-		port map (
-			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch2_reset, -- reset_in1.reset
-			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
-			reset_out      => rst_controller_013_reset_out_reset,         -- reset_out.reset
-			reset_req      => open,                                       -- (terminated)
-			reset_req_in0  => '0',                                        -- (terminated)
-			reset_req_in1  => '0',                                        -- (terminated)
-			reset_in2      => '0',                                        -- (terminated)
-			reset_req_in2  => '0',                                        -- (terminated)
-			reset_in3      => '0',                                        -- (terminated)
-			reset_req_in3  => '0',                                        -- (terminated)
-			reset_in4      => '0',                                        -- (terminated)
-			reset_req_in4  => '0',                                        -- (terminated)
-			reset_in5      => '0',                                        -- (terminated)
-			reset_req_in5  => '0',                                        -- (terminated)
-			reset_in6      => '0',                                        -- (terminated)
-			reset_req_in6  => '0',                                        -- (terminated)
-			reset_in7      => '0',                                        -- (terminated)
-			reset_req_in7  => '0',                                        -- (terminated)
-			reset_in8      => '0',                                        -- (terminated)
-			reset_req_in8  => '0',                                        -- (terminated)
-			reset_in9      => '0',                                        -- (terminated)
-			reset_req_in9  => '0',                                        -- (terminated)
-			reset_in10     => '0',                                        -- (terminated)
-			reset_req_in10 => '0',                                        -- (terminated)
-			reset_in11     => '0',                                        -- (terminated)
-			reset_req_in11 => '0',                                        -- (terminated)
-			reset_in12     => '0',                                        -- (terminated)
-			reset_req_in12 => '0',                                        -- (terminated)
-			reset_in13     => '0',                                        -- (terminated)
-			reset_req_in13 => '0',                                        -- (terminated)
-			reset_in14     => '0',                                        -- (terminated)
-			reset_req_in14 => '0',                                        -- (terminated)
-			reset_in15     => '0',                                        -- (terminated)
-			reset_req_in15 => '0'                                         -- (terminated)
-		);
-
 	rst_controller_014 : component mebx_qsys_project_rst_controller_001
 		generic map (
 			NUM_RESET_INPUTS          => 2,
@@ -6081,7 +6863,7 @@ begin
 		)
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch3_reset, -- reset_in1.reset
+			reset_in1      => rst_controller_reset_source_comm_ch1_reset, -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
 			reset_out      => rst_controller_014_reset_out_reset,         -- reset_out.reset
 			reset_req      => open,                                       -- (terminated)
@@ -6146,7 +6928,7 @@ begin
 		)
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch4_reset, -- reset_in1.reset
+			reset_in1      => rst_controller_reset_source_comm_ch2_reset, -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
 			reset_out      => rst_controller_015_reset_out_reset,         -- reset_out.reset
 			reset_req      => open,                                       -- (terminated)
@@ -6211,7 +6993,7 @@ begin
 		)
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch5_reset, -- reset_in1.reset
+			reset_in1      => rst_controller_reset_source_comm_ch3_reset, -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
 			reset_out      => rst_controller_016_reset_out_reset,         -- reset_out.reset
 			reset_req      => open,                                       -- (terminated)
@@ -6276,7 +7058,7 @@ begin
 		)
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch6_reset, -- reset_in1.reset
+			reset_in1      => rst_controller_reset_source_comm_ch4_reset, -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
 			reset_out      => rst_controller_017_reset_out_reset,         -- reset_out.reset
 			reset_req      => open,                                       -- (terminated)
@@ -6341,7 +7123,7 @@ begin
 		)
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch7_reset, -- reset_in1.reset
+			reset_in1      => rst_controller_reset_source_comm_ch5_reset, -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
 			reset_out      => rst_controller_018_reset_out_reset,         -- reset_out.reset
 			reset_req      => open,                                       -- (terminated)
@@ -6406,7 +7188,7 @@ begin
 		)
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
-			reset_in1      => rst_controller_reset_source_comm_ch8_reset, -- reset_in1.reset
+			reset_in1      => rst_controller_reset_source_comm_ch6_reset, -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
 			reset_out      => rst_controller_019_reset_out_reset,         -- reset_out.reset
 			reset_req      => open,                                       -- (terminated)
@@ -6470,10 +7252,140 @@ begin
 			ADAPT_RESET_REQUEST       => 0
 		)
 		port map (
+			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
+			reset_in1      => rst_controller_reset_source_comm_ch7_reset, -- reset_in1.reset
+			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
+			reset_out      => rst_controller_020_reset_out_reset,         -- reset_out.reset
+			reset_req      => open,                                       -- (terminated)
+			reset_req_in0  => '0',                                        -- (terminated)
+			reset_req_in1  => '0',                                        -- (terminated)
+			reset_in2      => '0',                                        -- (terminated)
+			reset_req_in2  => '0',                                        -- (terminated)
+			reset_in3      => '0',                                        -- (terminated)
+			reset_req_in3  => '0',                                        -- (terminated)
+			reset_in4      => '0',                                        -- (terminated)
+			reset_req_in4  => '0',                                        -- (terminated)
+			reset_in5      => '0',                                        -- (terminated)
+			reset_req_in5  => '0',                                        -- (terminated)
+			reset_in6      => '0',                                        -- (terminated)
+			reset_req_in6  => '0',                                        -- (terminated)
+			reset_in7      => '0',                                        -- (terminated)
+			reset_req_in7  => '0',                                        -- (terminated)
+			reset_in8      => '0',                                        -- (terminated)
+			reset_req_in8  => '0',                                        -- (terminated)
+			reset_in9      => '0',                                        -- (terminated)
+			reset_req_in9  => '0',                                        -- (terminated)
+			reset_in10     => '0',                                        -- (terminated)
+			reset_req_in10 => '0',                                        -- (terminated)
+			reset_in11     => '0',                                        -- (terminated)
+			reset_req_in11 => '0',                                        -- (terminated)
+			reset_in12     => '0',                                        -- (terminated)
+			reset_req_in12 => '0',                                        -- (terminated)
+			reset_in13     => '0',                                        -- (terminated)
+			reset_req_in13 => '0',                                        -- (terminated)
+			reset_in14     => '0',                                        -- (terminated)
+			reset_req_in14 => '0',                                        -- (terminated)
+			reset_in15     => '0',                                        -- (terminated)
+			reset_req_in15 => '0'                                         -- (terminated)
+		);
+
+	rst_controller_021 : component mebx_qsys_project_rst_controller_001
+		generic map (
+			NUM_RESET_INPUTS          => 2,
+			OUTPUT_RESET_SYNC_EDGES   => "deassert",
+			SYNC_DEPTH                => 2,
+			RESET_REQUEST_PRESENT     => 0,
+			RESET_REQ_WAIT_TIME       => 1,
+			MIN_RST_ASSERTION_TIME    => 3,
+			RESET_REQ_EARLY_DSRT_TIME => 1,
+			USE_RESET_REQUEST_IN0     => 0,
+			USE_RESET_REQUEST_IN1     => 0,
+			USE_RESET_REQUEST_IN2     => 0,
+			USE_RESET_REQUEST_IN3     => 0,
+			USE_RESET_REQUEST_IN4     => 0,
+			USE_RESET_REQUEST_IN5     => 0,
+			USE_RESET_REQUEST_IN6     => 0,
+			USE_RESET_REQUEST_IN7     => 0,
+			USE_RESET_REQUEST_IN8     => 0,
+			USE_RESET_REQUEST_IN9     => 0,
+			USE_RESET_REQUEST_IN10    => 0,
+			USE_RESET_REQUEST_IN11    => 0,
+			USE_RESET_REQUEST_IN12    => 0,
+			USE_RESET_REQUEST_IN13    => 0,
+			USE_RESET_REQUEST_IN14    => 0,
+			USE_RESET_REQUEST_IN15    => 0,
+			ADAPT_RESET_REQUEST       => 0
+		)
+		port map (
+			reset_in0      => rst_reset_n_ports_inv,                      -- reset_in0.reset
+			reset_in1      => rst_controller_reset_source_comm_ch8_reset, -- reset_in1.reset
+			clk            => m2_ddr2_memory_afi_clk_clk,                 --       clk.clk
+			reset_out      => rst_controller_021_reset_out_reset,         -- reset_out.reset
+			reset_req      => open,                                       -- (terminated)
+			reset_req_in0  => '0',                                        -- (terminated)
+			reset_req_in1  => '0',                                        -- (terminated)
+			reset_in2      => '0',                                        -- (terminated)
+			reset_req_in2  => '0',                                        -- (terminated)
+			reset_in3      => '0',                                        -- (terminated)
+			reset_req_in3  => '0',                                        -- (terminated)
+			reset_in4      => '0',                                        -- (terminated)
+			reset_req_in4  => '0',                                        -- (terminated)
+			reset_in5      => '0',                                        -- (terminated)
+			reset_req_in5  => '0',                                        -- (terminated)
+			reset_in6      => '0',                                        -- (terminated)
+			reset_req_in6  => '0',                                        -- (terminated)
+			reset_in7      => '0',                                        -- (terminated)
+			reset_req_in7  => '0',                                        -- (terminated)
+			reset_in8      => '0',                                        -- (terminated)
+			reset_req_in8  => '0',                                        -- (terminated)
+			reset_in9      => '0',                                        -- (terminated)
+			reset_req_in9  => '0',                                        -- (terminated)
+			reset_in10     => '0',                                        -- (terminated)
+			reset_req_in10 => '0',                                        -- (terminated)
+			reset_in11     => '0',                                        -- (terminated)
+			reset_req_in11 => '0',                                        -- (terminated)
+			reset_in12     => '0',                                        -- (terminated)
+			reset_req_in12 => '0',                                        -- (terminated)
+			reset_in13     => '0',                                        -- (terminated)
+			reset_req_in13 => '0',                                        -- (terminated)
+			reset_in14     => '0',                                        -- (terminated)
+			reset_req_in14 => '0',                                        -- (terminated)
+			reset_in15     => '0',                                        -- (terminated)
+			reset_req_in15 => '0'                                         -- (terminated)
+		);
+
+	rst_controller_022 : component mebx_qsys_project_rst_controller_001
+		generic map (
+			NUM_RESET_INPUTS          => 2,
+			OUTPUT_RESET_SYNC_EDGES   => "deassert",
+			SYNC_DEPTH                => 2,
+			RESET_REQUEST_PRESENT     => 0,
+			RESET_REQ_WAIT_TIME       => 1,
+			MIN_RST_ASSERTION_TIME    => 3,
+			RESET_REQ_EARLY_DSRT_TIME => 1,
+			USE_RESET_REQUEST_IN0     => 0,
+			USE_RESET_REQUEST_IN1     => 0,
+			USE_RESET_REQUEST_IN2     => 0,
+			USE_RESET_REQUEST_IN3     => 0,
+			USE_RESET_REQUEST_IN4     => 0,
+			USE_RESET_REQUEST_IN5     => 0,
+			USE_RESET_REQUEST_IN6     => 0,
+			USE_RESET_REQUEST_IN7     => 0,
+			USE_RESET_REQUEST_IN8     => 0,
+			USE_RESET_REQUEST_IN9     => 0,
+			USE_RESET_REQUEST_IN10    => 0,
+			USE_RESET_REQUEST_IN11    => 0,
+			USE_RESET_REQUEST_IN12    => 0,
+			USE_RESET_REQUEST_IN13    => 0,
+			USE_RESET_REQUEST_IN14    => 0,
+			USE_RESET_REQUEST_IN15    => 0,
+			ADAPT_RESET_REQUEST       => 0
+		)
+		port map (
 			reset_in0      => rst_reset_n_ports_inv,              -- reset_in0.reset
 			reset_in1      => rst_reset_n_ports_inv,              -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_half_clk_clk,    --       clk.clk
-			reset_out      => rst_controller_020_reset_out_reset, -- reset_out.reset
+			reset_out      => rst_controller_022_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
 			reset_req_in1  => '0',                                -- (terminated)
@@ -6507,7 +7419,7 @@ begin
 			reset_req_in15 => '0'                                 -- (terminated)
 		);
 
-	rst_controller_021 : component mebx_qsys_project_rst_controller_011
+	rst_controller_023 : component mebx_qsys_project_rst_controller_013
 		generic map (
 			NUM_RESET_INPUTS          => 1,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -6537,7 +7449,7 @@ begin
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,              -- reset_in0.reset
 			clk            => m1_ddr2_memory_afi_half_clk_clk,    --       clk.clk
-			reset_out      => rst_controller_021_reset_out_reset, -- reset_out.reset
+			reset_out      => rst_controller_023_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
 			reset_in1      => '0',                                -- (terminated)
@@ -6572,7 +7484,7 @@ begin
 			reset_req_in15 => '0'                                 -- (terminated)
 		);
 
-	rst_controller_022 : component mebx_qsys_project_rst_controller_010
+	rst_controller_024 : component mebx_qsys_project_rst_controller_010
 		generic map (
 			NUM_RESET_INPUTS          => 1,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -6602,8 +7514,8 @@ begin
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,                  -- reset_in0.reset
 			clk            => m2_ddr2_memory_afi_half_clk_clk,        --       clk.clk
-			reset_out      => rst_controller_022_reset_out_reset,     -- reset_out.reset
-			reset_req      => rst_controller_022_reset_out_reset_req, --          .reset_req
+			reset_out      => rst_controller_024_reset_out_reset,     -- reset_out.reset
+			reset_req      => rst_controller_024_reset_out_reset_req, --          .reset_req
 			reset_req_in0  => '0',                                    -- (terminated)
 			reset_in1      => '0',                                    -- (terminated)
 			reset_req_in1  => '0',                                    -- (terminated)
@@ -6637,7 +7549,7 @@ begin
 			reset_req_in15 => '0'                                     -- (terminated)
 		);
 
-	rst_controller_023 : component mebx_qsys_project_rst_controller_001
+	rst_controller_025 : component mebx_qsys_project_rst_controller_001
 		generic map (
 			NUM_RESET_INPUTS          => 2,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -6668,7 +7580,7 @@ begin
 			reset_in0      => rst_reset_n_ports_inv,                   -- reset_in0.reset
 			reset_in1      => rst_controller_reset_source_rs232_reset, -- reset_in1.reset
 			clk            => m2_ddr2_memory_afi_half_clk_clk,         --       clk.clk
-			reset_out      => rst_controller_023_reset_out_reset,      -- reset_out.reset
+			reset_out      => rst_controller_025_reset_out_reset,      -- reset_out.reset
 			reset_req      => open,                                    -- (terminated)
 			reset_req_in0  => '0',                                     -- (terminated)
 			reset_req_in1  => '0',                                     -- (terminated)
@@ -6702,7 +7614,7 @@ begin
 			reset_req_in15 => '0'                                      -- (terminated)
 		);
 
-	rst_controller_024 : component mebx_qsys_project_rst_controller_001
+	rst_controller_026 : component mebx_qsys_project_rst_controller_001
 		generic map (
 			NUM_RESET_INPUTS          => 2,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -6733,7 +7645,7 @@ begin
 			reset_in0      => rst_reset_n_ports_inv,                  -- reset_in0.reset
 			reset_in1      => rst_controller_reset_source_sync_reset, -- reset_in1.reset
 			clk            => clk50_clk,                              --       clk.clk
-			reset_out      => rst_controller_024_reset_out_reset,     -- reset_out.reset
+			reset_out      => rst_controller_026_reset_out_reset,     -- reset_out.reset
 			reset_req      => open,                                   -- (terminated)
 			reset_req_in0  => '0',                                    -- (terminated)
 			reset_req_in1  => '0',                                    -- (terminated)
@@ -6767,7 +7679,7 @@ begin
 			reset_req_in15 => '0'                                     -- (terminated)
 		);
 
-	rst_controller_025 : component mebx_qsys_project_rst_controller_011
+	rst_controller_027 : component mebx_qsys_project_rst_controller_013
 		generic map (
 			NUM_RESET_INPUTS          => 1,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -6797,7 +7709,7 @@ begin
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,              -- reset_in0.reset
 			clk            => m2_ddr2_memory_afi_clk_clk,         --       clk.clk
-			reset_out      => rst_controller_025_reset_out_reset, -- reset_out.reset
+			reset_out      => rst_controller_027_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
 			reset_in1      => '0',                                -- (terminated)
@@ -6832,7 +7744,7 @@ begin
 			reset_req_in15 => '0'                                 -- (terminated)
 		);
 
-	rst_controller_026 : component mebx_qsys_project_rst_controller_011
+	rst_controller_028 : component mebx_qsys_project_rst_controller_013
 		generic map (
 			NUM_RESET_INPUTS          => 1,
 			OUTPUT_RESET_SYNC_EDGES   => "deassert",
@@ -6862,7 +7774,7 @@ begin
 		port map (
 			reset_in0      => rst_reset_n_ports_inv,              -- reset_in0.reset
 			clk            => m1_ddr2_memory_afi_clk_clk,         --       clk.clk
-			reset_out      => rst_controller_026_reset_out_reset, -- reset_out.reset
+			reset_out      => rst_controller_028_reset_out_reset, -- reset_out.reset
 			reset_req      => open,                               -- (terminated)
 			reset_req_in0  => '0',                                -- (terminated)
 			reset_in1      => '0',                                -- (terminated)
@@ -6949,16 +7861,18 @@ begin
 
 	mm_interconnect_3_pio_rst_eth_s1_write_ports_inv <= not mm_interconnect_3_pio_rst_eth_s1_write;
 
+	mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write_ports_inv <= not mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write;
+
 	mm_interconnect_4_m1_ddr2_memory_avl_inv <= not m1_ddr2_memory_avl_waitrequest;
 
 	rst_controller_001_reset_out_reset_ports_inv <= not rst_controller_001_reset_out_reset;
 
 	rst_controller_010_reset_out_reset_ports_inv <= not rst_controller_010_reset_out_reset;
 
-	rst_controller_011_reset_out_reset_ports_inv <= not rst_controller_011_reset_out_reset;
+	rst_controller_013_reset_out_reset_ports_inv <= not rst_controller_013_reset_out_reset;
 
-	rst_controller_022_reset_out_reset_ports_inv <= not rst_controller_022_reset_out_reset;
+	rst_controller_024_reset_out_reset_ports_inv <= not rst_controller_024_reset_out_reset;
 
-	rst_controller_023_reset_out_reset_ports_inv <= not rst_controller_023_reset_out_reset;
+	rst_controller_025_reset_out_reset_ports_inv <= not rst_controller_025_reset_out_reset;
 
 end architecture rtl; -- of MebX_Qsys_Project

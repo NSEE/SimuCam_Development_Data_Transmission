@@ -8,7 +8,7 @@ package avalon_mm_dcom_registers_pkg is
 
 	-- Allowed Addresses
 	constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#77#;
+	constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#79#;
 
 	-- Registers Types
 
@@ -154,6 +154,12 @@ package avalon_mm_dcom_registers_pkg is
 		rmap_dev_base_addr : std_logic_vector(31 downto 0); -- RMAP Device Base Address
 	end record t_dcom_rmap_dev_addr_wr_reg;
 
+	-- RMAP Echoing Mode Config Register
+	type t_dcom_rmap_echoing_mode_config_wr_reg is record
+		rmap_echoing_mode_enable : std_logic; -- RMAP Echoing Mode Enable
+		rmap_echoing_id_enable   : std_logic; -- RMAP Echoing ID Enable
+	end record t_dcom_rmap_echoing_mode_config_wr_reg;
+
 	-- RMAP Codec Config Register
 	type t_dcom_rmap_codec_config_wr_reg is record
 		rmap_target_enable       : std_logic; -- RMAP Target Enable
@@ -273,6 +279,7 @@ package avalon_mm_dcom_registers_pkg is
 		data_scheduler_irq_control_reg     : t_dcom_data_scheduler_irq_control_wr_reg; -- Data Scheduler IRQ Control Register
 		data_scheduler_irq_flags_clear_reg : t_dcom_data_scheduler_irq_flags_clear_wr_reg; -- Data Scheduler IRQ Flags Clear Register
 		rmap_dev_addr_reg                  : t_dcom_rmap_dev_addr_wr_reg; -- RMAP Device Address Register
+		rmap_echoing_mode_config_reg       : t_dcom_rmap_echoing_mode_config_wr_reg; -- RMAP Echoing Mode Config Register
 		rmap_codec_config_reg              : t_dcom_rmap_codec_config_wr_reg; -- RMAP Codec Config Register
 		rmap_mem_area_config_reg           : t_dcom_rmap_mem_area_config_wr_reg; -- RMAP Memory Area Config Register
 		rmap_mem_area_ptr_reg              : t_dcom_rmap_mem_area_ptr_wr_reg; -- RMAP Memory Area Pointer Register

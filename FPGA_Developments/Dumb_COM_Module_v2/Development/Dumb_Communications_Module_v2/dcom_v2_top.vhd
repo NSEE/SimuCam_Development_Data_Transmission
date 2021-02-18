@@ -53,8 +53,8 @@ entity dcom_v2_top is
 		spw_data_rx_status_rxdata_i      : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .spw_data_rx_status_rxdata_signal
 		spw_data_tx_status_txrdy_i       : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txrdy_signal
 		spw_data_tx_status_txhalff_i     : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txhalff_signal
-		spw_errinj_ctrl_errinj_busy_i    : in  std_logic                     := '0'; --          --                                        .spw_errinj_ctrl_errinj_busy_signal
-		spw_errinj_ctrl_errinj_ready_i   : in  std_logic                     := '0'; --          --                                        .spw_errinj_ctrl_errinj_ready_signal
+		spw_errinj_ctrl_errinj_busy_i    : in  std_logic                     := '0'; --          --                                 .spw_errinj_ctrl_errinj_busy_signal
+		spw_errinj_ctrl_errinj_ready_i   : in  std_logic                     := '0'; --          --                                 .spw_errinj_ctrl_errinj_ready_signal
 		spw_link_command_autostart_o     : out std_logic; --                                     --                                 .spw_link_command_autostart_signal
 		spw_link_command_linkstart_o     : out std_logic; --                                     --                                 .spw_link_command_linkstart_signal
 		spw_link_command_linkdis_o       : out std_logic; --                                     --                                 .spw_link_command_linkdis_signal
@@ -66,9 +66,17 @@ entity dcom_v2_top is
 		spw_data_tx_command_txwrite_o    : out std_logic; --                                     --                                 .spw_data_tx_command_txwrite_signal
 		spw_data_tx_command_txflag_o     : out std_logic; --                                     --                                 .spw_data_tx_command_txflag_signal
 		spw_data_tx_command_txdata_o     : out std_logic_vector(7 downto 0); --                  --                                 .spw_data_tx_command_txdata_signal
-		spw_errinj_ctrl_start_errinj_o   : out std_logic; --                                      --                                        .spw_errinj_ctrl_start_errinj_signal
-		spw_errinj_ctrl_reset_errinj_o   : out std_logic; --                                      --                                        .spw_errinj_ctrl_reset_errinj_signal
-		spw_errinj_ctrl_errinj_code_o    : out std_logic_vector(3 downto 0); --                   --                                        .spw_errinj_ctrl_errinj_code_signal
+		spw_errinj_ctrl_start_errinj_o   : out std_logic; --                                     --                                 .spw_errinj_ctrl_start_errinj_signal
+		spw_errinj_ctrl_reset_errinj_o   : out std_logic; --                                     --                                 .spw_errinj_ctrl_reset_errinj_signal
+		spw_errinj_ctrl_errinj_code_o    : out std_logic_vector(3 downto 0); --                  --                                 .spw_errinj_ctrl_errinj_code_signal
+		rmap_echo_echo_en_o              : out std_logic; --                                     --        conduit_end_rmap_echo_out.echo_en_signal
+		rmap_echo_echo_id_en_o           : out std_logic; --                                     --                                 .echo_id_en_signal
+		rmap_echo_in_fifo_wrflag_o       : out std_logic; --                                     --                                 .in_fifo_wrflag_signal
+		rmap_echo_in_fifo_wrdata_o       : out std_logic_vector(7 downto 0); --                  --                                 .in_fifo_wrdata_signal
+		rmap_echo_in_fifo_wrreq_o        : out std_logic; --                                     --                                 .in_fifo_wrreq_signal
+		rmap_echo_out_fifo_wrflag_o      : out std_logic; --                                     --                                 .out_fifo_wrflag_signal
+		rmap_echo_out_fifo_wrdata_o      : out std_logic_vector(7 downto 0); --                  --                                 .out_fifo_wrdata_signal
+		rmap_echo_out_fifo_wrreq_o       : out std_logic; --                                     --                                 .out_fifo_wrreq_signal
 		codec_rmap_wr_waitrequest_i      : in  std_logic                     := '0'; --          --    conduit_end_rmap_master_codec.wr_waitrequest_signal
 		codec_rmap_readdata_i            : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .readdata_signal
 		codec_rmap_rd_waitrequest_i      : in  std_logic                     := '0'; --          --                                 .rd_waitrequest_signal
@@ -627,5 +635,15 @@ begin
 			end if;
 		end if;
 	end process p_spw_codec_dummy_read;
+
+	-- rmap echoing
+	rmap_echo_echo_en_o         <= s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_mode_enable;
+	rmap_echo_echo_id_en_o      <= s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_id_enable;
+	rmap_echo_in_fifo_wrflag_o  <= s_rmap_spw_flag.receiver.flag;
+	rmap_echo_in_fifo_wrdata_o  <= s_rmap_spw_flag.receiver.data;
+	rmap_echo_in_fifo_wrreq_o   <= s_rmap_spw_control.receiver.read;
+	rmap_echo_out_fifo_wrflag_o <= s_rmap_spw_control.transmitter.flag;
+	rmap_echo_out_fifo_wrdata_o <= s_rmap_spw_control.transmitter.data;
+	rmap_echo_out_fifo_wrreq_o  <= s_rmap_spw_control.transmitter.write;
 
 end architecture rtl;                   -- of dcom_v2_top
