@@ -908,7 +908,9 @@ void CommandManagementTask() {
 				T_simucam.T_conf.iPeriodicHK = p_payload->data[0];
 
 				if (T_simucam.T_conf.iPeriodicHK) {
-
+					if(T_simucam.T_conf.luHKPeriod != 0){
+						error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
+					}
 					T_simucam.T_conf.luHKPeriod = p_payload->data[4] + 256 * p_payload->data[3] + 65536 * p_payload->data[2] + 4294967296 * p_payload->data[1];
 
 					error_code = OSTaskResume(PERIODIC_HK_TASK_PRIORITY);
