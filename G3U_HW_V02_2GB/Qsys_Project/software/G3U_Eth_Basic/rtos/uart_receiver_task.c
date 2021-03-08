@@ -462,7 +462,7 @@ void uart_receiver_task(void *task_data) {
 			}
 #endif
 			/* Send state to Imagette parser if type is correct */
-			if (payload.type == 102) {
+			if (payload.type == 102 || payload.type == 104) {
 				eReaderRXMode = sGetImagettes;
 			} else {
 				eReaderRXMode = sToGetCommand;
