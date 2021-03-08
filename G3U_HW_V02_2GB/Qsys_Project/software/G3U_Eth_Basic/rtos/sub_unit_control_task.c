@@ -53,7 +53,19 @@ if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
 			/* TODO: List all IRQs needed */
 			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwLinkConnectedEn = TRUE;
-
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwLinkDisconnectedEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrDisconnectEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrParityEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrEscapeEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrCreditEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrEarlyEopEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrEepen = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrHeaderCrcEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrInvalidCommandCodeEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrInvalidDataCrcEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrToomuchDataEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrUnusedPacketTypeEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRxTimecodeReceivedEn = TRUE;
 			bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
 
 			/*
