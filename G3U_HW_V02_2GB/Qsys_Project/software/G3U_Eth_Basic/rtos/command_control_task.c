@@ -1378,7 +1378,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
 					if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData || p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
-							|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb) {
+							|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb || p_payload->type == typeSetPeriodicHK || p_payload->type == typeSetProgressEvent) {
 						v_ack_creator(p_payload, xCommandNotAccepted);
 					} else {
 						v_ack_creator(p_payload, xCommandNotFound);
