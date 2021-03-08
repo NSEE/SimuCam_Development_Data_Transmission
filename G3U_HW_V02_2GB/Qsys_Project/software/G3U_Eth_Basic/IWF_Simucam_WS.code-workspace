@@ -15,7 +15,8 @@
             "simucam_definitions.h": "c",
             "report.h": "c",
             "simucam_model.h": "c",
-            "spw_controller.h": "c"
+            "spw_controller.h": "c",
+            "data_scheduler.h": "c"
         }
 	}
 }

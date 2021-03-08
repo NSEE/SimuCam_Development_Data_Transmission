@@ -42,7 +42,7 @@
 
 /* Sub modes enum */
 typedef enum {
-	subModeConfig = 0, subModeRun, subModeInit, subModetoConfig, subModetoRun, subAccessDMA1, subAccessDMA2, subAbort, subEOT, subChangeMode, subAccessDMA
+	subModeInit = 0, subModetoConfig, subModeConfig, subModetoRun, subModeRun, subAccessDMA1, subAccessDMA2, subAbort, subEOT, subChangeMode, subAccessDMA
 } TSubStates;
 
 /* MeB status enum */
