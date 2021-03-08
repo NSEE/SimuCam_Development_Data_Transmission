@@ -821,13 +821,16 @@ void CommandManagementTask() {
 						alt_SSSErrorHandler(error_code, 0);
 					}
 					T_simucam.T_status.simucam_mode = simModetoRun;
+#if DEBUG_ON
+					if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+						fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
+					}
+#endif
+				}
+				if (p_payload->data[0] == 0) {
+					v_ack_creator(p_payload, xExecOk);
 				}
 
-#if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[CommandManagementTask]Config sent to sub\n\r");
-				}
-#endif
 				break;
 
 				/*
@@ -1130,6 +1133,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 								}
 							}
 						}
+						v_ack_creator(p_payload, xExecOk);
+					}
+					if (p_payload->data[0] == 1) {
 						v_ack_creator(p_payload, xExecOk);
 					}
 					break;
