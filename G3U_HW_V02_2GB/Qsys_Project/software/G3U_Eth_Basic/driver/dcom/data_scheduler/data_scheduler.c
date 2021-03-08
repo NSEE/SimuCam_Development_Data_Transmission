@@ -74,10 +74,9 @@ void vDschCh1HandleIrq(void* pvContext) {
 			x_echo_sent[i_echo_buffer_ctr].nb_imagette = T_simucam.T_Sub[0].T_conf.i_imagette_control;
 			x_echo_sent[i_echo_buffer_ctr].simucam_time = T_simucam.T_status.simucam_running_time;
 #if DEBUG_ON
-			// TODO: REMOVE
-			// if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				fprintf(fp, "[DataSchd]Sending data to echo.\n\r");
-			// }
+			}
 #endif
 			queue_error = OSQPost(p_echo_queue, &(x_echo_sent[i_echo_buffer_ctr]));
 			if (queue_error == OS_ERR_NONE) {

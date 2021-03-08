@@ -645,10 +645,9 @@ void vDataSelector(T_uart_payload* pPayload){
  **/
 INT8U i_clear_echo(){
 #if DEBUG_ON
-//TODO: REmove
-	// if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	fprintf(fp, "[CommandManagementTask]Clearing Echo Queue.\r\n");
-	// }
+	}
 #endif
 
 	T_simucam.T_conf.echo_sent = 0;
@@ -1065,6 +1064,18 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			 * SYNC cmd
 			 */
 			if (p_payload->type == typeStartSending) {
+				
+					/*
+					* Stop and clear channel timers
+					*/
+				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+					if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig) {
+						bDschGetIrqControl(&(xCh[i_channel_for].xDataScheduler));
+						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
+						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;
+						bDschSetIrqControl(&(xCh[i_channel_for].xDataScheduler));
+					}
+				}
 
 				bSyncCtrOneShot();
 
