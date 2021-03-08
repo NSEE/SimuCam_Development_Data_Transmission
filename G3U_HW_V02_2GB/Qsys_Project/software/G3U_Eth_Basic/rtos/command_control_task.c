@@ -759,6 +759,9 @@ void CommandManagementTask() {
 				fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
 			}
 #endif
+			/* Disable the Isolation and LVDS driver boards*/
+			bDisableIsoDrivers();
+			bDisableLvdsBoard();
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
 			v_p_event_creator(eidMebConfig);
@@ -1020,6 +1023,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[CommandManagementTask RUNNING]Mode to RUN\r\n");
 }
 #endif
+			/* Enable the Isolation and LVDS driver boards*/
+			bEnableIsoDrivers();
+			bEnableLvdsBoard();
 
 			/*
 			 * Clear and start simucam timer, NOT RUNNING
