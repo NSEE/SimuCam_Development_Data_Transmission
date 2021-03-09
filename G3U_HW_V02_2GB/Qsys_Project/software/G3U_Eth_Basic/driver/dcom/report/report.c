@@ -69,6 +69,7 @@ void vRprtCh1IrqHandler(void* pvContext) {
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -77,6 +78,8 @@ void vRprtCh1IrqHandler(void* pvContext) {
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -85,6 +88,8 @@ void vRprtCh1IrqHandler(void* pvContext) {
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -93,6 +98,8 @@ void vRprtCh1IrqHandler(void* pvContext) {
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */
@@ -196,6 +203,7 @@ void vRprtCh2IrqHandler(void* pvContext) {
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -204,6 +212,8 @@ void vRprtCh2IrqHandler(void* pvContext) {
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -212,6 +222,8 @@ void vRprtCh2IrqHandler(void* pvContext) {
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -220,6 +232,8 @@ void vRprtCh2IrqHandler(void* pvContext) {
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */
@@ -323,6 +337,7 @@ INT8U usi_link_nb = 2;
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -331,6 +346,8 @@ INT8U usi_link_nb = 2;
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -339,6 +356,8 @@ INT8U usi_link_nb = 2;
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -347,6 +366,8 @@ INT8U usi_link_nb = 2;
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */
@@ -450,6 +471,7 @@ INT8U usi_link_nb = 3;
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -458,6 +480,8 @@ INT8U usi_link_nb = 3;
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -466,6 +490,8 @@ INT8U usi_link_nb = 3;
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -474,6 +500,8 @@ INT8U usi_link_nb = 3;
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */
@@ -577,6 +605,7 @@ INT8U usi_link_nb = 4;
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -585,6 +614,8 @@ INT8U usi_link_nb = 4;
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -593,6 +624,8 @@ INT8U usi_link_nb = 4;
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -601,6 +634,8 @@ INT8U usi_link_nb = 4;
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */
@@ -704,6 +739,7 @@ INT8U usi_link_nb = 5;
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -712,6 +748,8 @@ INT8U usi_link_nb = 5;
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -720,6 +758,8 @@ INT8U usi_link_nb = 5;
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -728,6 +768,8 @@ INT8U usi_link_nb = 5;
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */
@@ -831,6 +873,7 @@ INT8U usi_link_nb = 6;
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -839,6 +882,8 @@ INT8U usi_link_nb = 6;
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -847,6 +892,8 @@ INT8U usi_link_nb = 6;
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -855,6 +902,8 @@ INT8U usi_link_nb = 6;
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */
@@ -958,6 +1007,7 @@ INT8U usi_link_nb = 7;
 
 		/* SpW Error Disconnect Flag Treatment */
 		v_error_event_creator(eidErrDisc, usi_link_nb);
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_disconnect_err_cnt += 1;
 	}
 
 	/* SpW Error Parity Flag */
@@ -966,6 +1016,8 @@ INT8U usi_link_nb = 7;
 
 		/* SpW Error Parity Flag Treatment */
 		v_error_event_creator(eidErrPar, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_parity_err_cnt += 1;
 	}
 
 	/* SpW Error Escape Flag */
@@ -974,6 +1026,8 @@ INT8U usi_link_nb = 7;
 
 		/* SpW Error Escape Flag Treatment */
 		v_error_event_creator(eidErrEsc, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_escape_err_cnt += 1;
 	}
 
 	/* SpW Error Credit Flag */
@@ -982,6 +1036,8 @@ INT8U usi_link_nb = 7;
 
 		/* SpW Error Credit Flag Treatment */
 		v_error_event_creator(eidErrCred, usi_link_nb);
+
+		T_simucam.T_Sub[usi_link_nb].T_sub_status.usi_credit_err_cnt += 1;
 	}
 
 	/* Rx Timecode Received Flag */

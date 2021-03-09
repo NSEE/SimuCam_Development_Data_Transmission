@@ -239,10 +239,10 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 	hk_buffer[13] = xCh[chann_buff].xSpacewire.xSpwcLinkStatus.bRunning;
 	hk_buffer[14] = T_simucam.T_Sub[i_channel].T_conf.linkstatus_running; /**link enabled*/
 	hk_buffer[15] = T_simucam.T_Sub[i_channel].T_conf.sub_status_sending;
-	hk_buffer[16] = 0; /**TODO link errors*/
-	hk_buffer[17] = 0;
-	hk_buffer[18] = 0;
-	hk_buffer[19] = 0;
+	hk_buffer[16] = T_simucam.T_Sub[i_channel].T_sub_status.usi_disconnect_err_cnt;
+	hk_buffer[17] = T_simucam.T_Sub[i_channel].T_sub_status.usi_parity_err_cnt;
+	hk_buffer[18] = T_simucam.T_Sub[i_channel].T_sub_status.usi_escape_err_cnt;
+	hk_buffer[19] = T_simucam.T_Sub[i_channel].T_sub_status.usi_credit_err_cnt;
 
 	/*
 	 * Sent Packets

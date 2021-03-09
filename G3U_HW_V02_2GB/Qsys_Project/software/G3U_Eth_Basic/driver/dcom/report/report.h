@@ -54,5 +54,6 @@ bool bRprtInitCh(TRprtChannel *pxRprtCh, alt_u8 ucDcomCh);
 extern void v_error_event_creator(INT8U usi_eid, INT8U usi_data);
 extern void v_p_event_creator(INT8U usi_eid);
 extern void v_p_event_timecode_creator(INT8U usi_timecode, INT8U usi_channel);
+extern T_Simucam T_simucam;
 
 #endif /* DRIVER_DCOM_REPORT_REPORT_H_ */

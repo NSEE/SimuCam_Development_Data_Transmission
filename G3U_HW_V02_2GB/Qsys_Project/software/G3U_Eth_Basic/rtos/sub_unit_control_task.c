@@ -147,6 +147,12 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 			T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeConfig;
 			T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
+
+			/* Clearing errors */
+			T_simucam.T_Sub[c_spw_channel].T_sub_status.usi_disconnect_err_cnt = 0; 
+			T_simucam.T_Sub[c_spw_channel].T_sub_status.usi_parity_err_cnt = 0; 
+			T_simucam.T_Sub[c_spw_channel].T_sub_status.usi_escape_err_cnt = 0; 
+			T_simucam.T_Sub[c_spw_channel].T_sub_status.usi_credit_err_cnt = 0;
 			break;
 
 			/*

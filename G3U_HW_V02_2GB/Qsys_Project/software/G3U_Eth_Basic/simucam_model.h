@@ -120,9 +120,17 @@ typedef struct T_Sub_conf {
 	INT16U i_imagette_control;
 } T_Sub_conf;
 
+typedef struct T_Sub_status {
+	INT8U usi_disconnect_err_cnt;
+	INT8U usi_parity_err_cnt;
+	INT8U usi_escape_err_cnt;
+	INT8U usi_credit_err_cnt;
+} T_Sub_status;
+
 typedef struct T_Sub {
 	T_Sub_conf T_conf;
 	T_dataset T_data;
+	T_Sub_status T_sub_status;
 } T_Sub;
 
 typedef struct T_Simucam_conf {
