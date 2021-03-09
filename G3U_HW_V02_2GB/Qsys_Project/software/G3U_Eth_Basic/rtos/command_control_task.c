@@ -636,6 +636,24 @@ void vDataSelector(T_uart_payload* pPayload){
     // }
 }
 
+/**
+ * @name i_clear_echo
+ * @brief Clears the Echo queue
+ *
+ * @param 	[in] 	void
+ * @retval          INT8U error code
+ **/
+INT8U i_clear_echo(){
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+	fprintf(fp, "[CommandManagementTask]Clearing Echo Queue.\r\n");
+	}
+#endif
+
+	T_simucam.T_conf.echo_sent = 0;
+	return OSQFlush(p_echo_queue);
+}
+
 /*
  * Task body
  */
@@ -741,6 +759,9 @@ void CommandManagementTask() {
 				fprintf(fp, "[CommandManagementTask]Mode: toConfig\r\n");
 			}
 #endif
+			/* Disable the Isolation and LVDS driver boards*/
+			bDisableIsoDrivers();
+			bDisableLvdsBoard();
 
 			T_simucam.T_status.simucam_mode = simModeConfig;
 			v_p_event_creator(eidMebConfig);
@@ -840,16 +861,18 @@ void CommandManagementTask() {
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
-				TSimStates mem = T_simucam.T_status.simucam_mode;
+				TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
 				T_simucam.T_status.simucam_mode = simClearMem;
+				i_clear_echo();
 				vClearRam();
 				v_ack_creator(p_payload, xExecOk);
-				T_simucam.T_status.simucam_mode = mem;
+				T_simucam.T_status.simucam_mode = x_prev_mode;
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
 				}
 #endif
+
 				v_p_event_creator(eidClrRam);
 				break;
 
@@ -879,6 +902,9 @@ void CommandManagementTask() {
 #endif
 
 				T_simucam.T_conf.i_forward_data = p_payload->data[0];
+				if (T_simucam.T_conf.echo_sent != p_payload->data[1]){
+					i_clear_echo();
+				}
 				T_simucam.T_conf.echo_sent = p_payload->data[1];
 
 				v_ack_creator(p_payload, xExecOk);
@@ -892,15 +918,15 @@ void CommandManagementTask() {
 				/*
 				 * Set Recording
 				 */
-			case typeSetRecording:
-#if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
-				}
-#endif
-				T_simucam.T_conf.iLog = p_payload->data[0];
-				v_ack_creator(p_payload, xExecOk);
-				break;
+// 			case typeSetRecording:
+// #if DEBUG_ON
+// 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+// 					fprintf(fp, "[CommandManagementTask]Set Recording\n\r");
+// 				}
+// #endif
+// 				T_simucam.T_conf.iLog = p_payload->data[0];
+// 				v_ack_creator(p_payload, xExecOk);
+// 				break;
 
 				/**
 				 * Periodic HK
@@ -1000,6 +1026,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[CommandManagementTask RUNNING]Mode to RUN\r\n");
 }
 #endif
+			/* Enable the Isolation and LVDS driver boards*/
+			bEnableIsoDrivers();
+			bEnableLvdsBoard();
 
 			/*
 			 * Clear and start simucam timer, NOT RUNNING
@@ -1044,6 +1073,18 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			 * SYNC cmd
 			 */
 			if (p_payload->type == typeStartSending) {
+				
+					/*
+					* Stop and clear channel timers
+					*/
+				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+					if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig) {
+						bDschGetIrqControl(&(xCh[i_channel_for].xDataScheduler));
+						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
+						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;
+						bDschSetIrqControl(&(xCh[i_channel_for].xDataScheduler));
+					}
+				}
 
 				bSyncCtrOneShot();
 
@@ -1099,7 +1140,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						 * Stop and clear channel timers
 						 */
 						for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
-							if (T_simucam.T_Sub[i_channel_for].T_conf.mode == 1 || T_simucam.T_Sub[i_channel_for].T_conf.mode == 4) {
+							if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig) {
 								error_code = bDschStopTimer(&(xCh[i_channel_for].xDataScheduler));
 								if (error_code != TRUE) {
 #if DEBUG_ON

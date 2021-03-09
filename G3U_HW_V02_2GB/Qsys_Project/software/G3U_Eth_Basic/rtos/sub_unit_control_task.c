@@ -53,7 +53,19 @@ if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
 			/* TODO: List all IRQs needed */
 			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwLinkConnectedEn = TRUE;
-
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwLinkDisconnectedEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrDisconnectEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrParityEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrEscapeEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrCreditEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrEarlyEopEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrEepen = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrHeaderCrcEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrInvalidCommandCodeEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrInvalidDataCrcEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrToomuchDataEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrUnusedPacketTypeEn = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqControl.bRxTimecodeReceivedEn = TRUE;
 			bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
 
 			/*
@@ -108,6 +120,16 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit mode toConfig\r\n", (INT8U) c_spw_channel);
 }
 #endif
+			/* Disable IRQ */
+			bDschGetIrqControl(&(xCh[c_spw_channel].xDataScheduler));
+			xCh[c_spw_channel].xDataScheduler.xDschIrqControl.bTxBeginEn = FALSE;
+			xCh[c_spw_channel].xDataScheduler.xDschIrqControl.bTxEndEn = FALSE;
+			bDschSetIrqControl(&(xCh[c_spw_channel].xDataScheduler));
+			/*
+			* Clear Scheduler
+			*/
+			bIdmaResetChDma(c_spw_channel, TRUE);
+
 			/*
 			 * Stop timer for ChA
 			 */
@@ -170,6 +192,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			bDschStopTimer(&(xCh[c_spw_channel].xDataScheduler));
 			bDschClrTimer(&(xCh[c_spw_channel].xDataScheduler));
 			T_simucam.T_Sub[c_spw_channel].T_conf.i_imagette_control = 0;
+
 			/*
 			 * Start timer for ChA
 			 * NOT STARTING THE TIMER
