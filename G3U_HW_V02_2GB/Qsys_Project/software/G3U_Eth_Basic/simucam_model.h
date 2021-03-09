@@ -141,7 +141,6 @@ typedef struct T_Simucam_conf {
 	INT8U iPeriodicHK;
 	INT32U luHKPeriod; /* HK Timer period in centiseconds, not activated if 0 */
 	INT8U usiDebugLevels;
-	INT8U usiProgressEvent;
 	INT8U usi_rmap_echo;
 } T_Simucam_conf;
 

@@ -981,16 +981,6 @@ void CommandManagementTask() {
 				T_simucam.T_conf.i_forward_data = 0;
 				T_simucam.T_conf.echo_sent = 0;
 			break;
-			
-			case typeSetProgressEvent: //TODO Set on NUC
-#if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-				fprintf(fp, "[CommandManagementTask]Set Progress Eventst\n\r");
-			}
-#endif
-				T_simucam.T_conf.usiProgressEvent = p_payload->data[0];
-				v_ack_creator(p_payload, xExecOk);
-			break;
 
 			case typeEnableEchoing:
 				bRmapGetEchoingMode(&xCh[p_payload->data[0]].xRmap);
