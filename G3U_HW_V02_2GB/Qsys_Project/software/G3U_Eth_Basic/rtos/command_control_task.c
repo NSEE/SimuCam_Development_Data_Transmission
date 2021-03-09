@@ -528,11 +528,12 @@ void vSendETHConfig(TConfEth xEthConf) {
 	for (INT8U f = 0; f < 6; f++) {
 		iETHBuffer[23 + f] = xEthConf.ucMAC[f];
 	}
+	iETHBuffer[29] = T_simucam.T_conf.usiDebugLevels;
 	usCRC = crc__CRC16CCITT(iETHBuffer, IP_CONFIG_SIZE - 2);
 
-	iETHBuffer[30] = div(usCRC, 256).rem;
+	iETHBuffer[IP_CONFIG_SIZE - 1] = div(usCRC, 256).rem;
 	usCRC = div(usCRC, 256).quot;
-	iETHBuffer[29] = div(usCRC, 256).rem;
+	iETHBuffer[IP_CONFIG_SIZE - 2] = div(usCRC, 256).rem;
 
 	/*
 	 * Send Eth Config through serial
