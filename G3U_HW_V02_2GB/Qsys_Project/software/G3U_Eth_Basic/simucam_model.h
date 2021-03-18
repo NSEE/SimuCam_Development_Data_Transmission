@@ -67,6 +67,7 @@ typedef enum {
 	typeSetPeriodicHK,
 	typeReset,
 	typeEnableEchoing = 125,
+	typeRmapEchoEnable,
 	typeErrorInjectionSpw = 205,
 	typeErrorInjectionRmap,
 	typeSetProgressEvent,

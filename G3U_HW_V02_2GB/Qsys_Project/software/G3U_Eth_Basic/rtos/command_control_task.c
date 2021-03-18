@@ -994,6 +994,18 @@ void CommandManagementTask() {
 					v_p_event_creator(eidEchDis+p_payload->data[0]);
 			break;
 
+			/* Enable RMAP Log on channel 7 */
+			case typeRmapEchoEnable:
+				if (p_payload->data[0] == 1){
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdDcom);
+					T_simucam.T_conf.usi_rmap_echo = 1;
+				} else {
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
+					T_simucam.T_conf.usi_rmap_echo = 0;
+				}
+				v_ack_creator(p_payload, xExecOk);
+			break;
+
 			default:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
@@ -1409,8 +1421,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
-					if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData || p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
-							|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb || p_payload->type == typeSetPeriodicHK || p_payload->type == typeSetProgressEvent) {
+					// if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData || p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
+					// 		|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb || p_payload->type == typeSetPeriodicHK || p_payload->type == typeSetProgressEvent || p_payload->type == typeRmapEchoEnable || p_payload->type == typeEnableEchoing) 
+					if(p_payload->type < 126) {
 						v_ack_creator(p_payload, xCommandNotAccepted);
 					} else {
 						v_ack_creator(p_payload, xCommandNotFound);
