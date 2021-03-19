@@ -36,9 +36,12 @@ void vInitSimucamBasicHW(void) {
 	bSSDisplayConfig(SSDP_NORMAL_MODE);
 	bSSDisplayUpdate(0);
 
-//	/* Disable the Isolation and LVDS driver boards*/
-//	bDisableIsoDrivers();
-//	bDisableLvdsBoard();
+	/* Disable the Isolation and LVDS driver boards*/
+	bDisableIsoDrivers();
+	bDisableLvdsBoard();
+
+	/* Configure SpaceWire Channel H Mux */
+	bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
 
 	/* Enable the Isolation and LVDS driver boards*/
 	bEnableIsoDrivers();

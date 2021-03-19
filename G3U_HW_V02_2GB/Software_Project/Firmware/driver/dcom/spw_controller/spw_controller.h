@@ -13,9 +13,12 @@
 #include "../dcom.h"
 
 //! [constants definition]
-//! [constants definition]
 
-//! [public module structs definition]
+enum SpwcChHMuxSelId {
+	eSpwcChHMuxSelIdDcom = 0u, /* SpaceWire Channel H Mux Select ID for DCOM Channel */
+	eSpwcChHMuxSelIdRmpe = 1u, /* SpaceWire Channel H Mux Select ID for Rmap Echoing */
+	eSpwcChHMuxSelIdNone = 2u  /* SpaceWire Channel H Mux Select ID for None Selected */
+} SpwcChHMuxSelId;
 
 enum SpwcSpwCodecErrId {
 	eSpwcSpwCodecErrIdNone        = 0u,  /* SpaceWire Codec Error Injection Error ID for No Error */
@@ -26,6 +29,9 @@ enum SpwcSpwCodecErrId {
 	eSpwcSpwCodecErrIdChar        = 5u,  /* SpaceWire Codec Error Injection Error ID for Char Error */
 } SpwcSpwCodecErrId;
 
+//! [constants definition]
+
+//! [public module structs definition]
 //! [public module structs definition]
 
 //! [public function prototypes]
@@ -52,6 +58,8 @@ bool bSpwcGetSpwCodecErrInj(TSpwcChannel *pxSpwcCh);
 bool bSpwcSetSpwCodecErrInj(TSpwcChannel *pxSpwcCh);
 
 bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh);
+
+bool bSpwcChHMuxSelect(alt_u32 uliMuxSelect);
 
 alt_u8 ucSpwcCalculateLinkDiv(alt_8 ucLinkSpeed);
 //! [public function prototypes]

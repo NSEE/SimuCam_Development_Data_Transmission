@@ -567,17 +567,49 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
  * @param 	[in] 	void
  * @retval          void
  **/
+//void vClearRam(void) {
+//	for (INT8U s = 0; s < NB_CHANNELS; s++) {
+//		/*
+//		 * Switch to the right memory stick
+//		 */
+//		if (((unsigned char) s / 4) == 0) {
+//			bDdr2SwitchMemory(DDR2_M1_ID);
+//		} else {
+//			bDdr2SwitchMemory(DDR2_M2_ID);
+//		}
+//		memset((INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0, (0x20000000 - 1));
+//	}
+//}
 void vClearRam(void) {
+
+	const alt_u32 uliMemData[8] = {
+			0x00000000, 0x00000000, 0x00000000, 0x00000000,
+			0x00000000, 0x00000000, 0x00000000, 0x00000000
+	};
+
+	bMfilSetWrData(uliMemData);
+
 	for (INT8U s = 0; s < NB_CHANNELS; s++) {
+
+		bMfilResetDma(TRUE);
+
 		/*
 		 * Switch to the right memory stick
 		 */
 		if (((unsigned char) s / 4) == 0) {
-			bDdr2SwitchMemory(DDR2_M1_ID);
+			if (bMfilDmaTransfer(eDdr2Memory1, (INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0x20000000)) {
+				while ( ( TRUE == bMfilGetWrBusy() ) && ( FALSE == bMfilGetWrTimeoutErr() ) ) {
+					usleep(100);
+				}
+			}
 		} else {
-			bDdr2SwitchMemory(DDR2_M2_ID);
+			if (bMfilDmaTransfer(eDdr2Memory2, (INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0x20000000)) {
+				while ( ( TRUE == bMfilGetWrBusy() ) && ( FALSE == bMfilGetWrTimeoutErr() ) ) {
+					usleep(100);
+				}
+			}
 		}
-		memset((INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0, (0x20000000 - 1));
+
 	}
 }
 

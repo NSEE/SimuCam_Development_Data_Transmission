@@ -254,7 +254,9 @@ module MebX_Qsys_Project (
 	ssdp_ssdp0,
 	ssdp_ssdp1,
 	sync_in_conduit,
+	sync_in_en_conduit,
 	sync_out_conduit,
+	sync_out_en_conduit,
 	sync_spw1_conduit,
 	sync_spw2_conduit,
 	sync_spw3_conduit,
@@ -283,9 +285,7 @@ module MebX_Qsys_Project (
 	umft601a_pins_umft_wr_n_signal,
 	umft601a_pins_umft_rd_n_signal,
 	umft601a_pins_umft_oe_n_signal,
-	umft601a_pins_umft_siwu_n_signal,
-	sync_out_en_conduit,
-	sync_in_en_conduit);	
+	umft601a_pins_umft_siwu_n_signal);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -541,7 +541,9 @@ module MebX_Qsys_Project (
 	output	[7:0]	ssdp_ssdp0;
 	output	[7:0]	ssdp_ssdp1;
 	input		sync_in_conduit;
+	input		sync_in_en_conduit;
 	output		sync_out_conduit;
+	input		sync_out_en_conduit;
 	output		sync_spw1_conduit;
 	output		sync_spw2_conduit;
 	output		sync_spw3_conduit;
@@ -571,6 +573,4 @@ module MebX_Qsys_Project (
 	output		umft601a_pins_umft_rd_n_signal;
 	output		umft601a_pins_umft_oe_n_signal;
 	output		umft601a_pins_umft_siwu_n_signal;
-	input		sync_out_en_conduit;
-	input		sync_in_en_conduit;
 endmodule

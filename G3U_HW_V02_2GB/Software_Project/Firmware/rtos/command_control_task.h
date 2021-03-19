@@ -31,6 +31,8 @@
 #include "../driver/uart/uart.h"
 #include "../driver/dcom/dcom_channel.h"
 #include "../driver/reset/reset.h"
+#include "../driver/ctrl_io_lvds/ctrl_io_lvds.h"
+#include "../driver/memory_filler/memory_filler.h"
 // #include "simple_socket_server.h"			/* Used in the conn/send op */
 /*
  * Include configurations for the communication modules [yb]
@@ -69,6 +71,9 @@ int v_parse_data_teste(struct T_uart_payload *p_payload, Timagette_control *p_im
 void v_ack_int(T_uart_payload* p_error_response, INT8U error_code);
 void vSendETHConfig(TConfEth xEthConf);
 void vClearRam(void);
+void v_p_event_creator(INT8U usi_eid);
+void v_error_event_creator(INT8U usi_eid, INT8U usi_data);
+void v_p_event_timecode_creator(INT8U usi_timecode, INT8U usi_channel);
 /*$PAGE*/
 
 #endif /* COMMAND_CONTROL_H_ */
