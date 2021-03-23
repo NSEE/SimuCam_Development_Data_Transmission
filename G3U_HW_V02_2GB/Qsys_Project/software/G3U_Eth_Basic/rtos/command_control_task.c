@@ -1429,7 +1429,8 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				bRmapGetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.bTriggerErr = TRUE;
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.ucErrorId   = p_payload->data[0];
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 4294967296 * p_payload->data[2]); 
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 4294967296 * p_payload->data[2]);
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.usiRepeats  = 0;
 				bRmapSetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 
 				break;

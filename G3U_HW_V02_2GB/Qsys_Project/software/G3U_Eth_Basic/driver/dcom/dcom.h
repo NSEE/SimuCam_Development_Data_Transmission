@@ -244,9 +244,11 @@ typedef struct RmapMemAreaPrt {
 
 /* RMAP Error Injection Control Register Struct */
 typedef struct RmapRmapErrInj {
+	bool bResetErr; /* Reset RMAP Error */
 	bool bTriggerErr; /* Trigger RMAP Error */
 	alt_u8 ucErrorId; /* Error ID of RMAP Error */
 	alt_u32 uliValue; /* Value of RMAP Error */
+	alt_u16 usiRepeats; /* Repetitions of RMAP Error */
 } TRmapRmapErrInj;
 
 /* Report Device Address Register Struct */
