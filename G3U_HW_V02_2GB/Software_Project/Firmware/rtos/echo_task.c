@@ -170,79 +170,6 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number, INT8U i_channel
 	T_simucam.T_status.TM_id++;
 }
 
-/**
- * @name vLogSend
- * @brief Generates and sends log to NUC
- * @ingroup UTIL
- *
- * @param 	[in] 	INT32U i_sim_time
- *          [in]    INT16U i_imagette_number
- *          [in]    INT8U i_channel
- *          [in]    INT8U iTAG[]
- * 
- * @retval void
- **/
-void vLogSend(INT32U i_sim_time, INT16U i_imagette_number, INT8U i_channel, INT8U iTAG[]) {
-
-	static INT8U tx_buffer[LOG_SIZE];
-	INT32U nb_time = i_sim_time;
-	INT16U nb_id = T_simucam.T_status.TM_id;
-	INT16U iImagetteNbBuffer = i_imagette_number;
-	INT16U usCRC;
-
-	tx_buffer[0] = 4;
-
-	tx_buffer[2] = div(nb_id, 256).rem;
-	nb_id = div(nb_id, 256).quot;
-	tx_buffer[1] = div(nb_id, 256).rem;
-
-	tx_buffer[3] = typeSentLog;
-
-	tx_buffer[4] = 0;
-	tx_buffer[5] = 0;
-	tx_buffer[6] = 0;
-	tx_buffer[7] = LOG_SIZE;
-
-	/* Timer to bytes */
-	tx_buffer[11] = div(nb_time, 256).rem;
-	nb_time = div(nb_time, 256).quot;
-	tx_buffer[10] = div(nb_time, 256).rem;
-	nb_time = div(nb_time, 256).quot;
-	tx_buffer[9] = div(nb_time, 256).rem;
-	nb_time = div(nb_time, 256).quot;
-	tx_buffer[8] = div(nb_time, 256).rem;
-
-	/* Channel */
-	tx_buffer[12] = i_channel;
-
-	for (INT8U y = 0; y < 8; y++) {
-		tx_buffer[13 + y] = iTAG[y];
-	}
-
-	tx_buffer[22] = div(iImagetteNbBuffer, 256).rem;
-	iImagetteNbBuffer = div(iImagetteNbBuffer, 256).quot;
-	tx_buffer[21] = div(iImagetteNbBuffer, 256).rem;
-
-	/**
-	 * Calculating CRC
-	 */
-	usCRC = crc__CRC16CCITT(tx_buffer, LOG_SIZE - 2);
-
-	tx_buffer[24] = div(usCRC, 256).rem;
-	usCRC = div(usCRC, 256).quot;
-	tx_buffer[23] = div(usCRC, 256).rem;
-
-	/*
-	 * Send Log through serial
-	 */
-	for (int f = 0; f < LOG_SIZE; f++) {
-		// fprintf(fp, "%c", tx_buffer[f]);
-		vUartWriteCharBlocking(tx_buffer[f]);
-	}
-
-	T_simucam.T_status.TM_id++;
-}
-
 OS_EVENT *p_echo_queue;
 void *p_echo_queue_tbl[ECHO_QUEUE_BUFFER]; /*Storage for sub_unit queue*/
 
@@ -260,6 +187,13 @@ void echo_task(void *task_data) {
 
 		p_echo_rcvd = (x_echo *) OSQPend(p_echo_queue, 0, &echo_error);
 		if (echo_error == OS_ERR_NONE) {
+			
+#if DEBUG_ON
+			// if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+				fprintf(fp, "[ECHO]Echo received on queue.\r\n");
+			// }
+#endif
+
 			if (T_simucam.T_conf.echo_sent == 1) {
 				i_echo_dataset(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette, p_echo_rcvd->channel);
 #if DEBUG_ON
@@ -268,9 +202,10 @@ void echo_task(void *task_data) {
 				}
 #endif
 			}
-			if (T_simucam.T_conf.iLog == 1) {
-				vLogSend(p_echo_rcvd->simucam_time, p_echo_rcvd->nb_imagette, p_echo_rcvd->channel, p_echo_rcvd->iTag);
-			}
+			// if (T_simucam.T_conf.echo_sent == 3) {
+			// 	OSQFlush(p_echo_queue);
+			// 	T_simucam.T_conf.echo_sent = 0;
+			// }
 		} else {
 #if DEBUG_ON
 			/* Create ack */

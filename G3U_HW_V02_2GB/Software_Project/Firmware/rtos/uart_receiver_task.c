@@ -284,7 +284,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC OK.\n");
 		}
 #endif
-		v_ack_creator(pPayload, xAckOk);
+		v_ack_creator(pPayload, xExecOk);
 	} else {
 
 #if DEBUG_ON
@@ -292,7 +292,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC ERROR.\n");
 		}
 #endif
-		v_ack_creator(pPayload, xCRCError);
+		// v_ack_creator(pPayload, xCRCError);
 	}
 }
 
@@ -367,7 +367,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload) {
 				fprintf(fp, "[vCmdParser DEBUG]CRC ERROR.\n");
 			}
 #endif
-			v_ack_creator(pUartPayload, xCRCError);
+			// v_ack_creator(pUartPayload, xCRCError);
 			return 1;
 		}
 
@@ -403,7 +403,7 @@ INT8U vCmdParser(T_uart_payload *pUartPayload) {
 				fprintf(fp, "[vCmdParser DEBUG]CRC ERROR\n");
 			}
 #endif
-			v_ack_creator(pUartPayload, xCRCError);
+			// v_ack_creator(pUartPayload, xCRCError);
 			return 1;
 		}
 
@@ -418,7 +418,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[vCmdParser DEBUG]Invalid data size.\n");
 		}
 #endif
-		v_ack_creator(pUartPayload, xParserError);
+		// v_ack_creator(pUartPayload, xParserError);
 		return 1;
 	}
 }
@@ -440,6 +440,8 @@ void uart_receiver_task(void *task_data) {
 				fprintf(fp, "[UART RCV] Uart receiver init\n");
 			}
 #endif
+			if (T_simucam.T_status.simucam_mode == simClearMem)
+				continue;
 			eReaderRXMode = sGetHeader;
 			break;
 
@@ -460,7 +462,7 @@ void uart_receiver_task(void *task_data) {
 			}
 #endif
 			/* Send state to Imagette parser if type is correct */
-			if (payload.type == 102) {
+			if (payload.type == 102 || payload.type == 104) {
 				eReaderRXMode = sGetImagettes;
 			} else {
 				eReaderRXMode = sToGetCommand;
@@ -494,9 +496,9 @@ void uart_receiver_task(void *task_data) {
 		case sGetCommand:
 			error_code = vCmdParser((T_uart_payload *) &payload);
 			if (error_code == 0) {
-				if (payload.type != 204 || payload.type != 254) {
-					v_ack_creator(&payload, xAckOk);
-				}
+				// if (payload.header != 4) {
+				// 	v_ack_creator(&payload, xAckOk);
+				// }
 				eReaderRXMode = sSendToCmdCtrl;
 			} else {
 				eReaderRXMode = sRConfiguring;

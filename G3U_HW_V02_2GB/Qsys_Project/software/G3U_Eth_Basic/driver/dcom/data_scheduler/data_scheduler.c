@@ -597,7 +597,7 @@ void vDataSchHandleGeneric(volatile TDcomChannel* vpxDcomChannel, INT8U ui_chann
 
 		T_simucam.T_Sub[ui_channel].T_conf.sub_status_sending = 1;
 		if (T_simucam.T_Sub[ui_channel].T_data.i_imagette < T_simucam.T_Sub[ui_channel].T_data.nb_of_imagettes) {
-			OSQPost(DMA_sched_queue[1], (void *) ui_channel);
+			OSQPost(DMA_sched_queue[1], (void *) ((alt_u32) ui_channel));
 			OSQPost(p_dma_scheduler_controller_queue[1], (void *) simDMASched);
 		}
 

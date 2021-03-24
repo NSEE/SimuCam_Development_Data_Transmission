@@ -42,12 +42,12 @@
 
 /* Sub modes enum */
 typedef enum {
-	subModeConfig = 0, subModeRun, subModeInit, subModetoConfig, subModetoRun, subAccessDMA1, subAccessDMA2, subAbort, subEOT, subChangeMode, subAccessDMA
+	subModeInit = 0, subModetoConfig, subModeConfig, subModetoRun, subModeRun, subAccessDMA1, subAccessDMA2, subAbort, subEOT, subChangeMode, subAccessDMA
 } TSubStates;
 
 /* MeB status enum */
 typedef enum {
-	simModeConfig = 0, simModeRun, simModeInit, simModetoConfig, simModetoRun, simDMA1Back, simDMA2Back, simDMA1Sched, simDMA2Sched, simAbort, simDMASched, simDMABack
+	simModeConfig = 0, simModeRun, simModeInit, simModetoConfig, simModetoRun, simDMA1Back, simDMA2Back, simDMA1Sched, simDMA2Sched, simAbort, simDMASched, simDMABack, simClearMem
 } TSimStates;
 
 /* Command Types */
@@ -66,6 +66,7 @@ typedef enum {
 	typeSetRecording,
 	typeSetPeriodicHK,
 	typeReset,
+	typeEnableEchoing = 125,
 	typeErrorInjectionSpw = 205,
 	typeErrorInjectionRmap,
 	typeSetProgressEvent,
@@ -79,12 +80,15 @@ typedef enum {
 
 /* External Types */
 typedef enum {
-	typeProgEvent = 101, typeAckExt = 201, typeUpload, typeSentEcho, typeHK
+	typeAckExt = 201, typeUpload, typeSentEcho, typeHK, typeProgEvent = 210,  typeProgTimecode, typeErrorEvent
 } TCExtTypes;
 
 typedef enum {
-	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam
+	eidMebRun = 0, eidMebConfig, eidSyncRcv, eidClrRam, eidSpwConn, eidSpwDis=12, eidEchEn=20, eidEchDis=28
 } EidTypes;
+typedef enum {
+	eidErrDisc = 0, eidErrPar, eidErrEsc, eidErrCred, eidErrEOP, eidErrEEP, eidErrCRC, eidErrUnPack, eidErrInvCmd, eidErrTData, eidErrInvCRC
+}ErrorEidTypes;
 
 /* Pointer to the start of the imagette */
 typedef struct T_imagette {
@@ -116,9 +120,17 @@ typedef struct T_Sub_conf {
 	INT16U i_imagette_control;
 } T_Sub_conf;
 
+typedef struct T_Sub_status {
+	INT8U usi_disconnect_err_cnt;
+	INT8U usi_parity_err_cnt;
+	INT8U usi_escape_err_cnt;
+	INT8U usi_credit_err_cnt;
+} T_Sub_status;
+
 typedef struct T_Sub {
 	T_Sub_conf T_conf;
 	T_dataset T_data;
+	T_Sub_status T_sub_status;
 } T_Sub;
 
 typedef struct T_Simucam_conf {
@@ -177,7 +189,6 @@ typedef enum {
 	spwErrCharacter_sequence,
 	spwErrCredit,
 	spwErrEEP,
-	spwErrInvalidDestination,
 } TErrorInjCodes;
 
 #endif /* SIMUCAM_MODEL_H_ */

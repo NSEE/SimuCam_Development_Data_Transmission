@@ -11,9 +11,6 @@
 #include "../dcom.h"
 
 //! [constants definition]
-//! [constants definition]
-
-//! [public module structs definition]
 
 enum RmapRmapErrId {
 	eRmapRmapErrIdInitLogAddr     = 0u,  /* RMAP Error Injection Error ID for Initiator Logical Address */
@@ -34,6 +31,9 @@ enum RmapRmapErrId {
 	eRmapRmapErrIdDataEep         = 15u  /* RMAP Error Injection Error ID for Data EEP */
 } RmapRmapErrId;
 
+//! [constants definition]
+
+//! [public module structs definition]
 //! [public module structs definition]
 
 //! [public function prototypes]
@@ -56,6 +56,9 @@ bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh);
 
 bool bRmapGetRmapMemArea(TRmapChannel *pxRmapCh);
 bool bRmapSetRmapMemArea(TRmapChannel *pxRmapCh);
+
+bool bRmapGetEchoingMode(TRmapChannel *pxRmapCh);
+bool bRmapSetEchoingMode(TRmapChannel *pxRmapCh);
 
 bool bRmapClearMemArea(TRmapChannel *pxRmapCh);
 

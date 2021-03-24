@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'MebX_Qsys_Project'
  * SOPC Builder design path: ../../MebX_Qsys_Project.sopcinfo
  *
- * Generated: Fri Feb 19 18:42:04 CET 2021
+ * Generated: Wed Mar 17 16:57:08 BRT 2021
  */
 
 /*
@@ -163,6 +163,7 @@
 #define __ALTERA_NIOS2_GEN2
 #define __ALTERA_UP_SD_CARD_AVALON_INTERFACE
 #define __DUMB_COMMUNICATION_MODULE_V2
+#define __MEMORY_FILLER
 #define __RMAP_MEMORY_SUBUNIT_AREA
 #define __RST_CONTROLLER
 #define __SEVEN_SEGMENT_CONTROLLER
@@ -294,6 +295,20 @@
 #define DUMB_COMMUNICATION_MODULE_V2_TIMER_NAME "/dev/Dumb_Communication_Module_v2_Timer"
 #define DUMB_COMMUNICATION_MODULE_V2_TIMER_SPAN 1024
 #define DUMB_COMMUNICATION_MODULE_V2_TIMER_TYPE "Dumb_Communication_Module_v2"
+
+
+/*
+ * Memory_Filler configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_Memory_Filler Memory_Filler
+#define MEMORY_FILLER_BASE 0x81000000
+#define MEMORY_FILLER_IRQ -1
+#define MEMORY_FILLER_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define MEMORY_FILLER_NAME "/dev/Memory_Filler"
+#define MEMORY_FILLER_SPAN 1024
+#define MEMORY_FILLER_TYPE "Memory_Filler"
 
 
 /*
@@ -1249,7 +1264,7 @@
 #define SYSID_QSYS_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define SYSID_QSYS_NAME "/dev/sysid_qsys"
 #define SYSID_QSYS_SPAN 8
-#define SYSID_QSYS_TIMESTAMP 1613134631
+#define SYSID_QSYS_TIMESTAMP 1616010283
 #define SYSID_QSYS_TYPE "altera_avalon_sysid_qsys"
 
 

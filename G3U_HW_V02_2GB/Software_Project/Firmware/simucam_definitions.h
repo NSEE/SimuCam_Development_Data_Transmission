@@ -83,9 +83,12 @@
 #define TIMER_CLOCK_DIV_1MS			99999		/*Timer div for 1ms clock*/
 
 #define HK_SIZE						30			/* HK ack size */
-#define IP_CONFIG_SIZE              31          /* Internal IP config size */
+#define IP_CONFIG_SIZE              32          /* Internal IP config size */
 #define ACK_SIZE                    14          /* Ack size */
 #define LOG_SIZE                    25
+#define P_EVENT_SIZE				11
+#define TIMECODE_EVENT_SIZE			12
+#define ERROR_EVENT_SIZE			12
 
 /*
  * Error codes definitions transform into enum

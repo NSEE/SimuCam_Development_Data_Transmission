@@ -197,6 +197,12 @@ typedef struct RmapDevAddr {
 	alt_u32 uliRmapBaseAddr; /* RMAP Device Base Address */
 } TRmapDevAddr;
 
+/* RMAP Echoing Mode Config Register Struct */
+typedef struct RmapEchoingModeConfig {
+	bool bRmapEchoingModeEn; /* RMAP Echoing Mode Enable */
+	bool bRmapEchoingIdEn; /* RMAP Echoing ID Enable */
+} TRmapEchoingModeConfig;
+
 /* RMAP Codec Config Register Struct */
 typedef struct RmapCodecConfig {
 	bool bEnable; /* RMAP Target Enable */
@@ -331,6 +337,7 @@ typedef struct DschChannel {
 /* General Struct for RMAP Registers Access */
 typedef struct RmapChannel {
 	TRmapDevAddr xRmapDevAddr;
+	TRmapEchoingModeConfig xRmapEchoingModeConfig;
 	TRmapCodecConfig xRmapCodecConfig;
 	TRmapCodecStatus xRmapCodecStatus;
 	TRmapCodecError xRmapCodecError;

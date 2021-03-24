@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>ucosii</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Feb 19, 2021 6:42:03 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1613756523633</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>F:\iwf\git\IWF_SimuCam_Development\G3U_HW_V02_2GB\Qsys_Project\software\G3U_Eth_Basic_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>Mar 17, 2021 4:57:05 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1616011025737</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>.\</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\MebX_Qsys_Project.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
@@ -1947,6 +1947,12 @@
                 <addressRange>0x80200000 - 0x802DFFFF</addressRange>
                 <addressSpan>917504</addressSpan>
                 <attributes>memory</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>Memory_Filler</slaveDescriptor>
+                <addressRange>0x81000000 - 0x810003FF</addressRange>
+                <addressSpan>1024</addressSpan>
+                <attributes/>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>Altera_UP_SD_Card_Avalon_Interface_0</slaveDescriptor>

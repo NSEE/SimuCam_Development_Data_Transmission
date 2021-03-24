@@ -1,5 +1,5 @@
 # Reading C:/intelFPGA/18.1/modelsim_ase/tcl/vsim/pref.tcl
-# OpenFile D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Sync/Development/tb3/sync_test.mpf
+# OpenFile D:/rfranca/Development/GitHub/SimuCam_Development2/FPGA_Developments/Sync/Development/tb3/sync_test.mpf
 # Loading project sync_test
 # Compile of sync_common_pkg.vhd was successful.
 # Compile of sync_mm_registers_pkg.vhd was successful.

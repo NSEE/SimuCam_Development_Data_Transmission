@@ -75,8 +75,9 @@ int main(int argc, char* argv[], char* envp[]) {
 		}
 	}
 
-	/* Initialization of basic HW */
+	/* Initialization and Test of basic HW */
 	vInitSimucamBasicHW();
+	bTestSimucamBasicHW();
 
 	/* Initialize SD Card */
 	bInitializeSDCard();

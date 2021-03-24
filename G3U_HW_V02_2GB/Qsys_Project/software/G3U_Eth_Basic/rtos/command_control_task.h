@@ -32,6 +32,7 @@
 #include "../driver/dcom/dcom_channel.h"
 #include "../driver/reset/reset.h"
 #include "../driver/ctrl_io_lvds/ctrl_io_lvds.h"
+#include "../driver/memory_filler/memory_filler.h"
 // #include "simple_socket_server.h"			/* Used in the conn/send op */
 /*
  * Include configurations for the communication modules [yb]

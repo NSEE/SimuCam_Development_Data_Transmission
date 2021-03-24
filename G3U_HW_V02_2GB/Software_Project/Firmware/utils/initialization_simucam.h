@@ -13,6 +13,7 @@
 #include "../driver/ctrl_io_lvds/ctrl_io_lvds.h"
 #include "../driver/leds/leds.h"
 #include "../driver/seven_seg/seven_seg.h"
+#include "../driver/dcom/dcom_channel.h"
 
 /* Intel System ID Peripheral Registers */
 typedef struct SidpRegisters {

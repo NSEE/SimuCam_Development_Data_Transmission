@@ -24,14 +24,15 @@
 
 //! [constants definition]
 
+
 //! [public module structs definition]
 
 /* Sync Status Register Struct */
 typedef struct SyncStatus {
 	bool bIntExtN; /* Internal/External_n */
-	alt_u8 ucState; /* State */
-	alt_u8 ucErrorCode; /* Error code */
-	alt_u8 ucCycleNumber; /* Cycle number */
+	alt_u32 ucState; /* State */
+	alt_u32 ucErrorCode; /* Error code */
+	alt_u32 ucCycleNumber; /* Cycle number */
 } TSyncStatus;
 
 /* Sync Interrupt Enable Register Struct */
@@ -100,7 +101,7 @@ typedef struct SyncConfig {
 /* Sync General Config Register Struct */
 typedef struct SyncGeneralConfig {
 	bool bSignalPolarity; /* Signal polarity */
-	alt_u8 ucNumberOfCycles; /* Number of cycles */
+	alt_u32 ucNumberOfCycles; /* Number of cycles */
 } TSyncGeneralConfig;
 
 /* Sync Error Injection Register Struct */
@@ -115,7 +116,9 @@ typedef struct SyncControl {
 	bool bReset; /* Reset bit */
 	bool bOneShot; /* One Shot bit */
 	bool bErrInj; /* Err_inj bit */
-	bool bOutEn; /* Sync_out	out enable bit */
+	bool bHoldBlankPulse; /* Hold Blank Pulse */
+	bool bHoldReleasePulse; /* Hold Release Pulse */
+	bool bOutEn; /* Sync_out out enable bit */
 	bool bChannel1En; /* Channel 1 out enable bit */
 	bool bChannel2En; /* Channel 2 out enable bit */
 	bool bChannel3En; /* Channel 3 out enable bit */
@@ -125,6 +128,20 @@ typedef struct SyncControl {
 	bool bChannel7En; /* Channel 7 out enable bit */
 	bool bChannel8En; /* Channel 8 out enable bit */
 } TSyncControl;
+
+/* Sync Test Control Register Struct */
+typedef struct SyncTestControl {
+	bool bSyncInOverrideEn; /* Sync_in override enable */
+	bool bSyncInOverrideValue; /* Sync_in override value */
+	bool bSyncOutOverrideEn; /* Sync_out override enable */
+	bool bSyncOutOverrideValue; /* Sync_out override value */
+} TSyncTestControl;
+
+/* Sync Test Status Register Struct */
+typedef struct SyncTestStatus {
+	bool SyncInValue; /* Sync_in value */
+	bool SyncOutValue; /* Sync_out value */
+} TSyncTestStatus;
 
 /* Sync IRQ Number Register Struct */
 typedef struct SyncIRQNumber {
@@ -145,6 +162,8 @@ typedef struct SyncModule {
 	TSyncGeneralConfig xSyncGeneralConfig;
 	TSyncErrorInjection xSyncErrorInjection;
 	TSyncControl xSyncControl;
+	TSyncTestControl xSyncTestControl;
+	TSyncTestStatus xSyncTestStatus;
 	TSyncIRQNumber xSyncIRQNumber;
 } TSyncModule;
 //! [public module structs definition]
@@ -214,6 +233,8 @@ bool bSyncCtrStart(void);
 bool bSyncCtrReset(void);
 bool bSyncCtrOneShot(void);
 bool bSyncCtrErrInj(void);
+bool bSyncCtrHoldBlankPulse(bool bValue);
+bool bSyncCtrHoldReleasePulse(bool bValue);
 bool bSyncCtrSyncOutEnable(bool bValue);
 bool bSyncCtrCh1OutEnable(bool bValue);
 bool bSyncCtrCh2OutEnable(bool bValue);
@@ -224,6 +245,7 @@ bool bSyncCtrCh6OutEnable(bool bValue);
 bool bSyncCtrCh7OutEnable(bool bValue);
 bool bSyncCtrCh8OutEnable(bool bValue);
 
+bool bSyncTestConnection(void);
 bool bSyncConfigOstSubunits(alt_u32 uliOstValue);
 //! [public function prototypes]
 
