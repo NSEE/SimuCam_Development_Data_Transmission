@@ -10253,7 +10253,7 @@ module MebX_Qsys_Project_mm_interconnect_2 (
 		.out_0_error    (avalon_st_adapter_019_out_0_error)                               //         .error
 	);
 
-	MebX_Qsys_Project_mm_interconnect_0_avalon_st_adapter_001 #(
+	MebX_Qsys_Project_mm_interconnect_2_avalon_st_adapter_020 #(
 		.inBitsPerSymbol (66),
 		.inUsePackets    (0),
 		.inDataWidth     (66),
