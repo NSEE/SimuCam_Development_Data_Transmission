@@ -64,7 +64,7 @@ unsigned long luGetSerial(INT8U *pBuffer, INT32U luNbChars) {
  *
  * @retval void
  **/
-void vHeaderParser(T_uart_payload *pPayload, char *cReceiveBuffer) {
+void vHeaderParser(T_uart_payload *pPayload, unsigned char *cReceiveBuffer) {
 
 #if DEBUG_ON
 	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
@@ -455,7 +455,7 @@ void uart_receiver_task(void *task_data) {
 
 			// if( luGetSerial((INT8U *) &cReceiveBuffer, 8) ){
 			luGetSerial((INT8U *) &cReceiveBuffer, 8);
-			vHeaderParser((T_uart_payload *) &payload, (char *) &cReceiveBuffer);
+			vHeaderParser((T_uart_payload *) &payload, (unsigned char *) &cReceiveBuffer);
 #if DEBUG_ON
 			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 				fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", payload.packet_id, payload.type, payload.size);
