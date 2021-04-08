@@ -440,8 +440,8 @@ void uart_receiver_task(void *task_data) {
 				fprintf(fp, "[UART RCV] Uart receiver init\n");
 			}
 #endif
-			// if (T_simucam.T_status.simucam_mode == simClearMem)
-				// continue;
+			if (T_simucam.T_status.simucam_mode == simClearMem)
+				continue;
 			eReaderRXMode = sGetHeader;
 			break;
 
@@ -503,9 +503,6 @@ void uart_receiver_task(void *task_data) {
 		case sGetCommand:
 			error_code = vCmdParser((T_uart_payload *) &payload);
 			if (error_code == 0) {
-				// if (payload.header != 4) {
-				// 	v_ack_creator(&payload, xAckOk);
-				// }
 				eReaderRXMode = sSendToCmdCtrl;
 			} else {
 				eReaderRXMode = sRConfiguring;

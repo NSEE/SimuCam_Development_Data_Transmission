@@ -896,12 +896,12 @@ void CommandManagementTask() {
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
-				// TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
-				// T_simucam.T_status.simucam_mode = simClearMem;
+				TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
+				T_simucam.T_status.simucam_mode = simClearMem;
 				i_clear_echo();
 				vClearRam();
 				v_ack_creator(p_payload, xExecOk);
-				// T_simucam.T_status.simucam_mode = x_prev_mode;
+				T_simucam.T_status.simucam_mode = x_prev_mode;
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
