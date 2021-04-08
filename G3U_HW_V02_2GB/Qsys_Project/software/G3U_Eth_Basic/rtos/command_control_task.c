@@ -882,7 +882,9 @@ void CommandManagementTask() {
 #endif
 				}
 				if (p_payload->data[0] == 0) {
-					v_ack_creator(p_payload, xExecOk);
+					if (p_payload->header == 1) {
+						v_ack_creator(p_payload, xExecOk);
+					}
 				}
 
 				break;
@@ -1209,7 +1211,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 								}
 							}
 						}
-						v_ack_creator(p_payload, xExecOk);
+						if (p_payload->header == 1) {
+							v_ack_creator(p_payload, xExecOk);
+						}
 					}
 					if (p_payload->data[0] == 1) {
 						v_ack_creator(p_payload, xExecOk);
