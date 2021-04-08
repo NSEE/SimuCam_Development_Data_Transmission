@@ -480,7 +480,14 @@ void uart_receiver_task(void *task_data) {
                         vImagetteParser((T_Simucam *) &T_simucam, (T_uart_payload *) &payload);
                         eReaderRXMode = sGetHeader;
                     } else {
-                        bUartFlushRxBuffer(payload.size - 8);
+						if ( !bUartFlushRxBuffer(payload.size - 8)) {
+#if DEBUG_ON
+		if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
+			fprintf(fp, "[UART RCV]Failed to flush RX buffer\n");
+		}
+#endif
+						}
+
                         eReaderRXMode = sRConfiguring;
                         v_ack_creator(&payload, xCommandNotAccepted);
                     }
