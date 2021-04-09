@@ -41,7 +41,7 @@ void vInitSimucamBasicHW(void) {
 	bDisableLvdsBoard();
 
 	/* Configure SpaceWire Channel H Mux */
-	bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
+	bSpwcChHMuxSelect(eSpwcChHMuxSelIdDcom);
 
 	/* Turn on all Panel Leds */
 	bSetPainelLeds( LEDS_ON, LEDS_PAINEL_ALL_MASK);
