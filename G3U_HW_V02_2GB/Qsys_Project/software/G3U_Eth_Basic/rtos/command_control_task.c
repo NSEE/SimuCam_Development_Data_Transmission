@@ -694,13 +694,9 @@ INT8U i_clear_echo(){
 void CommandManagementTask() {
 
 	INT8U error_code; /*uCOS error code*/
-
 	INT8U i_channel_for;
-
 	T_uart_payload payload_command;
-
 	T_uart_payload *p_payload = &payload_command;
-
 	INT8U i_channel_buffer = 0;
 
 #if DEBUG_ON
@@ -809,6 +805,7 @@ void CommandManagementTask() {
 				fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
 			}
 #endif
+
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
 
@@ -896,12 +893,12 @@ void CommandManagementTask() {
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
-				TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
-				T_simucam.T_status.simucam_mode = simClearMem;
+				// TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
+				// T_simucam.T_status.simucam_mode = simClearMem;
 				i_clear_echo();
 				vClearRam();
 				v_ack_creator(p_payload, xExecOk);
-				T_simucam.T_status.simucam_mode = x_prev_mode;
+				// T_simucam.T_status.simucam_mode = x_prev_mode;
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");

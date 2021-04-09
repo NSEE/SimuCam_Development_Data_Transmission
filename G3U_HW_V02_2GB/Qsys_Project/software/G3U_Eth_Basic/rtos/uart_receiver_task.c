@@ -425,11 +425,12 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 void uart_receiver_task(void *task_data) {
 //    bool bSuccess = FALSE;
-	INT8U cReceiveBuffer[UART_BUFFER_SIZE];
+	INT8U cReceiveBuffer[UART_BUFFER_SIZE][16];
+	INT8U usi_buffer_stack = 0;
 //    INT8U cReceive[UART_BUFFER_SIZE+64];
 	INT8U error_code = 0;
 	tReaderStates eReaderRXMode = sRConfiguring;
-	static T_uart_payload payload;
+	static T_uart_payload payload[16];
 
 	for (;;) {
 
@@ -440,6 +441,11 @@ void uart_receiver_task(void *task_data) {
 				fprintf(fp, "[UART RCV] Uart receiver init\n");
 			}
 #endif
+			/* Cycle through buffers */
+			if (usi_buffer_stack == 15){
+				usi_buffer_stack = 0;
+			}
+
 			if (T_simucam.T_status.simucam_mode == simClearMem)
 				continue;
 			eReaderRXMode = sGetHeader;
@@ -451,18 +457,18 @@ void uart_receiver_task(void *task_data) {
 //                        fprintf(fp, "[UART RCV] Waiting data\n");
 //                }
 //#endif
-			memset(cReceiveBuffer, 0, UART_BUFFER_SIZE);
+			memset((INT8U *)&cReceiveBuffer[0][usi_buffer_stack], 0, UART_BUFFER_SIZE);
 
-			// if( luGetSerial((INT8U *) &cReceiveBuffer, 8) ){
-			luGetSerial((INT8U *) &cReceiveBuffer, 8);
-			vHeaderParser((T_uart_payload *) &payload, (unsigned char *) &cReceiveBuffer);
+			// if( luGetSerial((INT8U *) &cReceiveBuffer[0][usi_buffer_stack], 8) ){
+			luGetSerial((INT8U *) &cReceiveBuffer[0][usi_buffer_stack], 8);
+			vHeaderParser((T_uart_payload *) &payload[usi_buffer_stack], (unsigned char *) &cReceiveBuffer[0][usi_buffer_stack]);
 #if DEBUG_ON
 			if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
-				fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", payload.packet_id, payload.type, payload.size);
+				fprintf(fp, "[UART RCV]Parsed id: %i, parsed type %i, parsed size %lu\n", payload[usi_buffer_stack].packet_id, payload[usi_buffer_stack].type, payload[usi_buffer_stack].size);
 			}
 #endif
 			/* Send state to Imagette parser if type is correct */
-			if (payload.type == 102 || payload.type == 104) {
+			if (payload[usi_buffer_stack].type == 102 || payload[usi_buffer_stack].type == 104) {
 				eReaderRXMode = sGetImagettes;
 			} else {
 				eReaderRXMode = sToGetCommand;
@@ -477,19 +483,18 @@ void uart_receiver_task(void *task_data) {
                 break;
                 case sGetImagettes:
                     if(T_simucam.T_status.simucam_mode == simModeConfig){
-                        vImagetteParser((T_Simucam *) &T_simucam, (T_uart_payload *) &payload);
+                        vImagetteParser((T_Simucam *) &T_simucam, (T_uart_payload *) &payload[usi_buffer_stack]);
                         eReaderRXMode = sGetHeader;
                     } else {
-						if ( !bUartFlushRxBuffer(payload.size - 8)) {
+						if ( !bUartFlushRxBuffer(payload[usi_buffer_stack].size - 8)) {
 #if DEBUG_ON
 		if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
 			fprintf(fp, "[UART RCV]Failed to flush RX buffer\n");
 		}
 #endif
 						}
-
                         eReaderRXMode = sRConfiguring;
-                        v_ack_creator(&payload, xCommandNotAccepted);
+                        v_ack_creator(&payload[usi_buffer_stack], xCommandNotAccepted);
                     }
                     
                 break;
@@ -501,7 +506,7 @@ void uart_receiver_task(void *task_data) {
 			break;
 
 		case sGetCommand:
-			error_code = vCmdParser((T_uart_payload *) &payload);
+			error_code = vCmdParser((T_uart_payload *) &payload[usi_buffer_stack]);
 			if (error_code == 0) {
 				eReaderRXMode = sSendToCmdCtrl;
 			} else {
@@ -511,12 +516,13 @@ void uart_receiver_task(void *task_data) {
 			break;
 
 		case sSendToCmdCtrl:
-			error_code = OSQPost(p_simucam_command_q, &payload);
+			error_code = OSQPost(p_simucam_command_q, &payload[usi_buffer_stack]);
 			alt_SSSErrorHandler(error_code, 0);
 			if (error_code != OS_NO_ERR) {
-				v_ack_creator(&payload, xOSError);
+				v_ack_creator(&payload[usi_buffer_stack], xOSError);
 			}
 			eReaderRXMode = sRConfiguring;
+			usi_buffer_stack += 1;
 			break;
 
 		case sSendToACKReceiver:
