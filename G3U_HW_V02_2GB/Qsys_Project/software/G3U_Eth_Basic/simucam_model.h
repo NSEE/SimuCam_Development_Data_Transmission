@@ -119,6 +119,7 @@ typedef struct T_Sub_conf {
 	INT8U link_status;
 	bool b_abort;
 	INT16U i_imagette_control;
+	bool b_dataset_loaded;
 } T_Sub_conf;
 
 typedef struct T_Sub_status {

@@ -893,6 +893,9 @@ void CommandManagementTask() {
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
+				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+					T_simucam.T_Sub[i_channel_for].T_conf.b_dataset_loaded = FALSE;
+				}
 				// TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
 				// T_simucam.T_status.simucam_mode = simClearMem;
 				i_clear_echo();
@@ -1112,7 +1115,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					* Stop and clear channel timers
 					*/
 				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
-					if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig) {
+					if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig && T_simucam.T_Sub[i_channel_for].T_conf.b_dataset_loaded) {
 						bDschGetIrqControl(&(xCh[i_channel_for].xDataScheduler));
 						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
 						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;

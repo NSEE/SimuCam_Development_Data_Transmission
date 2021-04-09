@@ -284,6 +284,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC OK.\n");
 		}
 #endif
+		pSimucam->T_Sub[i_channel_wr].T_conf.b_dataset_loaded = TRUE;
 		v_ack_creator(pPayload, xExecOk);
 	} else {
 

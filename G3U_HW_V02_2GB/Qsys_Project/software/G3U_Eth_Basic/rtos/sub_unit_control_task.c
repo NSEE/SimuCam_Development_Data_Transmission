@@ -44,6 +44,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 }
 #endif
 
+
 			/*
 			 * Channel initialization
 			 */
