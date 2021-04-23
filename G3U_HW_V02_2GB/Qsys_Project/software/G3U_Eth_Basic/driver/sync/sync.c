@@ -1241,12 +1241,26 @@ bool bSyncConfigOstSubunits(alt_u32 uliOstValue) {
 	bool bStatus = FALSE;
 	bool bInitFail = FALSE;
 
-	if (!bSyncSetOst(uliOstValue)) {
-		bInitFail = TRUE;
-	}
-	if (!bSyncSetPolarity(FALSE)) {
-		bInitFail = TRUE;
-	}
+//	if (!bSyncSetOst(uliOstValue)) {
+//		bInitFail = TRUE;
+//	}
+//	if (!bSyncSetPolarity(FALSE)) {
+//		bInitFail = TRUE;
+//	}
+
+	volatile TSyncModule *vpxSyncModule = (TSyncModule *) SYNC_BASE_ADDR;
+
+	vpxSyncModule->xSyncGeneralConfig.ucNumberOfCycles = 1;
+	vpxSyncModule->xSyncGeneralConfig.bSignalPolarity = FALSE;
+	vpxSyncModule->xSyncConfig.uliPreBlankTime = uliPerCalcPeriodMs(100);
+	vpxSyncModule->xSyncConfig.uliMasterBlankTime = uliPerCalcPeriodMs(2500 - 200);
+	vpxSyncModule->xSyncConfig.uliBlankTime = uliPerCalcPeriodMs(2500 - 200);
+	vpxSyncModule->xSyncConfig.uliLastBlankTime = uliPerCalcPeriodMs(2500 - 200);
+	vpxSyncModule->xSyncConfig.uliPeriod = uliPerCalcPeriodMs(2500);
+	vpxSyncModule->xSyncConfig.uliLastPeriod = uliPerCalcPeriodMs(2500);
+	vpxSyncModule->xSyncConfig.uliMasterDetectionTime = uliPerCalcPeriodMs(100);
+	vpxSyncModule->xSyncConfig.uliOneShotTime = uliPerCalcPeriodMs(500);
+
 	if (!bSyncCtrIntern(TRUE)) {
 		bInitFail = TRUE;
 	}
@@ -1280,6 +1294,17 @@ bool bSyncConfigOstSubunits(alt_u32 uliOstValue) {
 
 	if (!bInitFail) {
 		bStatus = TRUE;
+	}
+
+	return (bStatus);
+}
+
+bool bSyncSendOstSubunits( void ){
+	bool bStatus = FALSE;
+
+	bStatus = bSyncCtrStart();
+	if (bStatus) {
+		bStatus = bSyncCtrReset();
 	}
 
 	return (bStatus);

@@ -247,6 +247,7 @@ bool bSyncCtrCh8OutEnable(bool bValue);
 
 bool bSyncTestConnection(void);
 bool bSyncConfigOstSubunits(alt_u32 uliOstValue);
+bool bSyncSendOstSubunits( void );
 //! [public function prototypes]
 
 //! [private function prototypes]

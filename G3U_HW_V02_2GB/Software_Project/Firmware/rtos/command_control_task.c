@@ -694,13 +694,9 @@ INT8U i_clear_echo(){
 void CommandManagementTask() {
 
 	INT8U error_code; /*uCOS error code*/
-
 	INT8U i_channel_for;
-
 	T_uart_payload payload_command;
-
 	T_uart_payload *p_payload = &payload_command;
-
 	INT8U i_channel_buffer = 0;
 
 #if DEBUG_ON
@@ -809,6 +805,7 @@ void CommandManagementTask() {
 				fprintf(fp, "[CommandManagementTask]Mode: Config\r\n");
 			}
 #endif
+
 			p_payload = OSQPend(p_simucam_command_q, 0, &error_code);
 			alt_uCOSIIErrorHandler(error_code, 0);
 
@@ -882,7 +879,9 @@ void CommandManagementTask() {
 #endif
 				}
 				if (p_payload->data[0] == 0) {
-					v_ack_creator(p_payload, xExecOk);
+					if (p_payload->header == 1) {
+						v_ack_creator(p_payload, xExecOk);
+					}
 				}
 
 				break;
@@ -894,12 +893,15 @@ void CommandManagementTask() {
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear Ram\n\r");
 				}
-				TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
-				T_simucam.T_status.simucam_mode = simClearMem;
+				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+					T_simucam.T_Sub[i_channel_for].T_conf.b_dataset_loaded = FALSE;
+				}
+				// TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
+				// T_simucam.T_status.simucam_mode = simClearMem;
 				i_clear_echo();
 				vClearRam();
 				v_ack_creator(p_payload, xExecOk);
-				T_simucam.T_status.simucam_mode = x_prev_mode;
+				// T_simucam.T_status.simucam_mode = x_prev_mode;
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					fprintf(fp, "[CommandManagementTask]Clear RAM\r\n");
@@ -1013,16 +1015,6 @@ void CommandManagementTask() {
 				T_simucam.T_conf.i_forward_data = 0;
 				T_simucam.T_conf.echo_sent = 0;
 			break;
-			
-			case typeSetProgressEvent: //TODO Set on NUC
-#if DEBUG_ON
-			if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-				fprintf(fp, "[CommandManagementTask]Set Progress Eventst\n\r");
-			}
-#endif
-				T_simucam.T_conf.usiProgressEvent = p_payload->data[0];
-				v_ack_creator(p_payload, xExecOk);
-			break;
 
 			case typeEnableEchoing:
 				bRmapGetEchoingMode(&xCh[p_payload->data[0]].xRmap);
@@ -1034,6 +1026,18 @@ void CommandManagementTask() {
 					v_p_event_creator(eidEchEn+p_payload->data[0]);
 				else
 					v_p_event_creator(eidEchDis+p_payload->data[0]);
+			break;
+
+			/* Enable RMAP Log on channel 7 */
+			case typeRmapEchoEnable:
+				if (p_payload->data[0] == 1){
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdDcom);
+					T_simucam.T_conf.usi_rmap_echo = 1;
+				} else {
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
+					T_simucam.T_conf.usi_rmap_echo = 0;
+				}
+				v_ack_creator(p_payload, xExecOk);
 			break;
 
 			default:
@@ -1111,7 +1115,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					* Stop and clear channel timers
 					*/
 				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
-					if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig) {
+					if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig && T_simucam.T_Sub[i_channel_for].T_conf.b_dataset_loaded) {
 						bDschGetIrqControl(&(xCh[i_channel_for].xDataScheduler));
 						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
 						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;
@@ -1119,7 +1123,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					}
 				}
 
-				bSyncCtrOneShot();
+				bSyncSendOstSubunits();
 
 				v_ack_creator(p_payload, xExecOk);
 				v_p_event_creator(eidSyncRcv);
@@ -1207,7 +1211,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 								}
 							}
 						}
-						v_ack_creator(p_payload, xExecOk);
+						if (p_payload->header == 1) {
+							v_ack_creator(p_payload, xExecOk);
+						}
 					}
 					if (p_payload->data[0] == 1) {
 						v_ack_creator(p_payload, xExecOk);
@@ -1429,7 +1435,8 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				bRmapGetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.bTriggerErr = TRUE;
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.ucErrorId   = p_payload->data[0];
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 4294967296 * p_payload->data[2]); 
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 4294967296 * p_payload->data[2]);
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.usiRepeats  = 0;
 				bRmapSetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 
 				break;
@@ -1451,8 +1458,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #if DEBUG_ON
 					fprintf(fp, "[CommandManagementTask]Nenhum comando aceito em modo running\n\r");
 #endif
-					if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData || p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
-							|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb || p_payload->type == typeSetPeriodicHK || p_payload->type == typeSetProgressEvent) {
+					// if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData || p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
+					// 		|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb || p_payload->type == typeSetPeriodicHK || p_payload->type == typeSetProgressEvent || p_payload->type == typeRmapEchoEnable || p_payload->type == typeEnableEchoing) 
+					if(p_payload->type < 126) {
 						v_ack_creator(p_payload, xCommandNotAccepted);
 					} else {
 						v_ack_creator(p_payload, xCommandNotFound);
