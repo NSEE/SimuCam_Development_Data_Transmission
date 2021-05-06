@@ -139,7 +139,8 @@ begin
 
 			s_spwerr_start_errinj <= '0';
 			s_spwerr_reset_errinj <= '0';
-			s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_NONE;
+--			s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_NONE;
+			s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_PARITY;
 			case (v_cnt) is
 				when 5000 =>
 					s_spwerr_start_errinj <= '1';
