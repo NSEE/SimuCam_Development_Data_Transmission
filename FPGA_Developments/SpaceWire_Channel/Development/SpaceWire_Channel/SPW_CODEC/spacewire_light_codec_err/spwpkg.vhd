@@ -354,12 +354,13 @@ package spwpkg is
             rxchunk         : integer range 1 to 4 -- nr of bits per system clock
         );
         port(
-            clk      : in  std_logic;   -- system clock
-            rxen     : in  std_logic;   -- receiver enabled
-            recvo    : out spw_recv_out_type;
-            inact    : in  std_logic;
-            inbvalid : in  std_logic;
-            inbits   : in  std_logic_vector(rxchunk - 1 downto 0)
+            clk                : in  std_logic; -- system clock
+            rxen               : in  std_logic; -- receiver enabled
+            recvo              : out spw_recv_out_type;
+            inact              : in  std_logic;
+            inbvalid           : in  std_logic;
+            inbits             : in  std_logic_vector(rxchunk - 1 downto 0);
+            invalid_transition : in  std_logic -- high if invalid transition detected
         );
     end component spwrecv;
 
@@ -393,13 +394,14 @@ package spwpkg is
     -- Front-end for SpaceWire Receiver (generic implementation)
     component spwrecvfront_generic is
         port(
-            clk      : in  std_logic;   -- system clock
-            rxen     : in  std_logic;   -- high to enable receiver
-            inact    : out std_logic;   -- high if activity on input
-            inbvalid : out std_logic;   -- high if inbits contains a valid received bit
-            inbits   : out std_logic_vector(0 downto 0); -- received bit
-            spw_di   : in  std_logic;   -- Data In signal from SpaceWire bus
-            spw_si   : in  std_logic    -- Strobe In signal from SpaceWire bus
+            clk                : in  std_logic; -- system clock
+            rxen               : in  std_logic; -- high to enable receiver
+            inact              : out std_logic; -- high if activity on input
+            inbvalid           : out std_logic; -- high if inbits contains a valid received bit
+            inbits             : out std_logic_vector(0 downto 0); -- received bit
+            invalid_transition : out std_logic; -- high if invalid transition detected
+            spw_di             : in  std_logic; -- Data In signal from SpaceWire bus
+            spw_si             : in  std_logic -- Strobe In signal from SpaceWire bus
         );
     end component spwrecvfront_generic;
 

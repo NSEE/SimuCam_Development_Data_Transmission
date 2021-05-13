@@ -25,7 +25,7 @@ entity dcom_v2_top is
         sync_channel_i                   : in  std_logic                     := '0'; --          --                 sync_conduit_end.sync_channel_i_signal
         clock_sink_100_clk_i             : in  std_logic                     := '0'; --          --                   clock_sink_100.clk
         avalon_slave_dcom_address_i      : in  std_logic_vector(7 downto 0)  := (others => '0'); --                avalon_slave_dcom.address
-        avalon_slave_dcom_byteenable_i   : in  std_logic_vector(3 downto 0)  := (others => '0'); --                                 .byteenable
+        --        avalon_slave_dcom_byteenable_i   : in  std_logic_vector(3 downto 0)  := (others => '0'); --                                 .byteenable
         avalon_slave_dcom_write_i        : in  std_logic                     := '0'; --          --                                 .write
         avalon_slave_dcom_read_i         : in  std_logic                     := '0'; --          --                                 .read
         avalon_slave_dcom_writedata_i    : in  std_logic_vector(31 downto 0) := (others => '0'); --                                 .writedata
@@ -55,6 +55,7 @@ entity dcom_v2_top is
         spw_data_tx_status_txhalff_i     : in  std_logic                     := '0'; --          --                                 .spw_data_tx_status_txhalff_signal
         spw_errinj_ctrl_errinj_busy_i    : in  std_logic                     := '0'; --          --                                 .spw_errinj_ctrl_errinj_busy_signal
         spw_errinj_ctrl_errinj_ready_i   : in  std_logic                     := '0'; --          --                                 .spw_errinj_ctrl_errinj_ready_signal
+        spw_link_command_enable_o        : out std_logic; --                                     --                                 .spw_link_command_enable_signal
         spw_link_command_autostart_o     : out std_logic; --                                     --                                 .spw_link_command_autostart_signal
         spw_link_command_linkstart_o     : out std_logic; --                                     --                                 .spw_link_command_linkstart_signal
         spw_link_command_linkdis_o       : out std_logic; --                                     --                                 .spw_link_command_linkdis_signal
@@ -213,7 +214,7 @@ begin
             rst_i                        => a_reset,
             avalon_mm_dcom_i.address     => avalon_slave_dcom_address_i,
             avalon_mm_dcom_i.read        => avalon_slave_dcom_read_i,
-            avalon_mm_dcom_i.byteenable  => avalon_slave_dcom_byteenable_i,
+            avalon_mm_dcom_i.byteenable  => "1111",
             dcom_write_registers_i       => s_dcom_write_registers,
             dcom_read_registers_i        => s_dcom_read_registers,
             avalon_mm_dcom_o.readdata    => avalon_slave_dcom_readdata_o,
@@ -228,7 +229,7 @@ begin
             avalon_mm_dcom_i.address     => avalon_slave_dcom_address_i,
             avalon_mm_dcom_i.write       => avalon_slave_dcom_write_i,
             avalon_mm_dcom_i.writedata   => avalon_slave_dcom_writedata_i,
-            avalon_mm_dcom_i.byteenable  => avalon_slave_dcom_byteenable_i,
+            avalon_mm_dcom_i.byteenable  => "1111",
             avalon_mm_dcom_o.waitrequest => s_dcom_avalon_mm_write_waitrequest,
             dcom_write_registers_o       => s_dcom_write_registers
         );
@@ -475,6 +476,7 @@ begin
     s_mux_tx_channel_status.txhalff                                            <= spw_data_tx_status_txhalff_i;
     s_dcom_read_registers.spw_codec_errinj_status_reg.errinj_ctrl_errinj_busy  <= spw_errinj_ctrl_errinj_busy_i;
     s_dcom_read_registers.spw_codec_errinj_status_reg.errinj_ctrl_errinj_ready <= spw_errinj_ctrl_errinj_ready_i;
+    spw_link_command_enable_o                                                  <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_enable;
     spw_link_command_autostart_o                                               <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_autostart;
     spw_link_command_linkstart_o                                               <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_linkstart;
     spw_link_command_linkdis_o                                                 <= s_dcom_write_registers.spw_link_config_reg.spw_lnkcfg_disconnect;

@@ -2250,47 +2250,47 @@
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="FTDI_UMFT601A_Module"
@@ -2298,7 +2298,7 @@
    version="2.3"
    enabled="1" />
  <module name="Memory_Filler" kind="Memory_Filler" version="1.0" enabled="1" />
- <module name="RMAP_Echoing" kind="RMAP_Echoing" version="1.3" enabled="1" />
+ <module name="RMAP_Echoing" kind="RMAP_Echoing" version="1.4" enabled="1" />
  <module
    name="RMAP_Memory_Subunit_Area_1"
    kind="RMAP_Memory_Subunit_Area"
@@ -2347,47 +2347,47 @@
  <module
    name="SpaceWire_Channel_A"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Channel_B"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Channel_C"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Channel_D"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Channel_E"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Channel_F"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Channel_G"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Channel_H"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    enabled="1" />
  <module
    name="SpaceWire_Mux_Ch_H"
    kind="SpaceWire_Mux"
-   version="1.0"
+   version="1.1"
    enabled="1" />
  <module name="clk_100" kind="clock_source" version="18.1" enabled="1">
   <parameter name="clockFrequency" value="100000000" />
@@ -3684,7 +3684,7 @@
   <parameter name="useEopRegister" value="false" />
   <parameter name="useRelativePathForSimFile" value="false" />
  </module>
- <module name="rst_controller" kind="rst_controller" version="1.5" enabled="1" />
+ <module name="rst_controller" kind="rst_controller" version="1.6" enabled="1" />
  <module name="rtcc_alarm" kind="altera_avalon_pio" version="18.1" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
   <parameter name="bitModifyingOutReg" value="false" />

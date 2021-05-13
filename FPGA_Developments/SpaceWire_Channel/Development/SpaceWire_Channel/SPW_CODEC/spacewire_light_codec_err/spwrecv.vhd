@@ -25,17 +25,19 @@ entity spwrecv is
 
     port(
         -- System clock.
-        clk      : in  std_logic;
+        clk                : in  std_logic;
         -- High to enable receiver; low to disable and reset receiver.
-        rxen     : in  std_logic;
+        rxen               : in  std_logic;
         -- Output signals to spwlink.
-        recvo    : out spw_recv_out_type;
+        recvo              : out spw_recv_out_type;
         -- High if there has been recent activity on the input lines.
-        inact    : in  std_logic;
+        inact              : in  std_logic;
         -- High if inbits contains a valid group of received bits.
-        inbvalid : in  std_logic;
+        inbvalid           : in  std_logic;
         -- Received bits from receiver front-end.
-        inbits   : in  std_logic_vector(rxchunk - 1 downto 0)
+        inbits             : in  std_logic_vector(rxchunk - 1 downto 0);
+        -- High if invalid transition detected
+        invalid_transition : in  std_logic
     );
 
 end entity spwrecv;
@@ -45,48 +47,48 @@ architecture spwrecv_arch of spwrecv is
     -- registers
     type regs_type is record
         -- receiver state
-        bit_seen  : std_ulogic;         -- got a bit transition
-        null_seen : std_ulogic;         -- got a NULL token
+        bit_seen   : std_ulogic;        -- got a bit transition
+        null_seen  : std_ulogic;        -- got a NULL token
         -- input shift register
-        bitshift  : std_logic_vector(8 downto 0);
-        bitcnt    : std_logic_vector(9 downto 0); -- one-hot counter
+        bitshift   : std_logic_vector(8 downto 0);
+        bitcnt     : std_logic_vector(9 downto 0); -- one-hot counter
         -- parity flag
-        parity    : std_ulogic;
+        parity     : std_ulogic;
         -- decoding
-        control   : std_ulogic;         -- next code is control code
-        escaped   : std_ulogic;         -- last code was ESC
+        control    : std_ulogic;        -- next code is control code
+        escaped    : std_ulogic;        -- last code was ESC
         -- output registers
-        gotfct    : std_ulogic;
-        tick_out  : std_ulogic;
-        rxchar    : std_ulogic;
-        rxflag    : std_ulogic;
-        timereg   : std_logic_vector(7 downto 0);
-        datareg   : std_logic_vector(7 downto 0);
+        gotfct     : std_ulogic;
+        tick_out   : std_ulogic;
+        rxchar     : std_ulogic;
+        rxflag     : std_ulogic;
+        timereg    : std_logic_vector(7 downto 0);
+        datareg    : std_logic_vector(7 downto 0);
         -- disconnect timer
-        disccnt   : unsigned(7 downto 0);
+        disccnt    : unsigned(7 downto 0);
         -- error flags
-        errpar    : std_ulogic;
-        erresc    : std_ulogic;
+        errpar     : std_ulogic;
+        erresc     : std_ulogic;
     end record;
 
     -- Initial state
     constant regs_reset : regs_type := (
-        bit_seen  => '0',
-        null_seen => '0',
-        bitshift  => (others => '1'),
-        bitcnt    => (others => '0'),
-        parity    => '0',
-        control   => '0',
-        escaped   => '0',
-        gotfct    => '0',
-        tick_out  => '0',
-        rxchar    => '0',
-        rxflag    => '0',
-        timereg   => (others => '0'),
-        datareg   => (others => '0'),
-        disccnt   => "00000000",
-        errpar    => '0',
-        erresc    => '0');
+        bit_seen   => '0',
+        null_seen  => '0',
+        bitshift   => (others => '1'),
+        bitcnt     => (others => '0'),
+        parity     => '0',
+        control    => '0',
+        escaped    => '0',
+        gotfct     => '0',
+        tick_out   => '0',
+        rxchar     => '0',
+        rxflag     => '0',
+        timereg    => (others => '0'),
+        datareg    => (others => '0'),
+        disccnt    => "00000000",
+        errpar     => '0',
+        erresc     => '0');
 
     -- registers
     signal r   : regs_type := regs_reset;
@@ -95,7 +97,7 @@ architecture spwrecv_arch of spwrecv is
 begin
 
     -- combinatorial process
-    process(r, rxen, inact, inbvalid, inbits)
+    process(r, rxen, inact, inbvalid, inbits, invalid_transition)
         variable v       : regs_type;
         variable v_inbit : std_ulogic;
     begin
@@ -207,6 +209,10 @@ begin
                 v.bitshift := v_inbit & v.bitshift(v.bitshift'high downto 1);
 
             end loop;
+        end if;
+
+        if invalid_transition = '1' then
+            v.bitshift := (others => '1');
         end if;
 
         -- synchronous reset

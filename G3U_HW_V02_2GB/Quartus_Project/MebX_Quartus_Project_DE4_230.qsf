@@ -2457,7 +2457,7 @@ set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HSMB_LVDS_TX_SPWA_SO_P
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HSMB_LVDS_TX_SPWA_SO_N
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HSMB_LVDS_TX_SPWA_DO_P
 set_instance_assignment -name FAST_OUTPUT_REGISTER ON -to HSMB_LVDS_TX_SPWA_DO_N
-set_global_assignment -name ROUTER_EFFORT_MULTIPLIER 1.0
+set_global_assignment -name ROUTER_EFFORT_MULTIPLIER 2.0
 set_global_assignment -name PHYSICAL_SYNTHESIS_COMBO_LOGIC_FOR_AREA OFF
 set_global_assignment -name PHYSICAL_SYNTHESIS_MAP_LOGIC_TO_MEMORY_FOR_AREA ON
 set_instance_assignment -name GLOBAL_SIGNAL GLOBAL_CLOCK -to FTDI_CLOCK

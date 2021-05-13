@@ -35,6 +35,8 @@ bool bRprtSetIrqControl(TRprtChannel *pxRprtCh);
 
 bool bRprtGetIrqFlags(TRprtChannel *pxRprtCh);
 
+bool bRprtSetIrqFlagClr(TRprtChannel *pxRprtCh);
+
 bool bRprtInitCh(TRprtChannel *pxRprtCh, alt_u8 ucDcomCh);
 
 //! [public function prototypes]

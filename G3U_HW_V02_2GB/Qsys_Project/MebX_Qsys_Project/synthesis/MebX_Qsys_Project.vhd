@@ -72,6 +72,7 @@ entity MebX_Qsys_Project is
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_status_txhalff_signal   : in    std_logic                     := '0';             --                                                                    .spw_data_tx_status_txhalff_signal
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_busy_signal  : in    std_logic                     := '0';             --                                                                    .spw_errinj_ctrl_errinj_busy_signal
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_ready_signal : in    std_logic                     := '0';             --                                                                    .spw_errinj_ctrl_errinj_ready_signal
+		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_enable_signal      : out   std_logic;                                        --                                                                    .spw_link_command_enable_signal
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_autostart_signal   : out   std_logic;                                        --                                                                    .spw_link_command_autostart_signal
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : out   std_logic;                                        --                                                                    .spw_link_command_linkstart_signal
 		dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_linkdis_signal     : out   std_logic;                                        --                                                                    .spw_link_command_linkdis_signal
@@ -353,6 +354,7 @@ architecture rtl of MebX_Qsys_Project is
 			spw_data_tx_status_txhalff_i     : in  std_logic                     := 'X';             -- spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    : in  std_logic                     := 'X';             -- spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   : in  std_logic                     := 'X';             -- spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        : out std_logic;                                        -- spw_link_command_enable_signal
 			spw_link_command_autostart_o     : out std_logic;                                        -- spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     : out std_logic;                                        -- spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       : out std_logic;                                        -- spw_link_command_linkdis_signal
@@ -503,6 +505,7 @@ architecture rtl of MebX_Qsys_Project is
 			spw_data_tx_status_txhalff_i   : in  std_logic                    := 'X';             -- spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i  : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o      : out std_logic;                                       -- spw_link_command_enable_signal
 			spw_link_command_autostart_o   : out std_logic;                                       -- spw_link_command_autostart_signal
 			spw_link_command_linkstart_o   : out std_logic;                                       -- spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o     : out std_logic;                                       -- spw_link_command_linkdis_signal
@@ -572,6 +575,7 @@ architecture rtl of MebX_Qsys_Project is
 			spw_tx_enable_i                : in  std_logic                    := 'X';             -- spw_tx_enable_signal
 			spw_red_status_led_o           : out std_logic;                                       -- spw_red_status_led_signal
 			spw_green_status_led_o         : out std_logic;                                       -- spw_green_status_led_signal
+			spw_link_command_enable_i      : in  std_logic                    := 'X';             -- spw_link_command_enable_signal
 			spw_link_command_autostart_i   : in  std_logic                    := 'X';             -- spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   : in  std_logic                    := 'X';             -- spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     : in  std_logic                    := 'X';             -- spw_link_command_linkdis_signal
@@ -612,6 +616,7 @@ architecture rtl of MebX_Qsys_Project is
 			reset_i                            : in  std_logic                    := 'X';             -- reset
 			clock_i                            : in  std_logic                    := 'X';             -- clk
 			mux_select_i                       : in  std_logic_vector(1 downto 0) := (others => 'X'); -- mux_select_signal
+			spw_ch0_link_command_enable_i      : in  std_logic                    := 'X';             -- spw_link_command_enable_signal
 			spw_ch0_link_command_autostart_i   : in  std_logic                    := 'X';             -- spw_link_command_autostart_signal
 			spw_ch0_link_command_linkstart_i   : in  std_logic                    := 'X';             -- spw_link_command_linkstart_signal
 			spw_ch0_link_command_linkdis_i     : in  std_logic                    := 'X';             -- spw_link_command_linkdis_signal
@@ -644,6 +649,7 @@ architecture rtl of MebX_Qsys_Project is
 			spw_ch0_data_tx_status_txhalff_o   : out std_logic;                                       -- spw_data_tx_status_txhalff_signal
 			spw_ch0_errinj_ctrl_errinj_busy_o  : out std_logic;                                       -- spw_errinj_ctrl_errinj_busy_signal
 			spw_ch0_errinj_ctrl_errinj_ready_o : out std_logic;                                       -- spw_errinj_ctrl_errinj_ready_signal
+			spw_ch1_link_command_enable_i      : in  std_logic                    := 'X';             -- spw_link_command_enable_signal
 			spw_ch1_link_command_autostart_i   : in  std_logic                    := 'X';             -- spw_link_command_autostart_signal
 			spw_ch1_link_command_linkstart_i   : in  std_logic                    := 'X';             -- spw_link_command_linkstart_signal
 			spw_ch1_link_command_linkdis_i     : in  std_logic                    := 'X';             -- spw_link_command_linkdis_signal
@@ -694,6 +700,7 @@ architecture rtl of MebX_Qsys_Project is
 			spw_data_tx_status_txhalff_i       : in  std_logic                    := 'X';             -- spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i      : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i     : in  std_logic                    := 'X';             -- spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o          : out std_logic;                                       -- spw_link_command_enable_signal
 			spw_link_command_autostart_o       : out std_logic;                                       -- spw_link_command_autostart_signal
 			spw_link_command_linkstart_o       : out std_logic;                                       -- spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o         : out std_logic;                                       -- spw_link_command_linkdis_signal
@@ -1128,18 +1135,7 @@ architecture rtl of MebX_Qsys_Project is
 		port (
 			clock_sink_clk                          : in  std_logic                     := 'X';             -- clk
 			reset_sink_reset                        : in  std_logic                     := 'X';             -- reset
-			reset_source_ftdi_reset                 : out std_logic;                                        -- reset
-			reset_source_sync_reset                 : out std_logic;                                        -- reset
 			reset_source_rs232_reset                : out std_logic;                                        -- reset
-			reset_source_sd_card_reset              : out std_logic;                                        -- reset
-			reset_source_comm_ch8_reset             : out std_logic;                                        -- reset
-			reset_source_comm_ch7_reset             : out std_logic;                                        -- reset
-			reset_source_comm_ch6_reset             : out std_logic;                                        -- reset
-			reset_source_comm_ch5_reset             : out std_logic;                                        -- reset
-			reset_source_comm_ch4_reset             : out std_logic;                                        -- reset
-			reset_source_comm_ch3_reset             : out std_logic;                                        -- reset
-			reset_source_comm_ch2_reset             : out std_logic;                                        -- reset
-			reset_source_comm_ch1_reset             : out std_logic;                                        -- reset
 			avalon_slave_rst_controller_address     : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- address
 			avalon_slave_rst_controller_write       : in  std_logic                     := 'X';             -- write
 			avalon_slave_rst_controller_read        : in  std_logic                     := 'X';             -- read
@@ -2233,6 +2229,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_1:spw_data_tx_command_txflag_o -> SpaceWire_Channel_A:spw_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_1:spw_link_command_linkstart_o -> SpaceWire_Channel_A:spw_link_command_linkstart_i
 	signal dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_1:spw_data_rx_command_rxread_o -> SpaceWire_Channel_A:spw_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_1:spw_link_command_enable_o -> SpaceWire_Channel_A:spw_link_command_enable_i
 	signal spacewire_channel_a_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_A:spw_link_status_running_o -> Dumb_Communication_Module_v2_1:spw_link_status_running_i
 	signal spacewire_channel_a_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_A:spw_link_status_started_o -> Dumb_Communication_Module_v2_1:spw_link_status_started_i
 	signal spacewire_channel_a_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_A:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_1:spw_link_error_errpar_i
@@ -2265,6 +2262,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_2:spw_data_tx_command_txflag_o -> SpaceWire_Channel_B:spw_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_2:spw_link_command_linkstart_o -> SpaceWire_Channel_B:spw_link_command_linkstart_i
 	signal dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_2:spw_data_rx_command_rxread_o -> SpaceWire_Channel_B:spw_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_2:spw_link_command_enable_o -> SpaceWire_Channel_B:spw_link_command_enable_i
 	signal spacewire_channel_b_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_B:spw_link_status_running_o -> Dumb_Communication_Module_v2_2:spw_link_status_running_i
 	signal spacewire_channel_b_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_B:spw_link_status_started_o -> Dumb_Communication_Module_v2_2:spw_link_status_started_i
 	signal spacewire_channel_b_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_B:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_2:spw_link_error_errpar_i
@@ -2297,6 +2295,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_3:spw_data_tx_command_txflag_o -> SpaceWire_Channel_C:spw_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_3:spw_link_command_linkstart_o -> SpaceWire_Channel_C:spw_link_command_linkstart_i
 	signal dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_3:spw_data_rx_command_rxread_o -> SpaceWire_Channel_C:spw_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_3:spw_link_command_enable_o -> SpaceWire_Channel_C:spw_link_command_enable_i
 	signal spacewire_channel_c_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_C:spw_link_status_running_o -> Dumb_Communication_Module_v2_3:spw_link_status_running_i
 	signal spacewire_channel_c_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_C:spw_link_status_started_o -> Dumb_Communication_Module_v2_3:spw_link_status_started_i
 	signal spacewire_channel_c_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_C:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_3:spw_link_error_errpar_i
@@ -2329,6 +2328,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_4:spw_data_tx_command_txflag_o -> SpaceWire_Channel_D:spw_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_4:spw_link_command_linkstart_o -> SpaceWire_Channel_D:spw_link_command_linkstart_i
 	signal dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_4:spw_data_rx_command_rxread_o -> SpaceWire_Channel_D:spw_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_4:spw_link_command_enable_o -> SpaceWire_Channel_D:spw_link_command_enable_i
 	signal spacewire_channel_d_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_D:spw_link_status_running_o -> Dumb_Communication_Module_v2_4:spw_link_status_running_i
 	signal spacewire_channel_d_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_D:spw_link_status_started_o -> Dumb_Communication_Module_v2_4:spw_link_status_started_i
 	signal spacewire_channel_d_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_D:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_4:spw_link_error_errpar_i
@@ -2361,6 +2361,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_5:spw_data_tx_command_txflag_o -> SpaceWire_Channel_E:spw_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_5:spw_link_command_linkstart_o -> SpaceWire_Channel_E:spw_link_command_linkstart_i
 	signal dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_5:spw_data_rx_command_rxread_o -> SpaceWire_Channel_E:spw_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_5:spw_link_command_enable_o -> SpaceWire_Channel_E:spw_link_command_enable_i
 	signal spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_E:spw_link_status_running_o -> Dumb_Communication_Module_v2_5:spw_link_status_running_i
 	signal spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_E:spw_link_status_started_o -> Dumb_Communication_Module_v2_5:spw_link_status_started_i
 	signal spacewire_channel_e_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_E:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_5:spw_link_error_errpar_i
@@ -2393,6 +2394,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_6:spw_data_tx_command_txflag_o -> SpaceWire_Channel_F:spw_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_6:spw_link_command_linkstart_o -> SpaceWire_Channel_F:spw_link_command_linkstart_i
 	signal dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_6:spw_data_rx_command_rxread_o -> SpaceWire_Channel_F:spw_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_6:spw_link_command_enable_o -> SpaceWire_Channel_F:spw_link_command_enable_i
 	signal spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_F:spw_link_status_running_o -> Dumb_Communication_Module_v2_6:spw_link_status_running_i
 	signal spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_F:spw_link_status_started_o -> Dumb_Communication_Module_v2_6:spw_link_status_started_i
 	signal spacewire_channel_f_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_F:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_6:spw_link_error_errpar_i
@@ -2425,6 +2427,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_7:spw_data_tx_command_txflag_o -> SpaceWire_Channel_G:spw_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_7:spw_link_command_linkstart_o -> SpaceWire_Channel_G:spw_link_command_linkstart_i
 	signal dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_7:spw_data_rx_command_rxread_o -> SpaceWire_Channel_G:spw_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_7:spw_link_command_enable_o -> SpaceWire_Channel_G:spw_link_command_enable_i
 	signal spacewire_channel_g_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_G:spw_link_status_running_o -> Dumb_Communication_Module_v2_7:spw_link_status_running_i
 	signal spacewire_channel_g_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_G:spw_link_status_started_o -> Dumb_Communication_Module_v2_7:spw_link_status_started_i
 	signal spacewire_channel_g_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_G:spw_link_error_errpar_o -> Dumb_Communication_Module_v2_7:spw_link_error_errpar_i
@@ -2457,6 +2460,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_data_tx_command_txflag_o -> SpaceWire_Channel_H:spw_data_tx_command_txflag_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkstart_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_link_command_linkstart_o -> SpaceWire_Channel_H:spw_link_command_linkstart_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal               : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_data_rx_command_rxread_o -> SpaceWire_Channel_H:spw_data_rx_command_rxread_i
+	signal spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_enable_signal                  : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_link_command_enable_o -> SpaceWire_Channel_H:spw_link_command_enable_i
 	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_running_signal                    : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_running_o -> SpaceWire_Mux_Ch_H:spw_link_status_running_i
 	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_status_started_signal                    : std_logic;                      -- SpaceWire_Channel_H:spw_link_status_started_o -> SpaceWire_Mux_Ch_H:spw_link_status_started_i
 	signal spacewire_channel_h_conduit_end_spacewire_channel_spw_link_error_errpar_signal                      : std_logic;                      -- SpaceWire_Channel_H:spw_link_error_errpar_o -> SpaceWire_Mux_Ch_H:spw_link_error_errpar_i
@@ -2489,6 +2493,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_tx_command_txflag_o -> SpaceWire_Mux_Ch_H:spw_ch0_data_tx_command_txflag_i
 	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_linkstart_o -> SpaceWire_Mux_Ch_H:spw_ch0_link_command_linkstart_i
 	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_data_rx_command_rxread_o -> SpaceWire_Mux_Ch_H:spw_ch0_data_rx_command_rxread_i
+	signal dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_enable_signal      : std_logic;                      -- Dumb_Communication_Module_v2_8:spw_link_command_enable_o -> SpaceWire_Mux_Ch_H:spw_ch0_link_command_enable_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_running_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_status_running_o -> Dumb_Communication_Module_v2_8:spw_link_status_running_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_started_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_status_started_o -> Dumb_Communication_Module_v2_8:spw_link_status_started_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_error_errpar_signal                     : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch0_link_error_errpar_o -> Dumb_Communication_Module_v2_8:spw_link_error_errpar_i
@@ -2521,6 +2526,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal rmap_echoing_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal                     : std_logic;                      -- RMAP_Echoing:spw_data_tx_command_txflag_o -> SpaceWire_Mux_Ch_H:spw_ch1_data_tx_command_txflag_i
 	signal rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkstart_signal                     : std_logic;                      -- RMAP_Echoing:spw_link_command_linkstart_o -> SpaceWire_Mux_Ch_H:spw_ch1_link_command_linkstart_i
 	signal rmap_echoing_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal                     : std_logic;                      -- RMAP_Echoing:spw_data_rx_command_rxread_o -> SpaceWire_Mux_Ch_H:spw_ch1_data_rx_command_rxread_i
+	signal rmap_echoing_conduit_end_spacewire_controller_spw_link_command_enable_signal                        : std_logic;                      -- RMAP_Echoing:spw_link_command_enable_o -> SpaceWire_Mux_Ch_H:spw_ch1_link_command_enable_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_running_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_status_running_o -> RMAP_Echoing:spw_link_status_running_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_status_started_signal                   : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_status_started_o -> RMAP_Echoing:spw_link_status_started_i
 	signal spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_link_error_errpar_signal                     : std_logic;                      -- SpaceWire_Mux_Ch_H:spw_ch1_link_error_errpar_o -> RMAP_Echoing:spw_link_error_errpar_i
@@ -3139,6 +3145,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_channel_a_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_a_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_a_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3208,6 +3215,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_channel_b_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_b_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_b_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3277,6 +3285,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_channel_c_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_c_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_c_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3346,6 +3355,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_channel_d_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_d_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_d_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3415,6 +3425,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3484,6 +3495,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3553,6 +3565,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_channel_g_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_channel_g_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_channel_g_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3622,6 +3635,7 @@ begin
 			spw_data_tx_status_txhalff_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txhalff_signal,                --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_busy_signal,               --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_ready_signal,              --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3691,6 +3705,7 @@ begin
 			spw_data_tx_status_txhalff_i     => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_status_txhalff_signal,   --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i    => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_busy_signal,  --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i   => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_ready_signal, --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o        => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o     => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o     => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o       => dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
@@ -3838,6 +3853,7 @@ begin
 			spw_data_tx_status_txhalff_i   => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_data_tx_status_txhalff_signal,   --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i  => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_busy_signal,  --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i => spacewire_mux_ch_h_conduit_end_spacewire_channel_1_spw_errinj_ctrl_errinj_ready_signal, --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o      => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_enable_signal,           --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_autostart_signal,        --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,        --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o     => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,          --                                 .spw_link_command_linkdis_signal
@@ -4058,7 +4074,8 @@ begin
 			spw_tx_enable_i                => spwc_a_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_a_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_a_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_1_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4109,7 +4126,8 @@ begin
 			spw_tx_enable_i                => spwc_b_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_b_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_b_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_2_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4160,7 +4178,8 @@ begin
 			spw_tx_enable_i                => spwc_c_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_c_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_c_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_3_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4211,7 +4230,8 @@ begin
 			spw_tx_enable_i                => spwc_d_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_d_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_d_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_4_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4262,7 +4282,8 @@ begin
 			spw_tx_enable_i                => spwc_e_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_e_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_e_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_5_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4313,7 +4334,8 @@ begin
 			spw_tx_enable_i                => spwc_f_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_f_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_f_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_6_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4364,7 +4386,8 @@ begin
 			spw_tx_enable_i                => spwc_g_enable_spw_tx_enable_signal,                                                                  --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_g_leds_spw_red_status_led_signal,                                                               --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_g_leds_spw_green_status_led_signal,                                                             --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => dumb_communication_module_v2_7_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4415,7 +4438,8 @@ begin
 			spw_tx_enable_i                => spwc_h_enable_spw_tx_enable_signal,                                                      --                              .spw_tx_enable_signal
 			spw_red_status_led_o           => spwc_h_leds_spw_red_status_led_signal,                                                   --    conduit_end_spacewire_leds.spw_red_status_led_signal
 			spw_green_status_led_o         => spwc_h_leds_spw_green_status_led_signal,                                                 --                              .spw_green_status_led_signal
-			spw_link_command_autostart_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   -- conduit_end_spacewire_channel.spw_link_command_autostart_signal
+			spw_link_command_enable_i      => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_enable_signal,      -- conduit_end_spacewire_channel.spw_link_command_enable_signal
+			spw_link_command_autostart_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                              .spw_link_command_autostart_signal
 			spw_link_command_linkstart_i   => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                              .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_i     => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                              .spw_link_command_linkdis_signal
 			spw_link_command_txdivcnt_i    => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                              .spw_link_command_txdivcnt_signal
@@ -4454,7 +4478,8 @@ begin
 			reset_i                            => rst_controller_002_reset_out_reset,                                                                  --                       reset_sink.reset
 			clock_i                            => m2_ddr2_memory_afi_half_clk_clk,                                                                     --                       clock_sink.clk
 			mux_select_i                       => spwm_h_select_mux_select_signal,                                                                     --           conduit_end_mux_select.mux_select_signal
-			spw_ch0_link_command_autostart_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --  conduit_end_spacewire_channel_0.spw_link_command_autostart_signal
+			spw_ch0_link_command_enable_i      => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_enable_signal,      --  conduit_end_spacewire_channel_0.spw_link_command_enable_signal
+			spw_ch0_link_command_autostart_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_autostart_signal,   --                                 .spw_link_command_autostart_signal
 			spw_ch0_link_command_linkstart_i   => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,   --                                 .spw_link_command_linkstart_signal
 			spw_ch0_link_command_linkdis_i     => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,     --                                 .spw_link_command_linkdis_signal
 			spw_ch0_link_command_txdivcnt_i    => dumb_communication_module_v2_8_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,    --                                 .spw_link_command_txdivcnt_signal
@@ -4486,7 +4511,8 @@ begin
 			spw_ch0_data_tx_status_txhalff_o   => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_data_tx_status_txhalff_signal,                --                                 .spw_data_tx_status_txhalff_signal
 			spw_ch0_errinj_ctrl_errinj_busy_o  => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_busy_signal,               --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_ch0_errinj_ctrl_errinj_ready_o => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_errinj_ctrl_errinj_ready_signal,              --                                 .spw_errinj_ctrl_errinj_ready_signal
-			spw_ch1_link_command_autostart_i   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_autostart_signal,                     --  conduit_end_spacewire_channel_1.spw_link_command_autostart_signal
+			spw_ch1_link_command_enable_i      => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_enable_signal,                        --  conduit_end_spacewire_channel_1.spw_link_command_enable_signal
+			spw_ch1_link_command_autostart_i   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_autostart_signal,                     --                                 .spw_link_command_autostart_signal
 			spw_ch1_link_command_linkstart_i   => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,                     --                                 .spw_link_command_linkstart_signal
 			spw_ch1_link_command_linkdis_i     => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,                       --                                 .spw_link_command_linkdis_signal
 			spw_ch1_link_command_txdivcnt_i    => rmap_echoing_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal,                      --                                 .spw_link_command_txdivcnt_signal
@@ -4536,6 +4562,7 @@ begin
 			spw_data_tx_status_txhalff_i       => spacewire_channel_h_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal,                 --                                 .spw_data_tx_status_txhalff_signal
 			spw_errinj_ctrl_errinj_busy_i      => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal,                --                                 .spw_errinj_ctrl_errinj_busy_signal
 			spw_errinj_ctrl_errinj_ready_i     => spacewire_channel_h_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal,               --                                 .spw_errinj_ctrl_errinj_ready_signal
+			spw_link_command_enable_o          => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_enable_signal,                  --                                 .spw_link_command_enable_signal
 			spw_link_command_autostart_o       => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_autostart_signal,               --                                 .spw_link_command_autostart_signal
 			spw_link_command_linkstart_o       => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkstart_signal,               --                                 .spw_link_command_linkstart_signal
 			spw_link_command_linkdis_o         => spacewire_mux_ch_h_conduit_end_spacewire_controller_spw_link_command_linkdis_signal,                 --                                 .spw_link_command_linkdis_signal
@@ -5098,18 +5125,7 @@ begin
 		port map (
 			clock_sink_clk                          => clk50_clk,                                                                --                  clock_sink.clk
 			reset_sink_reset                        => rst_controller_001_reset_out_reset,                                       --                  reset_sink.reset
-			reset_source_ftdi_reset                 => open,                                                                     --           reset_source_ftdi.reset
-			reset_source_sync_reset                 => open,                                                                     --           reset_source_sync.reset
 			reset_source_rs232_reset                => open,                                                                     --          reset_source_rs232.reset
-			reset_source_sd_card_reset              => open,                                                                     --        reset_source_sd_card.reset
-			reset_source_comm_ch8_reset             => open,                                                                     --       reset_source_comm_ch8.reset
-			reset_source_comm_ch7_reset             => open,                                                                     --       reset_source_comm_ch7.reset
-			reset_source_comm_ch6_reset             => open,                                                                     --       reset_source_comm_ch6.reset
-			reset_source_comm_ch5_reset             => open,                                                                     --       reset_source_comm_ch5.reset
-			reset_source_comm_ch4_reset             => open,                                                                     --       reset_source_comm_ch4.reset
-			reset_source_comm_ch3_reset             => open,                                                                     --       reset_source_comm_ch3.reset
-			reset_source_comm_ch2_reset             => open,                                                                     --       reset_source_comm_ch2.reset
-			reset_source_comm_ch1_reset             => open,                                                                     --       reset_source_comm_ch1.reset
 			avalon_slave_rst_controller_address     => mm_interconnect_3_rst_controller_avalon_rst_controller_slave_address,     -- avalon_rst_controller_slave.address
 			avalon_slave_rst_controller_write       => mm_interconnect_3_rst_controller_avalon_rst_controller_slave_write,       --                            .write
 			avalon_slave_rst_controller_read        => mm_interconnect_3_rst_controller_avalon_rst_controller_slave_read,        --                            .read

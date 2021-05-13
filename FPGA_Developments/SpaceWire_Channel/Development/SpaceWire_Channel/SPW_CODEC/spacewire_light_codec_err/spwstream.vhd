@@ -213,16 +213,17 @@ architecture spwstream_arch of spwstream is
     signal rin : regs_type;
 
     -- Interface signals to components.
-    signal recv_rxen     : std_logic;
-    signal recvo         : spw_recv_out_type;
-    signal recv_inact    : std_logic;
-    signal recv_inbvalid : std_logic;
-    signal recv_inbits   : std_logic_vector(rxchunk - 1 downto 0);
-    signal xmiti         : spw_xmit_in_type;
-    signal xmito         : spw_xmit_out_type;
-    signal xmit_divcnt   : std_logic_vector(7 downto 0);
-    signal linki         : spw_link_in_type;
-    signal linko         : spw_link_out_type;
+    signal recv_rxen               : std_logic;
+    signal recvo                   : spw_recv_out_type;
+    signal recv_inact              : std_logic;
+    signal recv_inbvalid           : std_logic;
+    signal recv_inbits             : std_logic_vector(rxchunk - 1 downto 0);
+    signal recv_invalid_transition : std_logic;
+    signal xmiti                   : spw_xmit_in_type;
+    signal xmito                   : spw_xmit_out_type;
+    signal xmit_divcnt             : std_logic_vector(7 downto 0);
+    signal linki                   : spw_link_in_type;
+    signal linko                   : spw_link_out_type;
 
     -- Memory interface signals.
     signal s_rxfifo_raddr : std_logic_vector(rxfifosize_bits - 1 downto 0);
@@ -258,12 +259,13 @@ begin
             disconnect_time => disconnect_time,
             rxchunk         => rxchunk)
         port map(
-            clk      => clk,
-            rxen     => recv_rxen,
-            recvo    => recvo,
-            inact    => recv_inact,
-            inbvalid => recv_inbvalid,
-            inbits   => recv_inbits);
+            clk                => clk,
+            rxen               => recv_rxen,
+            recvo              => recvo,
+            inact              => recv_inact,
+            inbvalid           => recv_inbvalid,
+            inbits             => recv_inbits,
+            invalid_transition => recv_invalid_transition);
 
     -- Instantiate transmitter.
     xmit_sel0 : if tximpl = impl_generic generate
@@ -294,13 +296,14 @@ begin
     recvfront_sel0 : if rximpl = impl_generic generate
         recvfront_generic_inst : spwrecvfront_generic
             port map(
-                clk      => clk,
-                rxen     => recv_rxen,
-                inact    => recv_inact,
-                inbvalid => recv_inbvalid,
-                inbits   => recv_inbits,
-                spw_di   => spw_di,
-                spw_si   => spw_si);
+                clk                => clk,
+                rxen               => recv_rxen,
+                inact              => recv_inact,
+                inbvalid           => recv_inbvalid,
+                inbits             => recv_inbits,
+                invalid_transition => recv_invalid_transition,
+                spw_di             => spw_di,
+                spw_si             => spw_si);
     end generate;
     recvfront_sel1 : if rximpl = impl_fast generate
         recvfront_fast_inst : spwrecvfront_fast

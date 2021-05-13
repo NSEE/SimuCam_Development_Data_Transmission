@@ -1260,6 +1260,23 @@ bool bRprtGetIrqFlags(TRprtChannel *pxRprtCh) {
 	return (bStatus);
 }
 
+bool bRprtSetIrqFlagClr(TRprtChannel *pxRprtCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxRprtCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxRprtCh->xRprtDevAddr.uliRprtBaseAddr);
+
+		vpxDcomChannel->xReport.xRprtIrqFlagClr = pxRprtCh->xRprtIrqFlagClr;
+
+		bStatus = TRUE;
+
+	}
+
+	return (bStatus);
+}
+
 bool bRprtInitCh(TRprtChannel *pxRprtCh, alt_u8 ucDcomCh) {
 	bool bStatus = FALSE;
 	bool bValidCh = FALSE;

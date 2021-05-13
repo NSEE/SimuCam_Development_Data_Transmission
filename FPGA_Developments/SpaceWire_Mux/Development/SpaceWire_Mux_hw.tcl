@@ -4,7 +4,7 @@
 
 
 # 
-# SpaceWire_Mux "SpaceWire_Mux" v1.0
+# SpaceWire_Mux "SpaceWire_Mux" v1.1
 # rfranca 2021.02.12.01:06:42
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME SpaceWire_Mux
-set_module_property VERSION 1.0
+set_module_property VERSION 1.1
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR rfranca
@@ -114,6 +114,7 @@ set_interface_property conduit_end_spacewire_channel_0 PORT_NAME_MAP ""
 set_interface_property conduit_end_spacewire_channel_0 CMSIS_SVD_VARIABLES ""
 set_interface_property conduit_end_spacewire_channel_0 SVD_ADDRESS_GROUP ""
 
+add_interface_port conduit_end_spacewire_channel_0 spw_ch0_link_command_enable_i spw_link_command_enable_signal Input 1
 add_interface_port conduit_end_spacewire_channel_0 spw_ch0_link_command_autostart_i spw_link_command_autostart_signal Input 1
 add_interface_port conduit_end_spacewire_channel_0 spw_ch0_link_command_linkstart_i spw_link_command_linkstart_signal Input 1
 add_interface_port conduit_end_spacewire_channel_0 spw_ch0_link_command_linkdis_i spw_link_command_linkdis_signal Input 1
@@ -160,6 +161,7 @@ set_interface_property conduit_end_spacewire_channel_1 PORT_NAME_MAP ""
 set_interface_property conduit_end_spacewire_channel_1 CMSIS_SVD_VARIABLES ""
 set_interface_property conduit_end_spacewire_channel_1 SVD_ADDRESS_GROUP ""
 
+add_interface_port conduit_end_spacewire_channel_1 spw_ch1_link_command_enable_i spw_link_command_enable_signal Input 1
 add_interface_port conduit_end_spacewire_channel_1 spw_ch1_link_command_autostart_i spw_link_command_autostart_signal Input 1
 add_interface_port conduit_end_spacewire_channel_1 spw_ch1_link_command_linkstart_i spw_link_command_linkstart_signal Input 1
 add_interface_port conduit_end_spacewire_channel_1 spw_ch1_link_command_linkdis_i spw_link_command_linkdis_signal Input 1
@@ -224,6 +226,7 @@ add_interface_port conduit_end_spacewire_controller spw_data_tx_status_txrdy_i s
 add_interface_port conduit_end_spacewire_controller spw_data_tx_status_txhalff_i spw_data_tx_status_txhalff_signal Input 1
 add_interface_port conduit_end_spacewire_controller spw_errinj_ctrl_errinj_busy_i spw_errinj_ctrl_errinj_busy_signal Input 1
 add_interface_port conduit_end_spacewire_controller spw_errinj_ctrl_errinj_ready_i spw_errinj_ctrl_errinj_ready_signal Input 1
+add_interface_port conduit_end_spacewire_controller spw_link_command_enable_o spw_link_command_enable_signal Output 1
 add_interface_port conduit_end_spacewire_controller spw_link_command_autostart_o spw_link_command_autostart_signal Output 1
 add_interface_port conduit_end_spacewire_controller spw_link_command_linkstart_o spw_link_command_linkstart_signal Output 1
 add_interface_port conduit_end_spacewire_controller spw_link_command_linkdis_o spw_link_command_linkdis_signal Output 1

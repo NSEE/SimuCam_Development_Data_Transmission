@@ -8,7 +8,7 @@ package avalon_mm_dcom_registers_pkg is
 
     -- Allowed Addresses
     constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-    constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#7B#;
+    constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#7F#;
 
     -- Registers Types
 
@@ -29,6 +29,7 @@ package avalon_mm_dcom_registers_pkg is
 
     -- SpaceWire Link Config Register
     type t_dcom_spw_link_config_wr_reg is record
+        spw_lnkcfg_enable     : std_logic; -- SpaceWire Link Config Enable
         spw_lnkcfg_disconnect : std_logic; -- SpaceWire Link Config Disconnect
         spw_lnkcfg_linkstart  : std_logic; -- SpaceWire Link Config Linkstart
         spw_lnkcfg_autostart  : std_logic; -- SpaceWire Link Config Autostart

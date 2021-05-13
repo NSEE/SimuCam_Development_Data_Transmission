@@ -59,6 +59,11 @@ architecture RTL of testbench_top is
     signal s_error_spw_erresc     : std_logic;
     signal s_error_spw_errcred    : std_logic;
 
+    constant c_SPW_DI_RANDOM_NOISE : std_logic_vector(1023 downto 0) := "1110001000110011001111001001110101100101011010000101100110000000110110100100011110000111110001111101011111101110110101111010100010100001011111111010111110001111010101000101011010110000000111010011010110101100000110101000010110101100110111111001100001100101101100010100100101100110111010011000000111100001010000110000111111110101001011110011010011110000101101111110110000101001010110110011100011000101110000000001101111000000110110010110100011100000011100101110000111001110001000101000001101100110111001011001011000011000010111110010100110010100011010110110111011111010111011001001000000011100101101111000100000001101011011000001111111000101010101001110110010110001111000000000100011000001111110100001001100010110110010001010101000001001000000100111011111100110000000101100001101110100110110001101111000011011011100110110001100011111101111011101010111101100110111001111111000000011010111111000110100100100010100000110101001000010001110001000001011110000111011110000101100000110100111101001000001111111101100010000010100110110";
+    constant c_SPW_SI_RANDOM_NOISE : std_logic_vector(1023 downto 0) := "0011101011111111011110101100111000101011100001101001011001111011100111111011110111010111100010110010101100111111100110101100110100000011110100110101101111000010001011000101111101111011101111111000111111001100111001011101100001110110000001010101111010010101100111001100000111111101010011100100001011000101001110010011010100001011001001000000101000000110110101111101001001010011000111110110010111011110010111000011101100011001100110000100110001100001011110010011101101001011100010000001000000010100110110101000110001010111111011000011000000001000100010000100011001000101001100110100110001000100001111010000001010010001100000010101010001111111100100111100000101000011101011111110100100100101111010010110111101010010110001110110101101101110001111101101011101001010011000100111001110110100011100000011110011010011100001000000010110111110110110011001000000111111001110001000111100100111110110000010000111110101100011000101001101101101100101010001010011000000011111001000111010100110010001111101111001010100000100001001000001100011";
+
+    signal s_random_noise_cnt : natural range 0 to 1023;
+
 begin
 
     clk200 <= not clk200 after 2.5 ns;  -- 200 MHz
@@ -119,7 +124,7 @@ begin
             spw_errinj_ctrl_errinj_ready_o => open
         );
 
-    s_spw_enable <= '0', '1' after 40 us;
+    s_spw_enable <= '0', '1' after 5 us;
 
     --	s_spw_codec_comm_di <= s_spw_codec_comm_do;
     --	s_spw_codec_comm_si <= s_spw_codec_comm_so;
@@ -135,26 +140,36 @@ begin
             s_spwerr_start_errinj <= '0';
             s_spwerr_reset_errinj <= '0';
             s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_NONE;
+            s_random_noise_cnt    <= 1023;
             v_cnt                 := 0;
         elsif rising_edge(clk100) then
             s_spwcfg_autostart <= '1';
-            s_spwcfg_linkstart <= '0';
+            s_spwcfg_linkstart <= '1';
             s_spwcfg_linkdis   <= '0';
             s_spwcfg_txdivcnt  <= x"01";
 
             s_spwerr_start_errinj <= '0';
             s_spwerr_reset_errinj <= '0';
-            			s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_NONE;
---            s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_PARITY;
+            s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_NONE;
+            --            s_spwerr_errinj_code  <= c_SPWC_ERRINJ_CODE_PARITY;
             case (v_cnt) is
                 when 5000 =>
-                    s_spwerr_start_errinj <= '1';
+                    --                    s_spwerr_start_errinj <= '1';
+                    --            s_spwcfg_autostart <= '1';
+                    --            s_spwcfg_linkstart <= '1';
+                    --            s_spwcfg_linkdis   <= '0';
                 when 6000 =>
-                    s_spwerr_reset_errinj <= '1';
+                    --                    s_spwerr_reset_errinj <= '1';
                 when others =>
                     null;
             end case;
-            v_cnt                 := v_cnt + 1;
+            v_cnt := v_cnt + 1;
+
+            if (s_random_noise_cnt = 0) then
+                s_random_noise_cnt <= 1023;
+            else
+                s_random_noise_cnt <= s_random_noise_cnt - 1;
+            end if;
 
         end if;
     end process p_spw_cfg;
@@ -214,8 +229,10 @@ begin
             err_stat_o => open
         );
 
-    s_spw_codec_comm_di  <= s_spw_codec_dummy_do;
-    s_spw_codec_comm_si  <= s_spw_codec_dummy_so;
+--    s_spw_codec_comm_di  <= c_SPW_DI_RANDOM_NOISE(s_random_noise_cnt);
+--    s_spw_codec_comm_si  <= c_SPW_SI_RANDOM_NOISE(s_random_noise_cnt);
+        s_spw_codec_comm_di  <= s_spw_codec_dummy_do;
+        s_spw_codec_comm_si  <= s_spw_codec_dummy_so;
     s_spw_codec_dummy_di <= s_spw_codec_comm_do;
     s_spw_codec_dummy_si <= s_spw_codec_comm_so;
 
