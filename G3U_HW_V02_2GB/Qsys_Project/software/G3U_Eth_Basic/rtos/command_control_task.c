@@ -1031,10 +1031,10 @@ void CommandManagementTask() {
 			/* Enable RMAP Log on channel 7 */
 			case typeRmapEchoEnable:
 				if (p_payload->data[0] == 1){
-					bSpwcChHMuxSelect(eSpwcChHMuxSelIdDcom);
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
 					T_simucam.T_conf.usi_rmap_echo = 1;
 				} else {
-					bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdDcom);
 					T_simucam.T_conf.usi_rmap_echo = 0;
 				}
 				v_ack_creator(p_payload, xExecOk);
