@@ -79,7 +79,7 @@ void vHeaderParser(T_uart_payload *pPayload, unsigned char *cReceiveBuffer) {
 
 	pPayload->type = cReceiveBuffer[3];
 
-	pPayload->size = cReceiveBuffer[7] + 256 * cReceiveBuffer[6] + 65536 * cReceiveBuffer[5] + 4294967296 * cReceiveBuffer[4];
+	pPayload->size = cReceiveBuffer[7] + 256 * cReceiveBuffer[6] + 65536 * cReceiveBuffer[5] + 16777216 * cReceiveBuffer[4];
 
 	pPayload->luCRCPartial = crc__CRC16CCITT((unsigned char *) cReceiveBuffer, HEADER_OVERHEAD);
 
@@ -206,7 +206,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 			bDdr2SwitchMemory(DDR2_M2_ID);
 		}
 
-		p_imagette_buff->offset = iOffsetLengthBuff[3] + 256 * iOffsetLengthBuff[2] + 65536 * iOffsetLengthBuff[1] + 4294967296 * iOffsetLengthBuff[0];
+		p_imagette_buff->offset = iOffsetLengthBuff[3] + 256 * iOffsetLengthBuff[2] + 65536 * iOffsetLengthBuff[1] + 16777216 * iOffsetLengthBuff[0];
 
 		p_imagette_buff->imagette_length = iOffsetLengthBuff[5] + 256 * iOffsetLengthBuff[4];
 

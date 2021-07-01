@@ -978,7 +978,7 @@ void CommandManagementTask() {
 					if(T_simucam.T_conf.luHKPeriod != 0){
 						error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
 					}
-					T_simucam.T_conf.luHKPeriod = p_payload->data[4] + 256 * p_payload->data[3] + 65536 * p_payload->data[2] + 4294967296 * p_payload->data[1];
+					T_simucam.T_conf.luHKPeriod = p_payload->data[4] + 256 * p_payload->data[3] + 65536 * p_payload->data[2] + 16777216 * p_payload->data[1];
 
 					error_code = OSTaskResume(PERIODIC_HK_TASK_PRIORITY);
 				} else {
@@ -1435,7 +1435,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				bRmapGetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.bTriggerErr = TRUE;
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.ucErrorId   = p_payload->data[0];
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 4294967296 * p_payload->data[2]);
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 16777216 * p_payload->data[2]);
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.usiRepeats  = 0;
 				bRmapSetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 
