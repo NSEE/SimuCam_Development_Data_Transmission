@@ -94,7 +94,7 @@ typedef enum {
 /* Pointer to the start of the imagette */
 typedef struct T_imagette {
 	INT32U offset; /* In miliseconds*/
-	INT16U imagette_length; /* length of N imagette */
+	INT32U imagette_length; /* length of N imagette */
 	INT8U imagette_start; /* Value of the first byte in the imagette */
 } T_Imagette;
 
