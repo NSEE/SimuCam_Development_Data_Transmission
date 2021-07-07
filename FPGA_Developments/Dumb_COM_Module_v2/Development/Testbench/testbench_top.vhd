@@ -78,7 +78,7 @@ begin
 			avalon_master_data_address_o     => s_avm_address,
 			avalon_master_data_read_o        => s_avm_read,
 			avalon_slave_dcom_address_i      => s_config_avalon_stimuli_mm_address,
-			avalon_slave_dcom_byteenable_i   => (others => '1'),
+--			avalon_slave_dcom_byteenable_i   => (others => '1'),
 			avalon_slave_dcom_write_i        => s_config_avalon_stimuli_mm_write,
 			avalon_slave_dcom_read_i         => s_config_avalon_stimuli_mm_read,
 			avalon_slave_dcom_writedata_i    => s_config_avalon_stimuli_mm_writedata,

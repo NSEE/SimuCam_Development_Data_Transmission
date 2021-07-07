@@ -72,10 +72,11 @@ typedef struct SpwcDevAddr {
 
 /* SpaceWire Link Config Register Struct */
 typedef struct SpwcLinkConfig {
+	bool bEnable; /* SpaceWire Link Config Enable */
 	bool bDisconnect; /* SpaceWire Link Config Disconnect */
 	bool bLinkStart; /* SpaceWire Link Config Linkstart */
 	bool bAutostart; /* SpaceWire Link Config Autostart */
-	alt_u8 ucTxDivCnt; /* SpaceWire Link Config TxDivCnt */
+	alt_u32 ucTxDivCnt; /* SpaceWire Link Config TxDivCnt */
 } TSpwcLinkConfig;
 
 /* SpaceWire Link Status Register Struct */
@@ -95,16 +96,16 @@ typedef struct SpwcLinkError {
 
 /* SpaceWire Timecode Control Register Struct */
 typedef struct SpwcTimecodeControl {
-	alt_u8 ucTxTime; /* SpaceWire Timecode Tx Time */
-	alt_u8 ucTxControl; /* SpaceWire Timecode Tx Control */
+	alt_u32 ucTxTime; /* SpaceWire Timecode Tx Time */
+	alt_u32 ucTxControl; /* SpaceWire Timecode Tx Control */
 	bool bTxSend; /* SpaceWire Timecode Tx Send */
 	bool bRxReceivedClr; /* SpaceWire Timecode Rx Received Clear */
 } TSpwcTimecodeControl;
 
 /* SpaceWire Timecode Status Register Struct */
 typedef struct SpwcTimecodeStatus {
-	alt_u8 ucRxTime; /* SpaceWire Timecode Rx Time */
-	alt_u8 ucRxControl; /* SpaceWire Timecode Rx Control */
+	alt_u32 ucRxTime; /* SpaceWire Timecode Rx Time */
+	alt_u32 ucRxControl; /* SpaceWire Timecode Rx Control */
 	bool bRxReceived; /* SpaceWire Timecode Rx Received */
 } TSpwcTimecodeStatus;
 
@@ -112,7 +113,7 @@ typedef struct SpwcTimecodeStatus {
 typedef struct SpwcSpwCodecErrInj {
 	bool bStartErrInj; /* Start SpaceWire Codec Error Injection */
 	bool bResetErrInj; /* Reset SpaceWire Codec Error Injection */
-	alt_u8 ucErrInjErrCode; /* SpaceWire Codec Error Injection Error Code */
+	alt_u32 ucErrInjErrCode; /* SpaceWire Codec Error Injection Error Code */
 	bool bErrInjBusy; /* SpaceWire Codec Error Injection is Busy */
 	bool bErrInjReady; /* SpaceWire Codec Error Injection is Ready */
 } TSpwcSpwCodecErrInj;
@@ -154,7 +155,7 @@ typedef struct DschPacketConfig {
 
 /* Data Scheduler Buffer Status Register Struct */
 typedef struct DschBufferStatus {
-	alt_u16 usiUsedBytes; /* Data Scheduler Buffer Used [Bytes] */
+	alt_u32 usiUsedBytes; /* Data Scheduler Buffer Used [Bytes] */
 	bool bEmpty; /* Data Scheduler Buffer Empty */
 	bool bFull; /* Data Scheduler Buffer Full */
 } TDschBufferStatus;
@@ -206,8 +207,8 @@ typedef struct RmapEchoingModeConfig {
 /* RMAP Codec Config Register Struct */
 typedef struct RmapCodecConfig {
 	bool bEnable; /* RMAP Target Enable */
-	alt_u8 ucLogicalAddress; /* RMAP Target Logical Address */
-	alt_u8 ucKey; /* RMAP Target Key */
+	alt_u32 ucLogicalAddress; /* RMAP Target Logical Address */
+	alt_u32 ucKey; /* RMAP Target Key */
 } TRmapCodecConfig;
 
 /* RMAP Codec Status Register Struct */
@@ -246,9 +247,9 @@ typedef struct RmapMemAreaPrt {
 typedef struct RmapRmapErrInj {
 	bool bResetErr; /* Reset RMAP Error */
 	bool bTriggerErr; /* Trigger RMAP Error */
-	alt_u8 ucErrorId; /* Error ID of RMAP Error */
+	alt_u32 ucErrorId; /* Error ID of RMAP Error */
 	alt_u32 uliValue; /* Value of RMAP Error */
-	alt_u16 usiRepeats; /* Repetitions of RMAP Error */
+	alt_u32 usiRepeats; /* Repetitions of RMAP Error */
 } TRmapRmapErrInj;
 
 /* Report Device Address Register Struct */
@@ -266,11 +267,11 @@ typedef struct RprtIrqControl {
 	bool bSpwErrCreditEn; /* Report SpW Error Credit IRQ Enable */
 	bool bRxTimecodeReceivedEn; /* Report Rx Timecode Received IRQ Enable */
 	bool bRmapErrEarlyEopEn; /* Report Rmap Error Early EOP IRQ Enable */
-	bool bRmapErrEepen; /* Report Rmap Error EEP IRQ Enable */
+	bool bRmapErrEepEn; /* Report Rmap Error EEP IRQ Enable */
 	bool bRmapErrHeaderCrcEn; /* Report Rmap Error Header CRC IRQ Enable */
 	bool bRmapErrUnusedPacketTypeEn; /* Report Rmap Error Unused Packet Type IRQ Enable */
 	bool bRmapErrInvalidCommandCodeEn; /* Report Rmap Error Invalid Command Code IRQ Enable */
-	bool bRmapErrToomuchDataEn; /* Report Rmap Error Too Much Data IRQ Enable */
+	bool bRmapErrTooMuchDataEn; /* Report Rmap Error Too Much Data IRQ Enable */
 	bool bRmapErrInvalidDataCrcEn; /* Report Rmap Error Invalid Data Crc IRQ Enable */
 } TRprtIrqControl;
 

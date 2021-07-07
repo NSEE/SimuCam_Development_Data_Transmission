@@ -7,160 +7,158 @@
 
 `timescale 1 ps / 1 ps
 module MebX_Qsys_Project_mm_interconnect_3 (
-		input  wire        clk_50_clk_clk,                                                         //                                                       clk_50_clk.clk
-		input  wire        Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset, // Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset.reset
-		input  wire        clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset,               //               clock_bridge_afi_50_m0_reset_reset_bridge_in_reset.reset
-		input  wire        sync_reset_reset_bridge_in_reset_reset,                                 //                                 sync_reset_reset_bridge_in_reset.reset
-		input  wire [11:0] clock_bridge_afi_50_m0_address,                                         //                                           clock_bridge_afi_50_m0.address
-		output wire        clock_bridge_afi_50_m0_waitrequest,                                     //                                                                 .waitrequest
-		input  wire [0:0]  clock_bridge_afi_50_m0_burstcount,                                      //                                                                 .burstcount
-		input  wire [3:0]  clock_bridge_afi_50_m0_byteenable,                                      //                                                                 .byteenable
-		input  wire        clock_bridge_afi_50_m0_read,                                            //                                                                 .read
-		output wire [31:0] clock_bridge_afi_50_m0_readdata,                                        //                                                                 .readdata
-		output wire        clock_bridge_afi_50_m0_readdatavalid,                                   //                                                                 .readdatavalid
-		input  wire        clock_bridge_afi_50_m0_write,                                           //                                                                 .write
-		input  wire [31:0] clock_bridge_afi_50_m0_writedata,                                       //                                                                 .writedata
-		input  wire        clock_bridge_afi_50_m0_debugaccess,                                     //                                                                 .debugaccess
-		output wire [7:0]  Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_address,       //         Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave.address
-		output wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_write,         //                                                                 .write
-		output wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_read,          //                                                                 .read
-		input  wire [31:0] Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_readdata,      //                                                                 .readdata
-		output wire [31:0] Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_writedata,     //                                                                 .writedata
-		output wire [3:0]  Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_byteenable,    //                                                                 .byteenable
-		input  wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_waitrequest,   //                                                                 .waitrequest
-		output wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_chipselect,    //                                                                 .chipselect
-		output wire [1:0]  csense_adc_fo_s1_address,                                               //                                                 csense_adc_fo_s1.address
-		output wire        csense_adc_fo_s1_write,                                                 //                                                                 .write
-		input  wire [31:0] csense_adc_fo_s1_readdata,                                              //                                                                 .readdata
-		output wire [31:0] csense_adc_fo_s1_writedata,                                             //                                                                 .writedata
-		output wire        csense_adc_fo_s1_chipselect,                                            //                                                                 .chipselect
-		output wire [1:0]  csense_cs_n_s1_address,                                                 //                                                   csense_cs_n_s1.address
-		output wire        csense_cs_n_s1_write,                                                   //                                                                 .write
-		input  wire [31:0] csense_cs_n_s1_readdata,                                                //                                                                 .readdata
-		output wire [31:0] csense_cs_n_s1_writedata,                                               //                                                                 .writedata
-		output wire        csense_cs_n_s1_chipselect,                                              //                                                                 .chipselect
-		output wire [1:0]  csense_sck_s1_address,                                                  //                                                    csense_sck_s1.address
-		output wire        csense_sck_s1_write,                                                    //                                                                 .write
-		input  wire [31:0] csense_sck_s1_readdata,                                                 //                                                                 .readdata
-		output wire [31:0] csense_sck_s1_writedata,                                                //                                                                 .writedata
-		output wire        csense_sck_s1_chipselect,                                               //                                                                 .chipselect
-		output wire [1:0]  csense_sdi_s1_address,                                                  //                                                    csense_sdi_s1.address
-		output wire        csense_sdi_s1_write,                                                    //                                                                 .write
-		input  wire [31:0] csense_sdi_s1_readdata,                                                 //                                                                 .readdata
-		output wire [31:0] csense_sdi_s1_writedata,                                                //                                                                 .writedata
-		output wire        csense_sdi_s1_chipselect,                                               //                                                                 .chipselect
-		output wire [1:0]  csense_sdo_s1_address,                                                  //                                                    csense_sdo_s1.address
-		input  wire [31:0] csense_sdo_s1_readdata,                                                 //                                                                 .readdata
-		output wire [1:0]  m1_ddr2_i2c_scl_s1_address,                                             //                                               m1_ddr2_i2c_scl_s1.address
-		output wire        m1_ddr2_i2c_scl_s1_write,                                               //                                                                 .write
-		input  wire [31:0] m1_ddr2_i2c_scl_s1_readdata,                                            //                                                                 .readdata
-		output wire [31:0] m1_ddr2_i2c_scl_s1_writedata,                                           //                                                                 .writedata
-		output wire        m1_ddr2_i2c_scl_s1_chipselect,                                          //                                                                 .chipselect
-		output wire [1:0]  m1_ddr2_i2c_sda_s1_address,                                             //                                               m1_ddr2_i2c_sda_s1.address
-		output wire        m1_ddr2_i2c_sda_s1_write,                                               //                                                                 .write
-		input  wire [31:0] m1_ddr2_i2c_sda_s1_readdata,                                            //                                                                 .readdata
-		output wire [31:0] m1_ddr2_i2c_sda_s1_writedata,                                           //                                                                 .writedata
-		output wire        m1_ddr2_i2c_sda_s1_chipselect,                                          //                                                                 .chipselect
-		output wire [1:0]  m2_ddr2_i2c_scl_s1_address,                                             //                                               m2_ddr2_i2c_scl_s1.address
-		output wire        m2_ddr2_i2c_scl_s1_write,                                               //                                                                 .write
-		input  wire [31:0] m2_ddr2_i2c_scl_s1_readdata,                                            //                                                                 .readdata
-		output wire [31:0] m2_ddr2_i2c_scl_s1_writedata,                                           //                                                                 .writedata
-		output wire        m2_ddr2_i2c_scl_s1_chipselect,                                          //                                                                 .chipselect
-		output wire [1:0]  m2_ddr2_i2c_sda_s1_address,                                             //                                               m2_ddr2_i2c_sda_s1.address
-		output wire        m2_ddr2_i2c_sda_s1_write,                                               //                                                                 .write
-		input  wire [31:0] m2_ddr2_i2c_sda_s1_readdata,                                            //                                                                 .readdata
-		output wire [31:0] m2_ddr2_i2c_sda_s1_writedata,                                           //                                                                 .writedata
-		output wire        m2_ddr2_i2c_sda_s1_chipselect,                                          //                                                                 .chipselect
-		output wire [1:0]  pio_BUTTON_s1_address,                                                  //                                                    pio_BUTTON_s1.address
-		input  wire [31:0] pio_BUTTON_s1_readdata,                                                 //                                                                 .readdata
-		output wire [1:0]  pio_ctrl_io_lvds_s1_address,                                            //                                              pio_ctrl_io_lvds_s1.address
-		output wire        pio_ctrl_io_lvds_s1_write,                                              //                                                                 .write
-		input  wire [31:0] pio_ctrl_io_lvds_s1_readdata,                                           //                                                                 .readdata
-		output wire [31:0] pio_ctrl_io_lvds_s1_writedata,                                          //                                                                 .writedata
-		output wire        pio_ctrl_io_lvds_s1_chipselect,                                         //                                                                 .chipselect
-		output wire [1:0]  pio_DIP_s1_address,                                                     //                                                       pio_DIP_s1.address
-		input  wire [31:0] pio_DIP_s1_readdata,                                                    //                                                                 .readdata
-		output wire [1:0]  pio_EXT_s1_address,                                                     //                                                       pio_EXT_s1.address
-		output wire        pio_EXT_s1_write,                                                       //                                                                 .write
-		input  wire [31:0] pio_EXT_s1_readdata,                                                    //                                                                 .readdata
-		output wire [31:0] pio_EXT_s1_writedata,                                                   //                                                                 .writedata
-		output wire        pio_EXT_s1_chipselect,                                                  //                                                                 .chipselect
-		output wire [1:0]  pio_LED_s1_address,                                                     //                                                       pio_LED_s1.address
-		output wire        pio_LED_s1_write,                                                       //                                                                 .write
-		input  wire [31:0] pio_LED_s1_readdata,                                                    //                                                                 .readdata
-		output wire [31:0] pio_LED_s1_writedata,                                                   //                                                                 .writedata
-		output wire        pio_LED_s1_chipselect,                                                  //                                                                 .chipselect
-		output wire [1:0]  pio_LED_painel_s1_address,                                              //                                                pio_LED_painel_s1.address
-		output wire        pio_LED_painel_s1_write,                                                //                                                                 .write
-		input  wire [31:0] pio_LED_painel_s1_readdata,                                             //                                                                 .readdata
-		output wire [31:0] pio_LED_painel_s1_writedata,                                            //                                                                 .writedata
-		output wire        pio_LED_painel_s1_chipselect,                                           //                                                                 .chipselect
-		output wire [1:0]  pio_RST_ETH_s1_address,                                                 //                                                   pio_RST_ETH_s1.address
-		output wire        pio_RST_ETH_s1_write,                                                   //                                                                 .write
-		input  wire [31:0] pio_RST_ETH_s1_readdata,                                                //                                                                 .readdata
-		output wire [31:0] pio_RST_ETH_s1_writedata,                                               //                                                                 .writedata
-		output wire        pio_RST_ETH_s1_chipselect,                                              //                                                                 .chipselect
-		output wire [1:0]  pio_spw_mux_ch_h_select_s1_address,                                     //                                       pio_spw_mux_ch_h_select_s1.address
-		output wire        pio_spw_mux_ch_h_select_s1_write,                                       //                                                                 .write
-		input  wire [31:0] pio_spw_mux_ch_h_select_s1_readdata,                                    //                                                                 .readdata
-		output wire [31:0] pio_spw_mux_ch_h_select_s1_writedata,                                   //                                                                 .writedata
-		output wire        pio_spw_mux_ch_h_select_s1_chipselect,                                  //                                                                 .chipselect
-		output wire [3:0]  rst_controller_avalon_rst_controller_slave_address,                     //                       rst_controller_avalon_rst_controller_slave.address
-		output wire        rst_controller_avalon_rst_controller_slave_write,                       //                                                                 .write
-		output wire        rst_controller_avalon_rst_controller_slave_read,                        //                                                                 .read
-		input  wire [31:0] rst_controller_avalon_rst_controller_slave_readdata,                    //                                                                 .readdata
-		output wire [31:0] rst_controller_avalon_rst_controller_slave_writedata,                   //                                                                 .writedata
-		input  wire        rst_controller_avalon_rst_controller_slave_waitrequest,                 //                                                                 .waitrequest
-		output wire [1:0]  rtcc_alarm_s1_address,                                                  //                                                    rtcc_alarm_s1.address
-		input  wire [31:0] rtcc_alarm_s1_readdata,                                                 //                                                                 .readdata
-		output wire [1:0]  rtcc_cs_n_s1_address,                                                   //                                                     rtcc_cs_n_s1.address
-		output wire        rtcc_cs_n_s1_write,                                                     //                                                                 .write
-		input  wire [31:0] rtcc_cs_n_s1_readdata,                                                  //                                                                 .readdata
-		output wire [31:0] rtcc_cs_n_s1_writedata,                                                 //                                                                 .writedata
-		output wire        rtcc_cs_n_s1_chipselect,                                                //                                                                 .chipselect
-		output wire [1:0]  rtcc_sck_s1_address,                                                    //                                                      rtcc_sck_s1.address
-		output wire        rtcc_sck_s1_write,                                                      //                                                                 .write
-		input  wire [31:0] rtcc_sck_s1_readdata,                                                   //                                                                 .readdata
-		output wire [31:0] rtcc_sck_s1_writedata,                                                  //                                                                 .writedata
-		output wire        rtcc_sck_s1_chipselect,                                                 //                                                                 .chipselect
-		output wire [1:0]  rtcc_sdi_s1_address,                                                    //                                                      rtcc_sdi_s1.address
-		output wire        rtcc_sdi_s1_write,                                                      //                                                                 .write
-		input  wire [31:0] rtcc_sdi_s1_readdata,                                                   //                                                                 .readdata
-		output wire [31:0] rtcc_sdi_s1_writedata,                                                  //                                                                 .writedata
-		output wire        rtcc_sdi_s1_chipselect,                                                 //                                                                 .chipselect
-		output wire [1:0]  rtcc_sdo_s1_address,                                                    //                                                      rtcc_sdo_s1.address
-		input  wire [31:0] rtcc_sdo_s1_readdata,                                                   //                                                                 .readdata
-		output wire [1:0]  sd_card_wp_n_s1_address,                                                //                                                  sd_card_wp_n_s1.address
-		input  wire [31:0] sd_card_wp_n_s1_readdata,                                               //                                                                 .readdata
-		output wire [0:0]  SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave_address,                   //                     SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave.address
-		output wire        SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave_write,                     //                                                                 .write
-		output wire [31:0] SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave_writedata,                 //                                                                 .writedata
-		output wire [7:0]  sync_avalon_mm_slave_address,                                           //                                             sync_avalon_mm_slave.address
-		output wire        sync_avalon_mm_slave_write,                                             //                                                                 .write
-		output wire        sync_avalon_mm_slave_read,                                              //                                                                 .read
-		input  wire [31:0] sync_avalon_mm_slave_readdata,                                          //                                                                 .readdata
-		output wire [31:0] sync_avalon_mm_slave_writedata,                                         //                                                                 .writedata
-		input  wire        sync_avalon_mm_slave_waitrequest,                                       //                                                                 .waitrequest
-		output wire [1:0]  temp_scl_s1_address,                                                    //                                                      temp_scl_s1.address
-		output wire        temp_scl_s1_write,                                                      //                                                                 .write
-		input  wire [31:0] temp_scl_s1_readdata,                                                   //                                                                 .readdata
-		output wire [31:0] temp_scl_s1_writedata,                                                  //                                                                 .writedata
-		output wire        temp_scl_s1_chipselect,                                                 //                                                                 .chipselect
-		output wire [1:0]  temp_sda_s1_address,                                                    //                                                      temp_sda_s1.address
-		output wire        temp_sda_s1_write,                                                      //                                                                 .write
-		input  wire [31:0] temp_sda_s1_readdata,                                                   //                                                                 .readdata
-		output wire [31:0] temp_sda_s1_writedata,                                                  //                                                                 .writedata
-		output wire        temp_sda_s1_chipselect,                                                 //                                                                 .chipselect
-		output wire [2:0]  timer_1ms_s1_address,                                                   //                                                     timer_1ms_s1.address
-		output wire        timer_1ms_s1_write,                                                     //                                                                 .write
-		input  wire [15:0] timer_1ms_s1_readdata,                                                  //                                                                 .readdata
-		output wire [15:0] timer_1ms_s1_writedata,                                                 //                                                                 .writedata
-		output wire        timer_1ms_s1_chipselect,                                                //                                                                 .chipselect
-		output wire [2:0]  timer_1us_s1_address,                                                   //                                                     timer_1us_s1.address
-		output wire        timer_1us_s1_write,                                                     //                                                                 .write
-		input  wire [15:0] timer_1us_s1_readdata,                                                  //                                                                 .readdata
-		output wire [15:0] timer_1us_s1_writedata,                                                 //                                                                 .writedata
-		output wire        timer_1us_s1_chipselect                                                 //                                                                 .chipselect
+		input  wire        clk_50_clk_clk,                                                       //                                               clk_50_clk.clk
+		input  wire        clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset,             //       clock_bridge_afi_50_m0_reset_reset_bridge_in_reset.reset
+		input  wire [11:0] clock_bridge_afi_50_m0_address,                                       //                                   clock_bridge_afi_50_m0.address
+		output wire        clock_bridge_afi_50_m0_waitrequest,                                   //                                                         .waitrequest
+		input  wire [0:0]  clock_bridge_afi_50_m0_burstcount,                                    //                                                         .burstcount
+		input  wire [3:0]  clock_bridge_afi_50_m0_byteenable,                                    //                                                         .byteenable
+		input  wire        clock_bridge_afi_50_m0_read,                                          //                                                         .read
+		output wire [31:0] clock_bridge_afi_50_m0_readdata,                                      //                                                         .readdata
+		output wire        clock_bridge_afi_50_m0_readdatavalid,                                 //                                                         .readdatavalid
+		input  wire        clock_bridge_afi_50_m0_write,                                         //                                                         .write
+		input  wire [31:0] clock_bridge_afi_50_m0_writedata,                                     //                                                         .writedata
+		input  wire        clock_bridge_afi_50_m0_debugaccess,                                   //                                                         .debugaccess
+		output wire [7:0]  Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_address,     // Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave.address
+		output wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_write,       //                                                         .write
+		output wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_read,        //                                                         .read
+		input  wire [31:0] Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_readdata,    //                                                         .readdata
+		output wire [31:0] Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_writedata,   //                                                         .writedata
+		output wire [3:0]  Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_byteenable,  //                                                         .byteenable
+		input  wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_waitrequest, //                                                         .waitrequest
+		output wire        Altera_UP_SD_Card_Avalon_Interface_0_avalon_sdcard_slave_chipselect,  //                                                         .chipselect
+		output wire [1:0]  csense_adc_fo_s1_address,                                             //                                         csense_adc_fo_s1.address
+		output wire        csense_adc_fo_s1_write,                                               //                                                         .write
+		input  wire [31:0] csense_adc_fo_s1_readdata,                                            //                                                         .readdata
+		output wire [31:0] csense_adc_fo_s1_writedata,                                           //                                                         .writedata
+		output wire        csense_adc_fo_s1_chipselect,                                          //                                                         .chipselect
+		output wire [1:0]  csense_cs_n_s1_address,                                               //                                           csense_cs_n_s1.address
+		output wire        csense_cs_n_s1_write,                                                 //                                                         .write
+		input  wire [31:0] csense_cs_n_s1_readdata,                                              //                                                         .readdata
+		output wire [31:0] csense_cs_n_s1_writedata,                                             //                                                         .writedata
+		output wire        csense_cs_n_s1_chipselect,                                            //                                                         .chipselect
+		output wire [1:0]  csense_sck_s1_address,                                                //                                            csense_sck_s1.address
+		output wire        csense_sck_s1_write,                                                  //                                                         .write
+		input  wire [31:0] csense_sck_s1_readdata,                                               //                                                         .readdata
+		output wire [31:0] csense_sck_s1_writedata,                                              //                                                         .writedata
+		output wire        csense_sck_s1_chipselect,                                             //                                                         .chipselect
+		output wire [1:0]  csense_sdi_s1_address,                                                //                                            csense_sdi_s1.address
+		output wire        csense_sdi_s1_write,                                                  //                                                         .write
+		input  wire [31:0] csense_sdi_s1_readdata,                                               //                                                         .readdata
+		output wire [31:0] csense_sdi_s1_writedata,                                              //                                                         .writedata
+		output wire        csense_sdi_s1_chipselect,                                             //                                                         .chipselect
+		output wire [1:0]  csense_sdo_s1_address,                                                //                                            csense_sdo_s1.address
+		input  wire [31:0] csense_sdo_s1_readdata,                                               //                                                         .readdata
+		output wire [1:0]  m1_ddr2_i2c_scl_s1_address,                                           //                                       m1_ddr2_i2c_scl_s1.address
+		output wire        m1_ddr2_i2c_scl_s1_write,                                             //                                                         .write
+		input  wire [31:0] m1_ddr2_i2c_scl_s1_readdata,                                          //                                                         .readdata
+		output wire [31:0] m1_ddr2_i2c_scl_s1_writedata,                                         //                                                         .writedata
+		output wire        m1_ddr2_i2c_scl_s1_chipselect,                                        //                                                         .chipselect
+		output wire [1:0]  m1_ddr2_i2c_sda_s1_address,                                           //                                       m1_ddr2_i2c_sda_s1.address
+		output wire        m1_ddr2_i2c_sda_s1_write,                                             //                                                         .write
+		input  wire [31:0] m1_ddr2_i2c_sda_s1_readdata,                                          //                                                         .readdata
+		output wire [31:0] m1_ddr2_i2c_sda_s1_writedata,                                         //                                                         .writedata
+		output wire        m1_ddr2_i2c_sda_s1_chipselect,                                        //                                                         .chipselect
+		output wire [1:0]  m2_ddr2_i2c_scl_s1_address,                                           //                                       m2_ddr2_i2c_scl_s1.address
+		output wire        m2_ddr2_i2c_scl_s1_write,                                             //                                                         .write
+		input  wire [31:0] m2_ddr2_i2c_scl_s1_readdata,                                          //                                                         .readdata
+		output wire [31:0] m2_ddr2_i2c_scl_s1_writedata,                                         //                                                         .writedata
+		output wire        m2_ddr2_i2c_scl_s1_chipselect,                                        //                                                         .chipselect
+		output wire [1:0]  m2_ddr2_i2c_sda_s1_address,                                           //                                       m2_ddr2_i2c_sda_s1.address
+		output wire        m2_ddr2_i2c_sda_s1_write,                                             //                                                         .write
+		input  wire [31:0] m2_ddr2_i2c_sda_s1_readdata,                                          //                                                         .readdata
+		output wire [31:0] m2_ddr2_i2c_sda_s1_writedata,                                         //                                                         .writedata
+		output wire        m2_ddr2_i2c_sda_s1_chipselect,                                        //                                                         .chipselect
+		output wire [1:0]  pio_BUTTON_s1_address,                                                //                                            pio_BUTTON_s1.address
+		input  wire [31:0] pio_BUTTON_s1_readdata,                                               //                                                         .readdata
+		output wire [1:0]  pio_ctrl_io_lvds_s1_address,                                          //                                      pio_ctrl_io_lvds_s1.address
+		output wire        pio_ctrl_io_lvds_s1_write,                                            //                                                         .write
+		input  wire [31:0] pio_ctrl_io_lvds_s1_readdata,                                         //                                                         .readdata
+		output wire [31:0] pio_ctrl_io_lvds_s1_writedata,                                        //                                                         .writedata
+		output wire        pio_ctrl_io_lvds_s1_chipselect,                                       //                                                         .chipselect
+		output wire [1:0]  pio_DIP_s1_address,                                                   //                                               pio_DIP_s1.address
+		input  wire [31:0] pio_DIP_s1_readdata,                                                  //                                                         .readdata
+		output wire [1:0]  pio_EXT_s1_address,                                                   //                                               pio_EXT_s1.address
+		output wire        pio_EXT_s1_write,                                                     //                                                         .write
+		input  wire [31:0] pio_EXT_s1_readdata,                                                  //                                                         .readdata
+		output wire [31:0] pio_EXT_s1_writedata,                                                 //                                                         .writedata
+		output wire        pio_EXT_s1_chipselect,                                                //                                                         .chipselect
+		output wire [1:0]  pio_LED_s1_address,                                                   //                                               pio_LED_s1.address
+		output wire        pio_LED_s1_write,                                                     //                                                         .write
+		input  wire [31:0] pio_LED_s1_readdata,                                                  //                                                         .readdata
+		output wire [31:0] pio_LED_s1_writedata,                                                 //                                                         .writedata
+		output wire        pio_LED_s1_chipselect,                                                //                                                         .chipselect
+		output wire [1:0]  pio_LED_painel_s1_address,                                            //                                        pio_LED_painel_s1.address
+		output wire        pio_LED_painel_s1_write,                                              //                                                         .write
+		input  wire [31:0] pio_LED_painel_s1_readdata,                                           //                                                         .readdata
+		output wire [31:0] pio_LED_painel_s1_writedata,                                          //                                                         .writedata
+		output wire        pio_LED_painel_s1_chipselect,                                         //                                                         .chipselect
+		output wire [1:0]  pio_RST_ETH_s1_address,                                               //                                           pio_RST_ETH_s1.address
+		output wire        pio_RST_ETH_s1_write,                                                 //                                                         .write
+		input  wire [31:0] pio_RST_ETH_s1_readdata,                                              //                                                         .readdata
+		output wire [31:0] pio_RST_ETH_s1_writedata,                                             //                                                         .writedata
+		output wire        pio_RST_ETH_s1_chipselect,                                            //                                                         .chipselect
+		output wire [1:0]  pio_spw_mux_ch_h_select_s1_address,                                   //                               pio_spw_mux_ch_h_select_s1.address
+		output wire        pio_spw_mux_ch_h_select_s1_write,                                     //                                                         .write
+		input  wire [31:0] pio_spw_mux_ch_h_select_s1_readdata,                                  //                                                         .readdata
+		output wire [31:0] pio_spw_mux_ch_h_select_s1_writedata,                                 //                                                         .writedata
+		output wire        pio_spw_mux_ch_h_select_s1_chipselect,                                //                                                         .chipselect
+		output wire [3:0]  rst_controller_avalon_rst_controller_slave_address,                   //               rst_controller_avalon_rst_controller_slave.address
+		output wire        rst_controller_avalon_rst_controller_slave_write,                     //                                                         .write
+		output wire        rst_controller_avalon_rst_controller_slave_read,                      //                                                         .read
+		input  wire [31:0] rst_controller_avalon_rst_controller_slave_readdata,                  //                                                         .readdata
+		output wire [31:0] rst_controller_avalon_rst_controller_slave_writedata,                 //                                                         .writedata
+		input  wire        rst_controller_avalon_rst_controller_slave_waitrequest,               //                                                         .waitrequest
+		output wire [1:0]  rtcc_alarm_s1_address,                                                //                                            rtcc_alarm_s1.address
+		input  wire [31:0] rtcc_alarm_s1_readdata,                                               //                                                         .readdata
+		output wire [1:0]  rtcc_cs_n_s1_address,                                                 //                                             rtcc_cs_n_s1.address
+		output wire        rtcc_cs_n_s1_write,                                                   //                                                         .write
+		input  wire [31:0] rtcc_cs_n_s1_readdata,                                                //                                                         .readdata
+		output wire [31:0] rtcc_cs_n_s1_writedata,                                               //                                                         .writedata
+		output wire        rtcc_cs_n_s1_chipselect,                                              //                                                         .chipselect
+		output wire [1:0]  rtcc_sck_s1_address,                                                  //                                              rtcc_sck_s1.address
+		output wire        rtcc_sck_s1_write,                                                    //                                                         .write
+		input  wire [31:0] rtcc_sck_s1_readdata,                                                 //                                                         .readdata
+		output wire [31:0] rtcc_sck_s1_writedata,                                                //                                                         .writedata
+		output wire        rtcc_sck_s1_chipselect,                                               //                                                         .chipselect
+		output wire [1:0]  rtcc_sdi_s1_address,                                                  //                                              rtcc_sdi_s1.address
+		output wire        rtcc_sdi_s1_write,                                                    //                                                         .write
+		input  wire [31:0] rtcc_sdi_s1_readdata,                                                 //                                                         .readdata
+		output wire [31:0] rtcc_sdi_s1_writedata,                                                //                                                         .writedata
+		output wire        rtcc_sdi_s1_chipselect,                                               //                                                         .chipselect
+		output wire [1:0]  rtcc_sdo_s1_address,                                                  //                                              rtcc_sdo_s1.address
+		input  wire [31:0] rtcc_sdo_s1_readdata,                                                 //                                                         .readdata
+		output wire [1:0]  sd_card_wp_n_s1_address,                                              //                                          sd_card_wp_n_s1.address
+		input  wire [31:0] sd_card_wp_n_s1_readdata,                                             //                                                         .readdata
+		output wire [0:0]  SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave_address,                 //             SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave.address
+		output wire        SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave_write,                   //                                                         .write
+		output wire [31:0] SEVEN_SEGMENT_CONTROLLER_0_SSDP_avalon_slave_writedata,               //                                                         .writedata
+		output wire [7:0]  sync_avalon_mm_slave_address,                                         //                                     sync_avalon_mm_slave.address
+		output wire        sync_avalon_mm_slave_write,                                           //                                                         .write
+		output wire        sync_avalon_mm_slave_read,                                            //                                                         .read
+		input  wire [31:0] sync_avalon_mm_slave_readdata,                                        //                                                         .readdata
+		output wire [31:0] sync_avalon_mm_slave_writedata,                                       //                                                         .writedata
+		input  wire        sync_avalon_mm_slave_waitrequest,                                     //                                                         .waitrequest
+		output wire [1:0]  temp_scl_s1_address,                                                  //                                              temp_scl_s1.address
+		output wire        temp_scl_s1_write,                                                    //                                                         .write
+		input  wire [31:0] temp_scl_s1_readdata,                                                 //                                                         .readdata
+		output wire [31:0] temp_scl_s1_writedata,                                                //                                                         .writedata
+		output wire        temp_scl_s1_chipselect,                                               //                                                         .chipselect
+		output wire [1:0]  temp_sda_s1_address,                                                  //                                              temp_sda_s1.address
+		output wire        temp_sda_s1_write,                                                    //                                                         .write
+		input  wire [31:0] temp_sda_s1_readdata,                                                 //                                                         .readdata
+		output wire [31:0] temp_sda_s1_writedata,                                                //                                                         .writedata
+		output wire        temp_sda_s1_chipselect,                                               //                                                         .chipselect
+		output wire [2:0]  timer_1ms_s1_address,                                                 //                                             timer_1ms_s1.address
+		output wire        timer_1ms_s1_write,                                                   //                                                         .write
+		input  wire [15:0] timer_1ms_s1_readdata,                                                //                                                         .readdata
+		output wire [15:0] timer_1ms_s1_writedata,                                               //                                                         .writedata
+		output wire        timer_1ms_s1_chipselect,                                              //                                                         .chipselect
+		output wire [2:0]  timer_1us_s1_address,                                                 //                                             timer_1us_s1.address
+		output wire        timer_1us_s1_write,                                                   //                                                         .write
+		input  wire [15:0] timer_1us_s1_readdata,                                                //                                                         .readdata
+		output wire [15:0] timer_1us_s1_writedata,                                               //                                                         .writedata
+		output wire        timer_1us_s1_chipselect                                               //                                                         .chipselect
 	);
 
 	wire         clock_bridge_afi_50_m0_translator_avalon_universal_master_0_waitrequest;                   // clock_bridge_afi_50_m0_agent:av_waitrequest -> clock_bridge_afi_50_m0_translator:uav_waitrequest
@@ -2122,41 +2120,41 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.AV_SETUP_WAIT_CYCLES           (0),
 		.AV_DATA_HOLD_CYCLES            (0)
 	) sync_avalon_mm_slave_translator (
-		.clk                    (clk_50_clk_clk),                              //                      clk.clk
-		.reset                  (sync_reset_reset_bridge_in_reset_reset),      //                    reset.reset
-		.uav_address            (sync_avalon_mm_slave_agent_m0_address),       // avalon_universal_slave_0.address
-		.uav_burstcount         (sync_avalon_mm_slave_agent_m0_burstcount),    //                         .burstcount
-		.uav_read               (sync_avalon_mm_slave_agent_m0_read),          //                         .read
-		.uav_write              (sync_avalon_mm_slave_agent_m0_write),         //                         .write
-		.uav_waitrequest        (sync_avalon_mm_slave_agent_m0_waitrequest),   //                         .waitrequest
-		.uav_readdatavalid      (sync_avalon_mm_slave_agent_m0_readdatavalid), //                         .readdatavalid
-		.uav_byteenable         (sync_avalon_mm_slave_agent_m0_byteenable),    //                         .byteenable
-		.uav_readdata           (sync_avalon_mm_slave_agent_m0_readdata),      //                         .readdata
-		.uav_writedata          (sync_avalon_mm_slave_agent_m0_writedata),     //                         .writedata
-		.uav_lock               (sync_avalon_mm_slave_agent_m0_lock),          //                         .lock
-		.uav_debugaccess        (sync_avalon_mm_slave_agent_m0_debugaccess),   //                         .debugaccess
-		.av_address             (sync_avalon_mm_slave_address),                //      avalon_anti_slave_0.address
-		.av_write               (sync_avalon_mm_slave_write),                  //                         .write
-		.av_read                (sync_avalon_mm_slave_read),                   //                         .read
-		.av_readdata            (sync_avalon_mm_slave_readdata),               //                         .readdata
-		.av_writedata           (sync_avalon_mm_slave_writedata),              //                         .writedata
-		.av_waitrequest         (sync_avalon_mm_slave_waitrequest),            //                         .waitrequest
-		.av_begintransfer       (),                                            //              (terminated)
-		.av_beginbursttransfer  (),                                            //              (terminated)
-		.av_burstcount          (),                                            //              (terminated)
-		.av_byteenable          (),                                            //              (terminated)
-		.av_readdatavalid       (1'b0),                                        //              (terminated)
-		.av_writebyteenable     (),                                            //              (terminated)
-		.av_lock                (),                                            //              (terminated)
-		.av_chipselect          (),                                            //              (terminated)
-		.av_clken               (),                                            //              (terminated)
-		.uav_clken              (1'b0),                                        //              (terminated)
-		.av_debugaccess         (),                                            //              (terminated)
-		.av_outputenable        (),                                            //              (terminated)
-		.uav_response           (),                                            //              (terminated)
-		.av_response            (2'b00),                                       //              (terminated)
-		.uav_writeresponsevalid (),                                            //              (terminated)
-		.av_writeresponsevalid  (1'b0)                                         //              (terminated)
+		.clk                    (clk_50_clk_clk),                                           //                      clk.clk
+		.reset                  (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), //                    reset.reset
+		.uav_address            (sync_avalon_mm_slave_agent_m0_address),                    // avalon_universal_slave_0.address
+		.uav_burstcount         (sync_avalon_mm_slave_agent_m0_burstcount),                 //                         .burstcount
+		.uav_read               (sync_avalon_mm_slave_agent_m0_read),                       //                         .read
+		.uav_write              (sync_avalon_mm_slave_agent_m0_write),                      //                         .write
+		.uav_waitrequest        (sync_avalon_mm_slave_agent_m0_waitrequest),                //                         .waitrequest
+		.uav_readdatavalid      (sync_avalon_mm_slave_agent_m0_readdatavalid),              //                         .readdatavalid
+		.uav_byteenable         (sync_avalon_mm_slave_agent_m0_byteenable),                 //                         .byteenable
+		.uav_readdata           (sync_avalon_mm_slave_agent_m0_readdata),                   //                         .readdata
+		.uav_writedata          (sync_avalon_mm_slave_agent_m0_writedata),                  //                         .writedata
+		.uav_lock               (sync_avalon_mm_slave_agent_m0_lock),                       //                         .lock
+		.uav_debugaccess        (sync_avalon_mm_slave_agent_m0_debugaccess),                //                         .debugaccess
+		.av_address             (sync_avalon_mm_slave_address),                             //      avalon_anti_slave_0.address
+		.av_write               (sync_avalon_mm_slave_write),                               //                         .write
+		.av_read                (sync_avalon_mm_slave_read),                                //                         .read
+		.av_readdata            (sync_avalon_mm_slave_readdata),                            //                         .readdata
+		.av_writedata           (sync_avalon_mm_slave_writedata),                           //                         .writedata
+		.av_waitrequest         (sync_avalon_mm_slave_waitrequest),                         //                         .waitrequest
+		.av_begintransfer       (),                                                         //              (terminated)
+		.av_beginbursttransfer  (),                                                         //              (terminated)
+		.av_burstcount          (),                                                         //              (terminated)
+		.av_byteenable          (),                                                         //              (terminated)
+		.av_readdatavalid       (1'b0),                                                     //              (terminated)
+		.av_writebyteenable     (),                                                         //              (terminated)
+		.av_lock                (),                                                         //              (terminated)
+		.av_chipselect          (),                                                         //              (terminated)
+		.av_clken               (),                                                         //              (terminated)
+		.uav_clken              (1'b0),                                                     //              (terminated)
+		.av_debugaccess         (),                                                         //              (terminated)
+		.av_outputenable        (),                                                         //              (terminated)
+		.uav_response           (),                                                         //              (terminated)
+		.av_response            (2'b00),                                                    //              (terminated)
+		.uav_writeresponsevalid (),                                                         //              (terminated)
+		.av_writeresponsevalid  (1'b0)                                                      //              (terminated)
 	);
 
 	altera_merlin_slave_translator #(
@@ -2251,7 +2249,7 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.AV_DATA_HOLD_CYCLES            (0)
 	) altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_translator (
 		.clk                    (clk_50_clk_clk),                                                                  //                      clk.clk
-		.reset                  (Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset),          //                    reset.reset
+		.reset                  (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset),                        //                    reset.reset
 		.uav_address            (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_m0_address),       // avalon_universal_slave_0.address
 		.uav_burstcount         (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_m0_burstcount),    //                         .burstcount
 		.uav_read               (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_m0_read),          //                         .read
@@ -4260,49 +4258,49 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.USE_WRITERESPONSE         (0),
 		.ECC_ENABLE                (0)
 	) sync_avalon_mm_slave_agent (
-		.clk                     (clk_50_clk_clk),                                        //             clk.clk
-		.reset                   (sync_reset_reset_bridge_in_reset_reset),                //       clk_reset.reset
-		.m0_address              (sync_avalon_mm_slave_agent_m0_address),                 //              m0.address
-		.m0_burstcount           (sync_avalon_mm_slave_agent_m0_burstcount),              //                .burstcount
-		.m0_byteenable           (sync_avalon_mm_slave_agent_m0_byteenable),              //                .byteenable
-		.m0_debugaccess          (sync_avalon_mm_slave_agent_m0_debugaccess),             //                .debugaccess
-		.m0_lock                 (sync_avalon_mm_slave_agent_m0_lock),                    //                .lock
-		.m0_readdata             (sync_avalon_mm_slave_agent_m0_readdata),                //                .readdata
-		.m0_readdatavalid        (sync_avalon_mm_slave_agent_m0_readdatavalid),           //                .readdatavalid
-		.m0_read                 (sync_avalon_mm_slave_agent_m0_read),                    //                .read
-		.m0_waitrequest          (sync_avalon_mm_slave_agent_m0_waitrequest),             //                .waitrequest
-		.m0_writedata            (sync_avalon_mm_slave_agent_m0_writedata),               //                .writedata
-		.m0_write                (sync_avalon_mm_slave_agent_m0_write),                   //                .write
-		.rp_endofpacket          (sync_avalon_mm_slave_agent_rp_endofpacket),             //              rp.endofpacket
-		.rp_ready                (sync_avalon_mm_slave_agent_rp_ready),                   //                .ready
-		.rp_valid                (sync_avalon_mm_slave_agent_rp_valid),                   //                .valid
-		.rp_data                 (sync_avalon_mm_slave_agent_rp_data),                    //                .data
-		.rp_startofpacket        (sync_avalon_mm_slave_agent_rp_startofpacket),           //                .startofpacket
-		.cp_ready                (cmd_mux_001_src_ready),                                 //              cp.ready
-		.cp_valid                (cmd_mux_001_src_valid),                                 //                .valid
-		.cp_data                 (cmd_mux_001_src_data),                                  //                .data
-		.cp_startofpacket        (cmd_mux_001_src_startofpacket),                         //                .startofpacket
-		.cp_endofpacket          (cmd_mux_001_src_endofpacket),                           //                .endofpacket
-		.cp_channel              (cmd_mux_001_src_channel),                               //                .channel
-		.rf_sink_ready           (sync_avalon_mm_slave_agent_rsp_fifo_out_ready),         //         rf_sink.ready
-		.rf_sink_valid           (sync_avalon_mm_slave_agent_rsp_fifo_out_valid),         //                .valid
-		.rf_sink_startofpacket   (sync_avalon_mm_slave_agent_rsp_fifo_out_startofpacket), //                .startofpacket
-		.rf_sink_endofpacket     (sync_avalon_mm_slave_agent_rsp_fifo_out_endofpacket),   //                .endofpacket
-		.rf_sink_data            (sync_avalon_mm_slave_agent_rsp_fifo_out_data),          //                .data
-		.rf_source_ready         (sync_avalon_mm_slave_agent_rf_source_ready),            //       rf_source.ready
-		.rf_source_valid         (sync_avalon_mm_slave_agent_rf_source_valid),            //                .valid
-		.rf_source_startofpacket (sync_avalon_mm_slave_agent_rf_source_startofpacket),    //                .startofpacket
-		.rf_source_endofpacket   (sync_avalon_mm_slave_agent_rf_source_endofpacket),      //                .endofpacket
-		.rf_source_data          (sync_avalon_mm_slave_agent_rf_source_data),             //                .data
-		.rdata_fifo_sink_ready   (avalon_st_adapter_001_out_0_ready),                     // rdata_fifo_sink.ready
-		.rdata_fifo_sink_valid   (avalon_st_adapter_001_out_0_valid),                     //                .valid
-		.rdata_fifo_sink_data    (avalon_st_adapter_001_out_0_data),                      //                .data
-		.rdata_fifo_sink_error   (avalon_st_adapter_001_out_0_error),                     //                .error
-		.rdata_fifo_src_ready    (sync_avalon_mm_slave_agent_rdata_fifo_src_ready),       //  rdata_fifo_src.ready
-		.rdata_fifo_src_valid    (sync_avalon_mm_slave_agent_rdata_fifo_src_valid),       //                .valid
-		.rdata_fifo_src_data     (sync_avalon_mm_slave_agent_rdata_fifo_src_data),        //                .data
-		.m0_response             (2'b00),                                                 //     (terminated)
-		.m0_writeresponsevalid   (1'b0)                                                   //     (terminated)
+		.clk                     (clk_50_clk_clk),                                           //             clk.clk
+		.reset                   (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), //       clk_reset.reset
+		.m0_address              (sync_avalon_mm_slave_agent_m0_address),                    //              m0.address
+		.m0_burstcount           (sync_avalon_mm_slave_agent_m0_burstcount),                 //                .burstcount
+		.m0_byteenable           (sync_avalon_mm_slave_agent_m0_byteenable),                 //                .byteenable
+		.m0_debugaccess          (sync_avalon_mm_slave_agent_m0_debugaccess),                //                .debugaccess
+		.m0_lock                 (sync_avalon_mm_slave_agent_m0_lock),                       //                .lock
+		.m0_readdata             (sync_avalon_mm_slave_agent_m0_readdata),                   //                .readdata
+		.m0_readdatavalid        (sync_avalon_mm_slave_agent_m0_readdatavalid),              //                .readdatavalid
+		.m0_read                 (sync_avalon_mm_slave_agent_m0_read),                       //                .read
+		.m0_waitrequest          (sync_avalon_mm_slave_agent_m0_waitrequest),                //                .waitrequest
+		.m0_writedata            (sync_avalon_mm_slave_agent_m0_writedata),                  //                .writedata
+		.m0_write                (sync_avalon_mm_slave_agent_m0_write),                      //                .write
+		.rp_endofpacket          (sync_avalon_mm_slave_agent_rp_endofpacket),                //              rp.endofpacket
+		.rp_ready                (sync_avalon_mm_slave_agent_rp_ready),                      //                .ready
+		.rp_valid                (sync_avalon_mm_slave_agent_rp_valid),                      //                .valid
+		.rp_data                 (sync_avalon_mm_slave_agent_rp_data),                       //                .data
+		.rp_startofpacket        (sync_avalon_mm_slave_agent_rp_startofpacket),              //                .startofpacket
+		.cp_ready                (cmd_mux_001_src_ready),                                    //              cp.ready
+		.cp_valid                (cmd_mux_001_src_valid),                                    //                .valid
+		.cp_data                 (cmd_mux_001_src_data),                                     //                .data
+		.cp_startofpacket        (cmd_mux_001_src_startofpacket),                            //                .startofpacket
+		.cp_endofpacket          (cmd_mux_001_src_endofpacket),                              //                .endofpacket
+		.cp_channel              (cmd_mux_001_src_channel),                                  //                .channel
+		.rf_sink_ready           (sync_avalon_mm_slave_agent_rsp_fifo_out_ready),            //         rf_sink.ready
+		.rf_sink_valid           (sync_avalon_mm_slave_agent_rsp_fifo_out_valid),            //                .valid
+		.rf_sink_startofpacket   (sync_avalon_mm_slave_agent_rsp_fifo_out_startofpacket),    //                .startofpacket
+		.rf_sink_endofpacket     (sync_avalon_mm_slave_agent_rsp_fifo_out_endofpacket),      //                .endofpacket
+		.rf_sink_data            (sync_avalon_mm_slave_agent_rsp_fifo_out_data),             //                .data
+		.rf_source_ready         (sync_avalon_mm_slave_agent_rf_source_ready),               //       rf_source.ready
+		.rf_source_valid         (sync_avalon_mm_slave_agent_rf_source_valid),               //                .valid
+		.rf_source_startofpacket (sync_avalon_mm_slave_agent_rf_source_startofpacket),       //                .startofpacket
+		.rf_source_endofpacket   (sync_avalon_mm_slave_agent_rf_source_endofpacket),         //                .endofpacket
+		.rf_source_data          (sync_avalon_mm_slave_agent_rf_source_data),                //                .data
+		.rdata_fifo_sink_ready   (avalon_st_adapter_001_out_0_ready),                        // rdata_fifo_sink.ready
+		.rdata_fifo_sink_valid   (avalon_st_adapter_001_out_0_valid),                        //                .valid
+		.rdata_fifo_sink_data    (avalon_st_adapter_001_out_0_data),                         //                .data
+		.rdata_fifo_sink_error   (avalon_st_adapter_001_out_0_error),                        //                .error
+		.rdata_fifo_src_ready    (sync_avalon_mm_slave_agent_rdata_fifo_src_ready),          //  rdata_fifo_src.ready
+		.rdata_fifo_src_valid    (sync_avalon_mm_slave_agent_rdata_fifo_src_valid),          //                .valid
+		.rdata_fifo_src_data     (sync_avalon_mm_slave_agent_rdata_fifo_src_data),           //                .data
+		.m0_response             (2'b00),                                                    //     (terminated)
+		.m0_writeresponsevalid   (1'b0)                                                      //     (terminated)
 	);
 
 	altera_avalon_sc_fifo #(
@@ -4319,31 +4317,31 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.USE_ALMOST_FULL_IF  (0),
 		.USE_ALMOST_EMPTY_IF (0)
 	) sync_avalon_mm_slave_agent_rsp_fifo (
-		.clk               (clk_50_clk_clk),                                        //       clk.clk
-		.reset             (sync_reset_reset_bridge_in_reset_reset),                // clk_reset.reset
-		.in_data           (sync_avalon_mm_slave_agent_rf_source_data),             //        in.data
-		.in_valid          (sync_avalon_mm_slave_agent_rf_source_valid),            //          .valid
-		.in_ready          (sync_avalon_mm_slave_agent_rf_source_ready),            //          .ready
-		.in_startofpacket  (sync_avalon_mm_slave_agent_rf_source_startofpacket),    //          .startofpacket
-		.in_endofpacket    (sync_avalon_mm_slave_agent_rf_source_endofpacket),      //          .endofpacket
-		.out_data          (sync_avalon_mm_slave_agent_rsp_fifo_out_data),          //       out.data
-		.out_valid         (sync_avalon_mm_slave_agent_rsp_fifo_out_valid),         //          .valid
-		.out_ready         (sync_avalon_mm_slave_agent_rsp_fifo_out_ready),         //          .ready
-		.out_startofpacket (sync_avalon_mm_slave_agent_rsp_fifo_out_startofpacket), //          .startofpacket
-		.out_endofpacket   (sync_avalon_mm_slave_agent_rsp_fifo_out_endofpacket),   //          .endofpacket
-		.csr_address       (2'b00),                                                 // (terminated)
-		.csr_read          (1'b0),                                                  // (terminated)
-		.csr_write         (1'b0),                                                  // (terminated)
-		.csr_readdata      (),                                                      // (terminated)
-		.csr_writedata     (32'b00000000000000000000000000000000),                  // (terminated)
-		.almost_full_data  (),                                                      // (terminated)
-		.almost_empty_data (),                                                      // (terminated)
-		.in_empty          (1'b0),                                                  // (terminated)
-		.out_empty         (),                                                      // (terminated)
-		.in_error          (1'b0),                                                  // (terminated)
-		.out_error         (),                                                      // (terminated)
-		.in_channel        (1'b0),                                                  // (terminated)
-		.out_channel       ()                                                       // (terminated)
+		.clk               (clk_50_clk_clk),                                           //       clk.clk
+		.reset             (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.in_data           (sync_avalon_mm_slave_agent_rf_source_data),                //        in.data
+		.in_valid          (sync_avalon_mm_slave_agent_rf_source_valid),               //          .valid
+		.in_ready          (sync_avalon_mm_slave_agent_rf_source_ready),               //          .ready
+		.in_startofpacket  (sync_avalon_mm_slave_agent_rf_source_startofpacket),       //          .startofpacket
+		.in_endofpacket    (sync_avalon_mm_slave_agent_rf_source_endofpacket),         //          .endofpacket
+		.out_data          (sync_avalon_mm_slave_agent_rsp_fifo_out_data),             //       out.data
+		.out_valid         (sync_avalon_mm_slave_agent_rsp_fifo_out_valid),            //          .valid
+		.out_ready         (sync_avalon_mm_slave_agent_rsp_fifo_out_ready),            //          .ready
+		.out_startofpacket (sync_avalon_mm_slave_agent_rsp_fifo_out_startofpacket),    //          .startofpacket
+		.out_endofpacket   (sync_avalon_mm_slave_agent_rsp_fifo_out_endofpacket),      //          .endofpacket
+		.csr_address       (2'b00),                                                    // (terminated)
+		.csr_read          (1'b0),                                                     // (terminated)
+		.csr_write         (1'b0),                                                     // (terminated)
+		.csr_readdata      (),                                                         // (terminated)
+		.csr_writedata     (32'b00000000000000000000000000000000),                     // (terminated)
+		.almost_full_data  (),                                                         // (terminated)
+		.almost_empty_data (),                                                         // (terminated)
+		.in_empty          (1'b0),                                                     // (terminated)
+		.out_empty         (),                                                         // (terminated)
+		.in_error          (1'b0),                                                     // (terminated)
+		.out_error         (),                                                         // (terminated)
+		.in_channel        (1'b0),                                                     // (terminated)
+		.out_channel       ()                                                          // (terminated)
 	);
 
 	altera_merlin_slave_agent #(
@@ -4511,7 +4509,7 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.ECC_ENABLE                (0)
 	) altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent (
 		.clk                     (clk_50_clk_clk),                                                                            //             clk.clk
-		.reset                   (Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset),                    //       clk_reset.reset
+		.reset                   (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset),                                  //       clk_reset.reset
 		.m0_address              (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_m0_address),                 //              m0.address
 		.m0_burstcount           (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_m0_burstcount),              //                .burstcount
 		.m0_byteenable           (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_m0_byteenable),              //                .byteenable
@@ -4570,7 +4568,7 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.USE_ALMOST_EMPTY_IF (0)
 	) altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rsp_fifo (
 		.clk               (clk_50_clk_clk),                                                                            //       clk.clk
-		.reset             (Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset),                    // clk_reset.reset
+		.reset             (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset),                                  // clk_reset.reset
 		.in_data           (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rf_source_data),             //        in.data
 		.in_valid          (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rf_source_valid),            //          .valid
 		.in_ready          (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rf_source_ready),            //          .ready
@@ -8004,19 +8002,19 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_router_001 router_002 (
-		.sink_ready         (sync_avalon_mm_slave_agent_rp_ready),         //      sink.ready
-		.sink_valid         (sync_avalon_mm_slave_agent_rp_valid),         //          .valid
-		.sink_data          (sync_avalon_mm_slave_agent_rp_data),          //          .data
-		.sink_startofpacket (sync_avalon_mm_slave_agent_rp_startofpacket), //          .startofpacket
-		.sink_endofpacket   (sync_avalon_mm_slave_agent_rp_endofpacket),   //          .endofpacket
-		.clk                (clk_50_clk_clk),                              //       clk.clk
-		.reset              (sync_reset_reset_bridge_in_reset_reset),      // clk_reset.reset
-		.src_ready          (router_002_src_ready),                        //       src.ready
-		.src_valid          (router_002_src_valid),                        //          .valid
-		.src_data           (router_002_src_data),                         //          .data
-		.src_channel        (router_002_src_channel),                      //          .channel
-		.src_startofpacket  (router_002_src_startofpacket),                //          .startofpacket
-		.src_endofpacket    (router_002_src_endofpacket)                   //          .endofpacket
+		.sink_ready         (sync_avalon_mm_slave_agent_rp_ready),                      //      sink.ready
+		.sink_valid         (sync_avalon_mm_slave_agent_rp_valid),                      //          .valid
+		.sink_data          (sync_avalon_mm_slave_agent_rp_data),                       //          .data
+		.sink_startofpacket (sync_avalon_mm_slave_agent_rp_startofpacket),              //          .startofpacket
+		.sink_endofpacket   (sync_avalon_mm_slave_agent_rp_endofpacket),                //          .endofpacket
+		.clk                (clk_50_clk_clk),                                           //       clk.clk
+		.reset              (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready          (router_002_src_ready),                                     //       src.ready
+		.src_valid          (router_002_src_valid),                                     //          .valid
+		.src_data           (router_002_src_data),                                      //          .data
+		.src_channel        (router_002_src_channel),                                   //          .channel
+		.src_startofpacket  (router_002_src_startofpacket),                             //          .startofpacket
+		.src_endofpacket    (router_002_src_endofpacket)                                //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_router_001 router_003 (
@@ -8042,7 +8040,7 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.sink_startofpacket (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rp_startofpacket), //          .startofpacket
 		.sink_endofpacket   (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rp_endofpacket),   //          .endofpacket
 		.clk                (clk_50_clk_clk),                                                                  //       clk.clk
-		.reset              (Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset),          // clk_reset.reset
+		.reset              (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset),                        // clk_reset.reset
 		.src_ready          (router_004_src_ready),                                                            //       src.ready
 		.src_valid          (router_004_src_valid),                                                            //          .valid
 		.src_data           (router_004_src_data),                                                             //          .data
@@ -8748,20 +8746,20 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_cmd_mux cmd_mux_001 (
-		.clk                 (clk_50_clk_clk),                         //       clk.clk
-		.reset               (sync_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready           (cmd_mux_001_src_ready),                  //       src.ready
-		.src_valid           (cmd_mux_001_src_valid),                  //          .valid
-		.src_data            (cmd_mux_001_src_data),                   //          .data
-		.src_channel         (cmd_mux_001_src_channel),                //          .channel
-		.src_startofpacket   (cmd_mux_001_src_startofpacket),          //          .startofpacket
-		.src_endofpacket     (cmd_mux_001_src_endofpacket),            //          .endofpacket
-		.sink0_ready         (cmd_demux_src1_ready),                   //     sink0.ready
-		.sink0_valid         (cmd_demux_src1_valid),                   //          .valid
-		.sink0_channel       (cmd_demux_src1_channel),                 //          .channel
-		.sink0_data          (cmd_demux_src1_data),                    //          .data
-		.sink0_startofpacket (cmd_demux_src1_startofpacket),           //          .startofpacket
-		.sink0_endofpacket   (cmd_demux_src1_endofpacket)              //          .endofpacket
+		.clk                 (clk_50_clk_clk),                                           //       clk.clk
+		.reset               (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready           (cmd_mux_001_src_ready),                                    //       src.ready
+		.src_valid           (cmd_mux_001_src_valid),                                    //          .valid
+		.src_data            (cmd_mux_001_src_data),                                     //          .data
+		.src_channel         (cmd_mux_001_src_channel),                                  //          .channel
+		.src_startofpacket   (cmd_mux_001_src_startofpacket),                            //          .startofpacket
+		.src_endofpacket     (cmd_mux_001_src_endofpacket),                              //          .endofpacket
+		.sink0_ready         (cmd_demux_src1_ready),                                     //     sink0.ready
+		.sink0_valid         (cmd_demux_src1_valid),                                     //          .valid
+		.sink0_channel       (cmd_demux_src1_channel),                                   //          .channel
+		.sink0_data          (cmd_demux_src1_data),                                      //          .data
+		.sink0_startofpacket (cmd_demux_src1_startofpacket),                             //          .startofpacket
+		.sink0_endofpacket   (cmd_demux_src1_endofpacket)                                //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_cmd_mux cmd_mux_002 (
@@ -8782,20 +8780,20 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_cmd_mux cmd_mux_003 (
-		.clk                 (clk_50_clk_clk),                                                         //       clk.clk
-		.reset               (Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.src_ready           (cmd_mux_003_src_ready),                                                  //       src.ready
-		.src_valid           (cmd_mux_003_src_valid),                                                  //          .valid
-		.src_data            (cmd_mux_003_src_data),                                                   //          .data
-		.src_channel         (cmd_mux_003_src_channel),                                                //          .channel
-		.src_startofpacket   (cmd_mux_003_src_startofpacket),                                          //          .startofpacket
-		.src_endofpacket     (cmd_mux_003_src_endofpacket),                                            //          .endofpacket
-		.sink0_ready         (cmd_demux_src3_ready),                                                   //     sink0.ready
-		.sink0_valid         (cmd_demux_src3_valid),                                                   //          .valid
-		.sink0_channel       (cmd_demux_src3_channel),                                                 //          .channel
-		.sink0_data          (cmd_demux_src3_data),                                                    //          .data
-		.sink0_startofpacket (cmd_demux_src3_startofpacket),                                           //          .startofpacket
-		.sink0_endofpacket   (cmd_demux_src3_endofpacket)                                              //          .endofpacket
+		.clk                 (clk_50_clk_clk),                                           //       clk.clk
+		.reset               (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.src_ready           (cmd_mux_003_src_ready),                                    //       src.ready
+		.src_valid           (cmd_mux_003_src_valid),                                    //          .valid
+		.src_data            (cmd_mux_003_src_data),                                     //          .data
+		.src_channel         (cmd_mux_003_src_channel),                                  //          .channel
+		.src_startofpacket   (cmd_mux_003_src_startofpacket),                            //          .startofpacket
+		.src_endofpacket     (cmd_mux_003_src_endofpacket),                              //          .endofpacket
+		.sink0_ready         (cmd_demux_src3_ready),                                     //     sink0.ready
+		.sink0_valid         (cmd_demux_src3_valid),                                     //          .valid
+		.sink0_channel       (cmd_demux_src3_channel),                                   //          .channel
+		.sink0_data          (cmd_demux_src3_data),                                      //          .data
+		.sink0_startofpacket (cmd_demux_src3_startofpacket),                             //          .startofpacket
+		.sink0_endofpacket   (cmd_demux_src3_endofpacket)                                //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_cmd_mux cmd_mux_004 (
@@ -9275,20 +9273,20 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_rsp_demux rsp_demux_001 (
-		.clk                (clk_50_clk_clk),                         //       clk.clk
-		.reset              (sync_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.sink_ready         (router_002_src_ready),                   //      sink.ready
-		.sink_channel       (router_002_src_channel),                 //          .channel
-		.sink_data          (router_002_src_data),                    //          .data
-		.sink_startofpacket (router_002_src_startofpacket),           //          .startofpacket
-		.sink_endofpacket   (router_002_src_endofpacket),             //          .endofpacket
-		.sink_valid         (router_002_src_valid),                   //          .valid
-		.src0_ready         (rsp_demux_001_src0_ready),               //      src0.ready
-		.src0_valid         (rsp_demux_001_src0_valid),               //          .valid
-		.src0_data          (rsp_demux_001_src0_data),                //          .data
-		.src0_channel       (rsp_demux_001_src0_channel),             //          .channel
-		.src0_startofpacket (rsp_demux_001_src0_startofpacket),       //          .startofpacket
-		.src0_endofpacket   (rsp_demux_001_src0_endofpacket)          //          .endofpacket
+		.clk                (clk_50_clk_clk),                                           //       clk.clk
+		.reset              (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.sink_ready         (router_002_src_ready),                                     //      sink.ready
+		.sink_channel       (router_002_src_channel),                                   //          .channel
+		.sink_data          (router_002_src_data),                                      //          .data
+		.sink_startofpacket (router_002_src_startofpacket),                             //          .startofpacket
+		.sink_endofpacket   (router_002_src_endofpacket),                               //          .endofpacket
+		.sink_valid         (router_002_src_valid),                                     //          .valid
+		.src0_ready         (rsp_demux_001_src0_ready),                                 //      src0.ready
+		.src0_valid         (rsp_demux_001_src0_valid),                                 //          .valid
+		.src0_data          (rsp_demux_001_src0_data),                                  //          .data
+		.src0_channel       (rsp_demux_001_src0_channel),                               //          .channel
+		.src0_startofpacket (rsp_demux_001_src0_startofpacket),                         //          .startofpacket
+		.src0_endofpacket   (rsp_demux_001_src0_endofpacket)                            //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_rsp_demux rsp_demux_002 (
@@ -9309,20 +9307,20 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_rsp_demux rsp_demux_003 (
-		.clk                (clk_50_clk_clk),                                                         //       clk.clk
-		.reset              (Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
-		.sink_ready         (router_004_src_ready),                                                   //      sink.ready
-		.sink_channel       (router_004_src_channel),                                                 //          .channel
-		.sink_data          (router_004_src_data),                                                    //          .data
-		.sink_startofpacket (router_004_src_startofpacket),                                           //          .startofpacket
-		.sink_endofpacket   (router_004_src_endofpacket),                                             //          .endofpacket
-		.sink_valid         (router_004_src_valid),                                                   //          .valid
-		.src0_ready         (rsp_demux_003_src0_ready),                                               //      src0.ready
-		.src0_valid         (rsp_demux_003_src0_valid),                                               //          .valid
-		.src0_data          (rsp_demux_003_src0_data),                                                //          .data
-		.src0_channel       (rsp_demux_003_src0_channel),                                             //          .channel
-		.src0_startofpacket (rsp_demux_003_src0_startofpacket),                                       //          .startofpacket
-		.src0_endofpacket   (rsp_demux_003_src0_endofpacket)                                          //          .endofpacket
+		.clk                (clk_50_clk_clk),                                           //       clk.clk
+		.reset              (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), // clk_reset.reset
+		.sink_ready         (router_004_src_ready),                                     //      sink.ready
+		.sink_channel       (router_004_src_channel),                                   //          .channel
+		.sink_data          (router_004_src_data),                                      //          .data
+		.sink_startofpacket (router_004_src_startofpacket),                             //          .startofpacket
+		.sink_endofpacket   (router_004_src_endofpacket),                               //          .endofpacket
+		.sink_valid         (router_004_src_valid),                                     //          .valid
+		.src0_ready         (rsp_demux_003_src0_ready),                                 //      src0.ready
+		.src0_valid         (rsp_demux_003_src0_valid),                                 //          .valid
+		.src0_data          (rsp_demux_003_src0_data),                                  //          .data
+		.src0_channel       (rsp_demux_003_src0_channel),                               //          .channel
+		.src0_startofpacket (rsp_demux_003_src0_startofpacket),                         //          .startofpacket
+		.src0_endofpacket   (rsp_demux_003_src0_endofpacket)                            //          .endofpacket
 	);
 
 	MebX_Qsys_Project_mm_interconnect_3_rsp_demux rsp_demux_004 (
@@ -10028,15 +10026,15 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.outUseReady     (1),
 		.outReadyLatency (0)
 	) avalon_st_adapter_001 (
-		.in_clk_0_clk   (clk_50_clk_clk),                                  // in_clk_0.clk
-		.in_rst_0_reset (sync_reset_reset_bridge_in_reset_reset),          // in_rst_0.reset
-		.in_0_data      (sync_avalon_mm_slave_agent_rdata_fifo_src_data),  //     in_0.data
-		.in_0_valid     (sync_avalon_mm_slave_agent_rdata_fifo_src_valid), //         .valid
-		.in_0_ready     (sync_avalon_mm_slave_agent_rdata_fifo_src_ready), //         .ready
-		.out_0_data     (avalon_st_adapter_001_out_0_data),                //    out_0.data
-		.out_0_valid    (avalon_st_adapter_001_out_0_valid),               //         .valid
-		.out_0_ready    (avalon_st_adapter_001_out_0_ready),               //         .ready
-		.out_0_error    (avalon_st_adapter_001_out_0_error)                //         .error
+		.in_clk_0_clk   (clk_50_clk_clk),                                           // in_clk_0.clk
+		.in_rst_0_reset (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset), // in_rst_0.reset
+		.in_0_data      (sync_avalon_mm_slave_agent_rdata_fifo_src_data),           //     in_0.data
+		.in_0_valid     (sync_avalon_mm_slave_agent_rdata_fifo_src_valid),          //         .valid
+		.in_0_ready     (sync_avalon_mm_slave_agent_rdata_fifo_src_ready),          //         .ready
+		.out_0_data     (avalon_st_adapter_001_out_0_data),                         //    out_0.data
+		.out_0_valid    (avalon_st_adapter_001_out_0_valid),                        //         .valid
+		.out_0_ready    (avalon_st_adapter_001_out_0_ready),                        //         .ready
+		.out_0_error    (avalon_st_adapter_001_out_0_error)                         //         .error
 	);
 
 	MebX_Qsys_Project_mm_interconnect_1_avalon_st_adapter #(
@@ -10087,7 +10085,7 @@ module MebX_Qsys_Project_mm_interconnect_3 (
 		.outReadyLatency (0)
 	) avalon_st_adapter_003 (
 		.in_clk_0_clk   (clk_50_clk_clk),                                                                      // in_clk_0.clk
-		.in_rst_0_reset (Altera_UP_SD_Card_Avalon_Interface_0_reset_reset_bridge_in_reset_reset),              // in_rst_0.reset
+		.in_rst_0_reset (clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset),                            // in_rst_0.reset
 		.in_0_data      (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rdata_fifo_src_data),  //     in_0.data
 		.in_0_valid     (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rdata_fifo_src_valid), //         .valid
 		.in_0_ready     (altera_up_sd_card_avalon_interface_0_avalon_sdcard_slave_agent_rdata_fifo_src_ready), //         .ready

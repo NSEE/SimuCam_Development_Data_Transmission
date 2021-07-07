@@ -1123,7 +1123,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					}
 				}
 
-				bSyncCtrOneShot();
+				bSyncSendOstSubunits();
 
 				v_ack_creator(p_payload, xExecOk);
 				v_p_event_creator(eidSyncRcv);

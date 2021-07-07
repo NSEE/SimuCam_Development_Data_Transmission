@@ -49,3 +49,44 @@ R11
 !i113 1
 R12
 R13
+Espwm_spacewire_mux_top
+Z14 w1620849076
+R1
+R2
+R3
+R4
+Z15 8D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/SpaceWire_Mux/Development/SpaceWire_Mux/spwm_spacewire_mux_top.vhd
+Z16 FD:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/SpaceWire_Mux/Development/SpaceWire_Mux/spwm_spacewire_mux_top.vhd
+l0
+L15
+V6;6DOLGVbO@6ECjZ[FE][1
+!s100 bT023e4e8i5HBK_dcEQZO3
+R7
+32
+Z17 !s110 1620849143
+!i10b 1
+Z18 !s108 1620849143.000000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/SpaceWire_Mux/Development/SpaceWire_Mux/spwm_spacewire_mux_top.vhd|
+Z20 !s107 D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/SpaceWire_Mux/Development/SpaceWire_Mux/spwm_spacewire_mux_top.vhd|
+!i113 1
+R12
+R13
+Artl
+R1
+R2
+R3
+DEx4 work 22 spwm_spacewire_mux_top 0 22 6;6DOLGVbO@6ECjZ[FE][1
+l135
+L122
+Vj`XRN1ha4f=OKz9ioCRVY3
+!s100 giA8jOYO][V9L6J>hS]kK3
+R7
+32
+R17
+!i10b 1
+R18
+R19
+R20
+!i113 1
+R12
+R13

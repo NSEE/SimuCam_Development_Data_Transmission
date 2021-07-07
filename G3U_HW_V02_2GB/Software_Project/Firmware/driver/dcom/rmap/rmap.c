@@ -118,7 +118,25 @@ bool bRmapSetRmapErrInj(TRmapChannel *pxRmapCh) {
 
 		vpxDcomChannel->xRmap.xRmapRmapErrInj.ucErrorId = pxRmapCh->xRmapRmapErrInj.ucErrorId;
 		vpxDcomChannel->xRmap.xRmapRmapErrInj.uliValue = pxRmapCh->xRmapRmapErrInj.uliValue;
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.usiRepeats = pxRmapCh->xRmapRmapErrInj.usiRepeats;
+
 		vpxDcomChannel->xRmap.xRmapRmapErrInj.bTriggerErr = pxRmapCh->xRmapRmapErrInj.bTriggerErr;
+
+		bStatus = TRUE;
+	}
+
+	return (bStatus);
+}
+
+bool bRmapRstRmapErrInj(TRmapChannel *pxRmapCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxRmapCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
+
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.bResetErr = TRUE;
 
 		bStatus = TRUE;
 	}

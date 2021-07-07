@@ -67,6 +67,7 @@ typedef enum {
 	typeSetPeriodicHK,
 	typeReset,
 	typeEnableEchoing = 125,
+	typeRmapEchoEnable,
 	typeErrorInjectionSpw = 205,
 	typeErrorInjectionRmap,
 	typeSetProgressEvent,
@@ -118,6 +119,7 @@ typedef struct T_Sub_conf {
 	INT8U link_status;
 	bool b_abort;
 	INT16U i_imagette_control;
+	bool b_dataset_loaded;
 } T_Sub_conf;
 
 typedef struct T_Sub_status {
@@ -141,7 +143,7 @@ typedef struct T_Simucam_conf {
 	INT8U iPeriodicHK;
 	INT32U luHKPeriod; /* HK Timer period in centiseconds, not activated if 0 */
 	INT8U usiDebugLevels;
-	INT8U usiProgressEvent;
+	INT8U usi_rmap_echo;
 } T_Simucam_conf;
 
 typedef struct T_simucam_status {

@@ -15,46 +15,46 @@ use ieee.std_logic_1164.all;
 
 entity syncdff is
 
-    port (
-        clk:        in  std_logic;          -- clock (destination domain)
-        rst:        in  std_logic;          -- asynchronous reset, active-high
-        di:         in  std_logic;          -- input data
-        do:         out std_logic           -- output data
+    port(
+        clk : in  std_logic;            -- clock (destination domain)
+        rst : in  std_logic;            -- asynchronous reset, active-high
+        di  : in  std_logic;            -- input data
+        do  : out std_logic             -- output data
     );
 
     -- Turn off register replication in XST.
-    attribute REGISTER_DUPLICATION: string;
-    attribute REGISTER_DUPLICATION of syncdff: entity is "NO";
+    attribute REGISTER_DUPLICATION : string;
+    attribute REGISTER_DUPLICATION of syncdff : entity is "NO";
 
 end entity syncdff;
 
 architecture syncdff_arch of syncdff is
 
     -- flip-flops
-    signal syncdff_ff1: std_ulogic := '0';
-    signal syncdff_ff2: std_ulogic := '0';
+    signal syncdff_ff1 : std_ulogic := '0';
+    signal syncdff_ff2 : std_ulogic := '0';
 
     -- Turn of shift-register extraction in XST.
-    attribute SHIFT_EXTRACT: string;
-    attribute SHIFT_EXTRACT of syncdff_ff1: signal is "NO";
-    attribute SHIFT_EXTRACT of syncdff_ff2: signal is "NO";
+    attribute SHIFT_EXTRACT : string;
+    attribute SHIFT_EXTRACT of syncdff_ff1 : signal is "NO";
+    attribute SHIFT_EXTRACT of syncdff_ff2 : signal is "NO";
 
     -- Tell XST to place both flip-flops in the same slice.
-    attribute RLOC: string;
-    attribute RLOC of syncdff_ff1: signal is "X0Y0";
-    attribute RLOC of syncdff_ff2: signal is "X0Y0";
+    attribute RLOC : string;
+    attribute RLOC of syncdff_ff1 : signal is "X0Y0";
+    attribute RLOC of syncdff_ff2 : signal is "X0Y0";
 
     -- Tell XST to keep the flip-flop net names to be used in timing constraints.
-    attribute KEEP: string;
-    attribute KEEP of syncdff_ff1: signal is "SOFT";
-    attribute KEEP of syncdff_ff2: signal is "SOFT";
+    attribute KEEP : string;
+    attribute KEEP of syncdff_ff1 : signal is "SOFT";
+    attribute KEEP of syncdff_ff2 : signal is "SOFT";
 
 begin
 
     -- second flip-flop drives the output signal
     do <= syncdff_ff2;
 
-    process (clk, rst) is
+    process(clk, rst) is
     begin
         if rst = '1' then
             -- asynchronous reset

@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2021.03.25.02:09:27 -->
+ <!-- 2021.05.12.17:01:03 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1616648966</value>
+  <value>1620849663</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -776,7 +776,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_1">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -1939,6 +1939,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -2252,7 +2258,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_2">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -3415,6 +3421,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -3728,7 +3740,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_3">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -4891,6 +4903,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -5204,7 +5222,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_4">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -6367,6 +6385,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -6680,7 +6704,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_5">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -7843,6 +7867,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -8156,7 +8186,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_6">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -9319,6 +9349,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -9632,7 +9668,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_7">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -10795,6 +10831,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -11108,7 +11150,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_8">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -12271,6 +12313,12 @@ parameters are a RESULT of the module parameters. -->
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
    </port>
    <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_o</name>
     <direction>Output</direction>
     <width>1</width>
@@ -12584,7 +12632,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.4"
+   version="1.5"
    path="Dumb_Communication_Module_v2_Timer">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -13721,6 +13769,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
    </port>
    <port>
     <name>spw_link_command_autostart_o</name>
@@ -15156,7 +15210,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="RMAP_Echoing"
    kind="RMAP_Echoing"
-   version="1.3"
+   version="1.4"
    path="RMAP_Echoing">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -16039,6 +16093,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
    </port>
    <port>
     <name>spw_link_command_autostart_o</name>
@@ -21807,7 +21867,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_A"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_A">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -22225,6 +22285,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -22421,7 +22487,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_B"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_B">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -22839,6 +22905,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -23035,7 +23107,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_C"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_C">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -23453,6 +23525,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -23649,7 +23727,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_D"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_D">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -24067,6 +24145,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -24263,7 +24347,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_E"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_E">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -24681,6 +24765,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -24877,7 +24967,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_F"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_F">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -25295,6 +25385,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -25491,7 +25587,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_G"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_G">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -25909,6 +26005,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -26105,7 +26207,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Channel_H"
    kind="SpaceWire_Channel"
-   version="1.4"
+   version="1.5"
    path="SpaceWire_Channel_H">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -26523,6 +26625,12 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
+    <name>spw_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
+   <port>
     <name>spw_link_command_autostart_i</name>
     <direction>Input</direction>
     <width>1</width>
@@ -26719,7 +26827,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="SpaceWire_Mux_Ch_H"
    kind="SpaceWire_Mux"
-   version="1.0"
+   version="1.1"
    path="SpaceWire_Mux_Ch_H">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -26931,6 +27039,12 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <type>conduit</type>
    <isStart>false</isStart>
+   <port>
+    <name>spw_ch0_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
    <port>
     <name>spw_ch0_link_command_autostart_i</name>
     <direction>Input</direction>
@@ -27165,6 +27279,12 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <type>conduit</type>
    <isStart>false</isStart>
+   <port>
+    <name>spw_ch1_link_command_enable_i</name>
+    <direction>Input</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
+   </port>
    <port>
     <name>spw_ch1_link_command_autostart_i</name>
     <direction>Input</direction>
@@ -27506,6 +27626,12 @@ parameters are a RESULT of the module parameters. -->
     <direction>Input</direction>
     <width>1</width>
     <role>spw_errinj_ctrl_errinj_ready_signal</role>
+   </port>
+   <port>
+    <name>spw_link_command_enable_o</name>
+    <direction>Output</direction>
+    <width>1</width>
+    <role>spw_link_command_enable_signal</role>
    </port>
    <port>
     <name>spw_link_command_autostart_o</name>
@@ -81104,7 +81230,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="rst_controller"
    kind="rst_controller"
-   version="1.5"
+   version="1.6"
    path="rst_controller">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -81230,128 +81356,6 @@ parameters are a RESULT of the module parameters. -->
     <role>reset</role>
    </port>
   </interface>
-  <interface name="reset_source_ftdi" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_ftdi_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_sync" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_sync_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
   <interface name="reset_source_rs232" kind="reset_source" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
@@ -81408,555 +81412,6 @@ parameters are a RESULT of the module parameters. -->
    <isStart>true</isStart>
    <port>
     <name>reset_source_rs232_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_sd_card" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_sd_card_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch8" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch8_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch7" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch7_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch6" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch6_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch5" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch5_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch4" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch4_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch3" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch3_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch2" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch2_reset</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
-  <interface name="reset_source_comm_ch1" kind="reset_source" version="18.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clock_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedDirectReset">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="associatedResetSinks">
-    <type>[Ljava.lang.String;</type>
-    <value>reset_sink</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>true</isStart>
-   <port>
-    <name>reset_source_comm_ch1_reset</name>
     <direction>Output</direction>
     <width>1</width>
     <role>reset</role>
@@ -88261,7 +87716,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1616648966</value>
+   <value>1620849663</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -88281,7 +87736,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1616648966</value>
+   <value>1620849663</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -88297,7 +87752,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1616648966</value>
+   <value>1620849663</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -105232,1032 +104687,6 @@ parameters are a RESULT of the module parameters. -->
   <endConnectionPoint>soft_reset</endConnectionPoint>
  </connection>
  <connection
-   name="rst_controller.reset_source_comm_ch1/RMAP_Memory_Subunit_Area_1.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch1"
-   end="RMAP_Memory_Subunit_Area_1.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch1</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_1</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch1/Dumb_Communication_Module_v2_1.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch1"
-   end="Dumb_Communication_Module_v2_1.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch1</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_1</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch1/SpaceWire_Channel_A.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch1"
-   end="SpaceWire_Channel_A.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch1</startConnectionPoint>
-  <endModule>SpaceWire_Channel_A</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch1/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch1"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch1</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch2/SpaceWire_Channel_B.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch2"
-   end="SpaceWire_Channel_B.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch2</startConnectionPoint>
-  <endModule>SpaceWire_Channel_B</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch2/Dumb_Communication_Module_v2_2.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch2"
-   end="Dumb_Communication_Module_v2_2.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch2</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_2</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch2/RMAP_Memory_Subunit_Area_2.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch2"
-   end="RMAP_Memory_Subunit_Area_2.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch2</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_2</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch2/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch2"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch2</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch3/SpaceWire_Channel_C.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch3"
-   end="SpaceWire_Channel_C.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch3</startConnectionPoint>
-  <endModule>SpaceWire_Channel_C</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch3/Dumb_Communication_Module_v2_3.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch3"
-   end="Dumb_Communication_Module_v2_3.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch3</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_3</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch3/RMAP_Memory_Subunit_Area_3.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch3"
-   end="RMAP_Memory_Subunit_Area_3.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch3</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_3</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch3/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch3"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch3</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch4/SpaceWire_Channel_D.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch4"
-   end="SpaceWire_Channel_D.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch4</startConnectionPoint>
-  <endModule>SpaceWire_Channel_D</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch4/Dumb_Communication_Module_v2_4.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch4"
-   end="Dumb_Communication_Module_v2_4.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch4</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_4</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch4/RMAP_Memory_Subunit_Area_4.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch4"
-   end="RMAP_Memory_Subunit_Area_4.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch4</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_4</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch4/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch4"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch4</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch5/SpaceWire_Channel_E.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch5"
-   end="SpaceWire_Channel_E.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch5</startConnectionPoint>
-  <endModule>SpaceWire_Channel_E</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch5/Dumb_Communication_Module_v2_5.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch5"
-   end="Dumb_Communication_Module_v2_5.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch5</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_5</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch5/RMAP_Memory_Subunit_Area_5.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch5"
-   end="RMAP_Memory_Subunit_Area_5.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch5</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_5</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch5/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch5"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch5</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch6/SpaceWire_Channel_F.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch6"
-   end="SpaceWire_Channel_F.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch6</startConnectionPoint>
-  <endModule>SpaceWire_Channel_F</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch6/Dumb_Communication_Module_v2_6.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch6"
-   end="Dumb_Communication_Module_v2_6.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch6</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_6</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch6/RMAP_Memory_Subunit_Area_6.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch6"
-   end="RMAP_Memory_Subunit_Area_6.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch6</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_6</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch6/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch6"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch6</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch7/SpaceWire_Channel_G.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch7"
-   end="SpaceWire_Channel_G.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch7</startConnectionPoint>
-  <endModule>SpaceWire_Channel_G</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch7/Dumb_Communication_Module_v2_7.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch7"
-   end="Dumb_Communication_Module_v2_7.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch7</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_7</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch7/RMAP_Memory_Subunit_Area_7.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch7"
-   end="RMAP_Memory_Subunit_Area_7.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch7</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_7</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch7/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch7"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch7</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch8/SpaceWire_Channel_H.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch8"
-   end="SpaceWire_Channel_H.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch8</startConnectionPoint>
-  <endModule>SpaceWire_Channel_H</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch8/Dumb_Communication_Module_v2_8.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch8"
-   end="Dumb_Communication_Module_v2_8.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch8</startConnectionPoint>
-  <endModule>Dumb_Communication_Module_v2_8</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch8/SpaceWire_Mux_Ch_H.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch8"
-   end="SpaceWire_Mux_Ch_H.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch8</startConnectionPoint>
-  <endModule>SpaceWire_Mux_Ch_H</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch8/RMAP_Echoing.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch8"
-   end="RMAP_Echoing.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch8</startConnectionPoint>
-  <endModule>RMAP_Echoing</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_comm_ch8/RMAP_Memory_Subunit_Area_8.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_comm_ch8"
-   end="RMAP_Memory_Subunit_Area_8.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_comm_ch8</startConnectionPoint>
-  <endModule>RMAP_Memory_Subunit_Area_8</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_ftdi/FTDI_UMFT601A_Module.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_ftdi"
-   end="FTDI_UMFT601A_Module.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_ftdi</startConnectionPoint>
-  <endModule>FTDI_UMFT601A_Module</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_rs232/rs232_uart.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_rs232"
-   end="rs232_uart.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_rs232</startConnectionPoint>
-  <endModule>rs232_uart</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_rs232/uart_module_top_0.reset_sink"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_rs232"
-   end="uart_module_top_0.reset_sink">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_rs232</startConnectionPoint>
-  <endModule>uart_module_top_0</endModule>
-  <endConnectionPoint>reset_sink</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_sd_card/Altera_UP_SD_Card_Avalon_Interface_0.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_sd_card"
-   end="Altera_UP_SD_Card_Avalon_Interface_0.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_sd_card</startConnectionPoint>
-  <endModule>Altera_UP_SD_Card_Avalon_Interface_0</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
-   name="rst_controller.reset_source_sync/sync.reset"
-   kind="reset"
-   version="18.1"
-   start="rst_controller.reset_source_sync"
-   end="sync.reset">
-  <parameter name="deviceFamily">
-   <type>java.lang.String</type>
-   <value>UNKNOWN</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="generateLegacySim">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <startModule>rst_controller</startModule>
-  <startConnectionPoint>reset_source_sync</startConnectionPoint>
-  <endModule>sync</endModule>
-  <endConnectionPoint>reset</endConnectionPoint>
- </connection>
- <connection
    name="ext_flash.tcm/tristate_conduit_bridge_0.tcs"
    kind="tristate_conduit"
    version="18.1"
@@ -106330,7 +104759,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>DCOM_v2</displayName>
-  <version>1.4</version>
+  <version>1.5</version>
  </plugin>
  <plugin>
   <instanceCount>17</instanceCount>
@@ -106370,7 +104799,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>RMAP_Echoing</displayName>
-  <version>1.3</version>
+  <version>1.4</version>
  </plugin>
  <plugin>
   <instanceCount>8</instanceCount>
@@ -106394,7 +104823,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>SpaceWire_Channel</displayName>
-  <version>1.4</version>
+  <version>1.5</version>
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -106402,7 +104831,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>SpaceWire_Mux</displayName>
-  <version>1.0</version>
+  <version>1.1</version>
  </plugin>
  <plugin>
   <instanceCount>4</instanceCount>
@@ -106509,7 +104938,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>17</instanceCount>
+  <instanceCount>6</instanceCount>
   <name>reset_source</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -106562,7 +104991,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>rst_controller</displayName>
-  <version>1.5</version>
+  <version>1.6</version>
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -106645,7 +105074,7 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <plugin>
-  <instanceCount>120</instanceCount>
+  <instanceCount>82</instanceCount>
   <name>reset</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IConnection</subtype>
