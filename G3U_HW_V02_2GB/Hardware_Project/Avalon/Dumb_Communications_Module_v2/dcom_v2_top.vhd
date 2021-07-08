@@ -307,7 +307,7 @@ begin
     data_controller_ent_inst : entity work.data_controller_ent
         generic map(
             g_WORD_WIDTH        => 8,
-            g_DATA_LENGTH_WORDS => 2,
+            g_DATA_LENGTH_WORDS => 4,
             g_DATA_TIME_WORDS   => 4
         )
         port map(

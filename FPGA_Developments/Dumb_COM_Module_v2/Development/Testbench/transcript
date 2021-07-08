@@ -32,6 +32,5 @@
 # Compile of dcom_tb_avs_pkg.vhd was successful.
 # Compile of dcom_tb_avs_write_ent.vhd was successful.
 # Compile of dcom_tb_avs_read_ent.vhd was successful.
-# Compile of testbench_top.vhd failed with 2 errors.
-# 32 compiles, 1 failed with 2 errors.
 # Compile of testbench_top.vhd was successful.
+# 32 compiles, 0 failed with no errors.

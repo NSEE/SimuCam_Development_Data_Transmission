@@ -73,7 +73,7 @@ void i_echo_dataset(INT32U i_sim_time, INT16U i_imagette_number, INT8U i_channel
 
 #if DEBUG_ON
 	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-		fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %u, first byte %i\r\n", i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
+		fprintf(fp, "[ECHO]Imagette %i channel: %i lenght: %lu, first byte %i\r\n", i_imagette_number, i_channel, p_imagette_buffer->imagette_length,
 				p_imagette_buffer->imagette_start);
 	}
 #endif

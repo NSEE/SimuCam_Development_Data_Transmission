@@ -223,7 +223,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 
 #if DEBUG_ON
 		if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-			fprintf(fp, "[UART ImagetteParser DEBUG]Imagette %i length: %i\r\n", i_nb_imag_ctrl, p_imagette_buff->imagette_length);
+			fprintf(fp, "[UART ImagetteParser DEBUG]Imagette %i length: %lu\r\n", i_nb_imag_ctrl, p_imagette_buff->imagette_length);
 		}
 #endif
 		/* Advance byte addr to point to the start to imagette data */
