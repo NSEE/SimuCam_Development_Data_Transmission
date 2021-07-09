@@ -109,7 +109,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	INT8U iHeaderBuff[16];
 	INT8U iOffsetLengthBuff[8];
 	INT8U iCRCBuff[2];
-	INT16U usLengthBuff = 0;
+	INT32U uiLengthBuff = 0;
 
 #if DEBUG_ON
 	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
@@ -229,7 +229,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 		/* Advance byte addr to point to the start to imagette data */
 		p_imagette_byte += IMAGETTE_HEADER;	//Length offset
 
-		usLengthBuff = p_imagette_buff->imagette_length;
+		uiLengthBuff = p_imagette_buff->imagette_length;
 
 		/*
 		 * Switch to the right memory stick
@@ -241,15 +241,15 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 		}
 
 		/* Get data bytes from RS232 */
-		luGetSerial((INT8U *) p_imagette_byte, usLengthBuff);
+		luGetSerial((INT8U *) p_imagette_byte, uiLengthBuff);
 
 		/**
 		 * Add do partial CRC
 		 */
-		pPayload->luCRCPartial = prev_crc__CRC16CCITT((INT8U *) p_imagette_byte, usLengthBuff, pPayload->luCRCPartial);
+		pPayload->luCRCPartial = prev_crc__CRC16CCITT((INT8U *) p_imagette_byte, uiLengthBuff, pPayload->luCRCPartial);
 
 		/* Sum memory positions */
-		p_imagette_byte += usLengthBuff;
+		p_imagette_byte += uiLengthBuff;
 
 		/* Align memory */
 		if (((INT32U) p_imagette_byte % 8)) {
