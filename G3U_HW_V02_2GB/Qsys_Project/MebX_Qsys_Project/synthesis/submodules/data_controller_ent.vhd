@@ -595,12 +595,12 @@ begin
 
     -- data packet time signal
     g_data_packet_time : for word_cnt in 1 to g_DATA_TIME_WORDS generate
-        s_data_packet_time(((word_cnt * g_WORD_WIDTH) - 1) downto ((word_cnt - 1) * g_WORD_WIDTH)) <= s_data_packet_time_words(word_cnt - 1);
+        s_data_packet_time(((word_cnt * g_WORD_WIDTH) - 1) downto ((word_cnt - 1) * g_WORD_WIDTH)) <= s_data_packet_time_words(g_DATA_TIME_WORDS - word_cnt);
     end generate g_data_packet_time;
 
     -- data packet length signal
     g_data_packet_length : for word_cnt in 1 to g_DATA_LENGTH_WORDS generate
-        s_data_packet_length(((word_cnt * g_WORD_WIDTH) - 1) downto ((word_cnt - 1) * g_WORD_WIDTH)) <= s_data_packet_length_words(word_cnt - 1);
+        s_data_packet_length(((word_cnt * g_WORD_WIDTH) - 1) downto ((word_cnt - 1) * g_WORD_WIDTH)) <= s_data_packet_length_words(g_DATA_LENGTH_WORDS - word_cnt);
     end generate g_data_packet_length;
 
 end architecture RTL;
