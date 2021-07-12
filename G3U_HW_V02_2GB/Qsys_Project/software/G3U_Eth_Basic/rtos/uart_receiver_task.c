@@ -227,7 +227,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 		}
 #endif
 		/* Advance byte addr to point to the start to imagette data */
-		p_imagette_byte += IMAGETTE_HEADER;	//Length offset
+		p_imagette_byte += IMAGETTE_HEADER + 1;	//Length offset
 
 		uiLengthBuff = p_imagette_buff->imagette_length;
 
