@@ -12,7 +12,7 @@ This repository manages the release of the the software packages related with th
 - [Engineer Érico Lucas Marques - Project Manager and System Engineer](https://github.com/ericolucasm) (2019-Today)
 - [Engineer Alexsander Deucher - Software Developer](https://github.com/adbtx) (2019-2020)
 - [Engineer Ricardo Napoli - Test Engineer](https://github.com/rnapoli) (2019-2021)
-- 
+- [Engineer Thiago Pereira Ricciardi - SW Developer](https://github.com/thiagoricciardi) (2018-Today)
 
 
 ## SimuCam
