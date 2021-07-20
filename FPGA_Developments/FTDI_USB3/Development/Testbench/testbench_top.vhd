@@ -123,22 +123,22 @@ begin
 			umft601a_wr_n_pin_o               => s_umft_wr_n_pin,
 			umft601a_rd_n_pin_o               => s_umft_rd_n_pin,
 			umft601a_oe_n_pin_o               => s_umft_oe_n_pin,
-			umft601a_siwu_n_pin_o             => s_umft_siwu_n_pin
---			avalon_slave_config_address_i     => s_avalon_slave_config_address,
---			avalon_slave_config_byteenable_i  => s_avalon_slave_config_byteenable,
---			avalon_slave_config_write_i       => s_avalon_slave_config_write,
---			avalon_slave_config_writedata_i   => s_avalon_slave_config_writedata,
---			avalon_slave_config_read_i        => s_avalon_slave_config_read,
---			avalon_slave_config_readdata_o    => s_avalon_slave_config_readdata,
---			avalon_slave_config_waitrequest_o => s_avalon_slave_config_waitrequest,
---			avalon_master_data_readdata_i     => (others => '0'),
---			avalon_master_data_waitrequest_i  => '1',
---			avalon_master_data_address_o      => open,
---			avalon_master_data_write_o        => open,
---			avalon_master_data_writedata_o    => open,
---			avalon_master_data_read_o         => open,
---			rx_interrupt_sender_irq_o         => open,
---			tx_interrupt_sender_irq_o         => open
+			umft601a_siwu_n_pin_o             => s_umft_siwu_n_pin,
+			avalon_slave_config_address_i     => s_avalon_slave_config_address,
+			avalon_slave_config_byteenable_i  => s_avalon_slave_config_byteenable,
+			avalon_slave_config_write_i       => s_avalon_slave_config_write,
+			avalon_slave_config_writedata_i   => s_avalon_slave_config_writedata,
+			avalon_slave_config_read_i        => s_avalon_slave_config_read,
+			avalon_slave_config_readdata_o    => s_avalon_slave_config_readdata,
+			avalon_slave_config_waitrequest_o => s_avalon_slave_config_waitrequest,
+			avalon_master_data_readdata_i     => (others => '0'),
+			avalon_master_data_waitrequest_i  => '0',
+			avalon_master_data_address_o      => open,
+			avalon_master_data_write_o        => open,
+			avalon_master_data_writedata_o    => open,
+			avalon_master_data_read_o         => open,
+			rx_interrupt_sender_irq_o         => open,
+			tx_interrupt_sender_irq_o         => open
 		);
 
 end architecture RTL;

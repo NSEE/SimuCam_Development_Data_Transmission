@@ -25,7 +25,7 @@ entity dcom_v2_top is
         sync_channel_i                   : in  std_logic                     := '0'; --          --                 sync_conduit_end.sync_channel_i_signal
         clock_sink_100_clk_i             : in  std_logic                     := '0'; --          --                   clock_sink_100.clk
         avalon_slave_dcom_address_i      : in  std_logic_vector(7 downto 0)  := (others => '0'); --                avalon_slave_dcom.address
-                avalon_slave_dcom_byteenable_i   : in  std_logic_vector(3 downto 0)  := (others => '0'); --                                 .byteenable
+        --        avalon_slave_dcom_byteenable_i   : in  std_logic_vector(3 downto 0)  := (others => '0'); --                                 .byteenable
         avalon_slave_dcom_write_i        : in  std_logic                     := '0'; --          --                                 .write
         avalon_slave_dcom_read_i         : in  std_logic                     := '0'; --          --                                 .read
         avalon_slave_dcom_writedata_i    : in  std_logic_vector(31 downto 0) := (others => '0'); --                                 .writedata

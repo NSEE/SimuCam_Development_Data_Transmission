@@ -254,7 +254,7 @@ begin
 					if (req_half_ccd_request_i = '1') then
 						s_ftdi_prot_img_controller_state                     <= HFCCD_REQ_START;
 						v_ftdi_prot_img_controller_state                     := HFCCD_REQ_START;
-						s_registered_request_data.package_id                 <= c_FTDI_PROT_PKG_ID_HALF_CCD_REQUEST;
+						s_registered_request_data.package_id                 <= c_FTDI_PROT_PKG_ID_GEN_IMGT_REQUEST;
 						s_registered_request_data.image_selection.fee_number <= req_half_ccd_fee_number_i;
 						s_registered_request_data.image_selection.ccd_number <= req_half_ccd_ccd_number_i;
 						s_registered_request_data.image_selection.ccd_side   <= req_half_ccd_ccd_side_i;
@@ -491,7 +491,7 @@ begin
 						if ((header_parser_eoh_error_i = '0') and (header_parser_crc32_match_i = '1')) then
 							-- CRC matched and End of Header error not ocurred, package is reliable
 							-- check if a Half-CCD Reply was received
-							if (header_parser_data_i.package_id = c_FTDI_PROT_PKG_ID_HALF_CCD_REPLY) then
+							if (header_parser_data_i.package_id = c_FTDI_PROT_PKG_ID_GEN_IMGT_REPLY) then
 								-- Half-CCD Reply received
 								-- send a ACK
 								s_ftdi_prot_img_controller_state <= HFCCD_ACK_SEND_TX_HEADER;

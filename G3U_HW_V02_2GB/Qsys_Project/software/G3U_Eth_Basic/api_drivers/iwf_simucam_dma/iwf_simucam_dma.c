@@ -104,6 +104,38 @@ bool bIdmaResetChDma(alt_u8 ucChBufferId, bool bWait) {
 	return bStatus;
 }
 
+bool bSdmaResetFtdiDma(bool bWait) {
+	bool bStatusRx = FALSE;
+	bool bStatusTx = FALSE;
+	bool bStatus = FALSE;
+
+	volatile TFtdiModule *vpxFtdiModule = (TFtdiModule *) (FTDI_MODULE_BASE_ADDR);
+
+	vpxFtdiModule->xFtdiRxDataControl.bRxWrReset = TRUE;
+	if (bWait) {
+		// wait for the avm controller to be free
+		while (vpxFtdiModule->xFtdiRxDataStatus.bRxWrBusy) {
+			alt_busy_sleep(1); /* delay 1us */
+		}
+	}
+	bStatusRx = TRUE;
+
+	vpxFtdiModule->xFtdiTxDataControl.bTxRdReset = TRUE;
+	if (bWait) {
+		// wait for the avm controller to be free
+		while (vpxFtdiModule->xFtdiTxDataStatus.bTxRdBusy) {
+			alt_busy_sleep(1); /* delay 1us */
+		}
+	}
+	bStatusTx = TRUE;
+
+	if ((bStatusRx) && (bStatusTx)) {
+		bStatus = TRUE;
+	}
+
+	return (bStatus);
+}
+
 alt_u32 uliIdmaChDmaTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 uliTransferSizeInBytes, alt_u8 ucChBufferId) {
 	alt_u32 uliProgramedTransferSize = 0;
 
@@ -206,6 +238,97 @@ alt_u32 uliIdmaChDmaTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_
 
 	}
 	return (uliProgramedTransferSize);
+}
+
+bool bSdmaFtdiDmaTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 uliTransferSizeInBytes, alt_u8 ucFtdiOperation) {
+	bool bStatus = FALSE;
+
+	volatile TFtdiModule *vpxFtdiModule = (TFtdiModule *) (FTDI_MODULE_BASE_ADDR);
+
+	union Ddr2MemoryAddress unMemoryAddress;
+
+	bool bMemoryFlag = FALSE;
+	bool bAddressFlag = FALSE;
+	bool bOperationFlag = FALSE;
+	bool bNotBusyFlag = FALSE;
+	bool bTransferSizeFlag = FALSE;
+
+	alt_u32 uliRoundedTransferSizeInBytes = 0;
+
+	switch (ucDdrMemId) {
+	case eDdr2Memory1:
+		unMemoryAddress.ulliMemAddr64b = DDR2_M1_BASE_ADDR + (alt_u64) ((alt_u32) uliDdrInitialAddr);
+		bMemoryFlag = TRUE;
+		break;
+	case eDdr2Memory2:
+		unMemoryAddress.ulliMemAddr64b = DDR2_M2_BASE_ADDR + (alt_u64) ((alt_u32) uliDdrInitialAddr);
+		bMemoryFlag = TRUE;
+		break;
+	default:
+		bMemoryFlag = FALSE;
+		break;
+	}
+
+	/* Verify if the base address is a multiple o FTDI_DATA_ACCESS_WIDTH_BYTES (DSCH_DATA_ACCESS_WIDTH_BYTES = 32 bytes = 256b = size of memory access) */
+	if (unMemoryAddress.ulliMemAddr64b % FTDI_DATA_ACCESS_WIDTH_BYTES) {
+		/* Address is not a multiple of FTDI_DATA_ACCESS_WIDTH_BYTES */
+		bAddressFlag = FALSE;
+	} else {
+		bAddressFlag = TRUE;
+	}
+
+	switch (ucFtdiOperation) {
+	case eSdmaTxFtdi:
+		bOperationFlag = TRUE;
+		bNotBusyFlag = !(vpxFtdiModule->xFtdiTxDataStatus.bTxRdBusy);
+		break;
+	case eSdmaRxFtdi:
+		bOperationFlag = TRUE;
+		bNotBusyFlag = !(vpxFtdiModule->xFtdiRxDataStatus.bRxWrBusy);
+		break;
+	default:
+		bOperationFlag = FALSE;
+		bNotBusyFlag = FALSE;
+		break;
+	}
+
+	if ((FTDI_TRANSFER_MIN_BYTES <= uliTransferSizeInBytes) && (FTDI_TRANSFER_MAX_BYTES >= uliTransferSizeInBytes)) {
+		bTransferSizeFlag = TRUE;
+		/* Rounding up the size to the nearest multiple of FTDI_DATA_ACCESS_WIDTH_BYTES (FTDI_DATA_ACCESS_WIDTH_BYTES = 32 bytes = 256b = size of memory access) */
+		if (uliTransferSizeInBytes % FTDI_DATA_ACCESS_WIDTH_BYTES) {
+			/* Transfer size is not a multiple of DSCH_DATA_ACCESS_WIDTH_BYTES */
+			uliRoundedTransferSizeInBytes = (alt_u32) ((uliTransferSizeInBytes & FTDI_DATA_TRANSFER_SIZE_MASK ) + FTDI_DATA_ACCESS_WIDTH_BYTES );
+		} else {
+			uliRoundedTransferSizeInBytes = uliTransferSizeInBytes;
+		}
+	}
+
+	if ((bMemoryFlag) && (bAddressFlag) && (bOperationFlag) && (bNotBusyFlag) && (bTransferSizeFlag)) {
+
+		// reset the avm controller
+		bSdmaResetFtdiDma(TRUE);
+
+		if (eSdmaTxFtdi == ucFtdiOperation) {
+			// start new transfer
+			vpxFtdiModule->xFtdiTxDataControl.uliTxRdInitAddrLowDword = unMemoryAddress.uliMemAddr32b[0];
+			vpxFtdiModule->xFtdiTxDataControl.uliTxRdInitAddrHighDword = unMemoryAddress.uliMemAddr32b[1];
+			/* HW use zero as reference for transfer size, need to decrement one word from the total transfer size */
+			vpxFtdiModule->xFtdiTxDataControl.uliTxRdDataLenghtBytes = uliRoundedTransferSizeInBytes - FTDI_DATA_ACCESS_WIDTH_BYTES;
+			vpxFtdiModule->xFtdiTxDataControl.bTxRdStart = TRUE;
+			bStatus = TRUE;
+		} else {
+			// start new transfer
+			vpxFtdiModule->xFtdiRxDataControl.uliRxWrInitAddrLowDword = unMemoryAddress.uliMemAddr32b[0];
+			vpxFtdiModule->xFtdiRxDataControl.uliRxWrInitAddrHighDword = unMemoryAddress.uliMemAddr32b[1];
+			/* HW use zero as reference for transfer size, need to decrement one word from the total transfer size */
+			vpxFtdiModule->xFtdiRxDataControl.uliRxWrDataLenghtBytes = uliRoundedTransferSizeInBytes - FTDI_DATA_ACCESS_WIDTH_BYTES;
+			vpxFtdiModule->xFtdiRxDataControl.bRxWrStart = TRUE;
+			bStatus = TRUE;
+		}
+
+	}
+
+	return (bStatus);
 }
 
 //! [public functions]

@@ -14,6 +14,8 @@ package ftdi_protocol_pkg is
 	constant c_FTDI_PROT_PKG_ID_HALF_CCD_REQUEST : std_logic_vector(31 downto 0) := x"01010101";
 	constant c_FTDI_PROT_PKG_ID_HALF_CCD_REPLY   : std_logic_vector(31 downto 0) := x"02020202";
 	constant c_FTDI_PROT_PKG_ID_LUT_TRANSMISSION : std_logic_vector(31 downto 0) := x"03030303";
+	constant c_FTDI_PROT_PKG_ID_GEN_IMGT_REQUEST : std_logic_vector(31 downto 0) := x"05050505";
+	constant c_FTDI_PROT_PKG_ID_GEN_IMGT_REPLY   : std_logic_vector(31 downto 0) := x"06060606";
 	constant c_FTDI_PROT_PKG_ID_NACK_ERROR       : std_logic_vector(31 downto 0) := x"10101010";
 	constant c_FTDI_PROT_PKG_ID_ACK_OK           : std_logic_vector(31 downto 0) := x"20202020";
 	constant c_FTDI_PROT_PKG_ID_WRONG_IMG_SIZE   : std_logic_vector(31 downto 0) := x"30303030";

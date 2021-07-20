@@ -328,7 +328,6 @@ architecture rtl of MebX_Qsys_Project is
 			avalon_master_data_address_o     : out std_logic_vector(63 downto 0);                    -- address
 			avalon_master_data_read_o        : out std_logic;                                        -- read
 			avalon_slave_dcom_address_i      : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- address
-			avalon_slave_dcom_byteenable_i   : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
 			avalon_slave_dcom_write_i        : in  std_logic                     := 'X';             -- write
 			avalon_slave_dcom_read_i         : in  std_logic                     := 'X';             -- read
 			avalon_slave_dcom_writedata_i    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
@@ -391,21 +390,36 @@ architecture rtl of MebX_Qsys_Project is
 
 	component ftdi_usb3_top is
 		port (
-			clock_sink_clk_i          : in    std_logic                     := 'X';             -- clk
-			reset_sink_reset_i        : in    std_logic                     := 'X';             -- reset
-			umft601a_clock_sink_clk_i : in    std_logic                     := 'X';             -- clk
-			umft601a_clock_pin_i      : in    std_logic                     := 'X';             -- umft_clock_signal
-			umft601a_txe_n_pin_i      : in    std_logic                     := 'X';             -- umft_txe_n_signal
-			umft601a_rxf_n_pin_i      : in    std_logic                     := 'X';             -- umft_rxf_n_signal
-			umft601a_data_bus_io      : inout std_logic_vector(31 downto 0) := (others => 'X'); -- umft_data_signal
-			umft601a_be_bus_io        : inout std_logic_vector(3 downto 0)  := (others => 'X'); -- umft_be_signal
-			umft601a_wakeup_n_pin_io  : inout std_logic                     := 'X';             -- umft_wakeup_n_signal
-			umft601a_gpio_bus_io      : inout std_logic_vector(1 downto 0)  := (others => 'X'); -- umft_gpio_bus_signal
-			umft601a_reset_n_pin_o    : out   std_logic;                                        -- umft_reset_n_signal
-			umft601a_wr_n_pin_o       : out   std_logic;                                        -- umft_wr_n_signal
-			umft601a_rd_n_pin_o       : out   std_logic;                                        -- umft_rd_n_signal
-			umft601a_oe_n_pin_o       : out   std_logic;                                        -- umft_oe_n_signal
-			umft601a_siwu_n_pin_o     : out   std_logic                                         -- umft_siwu_n_signal
+			clock_sink_clk_i                  : in    std_logic                      := 'X';             -- clk
+			reset_sink_reset_i                : in    std_logic                      := 'X';             -- reset
+			umft601a_clock_sink_clk_i         : in    std_logic                      := 'X';             -- clk
+			umft601a_clock_pin_i              : in    std_logic                      := 'X';             -- umft_clock_signal
+			umft601a_txe_n_pin_i              : in    std_logic                      := 'X';             -- umft_txe_n_signal
+			umft601a_rxf_n_pin_i              : in    std_logic                      := 'X';             -- umft_rxf_n_signal
+			umft601a_data_bus_io              : inout std_logic_vector(31 downto 0)  := (others => 'X'); -- umft_data_signal
+			umft601a_be_bus_io                : inout std_logic_vector(3 downto 0)   := (others => 'X'); -- umft_be_signal
+			umft601a_wakeup_n_pin_io          : inout std_logic                      := 'X';             -- umft_wakeup_n_signal
+			umft601a_gpio_bus_io              : inout std_logic_vector(1 downto 0)   := (others => 'X'); -- umft_gpio_bus_signal
+			umft601a_reset_n_pin_o            : out   std_logic;                                         -- umft_reset_n_signal
+			umft601a_wr_n_pin_o               : out   std_logic;                                         -- umft_wr_n_signal
+			umft601a_rd_n_pin_o               : out   std_logic;                                         -- umft_rd_n_signal
+			umft601a_oe_n_pin_o               : out   std_logic;                                         -- umft_oe_n_signal
+			umft601a_siwu_n_pin_o             : out   std_logic;                                         -- umft_siwu_n_signal
+			avalon_slave_config_address_i     : in    std_logic_vector(7 downto 0)   := (others => 'X'); -- address
+			avalon_slave_config_byteenable_i  : in    std_logic_vector(3 downto 0)   := (others => 'X'); -- byteenable
+			avalon_slave_config_write_i       : in    std_logic                      := 'X';             -- write
+			avalon_slave_config_writedata_i   : in    std_logic_vector(31 downto 0)  := (others => 'X'); -- writedata
+			avalon_slave_config_read_i        : in    std_logic                      := 'X';             -- read
+			avalon_slave_config_readdata_o    : out   std_logic_vector(31 downto 0);                     -- readdata
+			avalon_slave_config_waitrequest_o : out   std_logic;                                         -- waitrequest
+			avalon_master_data_readdata_i     : in    std_logic_vector(255 downto 0) := (others => 'X'); -- readdata
+			avalon_master_data_waitrequest_i  : in    std_logic                      := 'X';             -- waitrequest
+			avalon_master_data_address_o      : out   std_logic_vector(63 downto 0);                     -- address
+			avalon_master_data_read_o         : out   std_logic;                                         -- read
+			avalon_master_data_write_o        : out   std_logic;                                         -- write
+			avalon_master_data_writedata_o    : out   std_logic_vector(255 downto 0);                    -- writedata
+			rx_interrupt_sender_irq_o         : out   std_logic;                                         -- irq
+			tx_interrupt_sender_irq_o         : out   std_logic                                          -- irq
 		);
 	end component ftdi_usb3_top;
 
@@ -1312,6 +1326,12 @@ architecture rtl of MebX_Qsys_Project is
 			Dumb_Communication_Module_v2_8_avalon_master_data_waitrequest   : out std_logic;                                         -- waitrequest
 			Dumb_Communication_Module_v2_8_avalon_master_data_read          : in  std_logic                      := 'X';             -- read
 			Dumb_Communication_Module_v2_8_avalon_master_data_readdata      : out std_logic_vector(63 downto 0);                     -- readdata
+			FTDI_UMFT601A_Module_avalon_master_data_address                 : in  std_logic_vector(63 downto 0)  := (others => 'X'); -- address
+			FTDI_UMFT601A_Module_avalon_master_data_waitrequest             : out std_logic;                                         -- waitrequest
+			FTDI_UMFT601A_Module_avalon_master_data_read                    : in  std_logic                      := 'X';             -- read
+			FTDI_UMFT601A_Module_avalon_master_data_readdata                : out std_logic_vector(255 downto 0);                    -- readdata
+			FTDI_UMFT601A_Module_avalon_master_data_write                   : in  std_logic                      := 'X';             -- write
+			FTDI_UMFT601A_Module_avalon_master_data_writedata               : in  std_logic_vector(255 downto 0) := (others => 'X'); -- writedata
 			Memory_Filler_avalon_master_data_address                        : in  std_logic_vector(63 downto 0)  := (others => 'X'); -- address
 			Memory_Filler_avalon_master_data_waitrequest                    : out std_logic;                                         -- waitrequest
 			Memory_Filler_avalon_master_data_write                          : in  std_logic                      := 'X';             -- write
@@ -1414,63 +1434,54 @@ architecture rtl of MebX_Qsys_Project is
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_1_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_address         : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_write           : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_2_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_address         : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_write           : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_3_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_address         : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_write           : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_4_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_address         : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_write           : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_5_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_address         : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_write           : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_6_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_address         : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_write           : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_7_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_address         : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_write           : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_read            : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_readdata        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_writedata       : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_8_avalon_slave_dcom_byteenable      : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_waitrequest     : in  std_logic                     := 'X';             -- waitrequest
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_address     : out std_logic_vector(7 downto 0);                     -- address
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_write       : out std_logic;                                        -- write
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_read        : out std_logic;                                        -- read
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_readdata    : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_writedata   : out std_logic_vector(31 downto 0);                    -- writedata
-			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_byteenable  : out std_logic_vector(3 downto 0);                     -- byteenable
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_waitrequest : in  std_logic                     := 'X';             -- waitrequest
 			ext_flash_uas_address                                            : out std_logic_vector(25 downto 0);                    -- address
 			ext_flash_uas_write                                              : out std_logic;                                        -- write
@@ -1483,6 +1494,13 @@ architecture rtl of MebX_Qsys_Project is
 			ext_flash_uas_waitrequest                                        : in  std_logic                     := 'X';             -- waitrequest
 			ext_flash_uas_lock                                               : out std_logic;                                        -- lock
 			ext_flash_uas_debugaccess                                        : out std_logic;                                        -- debugaccess
+			FTDI_UMFT601A_Module_avalon_slave_config_address                 : out std_logic_vector(7 downto 0);                     -- address
+			FTDI_UMFT601A_Module_avalon_slave_config_write                   : out std_logic;                                        -- write
+			FTDI_UMFT601A_Module_avalon_slave_config_read                    : out std_logic;                                        -- read
+			FTDI_UMFT601A_Module_avalon_slave_config_readdata                : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			FTDI_UMFT601A_Module_avalon_slave_config_writedata               : out std_logic_vector(31 downto 0);                    -- writedata
+			FTDI_UMFT601A_Module_avalon_slave_config_byteenable              : out std_logic_vector(3 downto 0);                     -- byteenable
+			FTDI_UMFT601A_Module_avalon_slave_config_waitrequest             : in  std_logic                     := 'X';             -- waitrequest
 			jtag_uart_0_avalon_jtag_slave_address                            : out std_logic_vector(0 downto 0);                     -- address
 			jtag_uart_0_avalon_jtag_slave_write                              : out std_logic;                                        -- write
 			jtag_uart_0_avalon_jtag_slave_read                               : out std_logic;                                        -- read
@@ -1794,6 +1812,8 @@ architecture rtl of MebX_Qsys_Project is
 			receiver20_irq : in  std_logic                     := 'X'; -- irq
 			receiver21_irq : in  std_logic                     := 'X'; -- irq
 			receiver22_irq : in  std_logic                     := 'X'; -- irq
+			receiver23_irq : in  std_logic                     := 'X'; -- irq
+			receiver24_irq : in  std_logic                     := 'X'; -- irq
 			sender_irq     : out std_logic_vector(31 downto 0)         -- irq
 		);
 	end component MebX_Qsys_Project_irq_mapper;
@@ -2600,6 +2620,12 @@ architecture rtl of MebX_Qsys_Project is
 	signal memory_filler_avalon_master_data_address                                                            : std_logic_vector(63 downto 0);  -- Memory_Filler:avalon_master_data_address_o -> mm_interconnect_0:Memory_Filler_avalon_master_data_address
 	signal memory_filler_avalon_master_data_write                                                              : std_logic;                      -- Memory_Filler:avalon_master_data_write_o -> mm_interconnect_0:Memory_Filler_avalon_master_data_write
 	signal memory_filler_avalon_master_data_writedata                                                          : std_logic_vector(255 downto 0); -- Memory_Filler:avalon_master_data_writedata_o -> mm_interconnect_0:Memory_Filler_avalon_master_data_writedata
+	signal ftdi_umft601a_module_avalon_master_data_readdata                                                    : std_logic_vector(255 downto 0); -- mm_interconnect_0:FTDI_UMFT601A_Module_avalon_master_data_readdata -> FTDI_UMFT601A_Module:avalon_master_data_readdata_i
+	signal ftdi_umft601a_module_avalon_master_data_waitrequest                                                 : std_logic;                      -- mm_interconnect_0:FTDI_UMFT601A_Module_avalon_master_data_waitrequest -> FTDI_UMFT601A_Module:avalon_master_data_waitrequest_i
+	signal ftdi_umft601a_module_avalon_master_data_address                                                     : std_logic_vector(63 downto 0);  -- FTDI_UMFT601A_Module:avalon_master_data_address_o -> mm_interconnect_0:FTDI_UMFT601A_Module_avalon_master_data_address
+	signal ftdi_umft601a_module_avalon_master_data_read                                                        : std_logic;                      -- FTDI_UMFT601A_Module:avalon_master_data_read_o -> mm_interconnect_0:FTDI_UMFT601A_Module_avalon_master_data_read
+	signal ftdi_umft601a_module_avalon_master_data_write                                                       : std_logic;                      -- FTDI_UMFT601A_Module:avalon_master_data_write_o -> mm_interconnect_0:FTDI_UMFT601A_Module_avalon_master_data_write
+	signal ftdi_umft601a_module_avalon_master_data_writedata                                                   : std_logic_vector(255 downto 0); -- FTDI_UMFT601A_Module:avalon_master_data_writedata_o -> mm_interconnect_0:FTDI_UMFT601A_Module_avalon_master_data_writedata
 	signal ddr2_address_span_extender_expanded_master_waitrequest                                              : std_logic;                      -- mm_interconnect_0:ddr2_address_span_extender_expanded_master_waitrequest -> ddr2_address_span_extender:avm_m0_waitrequest
 	signal ddr2_address_span_extender_expanded_master_readdata                                                 : std_logic_vector(31 downto 0);  -- mm_interconnect_0:ddr2_address_span_extender_expanded_master_readdata -> ddr2_address_span_extender:avm_m0_readdata
 	signal ddr2_address_span_extender_expanded_master_address                                                  : std_logic_vector(31 downto 0);  -- ddr2_address_span_extender:avm_m0_address -> mm_interconnect_0:ddr2_address_span_extender_expanded_master_address
@@ -2726,67 +2752,65 @@ architecture rtl of MebX_Qsys_Project is
 	signal mm_interconnect_2_memory_filler_avalon_slave_config_byteenable                                      : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Memory_Filler_avalon_slave_config_byteenable -> Memory_Filler:avalon_slave_config_byteenable_i
 	signal mm_interconnect_2_memory_filler_avalon_slave_config_write                                           : std_logic;                      -- mm_interconnect_2:Memory_Filler_avalon_slave_config_write -> Memory_Filler:avalon_slave_config_write_i
 	signal mm_interconnect_2_memory_filler_avalon_slave_config_writedata                                       : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Memory_Filler_avalon_slave_config_writedata -> Memory_Filler:avalon_slave_config_writedata_i
+	signal mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_readdata                                 : std_logic_vector(31 downto 0);  -- FTDI_UMFT601A_Module:avalon_slave_config_readdata_o -> mm_interconnect_2:FTDI_UMFT601A_Module_avalon_slave_config_readdata
+	signal mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_waitrequest                              : std_logic;                      -- FTDI_UMFT601A_Module:avalon_slave_config_waitrequest_o -> mm_interconnect_2:FTDI_UMFT601A_Module_avalon_slave_config_waitrequest
+	signal mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_address                                  : std_logic_vector(7 downto 0);   -- mm_interconnect_2:FTDI_UMFT601A_Module_avalon_slave_config_address -> FTDI_UMFT601A_Module:avalon_slave_config_address_i
+	signal mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_read                                     : std_logic;                      -- mm_interconnect_2:FTDI_UMFT601A_Module_avalon_slave_config_read -> FTDI_UMFT601A_Module:avalon_slave_config_read_i
+	signal mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_byteenable                               : std_logic_vector(3 downto 0);   -- mm_interconnect_2:FTDI_UMFT601A_Module_avalon_slave_config_byteenable -> FTDI_UMFT601A_Module:avalon_slave_config_byteenable_i
+	signal mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_write                                    : std_logic;                      -- mm_interconnect_2:FTDI_UMFT601A_Module_avalon_slave_config_write -> FTDI_UMFT601A_Module:avalon_slave_config_write_i
+	signal mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_writedata                                : std_logic_vector(31 downto 0);  -- mm_interconnect_2:FTDI_UMFT601A_Module_avalon_slave_config_writedata -> FTDI_UMFT601A_Module:avalon_slave_config_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_1:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_1_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_1:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_1_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_1_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_1:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_1_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_1:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_1_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_1:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_1_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_1:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_1_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_1:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_8:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_8_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_8:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_8_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_8_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_8:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_8_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_8:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_8_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_8:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_8_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_8:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_8_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_8:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_7:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_7_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_7:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_7_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_7_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_7:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_7_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_7:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_7_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_7:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_7_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_7:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_7_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_7:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_6:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_6_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_6:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_6_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_6_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_6:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_6_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_6:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_6_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_6:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_6_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_6:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_6_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_6:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_5:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_5_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_5:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_5_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_5_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_5:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_5_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_5:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_5_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_5:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_5_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_5:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_5_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_5:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_4:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_4_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_4:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_4_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_4_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_4:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_4_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_4:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_4_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_4:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_4_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_4:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_4_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_4:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_3:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_3_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_3:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_3_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_3_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_3:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_3_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_3:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_3_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_3:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_3_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_3:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_3_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_3:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_readdata                         : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_2:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_2_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_waitrequest                      : std_logic;                      -- Dumb_Communication_Module_v2_2:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_2_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_address                          : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_2_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_2:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_read                             : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_2_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_2:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_byteenable                       : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_2_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_2:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_write                            : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_2_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_2:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_writedata                        : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_2_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_2:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_readdata                     : std_logic_vector(31 downto 0);  -- Dumb_Communication_Module_v2_Timer:avalon_slave_dcom_readdata_o -> mm_interconnect_2:Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_readdata
 	signal mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_waitrequest                  : std_logic;                      -- Dumb_Communication_Module_v2_Timer:avalon_slave_dcom_waitrequest_o -> mm_interconnect_2:Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_waitrequest
 	signal mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_address                      : std_logic_vector(7 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_address -> Dumb_Communication_Module_v2_Timer:avalon_slave_dcom_address_i
 	signal mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_read                         : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_read -> Dumb_Communication_Module_v2_Timer:avalon_slave_dcom_read_i
-	signal mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_byteenable                   : std_logic_vector(3 downto 0);   -- mm_interconnect_2:Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_byteenable -> Dumb_Communication_Module_v2_Timer:avalon_slave_dcom_byteenable_i
 	signal mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_write                        : std_logic;                      -- mm_interconnect_2:Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_write -> Dumb_Communication_Module_v2_Timer:avalon_slave_dcom_write_i
 	signal mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_writedata                    : std_logic_vector(31 downto 0);  -- mm_interconnect_2:Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_writedata -> Dumb_Communication_Module_v2_Timer:avalon_slave_dcom_writedata_i
 	signal mm_interconnect_2_uart_module_top_0_avalon_slave_uart_readdata                                      : std_logic_vector(31 downto 0);  -- uart_module_top_0:avalon_slave_uart_readdata_o -> mm_interconnect_2:uart_module_top_0_avalon_slave_uart_readdata
@@ -3029,14 +3053,16 @@ architecture rtl of MebX_Qsys_Project is
 	signal irq_mapper_receiver11_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_6:rprt_interrupt_sender_irq_o -> irq_mapper:receiver11_irq
 	signal irq_mapper_receiver12_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_8:rprt_interrupt_sender_irq_o -> irq_mapper:receiver12_irq
 	signal irq_mapper_receiver13_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_7:rprt_interrupt_sender_irq_o -> irq_mapper:receiver13_irq
-	signal irq_mapper_receiver15_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_1:tx_interrupt_sender_irq_o -> irq_mapper:receiver15_irq
-	signal irq_mapper_receiver16_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_8:tx_interrupt_sender_irq_o -> irq_mapper:receiver16_irq
-	signal irq_mapper_receiver17_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_7:tx_interrupt_sender_irq_o -> irq_mapper:receiver17_irq
-	signal irq_mapper_receiver18_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_6:tx_interrupt_sender_irq_o -> irq_mapper:receiver18_irq
-	signal irq_mapper_receiver19_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_5:tx_interrupt_sender_irq_o -> irq_mapper:receiver19_irq
-	signal irq_mapper_receiver20_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_4:tx_interrupt_sender_irq_o -> irq_mapper:receiver20_irq
-	signal irq_mapper_receiver21_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_3:tx_interrupt_sender_irq_o -> irq_mapper:receiver21_irq
-	signal irq_mapper_receiver22_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_2:tx_interrupt_sender_irq_o -> irq_mapper:receiver22_irq
+	signal irq_mapper_receiver14_irq                                                                           : std_logic;                      -- FTDI_UMFT601A_Module:rx_interrupt_sender_irq_o -> irq_mapper:receiver14_irq
+	signal irq_mapper_receiver16_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_1:tx_interrupt_sender_irq_o -> irq_mapper:receiver16_irq
+	signal irq_mapper_receiver17_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_8:tx_interrupt_sender_irq_o -> irq_mapper:receiver17_irq
+	signal irq_mapper_receiver18_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_7:tx_interrupt_sender_irq_o -> irq_mapper:receiver18_irq
+	signal irq_mapper_receiver19_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_6:tx_interrupt_sender_irq_o -> irq_mapper:receiver19_irq
+	signal irq_mapper_receiver20_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_5:tx_interrupt_sender_irq_o -> irq_mapper:receiver20_irq
+	signal irq_mapper_receiver21_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_4:tx_interrupt_sender_irq_o -> irq_mapper:receiver21_irq
+	signal irq_mapper_receiver22_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_3:tx_interrupt_sender_irq_o -> irq_mapper:receiver22_irq
+	signal irq_mapper_receiver23_irq                                                                           : std_logic;                      -- Dumb_Communication_Module_v2_2:tx_interrupt_sender_irq_o -> irq_mapper:receiver23_irq
+	signal irq_mapper_receiver24_irq                                                                           : std_logic;                      -- FTDI_UMFT601A_Module:tx_interrupt_sender_irq_o -> irq_mapper:receiver24_irq
 	signal nios2_gen2_0_irq_irq                                                                                : std_logic_vector(31 downto 0);  -- irq_mapper:sender_irq -> nios2_gen2_0:irq
 	signal irq_mapper_receiver1_irq                                                                            : std_logic;                      -- irq_synchronizer:sender_irq -> irq_mapper:receiver1_irq
 	signal irq_synchronizer_receiver_irq                                                                       : std_logic_vector(0 downto 0);   -- timer_1ms:irq -> irq_synchronizer:receiver_irq
@@ -3046,7 +3072,7 @@ architecture rtl of MebX_Qsys_Project is
 	signal irq_synchronizer_002_receiver_irq                                                                   : std_logic_vector(0 downto 0);   -- pio_EXT:irq -> irq_synchronizer_002:receiver_irq
 	signal irq_mapper_receiver5_irq                                                                            : std_logic;                      -- irq_synchronizer_003:sender_irq -> irq_mapper:receiver5_irq
 	signal irq_synchronizer_003_receiver_irq                                                                   : std_logic_vector(0 downto 0);   -- sync:pre_sync_interrupt_sender_irq_o -> irq_synchronizer_003:receiver_irq
-	signal irq_mapper_receiver14_irq                                                                           : std_logic;                      -- irq_synchronizer_004:sender_irq -> irq_mapper:receiver14_irq
+	signal irq_mapper_receiver15_irq                                                                           : std_logic;                      -- irq_synchronizer_004:sender_irq -> irq_mapper:receiver15_irq
 	signal irq_synchronizer_004_receiver_irq                                                                   : std_logic_vector(0 downto 0);   -- sync:sync_interrupt_sender_irq_o -> irq_synchronizer_004:receiver_irq
 	signal rst_controller_001_reset_out_reset                                                                  : std_logic;                      -- rst_controller_001:reset_out -> [SEVEN_SEGMENT_CONTROLLER_0:RST, clock_bridge_afi_50:m0_reset, irq_synchronizer:receiver_reset, irq_synchronizer_001:receiver_reset, irq_synchronizer_002:receiver_reset, irq_synchronizer_003:receiver_reset, irq_synchronizer_004:receiver_reset, mm_interconnect_3:clock_bridge_afi_50_m0_reset_reset_bridge_in_reset_reset, rst_controller:reset_sink_reset, rst_controller_001_reset_out_reset:in, sync:reset_sink_reset_i]
 	signal rst_controller_002_reset_out_reset                                                                  : std_logic;                      -- rst_controller_002:reset_out -> [Dumb_Communication_Module_v2_1:reset_sink_reset_i, Dumb_Communication_Module_v2_2:reset_sink_reset_i, Dumb_Communication_Module_v2_3:reset_sink_reset_i, Dumb_Communication_Module_v2_4:reset_sink_reset_i, Dumb_Communication_Module_v2_5:reset_sink_reset_i, Dumb_Communication_Module_v2_6:reset_sink_reset_i, Dumb_Communication_Module_v2_7:reset_sink_reset_i, Dumb_Communication_Module_v2_8:reset_sink_reset_i, Dumb_Communication_Module_v2_Timer:reset_sink_reset_i, FTDI_UMFT601A_Module:reset_sink_reset_i, Memory_Filler:reset_sink_reset_i, RMAP_Echoing:reset_i, RMAP_Memory_Subunit_Area_1:reset_i, RMAP_Memory_Subunit_Area_2:reset_i, RMAP_Memory_Subunit_Area_3:reset_i, RMAP_Memory_Subunit_Area_4:reset_i, RMAP_Memory_Subunit_Area_5:reset_i, RMAP_Memory_Subunit_Area_6:reset_i, RMAP_Memory_Subunit_Area_7:reset_i, RMAP_Memory_Subunit_Area_8:reset_i, SpaceWire_Mux_Ch_H:reset_i, clock_bridge_afi_50:s0_reset, ddr2_address_span_extender:reset, m1_clock_bridge:s0_reset, mm_interconnect_0:m1_clock_bridge_s0_reset_reset_bridge_in_reset_reset, mm_interconnect_0:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_1:uart_module_top_0_reset_sink_reset_bridge_in_reset_reset, mm_interconnect_2:jtag_uart_0_reset_reset_bridge_in_reset_reset, onchip_memory:reset, rst_controller_002_reset_out_reset:in, rst_translator:in_reset, uart_module_top_0:reset_sink_reset_i]
@@ -3119,13 +3145,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_1_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_1_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver15_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver16_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver6_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_a_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_a_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
@@ -3189,13 +3214,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_2_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_2_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver22_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver23_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver7_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_b_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_b_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
@@ -3259,13 +3283,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_3_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_3_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver21_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver22_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver8_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_c_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_c_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
@@ -3329,13 +3352,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_4_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_4_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver20_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver21_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver9_irq,                                                                            --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_d_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_d_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
@@ -3399,13 +3421,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_5_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_5_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver19_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver20_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver10_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
@@ -3469,13 +3490,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_6_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_6_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver18_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver19_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver11_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
@@ -3539,13 +3559,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_7_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_7_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver17_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver18_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver13_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_channel_g_conduit_end_spacewire_channel_spw_link_status_started_signal,                    -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_channel_g_conduit_end_spacewire_channel_spw_link_status_connecting_signal,                 --                                 .spw_link_status_connecting_signal
@@ -3609,13 +3628,12 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_8_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_8_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_writedata,                        --                                 .writedata
 			avalon_slave_dcom_readdata_o     => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_readdata,                         --                                 .readdata
 			avalon_slave_dcom_waitrequest_o  => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_waitrequest,                      --                                 .waitrequest
-			tx_interrupt_sender_irq_o        => irq_mapper_receiver16_irq,                                                                           --              tx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o        => irq_mapper_receiver17_irq,                                                                           --              tx_interrupt_sender.irq
 			rprt_interrupt_sender_irq_o      => irq_mapper_receiver12_irq,                                                                           --            rprt_interrupt_sender.irq
 			spw_link_status_started_i        => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_started_signal,                   -- conduit_end_spacewire_controller.spw_link_status_started_signal
 			spw_link_status_connecting_i     => spacewire_mux_ch_h_conduit_end_spacewire_channel_0_spw_link_status_connecting_signal,                --                                 .spw_link_status_connecting_signal
@@ -3679,7 +3697,6 @@ begin
 			avalon_master_data_address_o     => dumb_communication_module_v2_timer_avalon_master_data_address,                                           --                                 .address
 			avalon_master_data_read_o        => dumb_communication_module_v2_timer_avalon_master_data_read,                                              --                                 .read
 			avalon_slave_dcom_address_i      => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_address,                          --                avalon_slave_dcom.address
-			avalon_slave_dcom_byteenable_i   => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_byteenable,                       --                                 .byteenable
 			avalon_slave_dcom_write_i        => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_write,                            --                                 .write
 			avalon_slave_dcom_read_i         => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_read,                             --                                 .read
 			avalon_slave_dcom_writedata_i    => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_writedata,                        --                                 .writedata
@@ -3741,21 +3758,36 @@ begin
 
 	ftdi_umft601a_module : component ftdi_usb3_top
 		port map (
-			clock_sink_clk_i          => m2_ddr2_memory_afi_half_clk_clk,    --            clock_sink.clk
-			reset_sink_reset_i        => rst_controller_002_reset_out_reset, --            reset_sink.reset
-			umft601a_clock_sink_clk_i => ftdi_clk_clk,                       --   umft601a_clock_sink.clk
-			umft601a_clock_pin_i      => umft601a_pins_umft_clock_signal,    -- conduit_umft601a_pins.umft_clock_signal
-			umft601a_txe_n_pin_i      => umft601a_pins_umft_txe_n_signal,    --                      .umft_txe_n_signal
-			umft601a_rxf_n_pin_i      => umft601a_pins_umft_rxf_n_signal,    --                      .umft_rxf_n_signal
-			umft601a_data_bus_io      => umft601a_pins_umft_data_signal,     --                      .umft_data_signal
-			umft601a_be_bus_io        => umft601a_pins_umft_be_signal,       --                      .umft_be_signal
-			umft601a_wakeup_n_pin_io  => umft601a_pins_umft_wakeup_n_signal, --                      .umft_wakeup_n_signal
-			umft601a_gpio_bus_io      => umft601a_pins_umft_gpio_bus_signal, --                      .umft_gpio_bus_signal
-			umft601a_reset_n_pin_o    => umft601a_pins_umft_reset_n_signal,  --                      .umft_reset_n_signal
-			umft601a_wr_n_pin_o       => umft601a_pins_umft_wr_n_signal,     --                      .umft_wr_n_signal
-			umft601a_rd_n_pin_o       => umft601a_pins_umft_rd_n_signal,     --                      .umft_rd_n_signal
-			umft601a_oe_n_pin_o       => umft601a_pins_umft_oe_n_signal,     --                      .umft_oe_n_signal
-			umft601a_siwu_n_pin_o     => umft601a_pins_umft_siwu_n_signal    --                      .umft_siwu_n_signal
+			clock_sink_clk_i                  => m2_ddr2_memory_afi_half_clk_clk,                                        --            clock_sink.clk
+			reset_sink_reset_i                => rst_controller_002_reset_out_reset,                                     --            reset_sink.reset
+			umft601a_clock_sink_clk_i         => ftdi_clk_clk,                                                           --   umft601a_clock_sink.clk
+			umft601a_clock_pin_i              => umft601a_pins_umft_clock_signal,                                        -- conduit_umft601a_pins.umft_clock_signal
+			umft601a_txe_n_pin_i              => umft601a_pins_umft_txe_n_signal,                                        --                      .umft_txe_n_signal
+			umft601a_rxf_n_pin_i              => umft601a_pins_umft_rxf_n_signal,                                        --                      .umft_rxf_n_signal
+			umft601a_data_bus_io              => umft601a_pins_umft_data_signal,                                         --                      .umft_data_signal
+			umft601a_be_bus_io                => umft601a_pins_umft_be_signal,                                           --                      .umft_be_signal
+			umft601a_wakeup_n_pin_io          => umft601a_pins_umft_wakeup_n_signal,                                     --                      .umft_wakeup_n_signal
+			umft601a_gpio_bus_io              => umft601a_pins_umft_gpio_bus_signal,                                     --                      .umft_gpio_bus_signal
+			umft601a_reset_n_pin_o            => umft601a_pins_umft_reset_n_signal,                                      --                      .umft_reset_n_signal
+			umft601a_wr_n_pin_o               => umft601a_pins_umft_wr_n_signal,                                         --                      .umft_wr_n_signal
+			umft601a_rd_n_pin_o               => umft601a_pins_umft_rd_n_signal,                                         --                      .umft_rd_n_signal
+			umft601a_oe_n_pin_o               => umft601a_pins_umft_oe_n_signal,                                         --                      .umft_oe_n_signal
+			umft601a_siwu_n_pin_o             => umft601a_pins_umft_siwu_n_signal,                                       --                      .umft_siwu_n_signal
+			avalon_slave_config_address_i     => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_address,     --   avalon_slave_config.address
+			avalon_slave_config_byteenable_i  => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_byteenable,  --                      .byteenable
+			avalon_slave_config_write_i       => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_write,       --                      .write
+			avalon_slave_config_writedata_i   => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_writedata,   --                      .writedata
+			avalon_slave_config_read_i        => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_read,        --                      .read
+			avalon_slave_config_readdata_o    => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_readdata,    --                      .readdata
+			avalon_slave_config_waitrequest_o => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_waitrequest, --                      .waitrequest
+			avalon_master_data_readdata_i     => ftdi_umft601a_module_avalon_master_data_readdata,                       --    avalon_master_data.readdata
+			avalon_master_data_waitrequest_i  => ftdi_umft601a_module_avalon_master_data_waitrequest,                    --                      .waitrequest
+			avalon_master_data_address_o      => ftdi_umft601a_module_avalon_master_data_address,                        --                      .address
+			avalon_master_data_read_o         => ftdi_umft601a_module_avalon_master_data_read,                           --                      .read
+			avalon_master_data_write_o        => ftdi_umft601a_module_avalon_master_data_write,                          --                      .write
+			avalon_master_data_writedata_o    => ftdi_umft601a_module_avalon_master_data_writedata,                      --                      .writedata
+			rx_interrupt_sender_irq_o         => irq_mapper_receiver14_irq,                                              --   rx_interrupt_sender.irq
+			tx_interrupt_sender_irq_o         => irq_mapper_receiver24_irq                                               --   tx_interrupt_sender.irq
 		);
 
 	memory_filler : component mfil_memory_filler_top
@@ -5382,6 +5414,12 @@ begin
 			Dumb_Communication_Module_v2_8_avalon_master_data_waitrequest   => dumb_communication_module_v2_8_avalon_master_data_waitrequest, --                                                          .waitrequest
 			Dumb_Communication_Module_v2_8_avalon_master_data_read          => dumb_communication_module_v2_8_avalon_master_data_read,        --                                                          .read
 			Dumb_Communication_Module_v2_8_avalon_master_data_readdata      => dumb_communication_module_v2_8_avalon_master_data_readdata,    --                                                          .readdata
+			FTDI_UMFT601A_Module_avalon_master_data_address                 => ftdi_umft601a_module_avalon_master_data_address,               --                   FTDI_UMFT601A_Module_avalon_master_data.address
+			FTDI_UMFT601A_Module_avalon_master_data_waitrequest             => ftdi_umft601a_module_avalon_master_data_waitrequest,           --                                                          .waitrequest
+			FTDI_UMFT601A_Module_avalon_master_data_read                    => ftdi_umft601a_module_avalon_master_data_read,                  --                                                          .read
+			FTDI_UMFT601A_Module_avalon_master_data_readdata                => ftdi_umft601a_module_avalon_master_data_readdata,              --                                                          .readdata
+			FTDI_UMFT601A_Module_avalon_master_data_write                   => ftdi_umft601a_module_avalon_master_data_write,                 --                                                          .write
+			FTDI_UMFT601A_Module_avalon_master_data_writedata               => ftdi_umft601a_module_avalon_master_data_writedata,             --                                                          .writedata
 			Memory_Filler_avalon_master_data_address                        => memory_filler_avalon_master_data_address,                      --                          Memory_Filler_avalon_master_data.address
 			Memory_Filler_avalon_master_data_waitrequest                    => memory_filler_avalon_master_data_waitrequest,                  --                                                          .waitrequest
 			Memory_Filler_avalon_master_data_write                          => memory_filler_avalon_master_data_write,                        --                                                          .write
@@ -5482,63 +5520,54 @@ begin
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_1_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_1_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_1_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_address         => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_address,         --     Dumb_Communication_Module_v2_2_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_write           => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_write,           --                                                     .write
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_2_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_2_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_2_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_address         => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_address,         --     Dumb_Communication_Module_v2_3_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_write           => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_write,           --                                                     .write
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_3_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_3_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_3_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_address         => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_address,         --     Dumb_Communication_Module_v2_4_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_write           => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_write,           --                                                     .write
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_4_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_4_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_4_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_address         => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_address,         --     Dumb_Communication_Module_v2_5_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_write           => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_write,           --                                                     .write
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_5_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_5_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_5_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_address         => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_address,         --     Dumb_Communication_Module_v2_6_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_write           => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_write,           --                                                     .write
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_6_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_6_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_6_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_address         => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_address,         --     Dumb_Communication_Module_v2_7_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_write           => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_write,           --                                                     .write
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_7_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_7_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_7_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_address         => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_address,         --     Dumb_Communication_Module_v2_8_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_write           => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_write,           --                                                     .write
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_read            => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_read,            --                                                     .read
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_readdata        => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_readdata,        --                                                     .readdata
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_writedata       => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_writedata,       --                                                     .writedata
-			Dumb_Communication_Module_v2_8_avalon_slave_dcom_byteenable      => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_byteenable,      --                                                     .byteenable
 			Dumb_Communication_Module_v2_8_avalon_slave_dcom_waitrequest     => mm_interconnect_2_dumb_communication_module_v2_8_avalon_slave_dcom_waitrequest,     --                                                     .waitrequest
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_address     => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_address,     -- Dumb_Communication_Module_v2_Timer_avalon_slave_dcom.address
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_write       => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_write,       --                                                     .write
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_read        => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_read,        --                                                     .read
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_readdata    => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_readdata,    --                                                     .readdata
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_writedata   => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_writedata,   --                                                     .writedata
-			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_byteenable  => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_byteenable,  --                                                     .byteenable
 			Dumb_Communication_Module_v2_Timer_avalon_slave_dcom_waitrequest => mm_interconnect_2_dumb_communication_module_v2_timer_avalon_slave_dcom_waitrequest, --                                                     .waitrequest
 			ext_flash_uas_address                                            => mm_interconnect_2_ext_flash_uas_address,                                            --                                        ext_flash_uas.address
 			ext_flash_uas_write                                              => mm_interconnect_2_ext_flash_uas_write,                                              --                                                     .write
@@ -5551,6 +5580,13 @@ begin
 			ext_flash_uas_waitrequest                                        => mm_interconnect_2_ext_flash_uas_waitrequest,                                        --                                                     .waitrequest
 			ext_flash_uas_lock                                               => mm_interconnect_2_ext_flash_uas_lock,                                               --                                                     .lock
 			ext_flash_uas_debugaccess                                        => mm_interconnect_2_ext_flash_uas_debugaccess,                                        --                                                     .debugaccess
+			FTDI_UMFT601A_Module_avalon_slave_config_address                 => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_address,                 --             FTDI_UMFT601A_Module_avalon_slave_config.address
+			FTDI_UMFT601A_Module_avalon_slave_config_write                   => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_write,                   --                                                     .write
+			FTDI_UMFT601A_Module_avalon_slave_config_read                    => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_read,                    --                                                     .read
+			FTDI_UMFT601A_Module_avalon_slave_config_readdata                => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_readdata,                --                                                     .readdata
+			FTDI_UMFT601A_Module_avalon_slave_config_writedata               => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_writedata,               --                                                     .writedata
+			FTDI_UMFT601A_Module_avalon_slave_config_byteenable              => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_byteenable,              --                                                     .byteenable
+			FTDI_UMFT601A_Module_avalon_slave_config_waitrequest             => mm_interconnect_2_ftdi_umft601a_module_avalon_slave_config_waitrequest,             --                                                     .waitrequest
 			jtag_uart_0_avalon_jtag_slave_address                            => mm_interconnect_2_jtag_uart_0_avalon_jtag_slave_address,                            --                        jtag_uart_0_avalon_jtag_slave.address
 			jtag_uart_0_avalon_jtag_slave_write                              => mm_interconnect_2_jtag_uart_0_avalon_jtag_slave_write,                              --                                                     .write
 			jtag_uart_0_avalon_jtag_slave_read                               => mm_interconnect_2_jtag_uart_0_avalon_jtag_slave_read,                               --                                                     .read
@@ -5859,6 +5895,8 @@ begin
 			receiver20_irq => irq_mapper_receiver20_irq,          -- receiver20.irq
 			receiver21_irq => irq_mapper_receiver21_irq,          -- receiver21.irq
 			receiver22_irq => irq_mapper_receiver22_irq,          -- receiver22.irq
+			receiver23_irq => irq_mapper_receiver23_irq,          -- receiver23.irq
+			receiver24_irq => irq_mapper_receiver24_irq,          -- receiver24.irq
 			sender_irq     => nios2_gen2_0_irq_irq                --     sender.irq
 		);
 
@@ -5924,7 +5962,7 @@ begin
 			receiver_reset => rst_controller_001_reset_out_reset, -- receiver_clk_reset.reset
 			sender_reset   => rst_controller_006_reset_out_reset, --   sender_clk_reset.reset
 			receiver_irq   => irq_synchronizer_004_receiver_irq,  --           receiver.irq
-			sender_irq(0)  => irq_mapper_receiver14_irq           --             sender.irq
+			sender_irq(0)  => irq_mapper_receiver15_irq           --             sender.irq
 		);
 
 	rst_controller_001 : component mebx_qsys_project_rst_controller_001

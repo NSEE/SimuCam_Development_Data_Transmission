@@ -11,6 +11,7 @@
 #include "../../simucam_definitions.h"
 #include "../../api_drivers/ddr2/ddr2.h"
 #include "../../driver/dcom/data_scheduler/data_scheduler.h"
+#include "../../driver/ftdi/ftdi.h"
 
 //! [constants definition]
 //! [constants definition]
@@ -19,6 +20,10 @@
 enum IdmaChBufferId {
 	eIdmaCh1Buffer = 0, eIdmaCh2Buffer, eIdmaCh3Buffer, eIdmaCh4Buffer, eIdmaCh5Buffer, eIdmaCh6Buffer, eIdmaCh7Buffer, eIdmaCh8Buffer
 } EIdmaChBufferId;
+
+enum SdmaFtdiOperation {
+	eSdmaTxFtdi = 0, eSdmaRxFtdi,
+} ESdmaFtdiOperation;
 //! [public module structs definition]
 
 //! [public function prototypes]
@@ -31,7 +36,9 @@ bool bIdmaInitCh6Dma(void);
 bool bIdmaInitCh7Dma(void);
 bool bIdmaInitCh8Dma(void);
 bool bIdmaResetChDma(alt_u8 ucChBufferId, bool bWait);
+bool bSdmaResetFtdiDma(bool bWait);
 alt_u32 uliIdmaChDmaTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 uliTransferSizeInBytes, alt_u8 ucChBufferId);
+bool bSdmaFtdiDmaTransfer(alt_u8 ucDdrMemId, alt_u32 *uliDdrInitialAddr, alt_u32 uliTransferSizeInBytes, alt_u8 ucFtdiOperation);
 //! [public function prototypes]
 
 //! [data memory public global variables - use extern]

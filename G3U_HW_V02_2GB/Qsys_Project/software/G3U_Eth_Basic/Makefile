@@ -179,6 +179,7 @@ C_SRCS += utils/test_module_simucam.c
 C_SRCS += driver/dcom/rmap/rmap.c
 C_SRCS += driver/dcom/report/report.c
 C_SRCS += driver/memory_filler/memory_filler.c
+C_SRCS += driver/ftdi/ftdi.c
 CXX_SRCS :=
 ASM_SRCS :=
 
