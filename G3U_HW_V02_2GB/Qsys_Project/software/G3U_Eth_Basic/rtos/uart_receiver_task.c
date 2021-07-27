@@ -207,9 +207,9 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 		bDdr2SwitchMemory(usi_mem_id);
 		
 
-		p_imagette_buff->offset = iOffsetLengthBuff[3] + 256 * iOffsetLengthBuff[2] + 65536 * iOffsetLengthBuff[1] + 16777216 * iOffsetLengthBuff[0];
+		// p_imagette_buff->offset = iOffsetLengthBuff[3] + 256 * iOffsetLengthBuff[2] + 65536 * iOffsetLengthBuff[1] + 16777216 * iOffsetLengthBuff[0];
 
-		p_imagette_buff->imagette_length = iOffsetLengthBuff[6] + 256 * iOffsetLengthBuff[5] + 65536 * iOffsetLengthBuff[4];
+		// p_imagette_buff->imagette_length = iOffsetLengthBuff[6] + 256 * iOffsetLengthBuff[5] + 65536 * iOffsetLengthBuff[4];
 
 		/* 0 is a non valid offset for the simucam */
 		if (p_imagette_buff->offset == 0){
