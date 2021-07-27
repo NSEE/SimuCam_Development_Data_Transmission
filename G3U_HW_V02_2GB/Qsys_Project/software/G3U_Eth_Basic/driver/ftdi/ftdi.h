@@ -24,7 +24,7 @@
 #define FTDI_GEN_IMGT_SIZE_BYTES        (alt_u32)536870912
 
 /* Timeout scale is 0.5 ms. Timeout = 4000 = 2s */
-#define FTDI_GEN_IMGT_REQ_TIMEOUT        0
+#define FTDI_GEN_IMGT_REQ_TIMEOUT        40000
 //! [constants definition]
 
 //! [public module structs definition]
