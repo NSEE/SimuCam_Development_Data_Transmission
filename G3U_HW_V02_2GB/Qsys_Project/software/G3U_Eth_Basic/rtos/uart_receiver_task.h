@@ -34,6 +34,7 @@
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/uart/uart.h"
 #include "../rtos/command_control_task.h"
+#include "../driver/ftdi/ftdi.h"
 
 /*
  ************************************************************************************************

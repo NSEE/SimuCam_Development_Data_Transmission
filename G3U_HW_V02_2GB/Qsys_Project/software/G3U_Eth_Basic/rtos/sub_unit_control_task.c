@@ -263,7 +263,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
-							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
+							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 }
 #endif
 

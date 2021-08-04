@@ -50,4 +50,8 @@ void vInitSimucamBasicHW(void) {
 	bSetPainelLeds( LEDS_OFF, LEDS_PAINEL_ALL_MASK);
 	bSetPainelLeds( LEDS_ON, LEDS_POWER_MASK);
 
+	/* Enable FTDI IRQ Flags (no call back function) */
+    vFtdiIrqGlobalEn(TRUE);
+    vFtdiIrqRxGenImgtReceivedEn(TRUE);
+    vFtdiIrqRxGenImgtCommErrEn(TRUE);
 }
