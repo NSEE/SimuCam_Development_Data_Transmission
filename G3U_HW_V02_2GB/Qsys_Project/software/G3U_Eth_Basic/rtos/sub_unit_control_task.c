@@ -258,7 +258,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 #if DEBUG_ON
 if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %u\r\n",
+					fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %lu\r\n",
 							(INT8U) c_spw_channel,
 							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,

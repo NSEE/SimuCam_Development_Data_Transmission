@@ -37,6 +37,7 @@ void vInitSimucamBasicHW(void) {
 	bSSDisplayUpdate(0);
 
 	/* Disable the Isolation and LVDS driver boards*/
+	bDisableIsoLogic();
 	bDisableIsoDrivers();
 	bDisableLvdsBoard();
 

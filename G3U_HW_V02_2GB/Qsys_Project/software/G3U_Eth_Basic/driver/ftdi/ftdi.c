@@ -136,7 +136,7 @@ bool bFtdiRequestGenImgette(void) {
 
 	vpxFtdiModule->xFtdiHalfCcdReqControl.ucHalfCcdFeeNumber   = 0;
 	vpxFtdiModule->xFtdiHalfCcdReqControl.ucHalfCcdCcdNumber   = 0;
-	vpxFtdiModule->xFtdiHalfCcdReqControl.ucHalfCcdCcdSide     = 0;
+	vpxFtdiModule->xFtdiHalfCcdReqControl.ucHalfCcdCcdSide     = 1; /* Use to invert the Dwords Bytes! */
 	vpxFtdiModule->xFtdiHalfCcdReqControl.usiHalfCcdExpNumber  = 0;
 	vpxFtdiModule->xFtdiHalfCcdReqControl.usiHalfCcdCcdWidth   = 0;
 	vpxFtdiModule->xFtdiHalfCcdReqControl.usiHalfCcdCcdHeight  = 0;
@@ -151,6 +151,26 @@ bool bFtdiRequestGenImgette(void) {
 void vFtdiResetGenImgette(void) {
 	volatile TFtdiModule *vpxFtdiModule = (TFtdiModule *) FTDI_MODULE_BASE_ADDR;
 	vpxFtdiModule->xFtdiHalfCcdReqControl.bRstHalfCcdController = TRUE;
+}
+
+void vFtdiChangeGenImgtHeaderEndianness(alt_u8 *pucHeaderByteAddr) {
+	alt_u8 ucNewEndianessBytes[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+	ucNewEndianessBytes[0] = pucHeaderByteAddr[3];
+	ucNewEndianessBytes[1] = pucHeaderByteAddr[2];
+	ucNewEndianessBytes[2] = pucHeaderByteAddr[1];
+	ucNewEndianessBytes[3] = pucHeaderByteAddr[0];
+	ucNewEndianessBytes[4] = pucHeaderByteAddr[7];
+	ucNewEndianessBytes[5] = pucHeaderByteAddr[6];
+	ucNewEndianessBytes[6] = pucHeaderByteAddr[5];
+	ucNewEndianessBytes[7] = pucHeaderByteAddr[4];
+	pucHeaderByteAddr[0] = ucNewEndianessBytes[0];
+	pucHeaderByteAddr[1] = ucNewEndianessBytes[1];
+	pucHeaderByteAddr[2] = ucNewEndianessBytes[2];
+	pucHeaderByteAddr[3] = ucNewEndianessBytes[3];
+	pucHeaderByteAddr[4] = ucNewEndianessBytes[4];
+	pucHeaderByteAddr[5] = ucNewEndianessBytes[5];
+	pucHeaderByteAddr[6] = ucNewEndianessBytes[6];
+	pucHeaderByteAddr[7] = ucNewEndianessBytes[7];
 }
 
 alt_u8 ucFtdiGetRxErrorCode(void) {
@@ -179,6 +199,12 @@ alt_u16 usiFtdiTxBufferUsedBytes(void) {
 	volatile TFtdiModule *vpxFtdiModule = (TFtdiModule *) FTDI_MODULE_BASE_ADDR;
 	usiBufferUsedBytes = vpxFtdiModule->xFtdiTxBufferStatus.usiTxBuffUsedBytes;
 	return usiBufferUsedBytes;
+}
+
+void vFtdiResetModule(alt_u32 uliWaitTimeUs) {
+	IOWR_ALTERA_AVALON_PIO_DATA(PIO_ISO_LOGIC_SIGNAL_ENABLE_BASE, 0x00000001);
+	usleep(uliWaitTimeUs);
+	IOWR_ALTERA_AVALON_PIO_DATA(PIO_ISO_LOGIC_SIGNAL_ENABLE_BASE, 0x00000000);
 }
 
 void vFtdiStopModule(void) {

@@ -107,9 +107,9 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	INT16U i_nb_imag_ctrl = 0;
 	INT8U i_channel_wr = 0;
 	INT8U iHeaderBuff[16];
-	INT8U iOffsetLengthBuff[8];
+//	INT8U iOffsetLengthBuff[8];
 	INT8U iCRCBuff[2];
-	INT32U uiLengthBuff = 0;
+//	INT32U uiLengthBuff = 0;
 	INT8U usi_mem_id = 0;
 
 #if DEBUG_ON
@@ -152,7 +152,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
     
     /* Reset and Configure the DMA */
     bSdmaResetFtdiDma(TRUE);
-    bSdmaFtdiDmaTransfer((alt_u8) usi_mem_id, pSimucam->T_Sub[i_channel_wr].T_data.addr_init, FTDI_GEN_IMGT_SIZE_BYTES, eSdmaRxFtdi);
+    bSdmaFtdiDmaTransfer((alt_u8) usi_mem_id, (alt_u32 *)pSimucam->T_Sub[i_channel_wr].T_data.addr_init, FTDI_GEN_IMGT_SIZE_BYTES, eSdmaRxFtdi);
     
     /* Wait until the request is finished or an error occured */
     volatile TFtdiModule *vpxFtdiModule = (TFtdiModule *) FTDI_MODULE_BASE_ADDR;
@@ -185,6 +185,8 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	while (i_nb_imag_ctrl < pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
 
 		p_imagette_buff = (T_Imagette *) p_imagette_byte;
+		vFtdiChangeGenImgtHeaderEndianness(p_imagette_byte);
+
 // 		/*
 // 		 * Receive 6 bytes for offset and length
 // 		 */

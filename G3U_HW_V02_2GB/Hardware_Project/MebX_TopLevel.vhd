@@ -788,22 +788,22 @@ begin
             spwc_h_leds_spw_red_status_led_signal                       => spw_h_red_led, --       --                        spwc_h_leds.spw_red_status_led_signal
             spwc_h_leds_spw_green_status_led_signal                     => spw_h_green_led, --     --                                   .spw_green_status_led_signal
             --
-            spwc_a_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_a_enable.spw_rx_enable_signal
-            spwc_a_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal
-            spwc_b_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_b_enable.spw_rx_enable_signal
-            spwc_b_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal
-            spwc_c_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_c_enable.spw_rx_enable_signal
-            spwc_c_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal
-            spwc_d_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_d_enable.spw_rx_enable_signal
-            spwc_d_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal
-            spwc_e_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_e_enable.spw_rx_enable_signal
-            spwc_e_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal
-            spwc_f_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_f_enable.spw_rx_enable_signal
-            spwc_f_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal            
-            spwc_g_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_g_enable.spw_rx_enable_signal
-            spwc_g_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal            
-            spwc_h_enable_spw_rx_enable_signal                          => a_enable_iso_drivers, ----                      spwc_h_enable.spw_rx_enable_signal
-            spwc_h_enable_spw_tx_enable_signal                          => a_enable_iso_drivers, ----                                   .spw_tx_enable_signal
+            spwc_a_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_a_enable.spw_rx_enable_signal
+            spwc_a_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal
+            spwc_b_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_b_enable.spw_rx_enable_signal
+            spwc_b_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal
+            spwc_c_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_c_enable.spw_rx_enable_signal
+            spwc_c_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal
+            spwc_d_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_d_enable.spw_rx_enable_signal
+            spwc_d_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal
+            spwc_e_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_e_enable.spw_rx_enable_signal
+            spwc_e_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal
+            spwc_f_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_f_enable.spw_rx_enable_signal
+            spwc_f_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal            
+            spwc_g_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_g_enable.spw_rx_enable_signal
+            spwc_g_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal            
+            spwc_h_enable_spw_rx_enable_signal                          => iso_logic_enable, ----                      spwc_h_enable.spw_rx_enable_signal
+            spwc_h_enable_spw_tx_enable_signal                          => iso_logic_enable, ----                                   .spw_tx_enable_signal
             --
             temp_scl_export                                             => TEMP_SMCLK,
             temp_sda_export                                             => TEMP_SMDAT,
@@ -821,8 +821,8 @@ begin
             rtcc_sdo_export                                             => RTCC_SDO,
             --
             sync_in_conduit                                             => s_sync_in, --        --                               sync_in.conduit
-            sync_in_en_conduit                                          => a_enable_iso_drivers, --                 sync_in_en_conduit.conduit
-            sync_out_en_conduit                                         => a_enable_iso_drivers, --                sync_out_en_conduit.conduit
+            sync_in_en_conduit                                          => iso_logic_enable, --                 sync_in_en_conduit.conduit
+            sync_out_en_conduit                                         => iso_logic_enable, --                sync_out_en_conduit.conduit
             sync_out_conduit                                            => s_sync_out, --       --                              sync_out.conduit
             sync_spw1_conduit                                           => spw_1_sync, --       --                             sync_spw1.conduit
             sync_spw2_conduit                                           => spw_2_sync, --       --                             sync_spw2.conduit

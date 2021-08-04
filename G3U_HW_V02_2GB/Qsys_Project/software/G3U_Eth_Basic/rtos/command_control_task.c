@@ -789,6 +789,7 @@ void CommandManagementTask() {
 			}
 #endif
 			/* Disable the Isolation and LVDS driver boards*/
+			bDisableIsoLogic();
 			bDisableIsoDrivers();
 			bDisableLvdsBoard();
 
@@ -1066,6 +1067,8 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			/* Enable the Isolation and LVDS driver boards*/
 			bEnableIsoDrivers();
 			bEnableLvdsBoard();
+			usleep(100000);
+			bEnableIsoLogic();
 
 			/*
 			 * Clear and start simucam timer, NOT RUNNING
