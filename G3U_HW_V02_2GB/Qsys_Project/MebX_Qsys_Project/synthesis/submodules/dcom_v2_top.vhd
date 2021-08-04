@@ -643,13 +643,13 @@ begin
     end process p_spw_codec_dummy_read;
 
     -- rmap echoing
-    rmap_echo_echo_en_o         <= s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_mode_enable;
-    rmap_echo_echo_id_en_o      <= s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_id_enable;
-    rmap_echo_in_fifo_wrflag_o  <= s_rmap_spw_flag.receiver.flag;
-    rmap_echo_in_fifo_wrdata_o  <= s_rmap_spw_flag.receiver.data;
-    rmap_echo_in_fifo_wrreq_o   <= s_rmap_spw_control.receiver.read;
-    rmap_echo_out_fifo_wrflag_o <= s_rmap_spw_control.transmitter.flag;
-    rmap_echo_out_fifo_wrdata_o <= s_rmap_spw_control.transmitter.data;
-    rmap_echo_out_fifo_wrreq_o  <= s_rmap_spw_control.transmitter.write;
+    rmap_echo_echo_en_o         <= (s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_mode_enable) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_echo_id_en_o      <= (s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_id_enable) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_in_fifo_wrflag_o  <= (s_rmap_spw_flag.receiver.flag) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_in_fifo_wrdata_o  <= (s_rmap_spw_flag.receiver.data) when (spw_link_status_running_i = '1') else ((others => '0'));
+    rmap_echo_in_fifo_wrreq_o   <= (s_rmap_spw_control.receiver.read) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_out_fifo_wrflag_o <= (s_rmap_spw_control.transmitter.flag) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_out_fifo_wrdata_o <= (s_rmap_spw_control.transmitter.data) when (spw_link_status_running_i = '1') else ((others => '0'));
+    rmap_echo_out_fifo_wrreq_o  <= (s_rmap_spw_control.transmitter.write) when (spw_link_status_running_i = '1') else ('0');
 
 end architecture rtl;                   -- of dcom_v2_top

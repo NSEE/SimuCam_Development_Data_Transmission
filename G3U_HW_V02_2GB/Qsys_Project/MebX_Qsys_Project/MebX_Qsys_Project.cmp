@@ -139,6 +139,8 @@
 			m2_ddr2_memory_status_local_cal_fail                                                                    : out   std_logic;                                        -- local_cal_fail
 			m2_ddr2_oct_rdn                                                                                         : in    std_logic                     := 'X';             -- rdn
 			m2_ddr2_oct_rup                                                                                         : in    std_logic                     := 'X';             -- rup
+			pio_ftdi_umft601a_module_reset_export                                                                   : out   std_logic;                                        -- export
+			pio_iso_logic_signal_enable_export                                                                      : out   std_logic;                                        -- export
 			pio_spw_mux_ch_h_select_export                                                                          : out   std_logic_vector(1 downto 0);                     -- export
 			rs232_uart_rxd                                                                                          : in    std_logic                     := 'X';             -- rxd
 			rs232_uart_txd                                                                                          : out   std_logic;                                        -- txd

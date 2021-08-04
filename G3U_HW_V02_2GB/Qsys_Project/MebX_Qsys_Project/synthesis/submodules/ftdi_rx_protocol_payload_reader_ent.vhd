@@ -19,6 +19,7 @@ entity ftdi_rx_protocol_payload_reader_ent is
         payload_reader_reset_i        : in  std_logic;
         payload_length_bytes_i        : in  std_logic_vector(31 downto 0);
         payload_force_length_bytes_i  : in  std_logic_vector(31 downto 0);
+        payload_invert_dword_bytes_i  : in  std_logic;
         payload_qqword_delay_i        : in  std_logic_vector(15 downto 0);
         rx_dc_data_fifo_rddata_data_i : in  std_logic_vector(31 downto 0);
         rx_dc_data_fifo_rddata_be_i   : in  std_logic_vector(3 downto 0);
@@ -129,6 +130,16 @@ begin
         );
 
     p_ftdi_tx_prot_payload_reader : process(clk_i, rst_i) is
+        --
+        function f_swap_bytes(dword_unswaped_i : std_logic_vector) return std_logic_vector is
+            variable v_dword_swaped : std_logic_vector(31 downto 0) := (others => '0');
+        begin
+            v_dword_swaped(7 downto 0)   := dword_unswaped_i(31 downto 24);
+            v_dword_swaped(15 downto 8)  := dword_unswaped_i(23 downto 16);
+            v_dword_swaped(23 downto 16) := dword_unswaped_i(15 downto 8);
+            v_dword_swaped(31 downto 24) := dword_unswaped_i(7 downto 0);
+            return v_dword_swaped;
+        end function f_swap_bytes;
         --
         function f_swap_words(dword_unswaped_i : std_logic_vector) return std_logic_vector is
             variable v_dword_swaped : std_logic_vector(31 downto 0) := (others => '0');
@@ -1266,26 +1277,34 @@ begin
                     end if;
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        -- check if the windowing parameters are over
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_0(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_0(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_0 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_0 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        -- check if the windowing parameters are over
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_0(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_0(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_0 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_0 <= (others => '0');
@@ -1312,25 +1331,33 @@ begin
                     end if;
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_1(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_1(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_1 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_1 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_1(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_1(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_1 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_0 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_1 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_1 <= (others => '0');
@@ -1357,25 +1384,33 @@ begin
                     end if;
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_2(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_2(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_2 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_2 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_2(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_2(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_2 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_2 <= (others => '0');
@@ -1402,25 +1437,33 @@ begin
                     end if;
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_3(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_3(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_3 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_3 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_3(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_3(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_3 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_2 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_3 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_3 <= (others => '0');
@@ -1447,25 +1490,33 @@ begin
                     end if;
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_4(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_4(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_4 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_4 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_4(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_4(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_4 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_4 <= (others => '0');
@@ -1492,25 +1543,33 @@ begin
                     end if;
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_5(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_5(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_5 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_5 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_5(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_5(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_5 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_4 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_5 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_5 <= (others => '0');
@@ -1537,25 +1596,33 @@ begin
                     end if;
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_6(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_6(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_6 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_6 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_6(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_6(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_6 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_6 <= (others => '0');
@@ -1577,25 +1644,33 @@ begin
                     -- conditional output signals
                     -- check if the word need to be read
                     if (v_read_dword = '1') then
-                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
-                            -- windowing parameters are over
-                            -- check if the data is pixels or masks
-                            if (v_mask_cnt < 32) then
-                                -- pixel data, need to swap words
-                                --                                s_rx_dword_7(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
-                                --                                s_rx_dword_7(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
-                                a_rx_dword_7 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
-                            else
-                                -- mask data, need to swap dwords
-                                --                                s_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
-                                a_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
-                            end if;
+                        -- check if the bytes need to be inverted
+                        if (payload_invert_dword_bytes_i = '1') then
+                            -- the bytes need to be inverted
+                            a_rx_dword_7 <= f_swap_bytes(rx_dc_data_fifo_rddata_data_i);
                         else
-                            -- windowing parameters are not over
-                            -- windowing parameter data, no need to swap
-                            --                            s_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
+                            -- the bytes do not need to be inverted
                             a_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
                         end if;
+                        --                        if (s_windowing_parameters_cnt = t_windowing_parameters_cnt'high) then
+                        --                            -- windowing parameters are over
+                        --                            -- check if the data is pixels or masks
+                        --                            if (v_mask_cnt < 32) then
+                        --                                -- pixel data, need to swap words
+                        --                                --                                s_rx_dword_7(15 downto 0)  <= rx_dc_data_fifo_rddata_data_i(31 downto 16);
+                        --                                --                                s_rx_dword_7(31 downto 16) <= rx_dc_data_fifo_rddata_data_i(15 downto 0);
+                        --                                a_rx_dword_7 <= f_swap_words(rx_dc_data_fifo_rddata_data_i);
+                        --                            else
+                        --                                -- mask data, need to swap dwords
+                        --                                --                                s_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
+                        --                                a_rx_dword_6 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            end if;
+                        --                        else
+                        --                            -- windowing parameters are not over
+                        --                            -- windowing parameter data, no need to swap
+                        --                            --                            s_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
+                        --                            a_rx_dword_7 <= rx_dc_data_fifo_rddata_data_i;
+                        --                        end if;
                         s_payload_crc32 <= f_ftdi_protocol_calculate_crc32_dword(s_payload_crc32, rx_dc_data_fifo_rddata_data_i);
                     else
                         --                        s_rx_dword_7 <= (others => '0');
