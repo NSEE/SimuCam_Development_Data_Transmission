@@ -3,6 +3,7 @@
 # Loading project dcom_v2_testbench
 # Compile of avalon_mm_dcom_registers_pkg.vhd was successful.
 # Compile of avalon_mm_dcom_pkg.vhd was successful.
+# Compile of dcom_config_avalon_mm_stimulli.vhd was successful.
 # Compile of avalon_mm_dcom_read_ent.vhd was successful.
 # Compile of avalon_mm_dcom_write_ent.vhd was successful.
 # Compile of avs_byteen_buffer_sc_fifo.vhd was successful.
@@ -32,6 +33,6 @@
 # Compile of dcom_tb_avs_pkg.vhd was successful.
 # Compile of dcom_tb_avs_write_ent.vhd was successful.
 # Compile of dcom_tb_avs_read_ent.vhd was successful.
-# Compile of testbench_top.vhd failed with 2 errors.
-# 32 compiles, 1 failed with 2 errors.
 # Compile of testbench_top.vhd was successful.
+# 33 compiles, 0 failed with no errors.
+# Compile of dcom_v2_top.vhd was successful.

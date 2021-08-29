@@ -4,7 +4,7 @@
 
 
 # 
-# Dumb_Communication_Module_v2 "DCOM_v2" v1.5
+# Dumb_Communication_Module_v2 "DCOM_v2" v1.6
 #  2021.02.12.00:50:33
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME Dumb_Communication_Module_v2
-set_module_property VERSION 1.5
+set_module_property VERSION 1.6
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR ""
@@ -329,6 +329,9 @@ add_interface_port conduit_end_rmap_echo_out rmap_echo_in_fifo_wrreq_o in_fifo_w
 add_interface_port conduit_end_rmap_echo_out rmap_echo_out_fifo_wrflag_o out_fifo_wrflag_signal Output 1
 add_interface_port conduit_end_rmap_echo_out rmap_echo_out_fifo_wrdata_o out_fifo_wrdata_signal Output 8
 add_interface_port conduit_end_rmap_echo_out rmap_echo_out_fifo_wrreq_o out_fifo_wrreq_signal Output 1
+add_interface_port conduit_end_rmap_echo_out rmap_echo_tc_fifo_wrflag_o tc_fifo_wrflag_signal Output 1
+add_interface_port conduit_end_rmap_echo_out rmap_echo_tc_fifo_wrdata_o tc_fifo_wrdata_signal Output 8
+add_interface_port conduit_end_rmap_echo_out rmap_echo_tc_fifo_wrreq_o tc_fifo_wrreq_signal Output 1
 
 
 # 

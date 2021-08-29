@@ -10,3 +10,35 @@
 # Compile of rmap_fifo_stimuli.vhd was successful.
 # Compile of testbench_top.vhd was successful.
 # 8 compiles, 0 failed with no errors.
+vsim work.testbench_top
+# vsim work.testbench_top 
+# Start time: 01:48:33 on Jul 03,2021
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.rmpe_rmap_echoing_pkg(body)
+# Loading work.testbench_top(rtl)
+# Loading work.rmap_fifo_stimuli(rtl)
+# Loading work.rmpe_rmap_echoing_top(rtl)
+# Loading work.rmpe_rmap_echo_controller_ent(rtl)
+# Loading work.spacewire_data_sc_fifo(syn)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading altera_mf.altera_device_families(body)
+# Loading altera_mf.scfifo(behavior)
+# Loading work.rmap_data_sc_fifo(syn)
+# Loading work.rmpe_rmap_echo_transmitter_ent(rtl)
+add wave -position insertpoint sim:/testbench_top/rmpe_rmap_echoing_top_inst/rmpe_rmap_echo_transmitter_ent_inst/*
+restart
+run
+add wave -position insertpoint sim:/testbench_top/rmpe_rmap_echoing_top_inst/rmpe_rmap_echo_transmitter_ent_inst/p_rmpe_rmap_echo_transmitter/*
+restart
+run
+# Compile of rmpe_rmap_echo_transmitter_ent.vhd was successful.
+restart
+# Loading work.rmpe_rmap_echo_transmitter_ent(rtl)
+run
+# Compile of rmpe_rmap_echo_transmitter_ent.vhd was successful.
+# End time: 01:51:19 on Jul 03,2021, Elapsed time: 0:02:46
+# Errors: 0, Warnings: 0

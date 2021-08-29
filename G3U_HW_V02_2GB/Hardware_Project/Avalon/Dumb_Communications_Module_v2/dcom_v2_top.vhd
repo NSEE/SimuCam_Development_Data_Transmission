@@ -20,6 +20,9 @@ use work.rmap_target_pkg.all;
 use work.spw_codec_pkg.all;
 
 entity dcom_v2_top is
+    generic(
+        g_DCOM_TESTBENCH_MODE : std_logic := '0'
+    );
     port(
         reset_sink_reset_i               : in  std_logic                     := '0'; --          --                       reset_sink.reset
         sync_channel_i                   : in  std_logic                     := '0'; --          --                 sync_conduit_end.sync_channel_i_signal
@@ -78,6 +81,9 @@ entity dcom_v2_top is
         rmap_echo_out_fifo_wrflag_o      : out std_logic; --                                     --                                 .out_fifo_wrflag_signal
         rmap_echo_out_fifo_wrdata_o      : out std_logic_vector(7 downto 0); --                  --                                 .out_fifo_wrdata_signal
         rmap_echo_out_fifo_wrreq_o       : out std_logic; --                                     --                                 .out_fifo_wrreq_signal
+        rmap_echo_tc_fifo_wrflag_o       : out std_logic; --                                     --                                 .tc_fifo_wrflag_signal
+        rmap_echo_tc_fifo_wrdata_o       : out std_logic_vector(7 downto 0); --                  --                                 .tc_fifo_wrdata_signal
+        rmap_echo_tc_fifo_wrreq_o        : out std_logic; --                                     --                                 .tc_fifo_wrreq_signal
         codec_rmap_wr_waitrequest_i      : in  std_logic                     := '0'; --          --    conduit_end_rmap_master_codec.wr_waitrequest_signal
         codec_rmap_readdata_i            : in  std_logic_vector(7 downto 0)  := (others => '0'); --                                 .readdata_signal
         codec_rmap_rd_waitrequest_i      : in  std_logic                     := '0'; --          --                                 .rd_waitrequest_signal
@@ -128,12 +134,14 @@ architecture rtl of dcom_v2_top is
     signal s_dcrtl_dbuffer_empty   : std_logic;
 
     -- Data Controller Signals
-    signal s_dctrl_tx_begin     : std_logic;
-    signal s_dctrl_tx_ended     : std_logic;
-    signal s_dctrl_spw_tx_ready : std_logic;
-    signal s_dctrl_spw_tx_write : std_logic;
-    signal s_dctrl_spw_tx_flag  : std_logic;
-    signal s_dctrl_spw_tx_data  : std_logic_vector(7 downto 0);
+    signal s_dctrl_tmr_clear        : std_logic;
+    signal s_dctrl_tmr_current_time : std_logic_vector(31 downto 0);
+    signal s_dctrl_tx_begin         : std_logic;
+    signal s_dctrl_tx_ended         : std_logic;
+    signal s_dctrl_spw_tx_ready     : std_logic;
+    signal s_dctrl_spw_tx_write     : std_logic;
+    signal s_dctrl_spw_tx_flag      : std_logic;
+    signal s_dctrl_spw_tx_data      : std_logic_vector(7 downto 0);
 
     -- SpaceWire Codec (@ 100 MHz) Signals
     signal s_spw_codec_link_command_clk100    : t_spw_codec_link_command;
@@ -202,37 +210,66 @@ architecture rtl of dcom_v2_top is
     signal s_rmap_mem_wr_byte_address : std_logic_vector((32 + 0 - 1) downto 0);
     signal s_rmap_mem_rd_byte_address : std_logic_vector((32 + 0 - 1) downto 0);
 
+    -- TimeCode Echoing Signals
+    signal s_echo_tc_fifo_wrflag : std_logic;
+    signal s_echo_tc_fifo_wrdata : std_logic_vector(7 downto 0);
+    signal s_echo_tc_fifo_wrreq  : std_logic;
+    signal s_echo_write_delay    : std_logic;
+    signal s_echo_write_eop      : std_logic;
+
 begin
 
     -- Sync Polarity Fix Assignments (timing issues, need to be changed)
     s_sync_channel_i_n <= not sync_channel_i;
 
-    -- DCOM Avalon MM Read Instantiation
-    avalon_mm_dcom_read_ent_inst : entity work.avalon_mm_dcom_read_ent
-        port map(
-            clk_i                        => a_avs_clock,
-            rst_i                        => a_reset,
-            avalon_mm_dcom_i.address     => avalon_slave_dcom_address_i,
-            avalon_mm_dcom_i.read        => avalon_slave_dcom_read_i,
-            avalon_mm_dcom_i.byteenable  => "1111",
-            dcom_write_registers_i       => s_dcom_write_registers,
-            dcom_read_registers_i        => s_dcom_read_registers,
-            avalon_mm_dcom_o.readdata    => avalon_slave_dcom_readdata_o,
-            avalon_mm_dcom_o.waitrequest => s_dcom_avalon_mm_read_waitrequest
-        );
+    -- Config Avalon MM Testbench Stimulli Generate
+    g_dcom_avs_config_testbench_stimulli : if (g_DCOM_TESTBENCH_MODE = '1') generate
 
-    -- DCOM Avalon MM Write Instantiation
-    avalon_mm_dcom_write_ent_inst : entity work.avalon_mm_dcom_write_ent
-        port map(
-            clk_i                        => a_avs_clock,
-            rst_i                        => a_reset,
-            avalon_mm_dcom_i.address     => avalon_slave_dcom_address_i,
-            avalon_mm_dcom_i.write       => avalon_slave_dcom_write_i,
-            avalon_mm_dcom_i.writedata   => avalon_slave_dcom_writedata_i,
-            avalon_mm_dcom_i.byteenable  => "1111",
-            avalon_mm_dcom_o.waitrequest => s_dcom_avalon_mm_write_waitrequest,
-            dcom_write_registers_o       => s_dcom_write_registers
-        );
+        -- Config Avalon MM Testbench Stimulli
+        dcom_config_avalon_mm_stimulli_inst : entity work.dcom_config_avalon_mm_stimulli
+            port map(
+                clk_i                       => a_avs_clock,
+                rst_i                       => a_reset,
+                avs_config_rd_regs_i        => s_dcom_read_registers,
+                avs_config_wr_regs_o        => s_dcom_write_registers,
+                avs_config_rd_readdata_o    => avalon_slave_dcom_readdata_o,
+                avs_config_rd_waitrequest_o => s_dcom_avalon_mm_read_waitrequest,
+                avs_config_wr_waitrequest_o => s_dcom_avalon_mm_write_waitrequest
+            );
+
+    end generate g_dcom_avs_config_testbench_stimulli;
+
+    -- Config Avalon MM Read and Write Generate
+    g_dcom_avs_config_read_write : if (g_DCOM_TESTBENCH_MODE = '0') generate
+
+        -- DCOM Avalon MM Read Instantiation
+        avalon_mm_dcom_read_ent_inst : entity work.avalon_mm_dcom_read_ent
+            port map(
+                clk_i                        => a_avs_clock,
+                rst_i                        => a_reset,
+                avalon_mm_dcom_i.address     => avalon_slave_dcom_address_i,
+                avalon_mm_dcom_i.read        => avalon_slave_dcom_read_i,
+                avalon_mm_dcom_i.byteenable  => "1111",
+                dcom_write_registers_i       => s_dcom_write_registers,
+                dcom_read_registers_i        => s_dcom_read_registers,
+                avalon_mm_dcom_o.readdata    => avalon_slave_dcom_readdata_o,
+                avalon_mm_dcom_o.waitrequest => s_dcom_avalon_mm_read_waitrequest
+            );
+
+        -- DCOM Avalon MM Write Instantiation
+        avalon_mm_dcom_write_ent_inst : entity work.avalon_mm_dcom_write_ent
+            port map(
+                clk_i                        => a_avs_clock,
+                rst_i                        => a_reset,
+                avalon_mm_dcom_i.address     => avalon_slave_dcom_address_i,
+                avalon_mm_dcom_i.write       => avalon_slave_dcom_write_i,
+                avalon_mm_dcom_i.writedata   => avalon_slave_dcom_writedata_i,
+                avalon_mm_dcom_i.byteenable  => "1111",
+                avalon_mm_dcom_o.waitrequest => s_dcom_avalon_mm_write_waitrequest,
+                dcom_write_registers_o       => s_dcom_write_registers
+            );
+
+    end generate g_dcom_avs_config_read_write;
 
     -- DCOM Avalon MM Signals Assignments
     avalon_slave_dcom_waitrequest_o <= ('1') when (a_reset = '1') else ((s_dcom_avalon_mm_write_waitrequest) and (s_dcom_avalon_mm_read_waitrequest));
@@ -306,27 +343,34 @@ begin
     -- Data Controller Instantiation
     data_controller_ent_inst : entity work.data_controller_ent
         generic map(
-            g_WORD_WIDTH        => 8,
-            g_DATA_LENGTH_WORDS => 2,
-            g_DATA_TIME_WORDS   => 4
+            g_WORD_WIDTH         => 8,
+            g_DATA_CONTROL_WORDS => 2,
+            g_DATA_TIME_WORDS    => 4,
+            g_DATA_LENGTH_WORDS  => 2
         )
         port map(
-            clk_i            => a_avs_clock,
-            rst_i            => a_reset,
-            tmr_time_i       => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time,
-            tmr_stop_i       => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
-            tmr_start_i      => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
-            dctrl_send_eep_i => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eep,
-            dctrl_send_eop_i => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eop,
-            dbuffer_empty_i  => s_dcrtl_dbuffer_empty,
-            dbuffer_rddata_i => s_dcrtl_dbuffer_rddata,
-            spw_tx_ready_i   => s_dctrl_spw_tx_ready,
-            dctrl_tx_begin_o => s_dctrl_tx_begin,
-            dctrl_tx_ended_o => s_dctrl_tx_ended,
-            dbuffer_rdreq_o  => s_dcrtl_dbuffer_rdreq,
-            spw_tx_write_o   => s_dctrl_spw_tx_write,
-            spw_tx_flag_o    => s_dctrl_spw_tx_flag,
-            spw_tx_data_o    => s_dctrl_spw_tx_data
+            clk_i                    => a_avs_clock,
+            rst_i                    => a_reset,
+            --            tmr_time_i               => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time,
+            tmr_time_i               => s_dctrl_tmr_current_time,
+            tmr_stop_i               => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
+            tmr_start_i              => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
+            dctrl_send_eep_i         => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eep,
+            dctrl_send_eop_i         => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eop,
+            dbuffer_empty_i          => s_dcrtl_dbuffer_empty,
+            dbuffer_rddata_i         => s_dcrtl_dbuffer_rddata,
+            spw_tx_ready_i           => s_dctrl_spw_tx_ready,
+            spw_timecode_tick_out_i  => spw_timecode_rx_tick_out_i,
+            spw_timecode_ctrl_i      => spw_timecode_rx_ctrl_out_i,
+            spw_timecode_time_i      => spw_timecode_rx_time_out_i,
+            dctrl_transmitted_pkts_o => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time,
+            dctrl_tmr_clear_o        => s_dctrl_tmr_clear,
+            dctrl_tx_begin_o         => s_dctrl_tx_begin,
+            dctrl_tx_ended_o         => s_dctrl_tx_ended,
+            dbuffer_rdreq_o          => s_dcrtl_dbuffer_rdreq,
+            spw_tx_write_o           => s_dctrl_spw_tx_write,
+            spw_tx_flag_o            => s_dctrl_spw_tx_flag,
+            spw_tx_data_o            => s_dctrl_spw_tx_data
         );
 
     -- Data Scheduler Instantiation
@@ -346,11 +390,13 @@ begin
             tmr_run_i         => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_run,
             tmr_start_i       => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
             sync_i            => s_sync_in_trigger,
+            dctrl_tmr_clear_i => s_dctrl_tmr_clear,
             tmr_cleared_o     => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_cleared,
             tmr_running_o     => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_running,
             tmr_started_o     => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_started,
             tmr_stopped_o     => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_stopped,
-            tmr_time_out_o    => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time
+            --            tmr_time_out_o    => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time
+            tmr_time_out_o    => s_dctrl_tmr_current_time
         );
 
     -- RMAP (TEMP)
@@ -642,14 +688,66 @@ begin
         end if;
     end process p_spw_codec_dummy_read;
 
-    -- rmap echoing
-    rmap_echo_echo_en_o         <= s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_mode_enable;
-    rmap_echo_echo_id_en_o      <= s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_id_enable;
-    rmap_echo_in_fifo_wrflag_o  <= s_rmap_spw_flag.receiver.flag;
-    rmap_echo_in_fifo_wrdata_o  <= s_rmap_spw_flag.receiver.data;
-    rmap_echo_in_fifo_wrreq_o   <= s_rmap_spw_control.receiver.read;
-    rmap_echo_out_fifo_wrflag_o <= s_rmap_spw_control.transmitter.flag;
-    rmap_echo_out_fifo_wrdata_o <= s_rmap_spw_control.transmitter.data;
-    rmap_echo_out_fifo_wrreq_o  <= s_rmap_spw_control.transmitter.write;
+    -- TimeCode Echoing Manager
+    p_timecode_echoing_manager : process(a_avs_clock, a_reset) is
+    begin
+        if (a_reset = '1') then
+            s_echo_tc_fifo_wrflag <= '0';
+            s_echo_tc_fifo_wrdata <= (others => '0');
+            s_echo_tc_fifo_wrreq  <= '0';
+            s_echo_write_delay    <= '0';
+            s_echo_write_eop      <= '0';
+        elsif (rising_edge(a_avs_clock)) then
+
+            -- trigger echoing control
+            s_echo_tc_fifo_wrflag <= '0';
+            s_echo_tc_fifo_wrdata <= (others => '0');
+            s_echo_tc_fifo_wrreq  <= '0';
+            s_echo_write_delay    <= '0';
+
+            -- check if a write delay is not happening
+            if (s_echo_write_delay = '0') then
+                -- a write delay is not happening
+                -- check if an eop need to be echoed
+                if (s_echo_write_eop = '1') then
+                    -- an eop need to be echoed
+                    -- echo the eop
+                    s_echo_tc_fifo_wrflag <= '1';
+                    s_echo_tc_fifo_wrdata <= x"00";
+                    s_echo_tc_fifo_wrreq  <= '1';
+                    -- set the write delay flag
+                    s_echo_write_delay    <= '1';
+                    -- clear the write eop flag
+                    s_echo_write_eop      <= '0';
+                -- check if a timecode arrived
+                elsif (spw_timecode_rx_tick_out_i = '1') then
+                    -- a timecode arrived
+                    -- echo the timecode
+                    s_echo_tc_fifo_wrflag             <= '0';
+                    s_echo_tc_fifo_wrdata(7 downto 6) <= spw_timecode_rx_ctrl_out_i;
+                    s_echo_tc_fifo_wrdata(5 downto 0) <= spw_timecode_rx_time_out_i;
+                    s_echo_tc_fifo_wrreq              <= '1';
+                    -- set the write delay flag
+                    s_echo_write_delay                <= '1';
+                    -- set the write eop flag
+                    s_echo_write_eop                  <= '1';
+                end if;
+            end if;
+
+        end if;
+    end process p_timecode_echoing_manager;
+
+    -- data echoing
+    rmap_echo_echo_en_o         <= (s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_mode_enable) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_echo_id_en_o      <= (s_dcom_write_registers.rmap_echoing_mode_config_reg.rmap_echoing_id_enable) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_in_fifo_wrflag_o  <= (s_rmap_spw_flag.receiver.flag) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_in_fifo_wrdata_o  <= (s_rmap_spw_flag.receiver.data) when (spw_link_status_running_i = '1') else ((others => '0'));
+    rmap_echo_in_fifo_wrreq_o   <= (s_rmap_spw_control.receiver.read) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_out_fifo_wrflag_o <= (s_dctrl_spw_tx_flag) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_out_fifo_wrdata_o <= (s_dctrl_spw_tx_data) when (spw_link_status_running_i = '1') else ((others => '0'));
+    rmap_echo_out_fifo_wrreq_o  <= (s_dctrl_spw_tx_write) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_tc_fifo_wrflag_o  <= (s_echo_tc_fifo_wrflag) when (spw_link_status_running_i = '1') else ('0');
+    rmap_echo_tc_fifo_wrdata_o  <= (s_echo_tc_fifo_wrdata) when (spw_link_status_running_i = '1') else ((others => '0'));
+    rmap_echo_tc_fifo_wrreq_o   <= (s_echo_tc_fifo_wrreq) when (spw_link_status_running_i = '1') else ('0');
 
 end architecture rtl;                   -- of dcom_v2_top

@@ -338,6 +338,166 @@ architecture bhv of MebX_TopLevel is
 
 	component MebX_Qsys_Project is
 		port(
+          dumb_communication_module_v2_1_conduit_end_rmap_master_codec_wr_waitrequest_signal                      : in    std_logic                     := '1';             -- wr_waitrequest_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_readdata_signal                            : in    std_logic_vector(7 downto 0)  := (others => '0'); -- readdata_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_rd_waitrequest_signal                      : in    std_logic                     := '1';             -- rd_waitrequest_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_wr_address_signal                          : out   std_logic_vector(31 downto 0);                    -- wr_address_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_write_signal                               : out   std_logic;                                        -- write_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_writedata_signal                           : out   std_logic_vector(7 downto 0);                     -- writedata_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_rd_address_signal                          : out   std_logic_vector(31 downto 0);                    -- rd_address_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_read_signal                                : out   std_logic;                                        -- read_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_mem_configs_out_mem_addr_offset_signal                  : out   std_logic_vector(31 downto 0);                    -- mem_addr_offset_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_wr_waitrequest_signal                      : in    std_logic                     := '1';             -- wr_waitrequest_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_readdata_signal                            : in    std_logic_vector(7 downto 0)  := (others => '0'); -- readdata_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_rd_waitrequest_signal                      : in    std_logic                     := '1';             -- rd_waitrequest_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_wr_address_signal                          : out   std_logic_vector(31 downto 0);                    -- wr_address_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_write_signal                               : out   std_logic;                                        -- write_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_writedata_signal                           : out   std_logic_vector(7 downto 0);                     -- writedata_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_rd_address_signal                          : out   std_logic_vector(31 downto 0);                    -- rd_address_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_read_signal                                : out   std_logic;                                        -- read_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_mem_configs_out_mem_addr_offset_signal                  : out   std_logic_vector(31 downto 0);                    -- mem_addr_offset_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_wr_waitrequest_signal                      : in    std_logic                     := '1';             -- wr_waitrequest_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_readdata_signal                            : in    std_logic_vector(7 downto 0)  := (others => '0'); -- readdata_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_rd_waitrequest_signal                      : in    std_logic                     := '1';             -- rd_waitrequest_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_wr_address_signal                          : out   std_logic_vector(31 downto 0);                    -- wr_address_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_write_signal                               : out   std_logic;                                        -- write_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_writedata_signal                           : out   std_logic_vector(7 downto 0);                     -- writedata_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_rd_address_signal                          : out   std_logic_vector(31 downto 0);                    -- rd_address_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_read_signal                                : out   std_logic;                                        -- read_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_mem_configs_out_mem_addr_offset_signal                  : out   std_logic_vector(31 downto 0);                    -- mem_addr_offset_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_wr_waitrequest_signal                      : in    std_logic                     := '1';             -- wr_waitrequest_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_readdata_signal                            : in    std_logic_vector(7 downto 0)  := (others => '0'); -- readdata_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_rd_waitrequest_signal                      : in    std_logic                     := '1';             -- rd_waitrequest_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_wr_address_signal                          : out   std_logic_vector(31 downto 0);                    -- wr_address_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_write_signal                               : out   std_logic;                                        -- write_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_writedata_signal                           : out   std_logic_vector(7 downto 0);                     -- writedata_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_rd_address_signal                          : out   std_logic_vector(31 downto 0);                    -- rd_address_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_read_signal                                : out   std_logic;                                        -- read_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_mem_configs_out_mem_addr_offset_signal                  : out   std_logic_vector(31 downto 0);                    -- mem_addr_offset_signal
+            dumb_communication_module_v2_timer_avalon_master_data_readdata                                          : in    std_logic_vector(63 downto 0) := (others => '0'); -- readdata
+            dumb_communication_module_v2_timer_avalon_master_data_waitrequest                                       : in    std_logic                     := '1';             -- waitrequest
+            dumb_communication_module_v2_timer_avalon_master_data_address                                           : out   std_logic_vector(63 downto 0);                    -- address
+            dumb_communication_module_v2_timer_avalon_master_data_read                                              : out   std_logic;                                        -- read
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal                             : out   std_logic;                                        -- echo_en_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal                          : out   std_logic;                                        -- echo_id_en_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : out   std_logic;                                        -- in_fifo_wrflag_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrdata_signal                      : out   std_logic_vector(7 downto 0);                     -- in_fifo_wrdata_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrreq_signal                       : out   std_logic;                                        -- in_fifo_wrreq_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                     : out   std_logic;                                        -- out_fifo_wrflag_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                     : out   std_logic_vector(7 downto 0);                     -- out_fifo_wrdata_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                      : out   std_logic;                                        -- out_fifo_wrreq_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal                  : in    std_logic                     := '1';             -- wr_waitrequest_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal                        : in    std_logic_vector(7 downto 0)  := (others => '0'); -- readdata_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal                  : in    std_logic                     := '1';             -- rd_waitrequest_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_address_signal                      : out   std_logic_vector(31 downto 0);                    -- wr_address_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_write_signal                           : out   std_logic;                                        -- write_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_writedata_signal                       : out   std_logic_vector(7 downto 0);                     -- writedata_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_address_signal                      : out   std_logic_vector(31 downto 0);                    -- rd_address_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_read_signal                            : out   std_logic;                                        -- read_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_mem_configs_out_mem_addr_offset_signal              : out   std_logic_vector(31 downto 0);                    -- mem_addr_offset_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_started_signal      : in    std_logic                     := '0';             -- spw_link_status_started_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_connecting_signal   : in    std_logic                     := '0';             -- spw_link_status_connecting_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_running_signal      : in    std_logic                     := '0';             -- spw_link_status_running_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_errdisc_signal       : in    std_logic                     := '0';             -- spw_link_error_errdisc_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_errpar_signal        : in    std_logic                     := '0';             -- spw_link_error_errpar_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_erresc_signal        : in    std_logic                     := '0';             -- spw_link_error_erresc_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_errcred_signal       : in    std_logic                     := '0';             -- spw_link_error_errcred_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_rx_tick_out_signal     : in    std_logic                     := '0';             -- spw_timecode_rx_tick_out_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_rx_ctrl_out_signal     : in    std_logic_vector(1 downto 0)  := (others => '0'); -- spw_timecode_rx_ctrl_out_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_rx_time_out_signal     : in    std_logic_vector(5 downto 0)  := (others => '0'); -- spw_timecode_rx_time_out_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxvalid_signal   : in    std_logic                     := '0';             -- spw_data_rx_status_rxvalid_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxhalff_signal   : in    std_logic                     := '0';             -- spw_data_rx_status_rxhalff_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxflag_signal    : in    std_logic                     := '0';             -- spw_data_rx_status_rxflag_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxdata_signal    : in    std_logic_vector(7 downto 0)  := (others => '0'); -- spw_data_rx_status_rxdata_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_status_txrdy_signal     : in    std_logic                     := '0';             -- spw_data_tx_status_txrdy_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_status_txhalff_signal   : in    std_logic                     := '0';             -- spw_data_tx_status_txhalff_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_busy_signal  : in    std_logic                     := '0';             -- spw_errinj_ctrl_errinj_busy_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_ready_signal : in    std_logic                     := '0';             -- spw_errinj_ctrl_errinj_ready_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_enable_signal      : out   std_logic;                                        -- spw_link_command_enable_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_autostart_signal   : out   std_logic;                                        -- spw_link_command_autostart_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_linkstart_signal   : out   std_logic;                                        -- spw_link_command_linkstart_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_linkdis_signal     : out   std_logic;                                        -- spw_link_command_linkdis_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_command_txdivcnt_signal    : out   std_logic_vector(7 downto 0);                     -- spw_link_command_txdivcnt_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_tx_tick_in_signal      : out   std_logic;                                        -- spw_timecode_tx_tick_in_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_tx_ctrl_in_signal      : out   std_logic_vector(1 downto 0);                     -- spw_timecode_tx_ctrl_in_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_tx_time_in_signal      : out   std_logic_vector(5 downto 0);                     -- spw_timecode_tx_time_in_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_command_rxread_signal   : out   std_logic;                                        -- spw_data_rx_command_rxread_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_command_txwrite_signal  : out   std_logic;                                        -- spw_data_tx_command_txwrite_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_command_txflag_signal   : out   std_logic;                                        -- spw_data_tx_command_txflag_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_command_txdata_signal   : out   std_logic_vector(7 downto 0);                     -- spw_data_tx_command_txdata_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_start_errinj_signal : out   std_logic;                                        -- spw_errinj_ctrl_start_errinj_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_reset_errinj_signal : out   std_logic;                                        -- spw_errinj_ctrl_reset_errinj_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_code_signal  : out   std_logic_vector(3 downto 0);                     -- spw_errinj_ctrl_errinj_code_signal
+            dumb_communication_module_v2_timer_rprt_interrupt_sender_irq                                            : out   std_logic;                                        -- irq
+            dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal                                 : in    std_logic                     := '0';             -- sync_channel_signal
+            dumb_communication_module_v2_timer_tx_interrupt_sender_irq                                              : out   std_logic;                                        -- irq
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_enable_signal                        : in    std_logic                     := '0';             -- spw_link_command_enable_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_autostart_signal                     : in    std_logic                     := '0';             -- spw_link_command_autostart_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_linkstart_signal                     : in    std_logic                     := '0';             -- spw_link_command_linkstart_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_linkdis_signal                       : in    std_logic                     := '0';             -- spw_link_command_linkdis_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_txdivcnt_signal                      : in    std_logic_vector(7 downto 0)  := (others => '0'); -- spw_link_command_txdivcnt_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_tx_tick_in_signal                        : in    std_logic                     := '0';             -- spw_timecode_tx_tick_in_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_tx_ctrl_in_signal                        : in    std_logic_vector(1 downto 0)  := (others => '0'); -- spw_timecode_tx_ctrl_in_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_tx_time_in_signal                        : in    std_logic_vector(5 downto 0)  := (others => '0'); -- spw_timecode_tx_time_in_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_rx_command_rxread_signal                     : in    std_logic                     := '0';             -- spw_data_rx_command_rxread_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_command_txwrite_signal                    : in    std_logic                     := '0';             -- spw_data_tx_command_txwrite_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_command_txflag_signal                     : in    std_logic                     := '0';             -- spw_data_tx_command_txflag_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_command_txdata_signal                     : in    std_logic_vector(7 downto 0)  := (others => '0'); -- spw_data_tx_command_txdata_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_start_errinj_signal                   : in    std_logic                     := '0';             -- spw_errinj_ctrl_start_errinj_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_reset_errinj_signal                   : in    std_logic                     := '0';             -- spw_errinj_ctrl_reset_errinj_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_code_signal                    : in    std_logic_vector(3 downto 0)  := (others => '0'); -- spw_errinj_ctrl_errinj_code_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_started_signal                        : out   std_logic;                                        -- spw_link_status_started_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_connecting_signal                     : out   std_logic;                                        -- spw_link_status_connecting_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_status_running_signal                        : out   std_logic;                                        -- spw_link_status_running_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_error_errdisc_signal                         : out   std_logic;                                        -- spw_link_error_errdisc_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_error_errpar_signal                          : out   std_logic;                                        -- spw_link_error_errpar_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_error_erresc_signal                          : out   std_logic;                                        -- spw_link_error_erresc_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_error_errcred_signal                         : out   std_logic;                                        -- spw_link_error_errcred_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal                       : out   std_logic;                                        -- spw_timecode_rx_tick_out_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal                       : out   std_logic_vector(1 downto 0);                     -- spw_timecode_rx_ctrl_out_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal                       : out   std_logic_vector(5 downto 0);                     -- spw_timecode_rx_time_out_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal                     : out   std_logic;                                        -- spw_data_rx_status_rxvalid_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal                     : out   std_logic;                                        -- spw_data_rx_status_rxhalff_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal                      : out   std_logic;                                        -- spw_data_rx_status_rxflag_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal                      : out   std_logic_vector(7 downto 0);                     -- spw_data_rx_status_rxdata_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal                       : out   std_logic;                                        -- spw_data_tx_status_txrdy_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal                     : out   std_logic;                                        -- spw_data_tx_status_txhalff_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal                    : out   std_logic;                                        -- spw_errinj_ctrl_errinj_busy_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal                   : out   std_logic;                                        -- spw_errinj_ctrl_errinj_ready_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_enable_signal                        : in    std_logic                     := '0';             -- spw_link_command_enable_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_autostart_signal                     : in    std_logic                     := '0';             -- spw_link_command_autostart_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_linkstart_signal                     : in    std_logic                     := '0';             -- spw_link_command_linkstart_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_linkdis_signal                       : in    std_logic                     := '0';             -- spw_link_command_linkdis_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_txdivcnt_signal                      : in    std_logic_vector(7 downto 0)  := (others => '0'); -- spw_link_command_txdivcnt_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_tx_tick_in_signal                        : in    std_logic                     := '0';             -- spw_timecode_tx_tick_in_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_tx_ctrl_in_signal                        : in    std_logic_vector(1 downto 0)  := (others => '0'); -- spw_timecode_tx_ctrl_in_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_tx_time_in_signal                        : in    std_logic_vector(5 downto 0)  := (others => '0'); -- spw_timecode_tx_time_in_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_rx_command_rxread_signal                     : in    std_logic                     := '0';             -- spw_data_rx_command_rxread_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_command_txwrite_signal                    : in    std_logic                     := '0';             -- spw_data_tx_command_txwrite_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_command_txflag_signal                     : in    std_logic                     := '0';             -- spw_data_tx_command_txflag_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_command_txdata_signal                     : in    std_logic_vector(7 downto 0)  := (others => '0'); -- spw_data_tx_command_txdata_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_start_errinj_signal                   : in    std_logic                     := '0';             -- spw_errinj_ctrl_start_errinj_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_reset_errinj_signal                   : in    std_logic                     := '0';             -- spw_errinj_ctrl_reset_errinj_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_code_signal                    : in    std_logic_vector(3 downto 0)  := (others => '0'); -- spw_errinj_ctrl_errinj_code_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_started_signal                        : out   std_logic;                                        -- spw_link_status_started_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_connecting_signal                     : out   std_logic;                                        -- spw_link_status_connecting_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_status_running_signal                        : out   std_logic;                                        -- spw_link_status_running_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_error_errdisc_signal                         : out   std_logic;                                        -- spw_link_error_errdisc_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_error_errpar_signal                          : out   std_logic;                                        -- spw_link_error_errpar_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_error_erresc_signal                          : out   std_logic;                                        -- spw_link_error_erresc_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_error_errcred_signal                         : out   std_logic;                                        -- spw_link_error_errcred_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_rx_tick_out_signal                       : out   std_logic;                                        -- spw_timecode_rx_tick_out_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_rx_ctrl_out_signal                       : out   std_logic_vector(1 downto 0);                     -- spw_timecode_rx_ctrl_out_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_rx_time_out_signal                       : out   std_logic_vector(5 downto 0);                     -- spw_timecode_rx_time_out_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_rx_status_rxvalid_signal                     : out   std_logic;                                        -- spw_data_rx_status_rxvalid_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_rx_status_rxhalff_signal                     : out   std_logic;                                        -- spw_data_rx_status_rxhalff_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_rx_status_rxflag_signal                      : out   std_logic;                                        -- spw_data_rx_status_rxflag_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_rx_status_rxdata_signal                      : out   std_logic_vector(7 downto 0);                     -- spw_data_rx_status_rxdata_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_status_txrdy_signal                       : out   std_logic;                                        -- spw_data_tx_status_txrdy_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_status_txhalff_signal                     : out   std_logic;                                        -- spw_data_tx_status_txhalff_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_busy_signal                    : out   std_logic;                                        -- spw_errinj_ctrl_errinj_busy_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_ready_signal                   : out   std_logic;                                        -- spw_errinj_ctrl_errinj_ready_signal
+		--
 			rst_reset_n                                                 : in    std_logic;
 			--
 			rst_controller_conduit_reset_input_t_reset_input_signal     : in    std_logic                     := '0'; --          -- t_reset_input_signal
@@ -476,18 +636,18 @@ architecture bhv of MebX_TopLevel is
 			spwc_h_lvds_spw_lvds_p_strobe_out_signal                    : out   std_logic; --                         -- spw_lvds_p_strobe_out_signal
 			spwc_h_lvds_spw_lvds_n_strobe_out_signal                    : out   std_logic; --                         -- spw_lvds_n_strobe_out_signal
 			--
-			spwm_h_select_mux_select_signal                             : in    std_logic_vector(1 downto 0)  := (others => '1'); -- mux_select_signal
-			--
-			pio_spw_mux_ch_h_select_export                              : out   std_logic_vector(1 downto 0); --      -- export
+--			spwm_h_select_mux_select_signal                             : in    std_logic_vector(1 downto 0)  := (others => '1'); -- mux_select_signal
+--			--
+--			pio_spw_mux_ch_h_select_export                              : out   std_logic_vector(1 downto 0); --      -- export
 			--
 			dcom_1_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
 			dcom_2_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
 			dcom_3_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
 			dcom_4_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-			dcom_5_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-			dcom_6_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-			dcom_7_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-			dcom_8_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
+--			dcom_5_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
+--			dcom_6_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
+--			dcom_7_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
+--			dcom_8_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
 			--
 			spwc_a_leds_spw_red_status_led_signal                       : out   std_logic; --                         -- spw_red_status_led_signal
 			spwc_a_leds_spw_green_status_led_signal                     : out   std_logic; --                         -- spw_green_status_led_signal
@@ -565,7 +725,7 @@ architecture bhv of MebX_TopLevel is
 			sd_card_ip_o_SD_clock                                       : out   std_logic; --                         -- o_SD_clock
 			--
 			rs232_uart_rxd                                              : in    std_logic                     := 'X'; -- rxd
-			rs232_uart_txd                                              : out   std_logic; --                         -- txd
+			rs232_uart_txd                                              : out   std_logic --                         -- txd
 			--            rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
 			--            rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
 
@@ -574,20 +734,20 @@ architecture bhv of MebX_TopLevel is
 			--			uart_module_uart_rts_signal                                 : in    std_logic                     := 'X'; -- uart_rts_signal
 			--			uart_module_uart_cts_signal                                 : out   std_logic -- uart_cts_signal
 			--
-			ftdi_clk_clk                                                : in    std_logic                     := '0'; -- clk
-			--
-			umft601a_pins_umft_data_signal                              : inout std_logic_vector(31 downto 0) := (others => 'Z'); -- umft_data_signal
-			umft601a_pins_umft_reset_n_signal                           : out   std_logic; --                                     -- umft_reset_n_signal
-			umft601a_pins_umft_rxf_n_signal                             : in    std_logic                     := '1'; --          -- umft_rxf_n_signal
-			umft601a_pins_umft_clock_signal                             : in    std_logic                     := '0'; --          -- umft_clock_signal
-			umft601a_pins_umft_wakeup_n_signal                          : inout std_logic                     := 'Z'; --          -- umft_wakeup_n_signal
-			umft601a_pins_umft_be_signal                                : inout std_logic_vector(3 downto 0)  := (others => 'Z'); -- umft_be_signal
-			umft601a_pins_umft_txe_n_signal                             : in    std_logic                     := '1'; --          -- umft_txe_n_signal
-			umft601a_pins_umft_gpio_bus_signal                          : inout std_logic_vector(1 downto 0)  := (others => 'Z'); -- umft_gpio_bus_signal
-			umft601a_pins_umft_wr_n_signal                              : out   std_logic; --                                     -- umft_wr_n_signal
-			umft601a_pins_umft_rd_n_signal                              : out   std_logic; --                                     -- umft_rd_n_signal
-			umft601a_pins_umft_oe_n_signal                              : out   std_logic; --                                     -- umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                            : out   std_logic ---                                     -- umft_siwu_n_signal
+--			ftdi_clk_clk                                                : in    std_logic                     := '0'; -- clk
+--			--
+--			umft601a_pins_umft_data_signal                              : inout std_logic_vector(31 downto 0) := (others => 'Z'); -- umft_data_signal
+--			umft601a_pins_umft_reset_n_signal                           : out   std_logic; --                                     -- umft_reset_n_signal
+--			umft601a_pins_umft_rxf_n_signal                             : in    std_logic                     := '1'; --          -- umft_rxf_n_signal
+--			umft601a_pins_umft_clock_signal                             : in    std_logic                     := '0'; --          -- umft_clock_signal
+--			umft601a_pins_umft_wakeup_n_signal                          : inout std_logic                     := 'Z'; --          -- umft_wakeup_n_signal
+--			umft601a_pins_umft_be_signal                                : inout std_logic_vector(3 downto 0)  := (others => 'Z'); -- umft_be_signal
+--			umft601a_pins_umft_txe_n_signal                             : in    std_logic                     := '1'; --          -- umft_txe_n_signal
+--			umft601a_pins_umft_gpio_bus_signal                          : inout std_logic_vector(1 downto 0)  := (others => 'Z'); -- umft_gpio_bus_signal
+--			umft601a_pins_umft_wr_n_signal                              : out   std_logic; --                                     -- umft_wr_n_signal
+--			umft601a_pins_umft_rd_n_signal                              : out   std_logic; --                                     -- umft_rd_n_signal
+--			umft601a_pins_umft_oe_n_signal                              : out   std_logic; --                                     -- umft_oe_n_signal
+--			umft601a_pins_umft_siwu_n_signal                            : out   std_logic ---                                     -- umft_siwu_n_signal
 		);
 	end component MebX_Qsys_Project;
 
@@ -606,6 +766,73 @@ begin
 	--==========--
 	SOPC_INST : MebX_Qsys_Project
 		port map(
+					dumb_communication_module_v2_1_conduit_end_rmap_master_codec_wr_waitrequest_signal                      => '1',             -- wr_waitrequest_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_readdata_signal                            => (others => '0'), -- readdata_signal
+            dumb_communication_module_v2_1_conduit_end_rmap_master_codec_rd_waitrequest_signal                      => '1',             -- rd_waitrequest_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_wr_waitrequest_signal                      => '1',             -- wr_waitrequest_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_readdata_signal                            => (others => '0'), -- readdata_signal
+            dumb_communication_module_v2_2_conduit_end_rmap_master_codec_rd_waitrequest_signal                      => '1',             -- rd_waitrequest_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_wr_waitrequest_signal                      => '1',             -- wr_waitrequest_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_readdata_signal                            => (others => '0'), -- readdata_signal
+            dumb_communication_module_v2_3_conduit_end_rmap_master_codec_rd_waitrequest_signal                      => '1',             -- rd_waitrequest_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_wr_waitrequest_signal                      => '1',             -- wr_waitrequest_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_readdata_signal                            => (others => '0'), -- readdata_signal
+            dumb_communication_module_v2_4_conduit_end_rmap_master_codec_rd_waitrequest_signal                      => '1',             -- rd_waitrequest_signal
+            dumb_communication_module_v2_timer_avalon_master_data_readdata                                          => (others => '0'), -- readdata
+            dumb_communication_module_v2_timer_avalon_master_data_waitrequest                                       => '1',             -- waitrequest
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_wr_waitrequest_signal                  => '1',             -- wr_waitrequest_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_readdata_signal                        => (others => '0'), -- readdata_signal
+            dumb_communication_module_v2_timer_conduit_end_rmap_master_codec_rd_waitrequest_signal                  => '1',             -- rd_waitrequest_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_started_signal      => '0',             -- spw_link_status_started_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_connecting_signal   => '0',             -- spw_link_status_connecting_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_status_running_signal      => '0',             -- spw_link_status_running_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_errdisc_signal       => '0',             -- spw_link_error_errdisc_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_errpar_signal        => '0',             -- spw_link_error_errpar_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_erresc_signal        => '0',             -- spw_link_error_erresc_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_link_error_errcred_signal       => '0',             -- spw_link_error_errcred_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_rx_tick_out_signal     => '0',             -- spw_timecode_rx_tick_out_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_rx_ctrl_out_signal     => (others => '0'), -- spw_timecode_rx_ctrl_out_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_timecode_rx_time_out_signal     => (others => '0'), -- spw_timecode_rx_time_out_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxvalid_signal   => '0',             -- spw_data_rx_status_rxvalid_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxhalff_signal   => '0',             -- spw_data_rx_status_rxhalff_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxflag_signal    => '0',             -- spw_data_rx_status_rxflag_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_rx_status_rxdata_signal    => (others => '0'), -- spw_data_rx_status_rxdata_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_status_txrdy_signal     => '0',             -- spw_data_tx_status_txrdy_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_data_tx_status_txhalff_signal   => '0',             -- spw_data_tx_status_txhalff_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_busy_signal  => '0',             -- spw_errinj_ctrl_errinj_busy_signal
+            dumb_communication_module_v2_timer_conduit_end_spacewire_controller_spw_errinj_ctrl_errinj_ready_signal => '0',             -- spw_errinj_ctrl_errinj_ready_signal
+            dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal                                 => '0',             -- sync_channel_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_enable_signal                        => '0',             -- spw_link_command_enable_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_autostart_signal                     => '0',             -- spw_link_command_autostart_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_linkstart_signal                     => '0',             -- spw_link_command_linkstart_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_linkdis_signal                       => '0',             -- spw_link_command_linkdis_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_link_command_txdivcnt_signal                      => (others => '0'), -- spw_link_command_txdivcnt_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_tx_tick_in_signal                        => '0',             -- spw_timecode_tx_tick_in_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_tx_ctrl_in_signal                        => (others => '0'), -- spw_timecode_tx_ctrl_in_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_timecode_tx_time_in_signal                        => (others => '0'), -- spw_timecode_tx_time_in_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_rx_command_rxread_signal                     => '0',             -- spw_data_rx_command_rxread_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_command_txwrite_signal                    => '0',             -- spw_data_tx_command_txwrite_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_command_txflag_signal                     => '0',             -- spw_data_tx_command_txflag_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_data_tx_command_txdata_signal                     => (others => '0'), -- spw_data_tx_command_txdata_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_start_errinj_signal                   => '0',             -- spw_errinj_ctrl_start_errinj_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_reset_errinj_signal                   => '0',             -- spw_errinj_ctrl_reset_errinj_signal
+            spacewire_channel_e_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_code_signal                    => (others => '0'), -- spw_errinj_ctrl_errinj_code_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_enable_signal                        => '0',             -- spw_link_command_enable_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_autostart_signal                     => '0',             -- spw_link_command_autostart_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_linkstart_signal                     => '0',             -- spw_link_command_linkstart_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_linkdis_signal                       => '0',             -- spw_link_command_linkdis_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_link_command_txdivcnt_signal                      => (others => '0'), -- spw_link_command_txdivcnt_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_tx_tick_in_signal                        => '0',             -- spw_timecode_tx_tick_in_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_tx_ctrl_in_signal                        => (others => '0'), -- spw_timecode_tx_ctrl_in_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_timecode_tx_time_in_signal                        => (others => '0'), -- spw_timecode_tx_time_in_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_rx_command_rxread_signal                     => '0',             -- spw_data_rx_command_rxread_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_command_txwrite_signal                    => '0',             -- spw_data_tx_command_txwrite_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_command_txflag_signal                     => '0',             -- spw_data_tx_command_txflag_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_data_tx_command_txdata_signal                     => (others => '0'), -- spw_data_tx_command_txdata_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_start_errinj_signal                   => '0',             -- spw_errinj_ctrl_start_errinj_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_reset_errinj_signal                   => '0',             -- spw_errinj_ctrl_reset_errinj_signal
+            spacewire_channel_f_conduit_end_spacewire_channel_spw_errinj_ctrl_errinj_code_signal                    => (others => '0'), -- spw_errinj_ctrl_errinj_code_signal
+		--
 			clk50_clk                                                   => OSC_50_Bank4,
 			--
 			rst_reset_n                                                 => rst_n,
@@ -744,18 +971,18 @@ begin
 			spwc_h_lvds_spw_lvds_p_strobe_out_signal                    => HSMB_LVDS_TX_SPWH_SO_P, --                                   .spw_lvds_p_strobe_out_signal
 			spwc_h_lvds_spw_lvds_n_strobe_out_signal                    => HSMB_LVDS_TX_SPWH_SO_N, --                                   .spw_lvds_n_strobe_out_signal
 			--
-			spwm_h_select_mux_select_signal                             => spw_h_mux_select, --                            spwm_h_select.mux_select_signal
-			--
-			pio_spw_mux_ch_h_select_export                              => spw_h_mux_select, --                  pio_spw_mux_ch_h_select.export
+--			spwm_h_select_mux_select_signal                             => spw_h_mux_select, --                            spwm_h_select.mux_select_signal
+--			--
+--			pio_spw_mux_ch_h_select_export                              => spw_h_mux_select, --                  pio_spw_mux_ch_h_select.export
 			--
 			dcom_1_sync_end_sync_channel_signal                         => spw_1_sync, --            comm_a_sync_end.sync_channel_signal
 			dcom_2_sync_end_sync_channel_signal                         => spw_2_sync, --            comm_b_sync_end.sync_channel_signal
 			dcom_3_sync_end_sync_channel_signal                         => spw_3_sync, --            comm_c_sync_end.sync_channel_signal
 			dcom_4_sync_end_sync_channel_signal                         => spw_4_sync, --            comm_d_sync_end.sync_channel_signal
-			dcom_5_sync_end_sync_channel_signal                         => spw_5_sync, --            comm_e_sync_end.sync_channel_signal
-			dcom_6_sync_end_sync_channel_signal                         => spw_6_sync, --            comm_f_sync_end.sync_channel_signal
-			dcom_7_sync_end_sync_channel_signal                         => spw_7_sync, --            comm_g_sync_end.sync_channel_signal
-			dcom_8_sync_end_sync_channel_signal                         => spw_8_sync, --            comm_h_sync_end.sync_channel_signal
+--			dcom_5_sync_end_sync_channel_signal                         => spw_5_sync, --            comm_e_sync_end.sync_channel_signal
+--			dcom_6_sync_end_sync_channel_signal                         => spw_6_sync, --            comm_f_sync_end.sync_channel_signal
+--			dcom_7_sync_end_sync_channel_signal                         => spw_7_sync, --            comm_g_sync_end.sync_channel_signal
+--			dcom_8_sync_end_sync_channel_signal                         => spw_8_sync, --            comm_h_sync_end.sync_channel_signal
 			--
 			spwc_a_leds_spw_red_status_led_signal                       => spw_a_red_led, --       --                        spwc_a_leds.spw_red_status_led_signal
 			spwc_a_leds_spw_green_status_led_signal                     => spw_a_green_led, --     --                                   .spw_green_status_led_signal
@@ -833,7 +1060,7 @@ begin
 			sd_card_ip_o_SD_clock                                       => O_SD_CARD_CLOCK, --  --                                      .o_SD_clock
 			--
 			rs232_uart_rxd                                              => I_RS232_UART_RXD, -- --                            rs232_uart.rxd
-			rs232_uart_txd                                              => O_RS232_UART_TXD, -- --                                      .txd
+			rs232_uart_txd                                              => O_RS232_UART_TXD -- --                                      .txd
 			--            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
 			--            rs232_uart_rts_n                                                        => O_RS232_UART_CTS,                                                        --                                                            .rts_n
 
@@ -853,20 +1080,20 @@ begin
 			--			uart_module_uart_cts_signal                                 => O_RS232_UART_CTS --                                                            .uart_cts_signal
 
 			--
-			ftdi_clk_clk                                                => FTDI_CLOCK, --          --                           ftdi_clk.clk
+--			ftdi_clk_clk                                                => FTDI_CLOCK, --          --                           ftdi_clk.clk
 			--
-			umft601a_pins_umft_data_signal                              => FTDI_DATA, --           --                      umft601a_pins.umft_data_signal
-			umft601a_pins_umft_reset_n_signal                           => open, --                --                                   .umft_reset_n_signal
-			umft601a_pins_umft_rxf_n_signal                             => FTDI_RXF_N, --          --                                   .umft_rxf_n_signal
-			umft601a_pins_umft_clock_signal                             => '0', --                 --                                   .umft_clock_signal
-			umft601a_pins_umft_wakeup_n_signal                          => FTDI_WAKEUP_N, --       --                                   .umft_wakeup_n_signal
-			umft601a_pins_umft_be_signal                                => FTDI_BE, --             --                                   .umft_be_signal
-			umft601a_pins_umft_txe_n_signal                             => FTDI_TXE_N, --          --                                   .umft_txe_n_signal
-			umft601a_pins_umft_gpio_bus_signal                          => FTDI_GPIO, --           --                                   .umft_gpio_bus_signal
-			umft601a_pins_umft_wr_n_signal                              => FTDI_WR_N, --           --                                   .umft_wr_n_signal
-			umft601a_pins_umft_rd_n_signal                              => FTDI_RD_N, --           --                                   .umft_rd_n_signal
-			umft601a_pins_umft_oe_n_signal                              => FTDI_OE_N, --           --                                   .umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                            => FTDI_SIWU_N ---         --                                   .umft_siwu_n_signal
+--			umft601a_pins_umft_data_signal                              => FTDI_DATA, --           --                      umft601a_pins.umft_data_signal
+--			umft601a_pins_umft_reset_n_signal                           => open, --                --                                   .umft_reset_n_signal
+--			umft601a_pins_umft_rxf_n_signal                             => FTDI_RXF_N, --          --                                   .umft_rxf_n_signal
+--			umft601a_pins_umft_clock_signal                             => '0', --                 --                                   .umft_clock_signal
+--			umft601a_pins_umft_wakeup_n_signal                          => FTDI_WAKEUP_N, --       --                                   .umft_wakeup_n_signal
+--			umft601a_pins_umft_be_signal                                => FTDI_BE, --             --                                   .umft_be_signal
+--			umft601a_pins_umft_txe_n_signal                             => FTDI_TXE_N, --          --                                   .umft_txe_n_signal
+--			umft601a_pins_umft_gpio_bus_signal                          => FTDI_GPIO, --           --                                   .umft_gpio_bus_signal
+--			umft601a_pins_umft_wr_n_signal                              => FTDI_WR_N, --           --                                   .umft_wr_n_signal
+--			umft601a_pins_umft_rd_n_signal                              => FTDI_RD_N, --           --                                   .umft_rd_n_signal
+--			umft601a_pins_umft_oe_n_signal                              => FTDI_OE_N, --           --                                   .umft_oe_n_signal
+--			umft601a_pins_umft_siwu_n_signal                            => FTDI_SIWU_N ---         --                                   .umft_siwu_n_signal
 		);
 
 	--==========--
