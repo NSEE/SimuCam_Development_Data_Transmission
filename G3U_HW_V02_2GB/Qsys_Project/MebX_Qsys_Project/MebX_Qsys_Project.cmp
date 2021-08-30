@@ -25,10 +25,6 @@
 			dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrflag_signal                         : out   std_logic;                                        -- out_fifo_wrflag_signal
 			dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrdata_signal                         : out   std_logic_vector(7 downto 0);                     -- out_fifo_wrdata_signal
 			dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrreq_signal                          : out   std_logic;                                        -- out_fifo_wrreq_signal
-			dumb_communication_module_v2_timer_avalon_master_data_readdata                                          : in    std_logic_vector(63 downto 0) := (others => 'X'); -- readdata
-			dumb_communication_module_v2_timer_avalon_master_data_waitrequest                                       : in    std_logic                     := 'X';             -- waitrequest
-			dumb_communication_module_v2_timer_avalon_master_data_address                                           : out   std_logic_vector(63 downto 0);                    -- address
-			dumb_communication_module_v2_timer_avalon_master_data_read                                              : out   std_logic;                                        -- read
 			dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal                             : out   std_logic;                                        -- echo_en_signal
 			dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal                          : out   std_logic;                                        -- echo_id_en_signal
 			dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal                      : out   std_logic;                                        -- in_fifo_wrflag_signal

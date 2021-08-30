@@ -6,7 +6,7 @@ package data_buffer_pkg is
 
 	constant c_AVS_DBUFFER_DATA_WIDTH  : natural range 8 to 256 := 64;
 	constant c_AVS_BEBUFFER_DATA_WIDTH : natural range 1 to 32  := 8;
-	constant c_AVS_BUFFER_USED_WIDTH   : natural range 1 to 16  := 11; -- 2**11 = 2048
+	constant c_AVS_BUFFER_USED_WIDTH   : natural range 1 to 16  := 9; -- 2**9 = 512
 
 	constant c_DCTRL_DBUFFER_DATA_WIDTH : natural range 8 to 256 := 8;
 	constant c_DCTRL_BUFFER_USED_WIDTH  : natural range 1 to 16  := 9; -- 2**9 = 512

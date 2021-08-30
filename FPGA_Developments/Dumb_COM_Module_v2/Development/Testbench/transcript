@@ -9,7 +9,7 @@
 # Compile of avs_data_buffer_sc_fifo.vhd was successful.
 # Compile of dctrl_data_buffer_sc_fifo.vhd was successful.
 # Compile of data_buffer_pkg.vhd was successful.
-# Compile of data_buffer_ent.vhd was successful.
+# Compile of data_buffer_ent.vhd failed with 3 errors.
 # Compile of data_controller_ent.vhd was successful.
 # Compile of data_scheduler_ent.vhd was successful.
 # Compile of rmap_target_crc_pkg.vhd was successful.
@@ -33,4 +33,39 @@
 # Compile of dcom_tb_avs_write_ent.vhd was successful.
 # Compile of dcom_tb_avs_read_ent.vhd was successful.
 # Compile of testbench_top.vhd was successful.
-# 32 compiles, 0 failed with no errors.
+# 32 compiles, 1 failed with 3 errors.
+# Compile of data_buffer_pkg.vhd was successful.
+# Compile of avalon_mm_dcom_registers_pkg.vhd was successful.
+# Compile of avalon_mm_dcom_pkg.vhd was successful.
+# Compile of avalon_mm_dcom_read_ent.vhd was successful.
+# Compile of avalon_mm_dcom_write_ent.vhd was successful.
+# Compile of avs_byteen_buffer_sc_fifo.vhd was successful.
+# Compile of avs_data_buffer_sc_fifo.vhd was successful.
+# Compile of dctrl_data_buffer_sc_fifo.vhd was successful.
+# Compile of data_buffer_pkg.vhd was successful.
+# Compile of data_buffer_ent.vhd was successful.
+# Compile of data_controller_ent.vhd was successful.
+# Compile of data_scheduler_ent.vhd was successful.
+# Compile of rmap_target_crc_pkg.vhd was successful.
+# Compile of rmap_target_pkg.vhd was successful.
+# Compile of rmap_target_command_ent.vhd was successful.
+# Compile of rmap_target_read_ent.vhd was successful.
+# Compile of rmap_target_reply_ent.vhd was successful.
+# Compile of rmap_target_write_ent.vhd was successful.
+# Compile of rmap_target_user_ent.vhd was successful.
+# Compile of rmap_target_top.vhd was successful.
+# Compile of spw_mux_ent.vhd was successful.
+# Compile of dcom_avm_data_pkg.vhd was successful.
+# Compile of dcom_avm_data_reader_ent.vhd was successful.
+# Compile of dcom_avm_reader_controller_ent.vhd was successful.
+# Compile of dcom_irq_manager_pkg.vhd was successful.
+# Compile of dcom_rprt_irq_manager_ent.vhd was successful.
+# Compile of dcom_v2_top.vhd failed with 2 errors.
+# Compile of avalon_buffer_stimuli.vhd was successful.
+# Compile of config_avalon_stimuli.vhd was successful.
+# Compile of dcom_tb_avs_pkg.vhd was successful.
+# Compile of dcom_tb_avs_write_ent.vhd was successful.
+# Compile of dcom_tb_avs_read_ent.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 32 compiles, 1 failed with 2 errors.
+# Compile of dcom_v2_top.vhd was successful.

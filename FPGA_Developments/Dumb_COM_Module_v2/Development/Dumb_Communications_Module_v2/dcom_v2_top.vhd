@@ -292,7 +292,7 @@ begin
             dcrtl_dbuffer_rdreq_i   => s_dcrtl_dbuffer_rdreq,
             dbuff_empty_o           => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_empty,
             dbuff_full_o            => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_full,
-            dbuff_usedw_o           => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(14 downto 3),
+            dbuff_usedw_o           => s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(12 downto 3),
             avs_dbuffer_halffull_o  => s_avs_dbuffer_halffull,
             avs_dbuffer_full_o      => s_avs_dbuffer_full,
             avs_bebuffer_halffull_o => s_avs_bebuffer_halffull,
@@ -300,8 +300,8 @@ begin
             dcrtl_dbuffer_rddata_o  => s_dcrtl_dbuffer_rddata,
             dcrtl_dbuffer_empty_o   => s_dcrtl_dbuffer_empty
         );
-    s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(15)         <= '0';
-    s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(2 downto 0) <= (others => '0');
+    s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(15 downto 13) <= (others => '0');
+    s_dcom_read_registers.data_scheduler_buffer_status_reg.data_buffer_used(2 downto 0)   <= (others => '0');
 
     -- Data Controller Instantiation
     data_controller_ent_inst : entity work.data_controller_ent

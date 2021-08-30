@@ -25,10 +25,6 @@ module MebX_Qsys_Project (
 	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrflag_signal,
 	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrdata_signal,
 	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrreq_signal,
-	dumb_communication_module_v2_timer_avalon_master_data_readdata,
-	dumb_communication_module_v2_timer_avalon_master_data_waitrequest,
-	dumb_communication_module_v2_timer_avalon_master_data_address,
-	dumb_communication_module_v2_timer_avalon_master_data_read,
 	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal,
 	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal,
 	dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal,
@@ -139,6 +135,8 @@ module MebX_Qsys_Project (
 	m2_ddr2_memory_status_local_cal_fail,
 	m2_ddr2_oct_rdn,
 	m2_ddr2_oct_rup,
+	pio_ftdi_umft601a_module_reset_export,
+	pio_iso_logic_signal_enable_export,
 	pio_spw_mux_ch_h_select_export,
 	rs232_uart_rxd,
 	rs232_uart_txd,
@@ -286,9 +284,7 @@ module MebX_Qsys_Project (
 	umft601a_pins_umft_wr_n_signal,
 	umft601a_pins_umft_rd_n_signal,
 	umft601a_pins_umft_oe_n_signal,
-	umft601a_pins_umft_siwu_n_signal,
-	pio_ftdi_umft601a_module_reset_export,
-	pio_iso_logic_signal_enable_export);	
+	umft601a_pins_umft_siwu_n_signal);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -315,10 +311,6 @@ module MebX_Qsys_Project (
 	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrflag_signal;
 	output	[7:0]	dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrdata_signal;
 	output		dumb_communication_module_v2_8_conduit_end_rmap_echo_out_out_fifo_wrreq_signal;
-	input	[63:0]	dumb_communication_module_v2_timer_avalon_master_data_readdata;
-	input		dumb_communication_module_v2_timer_avalon_master_data_waitrequest;
-	output	[63:0]	dumb_communication_module_v2_timer_avalon_master_data_address;
-	output		dumb_communication_module_v2_timer_avalon_master_data_read;
 	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_en_signal;
 	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_echo_id_en_signal;
 	output		dumb_communication_module_v2_timer_conduit_end_rmap_echo_out_in_fifo_wrflag_signal;
@@ -429,6 +421,8 @@ module MebX_Qsys_Project (
 	output		m2_ddr2_memory_status_local_cal_fail;
 	input		m2_ddr2_oct_rdn;
 	input		m2_ddr2_oct_rup;
+	output		pio_ftdi_umft601a_module_reset_export;
+	output		pio_iso_logic_signal_enable_export;
 	output	[1:0]	pio_spw_mux_ch_h_select_export;
 	input		rs232_uart_rxd;
 	output		rs232_uart_txd;
@@ -577,6 +571,4 @@ module MebX_Qsys_Project (
 	output		umft601a_pins_umft_rd_n_signal;
 	output		umft601a_pins_umft_oe_n_signal;
 	output		umft601a_pins_umft_siwu_n_signal;
-	output		pio_ftdi_umft601a_module_reset_export;
-	output		pio_iso_logic_signal_enable_export;
 endmodule
