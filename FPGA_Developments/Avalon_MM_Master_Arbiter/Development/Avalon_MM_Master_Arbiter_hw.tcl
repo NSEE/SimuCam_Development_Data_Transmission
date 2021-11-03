@@ -117,7 +117,7 @@ set_interface_property avalon_mm_master_0 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_0 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_0 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_0 avm_0_address_i address Input 64
+add_interface_port avalon_mm_master_0 avm_0_address_i address Input 28
 add_interface_port avalon_mm_master_0 avm_0_read_i read Input 1
 #add_interface_port avalon_mm_master_0 avm_0_write_i write Input 1
 #add_interface_port avalon_mm_master_0 avm_0_writedata_i writedata Input 64
@@ -156,7 +156,7 @@ set_interface_property avalon_mm_master_1 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_1 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_1 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_1 avm_1_address_i address Input 64
+add_interface_port avalon_mm_master_1 avm_1_address_i address Input 28
 add_interface_port avalon_mm_master_1 avm_1_read_i read Input 1
 #add_interface_port avalon_mm_master_1 avm_1_write_i write Input 1
 #add_interface_port avalon_mm_master_1 avm_1_writedata_i writedata Input 64
@@ -195,7 +195,7 @@ set_interface_property avalon_mm_master_2 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_2 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_2 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_2 avm_2_address_i address Input 64
+add_interface_port avalon_mm_master_2 avm_2_address_i address Input 28
 add_interface_port avalon_mm_master_2 avm_2_read_i read Input 1
 #add_interface_port avalon_mm_master_2 avm_2_write_i write Input 1
 #add_interface_port avalon_mm_master_2 avm_2_writedata_i writedata Input 64
@@ -234,7 +234,7 @@ set_interface_property avalon_mm_master_3 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_3 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_3 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_3 avm_3_address_i address Input 64
+add_interface_port avalon_mm_master_3 avm_3_address_i address Input 28
 add_interface_port avalon_mm_master_3 avm_3_read_i read Input 1
 #add_interface_port avalon_mm_master_3 avm_3_write_i write Input 1
 #add_interface_port avalon_mm_master_3 avm_3_writedata_i writedata Input 64
@@ -273,7 +273,7 @@ set_interface_property avalon_mm_master_4 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_4 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_4 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_4 avm_4_address_i address Input 64
+add_interface_port avalon_mm_master_4 avm_4_address_i address Input 28
 add_interface_port avalon_mm_master_4 avm_4_read_i read Input 1
 #add_interface_port avalon_mm_master_4 avm_4_write_i write Input 1
 #add_interface_port avalon_mm_master_4 avm_4_writedata_i writedata Input 64
@@ -312,7 +312,7 @@ set_interface_property avalon_mm_master_5 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_5 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_5 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_5 avm_5_address_i address Input 64
+add_interface_port avalon_mm_master_5 avm_5_address_i address Input 28
 add_interface_port avalon_mm_master_5 avm_5_read_i read Input 1
 #add_interface_port avalon_mm_master_5 avm_5_write_i write Input 1
 #add_interface_port avalon_mm_master_5 avm_5_writedata_i writedata Input 64
@@ -351,7 +351,7 @@ set_interface_property avalon_mm_master_6 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_6 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_6 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_6 avm_6_address_i address Input 64
+add_interface_port avalon_mm_master_6 avm_6_address_i address Input 28
 add_interface_port avalon_mm_master_6 avm_6_read_i read Input 1
 #add_interface_port avalon_mm_master_6 avm_6_write_i write Input 1
 #add_interface_port avalon_mm_master_6 avm_6_writedata_i writedata Input 64
@@ -390,7 +390,7 @@ set_interface_property avalon_mm_master_7 PORT_NAME_MAP ""
 set_interface_property avalon_mm_master_7 CMSIS_SVD_VARIABLES ""
 set_interface_property avalon_mm_master_7 SVD_ADDRESS_GROUP ""
 
-add_interface_port avalon_mm_master_7 avm_7_address_i address Input 64
+add_interface_port avalon_mm_master_7 avm_7_address_i address Input 28
 add_interface_port avalon_mm_master_7 avm_7_read_i read Input 1
 #add_interface_port avalon_mm_master_7 avm_7_write_i write Input 1
 #add_interface_port avalon_mm_master_7 avm_7_writedata_i writedata Input 64

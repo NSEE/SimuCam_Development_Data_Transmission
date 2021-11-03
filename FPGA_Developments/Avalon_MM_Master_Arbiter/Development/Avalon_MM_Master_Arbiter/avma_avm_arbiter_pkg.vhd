@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 package avma_avm_arbiter_pkg is
 
-    constant c_AVMA_AVM_ARBITER_ADRESS_SIZE : natural := 64;
+    constant c_AVMA_AVM_ARBITER_ADRESS_SIZE : natural := 28;
     constant c_AVMA_AVM_ARBITER_DATA_SIZE   : natural := 64;
     constant c_AVMA_AVM_ARBITER_SYMBOL_SIZE : natural := 8;
 

@@ -89,12 +89,12 @@ architecture RTL of testbench_top is
     signal s_dut_avm_7_waitrequest : std_logic;
 
     -- dut avs signals --
-    signal s_dut_avs_address        : std_logic_vector((c_AVMA_AVM_ARBITER_ADRESS_SIZE - 1) downto 0);
+    signal s_dut_avs_address        : std_logic_vector((c_AVALON_SLAVE_STIMULLI_ADRESS_SIZE - 1) downto 0);
     signal s_dut_avs_read           : std_logic;
     signal s_dut_avs_write          : std_logic;
-    signal s_dut_avs_writedata      : std_logic_vector((c_AVMA_AVM_ARBITER_DATA_SIZE - 1) downto 0);
-    --    signal s_dut_avs_byteenable    : std_logic_vector(((c_AVMA_AVM_ARBITER_DATA_SIZE / c_AVMA_AVM_ARBITER_SYMBOL_SIZE) - 1) downto 0);
-    signal s_dut_avs_readdata       : std_logic_vector((c_AVMA_AVM_ARBITER_DATA_SIZE - 1) downto 0);
+    signal s_dut_avs_writedata      : std_logic_vector((c_AVALON_SLAVE_STIMULLI_DATA_SIZE - 1) downto 0);
+    --    signal s_dut_avs_byteenable    : std_logic_vector(((c_AVALON_SLAVE_STIMULLI_DATA_SIZE / c_AVALON_SLAVE_STIMULLI_SYMBOL_SIZE) - 1) downto 0);
+    signal s_dut_avs_readdata       : std_logic_vector((c_AVALON_SLAVE_STIMULLI_DATA_SIZE - 1) downto 0);
     signal s_dut_avs_waitrequest    : std_logic;
     signal s_dut_avs_rd_waitrequest : std_logic;
     signal s_dut_avs_wr_waitrequest : std_logic;
@@ -184,7 +184,7 @@ begin
 
     avalon_master_0_stimuli_inst : entity work.avalon_master_0_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
@@ -200,7 +200,7 @@ begin
 
     avalon_master_1_stimuli_inst : entity work.avalon_master_1_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
@@ -216,7 +216,7 @@ begin
 
     avalon_master_2_stimuli_inst : entity work.avalon_master_2_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
@@ -232,7 +232,7 @@ begin
 
     avalon_master_3_stimuli_inst : entity work.avalon_master_3_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
@@ -248,7 +248,7 @@ begin
 
     avalon_master_4_stimuli_inst : entity work.avalon_master_4_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
@@ -264,7 +264,7 @@ begin
 
     avalon_master_5_stimuli_inst : entity work.avalon_master_5_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
@@ -280,7 +280,7 @@ begin
 
     avalon_master_6_stimuli_inst : entity work.avalon_master_6_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
@@ -296,7 +296,7 @@ begin
 
     avalon_master_7_stimuli_inst : entity work.avalon_master_7_stimuli
         generic map(
-            g_ADDRESS_WIDTH => 64,
+            g_ADDRESS_WIDTH => 28,
             g_DATA_WIDTH    => 64
         )
         port map(
