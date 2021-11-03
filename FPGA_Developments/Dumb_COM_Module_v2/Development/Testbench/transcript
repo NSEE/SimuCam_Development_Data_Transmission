@@ -9,40 +9,6 @@
 # Compile of avs_data_buffer_sc_fifo.vhd was successful.
 # Compile of dctrl_data_buffer_sc_fifo.vhd was successful.
 # Compile of data_buffer_pkg.vhd was successful.
-# Compile of data_buffer_ent.vhd failed with 3 errors.
-# Compile of data_controller_ent.vhd was successful.
-# Compile of data_scheduler_ent.vhd was successful.
-# Compile of rmap_target_crc_pkg.vhd was successful.
-# Compile of rmap_target_pkg.vhd was successful.
-# Compile of rmap_target_command_ent.vhd was successful.
-# Compile of rmap_target_read_ent.vhd was successful.
-# Compile of rmap_target_reply_ent.vhd was successful.
-# Compile of rmap_target_write_ent.vhd was successful.
-# Compile of rmap_target_user_ent.vhd was successful.
-# Compile of rmap_target_top.vhd was successful.
-# Compile of spw_mux_ent.vhd was successful.
-# Compile of dcom_avm_data_pkg.vhd was successful.
-# Compile of dcom_avm_data_reader_ent.vhd was successful.
-# Compile of dcom_avm_reader_controller_ent.vhd was successful.
-# Compile of dcom_irq_manager_pkg.vhd was successful.
-# Compile of dcom_rprt_irq_manager_ent.vhd was successful.
-# Compile of dcom_v2_top.vhd was successful.
-# Compile of avalon_buffer_stimuli.vhd was successful.
-# Compile of config_avalon_stimuli.vhd was successful.
-# Compile of dcom_tb_avs_pkg.vhd was successful.
-# Compile of dcom_tb_avs_write_ent.vhd was successful.
-# Compile of dcom_tb_avs_read_ent.vhd was successful.
-# Compile of testbench_top.vhd was successful.
-# 32 compiles, 1 failed with 3 errors.
-# Compile of data_buffer_pkg.vhd was successful.
-# Compile of avalon_mm_dcom_registers_pkg.vhd was successful.
-# Compile of avalon_mm_dcom_pkg.vhd was successful.
-# Compile of avalon_mm_dcom_read_ent.vhd was successful.
-# Compile of avalon_mm_dcom_write_ent.vhd was successful.
-# Compile of avs_byteen_buffer_sc_fifo.vhd was successful.
-# Compile of avs_data_buffer_sc_fifo.vhd was successful.
-# Compile of dctrl_data_buffer_sc_fifo.vhd was successful.
-# Compile of data_buffer_pkg.vhd was successful.
 # Compile of data_buffer_ent.vhd was successful.
 # Compile of data_controller_ent.vhd was successful.
 # Compile of data_scheduler_ent.vhd was successful.
@@ -60,12 +26,91 @@
 # Compile of dcom_avm_reader_controller_ent.vhd was successful.
 # Compile of dcom_irq_manager_pkg.vhd was successful.
 # Compile of dcom_rprt_irq_manager_ent.vhd was successful.
-# Compile of dcom_v2_top.vhd failed with 2 errors.
+# Compile of dcom_v2_top.vhd was successful.
 # Compile of avalon_buffer_stimuli.vhd was successful.
 # Compile of config_avalon_stimuli.vhd was successful.
 # Compile of dcom_tb_avs_pkg.vhd was successful.
 # Compile of dcom_tb_avs_write_ent.vhd was successful.
 # Compile of dcom_tb_avs_read_ent.vhd was successful.
 # Compile of testbench_top.vhd was successful.
-# 32 compiles, 1 failed with 2 errors.
-# Compile of dcom_v2_top.vhd was successful.
+# 32 compiles, 0 failed with no errors.
+vsim work.testbench_top
+# vsim work.testbench_top 
+# Start time: 09:37:13 on Nov 01,2021
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.dcom_tb_avs_pkg
+# Loading work.avalon_mm_dcom_pkg(body)
+# Loading work.avalon_mm_dcom_registers_pkg(body)
+# Loading work.dcom_avm_data_pkg(body)
+# Loading work.data_buffer_pkg(body)
+# Loading work.rmap_target_pkg(body)
+# Loading work.spwpkg
+# Loading work.spw_codec_pkg
+# Loading work.testbench_top(rtl)
+# Loading work.config_avalon_stimuli(rtl)
+# Loading work.dcom_tb_avs_read_ent(rtl)
+# Loading work.comm_irq_manager_pkg(body)
+# Loading work.dcom_v2_top(rtl)
+# Loading work.avalon_mm_dcom_read_ent(rtl)
+# Loading work.avalon_mm_dcom_write_ent(rtl)
+# Loading work.dcom_avm_data_reader_ent(rtl)
+# Loading work.dcom_avm_reader_controller_ent(rtl)
+# Loading work.data_buffer_ent(rtl)
+# Loading work.avs_data_buffer_sc_fifo(syn)
+# Loading ieee.std_logic_arith(body)
+# Loading ieee.std_logic_unsigned(body)
+# Loading altera_mf.altera_device_families(body)
+# Loading altera_mf.scfifo(behavior)
+# Loading work.avs_byteen_buffer_sc_fifo(syn)
+# Loading work.dctrl_data_buffer_sc_fifo(syn)
+# Loading work.data_controller_ent(rtl)
+# Loading work.data_scheduler_ent(rtl)
+# Loading work.rmap_target_crc_pkg(body)
+# Loading work.rmap_target_top(rtl)
+# Loading work.rmap_target_user_ent(rtl)
+# Loading work.rmap_target_command_ent(rtl)
+# Loading work.rmap_target_write_ent(rtl)
+# Loading work.rmap_target_read_ent(rtl)
+# Loading work.rmap_target_reply_ent(rtl)
+# Loading work.spw_mux_ent(rtl)
+# Loading work.dcom_rprt_irq_manager_ent(rtl)
+add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/*
+# Compile of dcom_tb_avs_read_ent.vhd was successful.
+add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_scheduler_ent_inst/*
+restart
+# Loading work.dcom_tb_avs_read_ent(rtl)
+run
+# Compile of config_avalon_stimuli.vhd was successful.
+restart
+# Loading work.config_avalon_stimuli(rtl)
+run
+# Compile of config_avalon_stimuli.vhd was successful.
+restart
+# Loading work.config_avalon_stimuli(rtl)
+run
+# Compile of config_avalon_stimuli.vhd was successful.
+restart
+# Compile of config_avalon_stimuli.vhd was successful.
+restart
+# Loading work.config_avalon_stimuli(rtl)
+run
+# Compile of config_avalon_stimuli.vhd was successful.
+restart
+# Loading work.config_avalon_stimuli(rtl)
+run
+add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_controller_ent_inst/*
+restart
+run
+# Compile of dcom_tb_avs_read_ent.vhd was successful.
+restart
+# Loading work.dcom_tb_avs_read_ent(rtl)
+run
+# Compile of data_controller_ent.vhd was successful.
+restart
+# Loading work.data_controller_ent(rtl)
+run
+# End time: 16:20:29 on Nov 02,2021, Elapsed time: 30:43:16
+# Errors: 0, Warnings: 0

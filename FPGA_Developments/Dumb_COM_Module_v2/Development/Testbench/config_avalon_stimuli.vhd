@@ -48,7 +48,7 @@ begin
 				-- timer_clear
 				when 500 to 501 =>
 					-- register write
-					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#17#, g_ADDRESS_WIDTH));
+					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#1F#, g_ADDRESS_WIDTH));
 					avalon_mm_write_o        <= '1';
 					avalon_mm_writedata_o    <= (others => '0');
 					avalon_mm_writedata_o(0) <= '1'; -- timer_clear           
@@ -57,7 +57,7 @@ begin
 				-- timer_start
 				when 550 to 551 =>
 					-- register write
-					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#14#, g_ADDRESS_WIDTH));
+					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#1C#, g_ADDRESS_WIDTH));
 					avalon_mm_write_o        <= '1';
 					avalon_mm_writedata_o    <= (others => '0');
 					avalon_mm_writedata_o(0) <= '1'; -- timer_start 
@@ -66,15 +66,16 @@ begin
 				-- rd_data_length_bytes
 				when 600 to 601 =>
 					-- register write
-					avalon_mm_address_o   <= std_logic_vector(to_unsigned(16#27#, g_ADDRESS_WIDTH));
+					avalon_mm_address_o   <= std_logic_vector(to_unsigned(16#2F#, g_ADDRESS_WIDTH));
 					avalon_mm_write_o     <= '1';
-					avalon_mm_writedata_o <= std_logic_vector(to_unsigned(16384, 32));
+--					avalon_mm_writedata_o <= std_logic_vector(to_unsigned(16384, 32));
+					avalon_mm_writedata_o <= std_logic_vector(to_unsigned(511, 32));
 					avalon_mm_read_o      <= '0';
 
 				-- rd_start
 				when 650 to 651 =>
 					-- register write
-					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#28#, g_ADDRESS_WIDTH));
+					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#30#, g_ADDRESS_WIDTH));
 					avalon_mm_write_o        <= '1';
 					avalon_mm_writedata_o    <= (others => '0');
 					avalon_mm_writedata_o(0) <= '1'; -- rd_start 
@@ -83,7 +84,7 @@ begin
 				-- timer_run
 				when 1000 to 1001 =>
 					-- register write
-					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#15#, g_ADDRESS_WIDTH));
+					avalon_mm_address_o      <= std_logic_vector(to_unsigned(16#1D#, g_ADDRESS_WIDTH));
 					avalon_mm_write_o        <= '1';
 					avalon_mm_writedata_o    <= (others => '0');
 					avalon_mm_writedata_o(0) <= '1'; -- timer_run

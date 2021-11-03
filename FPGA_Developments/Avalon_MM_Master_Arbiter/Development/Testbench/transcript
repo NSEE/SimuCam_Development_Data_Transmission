@@ -1,0 +1,156 @@
+# Reading C:/intelFPGA/18.1/modelsim_ase/tcl/vsim/pref.tcl
+# OpenFile D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Avalon_MM_Master_Arbiter/Development/Testbench/Avalon_MM_Master_Arbiter_tb.mpf
+# Loading project Avalon_MM_Master_Arbiter_tb
+# Compile of avma_avm_arbiter_ent.vhd was successful.
+# Compile of avma_avalon_mm_master_arbiter_top.vhd failed with 19 errors.
+# Compile of avalon_slave_stimulli_pkg.vhd was successful.
+# Compile of testbench_top.vhd failed with 7 errors.
+# 4 compiles, 2 failed with 26 errors.
+# Compile of avma_avm_arbiter_pkg.vhd was successful.
+# Compile of avma_avm_arbiter_ent.vhd was successful.
+# Compile of avma_avalon_mm_master_arbiter_top.vhd failed with 19 errors.
+# Compile of avalon_master_0_stimuli.vhd was successful.
+# Compile of avalon_master_1_stimuli.vhd was successful.
+# Compile of avalon_master_2_stimuli.vhd was successful.
+# Compile of avalon_master_3_stimuli.vhd was successful.
+# Compile of avalon_master_4_stimuli.vhd was successful.
+# Compile of avalon_master_5_stimuli.vhd was successful.
+# Compile of avma_avm_arbiter_pkg.vhd was successful.
+# Compile of avma_avm_arbiter_ent.vhd was successful.
+# Compile of avma_avalon_mm_master_arbiter_top.vhd failed with 19 errors.
+# Compile of avalon_master_0_stimuli.vhd was successful.
+# Compile of avalon_master_1_stimuli.vhd was successful.
+# Compile of avalon_master_2_stimuli.vhd was successful.
+# Compile of avalon_master_3_stimuli.vhd was successful.
+# Compile of avalon_master_4_stimuli.vhd was successful.
+# Compile of avalon_master_5_stimuli.vhd was successful.
+# Compile of avalon_master_6_stimuli.vhd was successful.
+# Compile of avalon_master_7_stimuli.vhd was successful.
+# Compile of avalon_slave_stimulli_pkg.vhd was successful.
+# Compile of avalon_slave_stimulli_write.vhd failed with 3 errors.
+# Compile of avalon_slave_stimulli_read.vhd was successful.
+# Compile of testbench_top.vhd failed with 3 errors.
+# 15 compiles, 3 failed with 25 errors.
+# Compile of avalon_master_6_stimuli.vhd failed with 3 errors.
+# Compile of avalon_master_7_stimuli.vhd was successful.
+# Compile of avalon_slave_stimulli_pkg.vhd was successful.
+# Compile of avalon_slave_stimulli_write.vhd failed with 3 errors.
+# Compile of avalon_slave_stimulli_read.vhd was successful.
+# Compile of testbench_top.vhd failed with 3 errors.
+# 15 compiles, 4 failed with 28 errors.
+# Compile of avma_avm_arbiter_pkg.vhd was successful.
+# Compile of avma_avalon_mm_master_arbiter_top.vhd failed with 4 errors.
+# Compile of avalon_slave_stimulli_pkg.vhd was successful.
+# Compile of testbench_top.vhd failed with 7 errors.
+# 4 compiles, 2 failed with 11 errors.
+# Compile of avma_avm_arbiter_pkg.vhd was successful.
+# Compile of avma_avm_arbiter_ent.vhd was successful.
+# Compile of avma_avalon_mm_master_arbiter_top.vhd was successful.
+# Compile of avalon_master_0_stimuli.vhd was successful.
+# Compile of avalon_master_1_stimuli.vhd was successful.
+# Compile of avalon_master_2_stimuli.vhd was successful.
+# Compile of avalon_master_3_stimuli.vhd was successful.
+# Compile of avalon_master_4_stimuli.vhd was successful.
+# Compile of avalon_master_5_stimuli.vhd was successful.
+# Compile of avalon_master_6_stimuli.vhd was successful.
+# Compile of avalon_master_7_stimuli.vhd was successful.
+# Compile of avalon_slave_stimulli_pkg.vhd was successful.
+# Compile of avalon_slave_stimulli_write.vhd was successful.
+# Compile of avalon_slave_stimulli_read.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 15 compiles, 0 failed with no errors.
+# Compile of avma_avm_arbiter_pkg.vhd was successful.
+# Compile of avma_avm_arbiter_ent.vhd was successful.
+# Compile of avma_avalon_mm_master_arbiter_top.vhd was successful.
+# Compile of avalon_master_0_stimuli.vhd was successful.
+# Compile of avalon_master_1_stimuli.vhd was successful.
+# Compile of avalon_master_2_stimuli.vhd was successful.
+# Compile of avalon_master_3_stimuli.vhd was successful.
+# Compile of avalon_master_4_stimuli.vhd was successful.
+# Compile of avalon_master_5_stimuli.vhd was successful.
+# Compile of avalon_master_6_stimuli.vhd was successful.
+# Compile of avalon_master_7_stimuli.vhd was successful.
+# Compile of avalon_slave_stimulli_pkg.vhd was successful.
+# Compile of avalon_slave_stimulli_write.vhd was successful.
+# Compile of avalon_slave_stimulli_read.vhd was successful.
+# Compile of testbench_top.vhd was successful.
+# 15 compiles, 0 failed with no errors.
+vsim work.testbench_top
+# vsim work.testbench_top 
+# Start time: 21:46:02 on Nov 02,2021
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.avma_avm_arbiter_pkg(body)
+# Loading work.avalon_slave_stimulli_pkg
+# Loading work.testbench_top(rtl)
+# Loading work.avma_avalon_mm_master_arbiter_top(rtl)
+# Loading work.avma_avm_arbiter_ent(rtl)
+# Loading work.avalon_master_0_stimuli(rtl)
+# Loading work.avalon_master_1_stimuli(rtl)
+# Loading work.avalon_master_2_stimuli(rtl)
+# Loading work.avalon_master_3_stimuli(rtl)
+# Loading work.avalon_master_4_stimuli(rtl)
+# Loading work.avalon_master_5_stimuli(rtl)
+# Loading work.avalon_master_6_stimuli(rtl)
+# Loading work.avalon_master_7_stimuli(rtl)
+# Loading work.avalon_slave_stimulli_read(rtl)
+# Loading work.avalon_slave_stimulli_write(rtl)
+do D:/rfranca/Development/GitHub/IWF_SimuCam_Development/FPGA_Developments/Avalon_MM_Master_Arbiter/Development/Testbench/wave.do
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_0_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 7
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_0_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 8
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_1_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 13
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_1_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 14
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_2_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 19
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_2_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 20
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_3_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 25
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_3_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 26
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_4_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 31
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_4_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 32
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_5_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 37
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_5_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 38
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_6_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 43
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_6_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 44
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_7_write_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 49
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avm_7_writedata_i'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 50
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avs_write_o'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 57
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avs_writedata_o'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 58
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_0_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 91
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_1_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 92
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_2_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 93
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_3_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 94
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_4_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 95
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_5_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 96
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_6_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 97
+# ** Error: (vish-4014) No objects found matching '/testbench_top/avma_avalon_mm_master_arbiter_top_inst/avma_avm_arbiter_ent_inst/s_master_avm_7_wr_flag'.
+# Executing ONERROR command at macro D:\rfranca\Development\GitHub\IWF_SimuCam_Development\FPGA_Developments\Avalon_MM_Master_Arbiter\Development\Testbench\wave.do line 98
+restart
+run
+# End time: 21:47:37 on Nov 02,2021, Elapsed time: 0:01:35
+# Errors: 78, Warnings: 0
