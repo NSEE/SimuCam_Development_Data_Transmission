@@ -284,7 +284,9 @@
 			umft601a_pins_umft_wr_n_signal                                                                          : out   std_logic;                                        -- umft_wr_n_signal
 			umft601a_pins_umft_rd_n_signal                                                                          : out   std_logic;                                        -- umft_rd_n_signal
 			umft601a_pins_umft_oe_n_signal                                                                          : out   std_logic;                                        -- umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                                                                        : out   std_logic                                         -- umft_siwu_n_signal
+			umft601a_pins_umft_siwu_n_signal                                                                        : out   std_logic;                                        -- umft_siwu_n_signal
+			sync_unfiltered_sig_unfiltered_sig_signal                                                               : in    std_logic                     := 'X';             -- unfiltered_sig_signal
+			sync_filtered_sig_filtered_sig_signal                                                                   : out   std_logic                                         -- filtered_sig_signal
 		);
 	end component MebX_Qsys_Project;
 
@@ -574,6 +576,8 @@
 			umft601a_pins_umft_wr_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_wr_n_signal,                                                                          --                                                                    .umft_wr_n_signal
 			umft601a_pins_umft_rd_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_rd_n_signal,                                                                          --                                                                    .umft_rd_n_signal
 			umft601a_pins_umft_oe_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_oe_n_signal,                                                                          --                                                                    .umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                                                                        => CONNECTED_TO_umft601a_pins_umft_siwu_n_signal                                                                         --                                                                    .umft_siwu_n_signal
+			umft601a_pins_umft_siwu_n_signal                                                                        => CONNECTED_TO_umft601a_pins_umft_siwu_n_signal,                                                                        --                                                                    .umft_siwu_n_signal
+			sync_unfiltered_sig_unfiltered_sig_signal                                                               => CONNECTED_TO_sync_unfiltered_sig_unfiltered_sig_signal,                                                               --                                                 sync_unfiltered_sig.unfiltered_sig_signal
+			sync_filtered_sig_filtered_sig_signal                                                                   => CONNECTED_TO_sync_filtered_sig_filtered_sig_signal                                                                    --                                                   sync_filtered_sig.filtered_sig_signal
 		);
 

@@ -228,12 +228,21 @@ begin
                     -- default internal signal values
                     s_spw_transmitting             <= '0';
                     -- conditional state transition
-                    -- check if the time to send the data packet have arrived
-                    if (unsigned(tmr_time_i) >= unsigned(s_data_packet_time((tmr_time_i'length - 1) downto 0))) then
-                        -- time to send the data packet arrived
-                        -- go to waiting buffer space
-                        s_data_controller_state <= DATA_PACKET_START;
-                        v_data_controller_state := DATA_PACKET_START;
+                    if not (s_data_packet_length = std_logic_vector(to_unsigned(0, s_data_packet_length'length))) then
+                        -- data length is valid
+                        -- check if the time to send the data packet have arrived
+                        if (unsigned(tmr_time_i) >= unsigned(s_data_packet_time((tmr_time_i'length - 1) downto 0))) then
+                            -- time to send the data packet arrived
+                            -- go to waiting buffer space
+                            s_data_controller_state <= DATA_PACKET_START;
+                            v_data_controller_state := DATA_PACKET_START;
+                        end if;
+                    else
+                        -- data length is not valid (zero)
+                        -- go to memory alignment
+                        s_data_controller_state        <= MEMORY_ALIGNMENT;
+                        v_data_controller_state        := MEMORY_ALIGNMENT;
+                        s_data_controller_return_state <= STOPPED;
                     end if;
 
                 when DATA_PACKET_START =>
@@ -245,18 +254,8 @@ begin
                     -- default internal signal values
                     s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
                     -- conditional state transition
-                    -- check if the data length is valid (not zero)
-                    if not (s_data_packet_length = std_logic_vector(to_unsigned(0, s_data_packet_length'length))) then
-                        -- data length is valid
-                        -- prepare word counter for multi-word data (packet data)
-                        s_word_counter <= std_logic_vector(unsigned(s_data_packet_length((s_word_counter'length - 1) downto 0)) - 1);
-                    else
-                        -- data length is not valid (zero)
-                        -- go to data packet end
-                        s_data_controller_state        <= DATA_PACKET_END;
-                        v_data_controller_state        := DATA_PACKET_END;
-                        s_data_controller_return_state <= STOPPED;
-                    end if;
+                    -- prepare word counter for multi-word data (packet data)
+                    s_word_counter                 <= std_logic_vector(unsigned(s_data_packet_length((s_word_counter'length - 1) downto 0)) - 1);
 
                 when WAITING_SPW_BUFFER_SPACE =>
                     -- Wait state until thete is space in the spw tx buffer

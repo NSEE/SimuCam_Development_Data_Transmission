@@ -170,6 +170,11 @@ module MebX_Qsys_Project_mm_interconnect_0_router_006
 
 
 
+    // -------------------------------------------------------
+    // Write and read transaction signals
+    // -------------------------------------------------------
+    wire read_transaction;
+    assign read_transaction  = sink_data[PKT_TRANS_READ];
 
 
     MebX_Qsys_Project_mm_interconnect_0_router_006_default_decode the_default_decode(
@@ -190,7 +195,7 @@ module MebX_Qsys_Project_mm_interconnect_0_router_006
         // --------------------------------------------------
 
     // ( 0x0 .. 0x80000000 )
-    if ( {address[RG:PAD0],{PAD0{1'b0}}} == 32'h0   ) begin
+    if ( {address[RG:PAD0],{PAD0{1'b0}}} == 32'h0  && read_transaction  ) begin
             src_channel = 12'b10;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 4;
     end

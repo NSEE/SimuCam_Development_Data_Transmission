@@ -628,6 +628,10 @@ void vResetSimucam() {
 		vUartWriteCharBlocking(iResetCmd[f]);
 	}
 
+	/* Clear the Reset Counter */
+	vRstcClearResetCounter();
+
+	/* Reset the SimuCam */
 	vRstcHoldSimucamReset(0);
 }
 

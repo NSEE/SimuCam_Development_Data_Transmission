@@ -284,7 +284,9 @@ module MebX_Qsys_Project (
 	umft601a_pins_umft_wr_n_signal,
 	umft601a_pins_umft_rd_n_signal,
 	umft601a_pins_umft_oe_n_signal,
-	umft601a_pins_umft_siwu_n_signal);	
+	umft601a_pins_umft_siwu_n_signal,
+	sync_unfiltered_sig_unfiltered_sig_signal,
+	sync_filtered_sig_filtered_sig_signal);	
 
 	input	[3:0]	button_export;
 	input		clk50_clk;
@@ -571,4 +573,6 @@ module MebX_Qsys_Project (
 	output		umft601a_pins_umft_rd_n_signal;
 	output		umft601a_pins_umft_oe_n_signal;
 	output		umft601a_pins_umft_siwu_n_signal;
+	input		sync_unfiltered_sig_unfiltered_sig_signal;
+	output		sync_filtered_sig_filtered_sig_signal;
 endmodule
