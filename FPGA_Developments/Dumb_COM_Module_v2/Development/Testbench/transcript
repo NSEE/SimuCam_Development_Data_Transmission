@@ -36,7 +36,7 @@
 # 32 compiles, 0 failed with no errors.
 vsim work.testbench_top
 # vsim work.testbench_top 
-# Start time: 09:37:13 on Nov 01,2021
+# Start time: 02:28:54 on Nov 10,2021
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -77,30 +77,6 @@ vsim work.testbench_top
 # Loading work.rmap_target_reply_ent(rtl)
 # Loading work.spw_mux_ent(rtl)
 # Loading work.dcom_rprt_irq_manager_ent(rtl)
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/*
-# Compile of dcom_tb_avs_read_ent.vhd was successful.
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_scheduler_ent_inst/*
-restart
-# Loading work.dcom_tb_avs_read_ent(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
-# Compile of config_avalon_stimuli.vhd was successful.
-restart
-# Loading work.config_avalon_stimuli(rtl)
-run
 add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_controller_ent_inst/*
 restart
 run
@@ -112,5 +88,13 @@ run
 restart
 # Loading work.data_controller_ent(rtl)
 run
-# End time: 16:20:29 on Nov 02,2021, Elapsed time: 30:43:16
+restart
+run
+add wave -position insertpoint sim:/testbench_top/*
+restart
+run
+add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/*
+restart
+run
+# End time: 02:43:44 on Nov 10,2021, Elapsed time: 0:14:50
 # Errors: 0, Warnings: 0

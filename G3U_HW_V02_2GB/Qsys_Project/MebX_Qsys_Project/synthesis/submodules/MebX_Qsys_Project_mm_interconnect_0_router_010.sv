@@ -47,7 +47,7 @@ module MebX_Qsys_Project_mm_interconnect_0_router_010_default_decode
      parameter DEFAULT_CHANNEL = 1,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 8 
+               DEFAULT_DESTID = 0 
    )
   (output [388 - 385 : 0] default_destination_id,
    output [12-1 : 0] default_wr_channel,
@@ -192,13 +192,13 @@ module MebX_Qsys_Project_mm_interconnect_0_router_010
     // ( 0x0 .. 0x80000000 )
     if ( {address[RG:PAD0],{PAD0{1'b0}}} == 32'h0   ) begin
             src_channel = 12'b10;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 8;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 0;
     end
 
     // ( 0x80000000 .. 0x100000000 )
     if ( {address[RG:PAD1],{PAD1{1'b0}}} == 32'h80000000   ) begin
             src_channel = 12'b01;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 10;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 1;
     end
 
 end

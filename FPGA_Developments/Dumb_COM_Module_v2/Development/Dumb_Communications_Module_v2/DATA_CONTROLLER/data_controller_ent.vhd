@@ -270,8 +270,10 @@ begin
                         -- check if the wait is for and eop or eep
                         if ((s_data_controller_return_state = TRANSMIT_EOP) or (s_data_controller_return_state = TRANSMIT_EEP)) then
                             -- wait is for an eop or eep, no need to fetch data from the data fifo
-                            s_data_controller_state <= s_data_controller_return_state;
-                            v_data_controller_state := s_data_controller_return_state;
+                            s_data_controller_state <= DELAY;
+                            v_data_controller_state := DELAY;
+                        --                            s_data_controller_state <= s_data_controller_return_state;
+                        --                            v_data_controller_state := s_data_controller_return_state;
                         else
                             -- wait is not for an eop or eep, need to fetch data from the data fifo
                             -- go wait data fifo available

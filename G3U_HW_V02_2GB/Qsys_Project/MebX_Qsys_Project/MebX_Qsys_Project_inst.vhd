@@ -252,6 +252,7 @@
 			spwm_h_select_mux_select_signal                                                                         : in    std_logic_vector(1 downto 0)  := (others => 'X'); -- mux_select_signal
 			ssdp_ssdp0                                                                                              : out   std_logic_vector(7 downto 0);                     -- ssdp0
 			ssdp_ssdp1                                                                                              : out   std_logic_vector(7 downto 0);                     -- ssdp1
+			sync_filtered_sig_filtered_sig_signal                                                                   : out   std_logic;                                        -- filtered_sig_signal
 			sync_in_conduit                                                                                         : in    std_logic                     := 'X';             -- conduit
 			sync_in_en_conduit                                                                                      : in    std_logic                     := 'X';             -- conduit
 			sync_out_conduit                                                                                        : out   std_logic;                                        -- conduit
@@ -264,6 +265,7 @@
 			sync_spw6_conduit                                                                                       : out   std_logic;                                        -- conduit
 			sync_spw7_conduit                                                                                       : out   std_logic;                                        -- conduit
 			sync_spw8_conduit                                                                                       : out   std_logic;                                        -- conduit
+			sync_unfiltered_sig_unfiltered_sig_signal                                                               : in    std_logic                     := 'X';             -- unfiltered_sig_signal
 			temp_scl_export                                                                                         : out   std_logic;                                        -- export
 			temp_sda_export                                                                                         : inout std_logic                     := 'X';             -- export
 			timer_1ms_external_port_export                                                                          : out   std_logic;                                        -- export
@@ -284,9 +286,7 @@
 			umft601a_pins_umft_wr_n_signal                                                                          : out   std_logic;                                        -- umft_wr_n_signal
 			umft601a_pins_umft_rd_n_signal                                                                          : out   std_logic;                                        -- umft_rd_n_signal
 			umft601a_pins_umft_oe_n_signal                                                                          : out   std_logic;                                        -- umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                                                                        : out   std_logic;                                        -- umft_siwu_n_signal
-			sync_unfiltered_sig_unfiltered_sig_signal                                                               : in    std_logic                     := 'X';             -- unfiltered_sig_signal
-			sync_filtered_sig_filtered_sig_signal                                                                   : out   std_logic                                         -- filtered_sig_signal
+			umft601a_pins_umft_siwu_n_signal                                                                        : out   std_logic                                         -- umft_siwu_n_signal
 		);
 	end component MebX_Qsys_Project;
 
@@ -544,6 +544,7 @@
 			spwm_h_select_mux_select_signal                                                                         => CONNECTED_TO_spwm_h_select_mux_select_signal,                                                                         --                                                       spwm_h_select.mux_select_signal
 			ssdp_ssdp0                                                                                              => CONNECTED_TO_ssdp_ssdp0,                                                                                              --                                                                ssdp.ssdp0
 			ssdp_ssdp1                                                                                              => CONNECTED_TO_ssdp_ssdp1,                                                                                              --                                                                    .ssdp1
+			sync_filtered_sig_filtered_sig_signal                                                                   => CONNECTED_TO_sync_filtered_sig_filtered_sig_signal,                                                                   --                                                   sync_filtered_sig.filtered_sig_signal
 			sync_in_conduit                                                                                         => CONNECTED_TO_sync_in_conduit,                                                                                         --                                                             sync_in.conduit
 			sync_in_en_conduit                                                                                      => CONNECTED_TO_sync_in_en_conduit,                                                                                      --                                                          sync_in_en.conduit
 			sync_out_conduit                                                                                        => CONNECTED_TO_sync_out_conduit,                                                                                        --                                                            sync_out.conduit
@@ -556,6 +557,7 @@
 			sync_spw6_conduit                                                                                       => CONNECTED_TO_sync_spw6_conduit,                                                                                       --                                                           sync_spw6.conduit
 			sync_spw7_conduit                                                                                       => CONNECTED_TO_sync_spw7_conduit,                                                                                       --                                                           sync_spw7.conduit
 			sync_spw8_conduit                                                                                       => CONNECTED_TO_sync_spw8_conduit,                                                                                       --                                                           sync_spw8.conduit
+			sync_unfiltered_sig_unfiltered_sig_signal                                                               => CONNECTED_TO_sync_unfiltered_sig_unfiltered_sig_signal,                                                               --                                                 sync_unfiltered_sig.unfiltered_sig_signal
 			temp_scl_export                                                                                         => CONNECTED_TO_temp_scl_export,                                                                                         --                                                            temp_scl.export
 			temp_sda_export                                                                                         => CONNECTED_TO_temp_sda_export,                                                                                         --                                                            temp_sda.export
 			timer_1ms_external_port_export                                                                          => CONNECTED_TO_timer_1ms_external_port_export,                                                                          --                                             timer_1ms_external_port.export
@@ -576,8 +578,6 @@
 			umft601a_pins_umft_wr_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_wr_n_signal,                                                                          --                                                                    .umft_wr_n_signal
 			umft601a_pins_umft_rd_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_rd_n_signal,                                                                          --                                                                    .umft_rd_n_signal
 			umft601a_pins_umft_oe_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_oe_n_signal,                                                                          --                                                                    .umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                                                                        => CONNECTED_TO_umft601a_pins_umft_siwu_n_signal,                                                                        --                                                                    .umft_siwu_n_signal
-			sync_unfiltered_sig_unfiltered_sig_signal                                                               => CONNECTED_TO_sync_unfiltered_sig_unfiltered_sig_signal,                                                               --                                                 sync_unfiltered_sig.unfiltered_sig_signal
-			sync_filtered_sig_filtered_sig_signal                                                                   => CONNECTED_TO_sync_filtered_sig_filtered_sig_signal                                                                    --                                                   sync_filtered_sig.filtered_sig_signal
+			umft601a_pins_umft_siwu_n_signal                                                                        => CONNECTED_TO_umft601a_pins_umft_siwu_n_signal                                                                         --                                                                    .umft_siwu_n_signal
 		);
 
