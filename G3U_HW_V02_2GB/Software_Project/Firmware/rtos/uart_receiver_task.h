@@ -34,6 +34,7 @@
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/uart/uart.h"
 #include "../rtos/command_control_task.h"
+#include "../driver/ftdi/ftdi.h"
 
 /*
  ************************************************************************************************
@@ -44,7 +45,7 @@
 #define HEADER_OVERHEAD         8
 #define PAYLOAD_OVERHEAD        10
 #define DATASET_HEADER          12
-#define IMAGETTE_HEADER         6
+#define IMAGETTE_HEADER         7
 #define UART_BUFFER_SIZE        256
 
 typedef enum {

@@ -46,21 +46,39 @@ void vRstcHoldSimucamReset(alt_u32 uliRstCnt) {
 void vRstcReleaseDeviceReset(alt_u32 usiRstMask) {
 	alt_u32 uliReg = 0;
 
-	uliReg = uliRstReadReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR,
-	RSTC_DEVICE_RESET_REG_OFFSET);
+	uliReg = uliRstReadReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_DEVICE_RESET_REG_OFFSET);
 	uliReg &= ~((alt_u32) usiRstMask);
-	vRstcWriteReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR,
-	RSTC_DEVICE_RESET_REG_OFFSET, uliReg);
+	vRstcWriteReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_DEVICE_RESET_REG_OFFSET, uliReg);
 }
 
 void vRstcHoldDeviceReset(alt_u32 usiRstMask) {
 	alt_u32 uliReg = 0;
 
-	uliReg = uliRstReadReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR,
-	RSTC_DEVICE_RESET_REG_OFFSET);
+	uliReg = uliRstReadReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_DEVICE_RESET_REG_OFFSET);
 	uliReg |= (alt_u32) usiRstMask;
-	vRstcWriteReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR,
-	RSTC_DEVICE_RESET_REG_OFFSET, uliReg);
+	vRstcWriteReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_DEVICE_RESET_REG_OFFSET, uliReg);
+}
+
+void vRstcClearResetCounter(void) {
+	alt_u32 uliReg = 0;
+
+	uliReg = uliRstReadReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_SIMUCAM_RESET_REG_OFFSET);
+	uliReg |= (alt_u32) RSTC_SIMUCAM_RST_CNT_CLR_MSK;
+	vRstcWriteReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_SIMUCAM_RESET_REG_OFFSET, uliReg);
+	uliReg &= ~((alt_u32) RSTC_SIMUCAM_RST_CNT_CLR_MSK);
+	vRstcWriteReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_SIMUCAM_RESET_REG_OFFSET, uliReg);
+}
+
+alt_u32 uliRstcGetResetCounter(void) {
+	alt_u32 uliReturn = 0;
+	alt_u32 uliReg = 0;
+
+	uliReg = uliRstReadReg((alt_u32*) RSTC_CONTROLLER_BASE_ADDR, RSTC_RESET_COUNTER_REG_OFFSET);
+	uliReg &= (alt_u32) RSTC_RESET_CNT_MSK;
+
+	uliReturn = (alt_u32)uliReg;
+
+	return (uliReturn);
 }
 //! [public functions]
 

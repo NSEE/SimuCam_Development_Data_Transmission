@@ -628,6 +628,10 @@ void vResetSimucam() {
 		vUartWriteCharBlocking(iResetCmd[f]);
 	}
 
+	/* Clear the Reset Counter */
+	vRstcClearResetCounter();
+
+	/* Reset the SimuCam */
 	vRstcHoldSimucamReset(0);
 }
 
@@ -789,6 +793,7 @@ void CommandManagementTask() {
 			}
 #endif
 			/* Disable the Isolation and LVDS driver boards*/
+			bDisableIsoLogic();
 			bDisableIsoDrivers();
 			bDisableLvdsBoard();
 
@@ -978,7 +983,7 @@ void CommandManagementTask() {
 					if(T_simucam.T_conf.luHKPeriod != 0){
 						error_code = OSTaskSuspend(PERIODIC_HK_TASK_PRIORITY);
 					}
-					T_simucam.T_conf.luHKPeriod = p_payload->data[4] + 256 * p_payload->data[3] + 65536 * p_payload->data[2] + 4294967296 * p_payload->data[1];
+					T_simucam.T_conf.luHKPeriod = p_payload->data[4] + 256 * p_payload->data[3] + 65536 * p_payload->data[2] + 16777216 * p_payload->data[1];
 
 					error_code = OSTaskResume(PERIODIC_HK_TASK_PRIORITY);
 				} else {
@@ -1031,10 +1036,10 @@ void CommandManagementTask() {
 			/* Enable RMAP Log on channel 7 */
 			case typeRmapEchoEnable:
 				if (p_payload->data[0] == 1){
-					bSpwcChHMuxSelect(eSpwcChHMuxSelIdDcom);
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
 					T_simucam.T_conf.usi_rmap_echo = 1;
 				} else {
-					bSpwcChHMuxSelect(eSpwcChHMuxSelIdRmpe);
+					bSpwcChHMuxSelect(eSpwcChHMuxSelIdDcom);
 					T_simucam.T_conf.usi_rmap_echo = 0;
 				}
 				v_ack_creator(p_payload, xExecOk);
@@ -1066,6 +1071,8 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			/* Enable the Isolation and LVDS driver boards*/
 			bEnableIsoDrivers();
 			bEnableLvdsBoard();
+			usleep(100000);
+			bEnableIsoLogic();
 
 			/*
 			 * Clear and start simucam timer, NOT RUNNING
@@ -1435,7 +1442,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				bRmapGetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.bTriggerErr = TRUE;
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.ucErrorId   = p_payload->data[0];
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 4294967296 * p_payload->data[2]);
+				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 16777216 * p_payload->data[2]);
 				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.usiRepeats  = 0;
 				bRmapSetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
 

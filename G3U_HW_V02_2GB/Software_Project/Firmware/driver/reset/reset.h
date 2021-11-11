@@ -17,10 +17,12 @@
 #define RSTC_CONTROLLER_BASE_ADDR       RST_CONTROLLER_BASE
 #define RSTC_SIMUCAM_RESET_REG_OFFSET   0
 #define RSTC_DEVICE_RESET_REG_OFFSET    1
+#define RSTC_RESET_COUNTER_REG_OFFSET   2
 
 // bit masks
 #define RSTC_SIMUCAM_RST_CTRL_MSK       (1 << 31)
-#define RSTC_SIMUCAM_RST_TMR_MSK        (0x7FFFFFFF << 0)
+#define RSTC_SIMUCAM_RST_CNT_CLR_MSK    (1 << 30)
+#define RSTC_SIMUCAM_RST_TMR_MSK        (0x3FFFFFFF << 0)
 
 #define RSTC_DEV_FTDI_RST_CTRL_MSK      (1 << 11)
 #define RSTC_DEV_SYNC_RST_CTRL_MSK      (1 << 10)
@@ -35,7 +37,9 @@
 #define RSTC_DEV_DCOM_CH2_RST_CTRL_MSK  (1 << 1)
 #define RSTC_DEV_DCOM_CH1_RST_CTRL_MSK  (1 << 0)
 
-#define RSTC_DEV_ALL_MSK                (0x0FFF)
+#define RSTC_DEV_ALL_MSK                (0x00000FFF)
+
+#define RSTC_RESET_CNT_MSK              (0xFFFFFFFF)
 //! [constants definition]
 
 //! [public module structs definition]
@@ -47,6 +51,9 @@ void vRstcHoldSimucamReset(alt_u32 uliRstCnt);
 
 void vRstcReleaseDeviceReset(alt_u32 usiRstMask);
 void vRstcHoldDeviceReset(alt_u32 usiRstMask);
+
+void vRstcClearResetCounter(void);
+alt_u32 uliRstcGetResetCounter(void);
 //! [public function prototypes]
 
 //! [data memory public global variables - use extern]

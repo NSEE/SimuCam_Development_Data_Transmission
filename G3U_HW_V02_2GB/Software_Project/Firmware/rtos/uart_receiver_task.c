@@ -79,7 +79,7 @@ void vHeaderParser(T_uart_payload *pPayload, unsigned char *cReceiveBuffer) {
 
 	pPayload->type = cReceiveBuffer[3];
 
-	pPayload->size = cReceiveBuffer[7] + 256 * cReceiveBuffer[6] + 65536 * cReceiveBuffer[5] + 4294967296 * cReceiveBuffer[4];
+	pPayload->size = cReceiveBuffer[7] + 256 * cReceiveBuffer[6] + 65536 * cReceiveBuffer[5] + 16777216 * cReceiveBuffer[4];
 
 	pPayload->luCRCPartial = crc__CRC16CCITT((unsigned char *) cReceiveBuffer, HEADER_OVERHEAD);
 
@@ -107,9 +107,10 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	INT16U i_nb_imag_ctrl = 0;
 	INT8U i_channel_wr = 0;
 	INT8U iHeaderBuff[16];
-	INT8U iOffsetLengthBuff[8];
+//	INT8U iOffsetLengthBuff[8];
 	INT8U iCRCBuff[2];
-	INT16U usLengthBuff = 0;
+//	INT32U uiLengthBuff = 0;
+	INT8U usi_mem_id = 0;
 
 #if DEBUG_ON
 	if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
@@ -118,28 +119,18 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 #endif
 	memset(iHeaderBuff, 0, 16);
 	/* Get payload data from RS232 */
-	luGetSerial((INT8U *) &iHeaderBuff, DATASET_HEADER);
-
-#if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-		fprintf(fp, "[UART ImagetteParser DEBUG]iHeaderBuff Dump");
-		for (int g = 0; g < DATASET_HEADER; g++) {
-			fprintf(fp, " %i", iHeaderBuff[g]);
-		}
-		fprintf(fp, "\r\n");
-	}
-#endif
+	luGetSerial((INT8U *) &iHeaderBuff, 4);
 
 	i_channel_wr = iHeaderBuff[1];
 
 	/*
-	 * Switch to the right memory stick
-	 */
-	if (((unsigned char) i_channel_wr / 4) == 0) {
-		bDdr2SwitchMemory(DDR2_M1_ID);
-	} else {
-		bDdr2SwitchMemory(DDR2_M2_ID);
-	}
+		 * Switch to the right memory stick
+		 */
+		if (((unsigned char) i_channel_wr / 4) == 0) {
+			usi_mem_id = DDR2_M1_ID;
+		} else {
+			usi_mem_id = DDR2_M2_ID;
+		}
 
 	T_Imagette *p_imagette_buff;
 
@@ -150,30 +141,43 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	 */
 	pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes = iHeaderBuff[3] + 256 * iHeaderBuff[2];
 
-	/*
-	 * Parse TAG
-	 */
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[7] = iHeaderBuff[4];
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[6] = iHeaderBuff[5];
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[5] = iHeaderBuff[6];
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[4] = iHeaderBuff[7];
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[3] = iHeaderBuff[8];
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[2] = iHeaderBuff[9];
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[1] = iHeaderBuff[10];
-	pSimucam->T_Sub[i_channel_wr].T_data.tag[0] = iHeaderBuff[11];
+	/* Get data from USB3 */
 
-	/**
-	 * Add do partial CRC
-	 */
-	pPayload->luCRCPartial = prev_crc__CRC16CCITT(iHeaderBuff, DATASET_HEADER, pPayload->luCRCPartial);
-
-#if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-		fprintf(fp, "[UART ImagetteParser DEBUG]Received nb Imagettes %u\r\n", pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes);
-		fprintf(fp, "[UART ImagetteParser DEBUG]Received TAG %i %i %i %i\r\n", (INT8U) pSimucam->T_Sub[i_channel_wr].T_data.tag[0],
-				(INT8U) pSimucam->T_Sub[i_channel_wr].T_data.tag[1], (INT8U) pSimucam->T_Sub[i_channel_wr].T_data.tag[2], (INT8U) pSimucam->T_Sub[i_channel_wr].T_data.tag[3]);
-	}
-#endif
+	/* Restart the FTDI Module */
+    vFtdiStopModule();
+    vFtdiClearModule();
+    vFtdiStartModule();
+    /* Request the imagette */
+    bFtdiRequestGenImgette();
+    
+    /* Reset and Configure the DMA */
+    bSdmaResetFtdiDma(TRUE);
+    bSdmaFtdiDmaTransfer((alt_u8) usi_mem_id, (alt_u32 *)pSimucam->T_Sub[i_channel_wr].T_data.addr_init, FTDI_GEN_IMGT_SIZE_BYTES, eSdmaRxFtdi);
+    
+    /* Wait until the request is finished or an error occured */
+    volatile TFtdiModule *vpxFtdiModule = (TFtdiModule *) FTDI_MODULE_BASE_ADDR;
+    
+    /* Wait for operation to end */
+    while ((FALSE == vpxFtdiModule->xFtdiRxIrqFlag.bRxHccdReceivedIrqFlag) && (FALSE == vpxFtdiModule->xFtdiRxIrqFlag.bRxHccdCommErrIrqFlag)) {
+        OSTimeDlyHMSM(0, 0, 0, 100);
+    }
+        
+    if (TRUE == vpxFtdiModule->xFtdiRxIrqFlag.bRxHccdReceivedIrqFlag) {
+        vpxFtdiModule->xFtdiRxIrqFlagClr.bRxHccdReceivedIrqFlagClr = TRUE;
+        
+        /* Imagette request finished - data is already in memory */
+        
+        
+    } else if (TRUE == vpxFtdiModule->xFtdiRxIrqFlag.bRxHccdCommErrIrqFlag) {
+        vpxFtdiModule->xFtdiRxIrqFlagClr.bRxHccdCommErrIrqFlagClr = TRUE;
+        
+        /* Error ocurred - need to treat */
+        v_ack_creator(pPayload, xParserError);
+		return;
+    }
+    
+    /* Reset the DMA */
+    bSdmaResetFtdiDma(TRUE);
 
 	/*
 	 * Parse imagettes
@@ -181,87 +185,49 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	while (i_nb_imag_ctrl < pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
 
 		p_imagette_buff = (T_Imagette *) p_imagette_byte;
-		/*
-		 * Receive 6 bytes for offset and length
-		 */
-		memset(iOffsetLengthBuff, 0, 8);
-		luGetSerial((INT8U *) &iOffsetLengthBuff, IMAGETTE_HEADER);
+		vFtdiChangeGenImgtHeaderEndianness(p_imagette_byte);
 
-#if DEBUG_ON
-		if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-			fprintf(fp, "[UART ImagetteParser DEBUG]iOffsetLengthBuff Dump");
-			for (int w = 0; w < IMAGETTE_HEADER; w++) {
-				fprintf(fp, " %i", iOffsetLengthBuff[w]);
-			}
-			fprintf(fp, "\r\n");
-		}
-#endif
+// 		/*
+// 		 * Receive 6 bytes for offset and length
+// 		 */
+// 		memset(iOffsetLengthBuff, 0, 8);
+// 		luGetSerial((INT8U *) &iOffsetLengthBuff, IMAGETTE_HEADER);
+
+// #if DEBUG_ON
+// 		if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+// 			fprintf(fp, "[UART ImagetteParser DEBUG]iOffsetLengthBuff Dump");
+// 			for (int w = 0; w < IMAGETTE_HEADER; w++) {
+// 				fprintf(fp, " %i", iOffsetLengthBuff[w]);
+// 			}
+// 			fprintf(fp, "\r\n");
+// 		}
+// #endif
 
 		/*
 		 * Switch to the right memory stick
 		 */
-		if (((unsigned char) i_channel_wr / 4) == 0) {
-			bDdr2SwitchMemory(DDR2_M1_ID);
-		} else {
-			bDdr2SwitchMemory(DDR2_M2_ID);
+		bDdr2SwitchMemory(usi_mem_id);
+		
+
+		// p_imagette_buff->offset = iOffsetLengthBuff[3] + 256 * iOffsetLengthBuff[2] + 65536 * iOffsetLengthBuff[1] + 16777216 * iOffsetLengthBuff[0];
+
+		// p_imagette_buff->imagette_length = iOffsetLengthBuff[6] + 256 * iOffsetLengthBuff[5] + 65536 * iOffsetLengthBuff[4];
+
+		/* 0 is a non valid offset for the simucam */
+		if (p_imagette_buff->offset == 0){
+				p_imagette_buff->offset = 1;
 		}
 
-		p_imagette_buff->offset = iOffsetLengthBuff[3] + 256 * iOffsetLengthBuff[2] + 65536 * iOffsetLengthBuff[1] + 4294967296 * iOffsetLengthBuff[0];
-
-		p_imagette_buff->imagette_length = iOffsetLengthBuff[5] + 256 * iOffsetLengthBuff[4];
-
-                /* 0 is a non valid offset for the simucam */
-                if (p_imagette_buff->offset == 0){
-                        p_imagette_buff->offset = 1;
-                }
-                        
-            /**
-             * Add do partial CRC
-             */
-            pPayload->luCRCPartial = prev_crc__CRC16CCITT(iOffsetLengthBuff, 
-                            IMAGETTE_HEADER, pPayload->luCRCPartial);
-
-#if DEBUG_ON
-		if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-			fprintf(fp, "[UART ImagetteParser DEBUG]Imagette %i length: %i\r\n", i_nb_imag_ctrl, p_imagette_buff->imagette_length);
-		}
-#endif
 		/* Advance byte addr to point to the start to imagette data */
-		p_imagette_byte += IMAGETTE_HEADER;	//Length offset
-
-		usLengthBuff = p_imagette_buff->imagette_length;
-
-		/*
-		 * Switch to the right memory stick
-		 */
-		if (((unsigned char) i_channel_wr / 4) == 0) {
-			bDdr2SwitchMemory(DDR2_M1_ID);
-		} else {
-			bDdr2SwitchMemory(DDR2_M2_ID);
-		}
-
-		/* Get data bytes from RS232 */
-		luGetSerial((INT8U *) p_imagette_byte, usLengthBuff);
-
-		/**
-		 * Add do partial CRC
-		 */
-		pPayload->luCRCPartial = prev_crc__CRC16CCITT((INT8U *) p_imagette_byte, usLengthBuff, pPayload->luCRCPartial);
+		p_imagette_byte += IMAGETTE_HEADER + 1;	//Length offset
 
 		/* Sum memory positions */
-		p_imagette_byte += usLengthBuff;
+		p_imagette_byte += p_imagette_buff->imagette_length;
 
 		/* Align memory */
 		if (((INT32U) p_imagette_byte % 8)) {
 			p_imagette_byte = (INT8U *) (((((INT32U) p_imagette_byte) >> 3) + 1) << 3);
 		}
-
-#if DEBUG_ON
-		if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-			INT8U *pxTestData = (INT8U *) pSimucam->T_Sub[i_channel_wr].T_data.addr_init + 6;
-			fprintf(fp, "[UART ImagetteParser DEBUG]First Bytes %x %x %x %x %x %x\r\n", pxTestData[0], pxTestData[1], pxTestData[2], pxTestData[3], pxTestData[4], pxTestData[5]);
-		}
-#endif
 
 		i_nb_imag_ctrl++;
 	}
@@ -269,32 +235,35 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	/* receive CRC */
 	luGetSerial((INT8U *) &iCRCBuff, 2);
 
-	pPayload->crc = iCRCBuff[1] + 256 * iCRCBuff[0];
+// 	pPayload->crc = iCRCBuff[1] + 256 * iCRCBuff[0];
 
-#if DEBUG_ON
-	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-		fprintf(fp, "[UART ImagetteParser DEBUG]CRC bytes %i %i\r\n", iCRCBuff[0], iCRCBuff[1]);
-	}
-#endif
+// #if DEBUG_ON
+// 	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+// 		fprintf(fp, "[UART ImagetteParser DEBUG]CRC bytes %i %i\r\n", iCRCBuff[0], iCRCBuff[1]);
+// 	}
+// #endif
 
-	/* Check CRC */
-	if (pPayload->crc == pPayload->luCRCPartial) {
-#if DEBUG_ON
-		if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
-			fprintf(fp, "[UART ImagetteParser DEBUG]CRC OK.\n");
-		}
-#endif
-		pSimucam->T_Sub[i_channel_wr].T_conf.b_dataset_loaded = TRUE;
-		v_ack_creator(pPayload, xExecOk);
-	} else {
+// 	/* Check CRC */
+// 	if (pPayload->crc == pPayload->luCRCPartial) {
+// #if DEBUG_ON
+// 		if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+// 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC OK.\n");
+// 		}
+// #endif
+// 		pSimucam->T_Sub[i_channel_wr].T_conf.b_dataset_loaded = TRUE;
+// 		v_ack_creator(pPayload, xExecOk);
+// 	} else {
 
-#if DEBUG_ON
-		if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
-			fprintf(fp, "[UART ImagetteParser DEBUG]CRC ERROR.\n");
-		}
-#endif
-		// v_ack_creator(pPayload, xCRCError);
-	}
+// #if DEBUG_ON
+// 		if (T_simucam.T_conf.usiDebugLevels <= xCritical) {
+// 			fprintf(fp, "[UART ImagetteParser DEBUG]CRC ERROR.\n");
+// 		}
+// #endif
+// 		// v_ack_creator(pPayload, xCRCError);
+// 	}
+
+	pSimucam->T_Sub[i_channel_wr].T_conf.b_dataset_loaded = TRUE;
+	v_ack_creator(pPayload, xExecOk);
 }
 
 /**

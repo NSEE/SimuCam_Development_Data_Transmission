@@ -24,9 +24,10 @@ void Init_Simucam_Config(void) {
 	bSSDisplayConfig(SSDP_NORMAL_MODE);
 	bSSDisplayUpdate(0);
 
-	/* Set the Isolation and LVDS driver boards*/
-	bEnableIsoDrivers();
-	bEnableLvdsBoard();
+	/* Disable the Isolation and LVDS driver boards*/
+	bDisableIsoLogic();
+	bDisableIsoDrivers();
+	bDisableLvdsBoard();
 
 	/* Turn on all Panel Leds */
 	bSetPainelLeds(LEDS_ON, LEDS_PAINEL_ALL_MASK);

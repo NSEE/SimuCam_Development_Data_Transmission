@@ -44,29 +44,16 @@ if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 }
 #endif
 
+
 			/*
 			 * Channel initialization
 			 */
 			bDcomInitCh(&(xCh[c_spw_channel]), c_spw_channel);
 
-			/* Enable Report IRQ */
-			bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
-			/* TODO: List all IRQs needed */
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwLinkConnectedEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwLinkDisconnectedEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrDisconnectEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrParityEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrEscapeEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bSpwErrCreditEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrEarlyEopEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrEepen = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrHeaderCrcEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrInvalidCommandCodeEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrInvalidDataCrcEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrToomuchDataEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRmapErrUnusedPacketTypeEn = TRUE;
-			xCh[c_spw_channel].xReport.xRprtIrqControl.bRxTimecodeReceivedEn = TRUE;
-			bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
+			/* Disable SpaceWire Link */
+			bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+			xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bEnable = FALSE;
+			bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
 
 			/*
 			 * Debug Configuration
@@ -153,6 +140,42 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			T_simucam.T_Sub[c_spw_channel].T_sub_status.usi_parity_err_cnt = 0; 
 			T_simucam.T_Sub[c_spw_channel].T_sub_status.usi_escape_err_cnt = 0; 
 			T_simucam.T_Sub[c_spw_channel].T_sub_status.usi_credit_err_cnt = 0;
+
+			/* Disable Report IRQ */
+			bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = FALSE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = FALSE;
+			bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
+
+			/* Clear Report IRQ Flags */
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
+			xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
+			bRprtSetIrqFlagClr(&(xCh[c_spw_channel].xReport));
+
 			break;
 
 			/*
@@ -235,19 +258,19 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 #if DEBUG_ON
 if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %u\r\n",
+					fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %lu\r\n",
 							(INT8U) c_spw_channel,
 							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,
 							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
-							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
+							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 }
 #endif
 
 						/*Calculate next imagette addr*/
-							i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador + T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET;
-							if ((i_mem_pointer_buffer % 8)) {
-								i_mem_pointer_buffer = ((((i_mem_pointer_buffer) >> 3) + 1) << 3);
+							i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador + T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET + 1;
+							if (((INT32U) i_mem_pointer_buffer % 8)) {
+								i_mem_pointer_buffer = (INT32U) (((((INT32U) i_mem_pointer_buffer) >> 3) + 1) << 3);
 							}
 
 							/*Reassign the pointer to the next imagette addr */
@@ -269,6 +292,24 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 
 				set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
 
+				/* Enable Report IRQ */
+				bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
+				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
+				bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
+
 				/*
 				 * init SpW links
 				 */
@@ -284,6 +325,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #endif
 
 					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bEnable = TRUE;
 					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
 					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = FALSE;
 					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
@@ -301,6 +343,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #endif
 
 					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bEnable = TRUE;
 					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = FALSE;
 					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
 					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;

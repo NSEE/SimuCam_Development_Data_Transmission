@@ -14,6 +14,7 @@
 #include "../driver/leds/leds.h"
 #include "../driver/seven_seg/seven_seg.h"
 #include "../driver/dcom/dcom_channel.h"
+#include "../driver/ftdi/ftdi.h"
 
 /* Intel System ID Peripheral Registers */
 typedef struct SidpRegisters {
