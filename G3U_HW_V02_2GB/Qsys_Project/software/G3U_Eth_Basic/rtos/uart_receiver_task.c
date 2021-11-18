@@ -219,7 +219,7 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 		}
 
 		/* Advance byte addr to point to the start to imagette data */
-		p_imagette_byte += IMAGETTE_HEADER + 1;	//Length offset
+		p_imagette_byte += IMAGETTE_HEADER;	//Length offset
 
 		/* Sum memory positions */
 		p_imagette_byte += p_imagette_buff->imagette_length;

@@ -268,7 +268,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #endif
 
 						/*Calculate next imagette addr*/
-							i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador + T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET + 1;
+							i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador + T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET;
 							if (((INT32U) i_mem_pointer_buffer % 8)) {
 								i_mem_pointer_buffer = (INT32U) (((((INT32U) i_mem_pointer_buffer) >> 3) + 1) << 3);
 							}

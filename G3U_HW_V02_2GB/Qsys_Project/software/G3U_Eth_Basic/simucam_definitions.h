@@ -52,7 +52,7 @@
 /* HW and FW release version */
 #define SIMUCAM_RELEASE                 "I3"
 #define SIMUCAM_HW_VERSION              "1.2"
-#define SIMUCAM_FW_VERSION              "0.0"
+#define SIMUCAM_FW_VERSION              "0.1"
 
 /*
  * Convert to enum
@@ -65,8 +65,8 @@
 
 #define MAX_IMAGETTES				500		/*Maximum number of imagettes */
 
-#define DMA_OFFSET					7		/* TODO: Verify */
-#define LENGTH_OFFSET				3		/*Byte number offset for the 4 length bytes*/
+#define DMA_OFFSET					8		/* DMA Offset */
+#define LENGTH_OFFSET				3		/* Byte number offset for the 4 length bytes*/
 #define MAX_IMAGETTE_SIZE 			400000 	/*Imagette size in bytes*/
 #define DELAY_SIZE					6 		/*Number of bytes used for delay value*/
 #define CENTRAL_TIMER_RESOLUTION	1		/*Timer resolution, counter uses 100Hz, so 10 = 1s*/
