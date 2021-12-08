@@ -149,6 +149,7 @@ package rmap_target_pkg is
         write_authorization  : std_logic;
         write_not_authorized : std_logic;
         write_reset          : std_logic;
+        write_word_size      : std_logic_vector(6 downto 0);
     end record t_rmap_target_write_control;
 
     type t_rmap_target_write_flags is record
@@ -179,6 +180,7 @@ package rmap_target_pkg is
     type t_rmap_target_read_control is record
         read_authorization : std_logic;
         read_reset         : std_logic;
+        read_word_size     : std_logic_vector(6 downto 0);
     end record t_rmap_target_read_control;
 
     type t_rmap_target_read_flags is record
@@ -276,6 +278,8 @@ package rmap_target_pkg is
     type t_rmap_target_user_configs is record
         user_key                    : std_logic_vector(7 downto 0);
         user_target_logical_address : std_logic_vector(7 downto 0);
+        user_unalignment_en         : std_logic;
+        user_word_width             : std_logic_vector(2 downto 0);
     end record t_rmap_target_user_configs;
 
     -- SpW

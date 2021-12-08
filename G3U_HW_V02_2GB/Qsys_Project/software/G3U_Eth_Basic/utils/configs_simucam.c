@@ -279,6 +279,7 @@ bool bLoadDefaultRmapConf(void) {
 	char c, *p_inteiro, *p_inteiroll;
 	char inteiro[8];
 	char inteiroll[24];
+	alt_u8 ucSubunitId = 0;
 
 	if ((xSdHandle.connected == TRUE) && (bSDcardIsPresent()) && (bSDcardFAT16Check())) {
 
@@ -315,7 +316,13 @@ bool bLoadDefaultRmapConf(void) {
 				case 10: 	//ASCII: 10 = LN
 				case 13: 	//ASCII: 13 = CR
 					break;
-				case 'Q':
+				case 'L': /* RMAP Logical Address */
+					c = cGetNextChar(siFile);
+					if (('1' <= c) && ('8' >= c)) {
+						ucSubunitId = (alt_u8)(c - 48 - 1);
+					} else {
+						ucSubunitId = 0;
+					}
 					ucParser = 0;
 					do {
 						do {
@@ -327,13 +334,19 @@ bool bLoadDefaultRmapConf(void) {
 						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
 						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						xConfRmap.ucLogicalAddr[0] = (alt_u8) atoi(inteiro);
+						xConfRmap.ucLogicalAddr[ucSubunitId] = (alt_u8) atoi(inteiro);
 						p_inteiro = inteiro;
 						ucParser++;
 					} while ((c != 59));
 
 					break;
-				case 'W':
+				case 'K': /* RMAP Key */
+					c = cGetNextChar(siFile);
+					if (('1' <= c) && ('8' >= c)) {
+						ucSubunitId = (alt_u8)(c - 48 - 1);
+					} else {
+						ucSubunitId = 0;
+					}
 					ucParser = 0;
 					do {
 						do {
@@ -345,14 +358,19 @@ bool bLoadDefaultRmapConf(void) {
 						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
 						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						xConfRmap.ucKey[0] = (alt_u8) atoi(inteiro);
+						xConfRmap.ucKey[ucSubunitId] = (alt_u8) atoi(inteiro);
 						p_inteiro = inteiro;
 						ucParser++;
 					} while ((c != 59));
 
 					break;
-				case 'E':
-
+				case 'A': /* RMAP Address Offset */
+					c = cGetNextChar(siFile);
+					if (('1' <= c) && ('8' >= c)) {
+						ucSubunitId = (alt_u8)(c - 48 - 1);
+					} else {
+						ucSubunitId = 0;
+					}
 					do {
 						c = cGetNextChar(siFile);
 						if (isdigit(c)) {
@@ -362,11 +380,17 @@ bool bLoadDefaultRmapConf(void) {
 					} while (c != 59); //ASCII: 59 = ';'
 					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-					xConfRmap.uliAddrOffset[0] = (alt_u32) atoll(inteiroll);
+					xConfRmap.uliAddrOffset[ucSubunitId] = (alt_u32) atoll(inteiroll);
 					p_inteiroll = inteiroll;
 
 					break;
-				case 'R':
+				case 'U': /* RMAP Unaligned Memory access Enable */
+					c = cGetNextChar(siFile);
+					if (('1' <= c) && ('8' >= c)) {
+						ucSubunitId = (alt_u8)(c - 48 - 1);
+					} else {
+						ucSubunitId = 0;
+					}
 					ucParser = 0;
 					do {
 						do {
@@ -378,13 +402,19 @@ bool bLoadDefaultRmapConf(void) {
 						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
 						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						xConfRmap.ucLogicalAddr[1] = (alt_u8) atoi(inteiro);
+						xConfRmap.bUnaligmentEn[ucSubunitId] = (((bool)atoi(inteiro)) ? TRUE : FALSE);
 						p_inteiro = inteiro;
 						ucParser++;
 					} while ((c != 59));
 
 					break;
-				case 'T':
+				case 'W': /* RMAP Word Width in bits */
+					c = cGetNextChar(siFile);
+					if (('1' <= c) && ('8' >= c)) {
+						ucSubunitId = (alt_u8)(c - 48 - 1);
+					} else {
+						ucSubunitId = 0;
+					}
 					ucParser = 0;
 					do {
 						do {
@@ -396,330 +426,10 @@ bool bLoadDefaultRmapConf(void) {
 						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
 						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
 
-						xConfRmap.ucKey[1] = (alt_u8) atoi(inteiro);
+						xConfRmap.ucWordWidth[ucSubunitId] = (alt_u8) atoi(inteiro);
 						p_inteiro = inteiro;
 						ucParser++;
 					} while ((c != 59));
-
-					break;
-				case 'Y':
-
-					do {
-						c = cGetNextChar(siFile);
-						if (isdigit(c)) {
-							(*p_inteiroll) = c;
-							p_inteiroll++;
-						}
-					} while (c != 59); //ASCII: 59 = ';'
-					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-					xConfRmap.uliAddrOffset[1] = (alt_u32) atoll(inteiroll);
-					p_inteiroll = inteiroll;
-
-					break;
-				case 'U':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucLogicalAddr[2] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'I':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucKey[2] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'O':
-					do {
-						c = cGetNextChar(siFile);
-						if (isdigit(c)) {
-							(*p_inteiroll) = c;
-							p_inteiroll++;
-						}
-					} while (c != 59); //ASCII: 59 = ';'
-					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-					xConfRmap.uliAddrOffset[2] = (alt_u32) atoll(inteiroll);
-					p_inteiroll = inteiroll;
-
-					break;
-				case 'P':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucLogicalAddr[3] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'A':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucKey[3] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'S':
-					do {
-						c = cGetNextChar(siFile);
-						if (isdigit(c)) {
-							(*p_inteiroll) = c;
-							p_inteiroll++;
-						}
-					} while (c != 59); //ASCII: 59 = ';'
-					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-					xConfRmap.uliAddrOffset[3] = (alt_u32) atoll(inteiroll);
-					p_inteiroll = inteiroll;
-
-					break;
-
-				case 'D':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucLogicalAddr[4] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'F':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucKey[4] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'G':
-					do {
-						c = cGetNextChar(siFile);
-						if (isdigit(c)) {
-							(*p_inteiroll) = c;
-							p_inteiroll++;
-						}
-					} while (c != 59); //ASCII: 59 = ';'
-					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-					xConfRmap.uliAddrOffset[4] = (alt_u32) atoll(inteiroll);
-					p_inteiroll = inteiroll;
-
-					break;
-
-				case 'H':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucLogicalAddr[5] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'J':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucKey[5] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'K':
-
-					do {
-						c = cGetNextChar(siFile);
-						if (isdigit(c)) {
-							(*p_inteiroll) = c;
-							p_inteiroll++;
-						}
-					} while (c != 59); //ASCII: 59 = ';'
-					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-					xConfRmap.uliAddrOffset[5] = (alt_u32) atoll(inteiroll);
-					p_inteiroll = inteiroll;
-
-					break;
-				case 'L':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucLogicalAddr[6] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'Z':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucKey[6] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'X':
-
-					do {
-						c = cGetNextChar(siFile);
-						if (isdigit(c)) {
-							(*p_inteiroll) = c;
-							p_inteiroll++;
-						}
-					} while (c != 59); //ASCII: 59 = ';'
-					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-					xConfRmap.uliAddrOffset[6] = (alt_u32) atoll(inteiroll);
-					p_inteiroll = inteiroll;
-
-					break;
-				case 'C':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucLogicalAddr[7] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'V':
-					ucParser = 0;
-					do {
-						do {
-							c = cGetNextChar(siFile);
-							if (isdigit(c)) {
-								(*p_inteiro) = c;
-								p_inteiro++;
-							}
-						} while ((c != 46) && (c != 59)); //ASCII: 46 = '.' 59 = ';'
-						(*p_inteiro) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-						xConfRmap.ucKey[7] = (alt_u8) atoi(inteiro);
-						p_inteiro = inteiro;
-						ucParser++;
-					} while ((c != 59));
-
-					break;
-				case 'B':
-
-					do {
-						c = cGetNextChar(siFile);
-						if (isdigit(c)) {
-							(*p_inteiroll) = c;
-							p_inteiroll++;
-						}
-					} while (c != 59); //ASCII: 59 = ';'
-					(*p_inteiroll) = 10; // Adding LN -> ASCII: 10 = LINE FEED
-
-					xConfRmap.uliAddrOffset[7] = (alt_u32) atoll(inteiroll);
-					p_inteiroll = inteiroll;
 
 					break;
 				case 0x3C: //"<"
@@ -787,6 +497,24 @@ bool bLoadDefaultRmapConf(void) {
 		xConfRmap.uliAddrOffset[5] = 0xA0005000;
 		xConfRmap.uliAddrOffset[6] = 0xA0006000;
 		xConfRmap.uliAddrOffset[7] = 0xA0007000;
+
+		xConfRmap.bUnaligmentEn[0] = FALSE;
+		xConfRmap.bUnaligmentEn[1] = FALSE;
+		xConfRmap.bUnaligmentEn[2] = FALSE;
+		xConfRmap.bUnaligmentEn[3] = FALSE;
+		xConfRmap.bUnaligmentEn[4] = FALSE;
+		xConfRmap.bUnaligmentEn[5] = FALSE;
+		xConfRmap.bUnaligmentEn[6] = FALSE;
+		xConfRmap.bUnaligmentEn[7] = FALSE;
+
+		xConfRmap.ucWordWidth[0] = 2;
+		xConfRmap.ucWordWidth[1] = 2;
+		xConfRmap.ucWordWidth[2] = 2;
+		xConfRmap.ucWordWidth[3] = 2;
+		xConfRmap.ucWordWidth[4] = 2;
+		xConfRmap.ucWordWidth[5] = 2;
+		xConfRmap.ucWordWidth[6] = 2;
+		xConfRmap.ucWordWidth[7] = 2;
 
 	}
 
@@ -951,24 +679,14 @@ void vShowEthConfig(void) {
 }
 
 void vShowRmapConfig(void) {
+	alt_u8 ucSubunitId = 0;
 
 	fprintf(fp, "RMAP loaded configurations:\n");
 
-	fprintf(fp, "  Subunit 1: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[0], xConfRmap.ucKey[0], xConfRmap.uliAddrOffset[0]);
-
-	fprintf(fp, "  Subunit 2: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[1], xConfRmap.ucKey[1], xConfRmap.uliAddrOffset[1]);
-
-	fprintf(fp, "  Subunit 3: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[2], xConfRmap.ucKey[2], xConfRmap.uliAddrOffset[2]);
-
-	fprintf(fp, "  Subunit 4: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[3], xConfRmap.ucKey[3], xConfRmap.uliAddrOffset[3]);
-
-	fprintf(fp, "  Subunit 5: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[4], xConfRmap.ucKey[4], xConfRmap.uliAddrOffset[4]);
-
-	fprintf(fp, "  Subunit 6: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[5], xConfRmap.ucKey[5], xConfRmap.uliAddrOffset[5]);
-
-	fprintf(fp, "  Subunit 7: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[6], xConfRmap.ucKey[6], xConfRmap.uliAddrOffset[6]);
-
-	fprintf(fp, "  Subunit 8: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX \n", xConfRmap.ucLogicalAddr[7], xConfRmap.ucKey[7], xConfRmap.uliAddrOffset[7]);
+	for (ucSubunitId = 0; ucSubunitId < 8; ucSubunitId++) {
+		fprintf(fp, "  Subunit %u: Logical Address = 0x%02X, Key = 0x%02X, Address Offset = 0x%08lX, Unaligment Enable = %u, Word Size [Bytes] = %u \n",
+				(ucSubunitId + 1), xConfRmap.ucLogicalAddr[ucSubunitId], xConfRmap.ucKey[ucSubunitId], xConfRmap.uliAddrOffset[ucSubunitId], xConfRmap.bUnaligmentEn[ucSubunitId], (1 << xConfRmap.ucWordWidth[ucSubunitId]));
+	}
 
 	fprintf(fp, "\n");
 

@@ -32,11 +32,12 @@
 # Compile of dcom_tb_avs_pkg.vhd was successful.
 # Compile of dcom_tb_avs_write_ent.vhd was successful.
 # Compile of dcom_tb_avs_read_ent.vhd was successful.
+# Compile of spw_controller_stimuli.vhd was successful.
 # Compile of testbench_top.vhd was successful.
-# 32 compiles, 0 failed with no errors.
+# 33 compiles, 0 failed with no errors.
 vsim work.testbench_top
 # vsim work.testbench_top 
-# Start time: 02:28:54 on Nov 10,2021
+# Start time: 12:00:50 on Dec 06,2021
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -77,24 +78,13 @@ vsim work.testbench_top
 # Loading work.rmap_target_reply_ent(rtl)
 # Loading work.spw_mux_ent(rtl)
 # Loading work.dcom_rprt_irq_manager_ent(rtl)
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/data_controller_ent_inst/*
+# Loading work.spw_controller_stimuli(rtl)
+# ** Warning: Design size of 10600 statements exceeds ModelSim-Intel FPGA Starter Edition recommended capacity.
+# Expect performance to be adversely affected.
+add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/rmap_target_top_inst/rmap_target_read_ent_inst/*
+# Compile of spw_controller_stimuli.vhd was successful.
 restart
+# Loading work.spw_controller_stimuli(rtl)
 run
-# Compile of dcom_tb_avs_read_ent.vhd was successful.
-restart
-# Loading work.dcom_tb_avs_read_ent(rtl)
-run
-# Compile of data_controller_ent.vhd was successful.
-restart
-# Loading work.data_controller_ent(rtl)
-run
-restart
-run
-add wave -position insertpoint sim:/testbench_top/*
-restart
-run
-add wave -position insertpoint sim:/testbench_top/dcom_v2_top_inst/*
-restart
-run
-# End time: 02:43:44 on Nov 10,2021, Elapsed time: 0:14:50
-# Errors: 0, Warnings: 0
+# End time: 17:06:49 on Dec 06,2021, Elapsed time: 5:05:59
+# Errors: 0, Warnings: 1

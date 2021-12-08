@@ -2318,47 +2318,47 @@
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    enabled="1" />
  <module
    name="FTDI_UMFT601A_Module"

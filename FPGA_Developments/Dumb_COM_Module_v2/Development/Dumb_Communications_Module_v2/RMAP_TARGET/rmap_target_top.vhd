@@ -61,43 +61,45 @@ entity rmap_target_top is
     port(
         -- Global input signals
         --! Local clock used by the RMAP Codec
-        clk_i                      : in  std_logic; --! Local rmap clock
-        rst_i                      : in  std_logic; --! Reset = '0': no reset; Reset = '1': reset active
+        clk_i                            : in  std_logic; --! Local rmap clock
+        rst_i                            : in  std_logic; --! Reset = '0': no reset; Reset = '1': reset active
 
-        spw_flag_i                 : in  t_rmap_target_spw_flag;
-        mem_flag_i                 : in  t_rmap_target_mem_flag;
-        conf_target_enable_i       : in  std_logic;
-        conf_target_pre_sync_i     : in  std_logic;
-        conf_target_sync_i         : in  std_logic;
-        conf_target_logical_addr_i : in  std_logic_vector(7 downto 0);
-        conf_target_key_i          : in  std_logic_vector(7 downto 0);
-        rmap_errinj_rst_i          : in  std_logic;
-        rmap_errinj_trg_i          : in  std_logic;
-        rmap_errinj_id_i           : in  std_logic_vector(7 downto 0);
-        rmap_errinj_val_i          : in  std_logic_vector(31 downto 0);
-        rmap_errinj_rpt_i          : in  std_logic_vector(15 downto 0);
+        spw_flag_i                       : in  t_rmap_target_spw_flag;
+        mem_flag_i                       : in  t_rmap_target_mem_flag;
+        conf_target_enable_i             : in  std_logic;
+        conf_target_pre_sync_i           : in  std_logic;
+        conf_target_sync_i               : in  std_logic;
+        conf_target_logical_addr_i       : in  std_logic_vector(7 downto 0);
+        conf_target_key_i                : in  std_logic_vector(7 downto 0);
+        conf_target_mem_unalignment_en_i : in  std_logic;
+        conf_target_mem_word_width_i     : in  std_logic_vector(2 downto 0);
+        rmap_errinj_rst_i                : in  std_logic;
+        rmap_errinj_trg_i                : in  std_logic;
+        rmap_errinj_id_i                 : in  std_logic_vector(7 downto 0);
+        rmap_errinj_val_i                : in  std_logic_vector(31 downto 0);
+        rmap_errinj_rpt_i                : in  std_logic_vector(15 downto 0);
         -- global output signals
 
-        spw_control_o              : out t_rmap_target_spw_control;
-        mem_control_o              : out t_rmap_target_mem_control;
-        mem_wr_byte_address_o      : out std_logic_vector((g_MEMORY_ADDRESS_WIDTH + g_MEMORY_ACCESS_WIDTH - 1) downto 0);
-        mem_rd_byte_address_o      : out std_logic_vector((g_MEMORY_ADDRESS_WIDTH + g_MEMORY_ACCESS_WIDTH - 1) downto 0);
-        stat_command_received_o    : out std_logic;
-        stat_write_requested_o     : out std_logic;
-        stat_write_authorized_o    : out std_logic;
-        stat_write_finished_o      : out std_logic;
-        stat_read_requested_o      : out std_logic;
-        stat_read_authorized_o     : out std_logic;
-        stat_read_finished_o       : out std_logic;
-        stat_reply_sended_o        : out std_logic;
-        stat_discarded_package_o   : out std_logic;
-        err_early_eop_o            : out std_logic;
-        err_eep_o                  : out std_logic;
-        err_header_crc_o           : out std_logic;
-        err_unused_packet_type_o   : out std_logic;
-        err_invalid_command_code_o : out std_logic;
-        err_too_much_data_o        : out std_logic;
-        err_invalid_data_crc_o     : out std_logic
+        spw_control_o                    : out t_rmap_target_spw_control;
+        mem_control_o                    : out t_rmap_target_mem_control;
+        mem_wr_byte_address_o            : out std_logic_vector((g_MEMORY_ADDRESS_WIDTH + g_MEMORY_ACCESS_WIDTH - 1) downto 0);
+        mem_rd_byte_address_o            : out std_logic_vector((g_MEMORY_ADDRESS_WIDTH + g_MEMORY_ACCESS_WIDTH - 1) downto 0);
+        stat_command_received_o          : out std_logic;
+        stat_write_requested_o           : out std_logic;
+        stat_write_authorized_o          : out std_logic;
+        stat_write_finished_o            : out std_logic;
+        stat_read_requested_o            : out std_logic;
+        stat_read_authorized_o           : out std_logic;
+        stat_read_finished_o             : out std_logic;
+        stat_reply_sended_o              : out std_logic;
+        stat_discarded_package_o         : out std_logic;
+        err_early_eop_o                  : out std_logic;
+        err_eep_o                        : out std_logic;
+        err_header_crc_o                 : out std_logic;
+        err_unused_packet_type_o         : out std_logic;
+        err_invalid_command_code_o       : out std_logic;
+        err_too_much_data_o              : out std_logic;
+        err_invalid_data_crc_o           : out std_logic
         -- data bus(es)
     );
 end entity rmap_target_top;
@@ -454,6 +456,8 @@ begin
     -- inputs assignments
     s_rmap_target_user_configs.user_key                    <= conf_target_key_i;
     s_rmap_target_user_configs.user_target_logical_address <= conf_target_logical_addr_i;
+    s_rmap_target_user_configs.user_unalignment_en         <= conf_target_mem_unalignment_en_i;
+    s_rmap_target_user_configs.user_word_width             <= conf_target_mem_word_width_i;
 
     -- outputs assignments
     stat_command_received_o    <= s_rmap_target_flags.command_parsing.command_received;

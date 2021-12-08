@@ -68,10 +68,12 @@ if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			 */
 			bRmapGetCodecConfig(&(xCh[c_spw_channel].xRmap));
 			xCh[c_spw_channel].xRmap.xRmapCodecConfig.ucLogicalAddress = xConfRmap.ucLogicalAddr[c_spw_channel];
-			xCh[c_spw_channel].xRmap.xRmapCodecConfig.ucKey = xConfRmap.ucKey[c_spw_channel];
+			xCh[c_spw_channel].xRmap.xRmapCodecConfig.ucKey            = xConfRmap.ucKey[c_spw_channel];
+			xCh[c_spw_channel].xRmap.xRmapCodecConfig.bUnaligmentEn    = xConfRmap.bUnaligmentEn[c_spw_channel];
+			xCh[c_spw_channel].xRmap.xRmapCodecConfig.ucWordWidth      = xConfRmap.ucWordWidth[c_spw_channel];
 			bRmapSetCodecConfig(&(xCh[c_spw_channel].xRmap));
 			bRmapGetMemAreaConfig(&(xCh[c_spw_channel].xRmap));
-			xCh[c_spw_channel].xRmap.xRmapMemAreaConfig.uliAddrOffset = xConfRmap.uliAddrOffset[c_spw_channel];
+			xCh[c_spw_channel].xRmap.xRmapMemAreaConfig.uliAddrOffset  = xConfRmap.uliAddrOffset[c_spw_channel];
 			bRmapSetMemAreaConfig(&(xCh[c_spw_channel].xRmap));
 
 			/*

@@ -8,7 +8,7 @@ package avalon_mm_dcom_registers_pkg is
 
     -- Allowed Addresses
     constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-    constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#7F#;
+    constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#81#;
 
     -- Registers Types
 
@@ -163,9 +163,11 @@ package avalon_mm_dcom_registers_pkg is
 
     -- RMAP Codec Config Register
     type t_dcom_rmap_codec_config_wr_reg is record
-        rmap_target_enable       : std_logic; -- RMAP Target Enable
-        rmap_target_logical_addr : std_logic_vector(7 downto 0); -- RMAP Target Logical Address
-        rmap_target_key          : std_logic_vector(7 downto 0); -- RMAP Target Key
+        rmap_target_enable         : std_logic; -- RMAP Target Enable
+        rmap_target_logical_addr   : std_logic_vector(7 downto 0); -- RMAP Target Logical Address
+        rmap_target_key            : std_logic_vector(7 downto 0); -- RMAP Target Key
+        rmap_target_unalignment_en : std_logic; -- RMAP Unalignment Enable
+        rmap_target_word_width     : std_logic_vector(2 downto 0); -- RMAP Word Width
     end record t_dcom_rmap_codec_config_wr_reg;
 
     -- RMAP Codec Status Register

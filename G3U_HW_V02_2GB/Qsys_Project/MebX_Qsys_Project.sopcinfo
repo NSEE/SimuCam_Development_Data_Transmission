@@ -5,11 +5,11 @@
  version="1.0"
  fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2021.11.10.03:59:53 -->
+ <!-- 2021.12.03.01:56:18 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1636523992</value>
+  <value>1638503777</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -754,7 +754,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_1">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -2222,7 +2222,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_2">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -3690,7 +3690,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_3">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -5158,7 +5158,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_4">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -6626,7 +6626,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_5">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -8094,7 +8094,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_6">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -9562,7 +9562,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_7">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -11030,7 +11030,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_8">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -12498,7 +12498,7 @@ parameters are a RESULT of the module parameters. -->
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.5"
+   version="1.6"
    path="Dumb_Communication_Module_v2_Timer">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -89267,7 +89267,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.TIMESTAMP</name>
-   <value>1636523992</value>
+   <value>1638503777</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.compatible</name>
@@ -89287,7 +89287,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.dts.params.timestamp</name>
-   <value>1636523992</value>
+   <value>1638503777</value>
   </assignment>
   <assignment>
    <name>embeddedsw.dts.vendor</name>
@@ -89303,7 +89303,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="timestamp">
    <type>int</type>
-   <value>1636523992</value>
+   <value>1638503777</value>
    <derived>true</derived>
    <enabled>false</enabled>
    <visible>false</visible>
@@ -106606,7 +106606,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName>DCOM_v2</displayName>
-  <version>1.5</version>
+  <version>1.6</version>
  </plugin>
  <plugin>
   <instanceCount>17</instanceCount>

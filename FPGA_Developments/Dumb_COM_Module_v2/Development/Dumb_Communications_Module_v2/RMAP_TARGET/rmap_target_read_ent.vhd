@@ -126,6 +126,8 @@ architecture rtl of rmap_target_read_ent is
 
     signal s_spw_control_write_enable : std_logic;
 
+    signal s_word_bytes_cnt : unsigned(6 downto 0);
+
     --============================================================================
     -- architecture begin
     --============================================================================
@@ -164,6 +166,7 @@ begin
             s_registered_rmap_errinj_control <= c_RMAP_ERRINJ_CONTROL_RST;
             s_registered_rmap_errinj_status  <= c_RMAP_ERRINJ_STATUS_RST;
             s_spw_control_write_enable       <= '1';
+            s_word_bytes_cnt                 <= (others => '0');
             -- Outputs Generation
             flags_o.read_busy                <= '0';
             flags_o.read_data_indication     <= '0';
@@ -193,6 +196,7 @@ begin
                     s_byte_counter                  <= (others => '0');
                     s_registered_rmap_errinj_status <= c_RMAP_ERRINJ_STATUS_RST;
                     s_spw_control_write_enable      <= '1';
+                    s_word_bytes_cnt                <= (others => '0');
                     -- conditional state transition and internal signal values
                     -- check if the rmap error injection was enabled
                     if (errinj_control_i.rmap_error_trg = '1') then
@@ -226,6 +230,8 @@ begin
                         s_read_address                <= s_read_address_vector((g_MEMORY_ADDRESS_WIDTH - 1) downto 0);
                         -- prepare byte counter for multi-byte read data
                         s_byte_counter                <= std_logic_vector(unsigned(s_byte_counter_vector((g_DATA_LENGTH_WIDTH - 1) downto 0)) - 1);
+                        -- update the word byte counter
+                        s_word_bytes_cnt              <= unsigned(control_i.read_word_size);
                         -- go to wating buffer space
                         s_rmap_target_read_state      <= WAITING_BUFFER_SPACE;
                         v_rmap_target_read_state      := WAITING_BUFFER_SPACE;
@@ -275,6 +281,22 @@ begin
                         if (headerdata_i.instruction_increment_address = '1') then
                             -- increment memory address (for next data)
                             s_read_address <= std_logic_vector(unsigned(s_read_address) + 1);
+                        else
+                            -- TODO: add case for when the memory is not byte address
+                            -- check if the word byte counter is zero (already read all the bytes in the word)
+                            if (s_word_bytes_cnt = 0) then
+                                -- the word byte counter is zero (already read all the bytes in the word)
+                                -- decrement the memory address to be word aligned (for next data)
+                                s_read_address((s_word_bytes_cnt'length - 1) downto 0) <= std_logic_vector(unsigned(s_read_address((s_word_bytes_cnt'length - 1) downto 0)) - unsigned(control_i.read_word_size));
+                                -- update the word byte counter
+                                s_word_bytes_cnt                                       <= unsigned(control_i.read_word_size);
+                            else
+                                -- the word byte counter is not zero (there are more bytes in the word to be read)
+                                -- increment memory address (for next data)
+                                s_read_address   <= std_logic_vector(unsigned(s_read_address) + 1);
+                                -- decrement the word byte counter
+                                s_word_bytes_cnt <= s_word_bytes_cnt - 1;
+                            end if;
                         end if;
                         -- check if byte counter can to be incremented (else it will be reseted)
                         if (s_read_byte_counter < (c_MEMORY_ACCESS_SIZE - 1)) then

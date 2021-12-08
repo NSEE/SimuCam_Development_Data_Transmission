@@ -209,6 +209,8 @@ typedef struct RmapCodecConfig {
 	bool bEnable; /* RMAP Target Enable */
 	alt_u32 ucLogicalAddress; /* RMAP Target Logical Address */
 	alt_u32 ucKey; /* RMAP Target Key */
+	bool bUnaligmentEn; /* RMAP Unalignment Enable */
+	alt_u32 ucWordWidth; /* RMAP Word Width */
 } TRmapCodecConfig;
 
 /* RMAP Codec Status Register Struct */

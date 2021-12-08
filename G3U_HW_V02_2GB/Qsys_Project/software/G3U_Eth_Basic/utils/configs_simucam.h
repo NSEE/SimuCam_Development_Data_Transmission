@@ -33,6 +33,8 @@ typedef struct ConfRmap {
 	alt_u8 ucKey[8];
 	alt_u8 ucLogicalAddr[8];
 	alt_32 uliAddrOffset[8];
+	bool bUnaligmentEn[8];
+	alt_u8 ucWordWidth[8];
 } TConfRmap;
 
 typedef struct ConfDebug {
