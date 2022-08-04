@@ -10,7 +10,7 @@ use IEEE.NUMERIC_STD.ALL;
 use work.RMAP_TARGET_PKG.ALL;
 -------------------------------------------------------------------------------
 -- --
--- Instituto MauÃ¡ de Tecnologia, NÃºcleo de Sistemas EletrÃ´nicos Embarcados --
+-- Instituto Mauá de Tecnologia, Núcleo de Sistemas Eletrônicos Embarcados --
 -- Plato Project --
 -- --
 -------------------------------------------------------------------------------
@@ -23,7 +23,7 @@ use work.RMAP_TARGET_PKG.ALL;
 --! Target ID and Key checking, Write and Read authorization, error gathering 
 --! and other) and flow control for the RMAP Codec.
 --
---! @author Rodrigo FranÃ§a (rodrigo.franca@maua.br)
+--! @author Rodrigo França (rodrigo.franca@maua.br)
 --
 --! @date 06\02\2018
 --
@@ -38,7 +38,7 @@ use work.RMAP_TARGET_PKG.ALL;
 --! SpaceWire - Remote memory access protocol, ECSS-E-ST-50-52C, 2010.02.05 \n
 --!
 --! <b>Modified by:</b>\n
---! Author: Rodrigo FranÃ§a
+--! Author: Rodrigo França
 -------------------------------------------------------------------------------
 --! \n\n<b>Last changes:</b>\n
 --! 06\02\2018 RF File Creation\n
