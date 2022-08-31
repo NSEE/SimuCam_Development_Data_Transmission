@@ -184,6 +184,11 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 	 */
 	while (i_nb_imag_ctrl < pSimucam->T_Sub[i_channel_wr].T_data.nb_of_imagettes) {
 
+		/*
+		 * Switch to the right memory stick
+		 */
+		bDdr2SwitchMemory(usi_mem_id);
+
 		p_imagette_buff = (T_Imagette *) p_imagette_byte;
 		vFtdiChangeGenImgtHeaderEndianness(p_imagette_byte);
 
@@ -202,12 +207,6 @@ void vImagetteParser(T_Simucam *pSimucam, T_uart_payload *pPayload) {
 // 			fprintf(fp, "\r\n");
 // 		}
 // #endif
-
-		/*
-		 * Switch to the right memory stick
-		 */
-		bDdr2SwitchMemory(usi_mem_id);
-		
 
 		// p_imagette_buff->offset = iOffsetLengthBuff[3] + 256 * iOffsetLengthBuff[2] + 65536 * iOffsetLengthBuff[1] + 16777216 * iOffsetLengthBuff[0];
 
