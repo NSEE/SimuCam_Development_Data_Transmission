@@ -267,6 +267,12 @@ bool bRmapClearMemArea(TRmapChannel *pxRmapCh) {
 	return bStatus;
 }
 
+void vRmapResetEchoingModule(alt_u32 uliWaitTimeUs) {
+	IOWR_ALTERA_AVALON_PIO_DATA(PIO_RMAP_ECHOING_MODULE_RESET_BASE, 0x00000001);
+	usleep(uliWaitTimeUs);
+	IOWR_ALTERA_AVALON_PIO_DATA(PIO_RMAP_ECHOING_MODULE_RESET_BASE, 0x00000000);
+}
+
 bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh) {
 	bool bStatus = FALSE;
 	bool bValidCh = FALSE;

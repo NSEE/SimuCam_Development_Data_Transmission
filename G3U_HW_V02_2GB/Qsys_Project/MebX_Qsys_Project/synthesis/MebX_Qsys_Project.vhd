@@ -145,7 +145,9 @@ entity MebX_Qsys_Project is
 		m2_ddr2_oct_rup                                                                                         : in    std_logic                     := '0';             --                                                                    .rup
 		pio_ftdi_umft601a_module_reset_export                                                                   : out   std_logic;                                        --                                      pio_ftdi_umft601a_module_reset.export
 		pio_iso_logic_signal_enable_export                                                                      : out   std_logic;                                        --                                         pio_iso_logic_signal_enable.export
+		pio_rmap_echoing_module_reset_external_connection_export                                                : out   std_logic;                                        --                   pio_rmap_echoing_module_reset_external_connection.export
 		pio_spw_mux_ch_h_select_export                                                                          : out   std_logic_vector(1 downto 0);                     --                                             pio_spw_mux_ch_h_select.export
+		rmap_echoing_echo_rst_sink_reset                                                                        : in    std_logic                     := '0';             --                                          rmap_echoing_echo_rst_sink.reset
 		rs232_uart_rxd                                                                                          : in    std_logic                     := '0';             --                                                          rs232_uart.rxd
 		rs232_uart_txd                                                                                          : out   std_logic;                                        --                                                                    .txd
 		rst_reset_n                                                                                             : in    std_logic                     := '0';             --                                                                 rst.reset_n
@@ -444,6 +446,7 @@ architecture rtl of MebX_Qsys_Project is
 	component rmpe_rmap_echoing_top is
 		port (
 			reset_i                        : in  std_logic                    := 'X';             -- reset
+			echo_rst_i                     : in  std_logic                    := 'X';             -- reset
 			clk_100_i                      : in  std_logic                    := 'X';             -- clk
 			rmap_echo_0_echo_en_i          : in  std_logic                    := 'X';             -- echo_en_signal
 			rmap_echo_0_echo_id_en_i       : in  std_logic                    := 'X';             -- echo_id_en_signal
@@ -1746,6 +1749,11 @@ architecture rtl of MebX_Qsys_Project is
 			pio_LED_painel_s1_readdata                                           : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
 			pio_LED_painel_s1_writedata                                          : out std_logic_vector(31 downto 0);                    -- writedata
 			pio_LED_painel_s1_chipselect                                         : out std_logic;                                        -- chipselect
+			pio_rmap_echoing_module_reset_s1_address                             : out std_logic_vector(1 downto 0);                     -- address
+			pio_rmap_echoing_module_reset_s1_write                               : out std_logic;                                        -- write
+			pio_rmap_echoing_module_reset_s1_readdata                            : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			pio_rmap_echoing_module_reset_s1_writedata                           : out std_logic_vector(31 downto 0);                    -- writedata
+			pio_rmap_echoing_module_reset_s1_chipselect                          : out std_logic;                                        -- chipselect
 			pio_RST_ETH_s1_address                                               : out std_logic_vector(1 downto 0);                     -- address
 			pio_RST_ETH_s1_write                                                 : out std_logic;                                        -- write
 			pio_RST_ETH_s1_readdata                                              : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
@@ -2984,6 +2992,11 @@ architecture rtl of MebX_Qsys_Project is
 	signal mm_interconnect_3_pio_iso_logic_signal_enable_s1_address                                            : std_logic_vector(1 downto 0);   -- mm_interconnect_3:pio_iso_logic_signal_enable_s1_address -> pio_iso_logic_signal_enable:address
 	signal mm_interconnect_3_pio_iso_logic_signal_enable_s1_write                                              : std_logic;                      -- mm_interconnect_3:pio_iso_logic_signal_enable_s1_write -> mm_interconnect_3_pio_iso_logic_signal_enable_s1_write:in
 	signal mm_interconnect_3_pio_iso_logic_signal_enable_s1_writedata                                          : std_logic_vector(31 downto 0);  -- mm_interconnect_3:pio_iso_logic_signal_enable_s1_writedata -> pio_iso_logic_signal_enable:writedata
+	signal mm_interconnect_3_pio_rmap_echoing_module_reset_s1_chipselect                                       : std_logic;                      -- mm_interconnect_3:pio_rmap_echoing_module_reset_s1_chipselect -> pio_rmap_echoing_module_reset:chipselect
+	signal mm_interconnect_3_pio_rmap_echoing_module_reset_s1_readdata                                         : std_logic_vector(31 downto 0);  -- pio_rmap_echoing_module_reset:readdata -> mm_interconnect_3:pio_rmap_echoing_module_reset_s1_readdata
+	signal mm_interconnect_3_pio_rmap_echoing_module_reset_s1_address                                          : std_logic_vector(1 downto 0);   -- mm_interconnect_3:pio_rmap_echoing_module_reset_s1_address -> pio_rmap_echoing_module_reset:address
+	signal mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write                                            : std_logic;                      -- mm_interconnect_3:pio_rmap_echoing_module_reset_s1_write -> mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write:in
+	signal mm_interconnect_3_pio_rmap_echoing_module_reset_s1_writedata                                        : std_logic_vector(31 downto 0);  -- mm_interconnect_3:pio_rmap_echoing_module_reset_s1_writedata -> pio_rmap_echoing_module_reset:writedata
 	signal irq_mapper_receiver0_irq                                                                            : std_logic;                      -- jtag_uart_0:av_irq -> irq_mapper:receiver0_irq
 	signal irq_mapper_receiver4_irq                                                                            : std_logic;                      -- rs232_uart:irq -> irq_mapper:receiver4_irq
 	signal irq_mapper_receiver6_irq                                                                            : std_logic;                      -- Dumb_Communication_Module_v2_1:rprt_interrupt_sender_irq_o -> irq_mapper:receiver6_irq
@@ -3053,7 +3066,8 @@ architecture rtl of MebX_Qsys_Project is
 	signal mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write_ports_inv                                        : std_logic;                      -- mm_interconnect_3_pio_spw_mux_ch_h_select_s1_write:inv -> pio_spw_mux_ch_h_select:write_n
 	signal mm_interconnect_3_pio_ftdi_umft601a_module_reset_s1_write_ports_inv                                 : std_logic;                      -- mm_interconnect_3_pio_ftdi_umft601a_module_reset_s1_write:inv -> pio_ftdi_umft601a_module_reset:write_n
 	signal mm_interconnect_3_pio_iso_logic_signal_enable_s1_write_ports_inv                                    : std_logic;                      -- mm_interconnect_3_pio_iso_logic_signal_enable_s1_write:inv -> pio_iso_logic_signal_enable:write_n
-	signal rst_controller_001_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_001_reset_out_reset:inv -> [Altera_UP_SD_Card_Avalon_Interface_0:i_reset_n, csense_adc_fo:reset_n, csense_cs_n:reset_n, csense_sck:reset_n, csense_sdi:reset_n, csense_sdo:reset_n, m1_ddr2_i2c_scl:reset_n, m1_ddr2_i2c_sda:reset_n, m2_ddr2_i2c_scl:reset_n, m2_ddr2_i2c_sda:reset_n, pio_BUTTON:reset_n, pio_DIP:reset_n, pio_EXT:reset_n, pio_LED:reset_n, pio_LED_painel:reset_n, pio_RST_ETH:reset_n, pio_ctrl_io_lvds:reset_n, pio_ftdi_umft601a_module_reset:reset_n, pio_iso_logic_signal_enable:reset_n, pio_spw_mux_ch_h_select:reset_n, rtcc_alarm:reset_n, rtcc_cs_n:reset_n, rtcc_sck:reset_n, rtcc_sdi:reset_n, rtcc_sdo:reset_n, sd_card_wp_n:reset_n, temp_scl:reset_n, temp_sda:reset_n, timer_1ms:reset_n, timer_1us:reset_n]
+	signal mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write_ports_inv                                  : std_logic;                      -- mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write:inv -> pio_rmap_echoing_module_reset:write_n
+	signal rst_controller_001_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_001_reset_out_reset:inv -> [Altera_UP_SD_Card_Avalon_Interface_0:i_reset_n, csense_adc_fo:reset_n, csense_cs_n:reset_n, csense_sck:reset_n, csense_sdi:reset_n, csense_sdo:reset_n, m1_ddr2_i2c_scl:reset_n, m1_ddr2_i2c_sda:reset_n, m2_ddr2_i2c_scl:reset_n, m2_ddr2_i2c_sda:reset_n, pio_BUTTON:reset_n, pio_DIP:reset_n, pio_EXT:reset_n, pio_LED:reset_n, pio_LED_painel:reset_n, pio_RST_ETH:reset_n, pio_ctrl_io_lvds:reset_n, pio_ftdi_umft601a_module_reset:reset_n, pio_iso_logic_signal_enable:reset_n, pio_rmap_echoing_module_reset:reset_n, pio_spw_mux_ch_h_select:reset_n, rtcc_alarm:reset_n, rtcc_cs_n:reset_n, rtcc_sck:reset_n, rtcc_sdi:reset_n, rtcc_sdo:reset_n, sd_card_wp_n:reset_n, temp_scl:reset_n, temp_sda:reset_n, timer_1ms:reset_n, timer_1us:reset_n]
 	signal rst_controller_002_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_002_reset_out_reset:inv -> [jtag_uart_0:rst_n, rs232_uart:reset_n, sysid_qsys:reset_n]
 	signal rst_controller_005_reset_out_reset_ports_inv                                                        : std_logic;                      -- rst_controller_005_reset_out_reset:inv -> nios2_gen2_0:reset_n
 
@@ -3752,6 +3766,7 @@ begin
 	rmap_echoing : component rmpe_rmap_echoing_top
 		port map (
 			reset_i                        => rst_controller_002_reset_out_reset,                                                     --                       reset_sink.reset
+			echo_rst_i                     => rmap_echoing_echo_rst_sink_reset,                                                       --                    echo_rst_sink.reset
 			clk_100_i                      => m2_ddr2_memory_afi_half_clk_clk,                                                        --                clock_sink_100mhz.clk
 			rmap_echo_0_echo_en_i          => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_en_signal,                --       conduit_end_rmap_echo_0_in.echo_en_signal
 			rmap_echo_0_echo_id_en_i       => dumb_communication_module_v2_1_conduit_end_rmap_echo_out_echo_id_en_signal,             --                                 .echo_id_en_signal
@@ -5062,6 +5077,18 @@ begin
 			out_port   => pio_iso_logic_signal_enable_export                                -- external_connection.export
 		);
 
+	pio_rmap_echoing_module_reset : component MebX_Qsys_Project_csense_adc_fo
+		port map (
+			clk        => clk50_clk,                                                          --                 clk.clk
+			reset_n    => rst_controller_001_reset_out_reset_ports_inv,                       --               reset.reset_n
+			address    => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_address,         --                  s1.address
+			write_n    => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write_ports_inv, --                    .write_n
+			writedata  => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_writedata,       --                    .writedata
+			chipselect => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_chipselect,      --                    .chipselect
+			readdata   => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_readdata,        --                    .readdata
+			out_port   => pio_rmap_echoing_module_reset_external_connection_export            -- external_connection.export
+		);
+
 	pio_spw_mux_ch_h_select : component MebX_Qsys_Project_pio_spw_mux_ch_h_select
 		port map (
 			clk        => clk50_clk,                                                    --                 clk.clk
@@ -5719,6 +5746,11 @@ begin
 			pio_LED_painel_s1_readdata                                           => mm_interconnect_3_pio_led_painel_s1_readdata,                                           --                                                         .readdata
 			pio_LED_painel_s1_writedata                                          => mm_interconnect_3_pio_led_painel_s1_writedata,                                          --                                                         .writedata
 			pio_LED_painel_s1_chipselect                                         => mm_interconnect_3_pio_led_painel_s1_chipselect,                                         --                                                         .chipselect
+			pio_rmap_echoing_module_reset_s1_address                             => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_address,                             --                         pio_rmap_echoing_module_reset_s1.address
+			pio_rmap_echoing_module_reset_s1_write                               => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write,                               --                                                         .write
+			pio_rmap_echoing_module_reset_s1_readdata                            => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_readdata,                            --                                                         .readdata
+			pio_rmap_echoing_module_reset_s1_writedata                           => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_writedata,                           --                                                         .writedata
+			pio_rmap_echoing_module_reset_s1_chipselect                          => mm_interconnect_3_pio_rmap_echoing_module_reset_s1_chipselect,                          --                                                         .chipselect
 			pio_RST_ETH_s1_address                                               => mm_interconnect_3_pio_rst_eth_s1_address,                                               --                                           pio_RST_ETH_s1.address
 			pio_RST_ETH_s1_write                                                 => mm_interconnect_3_pio_rst_eth_s1_write,                                                 --                                                         .write
 			pio_RST_ETH_s1_readdata                                              => mm_interconnect_3_pio_rst_eth_s1_readdata,                                              --                                                         .readdata
@@ -6333,6 +6365,8 @@ begin
 	mm_interconnect_3_pio_ftdi_umft601a_module_reset_s1_write_ports_inv <= not mm_interconnect_3_pio_ftdi_umft601a_module_reset_s1_write;
 
 	mm_interconnect_3_pio_iso_logic_signal_enable_s1_write_ports_inv <= not mm_interconnect_3_pio_iso_logic_signal_enable_s1_write;
+
+	mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write_ports_inv <= not mm_interconnect_3_pio_rmap_echoing_module_reset_s1_write;
 
 	rst_controller_001_reset_out_reset_ports_inv <= not rst_controller_001_reset_out_reset;
 

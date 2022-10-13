@@ -262,10 +262,11 @@ architecture bhv of MebX_TopLevel is
     -----------------------------------------
     -- Clock e reset
     -----------------------------------------
-    signal rst_ctrl_input : std_logic := '0';
-    signal simucam_rst    : std_logic := '0';
-    signal rst_n          : std_logic;
-    signal ftdi_rst       : std_logic;
+    signal rst_ctrl_input   : std_logic := '0';
+    signal simucam_rst      : std_logic := '0';
+    signal rst_n            : std_logic;
+    signal rmap_echoing_rst : std_logic;
+    signal ftdi_rst         : std_logic;
 
     -----------------------------------------
     -- Ethernet 
@@ -484,6 +485,9 @@ architecture bhv of MebX_TopLevel is
             spwm_h_select_mux_select_signal                             : in    std_logic_vector(1 downto 0)  := (others => '1'); -- mux_select_signal
             --
             pio_spw_mux_ch_h_select_export                              : out   std_logic_vector(1 downto 0); --      -- export
+            --
+            rmap_echoing_echo_rst_sink_reset                            : in    std_logic                     := '0';             -- reset
+            pio_rmap_echoing_module_reset_external_connection_export    : out   std_logic;                                        -- export
             --
             dcom_1_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
             dcom_2_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
@@ -758,6 +762,9 @@ begin
             spwm_h_select_mux_select_signal                             => spw_h_mux_select, --                            spwm_h_select.mux_select_signal
             --
             pio_spw_mux_ch_h_select_export                              => spw_h_mux_select, --                  pio_spw_mux_ch_h_select.export
+            --
+            rmap_echoing_echo_rst_sink_reset                            => rmap_echoing_rst, --               rmap_echoing_echo_rst_sink.reset
+            pio_rmap_echoing_module_reset_external_connection_export    => rmap_echoing_rst, -- pio_rmap_echoing_module_reset_external_connection.export
             --
             dcom_1_sync_end_sync_channel_signal                         => spw_1_sync, --            comm_a_sync_end.sync_channel_signal
             dcom_2_sync_end_sync_channel_signal                         => spw_2_sync, --            comm_b_sync_end.sync_channel_signal

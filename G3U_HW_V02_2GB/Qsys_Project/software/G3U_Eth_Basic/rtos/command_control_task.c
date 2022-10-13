@@ -1074,6 +1074,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			usleep(100000);
 			bEnableIsoLogic();
 
+			/* Reset RMAP Echoing */
+			vRmapResetEchoingModule(100000);
+
 			/*
 			 * Clear and start simucam timer, NOT RUNNING
 			 */

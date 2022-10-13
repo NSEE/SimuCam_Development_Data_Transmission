@@ -17,6 +17,7 @@ use work.rmpe_rmap_echoing_pkg.all;
 entity rmpe_rmap_echoing_top is
     port(
         reset_i                        : in  std_logic                    := '0'; --          --                       reset_sink.reset
+        echo_rst_i                     : in  std_logic                    := '0'; --          --                    echo_rst_sink.reset
         clk_100_i                      : in  std_logic                    := '0'; --          --                clock_sink_100mhz.clk
         rmap_echo_0_echo_en_i          : in  std_logic                    := '0'; --          --       conduit_end_rmap_echo_0_in.echo_en_signal
         rmap_echo_0_echo_id_en_i       : in  std_logic                    := '0'; --          --                                 .echo_id_en_signal
@@ -112,15 +113,16 @@ end entity rmpe_rmap_echoing_top;
 
 architecture rtl of rmpe_rmap_echoing_top is
 
+    -- Signals --
+    signal s_global_rst : std_logic;
+
     -- Alias --
 
     -- Basic Alias
     alias a_avs_clock_i is clk_100_i;
-    alias a_reset_i is reset_i;
+    alias a_reset_i is s_global_rst;
 
     -- Constants --
-
-    -- Signals --
 
     -- RMAP Data FIFO Signals
     signal s_rmap_echo_0_in_fifo_control  : t_rmpe_rmap_echoing_rmap_fifo_control;
@@ -153,7 +155,7 @@ architecture rtl of rmpe_rmap_echoing_top is
     signal s_rmap_echo_6_out_fifo_status  : t_rmpe_rmap_echoing_rmap_fifo_status;
 
 begin
-
+    
     -- Entities Instantiation --
 
     -- FEE 0 RMAP Incoming Echo Controller Instantiation
@@ -477,6 +479,9 @@ begin
         );
 
     -- Signals Assignments and Processes --
+    
+    -- Global Reset Assignments
+    s_global_rst <= reset_i or echo_rst_i;
 
     -- SpaceWire Channel Codec Configuration
     p_spwc_codec_config : process(a_avs_clock_i, a_reset_i) is
@@ -520,5 +525,5 @@ begin
             end if;
         end if;
     end process p_spwc_codec_glutton_reader;
-
+    
 end architecture rtl;                   -- of rmpe_rmap_echoing_top

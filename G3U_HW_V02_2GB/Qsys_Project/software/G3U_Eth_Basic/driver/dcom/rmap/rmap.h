@@ -64,6 +64,8 @@ bool bRmapSetEchoingMode(TRmapChannel *pxRmapCh);
 
 bool bRmapClearMemArea(TRmapChannel *pxRmapCh);
 
+void vRmapResetEchoingModule(alt_u32 uliWaitTimeUs);
+
 bool bRmapInitCh(TRmapChannel *pxRmapCh, alt_u8 ucDcomCh);
 
 //! [public function prototypes]
