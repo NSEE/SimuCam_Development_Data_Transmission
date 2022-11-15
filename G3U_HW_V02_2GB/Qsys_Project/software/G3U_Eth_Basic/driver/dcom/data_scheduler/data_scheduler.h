@@ -60,6 +60,8 @@ bool bDschGetBufferStatus(TDschChannel *pxDschCh);
 bool bDschGetDataControl(TDschChannel *pxDschCh);
 bool bDschSetDataControl(TDschChannel *pxDschCh);
 
+bool bDschDataEepInjection(TDschChannel *pxDschCh, alt_u32 uliEepErrorInjectionCnt);
+
 bool bDschGetDataStatus(TDschChannel *pxDschCh);
 
 bool bDschGetIrqControl(TDschChannel *pxDschCh);

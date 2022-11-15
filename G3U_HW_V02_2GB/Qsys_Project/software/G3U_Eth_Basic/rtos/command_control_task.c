@@ -1396,15 +1396,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						break;
 
 					case spwErrEEP:
-						bDschGetPacketConfig(&xCh[p_payload->data[1]].xDataScheduler);
-						if (xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep) {
-							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep = FALSE;
-							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEop = TRUE;
-						} else {
-							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEep = TRUE;
-							xCh[p_payload->data[1]].xDataScheduler.xDschPacketConfig.bSendEop = FALSE;
-						}
-						bDschSetPacketConfig(&xCh[p_payload->data[1]].xDataScheduler);
+						bDschDataEepInjection(&xCh[p_payload->data[1]].xDataScheduler, 1);
 						break;
 
 					// case spwErrInvalidDestination:

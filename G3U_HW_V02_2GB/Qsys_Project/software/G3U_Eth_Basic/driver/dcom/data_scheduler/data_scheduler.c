@@ -921,6 +921,24 @@ bool bDschSetDataControl(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
+bool bDschDataEepInjection(TDschChannel *pxDschCh, alt_u32 uliEepErrorInjectionCnt) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		vpxDcomChannel->xDataScheduler.xDschDataControl.uliDataEepInjectionCnt = uliEepErrorInjectionCnt;
+		vpxDcomChannel->xDataScheduler.xDschDataControl.bDataEepInjectionEn    = TRUE;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
 bool bDschGetDataStatus(TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;

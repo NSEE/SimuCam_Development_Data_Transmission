@@ -9,22 +9,24 @@ entity data_controller_ent is
         g_DATA_TIME_WORDS   : natural range 1 to 4  := 4
     );
     port(
-        clk_i            : in  std_logic;
-        rst_i            : in  std_logic;
-        tmr_time_i       : in  std_logic_vector(31 downto 0);
-        tmr_stop_i       : in  std_logic;
-        tmr_start_i      : in  std_logic;
-        dctrl_send_eep_i : in  std_logic;
-        dctrl_send_eop_i : in  std_logic;
-        dbuffer_empty_i  : in  std_logic;
-        dbuffer_rddata_i : in  std_logic_vector(7 downto 0);
-        spw_tx_ready_i   : in  std_logic;
-        dctrl_tx_begin_o : out std_logic;
-        dctrl_tx_ended_o : out std_logic;
-        dbuffer_rdreq_o  : out std_logic;
-        spw_tx_write_o   : out std_logic;
-        spw_tx_flag_o    : out std_logic;
-        spw_tx_data_o    : out std_logic_vector(7 downto 0)
+        clk_i               : in  std_logic;
+        rst_i               : in  std_logic;
+        tmr_time_i          : in  std_logic_vector(31 downto 0);
+        tmr_stop_i          : in  std_logic;
+        tmr_start_i         : in  std_logic;
+        dctrl_send_eep_i    : in  std_logic;
+        dctrl_send_eop_i    : in  std_logic;
+        dctrl_eep_inj_trg_i : in  std_logic;
+        dctrl_eep_inj_cnt_i : in  std_logic_vector(31 downto 0);
+        dbuffer_empty_i     : in  std_logic;
+        dbuffer_rddata_i    : in  std_logic_vector(7 downto 0);
+        spw_tx_ready_i      : in  std_logic;
+        dctrl_tx_begin_o    : out std_logic;
+        dctrl_tx_ended_o    : out std_logic;
+        dbuffer_rdreq_o     : out std_logic;
+        spw_tx_write_o      : out std_logic;
+        spw_tx_flag_o       : out std_logic;
+        spw_tx_data_o       : out std_logic_vector(7 downto 0)
     );
 end entity data_controller_ent;
 
@@ -68,6 +70,9 @@ architecture RTL of data_controller_ent is
 
     signal s_alignment_counter : natural range 0 to (c_MEMORY_ALIGNMENT_WORDS - 1);
 
+    signal s_eep_injection_en  : std_logic;
+    signal s_eep_injection_cnt : unsigned(31 downto 0);
+
 begin
 
     -- data controller fsm process
@@ -85,6 +90,8 @@ begin
             s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
             s_spw_transmitting             <= '0';
             s_alignment_counter            <= 0;
+            s_eep_injection_en             <= '0';
+            s_eep_injection_cnt            <= (others => '0');
             -- outputs
             dctrl_tx_begin_o               <= '0';
             dctrl_tx_ended_o               <= '0';
@@ -93,6 +100,24 @@ begin
             spw_tx_flag_o                  <= '0';
             spw_tx_data_o                  <= x"00";
         elsif rising_edge(clk_i) then
+
+            -- EEP Error Injection Management
+            -- check if the eep error injection was triggered 
+            if (dctrl_eep_inj_trg_i = '1') then
+                -- the eep error injection was triggered
+                -- check if the error injection counter is cleared
+                if (dctrl_eep_inj_cnt_i = x"00000000") then
+                    -- the error injection counter is cleared
+                    -- disable the eep error injection
+                    s_eep_injection_en  <= '0';
+                    s_eep_injection_cnt <= (others => '0');
+                else
+                    -- the error injection counter is not cleared
+                    -- enable the eep error injection
+                    s_eep_injection_en  <= '1';
+                    s_eep_injection_cnt <= unsigned(dctrl_eep_inj_cnt_i);
+                end if;
+            end if;
 
             -- States transitions FSM
             case (s_data_controller_state) is
@@ -522,15 +547,38 @@ begin
                     -- set spw flag (to indicate a package end)
                     spw_tx_flag_o    <= '1';
                     -- conditional output signals
-                    -- check if an eop need to be sent
-                    if (dctrl_send_eop_i = '1') then
-                        -- an eop need to be sent
-                        -- fill spw data with the eop identifier (0x00)
-                        spw_tx_data_o <= x"00";
+                    -- check if the eep error injection is enabled
+                    if (s_eep_injection_en = '1') then
+                        -- the eep error injection is enabled
+                        -- check if the eep error injection counter is cleared
+                        if (s_eep_injection_cnt = x"00000000") then
+                            -- the eep error injection counter is cleared
+                            -- eep error injection finished, disable the eep error injection and send an eop 
+                            s_eep_injection_en  <= '0';
+                            s_eep_injection_cnt <= (others => '0');
+                            -- fill spw data with the eop identifier (0x00)
+                            spw_tx_data_o       <= x"00";
+                        else
+                            -- the eep error injection counter is not cleared
+                            -- in middle of eep error injection, keep the eep error injection enabled and send an eep
+                            s_eep_injection_en  <= '1';
+                            -- decrement the eep error injection counter
+                            s_eep_injection_cnt <= s_eep_injection_cnt - 1;
+                            -- fill spw data with the eep identifier (0x01)
+                            spw_tx_data_o       <= x"01";
+                        end if;
                     else
-                        -- an eep need to be sent
-                        -- fill spw data with the eep identifier (0x01)
-                        spw_tx_data_o <= x"01";
+                        -- the eep error injection is disabled
+                        -- check if an eop need to be sent
+                        if (dctrl_send_eop_i = '1') then
+                            -- an eop need to be sent
+                            -- fill spw data with the eop identifier (0x00)
+                            spw_tx_data_o <= x"00";
+                        else
+                            -- an eep need to be sent
+                            -- fill spw data with the eep identifier (0x01)
+                            spw_tx_data_o <= x"01";
+                        end if;
                     end if;
 
                 when DATA_PACKET_END =>

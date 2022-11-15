@@ -168,6 +168,8 @@ typedef struct DschDataControl {
 	bool bRdStart; /* Data Scheduler Data Read Start */
 	bool bRdReset; /* Data Scheduler Data Read Reset */
 	bool bRdAutoRestart; /* Data Scheduler Data Read Auto Restart */
+	bool bDataEepInjectionEn; /* Data Scheduler Data EEP Injection Enable */
+	alt_u32 uliDataEepInjectionCnt; /* Data Scheduler Data EEP Injection Counter */
 } TDschDataControl;
 
 /* Data Scheduler Data Status Register Struct */

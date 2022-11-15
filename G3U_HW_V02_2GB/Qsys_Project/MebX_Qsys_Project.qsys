@@ -2365,47 +2365,47 @@
  <module
    name="Dumb_Communication_Module_v2_1"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_2"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_3"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_4"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_5"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_6"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_7"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_8"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="Dumb_Communication_Module_v2_Timer"
    kind="Dumb_Communication_Module_v2"
-   version="1.6"
+   version="1.7"
    enabled="1" />
  <module
    name="FTDI_UMFT601A_Module"
@@ -2413,7 +2413,7 @@
    version="2.3"
    enabled="1" />
  <module name="Memory_Filler" kind="Memory_Filler" version="1.0" enabled="1" />
- <module name="RMAP_Echoing" kind="RMAP_Echoing" version="1.5" enabled="1" />
+ <module name="RMAP_Echoing" kind="RMAP_Echoing" version="1.6" enabled="1" />
  <module
    name="RMAP_Memory_Subunit_Area_1"
    kind="RMAP_Memory_Subunit_Area"
@@ -2502,7 +2502,7 @@
  <module
    name="SpaceWire_Mux_Ch_H"
    kind="SpaceWire_Mux"
-   version="1.1"
+   version="1.2"
    enabled="1" />
  <module
    name="Sync_Signal_Filter_Latch_0"

@@ -4,7 +4,7 @@
 
 
 # 
-# SpaceWire_Mux "SpaceWire_Mux" v1.1
+# SpaceWire_Mux "SpaceWire_Mux" v1.2
 # rfranca 2021.02.12.01:06:42
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME SpaceWire_Mux
-set_module_property VERSION 1.1
+set_module_property VERSION 1.2
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR rfranca

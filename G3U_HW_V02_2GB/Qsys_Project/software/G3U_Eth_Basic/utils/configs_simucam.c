@@ -585,8 +585,12 @@ bool bLoadDefaultDebugConf(void) {
 							xConfDebug.bSendEOP = FALSE;
 							break;
 						case 2:
-						default:
 							xConfDebug.bSendEEP = FALSE;
+							xConfDebug.bSendEOP = TRUE;
+							break;
+						case 3:
+						default:
+							xConfDebug.bSendEEP = TRUE;
 							xConfDebug.bSendEOP = TRUE;
 							break;
 						}

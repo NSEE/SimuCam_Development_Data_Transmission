@@ -311,22 +311,24 @@ begin
             g_DATA_TIME_WORDS   => 4
         )
         port map(
-            clk_i            => a_avs_clock,
-            rst_i            => a_reset,
-            tmr_time_i       => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time,
-            tmr_stop_i       => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
-            tmr_start_i      => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
-            dctrl_send_eep_i => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eep,
-            dctrl_send_eop_i => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eop,
-            dbuffer_empty_i  => s_dcrtl_dbuffer_empty,
-            dbuffer_rddata_i => s_dcrtl_dbuffer_rddata,
-            spw_tx_ready_i   => s_dctrl_spw_tx_ready,
-            dctrl_tx_begin_o => s_dctrl_tx_begin,
-            dctrl_tx_ended_o => s_dctrl_tx_ended,
-            dbuffer_rdreq_o  => s_dcrtl_dbuffer_rdreq,
-            spw_tx_write_o   => s_dctrl_spw_tx_write,
-            spw_tx_flag_o    => s_dctrl_spw_tx_flag,
-            spw_tx_data_o    => s_dctrl_spw_tx_data
+            clk_i               => a_avs_clock,
+            rst_i               => a_reset,
+            tmr_time_i          => s_dcom_read_registers.data_scheduler_tmr_status_reg.timer_current_time,
+            tmr_stop_i          => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_stop,
+            tmr_start_i         => s_dcom_write_registers.data_scheduler_tmr_control_reg.timer_start,
+            dctrl_send_eep_i    => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eep,
+            dctrl_send_eop_i    => s_dcom_write_registers.data_scheduler_pkt_config_reg.send_eop,
+            dctrl_eep_inj_trg_i => s_dcom_write_registers.data_scheduler_data_control_reg.data_eep_injection_en,
+            dctrl_eep_inj_cnt_i => s_dcom_write_registers.data_scheduler_data_control_reg.data_eep_injection_cnt,
+            dbuffer_empty_i     => s_dcrtl_dbuffer_empty,
+            dbuffer_rddata_i    => s_dcrtl_dbuffer_rddata,
+            spw_tx_ready_i      => s_dctrl_spw_tx_ready,
+            dctrl_tx_begin_o    => s_dctrl_tx_begin,
+            dctrl_tx_ended_o    => s_dctrl_tx_ended,
+            dbuffer_rdreq_o     => s_dcrtl_dbuffer_rdreq,
+            spw_tx_write_o      => s_dctrl_spw_tx_write,
+            spw_tx_flag_o       => s_dctrl_spw_tx_flag,
+            spw_tx_data_o       => s_dctrl_spw_tx_data
         );
 
     -- Data Scheduler Instantiation

@@ -1,3 +1,4 @@
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
@@ -8,7 +9,7 @@ package avalon_mm_dcom_registers_pkg is
 
     -- Allowed Addresses
     constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-    constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#81#;
+    constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#83#;
 
     -- Registers Types
 
@@ -125,6 +126,8 @@ package avalon_mm_dcom_registers_pkg is
         rd_start                   : std_logic; -- Data Scheduler Data Read Start
         rd_reset                   : std_logic; -- Data Scheduler Data Read Reset
         rd_auto_restart            : std_logic; -- Data Scheduler Data Read Auto Restart
+        data_eep_injection_en      : std_logic; -- Data Scheduler Data EEP Injection Enable
+        data_eep_injection_cnt     : std_logic_vector(31 downto 0); -- Data Scheduler Data EEP Injection Counter
     end record t_dcom_data_scheduler_data_control_wr_reg;
 
     -- Data Scheduler Data Status Register

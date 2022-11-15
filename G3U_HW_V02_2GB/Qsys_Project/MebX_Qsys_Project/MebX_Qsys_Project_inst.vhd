@@ -137,7 +137,9 @@
 			m2_ddr2_oct_rup                                                                                         : in    std_logic                     := 'X';             -- rup
 			pio_ftdi_umft601a_module_reset_export                                                                   : out   std_logic;                                        -- export
 			pio_iso_logic_signal_enable_export                                                                      : out   std_logic;                                        -- export
+			pio_rmap_echoing_module_reset_external_connection_export                                                : out   std_logic;                                        -- export
 			pio_spw_mux_ch_h_select_export                                                                          : out   std_logic_vector(1 downto 0);                     -- export
+			rmap_echoing_echo_rst_sink_reset                                                                        : in    std_logic                     := 'X';             -- reset
 			rs232_uart_rxd                                                                                          : in    std_logic                     := 'X';             -- rxd
 			rs232_uart_txd                                                                                          : out   std_logic;                                        -- txd
 			rst_reset_n                                                                                             : in    std_logic                     := 'X';             -- reset_n
@@ -286,9 +288,7 @@
 			umft601a_pins_umft_wr_n_signal                                                                          : out   std_logic;                                        -- umft_wr_n_signal
 			umft601a_pins_umft_rd_n_signal                                                                          : out   std_logic;                                        -- umft_rd_n_signal
 			umft601a_pins_umft_oe_n_signal                                                                          : out   std_logic;                                        -- umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                                                                        : out   std_logic;                                        -- umft_siwu_n_signal
-			pio_rmap_echoing_module_reset_external_connection_export                                                : out   std_logic;                                        -- export
-			rmap_echoing_echo_rst_sink_reset                                                                        : in    std_logic                     := 'X'              -- reset
+			umft601a_pins_umft_siwu_n_signal                                                                        : out   std_logic                                         -- umft_siwu_n_signal
 		);
 	end component MebX_Qsys_Project;
 
@@ -431,7 +431,9 @@
 			m2_ddr2_oct_rup                                                                                         => CONNECTED_TO_m2_ddr2_oct_rup,                                                                                         --                                                                    .rup
 			pio_ftdi_umft601a_module_reset_export                                                                   => CONNECTED_TO_pio_ftdi_umft601a_module_reset_export,                                                                   --                                      pio_ftdi_umft601a_module_reset.export
 			pio_iso_logic_signal_enable_export                                                                      => CONNECTED_TO_pio_iso_logic_signal_enable_export,                                                                      --                                         pio_iso_logic_signal_enable.export
+			pio_rmap_echoing_module_reset_external_connection_export                                                => CONNECTED_TO_pio_rmap_echoing_module_reset_external_connection_export,                                                --                   pio_rmap_echoing_module_reset_external_connection.export
 			pio_spw_mux_ch_h_select_export                                                                          => CONNECTED_TO_pio_spw_mux_ch_h_select_export,                                                                          --                                             pio_spw_mux_ch_h_select.export
+			rmap_echoing_echo_rst_sink_reset                                                                        => CONNECTED_TO_rmap_echoing_echo_rst_sink_reset,                                                                        --                                          rmap_echoing_echo_rst_sink.reset
 			rs232_uart_rxd                                                                                          => CONNECTED_TO_rs232_uart_rxd,                                                                                          --                                                          rs232_uart.rxd
 			rs232_uart_txd                                                                                          => CONNECTED_TO_rs232_uart_txd,                                                                                          --                                                                    .txd
 			rst_reset_n                                                                                             => CONNECTED_TO_rst_reset_n,                                                                                             --                                                                 rst.reset_n
@@ -580,8 +582,6 @@
 			umft601a_pins_umft_wr_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_wr_n_signal,                                                                          --                                                                    .umft_wr_n_signal
 			umft601a_pins_umft_rd_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_rd_n_signal,                                                                          --                                                                    .umft_rd_n_signal
 			umft601a_pins_umft_oe_n_signal                                                                          => CONNECTED_TO_umft601a_pins_umft_oe_n_signal,                                                                          --                                                                    .umft_oe_n_signal
-			umft601a_pins_umft_siwu_n_signal                                                                        => CONNECTED_TO_umft601a_pins_umft_siwu_n_signal,                                                                        --                                                                    .umft_siwu_n_signal
-			pio_rmap_echoing_module_reset_external_connection_export                                                => CONNECTED_TO_pio_rmap_echoing_module_reset_external_connection_export,                                                --                   pio_rmap_echoing_module_reset_external_connection.export
-			rmap_echoing_echo_rst_sink_reset                                                                        => CONNECTED_TO_rmap_echoing_echo_rst_sink_reset                                                                         --                                          rmap_echoing_echo_rst_sink.reset
+			umft601a_pins_umft_siwu_n_signal                                                                        => CONNECTED_TO_umft601a_pins_umft_siwu_n_signal                                                                         --                                                                    .umft_siwu_n_signal
 		);
 
