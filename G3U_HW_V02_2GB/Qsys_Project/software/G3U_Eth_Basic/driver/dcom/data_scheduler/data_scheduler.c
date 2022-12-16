@@ -111,6 +111,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[0], &xSubTemp);
 			T_simucam.T_Sub[0].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[0].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[0].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[0].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[0].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[0].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[0].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[0].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[0].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -187,6 +202,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[1], &xSubTemp);
 			T_simucam.T_Sub[1].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[1].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[1].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[1].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[1].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[1].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[1].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[1].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[1].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -253,6 +283,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[2], &xSubTemp);
 			T_simucam.T_Sub[2].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[2].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[2].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[2].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[2].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[2].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[2].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[2].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[2].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -319,6 +364,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[3], &xSubTemp);
 			T_simucam.T_Sub[3].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[3].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[3].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[3].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[3].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[3].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[3].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[3].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[3].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -385,6 +445,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[4], &xSubTemp);
 			T_simucam.T_Sub[4].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[4].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[4].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[4].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[4].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[4].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[4].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[4].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[4].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -451,6 +526,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[5], &xSubTemp);
 			T_simucam.T_Sub[5].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[5].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[5].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[5].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[5].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[5].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[5].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[5].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[5].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -517,6 +607,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[6], &xSubTemp);
 			T_simucam.T_Sub[6].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[6].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[6].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[6].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[6].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[6].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[6].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[6].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[6].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -583,6 +688,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[7], &xSubTemp);
 			T_simucam.T_Sub[7].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[7].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[7].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[7].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[7].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[7].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[7].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[7].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[7].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -638,6 +758,21 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			xSubTemp.mode = subAbort;
 			OSQPost(p_sub_unit_config_queue[ui_channel], &xSubTemp);
 			T_simucam.T_Sub[ui_channel].T_conf.i_imagette_control = 0;
+
+			/* Get the transmission time end */
+			bDschGetTimerStatus(&xSimucamTimer);
+			T_simucam.T_Sub[ui_channel].T_sub_status.uliTransEndTimeMs = xSimucamTimer.xDschTimerStatus.uliCurrentTime;
+			if (0 == T_simucam.T_Sub[ui_channel].T_conf.usiRepeatTransNRepeat) {
+				T_simucam.T_Sub[ui_channel].T_sub_status.bTransEnabled = TRUE;
+			} else {
+				T_simucam.T_Sub[ui_channel].T_sub_status.usiTransNRepeat++;
+				if (T_simucam.T_Sub[ui_channel].T_conf.usiRepeatTransNRepeat >= T_simucam.T_Sub[ui_channel].T_sub_status.usiTransNRepeat) {
+					T_simucam.T_Sub[ui_channel].T_sub_status.bTransEnabled = TRUE;
+				} else {
+					T_simucam.T_Sub[ui_channel].T_sub_status.bTransEnabled = FALSE;
+				}
+			}
+
 		}
 
 	}
@@ -921,7 +1056,7 @@ bool bDschSetDataControl(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschDataEepInjection(TDschChannel *pxDschCh, alt_u32 uliEepErrorInjectionCnt) {
+bool bDschInjEepErr(TDschChannel *pxDschCh, alt_u32 uliEepErrInjCnt) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -929,14 +1064,38 @@ bool bDschDataEepInjection(TDschChannel *pxDschCh, alt_u32 uliEepErrorInjectionC
 
 		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
 
-		vpxDcomChannel->xDataScheduler.xDschDataControl.uliDataEepInjectionCnt = uliEepErrorInjectionCnt;
+		pxDschCh->xDschDataControl.uliDataEepInjectionCnt = uliEepErrInjCnt;
+		pxDschCh->xDschDataControl.bDataEepInjectionEn    = FALSE;
+
+		vpxDcomChannel->xDataScheduler.xDschDataControl.uliDataEepInjectionCnt = uliEepErrInjCnt;
 		vpxDcomChannel->xDataScheduler.xDschDataControl.bDataEepInjectionEn    = TRUE;
 
 		bStatus = TRUE;
 
 	}
 
-	return bStatus;
+	return (bStatus);
+}
+
+bool bDschRstEepErr(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		pxDschCh->xDschDataControl.uliDataEepInjectionCnt = 0;
+		pxDschCh->xDschDataControl.bDataEepInjectionEn    = FALSE;
+
+		vpxDcomChannel->xDataScheduler.xDschDataControl.uliDataEepInjectionCnt = 0;
+		vpxDcomChannel->xDataScheduler.xDschDataControl.bDataEepInjectionEn    = TRUE;
+
+		bStatus = TRUE;
+
+	}
+
+	return (bStatus);
 }
 
 bool bDschGetDataStatus(TDschChannel *pxDschCh) {

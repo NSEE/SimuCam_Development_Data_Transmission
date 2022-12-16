@@ -29,7 +29,8 @@ enum RmapRmapErrId {
 	eRmapRmapErrIdHeaderEep       = 13u, /* RMAP Error Injection Error ID for Header EEP */
 	eRmapRmapErrIdDataCrc         = 14u, /* RMAP Error Injection Error ID for Data CRC */
 	eRmapRmapErrIdDataEep         = 15u, /* RMAP Error Injection Error ID for Data EEP */
-	eRmapRmapErrIdMissingResponse = 16u  /* RMAP Error Injection Error ID for Missing Response */
+	eRmapRmapErrIdMissingResponse = 16u, /* RMAP Error Injection Error ID for Missing Response */
+	eRmapRmapErrMaxIndex
 } RmapRmapErrId;
 
 //! [constants definition]
@@ -52,6 +53,7 @@ bool bRmapGetCodecError(TRmapChannel *pxRmapCh);
 bool bRmapGetRmapErrInj(TRmapChannel *pxRmapCh);
 bool bRmapSetRmapErrInj(TRmapChannel *pxRmapCh);
 bool bRmapRstRmapErrInj(TRmapChannel *pxRmapCh);
+bool bRmapInjRmapErrInj(TRmapChannel *pxRmapCh, alt_u8 ucErrorId, alt_u32 uliValue, alt_u16 usiRepeats);
 
 bool bRmapGetMemAreaConfig(TRmapChannel *pxRmapCh);
 bool bRmapSetMemAreaConfig(TRmapChannel *pxRmapCh);

@@ -227,6 +227,42 @@ bool bSpwcSetSpwCodecErrInj(TSpwcChannel *pxSpwcCh) {
 }
 
 
+bool bSpwcRstSpwCodecErrInj(TSpwcChannel *pxSpwcCh){
+	bool bStatus = FALSE;
+
+	/* Force the stop of any ongoing SpW Codec Errors */
+	if (bSpwcGetSpwCodecErrInj(pxSpwcCh)){
+		pxSpwcCh->xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
+		pxSpwcCh->xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
+		pxSpwcCh->xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
+		bStatus = bSpwcSetSpwCodecErrInj(pxSpwcCh);
+	}
+
+	if (TRUE == bStatus) {
+		/* Wait SpW Codec Errors controller to be ready */
+		bSpwcGetSpwCodecErrInj(pxSpwcCh);
+		while (FALSE == pxSpwcCh->xSpwcSpwCodecErrInj.bErrInjReady) {
+			bSpwcGetSpwCodecErrInj(pxSpwcCh);
+		}
+	}
+
+	return (bStatus);
+}
+
+bool bSpwcInjSpwCodecErrInj(TSpwcChannel *pxSpwcCh, alt_u8 ucErrInjErrCode){
+	bool bStatus = FALSE;
+
+	bStatus = bSpwcRstSpwCodecErrInj(pxSpwcCh);
+
+	if ((bSpwcRstSpwCodecErrInj(pxSpwcCh)) && (ucErrInjErrCode < eSpwcSpwCodecErrMaxIndex)) {
+		pxSpwcCh->xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
+		pxSpwcCh->xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
+		pxSpwcCh->xSpwcSpwCodecErrInj.ucErrInjErrCode = ucErrInjErrCode;
+		bStatus = bSpwcSetSpwCodecErrInj(pxSpwcCh);
+	}
+
+	return (bStatus);
+}
 
 bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh) {
 	bool bStatus = FALSE;

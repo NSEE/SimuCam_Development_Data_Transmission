@@ -125,6 +125,11 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			bDschStopTimer(&(xCh[c_spw_channel].xDataScheduler));
 			bDschClrTimer(&(xCh[c_spw_channel].xDataScheduler));
 
+			/* Clear Transmission Status */
+			T_simucam.T_Sub[c_spw_channel].T_sub_status.bTransEnabled     = FALSE;
+			T_simucam.T_Sub[c_spw_channel].T_sub_status.usiTransNRepeat   = 0;
+			T_simucam.T_Sub[c_spw_channel].T_sub_status.uliTransEndTimeMs = 0;
+
 			/*
 			 * Disabling SpW channel
 			 */
@@ -357,16 +362,40 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				 * Sub-Unit RUN
 				 */
 				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeRun;
-			}
-			break;
 
-		case subModeRun:
 #if DEBUG_ON
 if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit Run\r\n", (INT8U) c_spw_channel);
 }
 #endif
-			p_config = (sub_config_t *) OSQPend(p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
+
+			}
+			break;
+
+		case subModeRun:
+
+			/* Data retransmission */
+			if ((TRUE == T_simucam.T_Sub[c_spw_channel].T_conf.bRepeatTrans) && (TRUE == T_simucam.T_Sub[c_spw_channel].T_sub_status.bTransEnabled)) {
+				bDschGetTimerStatus(&xSimucamTimer);
+				if (xSimucamTimer.xDschTimerStatus.uliCurrentTime >= (T_simucam.T_Sub[c_spw_channel].T_sub_status.uliTransEndTimeMs + T_simucam.T_Sub[c_spw_channel].T_conf.uliRepeatTransTimeMs)) {
+					bDschRunTimer(&(xCh[c_spw_channel].xDataScheduler));
+				}
+
+				/* Command receival */
+				p_config = (sub_config_t *) OSQPend(p_sub_unit_config_queue[c_spw_channel], 1, &error_code);
+
+			} else {
+
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+				fprintf(fp, "[SUBUNIT%i]Sub-unit Run\r\n", (INT8U) c_spw_channel);
+}
+#endif
+
+				/* Command receival */
+				p_config = (sub_config_t *) OSQPend(p_sub_unit_config_queue[c_spw_channel], 0, &error_code);
+			}
+
 			if (error_code == OS_ERR_NONE) {
 
 				switch (p_config->mode) {

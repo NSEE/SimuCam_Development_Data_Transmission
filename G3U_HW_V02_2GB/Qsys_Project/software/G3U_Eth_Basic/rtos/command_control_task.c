@@ -589,28 +589,54 @@ void vClearRam(void) {
 
 	bMfilSetWrData(uliMemData);
 
-	for (INT8U s = 0; s < NB_CHANNELS; s++) {
+	bMfilResetDma(TRUE);
 
-		bMfilResetDma(TRUE);
+	/* DDR2 Memory 1 Zero Fill */
 
-		/*
-		 * Switch to the right memory stick
-		 */
-		if (((unsigned char) s / 4) == 0) {
-			if (bMfilDmaTransfer(eDdr2Memory1, (INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0x20000000)) {
-				while ( ( TRUE == bMfilGetWrBusy() ) && ( FALSE == bMfilGetWrTimeoutErr() ) ) {
-					usleep(100);
-				}
-			}
-		} else {
-			if (bMfilDmaTransfer(eDdr2Memory2, (INT32U *) T_simucam.T_Sub[s].T_data.addr_init, 0x20000000)) {
-				while ( ( TRUE == bMfilGetWrBusy() ) && ( FALSE == bMfilGetWrTimeoutErr() ) ) {
-					usleep(100);
-				}
-			}
+	if (bMfilDmaTransfer(eDdr2Memory1, (alt_u32 *)0x00000000, DDR2_M1_MEMORY_SIZE)) {
+		while ( ( TRUE == bMfilGetWrBusy() ) && ( FALSE == bMfilGetWrTimeoutErr() ) ) {
+			usleep(100);
 		}
-
+		if ( FALSE == bMfilGetWrTimeoutErr() ) {
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+			fprintf(fp, "[CommandManagementTask] Clear RAM Command: DDR2 Memory 1 Cleared");
 	}
+#endif
+		} else {
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+			fprintf(fp, "[CommandManagementTask] Clear RAM Command: DDR2 Memory 1 Failure");
+	}
+#endif
+		}
+	}
+
+	bMfilResetDma(TRUE);
+
+	/* DDR2 Memory 2 Zero Fill */
+
+	if (bMfilDmaTransfer(eDdr2Memory2, (alt_u32 *)0x00000000, DDR2_M2_MEMORY_SIZE)) {
+		while ( ( TRUE == bMfilGetWrBusy() ) && ( FALSE == bMfilGetWrTimeoutErr() ) ) {
+			usleep(100);
+		}
+		if ( FALSE == bMfilGetWrTimeoutErr() ) {
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+			fprintf(fp, "[CommandManagementTask] Clear RAM Command: DDR2 Memory 2 Cleared");
+	}
+#endif
+		} else {
+#if DEBUG_ON
+	if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+			fprintf(fp, "[CommandManagementTask] Clear RAM Command: DDR2 Memory 2 Failure");
+	}
+#endif
+		}
+	}
+
+	bMfilResetDma(TRUE);
+
 }
 
 void vResetSimucam() {
@@ -1008,6 +1034,31 @@ void CommandManagementTask() {
 				vResetSimucam();
             break;
 
+			/*
+			 * REPEAT_DATA_TRANS
+			 */
+			case typeRepeatDataTrans:
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+				fprintf(fp, "[CommandManagementTask] Repeat Data Transmission: ch %u, en %u, nrpt %u, rptdly %lu\n\r",
+					(alt_u8) p_payload->data[0], /* Channel */
+					(alt_u8) p_payload->data[1], /* Enable/Disable */
+					(alt_u16) ((p_payload->data[2] << 8) | p_payload->data[3]), /* N-Repeat */
+					(alt_u32) ((p_payload->data[4] << 24) | (p_payload->data[5] << 16) | (p_payload->data[6] << 8) | p_payload->data[7])  /* Repeat Delay */
+					);
+}
+#endif
+
+				/* Configure Repeat Data Transmission */
+				T_simucam.T_Sub[(alt_u8) p_payload->data[0]].T_conf.bRepeatTrans          = (bool) p_payload->data[1];
+				T_simucam.T_Sub[(alt_u8) p_payload->data[0]].T_conf.usiRepeatTransNRepeat = (alt_u16) ((p_payload->data[2] << 8) | p_payload->data[3]);
+				T_simucam.T_Sub[(alt_u8) p_payload->data[0]].T_conf.uliRepeatTransTimeMs  = (alt_u32) ((p_payload->data[4] << 24) | (p_payload->data[5] << 16) | (p_payload->data[6] << 8) | p_payload->data[7]);
+
+				/* Send ACK */
+				v_ack_creator(p_payload, xExecOk);
+
+				break;
+
 			/* Eth Disconnect */
 			case typeDisc:
 #if DEBUG_ON
@@ -1130,6 +1181,8 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
 						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;
 						bDschSetIrqControl(&(xCh[i_channel_for].xDataScheduler));
+						/* Clear the transmission repeat counter */
+						T_simucam.T_Sub[i_channel_for].T_sub_status.usiTransNRepeat = 0;
 					}
 				}
 
@@ -1230,9 +1283,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					}
 					break;
 
-					/*
-					 * Abort Sending
-					 */
+				/*
+				 * Abort Sending
+				 */
 				case typeAbortSending:
 #if DEBUG_ON
 if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
@@ -1241,6 +1294,11 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #endif
 
 					for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+
+						/* Clear Transmission Status */
+						T_simucam.T_Sub[i_channel_for].T_sub_status.bTransEnabled     = FALSE;
+						T_simucam.T_Sub[i_channel_for].T_sub_status.usiTransNRepeat   = 0;
+						T_simucam.T_Sub[i_channel_for].T_sub_status.uliTransEndTimeMs = 0;
 
 						T_simucam.T_Sub[i_channel_for].T_conf.b_abort = true;
 						sub_config_send[i_channel_for].mode = subAbort;
@@ -1268,9 +1326,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					v_ack_creator(p_payload, xNotImplemented);
 					break;
 
-					/*
-					 * Get HK
-					 */
+				/*
+				 * Get HK
+				 */
 				case typeGetHK:
 #if DEBUG_ON
 if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
@@ -1281,6 +1339,9 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 					v_HK_creator(p_payload->data[0]);
 					break;
 
+				/*
+				 * MEB_RESET
+				 */
 				case typeReset:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
@@ -1290,157 +1351,309 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				vResetSimucam(); /* Hold SimuCam Reset Signal */
             	break;
 
-				case typeErrorInjectionSpw:
+				/*
+				 * ERROR_SPW_ONE_SHOT
+				 */
+				case typeErrorSpwOneShot:
 #if DEBUG_ON
-				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                    fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
-                }
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask] Error SpaceWire One-Shot: ch %u, type %u\n\r",
+						(alt_u8) p_payload->data[0], /* Channel */
+						(alt_u8) p_payload->data[1]  /* Type */
+						);
+}
 #endif
-				// Get channel and error type
-				switch (p_payload->data[0]){
-					
+
+				/* SpaceWire Error Injection */
+				switch ((alt_u8) p_payload->data[1]){
+
 					case spwErrParity:
-						// xCh[p_payload->data[1]].xSpacewire
-						/* Force the stop of any ongoing SpW Codec Errors */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						/* Wait SpW Codec Errors controller to be ready */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						}
+						/* Stop others errors */
+						bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
 						/* Inject the selected SpW Codec Error */
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdParity;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcInjSpwCodecErrInj(
+							&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+							eSpwcSpwCodecErrIdParity
+							);
 						break;
-						
+
 					case spwErrDisconnect:
-						/* Force the stop of any ongoing SpW Codec Errors */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						/* Wait SpW Codec Errors controller to be ready */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						}
+						/* Stop others errors */
+						bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
 						/* Inject the selected SpW Codec Error */
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcInjSpwCodecErrInj(
+							&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+							eSpwcSpwCodecErrIdDiscon
+							);
 						break;
 
 					case spwErrEscape_sequence:
-						/* Force the stop of any ongoing SpW Codec Errors */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						/* Wait SpW Codec Errors controller to be ready */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						}
+						/* Stop others errors */
+						bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
 						/* Inject the selected SpW Codec Error */
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdEscape;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcInjSpwCodecErrInj(
+							&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+							eSpwcSpwCodecErrIdEscape
+							);
 						break;
 
 					case spwErrCharacter_sequence:
-						/* Force the stop of any ongoing SpW Codec Errors */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						/* Wait SpW Codec Errors controller to be ready */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						}
+						/* Stop others errors */
+						bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
 						/* Inject the selected SpW Codec Error */
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdChar;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcInjSpwCodecErrInj(
+							&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+							eSpwcSpwCodecErrIdChar
+							);
 						break;
+
 
 					case spwErrCredit:
-						/* Force the stop of any ongoing SpW Codec Errors */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						/* Wait SpW Codec Errors controller to be ready */
-						bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-							bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						}
+						/* Stop others errors */
+						bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
 						/* Inject the selected SpW Codec Error */
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
-						xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdCredit;
-						bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
+						bSpwcInjSpwCodecErrInj(
+							&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+							eSpwcSpwCodecErrIdCredit
+							);
 						break;
+
 
 					case spwErrEEP:
-						bDschDataEepInjection(&xCh[p_payload->data[1]].xDataScheduler, 1);
+						/* Stop others errors */
+						bSpwcRstSpwCodecErrInj(&(xCh[(alt_u8) p_payload->data[0]].xSpacewire));
+						/* Inject the selected SpW Data Error */
+						bDschInjEepErr(
+							&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler),
+							1
+							);
 						break;
 
-					// case spwErrInvalidDestination:
-						// /* Force the stop of any ongoing SpW Codec Errors */
-						// bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = FALSE;
-						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = TRUE;
-						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdNone;
-						// bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						// /* Wait SpW Codec Errors controller to be ready */
-						// bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						// while (FALSE == xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bErrInjReady) {
-						// 	bSpwcGetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						// }
-						// /* Inject the selected SpW Codec Error */
-						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bStartErrInj = TRUE;
-						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.bResetErrInj = FALSE;
-						// xCh[p_payload->data[1]].xSpacewire.xSpwcSpwCodecErrInj.ucErrInjErrCode = eSpwcSpwCodecErrIdDiscon;
-						// bSpwcSetSpwCodecErrInj(&xCh[p_payload->data[1]].xSpacewire);
-						// v_ack_creator(p_payload, xNotImplemented);
-						// break;
-					
 					default:
+						/* Error with ID */
+						/* Stop all errors */
+						bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+						bSpwcRstSpwCodecErrInj(&(xCh[(alt_u8) p_payload->data[0]].xSpacewire));
 						break;
 
 				}
 
-				// No ack executed
-				break;
+					/* Send ACK */
+					v_ack_creator(p_payload, xExecOk);
 
+					break;
+
+				/*
+				 * ERROR_SPW_REPEAT
+				 */
+				case typeErrorSpwRepeat:
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask] Error SpaceWire Repeat: ch %u, type %u, nrpt %u\n\r",
+						(alt_u8) p_payload->data[0], /* Channel */
+						(alt_u8) p_payload->data[1], /* Type */
+						(alt_u16) ((p_payload->data[2] << 8) | p_payload->data[3])  /* N-Repeat */
+						);
+}
+#endif
+
+					/* SpaceWire Error Injection */
+					switch ((alt_u8) p_payload->data[1]){
+
+						case spwErrParity:
+							/* Stop others errors */
+							bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+							/* Inject the selected SpW Codec Error */
+							bSpwcInjSpwCodecErrInj(
+								&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+								eSpwcSpwCodecErrIdParity
+								);
+							break;
+
+						case spwErrDisconnect:
+							/* Stop others errors */
+							bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+							/* Inject the selected SpW Codec Error */
+							bSpwcInjSpwCodecErrInj(
+								&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+								eSpwcSpwCodecErrIdDiscon
+								);
+							break;
+
+						case spwErrEscape_sequence:
+							/* Stop others errors */
+							bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+							/* Inject the selected SpW Codec Error */
+							bSpwcInjSpwCodecErrInj(
+								&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+								eSpwcSpwCodecErrIdEscape
+								);
+							break;
+
+						case spwErrCharacter_sequence:
+							/* Stop others errors */
+							bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+							/* Inject the selected SpW Codec Error */
+							bSpwcInjSpwCodecErrInj(
+								&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+								eSpwcSpwCodecErrIdChar
+								);
+							break;
+
+
+						case spwErrCredit:
+							/* Stop others errors */
+							bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+							/* Inject the selected SpW Codec Error */
+							bSpwcInjSpwCodecErrInj(
+								&(xCh[(alt_u8) p_payload->data[0]].xSpacewire),
+								eSpwcSpwCodecErrIdCredit
+								);
+							break;
+
+
+						case spwErrEEP:
+							/* Stop others errors */
+							bSpwcRstSpwCodecErrInj(&(xCh[(alt_u8) p_payload->data[0]].xSpacewire));
+							/* Inject the selected SpW Data Error */
+							if ((alt_u16) ((p_payload->data[2] << 8) | p_payload->data[3]) > 0) {
+								bDschInjEepErr(
+									&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler),
+									(alt_u16) ((p_payload->data[2] << 8) | p_payload->data[3]) + 1
+									);
+							} else {
+								bDschInjEepErr(
+									&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler),
+									1
+									);
+							}
+							break;
+
+						default:
+							/* Error with ID */
+							/* Stop all errors */
+							bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+							bSpwcRstSpwCodecErrInj(&(xCh[(alt_u8) p_payload->data[0]].xSpacewire));
+							break;
+
+					}
+
+					/* Send ACK */
+					v_ack_creator(p_payload, xExecOk);
+
+					break;
+
+				/*
+				 * ERROR_SPW_CANCEL_INJ
+				 */
+				case typeErrorSpwCancelInj:
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask] Error SpaceWire Cancel Injection: ch %u\n\r",
+						(alt_u8) p_payload->data[0] /* Channel */
+						);
+}
+#endif
+
+					bDschRstEepErr(&(xCh[(alt_u8) p_payload->data[0]].xDataScheduler));
+					bSpwcRstSpwCodecErrInj(&(xCh[(alt_u8) p_payload->data[0]].xSpacewire));
+
+					/* Send ACK */
+					v_ack_creator(p_payload, xExecOk);
+
+					break;
+
+				/*
+				 * ERROR_RMAP_ONE_SHOT
+				 */
+				case typeErrorRmapOneShot:
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask] Error RMAP One-Shot: ch %u, type %u, data %lu\n\r",
+						(alt_u8) p_payload->data[0], /* Channel */
+						(alt_u8) p_payload->data[1], /* Type */
+						(alt_u32) ((p_payload->data[2] << 24) | (p_payload->data[3] << 16) | (p_payload->data[4] << 8) | p_payload->data[5])  /* Data */
+						);
+}
+#endif
+
+					/* Stop others errors */
+					bRmapRstRmapErrInj(&(xCh[(alt_u8) p_payload->data[0]].xRmap));
+					/* RMAP Error Injection */
+					bRmapInjRmapErrInj(
+						&(xCh[(alt_u8) p_payload->data[0]].xRmap), /* pxRmapCh */
+						(alt_u8) p_payload->data[1], /* ucErrorId */
+						(alt_u32) ((p_payload->data[2] << 24) | (p_payload->data[3] << 16) | (p_payload->data[4] << 8) | p_payload->data[5]), /* uliValue */
+						0  /* usiRepeats */
+						);
+
+					/* Send ACK */
+					v_ack_creator(p_payload, xExecOk);
+
+					break;
+
+				/*
+				 * ERROR_RMAP_REPEAT
+				 */
+				case typeErrorRmapRepeat:
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask] Error RMAP Repeat: ch %u, type %u, data %lu, nrpt %u\n\r",
+						(alt_u8) p_payload->data[0], /* Channel */
+						(alt_u8) p_payload->data[1], /* Type */
+						(alt_u32) ((p_payload->data[2] << 24) | (p_payload->data[3] << 16) | (p_payload->data[4] << 8) | p_payload->data[5]), /* Data */
+						(alt_u16) ((p_payload->data[6] << 8) | p_payload->data[7])  /* N-Repeat */
+						);
+}
+#endif
+
+					/* Stop others errors */
+					bRmapRstRmapErrInj(&(xCh[(alt_u8) p_payload->data[0]].xRmap));
+					/* RMAP Error Injection */
+					bRmapInjRmapErrInj(
+						&(xCh[(alt_u8) p_payload->data[0]].xRmap), /* pxRmapCh */
+						(alt_u8) p_payload->data[1], /* ucErrorId */
+						(alt_u32) ((p_payload->data[2] << 24) | (p_payload->data[3] << 16) | (p_payload->data[4] << 8) | p_payload->data[5]), /* uliValue */
+						(alt_u16) ((p_payload->data[6] << 8) | p_payload->data[7])  /* usiRepeats */
+						);
+
+					/* Send ACK */
+					v_ack_creator(p_payload, xExecOk);
+
+					break;
+
+				/*
+				 * ERROR_RMAP_CANCEL_INJ
+				 */
+				case typeErrorRmapCancelInj:
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+					fprintf(fp, "[CommandManagementTask] Error RMAP Cancel Injection: ch %u\n\r",
+						(alt_u8) p_payload->data[0] /* Channel */
+						);
+}
+#endif
+
+					/* RMAP Error Injection Cancel */
+					bRmapRstRmapErrInj(&(xCh[(alt_u8) p_payload->data[0]].xRmap));
+
+					/* Send ACK */
+					v_ack_creator(p_payload, xExecOk);
+
+					break;
+
+				/*
+				 * Deprecated Commands
+				 */
+				case typeErrorInjectionSpw:
 				case typeErrorInjectionRmap:
 #if DEBUG_ON
 				if (T_simucam.T_conf.usiDebugLevels <= xVerbose ){
-                    fprintf(fp, "[CommandManagementTask]Error Injection\n\r");
+                    fprintf(fp, "[CommandManagementTask] Deprecated Command\n\r");
                 }
 #endif
 
-				bRmapGetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.bTriggerErr = TRUE;
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.ucErrorId   = p_payload->data[0];
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.uliValue    = (alt_u32) (p_payload->data[5] + 256 * p_payload->data[4] + 65536 * p_payload->data[3] + 16777216 * p_payload->data[2]);
-				xCh[p_payload->data[1]].xRmap.xRmapRmapErrInj.usiRepeats  = 0;
-				bRmapSetRmapErrInj(&xCh[p_payload->data[1]].xRmap);
-
+				v_ack_creator(p_payload, xCommandNotAccepted);
 				break;
 
 				/* Eth Disconnect */
@@ -1462,7 +1675,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 #endif
 					// if (p_payload->type == typeConfigureSub || p_payload->type == typeNewData || p_payload->type == typeDeleteData || p_payload->type == typeSelectDataToSend
 					// 		|| p_payload->type == typeClearRam || p_payload->type == typeConfigureMeb || p_payload->type == typeSetPeriodicHK || p_payload->type == typeSetProgressEvent || p_payload->type == typeRmapEchoEnable || p_payload->type == typeEnableEchoing) 
-					if(p_payload->type < 126) {
+					if(p_payload->type < 134) {
 						v_ack_creator(p_payload, xCommandNotAccepted);
 					} else {
 						v_ack_creator(p_payload, xCommandNotFound);

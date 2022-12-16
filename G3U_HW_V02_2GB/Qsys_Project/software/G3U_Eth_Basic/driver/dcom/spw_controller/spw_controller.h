@@ -21,12 +21,13 @@ enum SpwcChHMuxSelId {
 } SpwcChHMuxSelId;
 
 enum SpwcSpwCodecErrId {
-	eSpwcSpwCodecErrIdNone        = 0u,  /* SpaceWire Codec Error Injection Error ID for No Error */
-	eSpwcSpwCodecErrIdDiscon      = 1u,  /* SpaceWire Codec Error Injection Error ID for Disconnection Error */
-	eSpwcSpwCodecErrIdParity      = 2u,  /* SpaceWire Codec Error Injection Error ID for Parity Error */
-	eSpwcSpwCodecErrIdEscape      = 3u,  /* SpaceWire Codec Error Injection Error ID for Escape (ESC+ESC) Error */
-	eSpwcSpwCodecErrIdCredit      = 4u,  /* SpaceWire Codec Error Injection Error ID for Credit Error */
-	eSpwcSpwCodecErrIdChar        = 5u,  /* SpaceWire Codec Error Injection Error ID for Char Error */
+	eSpwcSpwCodecErrIdNone        = 0u, /* SpaceWire Codec Error Injection Error ID for No Error */
+	eSpwcSpwCodecErrIdDiscon      = 1u, /* SpaceWire Codec Error Injection Error ID for Disconnection Error */
+	eSpwcSpwCodecErrIdParity      = 2u, /* SpaceWire Codec Error Injection Error ID for Parity Error */
+	eSpwcSpwCodecErrIdEscape      = 3u, /* SpaceWire Codec Error Injection Error ID for Escape (ESC+ESC) Error */
+	eSpwcSpwCodecErrIdCredit      = 4u, /* SpaceWire Codec Error Injection Error ID for Credit Error */
+	eSpwcSpwCodecErrIdChar        = 5u, /* SpaceWire Codec Error Injection Error ID for Char Error */
+	eSpwcSpwCodecErrMaxIndex
 } SpwcSpwCodecErrId;
 
 //! [constants definition]
@@ -56,6 +57,8 @@ bool bSpwcReceiveTimecode(TSpwcChannel *pxSpwcCh);
 
 bool bSpwcGetSpwCodecErrInj(TSpwcChannel *pxSpwcCh);
 bool bSpwcSetSpwCodecErrInj(TSpwcChannel *pxSpwcCh);
+bool bSpwcRstSpwCodecErrInj(TSpwcChannel *pxSpwcCh);
+bool bSpwcInjSpwCodecErrInj(TSpwcChannel *pxSpwcCh, alt_u8 ucErrInjErrCode);
 
 bool bSpwcInitCh(TSpwcChannel *pxSpwcCh, alt_u8 ucDcomCh);
 

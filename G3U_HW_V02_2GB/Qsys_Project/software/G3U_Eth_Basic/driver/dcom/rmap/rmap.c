@@ -136,9 +136,33 @@ bool bRmapRstRmapErrInj(TRmapChannel *pxRmapCh) {
 
 		vpxDcomChannel = (TDcomChannel *) (pxRmapCh->xRmapDevAddr.uliRmapBaseAddr);
 
-		vpxDcomChannel->xRmap.xRmapRmapErrInj.bResetErr = TRUE;
+		pxRmapCh->xRmapRmapErrInj.bTriggerErr = FALSE;
+		pxRmapCh->xRmapRmapErrInj.ucErrorId   = 0;
+		pxRmapCh->xRmapRmapErrInj.uliValue    = 0;
+		pxRmapCh->xRmapRmapErrInj.usiRepeats  = 0;
+		pxRmapCh->xRmapRmapErrInj.bResetErr   = FALSE;
+
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.bTriggerErr = FALSE;
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.ucErrorId   = 0;
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.uliValue    = 0;
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.usiRepeats  = 0;
+		vpxDcomChannel->xRmap.xRmapRmapErrInj.bResetErr   = TRUE;
 
 		bStatus = TRUE;
+	}
+
+	return (bStatus);
+}
+
+bool bRmapInjRmapErrInj(TRmapChannel *pxRmapCh, alt_u8 ucErrorId, alt_u32 uliValue, alt_u16 usiRepeats) {
+	bool bStatus = FALSE;
+
+	if ((bRmapGetRmapErrInj(pxRmapCh)) && (ucErrorId < eRmapRmapErrMaxIndex)) {
+		pxRmapCh->xRmapRmapErrInj.bTriggerErr = TRUE;
+		pxRmapCh->xRmapRmapErrInj.ucErrorId   = ucErrorId;
+		pxRmapCh->xRmapRmapErrInj.uliValue    = uliValue;
+		pxRmapCh->xRmapRmapErrInj.usiRepeats  = usiRepeats;
+		bStatus = bRmapSetRmapErrInj(pxRmapCh);
 	}
 
 	return (bStatus);

@@ -68,6 +68,13 @@ typedef enum {
 	typeReset,
 	typeEnableEchoing = 125,
 	typeRmapEchoEnable,
+	typeRepeatDataTrans,
+	typeErrorSpwOneShot,
+	typeErrorSpwRepeat,
+	typeErrorSpwCancelInj,
+	typeErrorRmapOneShot,
+	typeErrorRmapRepeat,
+	typeErrorRmapCancelInj,
 	typeErrorInjectionSpw = 205,
 	typeErrorInjectionRmap,
 	typeSetProgressEvent,
@@ -120,6 +127,9 @@ typedef struct T_Sub_conf {
 	bool b_abort;
 	INT16U i_imagette_control;
 	bool b_dataset_loaded;
+	bool bRepeatTrans;
+	alt_u16 usiRepeatTransNRepeat;
+	alt_u32 uliRepeatTransTimeMs;
 } T_Sub_conf;
 
 typedef struct T_Sub_status {
@@ -127,6 +137,9 @@ typedef struct T_Sub_status {
 	INT8U usi_parity_err_cnt;
 	INT8U usi_escape_err_cnt;
 	INT8U usi_credit_err_cnt;
+	bool bTransEnabled;
+	alt_u16 usiTransNRepeat;
+	alt_u32 uliTransEndTimeMs;
 } T_Sub_status;
 
 typedef struct T_Sub {

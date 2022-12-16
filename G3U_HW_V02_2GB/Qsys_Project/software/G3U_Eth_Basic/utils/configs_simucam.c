@@ -585,10 +585,6 @@ bool bLoadDefaultDebugConf(void) {
 							xConfDebug.bSendEOP = FALSE;
 							break;
 						case 2:
-							xConfDebug.bSendEEP = FALSE;
-							xConfDebug.bSendEOP = TRUE;
-							break;
-						case 3:
 						default:
 							xConfDebug.bSendEEP = TRUE;
 							xConfDebug.bSendEOP = TRUE;
@@ -649,7 +645,7 @@ bool bLoadDefaultDebugConf(void) {
 	/* Load the default configuration if not successful in read the SDCard */
 	if (bSuccess == FALSE) {
 
-		xConfDebug.bSendEEP = FALSE;
+		xConfDebug.bSendEEP = TRUE;
 		xConfDebug.bSendEOP = TRUE;
 
 		xConfDebug.usiDebugLevel = xMajor;
