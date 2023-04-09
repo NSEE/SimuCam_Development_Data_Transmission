@@ -8,6 +8,13 @@ entity rmpe_rmap_echo_transmitter_ent is
     port(
         clk_i                              : in  std_logic;
         rst_i                              : in  std_logic;
+        fee_0_rmap_echo_en_i               : in  std_logic;
+        fee_1_rmap_echo_en_i               : in  std_logic;
+        fee_2_rmap_echo_en_i               : in  std_logic;
+        fee_3_rmap_echo_en_i               : in  std_logic;
+        fee_4_rmap_echo_en_i               : in  std_logic;
+        fee_5_rmap_echo_en_i               : in  std_logic;
+        fee_6_rmap_echo_en_i               : in  std_logic;
         fee_0_rmap_incoming_fifo_status_i  : in  t_rmpe_rmap_echoing_rmap_fifo_status;
         fee_0_rmap_outgoing_fifo_status_i  : in  t_rmpe_rmap_echoing_rmap_fifo_status;
         fee_1_rmap_incoming_fifo_status_i  : in  t_rmpe_rmap_echoing_rmap_fifo_status;
@@ -62,7 +69,8 @@ architecture RTL of rmpe_rmap_echo_transmitter_ent is
     );
     signal s_selected_fifo : t_rmap_fifo_list;
 
-    subtype t_rmap_fifo_queue_index is natural range 0 to 14;
+    --    subtype t_rmap_fifo_queue_index is natural range 0 to 140;
+    subtype t_rmap_fifo_queue_index is natural range 0 to 140;
     type t_rmap_fifo_queue is array (0 to t_rmap_fifo_queue_index'high) of t_rmap_fifo_list;
     signal s_rmap_fifo_queue : t_rmap_fifo_queue;
 
@@ -162,8 +170,8 @@ begin
 
         elsif rising_edge(clk_i) then
 
-            -- check if fee 0 rmap incoming fifo has data available and is not queued
-            if ((fee_0_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_0_queued = '0')) then
+            -- check if fee 0 rmap incoming fifo is enabled, has data available and is not queued
+            if ((fee_0_rmap_echo_en_i = '1') and (fee_0_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_0_queued = '0')) then
                 -- fee 0 rmap incoming fifo has data available and is not queued
                 -- put fee 0 rmap incoming fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_incoming_fee_0;
@@ -175,8 +183,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 1 rmap incoming fifo has data available and is not queued
-            if ((fee_1_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_1_queued = '0')) then
+            -- check if fee 1 rmap incoming fifo is enabled, has data available and is not queued
+            if ((fee_1_rmap_echo_en_i = '1') and (fee_1_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_1_queued = '0')) then
                 -- fee 1 rmap incoming fifo has data available and is not queued
                 -- put fee 1 rmap incoming fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_incoming_fee_1;
@@ -188,8 +196,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 2 rmap incoming fifo has data available and is not queued
-            if ((fee_2_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_2_queued = '0')) then
+            -- check if fee 2 rmap incoming fifo is enabled, has data available and is not queued
+            if ((fee_2_rmap_echo_en_i = '1') and (fee_2_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_2_queued = '0')) then
                 -- fee 2 rmap incoming fifo has data available and is not queued
                 -- put fee 2 rmap incoming fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_incoming_fee_2;
@@ -201,8 +209,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 3 rmap incoming fifo has data available and is not queued
-            if ((fee_3_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_3_queued = '0')) then
+            -- check if fee 3 rmap incoming fifo is enabled, has data available and is not queued
+            if ((fee_3_rmap_echo_en_i = '1') and (fee_3_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_3_queued = '0')) then
                 -- fee 3 rmap incoming fifo has data available and is not queued
                 -- put fee 3 rmap incoming fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_incoming_fee_3;
@@ -214,8 +222,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 4 rmap incoming fifo has data available and is not queued
-            if ((fee_4_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_4_queued = '0')) then
+            -- check if fee 4 rmap incoming fifo is enabled, has data available and is not queued
+            if ((fee_4_rmap_echo_en_i = '1') and (fee_4_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_4_queued = '0')) then
                 -- fee 4 rmap incoming fifo has data available and is not queued
                 -- put fee 4 rmap incoming fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_incoming_fee_4;
@@ -227,8 +235,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 5 rmap incoming fifo has data available and is not queued
-            if ((fee_5_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_5_queued = '0')) then
+            -- check if fee 5 rmap incoming fifo is enabled, has data available and is not queued
+            if ((fee_5_rmap_echo_en_i = '1') and (fee_5_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_5_queued = '0')) then
                 -- fee 5 rmap incoming fifo has data available and is not queued
                 -- put fee 5 rmap incoming fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_incoming_fee_5;
@@ -240,8 +248,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 6 rmap incoming fifo has data available and is not queued
-            if ((fee_6_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_6_queued = '0')) then
+            -- check if fee 6 rmap incoming fifo is enabled, has data available and is not queued
+            if ((fee_6_rmap_echo_en_i = '1') and (fee_6_rmap_incoming_fifo_status_i.empty = '0') and (s_fifo_incoming_fee_6_queued = '0')) then
                 -- fee 6 rmap incoming fifo has data available and is not queued
                 -- put fee 6 rmap incoming fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_incoming_fee_6;
@@ -253,8 +261,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 0 rmap outgoing fifo has data available and is not queued
-            if ((fee_0_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_0_queued = '0')) then
+            -- check if fee 0 rmap outgoing fifo is enabled, has data available and is not queued
+            if ((fee_0_rmap_echo_en_i = '1') and (fee_0_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_0_queued = '0')) then
                 -- fee 0 rmap outgoing fifo has data available and is not queued
                 -- put fee 0 rmap outgoing fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_outgoing_fee_0;
@@ -266,8 +274,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 1 rmap outgoing fifo has data available and is not queued
-            if ((fee_1_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_1_queued = '0')) then
+            -- check if fee 1 rmap outgoing fifo is enabled, has data available and is not queued
+            if ((fee_1_rmap_echo_en_i = '1') and (fee_1_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_1_queued = '0')) then
                 -- fee 1 rmap outgoing fifo has data available and is not queued
                 -- put fee 1 rmap outgoing fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_outgoing_fee_1;
@@ -279,8 +287,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 2 rmap outgoing fifo has data available and is not queued
-            if ((fee_2_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_2_queued = '0')) then
+            -- check if fee 2 rmap outgoing fifo is enabled, has data available and is not queued
+            if ((fee_2_rmap_echo_en_i = '1') and (fee_2_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_2_queued = '0')) then
                 -- fee 2 rmap outgoing fifo has data available and is not queued
                 -- put fee 2 rmap outgoing fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_outgoing_fee_2;
@@ -292,8 +300,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 3 rmap outgoing fifo has data available and is not queued
-            if ((fee_3_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_3_queued = '0')) then
+            -- check if fee 3 rmap outgoing fifo is enabled, has data available and is not queued
+            if ((fee_3_rmap_echo_en_i = '1') and (fee_3_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_3_queued = '0')) then
                 -- fee 3 rmap outgoing fifo has data available and is not queued
                 -- put fee 3 rmap outgoing fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_outgoing_fee_3;
@@ -305,8 +313,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 4 rmap outgoing fifo has data available and is not queued
-            if ((fee_4_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_4_queued = '0')) then
+            -- check if fee 4 rmap outgoing fifo is enabled, has data available and is not queued
+            if ((fee_4_rmap_echo_en_i = '1') and (fee_4_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_4_queued = '0')) then
                 -- fee 4 rmap outgoing fifo has data available and is not queued
                 -- put fee 4 rmap outgoing fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_outgoing_fee_4;
@@ -318,8 +326,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 5 rmap outgoing fifo has data available and is not queued
-            if ((fee_5_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_5_queued = '0')) then
+            -- check if fee 5 rmap outgoing fifo is enabled, has data available and is not queued
+            if ((fee_5_rmap_echo_en_i = '1') and (fee_5_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_5_queued = '0')) then
                 -- fee 5 rmap outgoing fifo has data available and is not queued
                 -- put fee 5 rmap outgoing fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_outgoing_fee_5;
@@ -331,8 +339,8 @@ begin
                 end if;
             end if;
 
-            -- check if fee 6 rmap outgoing fifo has data available and is not queued
-            if ((fee_6_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_6_queued = '0')) then
+            -- check if fee 6 rmap outgoing fifo is enabled, has data available and is not queued
+            if ((fee_6_rmap_echo_en_i = '1') and (fee_6_rmap_outgoing_fifo_status_i.empty = '0') and (s_fifo_outgoing_fee_6_queued = '0')) then
                 -- fee 6 rmap outgoing fifo has data available and is not queued
                 -- put fee 6 rmap outgoing fifo in the queue
                 s_rmap_fifo_queue(v_fifo_queue_index) <= fifo_outgoing_fee_6;
@@ -795,58 +803,142 @@ begin
                             spw_codec_control_o.txflag  <= fee_0_rmap_incoming_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_0_rmap_incoming_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_0_rmap_incoming_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_0_rmap_incoming_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_incoming_fee_1 =>
                             spw_codec_control_o.txflag  <= fee_1_rmap_incoming_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_1_rmap_incoming_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_1_rmap_incoming_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_1_rmap_incoming_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_incoming_fee_2 =>
                             spw_codec_control_o.txflag  <= fee_2_rmap_incoming_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_2_rmap_incoming_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_2_rmap_incoming_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_2_rmap_incoming_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_incoming_fee_3 =>
                             spw_codec_control_o.txflag  <= fee_3_rmap_incoming_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_3_rmap_incoming_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_3_rmap_incoming_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_3_rmap_incoming_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_incoming_fee_4 =>
                             spw_codec_control_o.txflag  <= fee_4_rmap_incoming_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_4_rmap_incoming_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_4_rmap_incoming_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_4_rmap_incoming_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_incoming_fee_5 =>
                             spw_codec_control_o.txflag  <= fee_5_rmap_incoming_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_5_rmap_incoming_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_5_rmap_incoming_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_5_rmap_incoming_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_incoming_fee_6 =>
                             spw_codec_control_o.txflag  <= fee_6_rmap_incoming_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_6_rmap_incoming_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_6_rmap_incoming_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_6_rmap_incoming_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_outgoing_fee_0 =>
                             spw_codec_control_o.txflag  <= fee_0_rmap_outgoing_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_0_rmap_outgoing_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_0_rmap_outgoing_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_0_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_outgoing_fee_1 =>
                             spw_codec_control_o.txflag  <= fee_1_rmap_outgoing_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_1_rmap_outgoing_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_1_rmap_outgoing_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_1_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_outgoing_fee_2 =>
                             spw_codec_control_o.txflag  <= fee_2_rmap_outgoing_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_2_rmap_outgoing_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_2_rmap_outgoing_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_2_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_outgoing_fee_3 =>
                             spw_codec_control_o.txflag  <= fee_3_rmap_outgoing_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_3_rmap_outgoing_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_3_rmap_outgoing_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_3_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_outgoing_fee_4 =>
                             spw_codec_control_o.txflag  <= fee_4_rmap_outgoing_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_4_rmap_outgoing_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_4_rmap_outgoing_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_4_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_outgoing_fee_5 =>
                             spw_codec_control_o.txflag  <= fee_5_rmap_outgoing_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_5_rmap_outgoing_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_5_rmap_outgoing_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_5_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                            end if;
                         when fifo_outgoing_fee_6 =>
                             spw_codec_control_o.txflag  <= fee_6_rmap_outgoing_fifo_status_i.rddata_flag;
                             spw_codec_control_o.txdata  <= fee_6_rmap_outgoing_fifo_status_i.rddata_data;
                             spw_codec_control_o.txwrite <= '1';
+                            if ((spw_codec_status_i.txrdy = '1') and (fee_6_rmap_outgoing_fifo_status_i.empty = '0')) then
+                                -- there is space available in the spw codec and the selected fifo have data available, fetch data
+                                s_rmpe_rmap_echo_transmitter_state       <= FETCH_RMAP_DATA;
+                                v_rmpe_rmap_echo_transmitter_state       := FETCH_RMAP_DATA;
+                                fee_6_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                            end if;
                     end case;
 
                 -- all the other states (not defined)
@@ -887,6 +979,212 @@ begin
                     -- conditional output signals
 
             end case;
+
+            -- Echoing Enable Manager
+
+            -- check if fee 0 rmap echo is disabled
+            if (fee_0_rmap_echo_en_i = '0') then
+                -- fee 0 rmap echo is disabled
+                -- clear internal queue signals
+                s_fifo_incoming_fee_0_queued             <= '0';
+                s_fifo_outgoing_fee_0_queued             <= '0';
+                -- clear all fifo data
+                fee_0_rmap_incoming_fifo_control_o.rdreq <= '0';
+                if (fee_0_rmap_incoming_fifo_status_i.empty = '0') then
+                    fee_0_rmap_incoming_fifo_control_o.rdreq <= '1';
+                end if;
+                fee_0_rmap_outgoing_fifo_control_o.rdreq <= '0';
+                if (fee_0_rmap_outgoing_fifo_status_i.empty = '0') then
+                    fee_0_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                end if;
+                -- check if there is a ongoing transmission and finishes it with an EEP
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_incoming_fee_0_in_use = '1')) then
+                    s_fifo_incoming_fee_0_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_outgoing_fee_0_in_use = '1')) then
+                    s_fifo_outgoing_fee_0_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+            end if;
+            -- check if fee 1 rmap echo is disabled
+            if (fee_1_rmap_echo_en_i = '0') then
+                -- fee 1 rmap echo is disabled
+                -- clear internal queue signals
+                s_fifo_incoming_fee_1_queued             <= '0';
+                s_fifo_outgoing_fee_1_queued             <= '0';
+                -- clear all fifo data
+                fee_1_rmap_incoming_fifo_control_o.rdreq <= '0';
+                if (fee_1_rmap_incoming_fifo_status_i.empty = '0') then
+                    fee_1_rmap_incoming_fifo_control_o.rdreq <= '1';
+                end if;
+                fee_1_rmap_outgoing_fifo_control_o.rdreq <= '0';
+                if (fee_1_rmap_outgoing_fifo_status_i.empty = '0') then
+                    fee_1_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                end if;
+                -- check if there is a ongoing transmission and finishes it with an EEP
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_incoming_fee_1_in_use = '1')) then
+                    s_fifo_incoming_fee_1_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_outgoing_fee_1_in_use = '1')) then
+                    s_fifo_outgoing_fee_1_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+            end if;
+            -- check if fee 2 rmap echo is disabled
+            if (fee_2_rmap_echo_en_i = '0') then
+                -- fee 2 rmap echo is disabled
+                -- clear internal queue signals
+                s_fifo_incoming_fee_2_queued             <= '0';
+                s_fifo_outgoing_fee_2_queued             <= '0';
+                -- clear all fifo data
+                fee_2_rmap_incoming_fifo_control_o.rdreq <= '0';
+                if (fee_2_rmap_incoming_fifo_status_i.empty = '0') then
+                    fee_2_rmap_incoming_fifo_control_o.rdreq <= '1';
+                end if;
+                fee_2_rmap_outgoing_fifo_control_o.rdreq <= '0';
+                if (fee_2_rmap_outgoing_fifo_status_i.empty = '0') then
+                    fee_2_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                end if;
+                -- check if there is a ongoing transmission and finishes it with an EEP
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_incoming_fee_2_in_use = '1')) then
+                    s_fifo_incoming_fee_2_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_outgoing_fee_2_in_use = '1')) then
+                    s_fifo_outgoing_fee_2_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+            end if;
+            -- check if fee 3 rmap echo is disabled
+            if (fee_3_rmap_echo_en_i = '0') then
+                -- fee 3 rmap echo is disabled
+                -- clear internal queue signals
+                s_fifo_incoming_fee_3_queued             <= '0';
+                s_fifo_outgoing_fee_3_queued             <= '0';
+                -- clear all fifo data
+                fee_3_rmap_incoming_fifo_control_o.rdreq <= '0';
+                if (fee_3_rmap_incoming_fifo_status_i.empty = '0') then
+                    fee_3_rmap_incoming_fifo_control_o.rdreq <= '1';
+                end if;
+                fee_3_rmap_outgoing_fifo_control_o.rdreq <= '0';
+                if (fee_3_rmap_outgoing_fifo_status_i.empty = '0') then
+                    fee_3_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                end if;
+                -- check if there is a ongoing transmission and finishes it with an EEP
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_incoming_fee_3_in_use = '1')) then
+                    s_fifo_incoming_fee_3_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_outgoing_fee_3_in_use = '1')) then
+                    s_fifo_outgoing_fee_3_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+            end if;
+            -- check if fee 4 rmap echo is disabled
+            if (fee_4_rmap_echo_en_i = '0') then
+                -- fee 4 rmap echo is disabled
+                -- clear internal queue signals
+                s_fifo_incoming_fee_4_queued             <= '0';
+                s_fifo_outgoing_fee_4_queued             <= '0';
+                -- clear all fifo data
+                fee_4_rmap_incoming_fifo_control_o.rdreq <= '0';
+                if (fee_4_rmap_incoming_fifo_status_i.empty = '0') then
+                    fee_4_rmap_incoming_fifo_control_o.rdreq <= '1';
+                end if;
+                fee_4_rmap_outgoing_fifo_control_o.rdreq <= '0';
+                if (fee_4_rmap_outgoing_fifo_status_i.empty = '0') then
+                    fee_4_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                end if;
+                -- check if there is a ongoing transmission and finishes it with an EEP
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_incoming_fee_4_in_use = '1')) then
+                    s_fifo_incoming_fee_4_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_outgoing_fee_4_in_use = '1')) then
+                    s_fifo_outgoing_fee_4_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+            end if;
+            -- check if fee 5 rmap echo is disabled
+            if (fee_5_rmap_echo_en_i = '0') then
+                -- fee 5 rmap echo is disabled
+                -- clear internal queue signals
+                s_fifo_incoming_fee_5_queued             <= '0';
+                s_fifo_outgoing_fee_5_queued             <= '0';
+                -- clear all fifo data
+                fee_5_rmap_incoming_fifo_control_o.rdreq <= '0';
+                if (fee_5_rmap_incoming_fifo_status_i.empty = '0') then
+                    fee_5_rmap_incoming_fifo_control_o.rdreq <= '1';
+                end if;
+                fee_5_rmap_outgoing_fifo_control_o.rdreq <= '0';
+                if (fee_5_rmap_outgoing_fifo_status_i.empty = '0') then
+                    fee_5_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                end if;
+                -- check if there is a ongoing transmission and finishes it with an EEP
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_incoming_fee_5_in_use = '1')) then
+                    s_fifo_incoming_fee_5_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_outgoing_fee_5_in_use = '1')) then
+                    s_fifo_outgoing_fee_5_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+            end if;
+            -- check if fee 6 rmap echo is disabled
+            if (fee_6_rmap_echo_en_i = '0') then
+                -- fee 6 rmap echo is disabled
+                -- clear internal queue signals
+                s_fifo_incoming_fee_6_queued             <= '0';
+                s_fifo_outgoing_fee_6_queued             <= '0';
+                -- clear all fifo data
+                fee_6_rmap_incoming_fifo_control_o.rdreq <= '0';
+                if (fee_6_rmap_incoming_fifo_status_i.empty = '0') then
+                    fee_6_rmap_incoming_fifo_control_o.rdreq <= '1';
+                end if;
+                fee_6_rmap_outgoing_fifo_control_o.rdreq <= '0';
+                if (fee_6_rmap_outgoing_fifo_status_i.empty = '0') then
+                    fee_6_rmap_outgoing_fifo_control_o.rdreq <= '1';
+                end if;
+                -- check if there is a ongoing transmission and finishes it with an EEP
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_incoming_fee_6_in_use = '1')) then
+                    s_fifo_incoming_fee_6_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+                if ((spw_codec_status_i.txrdy = '1') and (s_fifo_outgoing_fee_6_in_use = '1')) then
+                    s_fifo_outgoing_fee_6_in_use <= '0';
+                    spw_codec_control_o.txwrite  <= '1';
+                    spw_codec_control_o.txflag   <= '1';
+                    spw_codec_control_o.txdata   <= x"01";
+                end if;
+            end if;
 
         end if;
     end process p_rmpe_rmap_echo_transmitter;

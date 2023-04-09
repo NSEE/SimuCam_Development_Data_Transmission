@@ -4,7 +4,7 @@
 
 
 # 
-# RMAP_Echoing "RMAP_Echoing" v1.6
+# RMAP_Echoing "RMAP_Echoing" v1.7
 # rfranca 2019.12.21.00:27:05
 # 
 # 
@@ -20,7 +20,7 @@ package require -exact qsys 16.1
 # 
 set_module_property DESCRIPTION ""
 set_module_property NAME RMAP_Echoing
-set_module_property VERSION 1.6
+set_module_property VERSION 1.7
 set_module_property INTERNAL false
 set_module_property OPAQUE_ADDRESS_MAP true
 set_module_property AUTHOR rfranca

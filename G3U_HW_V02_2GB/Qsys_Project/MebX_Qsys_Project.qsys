@@ -2413,7 +2413,7 @@
    version="2.3"
    enabled="1" />
  <module name="Memory_Filler" kind="Memory_Filler" version="1.0" enabled="1" />
- <module name="RMAP_Echoing" kind="RMAP_Echoing" version="1.6" enabled="1" />
+ <module name="RMAP_Echoing" kind="RMAP_Echoing" version="1.7" enabled="1" />
  <module
    name="RMAP_Memory_Subunit_Area_1"
    kind="RMAP_Memory_Subunit_Area"

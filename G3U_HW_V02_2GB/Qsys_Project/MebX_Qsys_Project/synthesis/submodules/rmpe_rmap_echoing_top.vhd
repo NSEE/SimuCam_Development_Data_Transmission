@@ -443,6 +443,13 @@ begin
         port map(
             clk_i                              => a_avs_clock_i,
             rst_i                              => a_reset_i,
+fee_0_rmap_echo_en_i => rmap_echo_0_echo_en_i,
+fee_1_rmap_echo_en_i => rmap_echo_1_echo_en_i,
+fee_2_rmap_echo_en_i => rmap_echo_2_echo_en_i,
+fee_3_rmap_echo_en_i => rmap_echo_3_echo_en_i,
+fee_4_rmap_echo_en_i => rmap_echo_4_echo_en_i,
+fee_5_rmap_echo_en_i => rmap_echo_5_echo_en_i,
+fee_6_rmap_echo_en_i => rmap_echo_6_echo_en_i,
             fee_0_rmap_incoming_fifo_status_i  => s_rmap_echo_0_in_fifo_status,
             fee_0_rmap_outgoing_fifo_status_i  => s_rmap_echo_0_out_fifo_status,
             fee_1_rmap_incoming_fifo_status_i  => s_rmap_echo_1_in_fifo_status,
