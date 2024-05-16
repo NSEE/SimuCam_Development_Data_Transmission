@@ -23,6 +23,6 @@
 #include "../api_drivers/ddr2/ddr2.h"
 #include "../driver/uart/uart.h"
 
-extern T_Simucam T_simucam;
+extern volatile T_Simucam T_simucam;
 
 #endif /* ECHO_TASK_H_ */

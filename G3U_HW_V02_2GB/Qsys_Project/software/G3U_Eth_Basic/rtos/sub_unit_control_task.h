@@ -66,7 +66,7 @@ INT16U i_imagette_number;
 
 extern OS_EVENT *p_echo_queue;
 extern void *p_echo_queue_tbl[ECHO_QUEUE_BUFFER];
-extern T_Simucam T_simucam;
+extern volatile T_Simucam T_simucam;
 /*$PAGE*/
 
 /*

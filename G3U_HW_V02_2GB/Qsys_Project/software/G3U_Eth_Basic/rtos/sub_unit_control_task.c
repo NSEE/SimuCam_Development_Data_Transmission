@@ -251,51 +251,56 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 				break;
 			} else {
 
-				T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
+				/* Check if there is imagettes to be loaded */
+				if (0 != T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes) {
 
-				/*
-				 * Acquire status and do manual space control
-				 */
+					T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
 
-				/*
-				 * Calculate total imagettes length
-				 */
-				bDdr2SwitchMemory(c_DMA_nb);
-				while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes)) {
+					/*
+					 * Acquire status and do manual space control
+					 */
+
+					/*
+					 * Calculate total imagettes length
+					 */
+					bDdr2SwitchMemory(c_DMA_nb);
+					while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes)) {
 
 #if DEBUG_ON
 if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %lu\r\n",
-							(INT8U) c_spw_channel,
-							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
+						fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %lu\r\n",
+								(INT8U) c_spw_channel,
+								(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
+								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,
+								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
+								(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
 }
 #endif
 
 						/*Calculate next imagette addr*/
-							i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador + T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET;
-							if (((INT32U) i_mem_pointer_buffer % 8)) {
-								i_mem_pointer_buffer = (INT32U) (((((INT32U) i_mem_pointer_buffer) >> 3) + 1) << 3);
-							}
+						i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador + T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET;
+						if (((INT32U) i_mem_pointer_buffer % 8)) {
+							i_mem_pointer_buffer = (INT32U) (((((INT32U) i_mem_pointer_buffer) >> 3) + 1) << 3);
+						}
 
-							/*Reassign the pointer to the next imagette addr */
-							T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) i_mem_pointer_buffer;
-							T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
+						/*Reassign the pointer to the next imagette addr */
+						T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) i_mem_pointer_buffer;
+						T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
 
-				} /*end while*/
-				uliTotalImagettesLength = (INT32U)(T_simucam.T_Sub[c_spw_channel].T_data.p_iterador) - (INT32U)(T_simucam.T_Sub[c_spw_channel].T_data.addr_init);
+					} /*end while*/
+					uliTotalImagettesLength = (INT32U)(T_simucam.T_Sub[c_spw_channel].T_data.p_iterador) - (INT32U)(T_simucam.T_Sub[c_spw_channel].T_data.addr_init);
 
-				/*
-				 * Pre-schedule the buffer before simucam goes to running
-				 */
-				bDdr2SwitchMemory(c_DMA_nb);
-				uliIdmaChDmaTransfer(
-						c_DMA_nb,
-						(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.addr_init),
-						uliTotalImagettesLength,
-						c_spw_channel);
+					/*
+					 * Pre-schedule the buffer before simucam goes to running
+					 */
+					bDdr2SwitchMemory(c_DMA_nb);
+					uliIdmaChDmaTransfer(
+							c_DMA_nb,
+							(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.addr_init),
+							uliTotalImagettesLength,
+							c_spw_channel);
+
+				}
 
 				set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
 

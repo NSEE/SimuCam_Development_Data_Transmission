@@ -35,9 +35,9 @@ int i_return_config_flag = 2;
  * Simucam Global Values
  */
 
-T_Simucam T_simucam;
+volatile T_Simucam T_simucam;
 
-TDschChannel xSimucamTimer;	// It's a general timer used in echo and HK
+volatile TDschChannel xSimucamTimer;	// It's a general timer used in echo and HK
 
 /**
  * @name v_ack_creator
@@ -926,6 +926,8 @@ void CommandManagementTask() {
 				}
 				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
 					T_simucam.T_Sub[i_channel_for].T_conf.b_dataset_loaded = FALSE;
+					T_simucam.T_Sub[i_channel_for].T_data.nb_of_imagettes = 0;
+
 				}
 				// TSimStates x_prev_mode = T_simucam.T_status.simucam_mode;
 				// T_simucam.T_status.simucam_mode = simClearMem;

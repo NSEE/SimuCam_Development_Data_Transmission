@@ -244,6 +244,7 @@ bool bSyncCtrCh5OutEnable(bool bValue);
 bool bSyncCtrCh6OutEnable(bool bValue);
 bool bSyncCtrCh7OutEnable(bool bValue);
 bool bSyncCtrCh8OutEnable(bool bValue);
+bool bSyncCtrChNOutEnable(alt_u8 ucChannel, bool bValue);
 
 bool bSyncTestConnection(void);
 bool bSyncConfigOstSubunits(alt_u32 uliOstValue);

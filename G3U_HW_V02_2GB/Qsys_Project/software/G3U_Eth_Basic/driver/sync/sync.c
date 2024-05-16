@@ -722,6 +722,54 @@ bool bSyncCtrCh8OutEnable(bool bValue) {
 	return TRUE;
 }
 
+/**
+ * @name    bSyncCtrChNOutEnable
+ * @brief
+ * @ingroup sync
+ *
+ * Write a bool value into chN_out enable bit of control register (0 -> ch N sync out disable / 1 -> ch N sync out enable)
+ *
+ * @param [in] alt_u8 channel
+ * @param [in] bool value
+ *
+ * @retval bool TRUE
+ */
+bool bSyncCtrChNOutEnable(alt_u8 ucChannel, bool bValue) {
+	volatile TSyncModule *vpxSyncModule = (TSyncModule *) SYNC_BASE_ADDR;
+	vpxSyncModule->xSyncControl.bChannel1En = bValue;
+
+	switch (ucChannel) {
+		case 0:
+			vpxSyncModule->xSyncControl.bChannel1En = bValue;
+			break;
+		case 1:
+			vpxSyncModule->xSyncControl.bChannel2En = bValue;
+			break;
+		case 2:
+			vpxSyncModule->xSyncControl.bChannel3En = bValue;
+			break;
+		case 3:
+			vpxSyncModule->xSyncControl.bChannel4En = bValue;
+			break;
+		case 4:
+			vpxSyncModule->xSyncControl.bChannel5En = bValue;
+			break;
+		case 5:
+			vpxSyncModule->xSyncControl.bChannel6En = bValue;
+			break;
+		case 6:
+			vpxSyncModule->xSyncControl.bChannel7En = bValue;
+			break;
+		case 7:
+			vpxSyncModule->xSyncControl.bChannel8En = bValue;
+			break;
+		default:
+			return (FALSE);
+	}
+
+	return (TRUE);
+}
+
 // Irq enable register
 /**
  * @name    bSyncIrqEnableError

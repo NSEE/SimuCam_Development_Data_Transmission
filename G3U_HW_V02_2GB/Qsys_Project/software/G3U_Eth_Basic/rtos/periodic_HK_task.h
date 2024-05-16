@@ -19,5 +19,5 @@
  ************************************************************************************************
  */
 
-extern T_Simucam T_simucam;
+extern volatile T_Simucam T_simucam;
 #endif /* RTOS_PERIODIC_HK_TASK_H_ */

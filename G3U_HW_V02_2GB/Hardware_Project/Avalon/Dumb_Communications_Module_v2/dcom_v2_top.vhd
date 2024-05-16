@@ -423,7 +423,8 @@ begin
     s_mux_tx_1_command.txflag  <= (s_dctrl_spw_tx_flag);
     s_mux_tx_1_command.txdata  <= (s_dctrl_spw_tx_data);
     -- spw mux tx 1 status muxing
-    s_dctrl_spw_tx_ready       <= (s_mux_tx_1_status.txrdy);
+    --    s_dctrl_spw_tx_ready       <= (s_mux_tx_1_status.txrdy);
+    s_dctrl_spw_tx_ready       <= (s_mux_tx_1_status.txrdy) and (not (s_mux_tx_1_status.txhalff));
     -- spw mux tx 2 command muxing
     s_mux_tx_2_command.txwrite <= '0';
     s_mux_tx_2_command.txflag  <= '0';
@@ -489,7 +490,8 @@ begin
     spw_timecode_tx_ctrl_in_o                                                  <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_control;
     spw_timecode_tx_time_in_o                                                  <= s_dcom_write_registers.spw_timecode_control_reg.timecode_tx_time;
     spw_data_rx_command_rxread_o                                               <= s_mux_rx_channel_command.rxread;
-    spw_data_tx_command_txwrite_o                                              <= s_mux_tx_channel_command.txwrite;
+    --    spw_data_tx_command_txwrite_o                                              <= s_mux_tx_channel_command.txwrite;
+    spw_data_tx_command_txwrite_o                                              <= (s_mux_tx_channel_command.txwrite) and (spw_link_status_running_i);
     spw_data_tx_command_txflag_o                                               <= s_mux_tx_channel_command.txflag;
     spw_data_tx_command_txdata_o                                               <= s_mux_tx_channel_command.txdata;
     spw_errinj_ctrl_start_errinj_o                                             <= s_dcom_write_registers.spw_codec_errinj_control_reg.errinj_ctrl_start_errinj;

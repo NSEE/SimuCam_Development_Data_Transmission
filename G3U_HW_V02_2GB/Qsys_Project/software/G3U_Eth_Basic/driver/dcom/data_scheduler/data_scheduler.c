@@ -886,7 +886,7 @@ bool bDschInitIrq(alt_u8 ucDcomCh) {
 
 	return bStatus;
 }
-bool bDschGetTimerControl(TDschChannel *pxDschCh) {
+bool bDschGetTimerControl(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -920,7 +920,7 @@ bool bDschSetTimerControl(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschGetTimerConfig(TDschChannel *pxDschCh) {
+bool bDschGetTimerConfig(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -937,7 +937,7 @@ bool bDschGetTimerConfig(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschSetTimerConfig(TDschChannel *pxDschCh) {
+bool bDschSetTimerConfig(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -954,7 +954,7 @@ bool bDschSetTimerConfig(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschGetTimerStatus(TDschChannel *pxDschCh) {
+bool bDschGetTimerStatus(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -1166,7 +1166,7 @@ bool bDschGetIrqFlags(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschStartTimer(TDschChannel *pxDschCh) {
+bool bDschStartTimer(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -1183,7 +1183,7 @@ bool bDschStartTimer(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschRunTimer(TDschChannel *pxDschCh) {
+bool bDschRunTimer(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -1200,7 +1200,7 @@ bool bDschRunTimer(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschStopTimer(TDschChannel *pxDschCh) {
+bool bDschStopTimer(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 
@@ -1217,7 +1217,7 @@ bool bDschStopTimer(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
-bool bDschClrTimer(TDschChannel *pxDschCh) {
+bool bDschClrTimer(volatile TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
 

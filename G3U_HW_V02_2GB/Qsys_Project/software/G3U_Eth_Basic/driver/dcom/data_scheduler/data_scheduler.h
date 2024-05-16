@@ -17,8 +17,8 @@ extern OS_EVENT *p_simucam_command_q;
 extern OS_EVENT *p_dma_scheduler_controller_queue[2];
 extern OS_EVENT *DMA_sched_queue[2];
 extern OS_EVENT *p_echo_queue;
-extern TDschChannel xSimucamTimer;
-extern T_Simucam T_simucam;
+extern volatile TDschChannel xSimucamTimer;
+extern volatile T_Simucam T_simucam;
 
 //! [constants definition]
 #define DSCH_DATA_ACCESS_WIDTH_BYTES     (alt_u32)8
@@ -44,13 +44,13 @@ bool bDschInitIrq(alt_u8 ucDcomCh);
 // Get functions -> get data from hardware to channel variable
 // Set functions -> set data from channel variable to hardware
 
-bool bDschGetTimerControl(TDschChannel *pxDschCh);
+bool bDschGetTimerControl(volatile TDschChannel *pxDschCh);
 bool bDschSetTimerControl(TDschChannel *pxDschCh);
 
-bool bDschGetTimerConfig(TDschChannel *pxDschCh);
-bool bDschSetTimerConfig(TDschChannel *pxDschCh);
+bool bDschGetTimerConfig(volatile TDschChannel *pxDschCh);
+bool bDschSetTimerConfig(volatile TDschChannel *pxDschCh);
 
-bool bDschGetTimerStatus(TDschChannel *pxDschCh);
+bool bDschGetTimerStatus(volatile TDschChannel *pxDschCh);
 
 bool bDschGetPacketConfig(TDschChannel *pxDschCh);
 bool bDschSetPacketConfig(TDschChannel *pxDschCh);
@@ -70,10 +70,10 @@ bool bDschSetIrqControl(TDschChannel *pxDschCh);
 
 bool bDschGetIrqFlags(TDschChannel *pxDschCh);
 
-bool bDschStartTimer(TDschChannel *pxDschCh);
-bool bDschRunTimer(TDschChannel *pxDschCh);
-bool bDschStopTimer(TDschChannel *pxDschCh);
-bool bDschClrTimer(TDschChannel *pxDschCh);
+bool bDschStartTimer(volatile TDschChannel *pxDschCh);
+bool bDschRunTimer(volatile TDschChannel *pxDschCh);
+bool bDschStopTimer(volatile TDschChannel *pxDschCh);
+bool bDschClrTimer(volatile TDschChannel *pxDschCh);
 
 alt_u16 usiDschGetBuffersUsedSpace(TDschChannel *pxDschCh);
 alt_u16 usiDschGetBuffersFreeSpace(TDschChannel *pxDschCh);

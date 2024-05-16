@@ -52,7 +52,7 @@ typedef enum {
 	sRConfiguring = 0, sGetHeader, sToGetImagettes, sGetImagettes, sToGetCommand, sGetCommand, sSendToCmdCtrl, sSendToACKReceiver
 } tReaderStates;
 
-extern T_Simucam T_simucam;
+extern volatile T_Simucam T_simucam;
 /*
  * Handles to the SimuCam control data queues
  */

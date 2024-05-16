@@ -74,16 +74,13 @@ end entity spwc_spacewire_channel_top;
 
 architecture rtl of spwc_spacewire_channel_top is
 
-    -- Alias --
-
-    -- Basic Alias
-    alias a_avs_clock is clk_100_i;
-    alias a_spw_clock is clk_200_i;
-    alias a_reset is reset_i;
-
     -- Constants --
 
     -- Signals --
+
+    -- Reset Signals
+    signal s_global_reset     : std_logic;
+    signal s_disconnect_reset : std_logic;
 
     -- SpaceWire Codec Clock Synchronization Signals (200 MHz)
     signal s_spw_codec_link_command_spw    : t_spwc_codec_link_command;
@@ -114,6 +111,13 @@ architecture rtl of spwc_spacewire_channel_top is
 
     -- SpaceWire Leds Controller Signals
     signal s_spw_leds_control : t_spwc_spw_leds_control;
+
+    -- Alias --
+
+    -- Basic Alias
+    alias a_avs_clock is clk_100_i;
+    alias a_spw_clock is clk_200_i;
+    alias a_reset is s_global_reset;
 
 begin
 
@@ -261,22 +265,55 @@ begin
             dataout(0) => spw_green_status_led_o
         );
 
+    -- Processes --
+    p_disconnect_reset_manager : process(a_spw_clock, s_global_reset) is
+        variable v_disconnection_flag   : std_logic := '0';
+        variable v_running_flag_delayed : std_logic := '0';
+    begin
+        if (s_global_reset = '1') then
+            s_disconnect_reset     <= '0';
+            v_disconnection_flag   := '0';
+            v_running_flag_delayed := '0';
+        elsif (rising_edge(a_spw_clock)) then
+
+            -- disconnect reset default signal
+            s_disconnect_reset <= '0';
+
+            -- generate disconnection flag (running flag had a falling edge)
+            v_disconnection_flag := (v_running_flag_delayed) and (not (s_spw_codec_link_status_spw.running));
+
+            -- check if a disconnection happened and is not in error injection mode
+            if ((v_disconnection_flag = '1') and (s_spw_errinj_controller_status.errinj_busy = '0')) then
+                -- a disconnection happened and is not in error injection mode
+                -- issue a disconnect reset
+                s_disconnect_reset <= '1';
+            end if;
+
+            -- update the running delayed flag
+            v_running_flag_delayed := s_spw_codec_link_status_spw.running;
+
+        end if;
+    end process p_disconnect_reset_manager;
+
     -- Signals Assignments --
 
+    -- Reset Signals Assignments
+    s_global_reset <= (reset_i) or (s_disconnect_reset);
+
     -- Spacewire Data-Strobe Input Signals Assignments
-    s_spw_codec_ds_encoding_rx.spw_di <= ('0') when (a_reset = '1')
-                                         else (s_spw_logical_data_in) when ((spw_rx_enable_i = '1') and (spw_link_command_enable_i = '1'))
-                                         else ('0');
-    s_spw_codec_ds_encoding_rx.spw_si <= ('0') when (a_reset = '1')
-                                         else (s_spw_logical_strobe_in) when ((spw_rx_enable_i = '1') and (spw_link_command_enable_i = '1'))
-                                         else ('0');
+    s_spw_codec_ds_encoding_rx.spw_di <= ('0') when (a_reset = '1') else
+                                         (s_spw_logical_data_in) when ((spw_rx_enable_i = '1') and (spw_link_command_enable_i = '1')) else
+                                         ('0');
+    s_spw_codec_ds_encoding_rx.spw_si <= ('0') when (a_reset = '1') else
+                                         (s_spw_logical_strobe_in) when ((spw_rx_enable_i = '1') and (spw_link_command_enable_i = '1')) else
+                                         ('0');
 
     -- Spacewire Data-Strobe Output Signals Assignments
-    s_spw_logical_data_out   <= ('0') when (a_reset = '1')
-                                else (s_spw_codec_ds_encoding_tx.spw_do) when ((spw_tx_enable_i = '1') and (spw_link_command_enable_i = '1'))
-                                else ('0');
-    s_spw_logical_strobe_out <= ('0') when (a_reset = '1')
-                                else (s_spw_codec_ds_encoding_tx.spw_so) when ((spw_tx_enable_i = '1') and (spw_link_command_enable_i = '1'))
-                                else ('0');
+    s_spw_logical_data_out   <= ('0') when (a_reset = '1') else
+                                (s_spw_codec_ds_encoding_tx.spw_do) when ((spw_tx_enable_i = '1') and (spw_link_command_enable_i = '1')) else
+                                ('0');
+    s_spw_logical_strobe_out <= ('0') when (a_reset = '1') else
+                                (s_spw_codec_ds_encoding_tx.spw_so) when ((spw_tx_enable_i = '1') and (spw_link_command_enable_i = '1')) else
+                                ('0');
 
 end architecture rtl;                   -- of spwc_spacewire_channel_top

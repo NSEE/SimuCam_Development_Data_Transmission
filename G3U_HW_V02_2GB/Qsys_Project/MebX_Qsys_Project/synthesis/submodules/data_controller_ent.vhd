@@ -529,7 +529,8 @@ begin
                     dctrl_tx_ended_o <= '0';
                     dbuffer_rdreq_o  <= '0';
                     -- write the spw data
-                    spw_tx_write_o   <= '1';
+--                    spw_tx_write_o   <= '1';
+                    spw_tx_write_o   <= spw_tx_ready_i;
                     -- clear spw flag (to indicate a data)
                     spw_tx_flag_o    <= '0';
                     -- fill spw data with field data
@@ -597,7 +598,8 @@ begin
                     -- Transmit an eep to the spw tx buffer
                     -- default output signals
                     dctrl_tx_begin_o <= '0';
-                    dctrl_tx_ended_o <= '0';
+                    -- indicates a transmission end
+                    dctrl_tx_ended_o <= '1';
                     dbuffer_rdreq_o  <= '0';
                     -- write the spw data
                     spw_tx_write_o   <= '1';
