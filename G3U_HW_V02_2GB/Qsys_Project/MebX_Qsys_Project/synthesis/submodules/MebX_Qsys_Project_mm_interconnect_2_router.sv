@@ -246,19 +246,19 @@ module MebX_Qsys_Project_mm_interconnect_2_router
 
     // ( 0x80001000 .. 0x80001400 )
     if ( {address[RG:PAD4],{PAD4{1'b0}}} == 32'h80001000   ) begin
-            src_channel = 28'b0000000001000000000000000000;
+            src_channel = 28'b0000000000000001000000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 1;
     end
 
     // ( 0x80001400 .. 0x80001800 )
     if ( {address[RG:PAD5],{PAD5{1'b0}}} == 32'h80001400   ) begin
-            src_channel = 28'b0000000000100000000000000000;
+            src_channel = 28'b0000000000000010000000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 2;
     end
 
     // ( 0x80001800 .. 0x80001c00 )
     if ( {address[RG:PAD6],{PAD6{1'b0}}} == 32'h80001800   ) begin
-            src_channel = 28'b0000000000010000000000000000;
+            src_channel = 28'b0000000000000100000000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 3;
     end
 
@@ -270,19 +270,19 @@ module MebX_Qsys_Project_mm_interconnect_2_router
 
     // ( 0x80002000 .. 0x80002400 )
     if ( {address[RG:PAD8],{PAD8{1'b0}}} == 32'h80002000   ) begin
-            src_channel = 28'b0000000000000100000000000000;
+            src_channel = 28'b0000000000010000000000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 5;
     end
 
     // ( 0x80002400 .. 0x80002800 )
     if ( {address[RG:PAD9],{PAD9{1'b0}}} == 32'h80002400   ) begin
-            src_channel = 28'b0000000000000010000000000000;
+            src_channel = 28'b0000000000100000000000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 6;
     end
 
     // ( 0x80002800 .. 0x80002c00 )
     if ( {address[RG:PAD10],{PAD10{1'b0}}} == 32'h80002800   ) begin
-            src_channel = 28'b0000000000000001000000000000;
+            src_channel = 28'b0000000001000000000000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 7;
     end
 
@@ -378,13 +378,13 @@ module MebX_Qsys_Project_mm_interconnect_2_router
 
     // ( 0x8a000000 .. 0x8a000400 )
     if ( {address[RG:PAD26],{PAD26{1'b0}}} == 32'h8a000000   ) begin
-            src_channel = 28'b0000000000000000001000000000;
+            src_channel = 28'b0000000000000000010000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 10;
     end
 
     // ( 0x8a001000 .. 0x8a001400 )
     if ( {address[RG:PAD27],{PAD27{1'b0}}} == 32'h8a001000   ) begin
-            src_channel = 28'b0000000000000000010000000000;
+            src_channel = 28'b0000000000000000001000000000;
             src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 9;
     end
 

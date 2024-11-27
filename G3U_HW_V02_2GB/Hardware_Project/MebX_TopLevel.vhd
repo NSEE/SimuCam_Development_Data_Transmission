@@ -70,8 +70,8 @@ entity MebX_TopLevel is
         LED_PAINEL_LED_ST3     : out   std_logic;
         LED_PAINEL_LED_ST4     : out   std_logic;
         -- Seven Segment Display
-        SEVEN_SEG_HEX1         : out   std_logic_vector(7 downto 0);
-        SEVEN_SEG_HEX0         : out   std_logic_vector(7 downto 0);
+        --		SEVEN_SEG_HEX1         : out   std_logic_vector(7 downto 0);
+        --		SEVEN_SEG_HEX0         : out   std_logic_vector(7 downto 0);
         -- FANs
         FAN_CTRL               : out   std_logic;
         -- SD CARD
@@ -398,8 +398,8 @@ architecture bhv of MebX_TopLevel is
             led_de4_export                                              : out   std_logic_vector(7 downto 0);
             led_painel_export                                           : out   std_logic_vector(20 downto 0);
             --
-            ssdp_ssdp1                                                  : out   std_logic_vector(7 downto 0);
-            ssdp_ssdp0                                                  : out   std_logic_vector(7 downto 0);
+            --			ssdp_ssdp1                                                  : out   std_logic_vector(7 downto 0);
+            --			ssdp_ssdp0                                                  : out   std_logic_vector(7 downto 0);
             --
             ctrl_io_lvds_export                                         : out   std_logic_vector(3 downto 0);
             pio_iso_logic_signal_enable_export                          : out   std_logic; --                         -- export
@@ -548,11 +548,11 @@ architecture bhv of MebX_TopLevel is
             csense_sdi_export                                           : out   std_logic;
             csense_sdo_export                                           : in    std_logic;
             --
-            rtcc_alarm_export                                           : in    std_logic                     := 'X'; -- export
-            rtcc_cs_n_export                                            : out   std_logic; --                         -- export
-            rtcc_sck_export                                             : out   std_logic; --                         -- export
-            rtcc_sdi_export                                             : out   std_logic; --                         -- export
-            rtcc_sdo_export                                             : in    std_logic                     := 'X'; -- export
+            --            rtcc_alarm_export                                           : in    std_logic                     := 'X'; -- export
+            --            rtcc_cs_n_export                                            : out   std_logic; --                         -- export
+            --            rtcc_sck_export                                             : out   std_logic; --                         -- export
+            --            rtcc_sdi_export                                             : out   std_logic; --                         -- export
+            --            rtcc_sdo_export                                             : in    std_logic                     := 'X'; -- export
             --
             sync_unfiltered_sig_unfiltered_sig_signal                   : in    std_logic                     := '0'; -- unfiltered_sig_signal
             sync_filtered_sig_filtered_sig_signal                       : out   std_logic; --                         -- filtered_sig_signal
@@ -630,8 +630,8 @@ begin
             led_de4_export                                              => leds_b,
             led_painel_export                                           => leds_p,
             --
-            ssdp_ssdp1                                                  => SEVEN_SEG_HEX1,
-            ssdp_ssdp0                                                  => SEVEN_SEG_HEX0,
+            --			ssdp_ssdp1                                                  => SEVEN_SEG_HEX1,
+            --			ssdp_ssdp0                                                  => SEVEN_SEG_HEX0,
             --
             dip_export                                                  => SW,
             button_export                                               => Button,
@@ -825,11 +825,11 @@ begin
             csense_sdi_export                                           => csense_sdi,
             csense_sdo_export                                           => csense_sdo,
             --
-            rtcc_alarm_export                                           => RTCC_ALARM,
-            rtcc_cs_n_export                                            => RTCC_CS_n,
-            rtcc_sck_export                                             => RTCC_SCK,
-            rtcc_sdi_export                                             => RTCC_SDI,
-            rtcc_sdo_export                                             => RTCC_SDO,
+            --            rtcc_alarm_export                                           => RTCC_ALARM,
+            --            rtcc_cs_n_export                                            => RTCC_CS_n,
+            --            rtcc_sck_export                                             => RTCC_SCK,
+            --            rtcc_sdi_export                                             => RTCC_SDI,
+            --            rtcc_sdo_export                                             => RTCC_SDO,
             --
             sync_unfiltered_sig_unfiltered_sig_signal                   => s_sync_in_unfiltered, ----                sync_unfiltered_sig.unfiltered_sig_signal
             sync_filtered_sig_filtered_sig_signal                       => s_sync_in_filtered, --  --                  sync_filtered_sig.filtered_sig_signal

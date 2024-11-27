@@ -78,7 +78,6 @@ module MebX_Qsys_Project (
 	dumb_communication_module_v2_timer_rprt_interrupt_sender_irq,
 	dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal,
 	dumb_communication_module_v2_timer_tx_interrupt_sender_irq,
-	eth_rst_export,
 	ext_export,
 	ftdi_clk_clk,
 	led_de4_export,
@@ -145,11 +144,6 @@ module MebX_Qsys_Project (
 	rst_reset_n,
 	rst_controller_conduit_reset_input_t_reset_input_signal,
 	rst_controller_conduit_simucam_reset_t_simucam_reset_signal,
-	rtcc_alarm_export,
-	rtcc_cs_n_export,
-	rtcc_sck_export,
-	rtcc_sdi_export,
-	rtcc_sdo_export,
 	sd_card_ip_b_SD_cmd,
 	sd_card_ip_b_SD_dat,
 	sd_card_ip_b_SD_dat3,
@@ -252,8 +246,6 @@ module MebX_Qsys_Project (
 	spwc_h_lvds_spw_lvds_p_strobe_in_signal,
 	spwc_h_lvds_spw_lvds_n_strobe_in_signal,
 	spwm_h_select_mux_select_signal,
-	ssdp_ssdp0,
-	ssdp_ssdp1,
 	sync_filtered_sig_filtered_sig_signal,
 	sync_in_conduit,
 	sync_in_en_conduit,
@@ -368,7 +360,6 @@ module MebX_Qsys_Project (
 	output		dumb_communication_module_v2_timer_rprt_interrupt_sender_irq;
 	input		dumb_communication_module_v2_timer_sync_conduit_end_sync_channel_signal;
 	output		dumb_communication_module_v2_timer_tx_interrupt_sender_irq;
-	output		eth_rst_export;
 	input		ext_export;
 	input		ftdi_clk_clk;
 	output	[7:0]	led_de4_export;
@@ -435,11 +426,6 @@ module MebX_Qsys_Project (
 	input		rst_reset_n;
 	input		rst_controller_conduit_reset_input_t_reset_input_signal;
 	output		rst_controller_conduit_simucam_reset_t_simucam_reset_signal;
-	input		rtcc_alarm_export;
-	output		rtcc_cs_n_export;
-	output		rtcc_sck_export;
-	output		rtcc_sdi_export;
-	input		rtcc_sdo_export;
 	inout		sd_card_ip_b_SD_cmd;
 	inout		sd_card_ip_b_SD_dat;
 	inout		sd_card_ip_b_SD_dat3;
@@ -542,8 +528,6 @@ module MebX_Qsys_Project (
 	input		spwc_h_lvds_spw_lvds_p_strobe_in_signal;
 	input		spwc_h_lvds_spw_lvds_n_strobe_in_signal;
 	input	[1:0]	spwm_h_select_mux_select_signal;
-	output	[7:0]	ssdp_ssdp0;
-	output	[7:0]	ssdp_ssdp1;
 	output		sync_filtered_sig_filtered_sig_signal;
 	input		sync_in_conduit;
 	input		sync_in_en_conduit;

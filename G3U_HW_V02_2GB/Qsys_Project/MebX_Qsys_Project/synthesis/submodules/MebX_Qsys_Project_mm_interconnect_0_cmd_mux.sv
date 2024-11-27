@@ -44,7 +44,7 @@
 //   ARBITRATION_SCHEME   "round-robin"
 //   PIPELINE_ARB:        1
 //   PKT_TRANS_LOCK:      356 (arbitration locking enabled)
-//   ST_DATA_W:           402
+//   ST_DATA_W:           399
 //   ST_CHANNEL_W:        12
 // ------------------------------------------
 
@@ -54,84 +54,84 @@ module MebX_Qsys_Project_mm_interconnect_0_cmd_mux
     // Sinks
     // ----------------------
     input                       sink0_valid,
-    input [402-1   : 0]  sink0_data,
+    input [399-1   : 0]  sink0_data,
     input [12-1: 0]  sink0_channel,
     input                       sink0_startofpacket,
     input                       sink0_endofpacket,
     output                      sink0_ready,
 
     input                       sink1_valid,
-    input [402-1   : 0]  sink1_data,
+    input [399-1   : 0]  sink1_data,
     input [12-1: 0]  sink1_channel,
     input                       sink1_startofpacket,
     input                       sink1_endofpacket,
     output                      sink1_ready,
 
     input                       sink2_valid,
-    input [402-1   : 0]  sink2_data,
+    input [399-1   : 0]  sink2_data,
     input [12-1: 0]  sink2_channel,
     input                       sink2_startofpacket,
     input                       sink2_endofpacket,
     output                      sink2_ready,
 
     input                       sink3_valid,
-    input [402-1   : 0]  sink3_data,
+    input [399-1   : 0]  sink3_data,
     input [12-1: 0]  sink3_channel,
     input                       sink3_startofpacket,
     input                       sink3_endofpacket,
     output                      sink3_ready,
 
     input                       sink4_valid,
-    input [402-1   : 0]  sink4_data,
+    input [399-1   : 0]  sink4_data,
     input [12-1: 0]  sink4_channel,
     input                       sink4_startofpacket,
     input                       sink4_endofpacket,
     output                      sink4_ready,
 
     input                       sink5_valid,
-    input [402-1   : 0]  sink5_data,
+    input [399-1   : 0]  sink5_data,
     input [12-1: 0]  sink5_channel,
     input                       sink5_startofpacket,
     input                       sink5_endofpacket,
     output                      sink5_ready,
 
     input                       sink6_valid,
-    input [402-1   : 0]  sink6_data,
+    input [399-1   : 0]  sink6_data,
     input [12-1: 0]  sink6_channel,
     input                       sink6_startofpacket,
     input                       sink6_endofpacket,
     output                      sink6_ready,
 
     input                       sink7_valid,
-    input [402-1   : 0]  sink7_data,
+    input [399-1   : 0]  sink7_data,
     input [12-1: 0]  sink7_channel,
     input                       sink7_startofpacket,
     input                       sink7_endofpacket,
     output                      sink7_ready,
 
     input                       sink8_valid,
-    input [402-1   : 0]  sink8_data,
+    input [399-1   : 0]  sink8_data,
     input [12-1: 0]  sink8_channel,
     input                       sink8_startofpacket,
     input                       sink8_endofpacket,
     output                      sink8_ready,
 
     input                       sink9_valid,
-    input [402-1   : 0]  sink9_data,
+    input [399-1   : 0]  sink9_data,
     input [12-1: 0]  sink9_channel,
     input                       sink9_startofpacket,
     input                       sink9_endofpacket,
     output                      sink9_ready,
 
     input                       sink10_valid,
-    input [402-1   : 0]  sink10_data,
+    input [399-1   : 0]  sink10_data,
     input [12-1: 0]  sink10_channel,
     input                       sink10_startofpacket,
     input                       sink10_endofpacket,
     output                      sink10_ready,
 
     input                       sink11_valid,
-    input [402-1   : 0]  sink11_data,
+    input [399-1   : 0]  sink11_data,
     input [12-1: 0]  sink11_channel,
     input                       sink11_startofpacket,
     input                       sink11_endofpacket,
@@ -142,7 +142,7 @@ module MebX_Qsys_Project_mm_interconnect_0_cmd_mux
     // Source
     // ----------------------
     output                      src_valid,
-    output [402-1    : 0] src_data,
+    output [399-1    : 0] src_data,
     output [12-1 : 0] src_channel,
     output                      src_startofpacket,
     output                      src_endofpacket,
@@ -154,11 +154,11 @@ module MebX_Qsys_Project_mm_interconnect_0_cmd_mux
     input clk,
     input reset
 );
-    localparam PAYLOAD_W        = 402 + 12 + 2;
+    localparam PAYLOAD_W        = 399 + 12 + 2;
     localparam NUM_INPUTS       = 12;
     localparam SHARE_COUNTER_W  = 1;
     localparam PIPELINE_ARB     = 1;
-    localparam ST_DATA_W        = 402;
+    localparam ST_DATA_W        = 399;
     localparam ST_CHANNEL_W     = 12;
     localparam PKT_TRANS_LOCK   = 356;
 

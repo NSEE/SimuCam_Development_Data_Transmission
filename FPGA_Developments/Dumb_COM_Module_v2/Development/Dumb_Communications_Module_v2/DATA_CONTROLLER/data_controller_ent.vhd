@@ -73,12 +73,6 @@ architecture RTL of data_controller_ent is
     signal s_eep_injection_en  : std_logic;
     signal s_eep_injection_cnt : unsigned(31 downto 0);
 
-    -- Timeout Mechanism Signals
-    signal s_overflow_timeout_running   : std_logic;
-    signal s_overflow_timeout_flag      : std_logic;
-    signal s_overflow_timeout_cnt       : unsigned(31 downto 0);
-    constant c_OVERFLOW_TIMEOUT_MAX_CNT : unsigned(31 downto 0) := to_unsigned((5 * 1000 * 100000) - 1, 32); -- 100 MHz -> 100000 equals 1 ms
-
 begin
 
     -- data controller fsm process
@@ -98,9 +92,6 @@ begin
             s_alignment_counter            <= 0;
             s_eep_injection_en             <= '0';
             s_eep_injection_cnt            <= (others => '0');
-            s_overflow_timeout_running     <= '0';
-            s_overflow_timeout_flag        <= '0';
-            s_overflow_timeout_cnt         <= (others => '0');
             -- outputs
             dctrl_tx_begin_o               <= '0';
             dctrl_tx_ended_o               <= '0';
@@ -109,19 +100,6 @@ begin
             spw_tx_flag_o                  <= '0';
             spw_tx_data_o                  <= x"00";
         elsif rising_edge(clk_i) then
-
-            -- Timeout Mechanism Management
-            if (s_overflow_timeout_running = '1') then
-                if (s_overflow_timeout_cnt >= c_OVERFLOW_TIMEOUT_MAX_CNT) then
-                    s_overflow_timeout_running <= '0';
-                    s_overflow_timeout_flag    <= '1';
-                    s_overflow_timeout_cnt     <= (others => '0');
-                else
-                    s_overflow_timeout_running <= '1';
-                    s_overflow_timeout_flag    <= '0';
-                    s_overflow_timeout_cnt     <= s_overflow_timeout_cnt + 1;
-                end if;
-            end if;
 
             -- EEP Error Injection Management
             -- check if the eep error injection was triggered 
@@ -155,9 +133,6 @@ begin
                     s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
                     s_spw_transmitting             <= '0';
                     s_alignment_counter            <= 0;
-                    s_overflow_timeout_running     <= '0';
-                    s_overflow_timeout_flag        <= '0';
-                    s_overflow_timeout_cnt         <= (others => '0');
                     -- conditional state transition
                     -- check if a command to start was received
                     if (tmr_start_i = '1') then
@@ -330,14 +305,6 @@ begin
                             s_data_controller_state <= WAIT_DATA_FIFO;
                             v_data_controller_state := WAIT_DATA_FIFO;
                         end if;
-                        -- stop and clear the overflow timeout timer
-                        s_overflow_timeout_running <= '0';
-                        s_overflow_timeout_flag    <= '0';
-                        s_overflow_timeout_cnt     <= (others => '0');
-                    else
-                        -- tx buffer cannot receive data
-                        -- start the overflow timeout counter
-                        s_overflow_timeout_running <= '1';
                     end if;
 
                 when TRANSMIT_DATA =>
@@ -561,16 +528,12 @@ begin
                     dctrl_tx_begin_o <= '0';
                     dctrl_tx_ended_o <= '0';
                     dbuffer_rdreq_o  <= '0';
-                    -- check if the overflow timout flag is clear
-                    if (s_overflow_timeout_flag = '0') then
-                        -- the overflow timout flag is clear
-                        -- write the spw data
-                        spw_tx_write_o <= '1';
-                    end if;
+                    -- write the spw data
+                    spw_tx_write_o   <= '1';
                     -- clear spw flag (to indicate a data)
-                    spw_tx_flag_o <= '0';
+                    spw_tx_flag_o    <= '0';
                     -- fill spw data with field data
-                    spw_tx_data_o <= dbuffer_rddata_i;
+                    spw_tx_data_o    <= dbuffer_rddata_i;
                 -- conditional output signals
 
                 when TRANSMIT_EOP =>
@@ -579,6 +542,8 @@ begin
                     dctrl_tx_begin_o <= '0';
                     dctrl_tx_ended_o <= '0';
                     dbuffer_rdreq_o  <= '0';
+                    -- write the spw data
+                    spw_tx_write_o   <= '1';
                     -- set spw flag (to indicate a package end)
                     spw_tx_flag_o    <= '1';
                     -- conditional output signals
@@ -615,21 +580,6 @@ begin
                             spw_tx_data_o <= x"01";
                         end if;
                     end if;
-                    -- check if the overflow timout flag is clear
-                    if (s_overflow_timeout_flag = '0') then
-                        -- the overflow timout flag is clear
-                        -- write the spw data
-                        spw_tx_write_o <= '1';
-                    else
-                        -- the overflow timout flag is set
-                        -- check if the spacewire is transmitting
-                        if (s_spw_transmitting = '1') then
-                            -- the spacewire is transmitting
-                            -- transmitt an EEP
-                            spw_tx_write_o <= '1';
-                            spw_tx_data_o  <= x"01";
-                        end if;
-                    end if;
 
                 when DATA_PACKET_END =>
                     -- Data packet end, finalize the data packet transmission
@@ -647,8 +597,7 @@ begin
                     -- Transmit an eep to the spw tx buffer
                     -- default output signals
                     dctrl_tx_begin_o <= '0';
-                    -- indicates a transmission end
-                    dctrl_tx_ended_o <= '1';
+                    dctrl_tx_ended_o <= '0';
                     dbuffer_rdreq_o  <= '0';
                     -- write the spw data
                     spw_tx_write_o   <= '1';

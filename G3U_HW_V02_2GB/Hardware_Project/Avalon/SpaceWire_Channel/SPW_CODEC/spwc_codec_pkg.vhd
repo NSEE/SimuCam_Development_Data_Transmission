@@ -19,9 +19,9 @@ package spwc_codec_pkg is
 	-- Codec Transmitter Implementation = generic implementation (default)
 	constant c_SPWC_TXIMPL          : spw_implementation_type := impl_generic;
 	-- Codec Receiver FIFO Size, in bits = 11 bits, 2kByte (default)
-	constant c_SPWC_RXFIFOSIZE_BITS : integer range 6 to 14   := 14;
+	constant c_SPWC_RXFIFOSIZE_BITS : integer range 6 to 14   := 11;
 	-- Codec Transmitter FIFO Size, in bits = 11 bits, 2kByte (default)
-	constant c_SPWC_TXFIFOSIZE_BITS : integer range 6 to 14   := 14;
+	constant c_SPWC_TXFIFOSIZE_BITS : integer range 6 to 14   := 11;
 
 	-- SpaceWire Light Codec Interface Signals
 

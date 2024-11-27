@@ -47,16 +47,16 @@ module MebX_Qsys_Project_mm_interconnect_0_router_012_default_decode
      parameter DEFAULT_CHANNEL = 0,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 11 
+               DEFAULT_DESTID = 8 
    )
-  (output [388 - 385 : 0] default_destination_id,
+  (output [385 - 382 : 0] default_destination_id,
    output [12-1 : 0] default_wr_channel,
    output [12-1 : 0] default_rd_channel,
    output [12-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
-    DEFAULT_DESTID[388 - 385 : 0];
+    DEFAULT_DESTID[385 - 382 : 0];
 
   generate
     if (DEFAULT_CHANNEL == -1) begin : no_default_channel_assignment
@@ -93,7 +93,7 @@ module MebX_Qsys_Project_mm_interconnect_0_router_012
     // Command Sink (Input)
     // -------------------
     input                       sink_valid,
-    input  [402-1 : 0]    sink_data,
+    input  [399-1 : 0]    sink_data,
     input                       sink_startofpacket,
     input                       sink_endofpacket,
     output                      sink_ready,
@@ -102,7 +102,7 @@ module MebX_Qsys_Project_mm_interconnect_0_router_012
     // Command Source (Output)
     // -------------------
     output                          src_valid,
-    output reg [402-1    : 0] src_data,
+    output reg [399-1    : 0] src_data,
     output reg [12-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
@@ -114,11 +114,11 @@ module MebX_Qsys_Project_mm_interconnect_0_router_012
     // -------------------------------------------------------
     localparam PKT_ADDR_H = 351;
     localparam PKT_ADDR_L = 288;
-    localparam PKT_DEST_ID_H = 388;
-    localparam PKT_DEST_ID_L = 385;
-    localparam PKT_PROTECTION_H = 392;
-    localparam PKT_PROTECTION_L = 390;
-    localparam ST_DATA_W = 402;
+    localparam PKT_DEST_ID_H = 385;
+    localparam PKT_DEST_ID_L = 382;
+    localparam PKT_PROTECTION_H = 389;
+    localparam PKT_PROTECTION_L = 387;
+    localparam ST_DATA_W = 399;
     localparam ST_CHANNEL_W = 12;
     localparam DECODER_TYPE = 1;
 
@@ -191,15 +191,15 @@ module MebX_Qsys_Project_mm_interconnect_0_router_012
 
 
 
-        if (destid == 11 ) begin
+        if (destid == 8 ) begin
             src_channel = 12'b000000000001;
         end
 
-        if (destid == 7  && read_transaction) begin
+        if (destid == 9  && write_transaction) begin
             src_channel = 12'b000000000010;
         end
 
-        if (destid == 8 ) begin
+        if (destid == 11 ) begin
             src_channel = 12'b010000000000;
         end
 
@@ -235,7 +235,7 @@ module MebX_Qsys_Project_mm_interconnect_0_router_012
             src_channel = 12'b000100000000;
         end
 
-        if (destid == 9  && write_transaction) begin
+        if (destid == 7  && read_transaction) begin
             src_channel = 12'b001000000000;
         end
 
