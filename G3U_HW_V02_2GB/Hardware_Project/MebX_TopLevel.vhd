@@ -482,22 +482,6 @@ architecture bhv of MebX_TopLevel is
             spwc_h_lvds_spw_lvds_p_strobe_out_signal                    : out   std_logic; --                         -- spw_lvds_p_strobe_out_signal
             spwc_h_lvds_spw_lvds_n_strobe_out_signal                    : out   std_logic; --                         -- spw_lvds_n_strobe_out_signal
             --
-            spwm_h_select_mux_select_signal                             : in    std_logic_vector(1 downto 0)  := (others => '1'); -- mux_select_signal
-            --
-            pio_spw_mux_ch_h_select_export                              : out   std_logic_vector(1 downto 0); --      -- export
-            --
-            rmap_echoing_echo_rst_sink_reset                            : in    std_logic                     := '0';             -- reset
-            pio_rmap_echoing_module_reset_external_connection_export    : out   std_logic;                                        -- export
-            --
-            dcom_1_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            dcom_2_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            dcom_3_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            dcom_4_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            dcom_5_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            dcom_6_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            dcom_7_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            dcom_8_sync_end_sync_channel_signal                         : in    std_logic                     := 'X'; -- sync_channel_signal
-            --
             spwc_a_leds_spw_red_status_led_signal                       : out   std_logic; --                         -- spw_red_status_led_signal
             spwc_a_leds_spw_green_status_led_signal                     : out   std_logic; --                         -- spw_green_status_led_signal
             --
@@ -574,10 +558,8 @@ architecture bhv of MebX_TopLevel is
             sd_card_ip_b_SD_cmd                                         : inout std_logic                     := 'X'; -- b_SD_cmd
             sd_card_ip_b_SD_dat                                         : inout std_logic                     := 'X'; -- b_SD_dat
             sd_card_ip_b_SD_dat3                                        : inout std_logic                     := 'X'; -- b_SD_dat3
-            sd_card_ip_o_SD_clock                                       : out   std_logic; --                         -- o_SD_clock
+            sd_card_ip_o_SD_clock                                       : out   std_logic ---                         -- o_SD_clock
             --
-            rs232_uart_rxd                                              : in    std_logic                     := 'X'; -- rxd
-            rs232_uart_txd                                              : out   std_logic; --                         -- txd
             --            rs232_uart_cts_n                                                        : in    std_logic                     := 'X';             -- cts_n
             --            rs232_uart_rts_n                                                        : out   std_logic;                                        -- rts_n
 
@@ -585,23 +567,7 @@ architecture bhv of MebX_TopLevel is
             --			uart_module_uart_rxd_signal                                 : in    std_logic                     := 'X'; -- uart_rxd_signal
             --			uart_module_uart_rts_signal                                 : in    std_logic                     := 'X'; -- uart_rts_signal
             --			uart_module_uart_cts_signal                                 : out   std_logic -- uart_cts_signal
-            --
-            ftdi_clk_clk                                                : in    std_logic                     := '0'; --          -- clk
-            --
-            pio_ftdi_umft601a_module_reset_export                       : out   std_logic; --                                     -- export
-            --
-            umft601a_pins_umft_data_signal                              : inout std_logic_vector(31 downto 0) := (others => 'Z'); -- umft_data_signal
-            umft601a_pins_umft_reset_n_signal                           : out   std_logic; --                                     -- umft_reset_n_signal
-            umft601a_pins_umft_rxf_n_signal                             : in    std_logic                     := '1'; --          -- umft_rxf_n_signal
-            umft601a_pins_umft_clock_signal                             : in    std_logic                     := '0'; --          -- umft_clock_signal
-            umft601a_pins_umft_wakeup_n_signal                          : inout std_logic                     := 'Z'; --          -- umft_wakeup_n_signal
-            umft601a_pins_umft_be_signal                                : inout std_logic_vector(3 downto 0)  := (others => 'Z'); -- umft_be_signal
-            umft601a_pins_umft_txe_n_signal                             : in    std_logic                     := '1'; --          -- umft_txe_n_signal
-            umft601a_pins_umft_gpio_bus_signal                          : inout std_logic_vector(1 downto 0)  := (others => 'Z'); -- umft_gpio_bus_signal
-            umft601a_pins_umft_wr_n_signal                              : out   std_logic; --                                     -- umft_wr_n_signal
-            umft601a_pins_umft_rd_n_signal                              : out   std_logic; --                                     -- umft_rd_n_signal
-            umft601a_pins_umft_oe_n_signal                              : out   std_logic; --                                     -- umft_oe_n_signal
-            umft601a_pins_umft_siwu_n_signal                            : out   std_logic ---                                     -- umft_siwu_n_signal
+
         );
     end component MebX_Qsys_Project;
 
@@ -759,22 +725,6 @@ begin
             spwc_h_lvds_spw_lvds_p_strobe_out_signal                    => HSMB_LVDS_TX_SPWH_SO_P, --                                   .spw_lvds_p_strobe_out_signal
             spwc_h_lvds_spw_lvds_n_strobe_out_signal                    => HSMB_LVDS_TX_SPWH_SO_N, --                                   .spw_lvds_n_strobe_out_signal
             --
-            spwm_h_select_mux_select_signal                             => spw_h_mux_select, --                            spwm_h_select.mux_select_signal
-            --
-            pio_spw_mux_ch_h_select_export                              => spw_h_mux_select, --                  pio_spw_mux_ch_h_select.export
-            --
-            rmap_echoing_echo_rst_sink_reset                            => rmap_echoing_rst, --               rmap_echoing_echo_rst_sink.reset
-            pio_rmap_echoing_module_reset_external_connection_export    => rmap_echoing_rst, -- pio_rmap_echoing_module_reset_external_connection.export
-            --
-            dcom_1_sync_end_sync_channel_signal                         => spw_1_sync, --            comm_a_sync_end.sync_channel_signal
-            dcom_2_sync_end_sync_channel_signal                         => spw_2_sync, --            comm_b_sync_end.sync_channel_signal
-            dcom_3_sync_end_sync_channel_signal                         => spw_3_sync, --            comm_c_sync_end.sync_channel_signal
-            dcom_4_sync_end_sync_channel_signal                         => spw_4_sync, --            comm_d_sync_end.sync_channel_signal
-            dcom_5_sync_end_sync_channel_signal                         => spw_5_sync, --            comm_e_sync_end.sync_channel_signal
-            dcom_6_sync_end_sync_channel_signal                         => spw_6_sync, --            comm_f_sync_end.sync_channel_signal
-            dcom_7_sync_end_sync_channel_signal                         => spw_7_sync, --            comm_g_sync_end.sync_channel_signal
-            dcom_8_sync_end_sync_channel_signal                         => spw_8_sync, --            comm_h_sync_end.sync_channel_signal
-            --
             spwc_a_leds_spw_red_status_led_signal                       => spw_a_red_led, --       --                        spwc_a_leds.spw_red_status_led_signal
             spwc_a_leds_spw_green_status_led_signal                     => spw_a_green_led, --     --                                   .spw_green_status_led_signal
             --
@@ -851,10 +801,8 @@ begin
             sd_card_ip_b_SD_cmd                                         => B_SD_CARD_CMD, --    --                            sd_card_ip.b_SD_cmd
             sd_card_ip_b_SD_dat                                         => B_SD_CARD_DAT, --    --                                      .b_SD_dat
             sd_card_ip_b_SD_dat3                                        => B_SD_CARD_DAT3, --   --                                      .b_SD_dat3
-            sd_card_ip_o_SD_clock                                       => O_SD_CARD_CLOCK, --  --                                      .o_SD_clock
+            sd_card_ip_o_SD_clock                                       => O_SD_CARD_CLOCK ---  --                                      .o_SD_clock
             --
-            rs232_uart_rxd                                              => I_RS232_UART_RXD, -- --                            rs232_uart.rxd
-            rs232_uart_txd                                              => O_RS232_UART_TXD, -- --                                      .txd
             --            rs232_uart_cts_n                                                        => I_RS232_UART_RTS,                                                        --                                                            .cts_n
             --            rs232_uart_rts_n                                                        => O_RS232_UART_CTS,                                                        --                                                            .rts_n
 
@@ -874,22 +822,6 @@ begin
             --			uart_module_uart_cts_signal                                 => O_RS232_UART_CTS --                                                            .uart_cts_signal
 
             --
-            ftdi_clk_clk                                                => FTDI_CLOCK, --          --                           ftdi_clk.clk
-            --
-            pio_ftdi_umft601a_module_reset_export                       => ftdi_rst, --            --     pio_ftdi_umft601a_module_reset.export
-            --
-            umft601a_pins_umft_data_signal                              => FTDI_DATA, --           --                      umft601a_pins.umft_data_signal
-            umft601a_pins_umft_reset_n_signal                           => open, --                --                                   .umft_reset_n_signal
-            umft601a_pins_umft_rxf_n_signal                             => FTDI_RXF_N, --          --                                   .umft_rxf_n_signal
-            umft601a_pins_umft_clock_signal                             => '0', --                 --                                   .umft_clock_signal
-            umft601a_pins_umft_wakeup_n_signal                          => FTDI_WAKEUP_N, --       --                                   .umft_wakeup_n_signal
-            umft601a_pins_umft_be_signal                                => FTDI_BE, --             --                                   .umft_be_signal
-            umft601a_pins_umft_txe_n_signal                             => FTDI_TXE_N, --          --                                   .umft_txe_n_signal
-            umft601a_pins_umft_gpio_bus_signal                          => FTDI_GPIO, --           --                                   .umft_gpio_bus_signal
-            umft601a_pins_umft_wr_n_signal                              => FTDI_WR_N, --           --                                   .umft_wr_n_signal
-            umft601a_pins_umft_rd_n_signal                              => FTDI_RD_N, --           --                                   .umft_rd_n_signal
-            umft601a_pins_umft_oe_n_signal                              => FTDI_OE_N, --           --                                   .umft_oe_n_signal
-            umft601a_pins_umft_siwu_n_signal                            => FTDI_SIWU_N ---         --                                   .umft_siwu_n_signal
         );
 
     --==========--
@@ -997,9 +929,14 @@ begin
     --	HSMB_BUFFER_PEM1	<= '0';
     --	EN_ISO_DRIVERS		<= '0';
 
-    EN_ISO_DRIVERS     <= a_enable_iso_drivers;
-    HSMB_BUFFER_PWDN_N <= a_hsmb_buffers_powerdown_n;
-    HSMB_BUFFER_PEM1   <= a_hsmb_buffers_preemphasis_1;
-    HSMB_BUFFER_PEM0   <= a_hsmb_buffers_preemphasis_0;
+    -- EN_ISO_DRIVERS     <= a_enable_iso_drivers;
+    -- HSMB_BUFFER_PWDN_N <= a_hsmb_buffers_powerdown_n;
+    -- HSMB_BUFFER_PEM1   <= a_hsmb_buffers_preemphasis_1;
+    -- HSMB_BUFFER_PEM0   <= a_hsmb_buffers_preemphasis_0;
+	 
+    EN_ISO_DRIVERS     <= '1';
+    HSMB_BUFFER_PWDN_N <= '1';
+    HSMB_BUFFER_PEM1   <= '0';
+    HSMB_BUFFER_PEM0   <= '0';
 
 end bhv;
