@@ -64,7 +64,7 @@ create_clock -name {M1_DDR2_dqs[7]_IN} -period 2.500 -waveform { 0.000 1.250 } [
 #**************************************************************
 # Create Generated Clock
 #**************************************************************
-
+derive_pll_clocks
 create_generated_clock -name {SOPC_INST|m2_ddr2_memory|pll0|pll_afi_clk} -source [get_ports {OSC_50_BANK4}] -multiply_by 4 -master_clock {osc_bank_4_50mhz} [get_pins {SOPC_INST|m2_ddr2_memory|pll0|upll_memphy|auto_generated|pll1|clk[0]}] 
 create_generated_clock -name {SOPC_INST|m2_ddr2_memory|pll0|pll_mem_clk} -source [get_ports {OSC_50_BANK4}] -multiply_by 8 -master_clock {osc_bank_4_50mhz} [get_pins {SOPC_INST|m2_ddr2_memory|pll0|upll_memphy|auto_generated|pll1|clk[1]}] 
 create_generated_clock -name {SOPC_INST|m2_ddr2_memory|pll0|pll_addr_cmd_clk} -source [get_ports {OSC_50_BANK4}] -multiply_by 4 -phase 270.000 -master_clock {osc_bank_4_50mhz} [get_pins {SOPC_INST|m2_ddr2_memory|pll0|upll_memphy|auto_generated|pll1|clk[3]}] 
@@ -148,7 +148,7 @@ create_generated_clock -name {M1_DDR2_dqsn[7]_OUT} -source [get_pins {SOPC_INST|
 #**************************************************************
 # Set Clock Uncertainty
 #**************************************************************
-
+derive_clock_uncertainty
 set_clock_uncertainty -rise_from [get_clocks {osc_bank_4_50mhz}] -rise_to [get_clocks {osc_bank_4_50mhz}]  0.060  
 set_clock_uncertainty -rise_from [get_clocks {osc_bank_4_50mhz}] -fall_to [get_clocks {osc_bank_4_50mhz}]  0.060  
 set_clock_uncertainty -rise_from [get_clocks {osc_bank_4_50mhz}] -rise_to [get_clocks {osc_bank_3_50mhz}]  0.100  

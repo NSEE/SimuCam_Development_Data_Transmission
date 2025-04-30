@@ -290,7 +290,7 @@ architecture rtl of spwr_spacewire_router_top is
     -- Alias --
 
     -- Common Ports Alias
-    alias a_spw_clock is clock_sink_200_clk_i;
+    alias a_clock is clock_sink_100_clk_i;
     alias a_reset     is reset_sink_reset_i;
 
     -- Signals -- 
@@ -482,7 +482,7 @@ begin
 
     spwr_data_controller_ent_ch1_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch1_txdata_ready_i,
@@ -498,7 +498,7 @@ begin
 
     spwr_data_controller_ent_ch2_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch2_txdata_ready_i,
@@ -514,7 +514,7 @@ begin
 
         spwr_data_controller_ent_ch3_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch3_txdata_ready_i,
@@ -530,7 +530,7 @@ begin
 
     spwr_data_controller_ent_ch4_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch4_txdata_ready_i,
@@ -546,7 +546,7 @@ begin
 
     spwr_data_controller_ent_ch5_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch5_txdata_ready_i,
@@ -562,7 +562,7 @@ begin
 
     spwr_data_controller_ent_ch6_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch6_txdata_ready_i,
@@ -578,7 +578,7 @@ begin
 
     spwr_data_controller_ent_ch7_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch7_txdata_ready_i,
@@ -594,7 +594,7 @@ begin
 
     spwr_data_controller_ent_ch8_inst : entity work.spwr_data_controller_ent
         port map(
-            clk_i                      => a_spw_clock,
+            clk_i                      => a_clock,
             rst_i                      => a_reset,
             spw_router_routing_table_i => spw_router_routing_table,
             spw_txdata_ready_i         => spw_ch8_txdata_ready_i,
@@ -614,7 +614,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_allowed_i => data_arbiter_write_allowed_i,
             data_arbiter_write_request_o => data_arbiter_write_request_o,
@@ -635,7 +635,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch1_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch1_data_arbiter_write_allowed_o,
@@ -655,7 +655,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch2_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch2_data_arbiter_write_allowed_o,
@@ -675,7 +675,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch3_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch3_data_arbiter_write_allowed_o,
@@ -695,7 +695,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch4_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch4_data_arbiter_write_allowed_o,
@@ -715,7 +715,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch5_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch5_data_arbiter_write_allowed_o,
@@ -735,7 +735,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch6_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch6_data_arbiter_write_allowed_o,
@@ -755,7 +755,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch7_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch7_data_arbiter_write_allowed_o,
@@ -775,7 +775,7 @@ begin
             g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
         )
         port map(
-            clock_i                      => a_spw_clock,
+            clock_i                      => a_clock,
             reset_i                      => a_reset,
             data_arbiter_write_request_i => darb_ch8_data_arbiter_write_request_i,
             data_arbiter_write_allowed_o => darb_ch8_data_arbiter_write_allowed_o,
@@ -965,9 +965,9 @@ begin
     out_spw_txdata_ready_i(8)      <= darb_ch8_in_spw_txdata_ready_o;
 
     -- SpaceWire Channel Codec Configuration
-    p_spwc_codec_config : process(a_clock_i, a_reset_i) is
+    p_spwc_codec_config : process(a_clock, a_reset) is
     begin
-        if (a_reset_i = '1') then
+        if (a_reset = '1') then
 		
             spw_ch1_link_command_enable_o      <= '0';
             spw_ch1_link_command_autostart_o   <= '0';
@@ -1065,7 +1065,7 @@ begin
             spw_ch8_errinj_ctrl_reset_errinj_o <= '0';
             spw_ch8_errinj_ctrl_errinj_code_o  <= (others => '0');
 			
-        elsif rising_edge(a_avs_clock_i) then
+        elsif rising_edge(a_clock) then
 		
             spw_ch1_link_command_enable_o      <= '1';
             spw_ch1_link_command_autostart_o   <= '1';
