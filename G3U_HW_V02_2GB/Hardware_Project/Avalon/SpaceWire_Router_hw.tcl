@@ -44,6 +44,7 @@ add_fileset_file spwr_data_controller_ent.vhd VHDL PATH SpaceWire_Router/DATA_CO
 add_fileset_file spwr_crossbar_switch_pkg.vhd VHDL PATH SpaceWire_Router/CROSSBAR_SWITCH/spwr_crossbar_switch_pkg.vhd
 add_fileset_file spwr_crossbar_switch_ent.vhd VHDL PATH SpaceWire_Router/CROSSBAR_SWITCH/spwr_crossbar_switch_ent.vhd
 add_fileset_file spwr_data_arbiter_ent.vhd VHDL PATH SpaceWire_Router/DATA_ARBITER/spwr_data_arbiter_ent.vhd
+add_fileset_file spwr_data_discard_ent.vhd VHDL PATH SpaceWire_Router/DATA_DISCARD/spwr_data_discard_ent.vhd
 add_fileset_file spwr_spacewire_router_top.vhd VHDL PATH SpaceWire_Router/spwr_spacewire_router_top.vhd TOP_LEVEL_FILE
 
 add_fileset QUARTUS_SYNTH QUARTUS_SYNTH "" ""
@@ -55,6 +56,7 @@ add_fileset_file spwr_data_controller_ent.vhd VHDL PATH SpaceWire_Router/DATA_CO
 add_fileset_file spwr_crossbar_switch_pkg.vhd VHDL PATH SpaceWire_Router/CROSSBAR_SWITCH/spwr_crossbar_switch_pkg.vhd
 add_fileset_file spwr_crossbar_switch_ent.vhd VHDL PATH SpaceWire_Router/CROSSBAR_SWITCH/spwr_crossbar_switch_ent.vhd
 add_fileset_file spwr_data_arbiter_ent.vhd VHDL PATH SpaceWire_Router/DATA_ARBITER/spwr_data_arbiter_ent.vhd
+add_fileset_file spwr_data_discard_ent.vhd VHDL PATH SpaceWire_Router/DATA_DISCARD/spwr_data_discard_ent.vhd
 add_fileset_file spwr_spacewire_router_top.vhd VHDL PATH SpaceWire_Router/spwr_spacewire_router_top.vhd TOP_LEVEL_FILE
 
 

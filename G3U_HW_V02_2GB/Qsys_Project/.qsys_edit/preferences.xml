@@ -5,13 +5,12 @@
   <columns>
    <connections preferredWidth="287" />
    <irq preferredWidth="34" />
-   <name preferredWidth="214" />
+   <name preferredWidth="400" />
    <inputclock preferredWidth="130" />
   </columns>
  </systemtable>
- <library
-   expandedCategories="Library/Interface Protocols/Transceiver PLL,Library,Library/Basic Functions,Library/University Program,Library/Basic Functions/Clocks; PLLs and Resets,Library/Basic Functions/Clocks; PLLs and Resets/PLL,Project,Library/University Program/Clock,Library/Interface Protocols" />
- <window width="1938" height="1038" x="-9" y="-9" />
+ <library expandedCategories="Library,Project" />
+ <window width="1936" height="1048" x="-8" y="-8" />
  <generation synthesis="VHDL" />
  <hdlexample language="VHDL" />
 </preferences>

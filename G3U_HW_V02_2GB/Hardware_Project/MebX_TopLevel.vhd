@@ -132,8 +132,6 @@ architecture bhv of MebX_TopLevel is
     signal rst_ctrl_input   : std_logic := '0';
     signal simucam_rst      : std_logic := '0';
     signal rst_n            : std_logic;
-    signal rmap_echoing_rst : std_logic;
-    signal ftdi_rst         : std_logic;
 
     -----------------------------------------
     -- LEDs

@@ -1,3 +1,4 @@
+
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
@@ -18,11 +19,18 @@ entity spwr_crossbar_switch_ent is
         --------------------------------------------------------------------------
         -- Arbitration Interface
         -- data_arbiter_write_allowed_i, data_arbiter_write_request_o:
-        --   Each is NxN, where N = g_SPW_ROUTER_CHANNELS + 1, typically.
-        --   Index 0 might be for the internal config channel, etc.
+        --   Each is (N_in)x(N_out), where
+        --     N_in  = g_SPW_ROUTER_CHANNELS           (input channels 0..N_in)
+        --     N_out = g_SPW_ROUTER_CHANNELS + 1       (output channels 0..N_out, with
+        --                                              the last index used as the
+        --                                              overflow channel)
+        --   Index 0 can still be used for the internal config channel, but any
+        --   select value of 0 is now re‑routed to the overflow output channel.
         --------------------------------------------------------------------------
-        data_arbiter_write_allowed_i : in  t_2d_slv(0 to g_SPW_ROUTER_CHANNELS, 0 to g_SPW_ROUTER_CHANNELS);
-        data_arbiter_write_request_o : out t_2d_slv(0 to g_SPW_ROUTER_CHANNELS, 0 to g_SPW_ROUTER_CHANNELS);
+        data_arbiter_write_allowed_i : in  t_2d_slv(0 to g_SPW_ROUTER_CHANNELS,
+                                                    0 to g_SPW_ROUTER_CHANNELS+1);
+        data_arbiter_write_request_o : out t_2d_slv(0 to g_SPW_ROUTER_CHANNELS,
+                                                    0 to g_SPW_ROUTER_CHANNELS+1);
 
         --------------------------------------------------------------------------
         -- Per-Channel Inputs
@@ -34,16 +42,20 @@ entity spwr_crossbar_switch_ent is
 
         --------------------------------------------------------------------------
         -- Per-Channel Outputs
+        -- An extra (overflow) output channel has been appended at index
+        -- g_SPW_ROUTER_CHANNELS + 1.  There is *no* corresponding input channel.
         --------------------------------------------------------------------------
-        out_spw_txdata_write_o : out t_1d_sl(0 to g_SPW_ROUTER_CHANNELS);
-        out_spw_txdata_data_o  : out t_1d_slv8(0 to g_SPW_ROUTER_CHANNELS);
-        out_spw_txdata_flag_o  : out t_1d_sl(0 to g_SPW_ROUTER_CHANNELS);
-        out_spw_txdata_ready_i : in  t_1d_sl(0 to g_SPW_ROUTER_CHANNELS);
+        out_spw_txdata_write_o : out t_1d_sl(0 to g_SPW_ROUTER_CHANNELS+1);
+        out_spw_txdata_data_o  : out t_1d_slv8(0 to g_SPW_ROUTER_CHANNELS+1);
+        out_spw_txdata_flag_o  : out t_1d_sl(0 to g_SPW_ROUTER_CHANNELS+1);
+        out_spw_txdata_ready_i : in  t_1d_sl(0 to g_SPW_ROUTER_CHANNELS+1);
 
         --------------------------------------------------------------------------
         -- Crossbar Selects
         -- crossbar_switch_select_i(n) = 6-bit index => output channel "m"
         --   "111111" means "no connection"
+        --   All select values of 0 or > g_SPW_ROUTER_CHANNELS+1 are re‑routed to
+        --   the overflow output channel (index g_SPW_ROUTER_CHANNELS+1).
         --------------------------------------------------------------------------
         crossbar_switch_select_i : in t_1d_slv6(0 to g_SPW_ROUTER_CHANNELS)
     );
@@ -61,7 +73,9 @@ architecture RTL of spwr_crossbar_switch_ent is
     ----------------------------------------------------------------------------
     -- 2) Constants
     ----------------------------------------------------------------------------
-    constant C_CHANNEL_MAX : natural := g_SPW_ROUTER_CHANNELS;
+    constant C_IN_CHANNEL_MAX  : natural := g_SPW_ROUTER_CHANNELS;      -- last input index
+    constant C_OUT_CHANNEL_MAX : natural := g_SPW_ROUTER_CHANNELS + 1;  -- last output index (includes overflow)
+    constant C_OVERFLOW_CH     : natural := C_OUT_CHANNEL_MAX;          -- convenience alias
 
     ----------------------------------------------------------------------------
     -- 3) Internal Signals
@@ -72,32 +86,33 @@ architecture RTL of spwr_crossbar_switch_ent is
     signal s_reset_counter  : natural range 0 to 255 := 0;
 
     -- Registered outputs to avoid latches
-    signal r_data_arb_req  : t_2d_slv(0 to C_CHANNEL_MAX, 0 to C_CHANNEL_MAX) := (others => (others => '0'));
-    signal r_in_ready      : t_1d_sl(0 to C_CHANNEL_MAX)                      := (others => '0');
-    signal r_out_write     : t_1d_sl(0 to C_CHANNEL_MAX)                      := (others => '0');
-    signal r_out_data      : t_1d_slv8(0 to C_CHANNEL_MAX)                    := (others => (others => '0'));
-    signal r_out_flag      : t_1d_sl(0 to C_CHANNEL_MAX)                      := (others => '0');
+    signal r_data_arb_req  : t_2d_slv(0 to C_IN_CHANNEL_MAX, 0 to C_OUT_CHANNEL_MAX) := (others => (others => '0'));
+    signal r_in_ready      : t_1d_sl(0 to C_IN_CHANNEL_MAX) := (others => '0');
+    signal r_out_write     : t_1d_sl(0 to C_OUT_CHANNEL_MAX) := (others => '0');
+    signal r_out_data      : t_1d_slv8(0 to C_OUT_CHANNEL_MAX) := (others => (others => '0'));
+    signal r_out_flag      : t_1d_sl(0 to C_OUT_CHANNEL_MAX) := (others => '0');
 
 begin
 
     ----------------------------------------------------------------------------
-    -- Single-Process: FSM with synchronous reset + combinational routing
+    -- 4) Single-Process: FSM with synchronous reset + combinational routing
     ----------------------------------------------------------------------------
     p_crossbar_switch : process(clock_i)
-        variable v_state : t_crossbar_fsm;
-        variable v_next_state : t_crossbar_fsm;
+        -- Variables mirror the signals above to allow combinational style inside the clocked process
+        variable v_state         : t_crossbar_fsm;
+        variable v_next_state    : t_crossbar_fsm;
         variable v_reset_counter : natural range 0 to 255;
-        
-        -- Locals for NxN arbitration requests
-        variable v_req  : t_2d_slv(0 to C_CHANNEL_MAX, 0 to C_CHANNEL_MAX);
+
+        -- Locals for arbitration requests
+        variable v_req        : t_2d_slv(0 to C_IN_CHANNEL_MAX, 0 to C_OUT_CHANNEL_MAX);
         -- Locals for TX input readiness and output signals
-        variable v_in_ready : t_1d_sl(0 to C_CHANNEL_MAX);
-        variable v_out_write : t_1d_sl(0 to C_CHANNEL_MAX);
-        variable v_out_data  : t_1d_slv8(0 to C_CHANNEL_MAX);
-        variable v_out_flag  : t_1d_sl(0 to C_CHANNEL_MAX);
+        variable v_in_ready   : t_1d_sl(0 to C_IN_CHANNEL_MAX);
+        variable v_out_write  : t_1d_sl(0 to C_OUT_CHANNEL_MAX);
+        variable v_out_data   : t_1d_slv8(0 to C_OUT_CHANNEL_MAX);
+        variable v_out_flag   : t_1d_sl(0 to C_OUT_CHANNEL_MAX);
 
         -- For convenience in decoding crossbar_select
-        variable v_selected_output : integer;
+        variable v_selected_output : natural range 0 to 62; -- 6-bit select value
     begin
         if rising_edge(clock_i) then
 
@@ -120,15 +135,18 @@ begin
                 v_state         := RESET_HOLD;
                 v_reset_counter := g_RESET_DELAY;
 
-                -- Clear everything
-                for i in 0 to C_CHANNEL_MAX loop
-                    v_in_ready(i)   := '0';
-                    v_out_write(i)  := '0';
-                    v_out_data(i)   := (others => '0');
-                    v_out_flag(i)   := '0';
-                    for m in 0 to C_CHANNEL_MAX loop
+                -- Clear all registered vectors
+                for i in 0 to C_IN_CHANNEL_MAX loop
+                    v_in_ready(i) := '0';
+                    for m in 0 to C_OUT_CHANNEL_MAX loop
                         v_req(i,m) := '0';
                     end loop;
+                end loop;
+
+                for m in 0 to C_OUT_CHANNEL_MAX loop
+                    v_out_write(m) := '0';
+                    v_out_data(m)  := (others => '0');
+                    v_out_flag(m)  := '0';
                 end loop;
 
             else
@@ -137,14 +155,17 @@ begin
                 ----------------------------------------------------------------
                 v_next_state := v_state;
 
-                for i in 0 to C_CHANNEL_MAX loop
-                    v_in_ready(i)  := '0';
-                    v_out_write(i) := '0';
-                    v_out_data(i)  := (others => '0');
-                    v_out_flag(i)  := '0';
-                    for m in 0 to C_CHANNEL_MAX loop
+                for i in 0 to C_IN_CHANNEL_MAX loop
+                    v_in_ready(i) := '0';
+                    for m in 0 to C_OUT_CHANNEL_MAX loop
                         v_req(i,m) := '0';
                     end loop;
+                end loop;
+
+                for m in 0 to C_OUT_CHANNEL_MAX loop
+                    v_out_write(m) := '0';
+                    v_out_data(m)  := (others => '0');
+                    v_out_flag(m)  := '0';
                 end loop;
 
                 ----------------------------------------------------------------
@@ -166,8 +187,10 @@ begin
                     -- NORMAL: Perform combinational routing
                     ------------------------------------------------------------
                     when NORMAL =>
-                        -- For each input channel i, decode crossbar_select
-                        for i in 0 to C_CHANNEL_MAX loop
+                        ----------------------------------------------------------------
+                        -- Per-input routing evaluation
+                        ----------------------------------------------------------------
+                        for i in 0 to C_IN_CHANNEL_MAX loop
                             if crossbar_switch_select_i(i) = "111111" then
                                 -- "111111" => no connection
                                 null;  -- remain disconnected
@@ -175,62 +198,60 @@ begin
                                 -- Convert 6-bit select into integer
                                 v_selected_output := to_integer(unsigned(crossbar_switch_select_i(i)));
 
-                                -- Range check to avoid out-of-bounds:
-                                if (v_selected_output >= 0) and (v_selected_output <= C_CHANNEL_MAX) then
-                                    -- 1) We request arbitration for (i -> selected_output) if we are writing
-                                    --if in_spw_txdata_write_i(i) = '1' then
-                                        v_req(i, v_selected_output) := '1';
-                                    --end if;
-
-                                    -- 2) Check if arbiter allows (i -> selected_output)
-                                    if data_arbiter_write_allowed_i(i, v_selected_output) = '1' then
-                                        v_out_write(v_selected_output) := in_spw_txdata_write_i(i);
-                                        v_out_data(v_selected_output)  := in_spw_txdata_data_i(i);
-                                        v_out_flag(v_selected_output)  := in_spw_txdata_flag_i(i);
-                                        -- The active output channel's ready is fed back to input channel i
-                                        v_in_ready(i)  := out_spw_txdata_ready_i(v_selected_output);
-                                    end if;
-
-                                else
-                                    -- If out-of-range, treat as no connection
-                                    null;
+                                -- Check if the data is for the overflow channel
+                                if (v_selected_output = 0) or (v_selected_output > C_IN_CHANNEL_MAX) then
+                                    v_selected_output := C_OVERFLOW_CH;
                                 end if;
+
+                                -- 1) We request arbitration for (i -> selected_output) if we are writing
+                                --if in_spw_txdata_write_i(i) = '1' then
+                                    v_req(i, v_selected_output) := '1';
+                                --end if;
+
+                                -- 2) Check if arbiter allows (i -> selected_output)
+                                if data_arbiter_write_allowed_i(i, v_selected_output) = '1' then
+                                    v_out_write(v_selected_output) := in_spw_txdata_write_i(i);
+                                    v_out_data(v_selected_output)  := in_spw_txdata_data_i(i);
+                                    v_out_flag(v_selected_output)  := in_spw_txdata_flag_i(i);
+                                    -- The active output channel's ready is fed back to input channel i
+                                    v_in_ready(i)  := out_spw_txdata_ready_i(v_selected_output);
+                                end if;
+
                             end if;
                         end loop;
 
                     when others =>
-                        -- Safety fallback
                         v_next_state := RESET_HOLD;
-                end case;
+                end case; -- v_state
 
-                ----------------------------------------------------------------
-                -- 5) Update State
-                ----------------------------------------------------------------
+                -- Commit next state
                 v_state := v_next_state;
-
-            end if;
+            end if; -- not in reset
 
             --------------------------------------------------------------------
-            -- 6) Write local variables back to signals
+            -- (5) Write variables back to signals
             --------------------------------------------------------------------
             s_crossbar_state <= v_state;
             s_reset_counter  <= v_reset_counter;
 
-            for i in 0 to C_CHANNEL_MAX loop
-                r_in_ready(i)   <= v_in_ready(i);
-                r_out_write(i)  <= v_out_write(i);
-                r_out_data(i)   <= v_out_data(i);
-                r_out_flag(i)   <= v_out_flag(i);
-                for m in 0 to C_CHANNEL_MAX loop
+            for i in 0 to C_IN_CHANNEL_MAX loop
+                r_in_ready(i) <= v_in_ready(i);
+                for m in 0 to C_OUT_CHANNEL_MAX loop
                     r_data_arb_req(i,m) <= v_req(i,m);
                 end loop;
             end loop;
 
-        end if;  -- rising_edge(clock_i)
+            for m in 0 to C_OUT_CHANNEL_MAX loop
+                r_out_write(m) <= v_out_write(m);
+                r_out_data(m)  <= v_out_data(m);
+                r_out_flag(m)  <= v_out_flag(m);
+            end loop;
+
+        end if; -- rising edge
     end process p_crossbar_switch;
 
     ----------------------------------------------------------------------------
-    -- 7) Assign Registered Signals to Entity Outputs
+    -- 5) Concurrent assignments to entity outputs
     ----------------------------------------------------------------------------
     data_arbiter_write_request_o <= r_data_arb_req;
 

@@ -74,6 +74,6 @@ Info: SpaceWire_Channel_A: "MebX_Qsys_Project" instantiated SpaceWire_Channel "S
 Info: SpaceWire_Router: "MebX_Qsys_Project" instantiated SpaceWire_Router "SpaceWire_Router"
 Info: altpll_0: "MebX_Qsys_Project" instantiated altpll "altpll_0"
 Info: rst_controller: "MebX_Qsys_Project" instantiated altera_reset_controller "rst_controller"
-Info: MebX_Qsys_Project: Done "MebX_Qsys_Project" with 5 modules, 72 files
+Info: MebX_Qsys_Project: Done "MebX_Qsys_Project" with 5 modules, 73 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

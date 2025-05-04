@@ -44,32 +44,55 @@ end spwr_data_arbiter_ent;
 
 architecture RTL of spwr_data_arbiter_ent is
 
-    ------------------------------------------------------------------------------
-    -- 1) Type Declarations
-    ------------------------------------------------------------------------------
+    --------------------------------------------------------------------------
+    -- 1) Helper functions (compile-time only)
+    --------------------------------------------------------------------------
+    -- next power-of-two ≥ n
+    function next_pow2 (n : natural) return natural is
+        variable p : natural := 1;
+    begin
+        while p < n loop
+            p := p * 2;
+        end loop;
+        return p;
+    end function;
+
+    -- <log2 n> – width of an unsigned that can hold n-1
+    function clog2 (n : natural) return natural is
+        variable v : natural := n - 1;
+        variable r : natural := 0;
+    begin
+        while v > 0 loop
+            v := v / 2;
+            r := r + 1;
+        end loop;
+        return r;
+    end function;
+
+    --------------------------------------------------------------------------
+    -- 2) Constants
+    --------------------------------------------------------------------------
+    constant C_FIFO_SIZE  : natural := next_pow2(g_SPW_ROUTER_CHANNELS + 2);
+    constant C_PTR_WIDTH  : natural := clog2(C_FIFO_SIZE);
+    --------------------------------------------------------------------------
+    -- 3) Type / subtype declarations
+    --------------------------------------------------------------------------
+    subtype t_ptr is unsigned(C_PTR_WIDTH-1 downto 0);
+
     type t_arbiter_fsm is (
         RESET_STATE,     -- Holds the FSM in reset until g_RESET_DELAY is complete
-        IDLE,            -- No active channel; waiting for FIFO to have a channel
+        IDLE,            -- No active channel; waiting for a request
         ACTIVE,          -- Actively granting one channel
         WAIT_2CLK_1,     -- First clock of 2-clock-cycle wait after channel done
         WAIT_2CLK_2      -- Second clock of 2-clock-cycle wait
     );
 
-    ------------------------------------------------------------------------------
-    -- 2) Constants
-    ------------------------------------------------------------------------------
-    constant C_FIFO_SIZE : natural := g_SPW_ROUTER_CHANNELS + 2; 
-    --  +2 to ensure no overflow under simultaneous requests.
 
-    ------------------------------------------------------------------------------
-    -- 3) Internal Signals
-    ------------------------------------------------------------------------------
-    -- FIFO storage for channel IDs (range: 0..g_SPW_ROUTER_CHANNELS)
-    type t_fifo_array is array (0 to C_FIFO_SIZE-1) of natural range 0 to g_SPW_ROUTER_CHANNELS;
-    signal s_fifo           : t_fifo_array := (others => 0);
-    signal s_write_ptr      : natural range 0 to C_FIFO_SIZE-1 := 0;
-    signal s_read_ptr       : natural range 0 to C_FIFO_SIZE-1 := 0;
-    signal s_fifo_count     : natural range 0 to C_FIFO_SIZE   := 0;  -- tracks how many channels in FIFO
+    --------------------------------------------------------------------------
+    -- 4) Signals
+    --------------------------------------------------------------------------
+    signal s_write_ptr    : t_ptr := (others => '0');
+    signal s_read_ptr     : t_ptr := (others => '0');
 
     signal s_arbiter_state  : t_arbiter_fsm := RESET_STATE;
 
@@ -78,6 +101,9 @@ architecture RTL of spwr_data_arbiter_ent is
 
     -- Active channel index (0..g_SPW_ROUTER_CHANNELS)
     signal s_active_channel : natural range 0 to g_SPW_ROUTER_CHANNELS := 0;
+
+    -- Round-robin pointer (last channel that received a grant)
+    signal s_rr_ptr         : natural range 0 to g_SPW_ROUTER_CHANNELS := 0;
 
     -- Write Allowed outputs (one-hot: only the active channel is '1')
     signal r_write_allowed  : std_logic_vector(0 to g_SPW_ROUTER_CHANNELS) := (others => '0');
@@ -90,47 +116,13 @@ architecture RTL of spwr_data_arbiter_ent is
     -- Registered "ready" for the input channel
     signal r_in_spw_txdata_ready : std_logic := '0';
 
-    ------------------------------------------------------------------------------
-    -- 4) Functions/Procedures (Optional Helpers)
-    ------------------------------------------------------------------------------
-    -- Enqueue a channel ID into the FIFO if there's space and if not already queued.
-    function enqueue_channel(
-        v_channel_id : natural;
-        v_fifo       : t_fifo_array;
-        v_write_ptr  : natural;
-        v_fifo_count : natural
-    ) return t_fifo_array is
-        variable new_fifo : t_fifo_array := v_fifo;
-    begin
-        if v_fifo_count < C_FIFO_SIZE then
-            new_fifo(v_write_ptr) := v_channel_id;
-        end if;
-        return new_fifo;
-    end function;
+    --------------------------------------------------------------------------
+    -- 5) Pure helpers
+    --------------------------------------------------------------------------
 
-    -- Check if a channel is already in the FIFO
-    function is_in_fifo(
-        constant c_channel_id : in natural;
-        constant c_fifo       : t_fifo_array;
-        constant c_read_ptr   : natural;
-        constant c_write_ptr  : natural;
-        constant c_fifo_count : natural
-    ) return boolean is
-        variable v_idx : natural := c_read_ptr;
-        variable v_cnt : natural := c_fifo_count;
-    begin
-		for i in 0 to C_FIFO_SIZE loop
-			if v_cnt > 0 then
-				if c_fifo(v_idx) = c_channel_id then
-					return true;
-				end if;
-				v_idx := (v_idx + 1) mod C_FIFO_SIZE;
-				v_cnt := v_cnt - 1;
-			end if;
-        end loop;
-        return false;
-    end function is_in_fifo;
-
+-------------------------------------------------------------------------------
+-- ➤ BEGIN of architecture statements  ---------------------------------------
+-------------------------------------------------------------------------------
 begin
 
     ------------------------------------------------------------------------------
@@ -139,10 +131,8 @@ begin
     p_data_arbiter : process(clock_i)
         variable v_arbiter_state  : t_arbiter_fsm;
         variable v_next_state     : t_arbiter_fsm;
-        variable v_fifo           : t_fifo_array;
-        variable v_write_ptr      : natural range 0 to C_FIFO_SIZE-1;
-        variable v_read_ptr       : natural range 0 to C_FIFO_SIZE-1;
-        variable v_fifo_count     : natural range 0 to C_FIFO_SIZE;
+        variable v_write_ptr     : t_ptr;
+        variable v_read_ptr      : t_ptr;
         variable v_channel_id     : natural range 0 to g_SPW_ROUTER_CHANNELS;
         variable v_write_allowed  : std_logic_vector(0 to g_SPW_ROUTER_CHANNELS);
         variable v_active_channel : natural range 0 to g_SPW_ROUTER_CHANNELS;
@@ -151,6 +141,9 @@ begin
         variable v_out_write      : std_logic;
         variable v_out_data       : std_logic_vector(7 downto 0);
         variable v_out_flag       : std_logic;
+        variable v_rr_ptr         : natural range 0 to g_SPW_ROUTER_CHANNELS;
+        variable v_found_request  : boolean;
+        variable v_search_idx     : natural range 0 to g_SPW_ROUTER_CHANNELS;
     begin
         if rising_edge(clock_i) then
 
@@ -158,12 +151,11 @@ begin
             -- 1. Copy current signals into local variables
             ------------------------------------------------------------------------------
             v_arbiter_state  := s_arbiter_state;
-            v_fifo           := s_fifo;
             v_write_ptr      := s_write_ptr;
             v_read_ptr       := s_read_ptr;
-            v_fifo_count     := s_fifo_count;
             v_reset_counter  := s_reset_counter;
             v_active_channel := s_active_channel;
+            v_rr_ptr         := s_rr_ptr;
 
             v_write_allowed  := r_write_allowed;
             v_in_spw_ready   := r_in_spw_txdata_ready;
@@ -177,15 +169,12 @@ begin
             if (reset_i = '1') then
                 -- Reset everything immediately, then wait g_RESET_DELAY cycles in RESET_STATE
                 v_arbiter_state   := RESET_STATE;
-                v_reset_counter   := g_RESET_DELAY;
-                v_fifo_count      := 0;
-                v_write_ptr       := 0;
-                v_read_ptr        := 0;
-                for i in 0 to C_FIFO_SIZE-1 loop
-                    v_fifo(i) := 0;
-                end loop;
+                v_reset_counter := g_RESET_DELAY;
+                v_write_ptr     := (others => '0');
+                v_read_ptr      := (others => '0');
 
                 v_active_channel  := 0;
+                v_rr_ptr          := 0;
                 v_write_allowed   := (others => '0');
                 v_in_spw_ready    := '0';
                 v_out_write       := '0';
@@ -206,21 +195,9 @@ begin
                 v_out_flag      := '0';
 
                 ------------------------------------------------------------------------------
-                -- 4. Enqueue New Requests (if not already in FIFO)
+                -- 4. Round-robin Request Scan (replaces FIFO enqueue logic)
                 ------------------------------------------------------------------------------
-                for i in 0 to g_SPW_ROUTER_CHANNELS loop
-                    if data_arbiter_write_request_i(i) = '1' then
-                        if (i /= v_active_channel) then
-                            if not is_in_fifo(i, v_fifo, v_read_ptr, v_write_ptr, v_fifo_count) then
-                                if v_fifo_count < C_FIFO_SIZE then
-                                    v_fifo := enqueue_channel(i, v_fifo, v_write_ptr, v_fifo_count);
-                                    v_write_ptr := (v_write_ptr + 1) mod C_FIFO_SIZE;
-                                    v_fifo_count := v_fifo_count + 1;
-                                end if;
-                            end if;
-                        end if;
-                    end if;
-                end loop;
+                -- No action needed here; scanning happens below in IDLE
 
                 ------------------------------------------------------------------------------
                 -- 5. FSM State Transitions
@@ -231,7 +208,7 @@ begin
                     -- RESET_STATE: Wait g_RESET_DELAY cycles before enabling the arbiter
                     --------------------------------------------------------------------------
                     when RESET_STATE =>
-                        if v_reset_counter > 0 then
+                        if v_reset_counter /= 0 then
                             v_reset_counter := v_reset_counter - 1;
                         else
                             -- Done with reset delay => go to IDLE
@@ -239,14 +216,25 @@ begin
                         end if;
 
                     --------------------------------------------------------------------------
-                    -- IDLE: If FIFO not empty, choose the front channel as active
+                    -- IDLE: Find next requester in round-robin order
                     --------------------------------------------------------------------------
                     when IDLE =>
-                        if v_fifo_count > 0 then
-                            v_active_channel := v_fifo(v_read_ptr);
-                            v_next_state     := ACTIVE;
+                        v_found_request := false;
+                        -- start search just after the last granted channel
+                        v_search_idx := (v_rr_ptr + 1) mod (g_SPW_ROUTER_CHANNELS + 1);
+                        for n in 0 to g_SPW_ROUTER_CHANNELS loop
+                            if data_arbiter_write_request_i(v_search_idx) = '1' then
+                                v_active_channel := v_search_idx;
+                                v_found_request  := true;
+                                exit;  -- stop at first '1'
+                            end if;
+                            v_search_idx := (v_search_idx + 1) mod (g_SPW_ROUTER_CHANNELS + 1);
+                        end loop;
+
+                        if v_found_request then
+                            v_next_state := ACTIVE;
                         else
-                            v_active_channel  := 0;
+                            v_active_channel := 0;
                         end if;
 
                     --------------------------------------------------------------------------
@@ -263,10 +251,9 @@ begin
 
                         -- When the channel's request is dropped => done
                         if data_arbiter_write_request_i(v_active_channel) = '0' then
-                            -- Remove it from FIFO (it has completed its packet)
-                            v_read_ptr    := (v_read_ptr + 1) mod C_FIFO_SIZE;
-                            v_fifo_count  := v_fifo_count - 1;
-                            v_next_state  := WAIT_2CLK_1;  -- Begin 2-cycle delay
+                            -- Remember which channel just finished (round-robin pointer)
+                            v_rr_ptr     := v_active_channel;
+                            v_next_state := WAIT_2CLK_1;  -- Begin 2-cycle delay
                         end if;
 
                     --------------------------------------------------------------------------
@@ -299,12 +286,11 @@ begin
             -- 7. Write Local Variables Back to Signals
             ------------------------------------------------------------------------------
             s_arbiter_state   <= v_arbiter_state;
-            s_fifo            <= v_fifo;
             s_write_ptr       <= v_write_ptr;
             s_read_ptr        <= v_read_ptr;
-            s_fifo_count      <= v_fifo_count;
-            s_reset_counter   <= v_reset_counter;
+            s_reset_counter  <= v_reset_counter;
             s_active_channel  <= v_active_channel;
+            s_rr_ptr          <= v_rr_ptr;
 
             r_write_allowed   <= v_write_allowed;
             r_in_spw_txdata_ready <= v_in_spw_ready;

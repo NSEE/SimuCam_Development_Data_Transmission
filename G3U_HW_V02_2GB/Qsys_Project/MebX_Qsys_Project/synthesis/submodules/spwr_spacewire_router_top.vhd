@@ -398,8 +398,8 @@ architecture rtl of spwr_spacewire_router_top is
 
 
     -- Crossbar to Arbiter connection signals
-    signal data_arbiter_write_allowed_i : t_2d_slv(0 to c_SPW_ROUTER_CHANNELS, 0 to c_SPW_ROUTER_CHANNELS);
-    signal data_arbiter_write_request_o : t_2d_slv(0 to c_SPW_ROUTER_CHANNELS, 0 to c_SPW_ROUTER_CHANNELS);
+    signal data_arbiter_write_allowed_i : t_2d_slv(0 to c_SPW_ROUTER_CHANNELS, 0 to c_SPW_ROUTER_CHANNELS + 1);
+    signal data_arbiter_write_request_o : t_2d_slv(0 to c_SPW_ROUTER_CHANNELS, 0 to c_SPW_ROUTER_CHANNELS + 1);
     signal in_spw_txdata_write_i        : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS)   := (others => '0');
     signal in_spw_txdata_data_i         : t_1d_slv8(0 to c_SPW_ROUTER_CHANNELS) := (others => (others => '0'));
     signal in_spw_txdata_flag_i         : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS)   := (others => '0');
@@ -407,10 +407,10 @@ architecture rtl of spwr_spacewire_router_top is
     signal crossbar_switch_select_i     : t_1d_slv6(0 to c_SPW_ROUTER_CHANNELS) := (others => (others => '0'));
 
     -- Crossbar output signals
-    signal out_spw_txdata_write_o : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS)   := (others => '0');
-    signal out_spw_txdata_data_o  : t_1d_slv8(0 to c_SPW_ROUTER_CHANNELS) := (others => (others => '0'));
-    signal out_spw_txdata_flag_o  : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS)   := (others => '0');
-    signal out_spw_txdata_ready_i : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS)   := (others => '0');
+    signal out_spw_txdata_write_o : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS + 1)   := (others => '0');
+    signal out_spw_txdata_data_o  : t_1d_slv8(0 to c_SPW_ROUTER_CHANNELS + 1) := (others => (others => '0'));
+    signal out_spw_txdata_flag_o  : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS + 1)   := (others => '0');
+    signal out_spw_txdata_ready_i : t_1d_sl(0 to c_SPW_ROUTER_CHANNELS + 1)   := (others => '0');
 
     -- Arbiter signals
 
@@ -477,6 +477,14 @@ architecture rtl of spwr_spacewire_router_top is
     signal darb_ch8_in_spw_txdata_data_i         : std_logic_vector(7 downto 0);
     signal darb_ch8_in_spw_txdata_flag_i         : std_logic;
     signal darb_ch8_in_spw_txdata_ready_o        : std_logic;
+
+    --  CH-9 (discard channel) → arbiter handshake
+    signal darb_ch9_data_arbiter_write_request_i : std_logic_vector(0 to c_SPW_ROUTER_CHANNELS);
+    signal darb_ch9_data_arbiter_write_allowed_o : std_logic_vector(0 to c_SPW_ROUTER_CHANNELS);
+    signal darb_ch9_in_spw_txdata_write_i        : std_logic;
+    signal darb_ch9_in_spw_txdata_data_i         : std_logic_vector(7 downto 0);
+    signal darb_ch9_in_spw_txdata_flag_i         : std_logic;
+    signal darb_ch9_in_spw_txdata_ready_o        : std_logic;
 
 begin
 
@@ -789,6 +797,22 @@ begin
             out_spw_txdata_ready_i       => spw_ch8_data_tx_status_txrdy_i
         );
 
+        spwr_data_discard_ent_ch9_inst : entity work.spwr_data_discard_ent
+        generic map(
+            g_RESET_DELAY         => 2,
+            g_SPW_ROUTER_CHANNELS => c_SPW_ROUTER_CHANNELS
+        )
+        port map(
+            clock_i                      => a_clock,
+            reset_i                      => a_reset,
+            data_arbiter_write_request_i => darb_ch9_data_arbiter_write_request_i,
+            data_arbiter_write_allowed_o => darb_ch9_data_arbiter_write_allowed_o,
+            in_spw_txdata_write_i        => darb_ch9_in_spw_txdata_write_i,
+            in_spw_txdata_data_i         => darb_ch9_in_spw_txdata_data_i,
+            in_spw_txdata_flag_i         => darb_ch9_in_spw_txdata_flag_i,
+            in_spw_txdata_ready_o        => darb_ch9_in_spw_txdata_ready_o
+        );
+
         in_spw_txdata_write_i(1)    <= spw_ch1_txdata_write_o;
         in_spw_txdata_data_i(1)     <= spw_ch1_txdata_data_o;
         in_spw_txdata_flag_i(1)     <= spw_ch1_txdata_flag_o;
@@ -963,6 +987,22 @@ begin
     darb_ch8_in_spw_txdata_data_i  <= out_spw_txdata_data_o(8);
     darb_ch8_in_spw_txdata_flag_i  <= out_spw_txdata_flag_o(8);
     out_spw_txdata_ready_i(8)      <= darb_ch8_in_spw_txdata_ready_o;
+
+    -- cross-bar → arbiter (output channel 9 - discard channel)
+    data_arbiter_write_request_ch9 : for i in 0 to c_SPW_ROUTER_CHANNELS generate
+        darb_ch9_data_arbiter_write_request_i(i) <= data_arbiter_write_request_o(i, 9);
+    end generate;
+
+    -- arbiter → cross-bar (channel 9 - discard channel)
+    data_arbiter_write_allowed_ch9 : for i in 0 to c_SPW_ROUTER_CHANNELS generate
+        data_arbiter_write_allowed_i(i, 9) <= darb_ch9_data_arbiter_write_allowed_o(i);
+    end generate;
+
+    -- feedback back into arbiter - discard channel
+    darb_ch9_in_spw_txdata_write_i <= out_spw_txdata_write_o(9);
+    darb_ch9_in_spw_txdata_data_i  <= out_spw_txdata_data_o(9);
+    darb_ch9_in_spw_txdata_flag_i  <= out_spw_txdata_flag_o(9);
+    out_spw_txdata_ready_i(9)      <= darb_ch9_in_spw_txdata_ready_o;
 
     -- SpaceWire Channel Codec Configuration
     p_spwc_codec_config : process(a_clock, a_reset) is

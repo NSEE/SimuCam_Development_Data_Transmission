@@ -1,9 +1,14 @@
+
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use work.spwr_data_controller_pkg.all;       -- For routing_table_t, if still needed
 
 entity spwr_data_controller_ent is
+    generic (
+        -- Timeout expressed in clock cycles (1 ms @ 100 MHz → 100_000).
+        TIMEOUT_CYCLES_G : positive := 100_000
+    );
     port(
         -- Clock/Reset
         clk_i                      : in  std_logic;
@@ -30,7 +35,7 @@ architecture RTL of spwr_data_controller_ent is
     ------------------------------------------------------------------------------
     -- 1) Type Declarations
     ------------------------------------------------------------------------------
-    type t_data_controller_fsm is (IDLE, DELAY, PROCESSING, WAITING, TRANSMITTING, FINISHED);
+    type t_data_controller_fsm is (IDLE, DELAY, PROCESSING, WAITING, TRANSMITTING, TIMEOUT, FINISHED);
 
     ------------------------------------------------------------------------------
     -- 2) Constants (unchanged)
@@ -52,7 +57,55 @@ architecture RTL of spwr_data_controller_ent is
     signal r_txdata_write    : std_logic                    := '0';
     signal r_rxdata_read     : std_logic                    := '0';
 
+    ------------------------------------------------------------------------------
+    -- 4) Timeout Control
+    -- ‑ A separate counter/process keeps the FSM readable.
+    -- ‑ Width = 32 bits ⇒ covers up to ‑4 s @ 100 MHz.
+    ------------------------------------------------------------------------------
+    signal s_timeout_cnt     : unsigned(31 downto 0) := (others => '0');
+    signal s_timeout_active  : std_logic            := '0';
+    signal s_timeout_expired : std_logic            := '0';
+
 begin
+    --------------------------------------------------------------------------
+    -- Timeout Counter
+    --------------------------------------------------------------------------
+    p_timeout : process(clk_i)
+    begin
+        if rising_edge(clk_i) then
+            if (rst_i = '1') then
+                s_timeout_cnt    <= (others => '0');
+                s_timeout_active <= '0';
+                s_timeout_expired<= '0';
+            else
+                -- Default: assume it did not expire this cycle
+                s_timeout_expired <= '0';
+
+                -- Active only while forwarding a packet
+                if (s_timeout_active = '1') then
+                    if (s_timeout_cnt = 0) then
+                        s_timeout_expired <= '1';      -- flag for FSM
+                    else
+                        s_timeout_cnt <= s_timeout_cnt - 1;
+                    end if;
+                end if;
+
+                -- Reload / start
+                if ((s_data_controller_state = TRANSMITTING) and
+                    (spw_rxdata_ready_i = '1')) then
+                    -- Got a data byte → reload
+                    s_timeout_cnt    <= to_unsigned(TIMEOUT_CYCLES_G - 1, s_timeout_cnt'length);
+                    s_timeout_active <= '1';
+                elsif (s_data_controller_state = FINISHED) or
+                      (s_data_controller_state = IDLE) then
+                    -- Packet done → stop counter
+                    s_timeout_active <= '0';
+                    s_timeout_cnt    <= (others => '0');
+                end if;
+            end if;
+        end if;
+    end process p_timeout;
+
     ------------------------------------------------------------------------------
     -- Single-Process FSM
     ------------------------------------------------------------------------------
@@ -96,6 +149,7 @@ begin
                         if (spw_rxdata_ready_i = '1') then
                             -- Next: read the first byte (destination address)
                             v_data_controller_state := PROCESSING;
+			    -- Counter not started yet (first byte is address)
                             -- We will assert spw_rxdata_read in the “Outputs” section below
                         end if;
 
@@ -135,6 +189,10 @@ begin
                             -- We see valid data from Rx
                             -- TX can accept data
                             v_data_controller_state := TRANSMITTING;
+
+                        elsif (s_timeout_expired = '1') and (spw_txdata_ready_i = '1') then
+                            -- 1 ms gap ⇒ inject EEP and close the packet
+                            v_data_controller_state := TIMEOUT;
                         end if;
 
                     ----------------------------------------------------------------------
@@ -153,6 +211,14 @@ begin
                                 v_next_data_controller_state := FINISHED;
                             end if;
                         end if;
+
+                    ----------------------------------------------------------------
+                    -- TIMEOUT
+                    --   - Inject a single EEP, then finish the packet.
+                    ----------------------------------------------------------------
+                    when TIMEOUT =>
+                        v_data_controller_state      := DELAY;
+                        v_next_data_controller_state := FINISHED;
 
                     ----------------------------------------------------------------------
                     -- FINISHED
@@ -207,6 +273,14 @@ begin
                         r_txdata_write    <= '1';
                         r_txdata_data     <= spw_rxdata_data_i;
                         r_txdata_flag     <= spw_rxdata_flag_i;
+
+                    when TIMEOUT =>
+                        -- Timeout: inject EEP and finish the packet
+                        r_crossbar_select <= s_dest_channel;
+                        r_txdata_write    <= '1';
+                        r_txdata_flag     <= '1';
+                        r_txdata_data     <= EEP_CODE;
+                        -- No RX read here – we’re inserting the EEP
 
                     when FINISHED =>
                         -- Done with packet
