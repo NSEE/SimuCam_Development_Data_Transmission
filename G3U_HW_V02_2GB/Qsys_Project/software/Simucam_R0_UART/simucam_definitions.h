@@ -52,7 +52,7 @@
 
 /* HW and FW release version */
 #define SIMUCAM_RELEASE                 "I3"
-#define SIMUCAM_HW_VERSION              "1.9"
+#define SIMUCAM_HW_VERSION              "1.10"
 #define SIMUCAM_FW_VERSION              "0.0"
 
 /*

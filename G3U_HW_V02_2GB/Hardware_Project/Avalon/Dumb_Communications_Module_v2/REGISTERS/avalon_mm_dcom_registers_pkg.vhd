@@ -9,7 +9,7 @@ package avalon_mm_dcom_registers_pkg is
 
     -- Allowed Addresses
     constant c_AVALON_MM_DCOM_MIN_ADDR : natural range 0 to 255 := 16#00#;
-    constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#83#;
+constant c_AVALON_MM_DCOM_MAX_ADDR : natural range 0 to 255 := 16#87#;
 
     -- Registers Types
 
@@ -153,6 +153,22 @@ package avalon_mm_dcom_registers_pkg is
         irq_tx_begin_flag_clear : std_logic; -- Data Scheduler Tx Begin IRQ Flag Clear
     end record t_dcom_data_scheduler_irq_flags_clear_wr_reg;
 
+-- Sync Control Register
+type t_dcom_data_scheduler_sync_config_reg_wr_reg is record
+  sync_control : std_logic; -- Ignore Sync Pulse
+end record t_dcom_data_scheduler_sync_config_reg_wr_reg;
+
+-- Timeout Config Register
+type t_dcom_data_scheduler_timeout_config_reg_wr_reg is record
+  timeout_ticks : std_logic_vector(31 downto 0); -- Timeout Limit [Ticks]
+  timeout_clear : std_logic; -- Timeout Flag Clear
+end record t_dcom_data_scheduler_timeout_config_reg_wr_reg;
+
+-- Timeout Status Register
+type t_dcom_data_scheduler_timeout_status_reg_rd_reg is record
+  timeout_flag : std_logic; -- Timeout Flag
+end record t_dcom_data_scheduler_timeout_status_reg_rd_reg;
+
     -- RMAP Device Address Register
     type t_dcom_rmap_dev_addr_wr_reg is record
         rmap_dev_base_addr : std_logic_vector(31 downto 0); -- RMAP Device Base Address
@@ -286,6 +302,8 @@ package avalon_mm_dcom_registers_pkg is
         data_scheduler_data_control_reg    : t_dcom_data_scheduler_data_control_wr_reg; -- Data Scheduler Data Control Register
         data_scheduler_irq_control_reg     : t_dcom_data_scheduler_irq_control_wr_reg; -- Data Scheduler IRQ Control Register
         data_scheduler_irq_flags_clear_reg : t_dcom_data_scheduler_irq_flags_clear_wr_reg; -- Data Scheduler IRQ Flags Clear Register
+  data_scheduler_sync_config_reg : t_dcom_data_scheduler_sync_config_reg_wr_reg; -- Sync Control Register
+  data_scheduler_timeout_config_reg : t_dcom_data_scheduler_timeout_config_reg_wr_reg; -- Timeout Config Register
         rmap_dev_addr_reg                  : t_dcom_rmap_dev_addr_wr_reg; -- RMAP Device Address Register
         rmap_echoing_mode_config_reg       : t_dcom_rmap_echoing_mode_config_wr_reg; -- RMAP Echoing Mode Config Register
         rmap_codec_config_reg              : t_dcom_rmap_codec_config_wr_reg; -- RMAP Codec Config Register
@@ -306,6 +324,7 @@ package avalon_mm_dcom_registers_pkg is
         data_scheduler_buffer_status_reg : t_dcom_data_scheduler_buffer_status_rd_reg; -- Data Scheduler Buffer Status Register
         data_scheduler_data_status_reg   : t_dcom_data_scheduler_data_status_rd_reg; -- Data Scheduler Data Status Register
         data_scheduler_irq_flags_reg     : t_dcom_data_scheduler_irq_flags_rd_reg; -- Data Scheduler IRQ Flags Register
+  data_scheduler_timeout_status_reg : t_dcom_data_scheduler_timeout_status_reg_rd_reg; -- Timeout Status Register
         rmap_codec_status_reg            : t_dcom_rmap_codec_status_rd_reg; -- RMAP Codec Status Register
         report_irq_flags_reg             : t_dcom_report_irq_flags_rd_reg; -- Report IRQ Flags Register
     end record t_dcom_read_registers;

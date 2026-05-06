@@ -102,6 +102,12 @@ begin
             dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_end_flag_clear                     <= '0';
             -- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx Begin IRQ Flag Clear
             dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_begin_flag_clear                   <= '0';
+-- Sync Control Register : Ignore Sync Pulse
+dcom_write_registers_o.data_scheduler_sync_config_reg.sync_control <= '0';
+-- Timeout Config Register : Timeout Limit [Ticks]
+dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_ticks <= x"00000000";
+-- Timeout Config Register : Timeout Flag Clear
+dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_clear <= '0';
             -- RMAP Device Address Register : RMAP Device Base Address
             dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr                                         <= (others => '0');
             -- RMAP Echoing Mode Config Register : RMAP Echoing Mode Enable
@@ -224,6 +230,8 @@ begin
             dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_end_flag_clear                     <= '0';
             -- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx Begin IRQ Flag Clear
             dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_begin_flag_clear                   <= '0';
+-- Timeout Config Register : Timeout Flag Clear
+dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_clear <= '0';
             -- RMAP Error Injection Control Register : Reset RMAP Error
             dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_reset                           <= '0';
             -- RMAP Error Injection Control Register : Trigger RMAP Error
@@ -558,327 +566,354 @@ begin
                 -- end if;
 
                 when (16#3A#) =>
-                    -- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx End IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_end_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+      -- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx End IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_end_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#3B#) =>
-                    -- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx Begin IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_begin_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#3B#) =>
+      -- Data Scheduler IRQ Flags Clear Register : Data Scheduler Tx Begin IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.data_scheduler_irq_flags_clear_reg.irq_tx_begin_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#3C#) =>
-                    -- RMAP Device Address Register : RMAP Device Base Address
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(7 downto 0)   <= avalon_mm_dcom_i.writedata(7 downto 0);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
-                    dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(15 downto 8)  <= avalon_mm_dcom_i.writedata(15 downto 8);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
-                    dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
-                    dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
-                -- end if;
+  when (16#3C#) =>
+      -- Sync Control Register : Ignore Sync Pulse
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.data_scheduler_sync_config_reg.sync_control <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#3D#) =>
-                    -- RMAP Echoing Mode Config Register : RMAP Echoing Mode Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_echoing_mode_config_reg.rmap_echoing_mode_enable <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#3D#) =>
+      -- Timeout Config Register : Timeout Limit [Ticks]
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_ticks(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
+      dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_ticks(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
+      dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_ticks(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
+      dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_ticks(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
+    -- end if;
 
-                when (16#3E#) =>
-                    -- RMAP Echoing Mode Config Register : RMAP Echoing ID Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_echoing_mode_config_reg.rmap_echoing_id_enable <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#3E#) =>
+      -- Timeout Config Register : Timeout Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.data_scheduler_timeout_config_reg.timeout_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#3F#) =>
-                    -- RMAP Codec Config Register : RMAP Target Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_codec_config_reg.rmap_target_enable <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#40#) =>
+      -- RMAP Device Address Register : RMAP Device Base Address
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
+      dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
+      dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
+      dcom_write_registers_o.rmap_dev_addr_reg.rmap_dev_base_addr(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
+    -- end if;
 
-                when (16#40#) =>
-                    -- RMAP Codec Config Register : RMAP Target Logical Address
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_codec_config_reg.rmap_target_logical_addr <= avalon_mm_dcom_i.writedata(7 downto 0);
-                -- end if;
+  when (16#41#) =>
+      -- RMAP Echoing Mode Config Register : RMAP Echoing Mode Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_echoing_mode_config_reg.rmap_echoing_mode_enable <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#41#) =>
-                    -- RMAP Codec Config Register : RMAP Target Key
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_codec_config_reg.rmap_target_key <= avalon_mm_dcom_i.writedata(7 downto 0);
-                -- end if;
+  when (16#42#) =>
+      -- RMAP Echoing Mode Config Register : RMAP Echoing ID Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_echoing_mode_config_reg.rmap_echoing_id_enable <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#42#) =>
-                    -- RMAP Codec Config Register : RMAP Unalignment Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_codec_config_reg.rmap_target_unalignment_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#43#) =>
+      -- RMAP Codec Config Register : RMAP Target Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_codec_config_reg.rmap_target_enable <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#43#) =>
-                    -- RMAP Codec Config Register : RMAP Word Width
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_codec_config_reg.rmap_target_word_width <= avalon_mm_dcom_i.writedata(2 downto 0);
-                -- end if;
+  when (16#44#) =>
+      -- RMAP Codec Config Register : RMAP Target Logical Address
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_codec_config_reg.rmap_target_logical_addr <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
 
-                when (16#52#) =>
-                    -- RMAP Memory Area Config Register : RMAP Memory Area Address Offset
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(7 downto 0)   <= avalon_mm_dcom_i.writedata(7 downto 0);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(15 downto 8)  <= avalon_mm_dcom_i.writedata(15 downto 8);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
-                -- end if;
+  when (16#45#) =>
+      -- RMAP Codec Config Register : RMAP Target Key
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_codec_config_reg.rmap_target_key <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
 
-                when (16#53#) =>
-                    -- RMAP Memory Area Pointer Register : RMAP Memory Area Pointer
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(7 downto 0)   <= avalon_mm_dcom_i.writedata(7 downto 0);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(15 downto 8)  <= avalon_mm_dcom_i.writedata(15 downto 8);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
-                    dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
-                -- end if;
+  when (16#46#) =>
+      -- RMAP Codec Config Register : RMAP Unalignment Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_codec_config_reg.rmap_target_unalignment_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#54#) =>
-                    -- RMAP Error Injection Control Register : Reset RMAP Error
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_reset <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#47#) =>
+      -- RMAP Codec Config Register : RMAP Word Width
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_codec_config_reg.rmap_target_word_width <= avalon_mm_dcom_i.writedata(2 downto 0);
+    -- end if;
 
-                when (16#55#) =>
-                    -- RMAP Error Injection Control Register : Trigger RMAP Error
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_trigger <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#56#) =>
+      -- RMAP Memory Area Config Register : RMAP Memory Area Address Offset
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
+      dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
+      dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
+      dcom_write_registers_o.rmap_mem_area_config_reg.rmap_mem_area_addr_offset(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
+    -- end if;
 
-                when (16#56#) =>
-                    -- RMAP Error Injection Control Register : Error ID of RMAP Error
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_err_id <= avalon_mm_dcom_i.writedata(7 downto 0);
-                -- end if;
+  when (16#57#) =>
+      -- RMAP Memory Area Pointer Register : RMAP Memory Area Pointer
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
+      dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
+      dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
+      dcom_write_registers_o.rmap_mem_area_ptr_reg.rmap_mem_area_ptr(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
+    -- end if;
 
-                when (16#57#) =>
-                    -- RMAP Error Injection Control Register : Value of RMAP Error
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(7 downto 0)   <= avalon_mm_dcom_i.writedata(7 downto 0);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(15 downto 8)  <= avalon_mm_dcom_i.writedata(15 downto 8);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
-                -- end if;
+  when (16#58#) =>
+      -- RMAP Error Injection Control Register : Reset RMAP Error
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_reset <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#58#) =>
-                    -- RMAP Error Injection Control Register : Repetitions of RMAP Error
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_repeats(7 downto 0)  <= avalon_mm_dcom_i.writedata(7 downto 0);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
-                    dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_repeats(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
-                -- end if;
+  when (16#59#) =>
+      -- RMAP Error Injection Control Register : Trigger RMAP Error
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_trigger <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#59#) =>
-                    -- Report Device Address Register : Report Device Base Address
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(7 downto 0)   <= avalon_mm_dcom_i.writedata(7 downto 0);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
-                    dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(15 downto 8)  <= avalon_mm_dcom_i.writedata(15 downto 8);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
-                    dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
-                    -- end if;
-                    --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
-                    dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
-                -- end if;
+  when (16#5A#) =>
+      -- RMAP Error Injection Control Register : Error ID of RMAP Error
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_err_id <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
 
-                when (16#5A#) =>
-                    -- Report IRQ Control Register : Report SpW Link Connected IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_link_connected_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#5B#) =>
+      -- RMAP Error Injection Control Register : Value of RMAP Error
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_value(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
+    -- end if;
 
-                when (16#5B#) =>
-                    -- Report IRQ Control Register : Report SpW Link Disconnected IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_link_disconnected_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#5C#) =>
+      -- RMAP Error Injection Control Register : Repetitions of RMAP Error
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_repeats(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
+      dcom_write_registers_o.rmap_error_injection_control_reg.rmap_errinj_repeats(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+    -- end if;
 
-                when (16#5C#) =>
-                    -- Report IRQ Control Register : Report SpW Error Disconnect IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_disconnect_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#5D#) =>
+      -- Report Device Address Register : Report Device Base Address
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(7 downto 0) <= avalon_mm_dcom_i.writedata(7 downto 0);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(1) = '1') then
+      dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(15 downto 8) <= avalon_mm_dcom_i.writedata(15 downto 8);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(2) = '1') then
+      dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(23 downto 16) <= avalon_mm_dcom_i.writedata(23 downto 16);
+    -- end if;
+   --  if (avalon_mm_dcom_i.byteenable(3) = '1') then
+      dcom_write_registers_o.rprt_dev_addr_reg.rprt_dev_base_addr(31 downto 24) <= avalon_mm_dcom_i.writedata(31 downto 24);
+    -- end if;
 
-                when (16#5D#) =>
-                    -- Report IRQ Control Register : Report SpW Error Parity IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_parity_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#5E#) =>
+      -- Report IRQ Control Register : Report SpW Link Connected IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_link_connected_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#5E#) =>
-                    -- Report IRQ Control Register : Report SpW Error Escape IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_escape_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#5F#) =>
+      -- Report IRQ Control Register : Report SpW Link Disconnected IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_link_disconnected_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#5F#) =>
-                    -- Report IRQ Control Register : Report SpW Error Credit IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_credit_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#60#) =>
+      -- Report IRQ Control Register : Report SpW Error Disconnect IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_disconnect_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#60#) =>
-                    -- Report IRQ Control Register : Report Rx Timecode Received IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rx_timecode_received_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#61#) =>
+      -- Report IRQ Control Register : Report SpW Error Parity IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_parity_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#61#) =>
-                    -- Report IRQ Control Register : Report Rmap Error Early EOP IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_early_eop_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#62#) =>
+      -- Report IRQ Control Register : Report SpW Error Escape IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_escape_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#62#) =>
-                    -- Report IRQ Control Register : Report Rmap Error EEP IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_eep_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#63#) =>
+      -- Report IRQ Control Register : Report SpW Error Credit IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_spw_err_credit_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#63#) =>
-                    -- Report IRQ Control Register : Report Rmap Error Header CRC IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_header_crc_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#64#) =>
+      -- Report IRQ Control Register : Report Rx Timecode Received IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rx_timecode_received_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#64#) =>
-                    -- Report IRQ Control Register : Report Rmap Error Unused Packet Type IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_unused_packet_type_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#65#) =>
+      -- Report IRQ Control Register : Report Rmap Error Early EOP IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_early_eop_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#65#) =>
-                    -- Report IRQ Control Register : Report Rmap Error Invalid Command Code IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_invalid_command_code_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#66#) =>
+      -- Report IRQ Control Register : Report Rmap Error EEP IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_eep_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#66#) =>
-                    -- Report IRQ Control Register : Report Rmap Error Too Much Data IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_too_much_data_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#67#) =>
+      -- Report IRQ Control Register : Report Rmap Error Header CRC IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_header_crc_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#67#) =>
-                    -- Report IRQ Control Register : Report Rmap Error Invalid Data Crc IRQ Enable
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_invalid_data_crc_en <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#68#) =>
+      -- Report IRQ Control Register : Report Rmap Error Unused Packet Type IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_unused_packet_type_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#76#) =>
-                    -- Report IRQ Flags Clear Register : Report SpW Link Connected IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_link_connected_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#69#) =>
+      -- Report IRQ Control Register : Report Rmap Error Invalid Command Code IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_invalid_command_code_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#77#) =>
-                    -- Report IRQ Flags Clear Register : Report SpW Link Disconnected IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_link_disconnected_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#6A#) =>
+      -- Report IRQ Control Register : Report Rmap Error Too Much Data IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_too_much_data_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#78#) =>
-                    -- Report IRQ Flags Clear Register : Report SpW Error Disconnect IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_disconnect_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#6B#) =>
+      -- Report IRQ Control Register : Report Rmap Error Invalid Data Crc IRQ Enable
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_control_reg.irq_rprt_rmap_err_invalid_data_crc_en <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#79#) =>
-                    -- Report IRQ Flags Clear Register : Report SpW Error Parity IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_parity_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#7A#) =>
+      -- Report IRQ Flags Clear Register : Report SpW Link Connected IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_link_connected_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#7A#) =>
-                    -- Report IRQ Flags Clear Register : Report SpW Error Escape IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_escape_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#7B#) =>
+      -- Report IRQ Flags Clear Register : Report SpW Link Disconnected IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_link_disconnected_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#7B#) =>
-                    -- Report IRQ Flags Clear Register : Report SpW Error Credit IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_credit_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#7C#) =>
+      -- Report IRQ Flags Clear Register : Report SpW Error Disconnect IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_disconnect_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#7C#) =>
-                    -- Report IRQ Flags Clear Register : Report Rx Timecode Received IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rx_timecode_received_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#7D#) =>
+      -- Report IRQ Flags Clear Register : Report SpW Error Parity IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_parity_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#7D#) =>
-                    -- Report IRQ Flags Clear Register : Report Rmap Error Early EOP IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_early_eop_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#7E#) =>
+      -- Report IRQ Flags Clear Register : Report SpW Error Escape IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_escape_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#7E#) =>
-                    -- Report IRQ Flags Clear Register : Report Rmap Error EEP IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_eep_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#7F#) =>
+      -- Report IRQ Flags Clear Register : Report SpW Error Credit IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_spw_err_credit_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#7F#) =>
-                    -- Report IRQ Flags Clear Register : Report Rmap Error Header CRC IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_header_crc_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#80#) =>
+      -- Report IRQ Flags Clear Register : Report Rx Timecode Received IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rx_timecode_received_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#80#) =>
-                    -- Report IRQ Flags Clear Register : Report Rmap Error Unused Packet Type IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_unused_packet_type_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#81#) =>
+      -- Report IRQ Flags Clear Register : Report Rmap Error Early EOP IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_early_eop_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#81#) =>
-                    -- Report IRQ Flags Clear Register : Report Rmap Error Invalid Command Code IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_command_code_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#82#) =>
+      -- Report IRQ Flags Clear Register : Report Rmap Error EEP IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_eep_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#82#) =>
-                    -- Report IRQ Flags Clear Register : Report Rmap Error Too Much Data IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_too_much_data_flag_clear <= avalon_mm_dcom_i.writedata(0);
-                -- end if;
+  when (16#83#) =>
+      -- Report IRQ Flags Clear Register : Report Rmap Error Header CRC IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_header_crc_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
 
-                when (16#83#) =>
-                    -- Report IRQ Flags Clear Register : Report Rmap Error Invalid Data Crc IRQ Flag Clear
-                    --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
-                    dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_data_crc_flag_clear <= avalon_mm_dcom_i.writedata(0);
+  when (16#84#) =>
+      -- Report IRQ Flags Clear Register : Report Rmap Error Unused Packet Type IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_unused_packet_type_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
+
+  when (16#85#) =>
+      -- Report IRQ Flags Clear Register : Report Rmap Error Invalid Command Code IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_command_code_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
+
+  when (16#86#) =>
+      -- Report IRQ Flags Clear Register : Report Rmap Error Too Much Data IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_too_much_data_flag_clear <= avalon_mm_dcom_i.writedata(0);
+    -- end if;
+
+  when (16#87#) =>
+      -- Report IRQ Flags Clear Register : Report Rmap Error Invalid Data Crc IRQ Flag Clear
+   --  if (avalon_mm_dcom_i.byteenable(0) = '1') then
+      dcom_write_registers_o.report_irq_flags_clear_reg.irq_rprt_rmap_err_invalid_data_crc_flag_clear <= avalon_mm_dcom_i.writedata(0);
                 -- end if;
 
                 when others =>

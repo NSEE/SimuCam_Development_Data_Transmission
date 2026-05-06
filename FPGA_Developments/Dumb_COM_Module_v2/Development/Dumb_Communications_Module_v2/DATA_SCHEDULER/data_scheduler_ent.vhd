@@ -11,6 +11,7 @@ entity data_scheduler_ent is
 		clk_i             : in  std_logic;
 		rst_i             : in  std_logic;
 		tmr_run_on_sync_i : in  std_logic;
+		sync_ignore_i     : in  std_logic;
 		tmr_clk_div_i     : in  std_logic_vector((g_TIMER_CLKDIV_WIDTH - 1) downto 0);
 		tmr_time_in_i     : in  std_logic_vector((g_TIMER_TIME_WIDTH - 1) downto 0);
 		tmr_clear_i       : in  std_logic;
@@ -128,7 +129,7 @@ begin
 					v_tmr_evt_flag         := '0';
 					-- conditional state transition
 					-- check if a command to run was received or a sync (when activated)
-					if ((tmr_run_i = '1') or ((sync_i = '1') and (tmr_run_on_sync_i = '1'))) then
+					if ((tmr_run_i = '1') or ((sync_i = '1') and (tmr_run_on_sync_i = '1') and (sync_ignore_i = '0'))) then
 						-- go to timer running
 						s_data_scheduler_state <= RUNNING;
 						v_data_scheduler_state := RUNNING;

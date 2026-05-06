@@ -1166,6 +1166,96 @@ bool bDschGetIrqFlags(TDschChannel *pxDschCh) {
 	return bStatus;
 }
 
+bool bDschGetSyncControl(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		pxDschCh->xDschSyncControl.bIgnoreSync = vpxDcomChannel->xDataScheduler.xDschSyncControl.bIgnoreSync;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+bool bDschSetSyncControl(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		vpxDcomChannel->xDataScheduler.xDschSyncControl.bIgnoreSync = pxDschCh->xDschSyncControl.bIgnoreSync;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+bool bDschGetTimeoutConfig(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		pxDschCh->xDschTimeoutConfig.uliTimeoutTicks = vpxDcomChannel->xDataScheduler.xDschTimeoutConfig.uliTimeoutTicks;
+		pxDschCh->xDschTimeoutConfig.bTimeoutClear  = vpxDcomChannel->xDataScheduler.xDschTimeoutConfig.bTimeoutClear;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+bool bDschSetTimeoutConfig(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		vpxDcomChannel->xDataScheduler.xDschTimeoutConfig.uliTimeoutTicks = pxDschCh->xDschTimeoutConfig.uliTimeoutTicks;
+		vpxDcomChannel->xDataScheduler.xDschTimeoutConfig.bTimeoutClear  = pxDschCh->xDschTimeoutConfig.bTimeoutClear;
+
+		/* Timeout clear is a pulse-type trigger, so keep the software shadow deasserted after writing it. */
+		pxDschCh->xDschTimeoutConfig.bTimeoutClear = FALSE;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
+bool bDschGetTimeoutStatus(TDschChannel *pxDschCh) {
+	bool bStatus = FALSE;
+	volatile TDcomChannel *vpxDcomChannel;
+
+	if (pxDschCh != NULL) {
+
+		vpxDcomChannel = (TDcomChannel *) (pxDschCh->xDschDevAddr.uliDschBaseAddr);
+
+		pxDschCh->xDschTimeoutStatus.bTimeoutFlag = vpxDcomChannel->xDataScheduler.xDschTimeoutStatus.bTimeoutFlag;
+
+		bStatus = TRUE;
+
+	}
+
+	return bStatus;
+}
+
 bool bDschStartTimer(TDschChannel *pxDschCh) {
 	bool bStatus = FALSE;
 	volatile TDcomChannel *vpxDcomChannel;
@@ -1366,6 +1456,15 @@ bool bDschInitCh(TDschChannel *pxDschCh, alt_u8 ucDcomCh) {
 				bInitFail = TRUE;
 			}
 			if (!bDschGetIrqFlags(pxDschCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bDschGetSyncControl(pxDschCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bDschGetTimeoutConfig(pxDschCh)) {
+				bInitFail = TRUE;
+			}
+			if (!bDschGetTimeoutStatus(pxDschCh)) {
 				bInitFail = TRUE;
 			}
 

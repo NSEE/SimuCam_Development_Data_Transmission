@@ -16,14 +16,158 @@
 
 #include "sub_unit_control_task.h"
 
+bool bSubUnitPrepareToRun(INT8U c_spw_channel, INT8U c_DMA_nb) {
+	INT32U i_mem_pointer_buffer;
+	INT32U uliTotalImagettesLength = 0;
+
+	/*
+	 * Stop timer for channel and clear transmission progress
+	 */
+	bDschStopTimer(&(xCh[c_spw_channel].xDataScheduler));
+	bDschClrTimer(&(xCh[c_spw_channel].xDataScheduler));
+	T_simucam.T_Sub[c_spw_channel].T_conf.i_imagette_control = 0;
+
+	/*
+	 * Start timer for channel, but do not run it yet
+	 */
+	bDschStartTimer(&(xCh[c_spw_channel].xDataScheduler));
+
+	T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
+
+	/*
+	 * Set link interface status according to link configuration
+	 */
+	if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "[SUBUNIT%i]Channel disabled\r\n", (INT8U) c_spw_channel);
+}
+#endif
+		T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
+		return FALSE;
+	}
+
+	T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
+
+	/*
+	 * Calculate total imagettes length
+	 */
+	bDdr2SwitchMemory(c_DMA_nb);
+	while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes)) {
+
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %lu\r\n",
+				(INT8U) c_spw_channel,
+				(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
+				(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,
+				(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
+				(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
+}
+#endif
+
+		/* Calculate next imagette address */
+		i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador
+				+ T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET;
+		if (((INT32U) i_mem_pointer_buffer % 8)) {
+			i_mem_pointer_buffer = (INT32U) (((((INT32U) i_mem_pointer_buffer) >> 3) + 1) << 3);
+		}
+
+		/* Reassign the pointer to the next imagette address */
+		T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) i_mem_pointer_buffer;
+		T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
+
+	}
+	uliTotalImagettesLength = (INT32U) (T_simucam.T_Sub[c_spw_channel].T_data.p_iterador)
+			- (INT32U) (T_simucam.T_Sub[c_spw_channel].T_data.addr_init);
+
+	/*
+	 * Pre-schedule the buffer before simucam goes to running
+	 */
+	bDdr2SwitchMemory(c_DMA_nb);
+	if ((uliTotalImagettesLength > 8) && (uliTotalImagettesLength <= DDR2_BASE_ADDR_DATASET_2)) {
+		uliIdmaChDmaTransfer(c_DMA_nb, (INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.addr_init), uliTotalImagettesLength,
+				c_spw_channel);
+	}
+
+	set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
+
+	/* Enable Report IRQ */
+	bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
+	xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
+	bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
+
+	/*
+	 * Init SpaceWire link
+	 */
+	if (T_simucam.T_Sub[c_spw_channel].T_conf.link_config == 0) {
+
+		/*
+		 * Set link to autostart
+		 */
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "[SUBUNIT%i]Channel autostart\r\n", (INT8U) c_spw_channel);
+}
+#endif
+
+		bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bEnable = TRUE;
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = FALSE;
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+		bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+
+	} else {
+
+		/*
+		 * Set link to start
+		 */
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
+		fprintf(fp, "[SUBUNIT%i]Channel start\r\n", (INT8U) c_spw_channel);
+}
+#endif
+
+		bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bEnable = TRUE;
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = FALSE;
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
+		xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
+		bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
+
+	}
+
+	T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeRun;
+
+#if DEBUG_ON
+if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
+	fprintf(fp, "[SUBUNIT%i]Sub-unit Run\r\n", (INT8U) c_spw_channel);
+}
+#endif
+
+	return TRUE;
+}
+
 /*
  * Control task for sub-unit operation[yb]
  */
 void sub_unit_control_task(void *task_data) {
 	INT8U error_code; /*uCOS error code*/
-	INT32U i_mem_pointer_buffer;
 	INT8U i_temp_sched;
-	INT32U uliTotalImagettesLength = 0;
 
 	/*
 	 * Assign channel code from task descriptor
@@ -96,6 +240,10 @@ if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
 			xCh[c_spw_channel].xDataScheduler.xDschTimerConfig.bRunOnSync = TRUE;
 			xCh[c_spw_channel].xDataScheduler.xDschTimerConfig.uliClockDiv = TIMER_CLOCK_DIV_1MS;
 			bDschSetTimerConfig(&(xCh[c_spw_channel].xDataScheduler));
+			bDschGetTimeoutConfig(&(xCh[c_spw_channel].xDataScheduler));
+			xCh[c_spw_channel].xDataScheduler.xDschTimeoutConfig.uliTimeoutTicks = (alt_u32) 1000;
+			xCh[c_spw_channel].xDataScheduler.xDschTimeoutConfig.bTimeoutClear = FALSE;
+			bDschSetTimeoutConfig(&(xCh[c_spw_channel].xDataScheduler));
 
 			bDcomSetGlobalIrqEn(TRUE, c_spw_channel);
 			bDschGetIrqControl(&(xCh[c_spw_channel].xDataScheduler));
@@ -225,156 +373,7 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			fprintf(fp, "[SUBUNIT%i]Sub-unit toRun\r\n", (INT8U) c_spw_channel);
 }
 #endif
-			/*
-			 * Stop timer for ChA
-			 */
-			bDschStopTimer(&(xCh[c_spw_channel].xDataScheduler));
-			bDschClrTimer(&(xCh[c_spw_channel].xDataScheduler));
-			T_simucam.T_Sub[c_spw_channel].T_conf.i_imagette_control = 0;
-
-			/*
-			 * Start timer for ChA
-			 * NOT STARTING THE TIMER
-			 */
-			bDschStartTimer(&(xCh[c_spw_channel].xDataScheduler));
-
-			T_simucam.T_Sub[c_spw_channel].T_data.i_imagette = 0;
-
-			/*
-			 * Set link interface status according to
-			 * link_config
-			 */
-			if (T_simucam.T_Sub[c_spw_channel].T_conf.linkstatus_running == 0) {
-#if DEBUG_ON
-if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-				fprintf(fp, "[SUBUNIT%i]Channel disabled\r\n", (INT8U) c_spw_channel);
-}
-#endif
-				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModetoConfig;
-				break;
-			} else {
-
-				T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) T_simucam.T_Sub[c_spw_channel].T_data.addr_init;
-
-				/*
-				 * Acquire status and do manual space control
-				 */
-
-				/*
-				 * Calculate total imagettes length
-				 */
-				bDdr2SwitchMemory(c_DMA_nb);
-				while ((T_simucam.T_Sub[c_spw_channel].T_data.i_imagette < T_simucam.T_Sub[c_spw_channel].T_data.nb_of_imagettes)) {
-
-#if DEBUG_ON
-if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[SUBUNIT%i] Imagette %u : memory address = %08lX, time offset = %lu [ms], length = %lu\r\n",
-							(INT8U) c_spw_channel,
-							(INT16U) T_simucam.T_Sub[c_spw_channel].T_data.i_imagette,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->offset,
-							(INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length);
-}
-#endif
-
-						/*Calculate next imagette addr*/
-							i_mem_pointer_buffer = (INT32U) T_simucam.T_Sub[c_spw_channel].T_data.p_iterador + T_simucam.T_Sub[c_spw_channel].T_data.p_iterador->imagette_length + DMA_OFFSET;
-							if (((INT32U) i_mem_pointer_buffer % 8)) {
-								i_mem_pointer_buffer = (INT32U) (((((INT32U) i_mem_pointer_buffer) >> 3) + 1) << 3);
-							}
-
-							/*Reassign the pointer to the next imagette addr */
-							T_simucam.T_Sub[c_spw_channel].T_data.p_iterador = (T_Imagette *) i_mem_pointer_buffer;
-							T_simucam.T_Sub[c_spw_channel].T_data.i_imagette++;
-
-				} /*end while*/
-				uliTotalImagettesLength = (INT32U)(T_simucam.T_Sub[c_spw_channel].T_data.p_iterador) - (INT32U)(T_simucam.T_Sub[c_spw_channel].T_data.addr_init);
-
-				/*
-				 * Pre-schedule the buffer before simucam goes to running
-				 */
-				bDdr2SwitchMemory(c_DMA_nb);
-				if ((uliTotalImagettesLength > 8) && (uliTotalImagettesLength <= DDR2_BASE_ADDR_DATASET_2)) {
-					uliIdmaChDmaTransfer(
-							c_DMA_nb,
-							(INT32U*) (T_simucam.T_Sub[c_spw_channel].T_data.addr_init),
-							uliTotalImagettesLength,
-							c_spw_channel);
-				}
-
-				set_spw_linkspeed(&(xCh[c_spw_channel]), T_simucam.T_Sub[c_spw_channel].T_conf.linkspeed);
-
-				/* Enable Report IRQ */
-				bRprtGetIrqControl(&(xCh[c_spw_channel].xReport));
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkConnectedFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwLinkDisconnectedFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrDisconnectFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrParityFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrEscapeFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bSpwErrCreditFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEarlyEopFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrEepFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrHeaderCrcFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidCommandCodeFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrInvalidDataCrcFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrTooMuchDataFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRmapErrUnusedPacketTypeFlagClr = TRUE;
-				xCh[c_spw_channel].xReport.xRprtIrqFlagClr.bRxTimecodeReceivedFlagClr = TRUE;
-				bRprtSetIrqControl(&(xCh[c_spw_channel].xReport));
-
-				/*
-				 * init SpW links
-				 */
-				if (T_simucam.T_Sub[c_spw_channel].T_conf.link_config == 0) {
-
-					/*
-					 * Set link to autostart
-					 */
-#if DEBUG_ON
-if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[SUBUNIT%i]Channel autostart\r\n", (INT8U) c_spw_channel);
-}
-#endif
-
-					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bEnable = TRUE;
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = TRUE;
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = FALSE;
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
-					bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
-
-				} else {
-
-					/*
-					 * Set link to start
-					 */
-#if DEBUG_ON
-if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
-					fprintf(fp, "[SUBUNIT%i]Channel start\r\n", (INT8U) c_spw_channel);
-}
-#endif
-
-					bSpwcGetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bEnable = TRUE;
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bAutostart = FALSE;
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bLinkStart = TRUE;
-					xCh[c_spw_channel].xSpacewire.xSpwcLinkConfig.bDisconnect = FALSE;
-					bSpwcSetLinkConfig(&(xCh[c_spw_channel].xSpacewire));
-
-				}
-
-				/*
-				 * Sub-Unit RUN
-				 */
-				T_simucam.T_Sub[c_spw_channel].T_conf.mode = subModeRun;
-
-#if DEBUG_ON
-if (T_simucam.T_conf.usiDebugLevels <= xMajor) {
-			fprintf(fp, "[SUBUNIT%i]Sub-unit Run\r\n", (INT8U) c_spw_channel);
-}
-#endif
-
-			}
+			bSubUnitPrepareToRun(c_spw_channel, c_DMA_nb);
 			break;
 
 		case subModeRun:

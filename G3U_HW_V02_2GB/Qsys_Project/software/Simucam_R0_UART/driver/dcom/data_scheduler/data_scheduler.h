@@ -70,6 +70,14 @@ bool bDschSetIrqControl(TDschChannel *pxDschCh);
 
 bool bDschGetIrqFlags(TDschChannel *pxDschCh);
 
+bool bDschGetSyncControl(TDschChannel *pxDschCh);
+bool bDschSetSyncControl(TDschChannel *pxDschCh);
+
+bool bDschGetTimeoutConfig(TDschChannel *pxDschCh);
+bool bDschSetTimeoutConfig(TDschChannel *pxDschCh);
+
+bool bDschGetTimeoutStatus(TDschChannel *pxDschCh);
+
 bool bDschStartTimer(TDschChannel *pxDschCh);
 bool bDschRunTimer(TDschChannel *pxDschCh);
 bool bDschStopTimer(TDschChannel *pxDschCh);

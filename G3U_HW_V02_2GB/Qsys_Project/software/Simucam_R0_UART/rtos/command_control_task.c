@@ -725,6 +725,7 @@ void CommandManagementTask() {
 
 	INT8U error_code; /*uCOS error code*/
 	INT8U i_channel_for;
+	INT8U c_dma_nb;
 	T_uart_payload payload_command;
 	T_uart_payload *p_payload = &payload_command;
 	INT8U i_channel_buffer = 0;
@@ -1172,18 +1173,47 @@ if (T_simucam.T_conf.usiDebugLevels <= xVerbose) {
 			 */
 			if (p_payload->type == typeStartSending) {
 				
-					/*
-					* Stop and clear channel timers
-					*/
+				/*
+				 * Classify channels before the global sync pulse.
+				 */
 				for (i_channel_for = 0; i_channel_for < NB_CHANNELS; i_channel_for++) {
+					xCh[i_channel_for].xDataScheduler.xDschSyncControl.bIgnoreSync = TRUE;
+
 					if (T_simucam.T_Sub[i_channel_for].T_conf.mode > subModeConfig && T_simucam.T_Sub[i_channel_for].T_conf.b_dataset_loaded) {
-						bDschGetIrqControl(&(xCh[i_channel_for].xDataScheduler));
-						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
-						xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;
-						bDschSetIrqControl(&(xCh[i_channel_for].xDataScheduler));
-						/* Clear the transmission repeat counter */
-						T_simucam.T_Sub[i_channel_for].T_sub_status.usiTransNRepeat = 0;
+						bSpwcGetLinkStatus(&(xCh[i_channel_for].xSpacewire));
+						bDschGetTimerStatus(&(xCh[i_channel_for].xDataScheduler));
+						bDschGetTimeoutStatus(&(xCh[i_channel_for].xDataScheduler));
+
+						if (xCh[i_channel_for].xSpacewire.xSpwcLinkStatus.bRunning == TRUE) {
+							if (!((xCh[i_channel_for].xDataScheduler.xDschTimerStatus.bRunning == TRUE)
+									&& (xCh[i_channel_for].xDataScheduler.xDschTimeoutStatus.bTimeoutFlag == FALSE))) {
+
+								c_dma_nb = eDdr2Memory1;
+								if (i_channel_for >= 4) {
+									c_dma_nb = eDdr2Memory2;
+								}
+
+								if (bSubUnitPrepareToRun(i_channel_for, c_dma_nb) == TRUE) {
+									if (xCh[i_channel_for].xDataScheduler.xDschTimeoutStatus.bTimeoutFlag == TRUE) {
+										bDschGetTimeoutConfig(&(xCh[i_channel_for].xDataScheduler));
+										xCh[i_channel_for].xDataScheduler.xDschTimeoutConfig.bTimeoutClear = TRUE;
+										bDschSetTimeoutConfig(&(xCh[i_channel_for].xDataScheduler));
+									}
+
+									bDschGetIrqControl(&(xCh[i_channel_for].xDataScheduler));
+									xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxBeginEn = TRUE;
+									xCh[i_channel_for].xDataScheduler.xDschIrqControl.bTxEndEn = TRUE;
+									bDschSetIrqControl(&(xCh[i_channel_for].xDataScheduler));
+
+									/* Clear the transmission repeat counter */
+									T_simucam.T_Sub[i_channel_for].T_sub_status.usiTransNRepeat = 0;
+									xCh[i_channel_for].xDataScheduler.xDschSyncControl.bIgnoreSync = FALSE;
+								}
+							}
+						}
 					}
+
+					bDschSetSyncControl(&(xCh[i_channel_for].xDataScheduler));
 				}
 
 				bSyncSendOstSubunits();

@@ -14,6 +14,8 @@ entity data_controller_ent is
         tmr_time_i          : in  std_logic_vector(31 downto 0);
         tmr_stop_i          : in  std_logic;
         tmr_start_i         : in  std_logic;
+        timeout_ticks_i     : in  std_logic_vector(31 downto 0);
+        timeout_clear_i     : in  std_logic;
         dctrl_send_eep_i    : in  std_logic;
         dctrl_send_eop_i    : in  std_logic;
         dctrl_eep_inj_trg_i : in  std_logic;
@@ -23,6 +25,7 @@ entity data_controller_ent is
         spw_tx_ready_i      : in  std_logic;
         dctrl_tx_begin_o    : out std_logic;
         dctrl_tx_ended_o    : out std_logic;
+        dctrl_timeout_flag_o : out std_logic;
         dbuffer_rdreq_o     : out std_logic;
         spw_tx_write_o      : out std_logic;
         spw_tx_flag_o       : out std_logic;
@@ -72,6 +75,9 @@ architecture RTL of data_controller_ent is
 
     signal s_eep_injection_en  : std_logic;
     signal s_eep_injection_cnt : unsigned(31 downto 0);
+    signal s_timeout_flag      : std_logic;
+    signal s_timeout_pkt_valid : std_logic;
+    signal s_timeout_pkt_time  : std_logic_vector(31 downto 0);
 
 begin
 
@@ -92,6 +98,9 @@ begin
             s_alignment_counter            <= 0;
             s_eep_injection_en             <= '0';
             s_eep_injection_cnt            <= (others => '0');
+            s_timeout_flag                 <= '0';
+            s_timeout_pkt_valid            <= '0';
+            s_timeout_pkt_time             <= (others => '0');
             -- outputs
             dctrl_tx_begin_o               <= '0';
             dctrl_tx_ended_o               <= '0';
@@ -133,6 +142,8 @@ begin
                     s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
                     s_spw_transmitting             <= '0';
                     s_alignment_counter            <= 0;
+                    s_timeout_pkt_valid            <= '0';
+                    s_timeout_pkt_time             <= (others => '0');
                     -- conditional state transition
                     -- check if a command to start was received
                     if (tmr_start_i = '1') then
@@ -261,6 +272,9 @@ begin
                             -- go to waiting buffer space
                             s_data_controller_state <= DATA_PACKET_START;
                             v_data_controller_state := DATA_PACKET_START;
+                            -- start timeout counting for the current packet
+                            s_timeout_pkt_valid     <= '1';
+                            s_timeout_pkt_time      <= tmr_time_i;
                         end if;
                     else
                         -- data length is not valid (zero)
@@ -268,6 +282,8 @@ begin
                         s_data_controller_state        <= MEMORY_ALIGNMENT;
                         v_data_controller_state        := MEMORY_ALIGNMENT;
                         s_data_controller_return_state <= STOPPED;
+                        s_timeout_pkt_valid            <= '0';
+                        s_timeout_pkt_time             <= (others => '0');
                     end if;
 
                 when DATA_PACKET_START =>
@@ -317,6 +333,9 @@ begin
                     s_word_counter                 <= std_logic_vector(to_unsigned(0, s_word_counter'length));
                     -- conditional state transition
                     s_spw_transmitting             <= '1';
+                    -- keep timeout counting from the last transmitted byte
+                    s_timeout_pkt_valid            <= '1';
+                    s_timeout_pkt_time             <= tmr_time_i;
                     -- check if all data has been read
                     if (s_word_counter = std_logic_vector(to_unsigned(0, s_word_counter'length))) then
                         -- all data read
@@ -348,6 +367,8 @@ begin
                     s_data_controller_return_state <= STOPPED;
                     -- default internal signal values
                     s_spw_transmitting             <= '0';
+                    s_timeout_pkt_valid            <= '1';
+                    s_timeout_pkt_time             <= tmr_time_i;
                 -- conditional state transition
 
                 when DATA_PACKET_END =>
@@ -361,6 +382,8 @@ begin
                     s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
                     s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
                     s_spw_transmitting             <= '0';
+                    s_timeout_pkt_valid            <= '0';
+                    s_timeout_pkt_time             <= (others => '0');
                     -- conditional state transition
                     -- check if the avs data need to be aligned
                     if (s_alignment_counter > 0) then
@@ -382,6 +405,8 @@ begin
                     s_data_packet_length_words     <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
                     s_data_packet_time_words       <= (others => std_logic_vector(to_unsigned(0, g_WORD_WIDTH)));
                     s_spw_transmitting             <= '0';
+                    s_timeout_pkt_valid            <= '1';
+                    s_timeout_pkt_time             <= tmr_time_i;
                     s_alignment_counter            <= 0;
                 -- conditional state transition
 
@@ -404,6 +429,8 @@ begin
                         s_data_controller_return_state <= STOPPED;
                         -- clear alignment counter
                         s_alignment_counter            <= 0;
+                        s_timeout_pkt_valid            <= '0';
+                        s_timeout_pkt_time             <= (others => '0');
                     end if;
 
             end case;
@@ -624,6 +651,8 @@ begin
             if (tmr_stop_i = '1') then
                 -- stop issued, go to stopped
                 -- check if the transmitter is in the middle of a transmission (have the spw mux access rights)
+                s_timeout_pkt_valid <= '0';
+                s_timeout_pkt_time  <= (others => '0');
                 if ((s_spw_transmitting = '1') and (s_data_controller_state /= TRANSMIT_EOP) and (dctrl_send_eep_i = '1')) then
                     -- transmit and eep to release the spw mux and indicate an error
                     s_data_controller_state        <= WAITING_SPW_BUFFER_SPACE;
@@ -634,6 +663,18 @@ begin
                     s_data_controller_state        <= STOPPED;
                     v_data_controller_state        := STOPPED;
                     s_data_controller_return_state <= STOPPED;
+                end if;
+            end if;
+
+            if (timeout_clear_i = '1') then
+                s_timeout_flag <= '0';
+            elsif ((s_timeout_flag = '0')
+                and (s_timeout_pkt_valid = '1')
+                and (timeout_ticks_i /= x"00000000")) then
+                if (unsigned(tmr_time_i) >= unsigned(s_timeout_pkt_time)) then
+                    if ((unsigned(tmr_time_i) - unsigned(s_timeout_pkt_time)) >= unsigned(timeout_ticks_i)) then
+                        s_timeout_flag <= '1';
+                    end if;
                 end if;
             end if;
 
@@ -651,5 +692,7 @@ begin
     g_data_packet_length : for word_cnt in 1 to g_DATA_LENGTH_WORDS generate
         s_data_packet_length(((word_cnt * g_WORD_WIDTH) - 1) downto ((word_cnt - 1) * g_WORD_WIDTH)) <= s_data_packet_length_words(g_DATA_LENGTH_WORDS - word_cnt);
     end generate g_data_packet_length;
+
+    dctrl_timeout_flag_o <= s_timeout_flag;
 
 end architecture RTL;

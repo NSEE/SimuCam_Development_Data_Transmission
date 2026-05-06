@@ -195,6 +195,22 @@ typedef struct DschIrqFlagClr {
 	bool bTxBeginFlagClr; /* Data Scheduler Tx Begin IRQ Flag Clear */
 } TDschIrqFlagClr;
 
+ /* Sync Control Register Struct */
+typedef struct DschSyncControl {
+  bool bIgnoreSync; /* Ignore Sync Pulse */
+} TDschSyncControl;
+
+ /* Timeout Config Register Struct */
+typedef struct DschTimeoutConfig {
+  alt_u32 uliTimeoutTicks; /* Timeout Limit [Ticks] */
+  bool bTimeoutClear; /* Timeout Flag Clear */
+} TDschTimeoutConfig;
+
+ /* Timeout Status Register Struct */
+typedef struct DschTimeoutStatus {
+  bool bTimeoutFlag; /* Timeout Flag */
+} TDschTimeoutStatus;
+
 /* RMAP Device Address Register Struct */
 typedef struct RmapDevAddr {
 	alt_u32 uliRmapBaseAddr; /* RMAP Device Base Address */
@@ -339,6 +355,9 @@ typedef struct DschChannel {
 	TDschIrqControl xDschIrqControl;
 	TDschIrqFlag xDschIrqFlag;
 	TDschIrqFlagClr xDschIrqFlagClr;
+  TDschSyncControl xDschSyncControl;
+  TDschTimeoutConfig xDschTimeoutConfig;
+  TDschTimeoutStatus xDschTimeoutStatus;
 } TDschChannel;
 
 /* General Struct for RMAP Registers Access */
